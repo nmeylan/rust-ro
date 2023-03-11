@@ -7,6 +7,7 @@ use regex::Regex;
 use enums::class::JobName;
 use enums::EnumWithStringValue;
 use crate::enums::EnumWithNumberValue;
+use std::fmt::Write;
 
 use packets::packets::Packet;
 use crate::server::model::configuration::CityConfig;
@@ -27,7 +28,7 @@ lazy_static! {
 }
 pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlayerChat) {
     let index_of_colon = packet.msg.find(':').unwrap();
-    let command_txt = &packet.msg[index_of_colon + 1..].trim();
+    let command_txt = &packet.msg[index_of_colon + 1..packet.msg.len() - 1].trim();
     let maybe_captures = COMMAND_REGEX.captures(command_txt);
     if maybe_captures.is_none() {
         return;
@@ -80,6 +81,10 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
         }
         "job" | "jobchange" => {
             let result = handle_set_job(server, context.session(), context.runtime(), args);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
+        "rates" => {
+            let result = handle_rates(server);
             packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
@@ -241,4 +246,12 @@ pub fn handle_set_job(server: &Server, session: Arc<Session>, _runtime: &Runtime
         return "Your job has been changed.".to_string();
     }
     format!("Job {} not found", args.first().unwrap())
+}
+
+pub fn handle_rates(server: &Server) -> String {
+    let mut msg = String::new();
+    writeln!(msg, "Experience rates: Base {:.2}x / Job {:.2}", server.configuration.game.base_exp_rate,server.configuration.game.job_exp_rate);
+    writeln!(msg, "Normal Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate_card);
+    writeln!(msg, "Boss  Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_card );
+    return msg;
 }
