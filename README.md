@@ -75,8 +75,9 @@ Database:
 ## Compilation
 A compilation of progress made so far, **click on streamable video below**
 
-[![Compilation of features so far](https://res.cloudinary.com/marcomontalbano/image/upload/v1678526925/video_to_markdown/images/streamable--jiapub-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://streamable.com/jiapub "Compilation of features so far")
+[![Compilation of features so far](https://res.cloudinary.com/marcomontalbano/image/upload/v1678527790/video_to_markdown/images/streamable--jiapub-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://streamable.com/jiapub "Compilation of features so far")
 
+[![Compilation of features so far](https://res.cloudinary.com/marcomontalbano/image/upload/v1678527859/video_to_markdown/images/streamable--ofni1d-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://streamable.com/ofni1d "Compilation of features so far")
 
 ## Integration of the VM (showing instance and class(npc) variable)
 
