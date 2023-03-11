@@ -145,7 +145,7 @@ impl MapInstanceService {
             map_instance_key: map_instance_state.key().clone()
             ,
             mob_base_exp: mob_model.exp as u32,
-            mob_job_exp: mob_model.jexp as u32,
+            mob_job_exp: mob_model.job_exp as u32,
         }),
                                             delayed_tick(delay, GAME_TICK_RATE),
         );
