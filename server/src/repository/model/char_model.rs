@@ -116,6 +116,7 @@ pub struct CharSelectModel {
     pub class: i16,
     pub zeny: i32,
     pub status_point: i16,
+    pub skill_point: i16,
     pub str: i16,
     pub agi: i16,
     pub vit: i16,

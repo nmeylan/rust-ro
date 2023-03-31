@@ -271,6 +271,10 @@ impl PlayerScriptHandler {
     fn load_special_char_variable(char: &Character, special_variable_name: &str) -> Option<Value> {
         match special_variable_name {
             "Zeny" => Some(Value::new_number(char.get_zeny() as i32)),
+            "Class" => Some(Value::new_number(char.get_job() as i32)),
+            "BaseLevel" => Some(Value::new_number(char.get_base_level() as i32)),
+            "JobLevel" => Some(Value::new_number(char.get_job_level() as i32)),
+            "SkillPoint" => Some(Value::new_number(char.get_job_level() as i32)),
             &_ => None
         }
     }

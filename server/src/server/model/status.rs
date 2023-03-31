@@ -31,6 +31,7 @@ pub struct Status {
     pub base_level: u32,
     pub job_level: u32,
     pub status_point: u32,
+    pub skill_point: u32,
     pub base_exp: u32,
     pub job_exp: u32,
 }
@@ -88,6 +89,7 @@ impl Status {
             base_level: char_model.base_level as u32,
             job_level: char_model.job_level as u32,
             status_point: char_model.status_point as u32,
+            skill_point: char_model.skill_point as u32,
             base_exp: char_model.base_exp as u32,
             job_exp: char_model.job_exp as u32,
         }
@@ -119,6 +121,7 @@ impl Status {
             base_level: 0,
             job_level: 0,
             status_point: 0,
+            skill_point: 0,
             base_exp: 0,
             job_exp: 0
         }

@@ -22,6 +22,17 @@ callshop,0,1,Number
 checkweight2,2,2,Number
 dispbottom,1,3
 itemskill,2,3
+jobname,1,1,String
+eaclass,0,2,Number
+roclass,0,2,Number
+checkfalcon,0,0,Number
+checkcart,0,0,Number
+checkriding,0,0,Number
+ismounting,0,0,Number
+resetlvl,0,2
+jobchange,0,3
+specialeffect2,0,3
+skill,2,3
 
 // Custom: not part of rathena script lang spec
 warn,1,255

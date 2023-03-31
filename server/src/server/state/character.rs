@@ -210,6 +210,18 @@ impl Character {
     pub fn get_zeny(&self) -> u32 {
         self.status.zeny
     }
+    pub fn get_job(&self) -> u32 {
+        self.status.job
+    }
+    pub fn get_base_level(&self) -> u32 {
+        self.status.base_level
+    }
+    pub fn get_job_level(&self) -> u32 {
+        self.status.job_level
+    }
+    pub fn get_skill_point(&self) -> u32 {
+        self.status.skill_point
+    }
 
     pub fn change_zeny(&mut self, value: u32) {
         self.status.zeny = value;
