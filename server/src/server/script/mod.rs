@@ -3,6 +3,7 @@ use std::sync::{Arc, RwLock};
 use std::sync::mpsc::SyncSender;
 
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
+use rathena_script_lang_interpreter::lang::compiler::CompilationDetail;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value;
 use rathena_script_lang_interpreter::lang::value::Native;
@@ -110,9 +111,9 @@ pub struct PlayerScriptHandler {
 }
 
 impl NativeMethodHandler for ScriptHandler {
-    fn handle(&self, native: &Native, params: Vec<value::Value>, execution_thread: &Thread, _call_frame: &CallFrame) {
+    fn handle(&self, native: &Native, params: Vec<value::Value>, execution_thread: &Thread, call_frame: &CallFrame, source_line: &CompilationDetail, class_name: String) {
         if native.name.eq("print") {
-            println!("{}", params.iter().map(|p| {
+            println!("[DEBUG script {}.{} {} L#{}]: {}", class_name, call_frame.name, source_line.file_name, source_line.start_line, params.iter().map(|p| {
                 match p {
                     value::Value::String(v) => v.as_ref().unwrap().clone(),
                     value::Value::Number(v) => format!("{}", v.as_ref().unwrap()),
@@ -181,9 +182,9 @@ impl PlayerScriptHandler {
 }
 
 impl NativeMethodHandler for PlayerScriptHandler {
-    fn handle(&self, native: &Native, params: Vec<value::Value>, execution_thread: &Thread, call_frame: &CallFrame) {
+    fn handle(&self, native: &Native, params: Vec<value::Value>, execution_thread: &Thread, call_frame: &CallFrame, source_line: &CompilationDetail, class_name: String) {
         if native.name.eq("print") {
-            println!("{}", params.iter().map(|p| {
+            println!("[DEBUG script {}.{} {} L#{}]: {}", class_name, call_frame.name, source_line.file_name, source_line.start_line, params.iter().map(|p| {
                 match p {
                     value::Value::String(v) => v.as_ref().unwrap().clone(),
                     value::Value::Number(v) => format!("{}", v.as_ref().unwrap()),
@@ -446,7 +447,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 }
                 params[0].number_value().expect("Expected eaclass argument 0 to be a number")
             } else {
-                 self.server.state().get_character_unsafe(self.session.char_id()).status.job as i32
+                self.server.state().get_character_unsafe(self.session.char_id()).status.job as i32
             };
             execution_thread.push_constant_on_stack(value::Value::new_number(JobName::from_value(job_number as usize).mask() as i32));
         } else if native.name.eq("roclass") {
@@ -460,7 +461,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 (true, self.server.state().get_character_unsafe(self.session.char_id()).status.job as i32)
             };
-            execution_thread.push_constant_on_stack(value::Value::new_number( JobName::from_mask(mask as u64, is_male).map_or(-1, |job| job.value() as i32)));
+            execution_thread.push_constant_on_stack(value::Value::new_number(JobName::from_mask(mask as u64, is_male).map_or(-1, |job| job.value() as i32)));
         } else if native.name.eq("ismounting") {
             warn!("ismounting returns false because feature is not implemented yet");
             execution_thread.push_constant_on_stack(value::Value::new_number(0));
