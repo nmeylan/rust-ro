@@ -37,6 +37,7 @@ pub fn create_character() -> Character {
             base_level: 1,
             job_level: 1,
             status_point: 48,
+            skill_point: 0,
             base_exp: 0,
             job_exp: 0
         },

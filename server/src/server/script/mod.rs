@@ -10,8 +10,10 @@ use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 use sprintf::{Printf, vsprintf};
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc::Receiver;
+use enums::class::JobName;
 use enums::look::LookType;
 use crate::enums::EnumWithNumberValue;
+use crate::enums::EnumWithStringValue;
 
 use packets::packets::{Packet, PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcNpcChat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
 
@@ -328,7 +330,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 self.session.clone()
             };
-            ServerService::instance().schedule_warp_to_walkable_cell(self.server.state_mut().as_mut(),map_name, x as u16, y as u16, session.char_id());
+            ServerService::instance().schedule_warp_to_walkable_cell(self.server.state_mut().as_mut(), map_name, x as u16, y as u16, session.char_id());
         } else if native.name.eq("sprintf") {
             let template = params[0].string_value().unwrap();
             let mut sprintf_args: Vec<&dyn Printf> = vec![];
@@ -375,7 +377,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             });
 
             ScriptService::instance().schedule_get_items(self.session.char_id(), &self.runtime, items_ids_amount, true);
-        }  else if native.name.eq("sellitems") {
+        } else if native.name.eq("sellitems") {
             let char_id = self.session.char_id.unwrap();
             let (owner_reference, reference) = params[0].reference_value().map_err(|err|
                 execution_thread.new_runtime_from_temporary(err, "sellitems first argument should be array reference")).unwrap();
@@ -392,10 +394,12 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let mut items_to_remove: Vec<CharacterRemoveItem> = vec![];
             execution_thread.array_constants(items_ids_array).iter().enumerate().for_each(|(i, constant)| {
                 if constant.value().is_number() {
-                    items_to_remove.push(CharacterRemoveItem{ char_id, index: constant.value().number_value().unwrap() as usize, amount: items_amounts[i], price: items_prices[i] as i32 })
+                    items_to_remove.push(CharacterRemoveItem { char_id, index: constant.value().number_value().unwrap() as usize, amount: items_amounts[i], price: items_prices[i] as i32 })
                 }
             });
-            self.server.add_to_next_tick(GameEvent::CharacterSellItems(CharacterRemoveItems { char_id, sell: true,
+            self.server.add_to_next_tick(GameEvent::CharacterSellItems(CharacterRemoveItems {
+                char_id,
+                sell: true,
                 items: items_to_remove,
             }));
         } else if native.name.eq("checkweight2") {
@@ -432,6 +436,43 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let skill_level = params[1].number_value().unwrap();
             let check_requirements = params.get(2).unwrap_or(&value::Value::new_number(0)).number_value().unwrap_or(0) == 1;
             SkillService::instance().handle_skill(self.server.clone().as_ref(), skill, skill_level as u32, check_requirements, self.session.char_id());
+        } else if native.name.eq("jobname") {
+            let job_number = params[0].number_value().expect("Expected jobname argument 0 to be a number");
+            execution_thread.push_constant_on_stack(value::Value::new_string(JobName::from_value(job_number as usize).as_str().to_string()));
+        } else if native.name.eq("eaclass") {
+            let job_number = if params.len() > 0 {
+                if params.len() == 2 {
+                    warn!("eaclass does not handle the second argument yet!")
+                }
+                params[0].number_value().expect("Expected eaclass argument 0 to be a number")
+            } else {
+                 self.server.state().get_character_unsafe(self.session.char_id()).status.job as i32
+            };
+            execution_thread.push_constant_on_stack(value::Value::new_number(JobName::from_value(job_number as usize).mask() as i32));
+        } else if native.name.eq("roclass") {
+            let (is_male, mask) = if params.len() > 0 {
+                let is_male = if params.len() == 2 {
+                    !params[1].string_value().expect("Expected roclass argument 1 to be a string with value 'm' or 'f'").to_lowercase().eq("f")
+                } else {
+                    true
+                };
+                (is_male, params[0].number_value().expect("Expected eaclass argument 0 to be a number"))
+            } else {
+                (true, self.server.state().get_character_unsafe(self.session.char_id()).status.job as i32)
+            };
+            execution_thread.push_constant_on_stack(value::Value::new_number( JobName::from_mask(mask as u64, is_male).map_or(-1, |job| job.value() as i32)));
+        } else if native.name.eq("ismounting") {
+            warn!("ismounting returns false because feature is not implemented yet");
+            execution_thread.push_constant_on_stack(value::Value::new_number(0));
+        } else if native.name.eq("checkcart") {
+            warn!("checkcart returns false because feature is not implemented yet");
+            execution_thread.push_constant_on_stack(value::Value::new_number(0));
+        } else if native.name.eq("checkriding") {
+            warn!("checkriding returns false because feature is not implemented yet");
+            execution_thread.push_constant_on_stack(value::Value::new_number(0));
+        } else if native.name.eq("checkfalcon") {
+            warn!("checkfalcon returns false because feature is not implemented yet");
+            execution_thread.push_constant_on_stack(value::Value::new_number(0));
         } else {
             if self.handle_shop(native, params, execution_thread, call_frame) {
                 return;

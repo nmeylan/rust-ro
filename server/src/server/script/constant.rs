@@ -1,4 +1,5 @@
 use rathena_script_lang_interpreter::lang::value::Value;
+use enums::class::{JOB_2_1_MASK, JOB_2_2_MASK, JOB_BABY_MASK, JOB_BASE_MASK, JOB_TRANS_MASK, JOB_UPPER_MASK, JobName};
 use enums::look::LookType;
 use crate::enums::EnumWithNumberValue;
 
@@ -49,6 +50,19 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
         "PC_CLAN" => Value::new_number(4),
         // RENEWAL
         "RENEWAL" => Value::new_number(0),
+        // Job
+        "EAJ_BASEMASK" => Value::new_number(JOB_BASE_MASK as i32),
+        "EAJ_UPPERMASK" => Value::new_number((JOB_TRANS_MASK - 1) as i32),
+        "EAJ_NOVICE" => Value::new_number(JobName::Novice.mask() as i32),
+        "EAJ_SUPER_NOVICE" => Value::new_number(JobName::SuperNovice.mask() as i32),
+        "EAJ_TAEKWON" => Value::new_number(JobName::Taekwon.mask() as i32),
+        "EAJ_NINJA" => Value::new_number(JobName::Ninja.mask() as i32),
+        "EAJ_GUNSLINGER" => Value::new_number(JobName::Gunslinger.mask() as i32),
+        "EAJL_UPPER" => Value::new_number(JOB_TRANS_MASK as i32),
+        "EAJL_2_1" => Value::new_number(JOB_2_1_MASK as i32),
+        "EAJL_2_2" => Value::new_number(JOB_2_2_MASK as i32),
+        "EAJL_2" => Value::new_number((JOB_2_1_MASK | JOB_2_2_MASK) as i32),
+        "EAJL_BABY" => Value::new_number(JOB_BABY_MASK as i32),
         // Script
         "FAKE_NPC" => Value::new_number(-1),
         "WARPNPC" => Value::new_number(45),
