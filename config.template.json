@@ -174,7 +174,7 @@
       2000000
     ],
     "enable_visual_debugger": false,
-    "log_exclude_pattern": "slqlx",
+    "log_exclude_pattern": "sqlx",
     "log_level": "info",
     "packetver": 20120229,
     "port": 6901
