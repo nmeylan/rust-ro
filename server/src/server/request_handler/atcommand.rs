@@ -8,8 +8,10 @@ use enums::class::JobName;
 use enums::EnumWithStringValue;
 use crate::enums::EnumWithNumberValue;
 use std::fmt::Write;
+use std::time::Instant;
 
 use packets::packets::Packet;
+use crate::load_scripts;
 use crate::server::model::configuration::CityConfig;
 use crate::server::model::map::RANDOM_CELL;
 use crate::server::model::request::Request;
@@ -85,6 +87,10 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
         }
         "rates" => {
             let result = handle_rates(server);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
+        "reload" => {
+            let result = handle_reload(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
@@ -254,4 +260,19 @@ pub fn handle_rates(server: &Server) -> String {
     writeln!(msg, "Normal Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate_card);
     writeln!(msg, "Boss  Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_card );
     return msg;
+}
+
+pub fn handle_reload(server: &Server, _session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+    // TODO check if user privileges
+    if args.is_empty() {
+        return "@reload command accept 1 parameters but received none".to_string();
+    }
+    match args[0] {
+        "script" => {
+            let start = Instant::now();
+            let scripts = load_scripts(server.vm.clone());
+            format!("{} scripts have been recompiled and reloaded in {} secs", scripts.len(), start.elapsed().as_millis() as f32 / 1000.0)
+        }
+        &_ => format!("@reload command accept a string value among: [script] but received {}", args[0])
+    }
 }
