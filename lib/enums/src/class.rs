@@ -36,6 +36,7 @@ pub enum JobName {
     Dancer,
     Wedding,
     #[value = 23]
+    #[value_string = "Super Novice"]
     SuperNovice,
     Gunslinger,
     Ninja,

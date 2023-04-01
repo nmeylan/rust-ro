@@ -216,6 +216,9 @@ impl Character {
     pub fn get_base_level(&self) -> u32 {
         self.status.base_level
     }
+    pub fn get_base_class(&self) -> u32 {
+        self.status.job
+    }
     pub fn get_job_level(&self) -> u32 {
         self.status.job_level
     }

@@ -2,6 +2,7 @@ use rathena_script_lang_interpreter::lang::value::Value;
 use enums::class::{JOB_2_1_MASK, JOB_2_2_MASK, JOB_BABY_MASK, JOB_BASE_MASK, JOB_TRANS_MASK, JOB_UPPER_MASK, JobName};
 use enums::look::LookType;
 use crate::enums::EnumWithNumberValue;
+use crate::enums::EnumWithStringValue;
 
 /*
 ([A-Z_]*): (.*)
@@ -1250,7 +1251,11 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
         "4_EXJOB_NINJA2" => Value::new_number(10508),
         &_ => Value::Reference(None)
     };
+
     if constant_value.is_reference() {
+        if constant_name.starts_with("Job_") {
+            Some(Value::new_number(JobName::from_string_ignore_case(constant_name.replace("Job_", "").replace("_", " ").as_str()).value() as i32));
+        }
         None
     } else {
         Some(constant_value)

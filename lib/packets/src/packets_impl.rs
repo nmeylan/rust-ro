@@ -89904,7 +89904,7 @@ impl Packet for PacketCzSrpacketr2Start {
 
 impl PacketZcNpcChat {
     pub fn packet_id(packetver: u32) -> &'static str {
-        "0x02c1"
+        "0xc102"
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketZcNpcChat {
         let mut offset: usize = 0;
@@ -90023,8 +90023,8 @@ impl PacketZcNpcChat {
         self.msg_raw = value;
     }
     pub fn new(packetver: u32) -> PacketZcNpcChat {
-        let packet_id = i16::from_le_bytes([0x02, 0xc1]);
-        let packet_id_raw = [0x02, 0xc1];
+        let packet_id = i16::from_le_bytes([0xc1, 0x02]);
+        let packet_id_raw = [0xc1, 0x02];
         PacketZcNpcChat {
         raw: vec![],
         packet_id,

@@ -300,10 +300,13 @@ impl NativeMethodHandler for PlayerScriptHandler {
             packet_zc_notify_playerchat.fill_raw();
             self.send_packet_to_char(self.session.char_id(), &mut packet_zc_notify_playerchat);
         } else if native.name.eq("dispbottom") {
-            let _char_name: &String = params[2].string_value().unwrap_or(&"".to_string());
             let message = params[0].string_value().unwrap();
             let green = "0x00FF00".to_string();
-            let color = params[1].string_value().unwrap_or(&green);
+            let color =  if params.len() > 1 {
+                params[1].string_value().unwrap_or(&green).clone()
+            }else {
+                green.clone()
+            };
             let color_rgb = if color.starts_with("0x") {
                 u32::from_str_radix(format!("{}{}{}", &color[6..8], &color[4..6], &color[2..4]).as_str(), 16).unwrap_or(65280)
             } else {

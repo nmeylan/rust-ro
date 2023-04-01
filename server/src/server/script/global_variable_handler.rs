@@ -275,6 +275,7 @@ impl PlayerScriptHandler {
             "BaseLevel" => Some(Value::new_number(char.get_base_level() as i32)),
             "JobLevel" => Some(Value::new_number(char.get_job_level() as i32)),
             "SkillPoint" => Some(Value::new_number(char.get_skill_point() as i32)),
+            "BaseClass   " => Some(Value::new_number(char.get_job() as i32)),
             &_ => None
         }
     }
