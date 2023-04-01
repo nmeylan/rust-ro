@@ -93,7 +93,7 @@ function	Job_Options	{
 	// Note: These are already set in pc.cpp
 	// BaseClass = roclass(.@eac&EAJ_BASEMASK) which is the players First Class
 	// BaseJob = roclass(.@eac&EAJ_UPPERMASK) which is the players Second Class
-	//dispbottom "Debug: eac ("+.@eac+"), third ("+.@third_possible+"), rebirth("+.@rebirth_possible+"), BaseClass ("+BaseClass+"), BaseJob ("+BaseJob+")";
+	dispbottom "Debug: eac ("+.@eac+"), rebirth("+.@rebirth_possible+"), first_eac ("+.@first_eac+"), second_eac ("+.@second_eac+")";
     .@job_opt[0] = 1;
 	// From here on the jobmaster checks the current class
 	// and fills the the array `.@job_opt` with possible
@@ -113,11 +113,9 @@ function	Job_Options	{
 		switch(Class) {
 			case Job_Novice:
 				// First job change
-				Job_Options(.@job_opt,Job_Swordman,
+				Job_Options(.@job_opt,Job_Swordsman,
 					Job_Mage, Job_Archer, Job_Acolyte, Job_Merchant, Job_Thief,
 					Job_Super_Novice, Job_Taekwon, Job_Gunslinger, Job_Ninja);
-				if( .BabyNovice )
-					Job_Options(.@job_opt, Job_Baby);
 				break;
 			case Job_Novice_High:
 				// Job change after rebirth
@@ -126,7 +124,7 @@ function	Job_Options	{
 						roclass((eaclass(lastJob)&EAJ_BASEMASK)|EAJL_UPPER));
 				else
 					Job_Options(.@job_opt, 
-						Job_Swordman_High, Job_Mage_High, Job_Archer_High,
+						Job_Swordsman_High, Job_Mage_High, Job_Archer_High,
 						Job_Acolyte_High, Job_Merchant_High, Job_Thief_High);
 				break;
 			case Job_Baby:
