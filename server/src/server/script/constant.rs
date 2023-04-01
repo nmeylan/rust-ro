@@ -1254,7 +1254,7 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
 
     if constant_value.is_reference() {
         if constant_name.starts_with("Job_") {
-            Some(Value::new_number(JobName::from_string_ignore_case(constant_name.replace("Job_", "").replace("_", " ").as_str()).value() as i32));
+            return Some(Value::new_number(JobName::from_string_ignore_case(constant_name.replace("Job_", "").replace("_", " ").as_str()).value() as i32));
         }
         None
     } else {
