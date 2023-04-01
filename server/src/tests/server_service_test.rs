@@ -54,22 +54,22 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
 #[cfg(test)]
 mod tests {
     use std::sync::Arc;
-    use std::time::Duration;
+    
     use tokio::runtime::Runtime;
-    use enums::status::StatusTypes;
-    use crate::{assert_sent_packet_in_current_packetver, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
-    use crate::tests::common::assert_helper::{*};
-    use packets::packets::PacketZcStatusChangeAck;
-    use crate::enums::EnumWithNumberValue;
-    use crate::server::model::events::game_event::{CharacterKillMonster, CharacterRemoveItem, CharacterRemoveItems, CharacterUpdateStat};
-    use crate::server::model::events::map_event::{CharacterDropItems, MapEvent, MobDropItems};
+    
+    
+    
+    
+    
+    
+    use crate::server::model::events::map_event::{MapEvent};
     use crate::server::model::item::DroppedItem;
     use crate::server::model::map_item::ToMapItem;
     use crate::server::model::position::Position;
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
     use crate::tests::common::assert_helper::task_queue_contains_event_at_tick;
-    use crate::tests::common::character_helper::{add_items_in_inventory, create_character};
+    use crate::tests::common::character_helper::{create_character};
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
     use crate::tests::common::server_helper::create_empty_server_state;
     use crate::tests::server_service_test::before_each;
@@ -130,7 +130,7 @@ mod tests {
         assert!(item_from_inventory.is_identified);
         let item_from_inventory = character_state.get_item_from_inventory(2).unwrap();
         assert_eq!(item_from_inventory.item_id, GlobalConfigService::instance().get_item_id_from_name("Knife") as i32);
-        assert_ne!(item_from_inventory.is_identified, true);
+        assert!(item_from_inventory.is_identified);
     }
 
     #[test]

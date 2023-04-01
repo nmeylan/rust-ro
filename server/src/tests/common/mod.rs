@@ -22,7 +22,7 @@ use crate::server::model::configuration::Config;
 
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
-use crate::server::service::global_config_service::GlobalConfigService;
+
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
 

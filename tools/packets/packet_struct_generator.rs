@@ -65,7 +65,7 @@ fn write_packet_parser(file: &mut File, packets: &Vec<PacketStructDefinition>) {
     struct PacketAndVersion {id: String, version: Option<u32>, struct_name: String}
     let mut packets_with_version = vec![];
     packets.iter().for_each(|struct_def| struct_def.ids.iter().for_each(|packet_id| {
-        packets_with_version.push(PacketAndVersion {id: packet_id.id.clone(), version: packet_id.packetver.clone(), struct_name: struct_def.struct_def.name.clone()})
+        packets_with_version.push(PacketAndVersion {id: packet_id.id.clone(), version: packet_id.packetver, struct_name: struct_def.struct_def.name.clone()})
     }));
     let mut ids_with_version = packets_with_version.iter().filter(|packet| packet.version.is_some()).cloned().collect::<Vec<PacketAndVersion>>();
     let ids_without_version = packets_with_version.iter().filter(|packet| packet.version.is_none()).cloned().collect::<Vec<PacketAndVersion>>();
@@ -330,7 +330,7 @@ fn write_struct_packet_id_method(file: &mut File, ids: &Option<Vec<PacketId>>) {
         let mut ids_with_version = ids.iter().filter(|id| id.packetver.is_some()).cloned().collect::<Vec<PacketId>>();
         let ids_without_version = ids.iter().filter(|id| id.packetver.is_none()).cloned().collect::<Vec<PacketId>>();
         if ids_without_version.len() > 1 {
-            panic!("Cannot generate packet_id method when there is multiple id, and more than one(here {:?}) id has no version", ids_without_version);
+            panic!("Cannot generate packet_id method when there is multiple id, and more than one(here {ids_without_version:?}) id has no version");
         }
         ids_with_version.sort_by(|a, b| (b.packetver.unwrap()).cmp(&a.packetver.unwrap()) );
         for (index, id) in ids_with_version.iter().enumerate() {
@@ -356,13 +356,13 @@ fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition
         if ids.len() == 1 {
             let id = packet_id(&ids[0].id).replace("0x", "");
             let (first_byte, second_byte) = id.split_at(2);
-            file.write_all(format!("        let packet_id = i16::from_le_bytes([0x{}, 0x{}]);\n",first_byte, second_byte).as_bytes()).unwrap();
-            file.write_all(format!("        let packet_id_raw = [0x{}, 0x{}];\n",first_byte, second_byte).as_bytes()).unwrap();
+            file.write_all(format!("        let packet_id = i16::from_le_bytes([0x{first_byte}, 0x{second_byte}]);\n").as_bytes()).unwrap();
+            file.write_all(format!("        let packet_id_raw = [0x{first_byte}, 0x{second_byte}];\n").as_bytes()).unwrap();
         } else {
             let mut ids_with_version = ids.iter().filter(|id| id.packetver.is_some()).cloned().collect::<Vec<PacketId>>();
             let ids_without_version = ids.iter().filter(|id| id.packetver.is_none()).cloned().collect::<Vec<PacketId>>();
             if ids_without_version.len() > 1 {
-                panic!("Cannot generate new method when there is multiple id, and more than one(here {:?}) id has no version", ids_without_version);
+                panic!("Cannot generate new method when there is multiple id, and more than one(here {ids_without_version:?}) id has no version");
             }
             ids_with_version.sort_by(|a, b| (b.packetver.unwrap()).cmp(&a.packetver.unwrap()) );
             for (index, id) in ids_with_version.iter().enumerate() {
@@ -373,12 +373,12 @@ fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition
                 } else {
                     file.write_all(format!("        }} else if packetver >= {} {{\n", id.packetver.unwrap()).as_bytes()).unwrap();
                 }
-                file.write_all(format!("            (i16::from_le_bytes([0x{}, 0x{}]), [0x{}, 0x{}])\n",first_byte, second_byte,first_byte, second_byte).as_bytes()).unwrap();
+                file.write_all(format!("            (i16::from_le_bytes([0x{first_byte}, 0x{second_byte}]), [0x{first_byte}, 0x{second_byte}])\n").as_bytes()).unwrap();
             }
             let packetid = packet_id(&ids_without_version[0].id).replace("0x", "");
             let (first_byte, second_byte) = packetid.split_at(2);
             file.write_all("        } else {\n".to_string().as_bytes()).unwrap();
-            file.write_all(format!("            (i16::from_le_bytes([0x{}, 0x{}]), [0x{}, 0x{}])\n",first_byte, second_byte,first_byte, second_byte).as_bytes()).unwrap();
+            file.write_all(format!("            (i16::from_le_bytes([0x{first_byte}, 0x{second_byte}]), [0x{first_byte}, 0x{second_byte}])\n").as_bytes()).unwrap();
             file.write_all("        };\n".to_string().as_bytes()).unwrap();
         }
     }
@@ -668,7 +668,7 @@ fn field_length(field: &StructField) -> String {
 fn packet_id(packet_id: &String) -> String {
     let id = format!("{:0>4}", packet_id.replace("0x", ""));
     let (first_byte, second_byte) = id.split_at(2);
-    format!("0x{}{}", second_byte, first_byte) // packet id in db are in Little Endian
+    format!("0x{second_byte}{first_byte}") // packet id in db are in Little Endian
 }
 
 fn display_type(field: &StructField) -> String {

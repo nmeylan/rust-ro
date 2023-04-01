@@ -42,10 +42,10 @@ mod tests {
     use std::time::Duration;
     
     use packets::packets::PacketZcItemDisappear;
-    use crate::{assert_eq_with_variance, assert_sent_packet_in_current_packetver, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
+    use crate::{assert_eq_with_variance, assert_sent_packet_in_current_packetver, assert_task_queue_contains_event_at_tick};
     use crate::server::model::action::Damage;
     use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
-    use crate::server::model::events::map_event::{CharacterDropItems, MapEvent, MobDropItems, MobLocation};
+    use crate::server::model::events::map_event::{MapEvent, MobDropItems, MobLocation};
     use crate::server::model::item::DroppedItem;
     use crate::server::model::map_item::{MapItem, MapItemType};
     use crate::server::model::tasks_queue::TasksQueue;
@@ -54,7 +54,7 @@ mod tests {
     use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
     use crate::server::model::position::Position;
     use crate::tests::common::assert_helper::{NotificationExpectation, SentPacket, task_queue_contains_event_at_tick, has_sent_notification};
-    use crate::tests::common::character_helper::create_character;
+    
     use crate::tests::common::map_instance_helper::create_empty_map_instance_state;
     use crate::tests::common::mob_helper::create_mob;
     use crate::tests::map_instance_service_test::before_each;

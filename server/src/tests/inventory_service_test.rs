@@ -43,15 +43,15 @@ mod tests {
     use std::sync::atomic::{AtomicBool, Ordering};
     use std::time::Duration;
     use async_trait::async_trait;
-    use crate::{assert_not_sent_packet_in_current_packetver, assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick, assert_task_queue_does_not_contains_event, assert_task_queue_is_empty};
+    use crate::{assert_not_sent_packet_in_current_packetver, assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick, assert_task_queue_is_empty};
     use crate::tests::common::assert_helper::task_queue_contains_event;
-    use crate::tests::common::assert_helper::task_queue_not_contains_event;
+    
     use sqlx::Error;
     
     use tokio::runtime::Runtime;
     use enums::class::JobName;
     use enums::item::EquipmentLocation;
-    use packets::packets::{PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2, PacketZcItemThrowAck, PacketZcItemFallEntry};
+    use packets::packets::{PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2, PacketZcItemThrowAck};
     use packets::packets::PacketZcReqWearEquipAck2;
     use crate::enums::EnumWithNumberValue;
     use crate::enums::EnumWithMaskValueU64;
@@ -68,7 +68,7 @@ mod tests {
     use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
-    use crate::server::state::character::Character;
+    
     use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, NotificationExpectation, task_queue_contains_event_at_tick, SentPacket};
     use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character, equip_item};
     use crate::tests::common::item_helper::create_inventory_item;
@@ -496,7 +496,7 @@ mod tests {
         }, &mut character);
         // Then
         assert_eq!(character.inventory.len(), 2);
-        character.inventory.iter().for_each(|i| println!("{:?}", i));
+        character.inventory.iter().for_each(|i| println!("{i:?}"));
         assert!(character.get_item_from_inventory(0).is_some());
         assert_eq!(character.get_item_from_inventory(0).unwrap().name_english, "Jellopy".to_string());
         assert_eq!(character.get_item_from_inventory(0).unwrap().amount, 3);
@@ -585,7 +585,7 @@ mod tests {
             char_y: character.y,
             item_removal_info: vec![(jellopy_item_model, CharacterRemoveItem { char_id, index: 0, amount: 7, price: 0 }), (knife_item_model, CharacterRemoveItem { char_id, index: 1, amount: 1, price: 0 })]
         };
-        assert_task_queue_contains_event!(task_queue.clone(), MapEvent::CharDropItems(drop_items));
+        assert_task_queue_contains_event!(task_queue, MapEvent::CharDropItems(drop_items));
     }
     #[test]
     fn test_character_drop_items_should_not_trigger_map_instance_character_drop_item_event_when_there_is_a_database_error() {
@@ -594,7 +594,7 @@ mod tests {
 
         #[async_trait]
         impl InventoryRepository for MockedInventoryRepository {
-            async fn character_inventory_update_remove(&self, inventory_update_items: &Vec<(InventoryItemModel, CharacterRemoveItem)>, _buy: bool) -> Result<(), Error> {
+            async fn character_inventory_update_remove(&self, _inventory_update_items: &Vec<(InventoryItemModel, CharacterRemoveItem)>, _buy: bool) -> Result<(), Error> {
                 Err(Error::Database(Box::new(PersistenceError::new("mocked error".to_string()))))
             }
         }
@@ -604,9 +604,9 @@ mod tests {
         let task_queue = Arc::new(TasksQueue::new());
         let map_instance = create_empty_map_instance(context.test_context.client_notification_sender(), task_queue.clone());
         let index = add_items_in_inventory(&mut character, "Jellopy", 10);
-        let mut jellopy_item_model = character.get_item_from_inventory(index).unwrap().clone();
+        let _jellopy_item_model = character.get_item_from_inventory(index).unwrap().clone();
         let index = add_items_in_inventory(&mut character, "Knife", 1);
-        let mut knife_item_model = character.get_item_from_inventory(index).unwrap().clone();
+        let _knife_item_model = character.get_item_from_inventory(index).unwrap().clone();
         let char_id = character.char_id;
         // When
         context.inventory_service.character_drop_items(&runtime, &mut character, CharacterRemoveItems {

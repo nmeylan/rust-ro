@@ -8,7 +8,7 @@ use enums::item::{EquipmentLocation};
 use enums::look::LookType;
 
 use crate::enums::EnumWithNumberValue;
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, Packet, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::repository::{InventoryRepository};
 
@@ -151,16 +151,14 @@ impl InventoryService {
             }
             self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets_raws_by_value(packets)))).expect("Fail to send client notification");
             Ok(items)
+        } else if remove_items.sell {
+            let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(self.configuration_service.packetver());
+            packet_zc_pc_purchase_result.set_result(1);
+            packet_zc_pc_purchase_result.fill_raw();
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
+            Err("Cannot sell items".to_string())
         } else {
-            if remove_items.sell {
-                let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(self.configuration_service.packetver());
-                packet_zc_pc_purchase_result.set_result(1);
-                packet_zc_pc_purchase_result.fill_raw();
-                self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
-                Err("Cannot sell items".to_string())
-            } else {
-                Err("Cannot drop item".to_string())
-            }
+            Err("Cannot drop item".to_string())
         }
     }
 

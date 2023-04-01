@@ -34,23 +34,23 @@ impl <T> TasksQueue<T> where T: Debug + Clone {
         tasks_guard.pop_front()
     }
     pub fn is_empty(&self) -> bool {
-        let mut tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
+        let tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
         tasks_guard.is_empty()
     }
     /// Use for test only
     pub fn content_as_str(&self) -> String {
-        let mut tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
+        let tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
         let mut s = String::new();
         for (index, content) in tasks_guard.iter().enumerate() {
-            writeln!(s, "").unwrap();
-            writeln!(s, "tick - {}", index).unwrap();
-            content.iter().for_each(|event| writeln!(s, "\t{:?}", event).unwrap());
+            writeln!(s).unwrap();
+            writeln!(s, "tick - {index}").unwrap();
+            content.iter().for_each(|event| writeln!(s, "\t{event:?}").unwrap());
         }
         s
     }
 
     pub fn duplicate(&self) -> TasksQueue<T> {
-        let mut tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
+        let tasks_guard = self.tasks.lock().expect("Fail to acquire lock on tasks");
         let mut cloned_tasks = VecDeque::new();
         tasks_guard.iter().for_each(|queue| cloned_tasks.push_back(queue.clone().to_vec()));
         TasksQueue{ tasks: Mutex::new(cloned_tasks) }
