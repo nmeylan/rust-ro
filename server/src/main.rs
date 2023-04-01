@@ -50,6 +50,7 @@ use crate::server::boot::map_loader::MapLoader;
 use crate::server::boot::mob_spawn_loader::MobSpawnLoader;
 use crate::server::boot::script_loader::ScriptLoader;
 use crate::server::boot::warps_loader::WarpLoader;
+use crate::server::model::script::Script;
 
 
 use self::server::model::map_item::MapItem;
@@ -104,15 +105,9 @@ pub async fn main() {
         mobs_id_name.insert(mob.name.clone(), mob.id as u32);
     });
 
-    let start = Instant::now();
-    let (scripts, class_files, compilation_errors) = ScriptLoader::load_scripts();
-    for class_errors in compilation_errors {
-        error!("Error while compiling {}", class_errors.0);
-        for compilation_error in class_errors.1 {
-            error!("{}", compilation_error);
-        }
-    }
-    info!("load {} scripts in {} secs", scripts.len(), start.elapsed().as_millis() as f32 / 1000.0);
+    let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
+    let scripts = load_scripts(vm.clone());
+
     let start = Instant::now();
     let warps = unsafe { WarpLoader::load_warps(CONFIGS.as_ref().unwrap()).await };
     let mobs_map = mobs.clone().into_iter().map(|mob| (mob.id as u32, mob)).collect();
@@ -136,8 +131,6 @@ pub async fn main() {
 
     // let scripts = Default::default();
     // let class_files = Default::default();
-    let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
-    Vm::bootstrap(vm.clone(), class_files, Box::new(&ScriptHandler{}));
     let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(2048);
     let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(2048);
     let server = Server::new(configs(), repository_arc.clone(), map_item_ids, vm, client_notification_sender, persistence_event_sender.clone());
@@ -164,6 +157,21 @@ pub async fn main() {
     for handle in handles {
         handle.join().expect("Failed await server and proxy threads");
     }
+}
+
+pub fn load_scripts(vm: Arc<Vm>) -> HashMap<String, Vec<Script>> {
+    let start = Instant::now();
+    let (scripts, class_files, compilation_errors) = ScriptLoader::load_scripts();
+    for class_errors in compilation_errors {
+        error!("Error while compiling {}", class_errors.0);
+        for compilation_error in class_errors.1 {
+            error!("{}", compilation_error);
+        }
+    }
+    info!("load {} scripts in {} secs", scripts.len(), start.elapsed().as_millis() as f32 / 1000.0);
+
+    Vm::bootstrap(vm.clone(), class_files, Box::new(&ScriptHandler {}));
+    return scripts;
 }
 
 fn configs() -> &'static Config {
