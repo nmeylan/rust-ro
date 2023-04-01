@@ -256,10 +256,10 @@ pub fn handle_set_job(server: &Server, session: Arc<Session>, _runtime: &Runtime
 
 pub fn handle_rates(server: &Server) -> String {
     let mut msg = String::new();
-    writeln!(msg, "Experience rates: Base {:.2}x / Job {:.2}", server.configuration.game.base_exp_rate,server.configuration.game.job_exp_rate);
-    writeln!(msg, "Normal Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate_card);
-    writeln!(msg, "Boss  Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_card );
-    return msg;
+    writeln!(msg, "Experience rates: Base {:.2}x / Job {:.2}", server.configuration.game.base_exp_rate,server.configuration.game.job_exp_rate).unwrap();
+    writeln!(msg, "Normal Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate_card).unwrap();
+    writeln!(msg, "Boss  Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_card ).unwrap();
+    msg
 }
 
 pub fn handle_reload(server: &Server, _session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {

@@ -20,7 +20,7 @@ use packets::packets::{Packet, PacketZcCloseDialog, PacketZcMenuList, PacketZcNo
 
 use crate::server::model::session::Session;
 use crate::server::model::events::client_notification::{CharNotification, Notification};
-use crate::server::model::events::game_event::{CharacterAddItems, CharacterLook, CharacterRemoveItem, CharacterRemoveItems, GameEvent};
+use crate::server::model::events::game_event::{CharacterLook, CharacterRemoveItem, CharacterRemoveItems, GameEvent};
 use crate::server::model::events::game_event::GameEvent::CharacterUpdateLook;
 use crate::server::script::constant::{get_battle_flag, load_constant};
 use crate::server::Server;
@@ -28,7 +28,7 @@ use crate::server::Server;
 
 use skill::SkillService;
 use crate::repository::ItemRepository;
-use crate::repository::model::item_model::InventoryItemModel;
+
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::script_service::ScriptService;
@@ -305,7 +305,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let color =  if params.len() > 1 {
                 params[1].string_value().unwrap_or(&green).clone()
             }else {
-                green.clone()
+                green
             };
             let color_rgb = if color.starts_with("0x") {
                 u32::from_str_radix(format!("{}{}{}", &color[6..8], &color[4..6], &color[2..4]).as_str(), 16).unwrap_or(65280)
@@ -444,7 +444,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             let job_number = params[0].number_value().expect("Expected jobname argument 0 to be a number");
             execution_thread.push_constant_on_stack(value::Value::new_string(JobName::from_value(job_number as usize).as_str().to_string()));
         } else if native.name.eq("eaclass") {
-            let job_number = if params.len() > 0 {
+            let job_number = if !params.is_empty() {
                 if params.len() == 2 {
                     warn!("eaclass does not handle the second argument yet!")
                 }
@@ -454,7 +454,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             };
             execution_thread.push_constant_on_stack(value::Value::new_number(JobName::from_value(job_number as usize).mask() as i32));
         } else if native.name.eq("roclass") {
-            let (is_male, mask) = if params.len() > 0 {
+            let (is_male, mask) = if !params.is_empty() {
                 let is_male = if params.len() == 2 {
                     !params[1].string_value().expect("Expected roclass argument 1 to be a string with value 'm' or 'f'").to_lowercase().eq("f")
                 } else {

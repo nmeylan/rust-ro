@@ -5,7 +5,7 @@ use packets::packets::{CzPurchaseItem, CzSellItem, PacketZcPcPurchaseItemlist, P
 use crate::server::script::PlayerScriptHandler;
 use enums::item::ItemType;
 use crate::enums::EnumWithNumberValue;
-use crate::repository::ItemRepository;
+
 use crate::repository::model::item_model::ItemModel;
 use crate::enums::EnumWithStringValue;
 use crate::server::model::events::client_notification::{CharNotification, Notification};
@@ -29,7 +29,7 @@ impl PlayerScriptHandler {
             let mut packet_zc_pc_sell_itemlist = PacketZcPcSellItemlist::new(self.configuration_service.packetver());
             let mut packets_sell_items = vec![];
             character.inventory.iter().enumerate()
-                .filter(|(index, item)| item.is_some())
+                .filter(|(_index, item)| item.is_some())
                 .map(|(index, item)| (index, item.as_ref().unwrap()))
                 .filter(|(_, item)| item.equip == 0)
                 .for_each(|(index, item)| {

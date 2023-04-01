@@ -20,12 +20,10 @@ mod repository;
 mod debugger;
 mod tests;
 
-use crate::enums::*;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
-
 
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
@@ -40,6 +38,7 @@ use tokio::runtime::Runtime;
 use server::Server;
 use crate::repository::model::item_model::ItemModels;
 use crate::repository::model::mob_model::MobModels;
+
 use crate::server::model::configuration::{Config};
 use crate::server::model::map::Map;
 use self::server::model::events::client_notification::Notification;
@@ -170,8 +169,8 @@ pub fn load_scripts(vm: Arc<Vm>) -> HashMap<String, Vec<Script>> {
     }
     info!("load {} scripts in {} secs", scripts.len(), start.elapsed().as_millis() as f32 / 1000.0);
 
-    Vm::bootstrap(vm.clone(), class_files, Box::new(&ScriptHandler {}));
-    return scripts;
+    Vm::bootstrap(vm, class_files, Box::new(&ScriptHandler {}));
+    scripts
 }
 
 fn configs() -> &'static Config {

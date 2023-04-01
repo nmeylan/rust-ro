@@ -1,5 +1,5 @@
 use crate::*;
-use crate::look::LookType::Job;
+
 
 pub const JOB_BASE_MASK: u64 = 0xff;
 pub const JOB_UPPER_MASK: u64 = 0xfff;
@@ -249,85 +249,83 @@ impl JobName {
     }
 
     pub fn from_mask(mask: u64, is_male: bool) -> Option<Self> {
-        match mask {
-            1 => Some(JobName::Novice),
-            2 => Some(JobName::Swordsman),
-            4 => Some(JobName::Mage),
-            8 => Some(JobName::Archer),
-            16 => Some(JobName::Acolyte),
-            32 => Some(JobName::Merchant),
-            64 => Some(JobName::Thief),
-            128 => Some(JobName::Taekwon),
+        if mask == 1 { return Some(JobName::Novice); }
+        if mask == 2 { return Some(JobName::Swordsman); }
+        if mask == 4 { return Some(JobName::Mage); }
+        if mask == 8 { return Some(JobName::Archer); }
+        if mask == 16 { return Some(JobName::Acolyte); }
+        if mask == 32 { return Some(JobName::Merchant); }
+        if mask == 64 { return Some(JobName::Thief); }
+        if mask == 128 { return Some(JobName::Taekwon); }
 
-            (JOB_2_1_MASK | 1) => Some(JobName::SuperNovice),
-            (JOB_2_1_MASK | 2) => Some(JobName::Knight),
-            (JOB_2_1_MASK | 4) => Some(JobName::Wizard),
-            (JOB_2_1_MASK | 8) => Some(JobName::Hunter),
-            (JOB_2_1_MASK | 16) => Some(JobName::Priest),
-            (JOB_2_1_MASK | 32) => Some(JobName::Blacksmith),
-            (JOB_2_1_MASK | 64) => Some(JobName::Assassin),
-            (JOB_2_1_MASK | 128) => Some(JobName::StarGladiator),
+        if mask == JOB_2_1_MASK | 1 { return Some(JobName::SuperNovice); }
+        if mask == JOB_2_1_MASK | 2 { return Some(JobName::Knight); }
+        if mask == JOB_2_1_MASK | 4 { return Some(JobName::Wizard); }
+        if mask == JOB_2_1_MASK | 8 { return Some(JobName::Hunter); }
+        if mask == JOB_2_1_MASK | 16 { return Some(JobName::Priest); }
+        if mask == JOB_2_1_MASK | 32 { return Some(JobName::Blacksmith); }
+        if mask == JOB_2_1_MASK | 64 { return Some(JobName::Assassin); }
+        if mask == JOB_2_1_MASK | 128 { return Some(JobName::StarGladiator); }
 
-            (JOB_2_2_MASK | 2) => Some(JobName::Crusader),
-            (JOB_2_2_MASK | 4) => Some(JobName::Sage),
-            (JOB_2_2_MASK | 8) => { if is_male { Some(JobName::Bard) } else { Some(JobName::Dancer) } }
-            (JOB_2_2_MASK | 16) => Some(JobName::Monk),
-            (JOB_2_2_MASK | 32) => Some(JobName::Alchemist),
-            (JOB_2_2_MASK | 64) => Some(JobName::Rogue),
-            (JOB_2_2_MASK | 128) => Some(JobName::SoulLinker),
+        if mask == JOB_2_2_MASK | 2 { return Some(JobName::Crusader); }
+        if mask == JOB_2_2_MASK | 4 { return Some(JobName::Sage); }
+        if mask == JOB_2_2_MASK | 8 { if is_male { return Some(JobName::Bard) } else { return Some(JobName::Dancer) } }
+        if mask == JOB_2_2_MASK | 16 { return Some(JobName::Monk); }
+        if mask == JOB_2_2_MASK | 32 { return Some(JobName::Alchemist); }
+        if mask == JOB_2_2_MASK | 64 { return Some(JobName::Rogue); }
+        if mask == JOB_2_2_MASK | 128 { return Some(JobName::SoulLinker); }
 
-            (JOB_TRANS_MASK | 1) => Some(JobName::NoviceHigh),
-            (JOB_TRANS_MASK | 2) => Some(JobName::SwordsmanHigh),
-            (JOB_TRANS_MASK | 4) => Some(JobName::MageHigh),
-            (JOB_TRANS_MASK | 8) => Some(JobName::ArcherHigh),
-            (JOB_TRANS_MASK | 16) => Some(JobName::AcolyteHigh),
-            (JOB_TRANS_MASK | 32) => Some(JobName::MerchantHigh),
-            (JOB_TRANS_MASK | 64) => Some(JobName::ThiefHigh),
+        if mask == JOB_TRANS_MASK | 1 { return Some(JobName::NoviceHigh); }
+        if mask == JOB_TRANS_MASK | 2 { return Some(JobName::SwordsmanHigh); }
+        if mask == JOB_TRANS_MASK | 4 { return Some(JobName::MageHigh); }
+        if mask == JOB_TRANS_MASK | 8 { return Some(JobName::ArcherHigh); }
+        if mask == JOB_TRANS_MASK | 16 { return Some(JobName::AcolyteHigh); }
+        if mask == JOB_TRANS_MASK | 32 { return Some(JobName::MerchantHigh); }
+        if mask == JOB_TRANS_MASK | 64 { return Some(JobName::ThiefHigh); }
 
-            (JOB_TRANS_2_1_MASK | 2) => Some(JobName::LordKnight),
-            (JOB_TRANS_2_1_MASK | 4) => Some(JobName::HighWizard),
-            (JOB_TRANS_2_1_MASK | 8) => Some(JobName::Sniper),
-            (JOB_TRANS_2_1_MASK | 16) => Some(JobName::HighPriest),
-            (JOB_TRANS_2_1_MASK | 32) => Some(JobName::Whitesmith),
-            (JOB_TRANS_2_1_MASK | 64) => Some(JobName::AssassinCross),
+        if mask == JOB_TRANS_2_1_MASK | 2 { return Some(JobName::LordKnight); }
+        if mask == JOB_TRANS_2_1_MASK | 4 { return Some(JobName::HighWizard); }
+        if mask == JOB_TRANS_2_1_MASK | 8 { return Some(JobName::Sniper); }
+        if mask == JOB_TRANS_2_1_MASK | 16 { return Some(JobName::HighPriest); }
+        if mask == JOB_TRANS_2_1_MASK | 32 { return Some(JobName::Whitesmith); }
+        if mask == JOB_TRANS_2_1_MASK | 64 { return Some(JobName::AssassinCross); }
 
-            (JOB_TRANS_2_2_MASK | 2) => Some(JobName::Paladin),
-            (JOB_TRANS_2_2_MASK | 4) => Some(JobName::Professor),
-            (JOB_TRANS_2_2_MASK | 8) => { if is_male { Some(JobName::Clown) } else { Some(JobName::Gypsy) } }
-            (JOB_TRANS_2_2_MASK | 16) => Some(JobName::Champion),
-            (JOB_TRANS_2_2_MASK | 32) => Some(JobName::Creator),
-            (JOB_TRANS_2_2_MASK | 64) => Some(JobName::Stalker),
+        if mask == JOB_TRANS_2_2_MASK | 2 { return Some(JobName::Paladin); }
+        if mask == JOB_TRANS_2_2_MASK | 4 { return Some(JobName::Professor); }
+        if mask == JOB_TRANS_2_2_MASK | 8 { if is_male { return Some(JobName::Clown) } else { return Some(JobName::Gypsy) } }
+        if mask == JOB_TRANS_2_2_MASK | 16 { return Some(JobName::Champion); }
+        if mask == JOB_TRANS_2_2_MASK | 32 { return Some(JobName::Creator); }
+        if mask == JOB_TRANS_2_2_MASK | 64 { return Some(JobName::Stalker); }
 
-            (JOB_BABY_MASK | 1) => Some(JobName::BabyNovice),
-            (JOB_BABY_MASK | 2) => Some(JobName::BabySwordman),
-            (JOB_BABY_MASK | 4) => Some(JobName::BabyMage),
-            (JOB_BABY_MASK | 8) => Some(JobName::BabyArcher),
-            (JOB_BABY_MASK | 16) => Some(JobName::BabyAcolyte),
-            (JOB_BABY_MASK | 32) => Some(JobName::BabyMerchant),
-            (JOB_BABY_MASK | 64) => Some(JobName::BabyThief),
+        if mask == JOB_BABY_MASK | 1 { return Some(JobName::BabyNovice); }
+        if mask == JOB_BABY_MASK | 2 { return Some(JobName::BabySwordman); }
+        if mask == JOB_BABY_MASK | 4 { return Some(JobName::BabyMage); }
+        if mask == JOB_BABY_MASK | 8 { return Some(JobName::BabyArcher); }
+        if mask == JOB_BABY_MASK | 16 { return Some(JobName::BabyAcolyte); }
+        if mask == JOB_BABY_MASK | 32 { return Some(JobName::BabyMerchant); }
+        if mask == JOB_BABY_MASK | 64 { return Some(JobName::BabyThief); }
 
-            (JOB_BABY_MASK | JOB_2_1_MASK | 2) => Some(JobName::BabyKnight),
-            (JOB_BABY_MASK | JOB_2_1_MASK | 4) => Some(JobName::BabyWizard),
-            (JOB_BABY_MASK | JOB_2_1_MASK | 8) => Some(JobName::BabyHunter),
-            (JOB_BABY_MASK | JOB_2_1_MASK | 16) => Some(JobName::BabyPriest),
-            (JOB_BABY_MASK | JOB_2_1_MASK | 32) => Some(JobName::BabyBlacksmith),
-            (JOB_BABY_MASK | JOB_2_1_MASK | 64) => Some(JobName::BabyAssassin),
+        if mask == JOB_BABY_MASK | JOB_2_1_MASK | 2 { return Some(JobName::BabyKnight); }
+        if mask == JOB_BABY_MASK | JOB_2_1_MASK | 4 { return Some(JobName::BabyWizard); }
+        if mask == JOB_BABY_MASK | JOB_2_1_MASK | 8 { return Some(JobName::BabyHunter); }
+        if mask == JOB_BABY_MASK | JOB_2_1_MASK | 16 { return Some(JobName::BabyPriest); }
+        if mask == JOB_BABY_MASK | JOB_2_1_MASK | 32 { return Some(JobName::BabyBlacksmith); }
+        if mask == JOB_BABY_MASK | JOB_2_1_MASK | 64 { return Some(JobName::BabyAssassin); }
 
-            (JOB_BABY_MASK | JOB_2_2_MASK | 2) => Some(JobName::BabyCrusader),
-            (JOB_BABY_MASK | JOB_2_2_MASK | 4) => Some(JobName::BabySage),
-            (JOB_BABY_MASK | JOB_2_2_MASK | 8) => { if is_male { Some(JobName::BabyBard) } else { Some(JobName::BabyDancer) } }
-            (JOB_BABY_MASK | JOB_2_2_MASK | 16) => Some(JobName::BabyMonk),
-            (JOB_BABY_MASK | JOB_2_2_MASK | 32) => Some(JobName::BabyAlchemist),
-            (JOB_BABY_MASK | JOB_2_2_MASK | 64) => Some(JobName::BabyRogue),
+        if mask == JOB_BABY_MASK | JOB_2_2_MASK | 2 { return Some(JobName::BabyCrusader); }
+        if mask == JOB_BABY_MASK | JOB_2_2_MASK | 4 { return Some(JobName::BabySage); }
+        if mask == JOB_BABY_MASK | JOB_2_2_MASK | 8 { if is_male { return Some(JobName::BabyBard) } else { return Some(JobName::BabyDancer) } }
+        if mask == JOB_BABY_MASK | JOB_2_2_MASK | 16 { return Some(JobName::BabyMonk); }
+        if mask == JOB_BABY_MASK | JOB_2_2_MASK | 32 { return Some(JobName::BabyAlchemist); }
+        if mask == JOB_BABY_MASK | JOB_2_2_MASK | 64 { return Some(JobName::BabyRogue); }
 
-            (JOB_OTHER | 1) => Some(JobName::Wedding),
-            (JOB_OTHER | 2) => Some(JobName::Gunslinger),
-            (JOB_OTHER | 4) => Some(JobName::Ninja),
-            (JOB_OTHER | 8) => Some(JobName::Xmas),
-            (JOB_OTHER | 16) => Some(JobName::Summer),
-            (JOB_OTHER | 32) => Some(JobName::SuperBaby),
-            _ => None
-        }
+        if mask == JOB_OTHER | 1 { return Some(JobName::Wedding); }
+        if mask == JOB_OTHER | 2 { return Some(JobName::Gunslinger); }
+        if mask == JOB_OTHER | 4 { return Some(JobName::Ninja); }
+        if mask == JOB_OTHER | 8 { return Some(JobName::Xmas); }
+        if mask == JOB_OTHER | 16 { return Some(JobName::Summer); }
+        if mask == JOB_OTHER | 32 { return Some(JobName::SuperBaby); }
+        None
     }
 }
 

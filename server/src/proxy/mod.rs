@@ -100,8 +100,8 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                         break;
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
-                    self.proxy_request(outgoing, &direction, tcp_stream_ref, &buffer.clone()[..bytes_read], bytes_read, packetver);
-                    let mut packet = parse(&buffer[..bytes_read], packetver);
+                    self.proxy_request(outgoing, &direction, tcp_stream_ref, &buffer[..bytes_read], bytes_read, packetver);
+                    let packet = parse(&buffer[..bytes_read], packetver);
                     if packet.raw().len() < bytes_read {
                         let mut offset = 0;
                         while offset < bytes_read {
@@ -139,7 +139,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         }
     }
 
-    fn proxy_request(&self, outgoing: &mut TcpStream, direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, mut buffer: &[u8], bytes_read: usize, packetver: u32) {
+    fn proxy_request(&self, outgoing: &mut TcpStream, _direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, buffer: &[u8], bytes_read: usize, packetver: u32) {
         if (buffer[0] == 0x71 && buffer[1] == 0x0)
             || (buffer[0] == 0xc5 && buffer[1] == 0x0a) {
             let mut packet = parse(&buffer.clone()[..bytes_read], packetver);
@@ -147,10 +147,8 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
             if outgoing.write(packet.raw()).is_ok() {
                 outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");
             }
-        } else {
-            if outgoing.write(buffer).is_ok() {
-                outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");
-            }
+        } else if outgoing.write(buffer).is_ok() {
+            outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");
         }
     }
 }

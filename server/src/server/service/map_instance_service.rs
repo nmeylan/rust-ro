@@ -171,7 +171,7 @@ impl MapInstanceService {
         let rng = fastrand::Rng::new();
         let mut item_to_drop: Vec<DroppedItem> = vec![];
         for (item, removal_information) in char_drop_items.item_removal_info {
-            item_to_drop.push(self.drop_items(map_instance_state, &rng, char_drop_items.char_x, char_drop_items.char_y, item.item_id as i32, item.is_identified, removal_information.amount as u16, Some(char_drop_items.owner_id)));
+            item_to_drop.push(self.drop_items(map_instance_state, &rng, char_drop_items.char_x, char_drop_items.char_y, item.item_id, item.is_identified, removal_information.amount as u16, Some(char_drop_items.owner_id)));
         }
         self.notify_drop_items(map_instance_state, char_drop_items.char_x, char_drop_items.char_y, item_to_drop);
     }

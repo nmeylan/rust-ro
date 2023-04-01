@@ -74,7 +74,7 @@ impl InventoryRepository for Repository {
         if sell {
             let mut zeny = 0;
             inventory_update_items.iter().for_each(|(_, item)| zeny += item.amount as i32 * item.price);
-            let updated_zeny = tx.fetch_all(sqlx::query("UPDATE char set zeny = zeny + $1 WHERE char_id = $2 RETURNING zeny;")
+            let _updated_zeny = tx.fetch_all(sqlx::query("UPDATE char set zeny = zeny + $1 WHERE char_id = $2 RETURNING zeny;")
                 .bind(zeny)
                 .bind(inventory_update_items[0].1.char_id as i32)
             ).await?;

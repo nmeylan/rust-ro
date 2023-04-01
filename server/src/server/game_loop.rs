@@ -13,10 +13,10 @@ use crate::PersistenceEvent::SaveCharacterPosition;
 use crate::server::model::movement::{Movable, Movement};
 
 
-use crate::server::model::events::game_event::{CharacterRemoveItem, CharacterRemoveItems, GameEvent};
+use crate::server::model::events::game_event::{CharacterRemoveItems, GameEvent};
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
-use crate::server::model::events::map_event::{CharacterDropItems, MapEvent, MobDropItems};
+use crate::server::model::events::map_event::{MapEvent};
 use crate::server::model::events::persistence_event::{SavePositionUpdate};
 
 use crate::server::model::map_item::{ToMapItemSnapshot, ToMapItem};

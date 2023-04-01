@@ -1092,7 +1092,7 @@ mod tests {
             mob_job_exp: 60,
         }, &map_instance);
         // Then
-        assert_task_queue_contains_event!(task_queue.clone(), MapEvent::MobDropItems(MobDropItems { owner_id: char_id, mob_id: 1001, mob_x: 54, mob_y: 54 }));
+        assert_task_queue_contains_event!(task_queue, MapEvent::MobDropItems(MobDropItems { owner_id: char_id, mob_id: 1001, mob_x: 54, mob_y: 54 }));
         assert_eq!(character_state.status.base_exp, 110);
         assert_eq!(character_state.status.job_exp, 65);
     }
