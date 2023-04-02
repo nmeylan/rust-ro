@@ -1,6 +1,91 @@
 
 prontera,153,193,6	script	Job Master	123,{
 
+
+// Begin of the NPC
+	mes .NPCName$;
+	Check_Riding();
+	Check_SkillPoints();
+
+	// initialisation
+	.@eac = eaclass();
+	.@rebirth_possible = Can_Rebirth();
+	.@first_eac = .@eac&EAJ_BASEMASK;
+	.@second_eac = .@eac&EAJ_UPPERMASK;
+	// Note: These are already set in pc.cpp
+	// BaseClass = roclass(.@eac&EAJ_BASEMASK) which is the players First Class
+	// BaseJob = roclass(.@eac&EAJ_UPPERMASK) which is the players Second Class
+	dispbottom "Debug: eac ("+.@eac+"), rebirth("+.@rebirth_possible+"), first_eac ("+.@first_eac+"), second_eac ("+.@second_eac+")";
+    .@job_opt[0] = 1;
+	// From here on the jobmaster checks the current class
+	// and fills the the array `.@job_opt` with possible
+	// job options for the player.
+
+	if( .@rebirth_possible ) {
+		// Rebirth option (displayed on the top of the menu)
+		Require_Level(.Req_Rebirth[0], .Req_Rebirth[1]);
+		Job_Options(.@job_opt, Job_Novice_High);
+	}
+
+
+	// Player is Job_Novice, Job_Novice_High or Job_Baby
+	if (.@first_eac == EAJ_NOVICE && .@second_eac != EAJ_SUPER_NOVICE) {
+		// MAPID_NOVICE, MAPID_SUPER_NOVICE, MAPID_NOVICE_HIGH, MAPID_BABY
+		Require_Level(.Req_First[0], .Req_First[1]);
+		switch(Class) {
+			case Job_Novice:
+				// First job change
+				Job_Options(.@job_opt,Job_Swordsman,
+					Job_Mage, Job_Archer, Job_Acolyte, Job_Merchant, Job_Thief,
+					Job_Super_Novice, Job_Taekwon, Job_Gunslinger, Job_Ninja);
+				break;
+			case Job_Novice_High:
+				// Job change after rebirth
+				if( .LastJob && lastJob )
+					Job_Options(.@job_opt,
+						roclass((eaclass(lastJob)&EAJ_BASEMASK)|EAJL_UPPER));
+				else
+					Job_Options(.@job_opt,
+						Job_Swordsman_High, Job_Mage_High, Job_Archer_High,
+						Job_Acolyte_High, Job_Merchant_High, Job_Thief_High);
+				break;
+			default:
+				mes "An error has occurred.";
+				close;
+		}
+	} else if( Is_First_Cls(.@eac) || 				// First Class
+			   Is_First_Cls(.@eac&(~EAJL_UPPER))	// Trans. First Cls
+			   ) {
+		// Player is First Class (not Novice)
+		// most jobs should have two options here  (2-1 and 2-2)
+		.@class1 = roclass(.@eac|EAJL_2_1); // 2-1
+		.@class2 = roclass(.@eac|EAJL_2_2); // 2-2
+
+		print ".@class1: " + .@class1 + " | .@class2: " + .@class2;
+		// dispbottom "Debug: Classes: class1 ("+.@class1+"), class2 ("+.@class2+")";
+		if(.LastJob && lastJob && (.@eac&EAJL_UPPER)) {
+			// Player is rebirth Cls and linear class changes are enforced
+			Require_Level(.Req_Second[0], .Req_Second[1]);
+			Job_Options(.@job_opt, lastJob + Job_Novice_High);
+		} else {
+			// Class is not enforced, player can decide.
+			if( .@class1 > 0 ) { // 2-1
+				Require_Level(.Req_Second[0], .Req_Second[1]);
+				Job_Options(.@job_opt, .@class1);
+			}
+			if( .@class2 > 0 ) { // 2-2
+				Require_Level(.Req_Second[0], .Req_Second[1]);
+				Job_Options(.@job_opt, .@class2);
+			}
+		}
+	}
+
+	// Displaying the Job Menu defined by .@job_opt.
+	// .@job_opt should not be changed below this line.
+	function Job_Menu;
+	Job_Menu(.@job_opt);
+	close;
+
 // Checks if the Player has the required level.
 // closes if not, returns if yes
 function	Require_Level	{
@@ -75,90 +160,6 @@ function	Job_Options	{
 	}
 }
 
-// Begin of the NPC
-	mes .NPCName$;
-	Check_Riding();
-	Check_SkillPoints();
-
-	// initialisation
-	.@eac = eaclass();
-	.@rebirth_possible = Can_Rebirth();
-	.@first_eac = .@eac&EAJ_BASEMASK;
-	.@second_eac = .@eac&EAJ_UPPERMASK;
-	// Note: These are already set in pc.cpp
-	// BaseClass = roclass(.@eac&EAJ_BASEMASK) which is the players First Class
-	// BaseJob = roclass(.@eac&EAJ_UPPERMASK) which is the players Second Class
-	dispbottom "Debug: eac ("+.@eac+"), rebirth("+.@rebirth_possible+"), first_eac ("+.@first_eac+"), second_eac ("+.@second_eac+")";
-    .@job_opt[0] = 1;
-	// From here on the jobmaster checks the current class
-	// and fills the the array `.@job_opt` with possible
-	// job options for the player.
-	
-	if( .@rebirth_possible ) {
-		// Rebirth option (displayed on the top of the menu)
-		Require_Level(.Req_Rebirth[0], .Req_Rebirth[1]);
-		Job_Options(.@job_opt, Job_Novice_High);
-	}
-
-	
-	// Player is Job_Novice, Job_Novice_High or Job_Baby
-	if (.@first_eac == EAJ_NOVICE && .@second_eac != EAJ_SUPER_NOVICE) {
-		// MAPID_NOVICE, MAPID_SUPER_NOVICE, MAPID_NOVICE_HIGH, MAPID_BABY
-		Require_Level(.Req_First[0], .Req_First[1]);
-		switch(Class) {
-			case Job_Novice:
-				// First job change
-				Job_Options(.@job_opt,Job_Swordsman,
-					Job_Mage, Job_Archer, Job_Acolyte, Job_Merchant, Job_Thief,
-					Job_Super_Novice, Job_Taekwon, Job_Gunslinger, Job_Ninja);
-				break;
-			case Job_Novice_High:
-				// Job change after rebirth
-				if( .LastJob && lastJob )
-					Job_Options(.@job_opt,
-						roclass((eaclass(lastJob)&EAJ_BASEMASK)|EAJL_UPPER));
-				else
-					Job_Options(.@job_opt, 
-						Job_Swordsman_High, Job_Mage_High, Job_Archer_High,
-						Job_Acolyte_High, Job_Merchant_High, Job_Thief_High);
-				break;
-			default:
-				mes "An error has occurred.";
-				close;
-		}
-	} else if( Is_First_Cls(.@eac) || 				// First Class
-			   Is_First_Cls(.@eac&(~EAJL_UPPER))	// Trans. First Cls
-			   ) {
-		// Player is First Class (not Novice)
-		// most jobs should have two options here  (2-1 and 2-2)
-		.@class1 = roclass(.@eac|EAJL_2_1); // 2-1
-		.@class2 = roclass(.@eac|EAJL_2_2); // 2-2
-
-		print ".@class1: " + .@class1 + " | .@class2: " + .@class2;
-		// dispbottom "Debug: Classes: class1 ("+.@class1+"), class2 ("+.@class2+")";
-		if(.LastJob && lastJob && (.@eac&EAJL_UPPER)) {
-			// Player is rebirth Cls and linear class changes are enforced
-			Require_Level(.Req_Second[0], .Req_Second[1]);
-			Job_Options(.@job_opt, lastJob + Job_Novice_High);
-		} else {
-			// Class is not enforced, player can decide.
-			if( .@class1 > 0 ) { // 2-1
-				Require_Level(.Req_Second[0], .Req_Second[1]);
-				Job_Options(.@job_opt, .@class1);
-			}
-			if( .@class2 > 0 ) { // 2-2
-				Require_Level(.Req_Second[0], .Req_Second[1]);
-				Job_Options(.@job_opt, .@class2);
-			}
-		}
-	}
-	
-	// Displaying the Job Menu defined by .@job_opt.
-	// .@job_opt should not be changed below this line.
-	function Job_Menu;
-	Job_Menu(.@job_opt);
-	close;
-
 // Displays the job menu
 function	Job_Menu	{
 	// getarg(0) is the .@job_opt array holding all available job changes.
@@ -215,7 +216,7 @@ function	Job_Change	{
 	.@to_cls = getarg(0);
 	next;
 	mes .NPCName$;
-	mes "You are now a " + jobname(.@to_cls)) + "!";
+	mes "You are now a " + jobname(.@to_cls) + "!";
 	if (.@to_cls == Job_Novice_High && .LastJob)
 		lastJob = Class; // Saves the lastJob for rebirth
 	jobchange .@to_cls;
