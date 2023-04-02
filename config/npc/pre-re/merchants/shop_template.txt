@@ -28,7 +28,7 @@ OnBuyItem:
     if (!checkweight2(getglobalarrayref(@bought_nameid),getglobalarrayref(@bought_quantity))) {
     		dispbottom "You cannot hold this amount of items!", "0xFF0000", strcharinfo(0);
             closeshop 2;
-    } else if .@cost > Zeny {
+    } else if (.@cost > Zeny) {
         dispbottom "You do not have enough zeny!", "0xFF0000", strcharinfo(0);
         closeshop 1;
     } else {

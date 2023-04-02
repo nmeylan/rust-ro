@@ -32,6 +32,7 @@ use std::sync::{Arc};
 use crate::repository::{ItemRepository, Repository};
 use std::time::{Instant};
 use flexi_logger::Logger;
+use rathena_script_lang_interpreter::lang::compiler::Compiler;
 
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use tokio::runtime::Runtime;
@@ -104,6 +105,8 @@ pub async fn main() {
         mobs_id_name.insert(mob.name.clone(), mob.id as u32);
     });
 
+    Compiler::compile("a".to_string(), "- script _MainScript -1, {\n function a{return getarg(0) + 1;}\n
+    .@a = a(a(a(a(1)))); \n}", "native_functions_list.txt", 0);
     let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
     let scripts = load_scripts(vm.clone());
 
@@ -125,7 +128,6 @@ pub async fn main() {
                                   maps
         );
     }
-
     // let mob_spawns = Default::default();
 
     // let scripts = Default::default();
