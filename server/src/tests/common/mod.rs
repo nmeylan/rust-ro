@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 pub mod character_helper;
 pub mod map_instance_helper;
 pub mod mob_helper;
@@ -13,8 +15,6 @@ use std::{fs, thread};
 use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
 use std::sync::{Arc, Mutex, Once};
-
-use packets::packets::Packet;
 
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};

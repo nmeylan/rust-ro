@@ -37,6 +37,7 @@ use crate::util::tick::get_tick;
 static mut SERVICE_INSTANCE: Option<ServerService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
+#[allow(dead_code)]
 pub struct ServerService {
     client_notification_sender: SyncSender<Notification>,
     configuration_service: &'static GlobalConfigService,

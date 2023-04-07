@@ -11,6 +11,7 @@ use crate::server::state::mob::{Mob, MobMovement};
 static mut SERVICE_INSTANCE: Option<MobService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
+#[allow(dead_code)]
 pub struct MobService {
     client_notification_sender: SyncSender<Notification>,
     configuration_service: &'static GlobalConfigService,

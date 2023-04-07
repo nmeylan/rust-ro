@@ -142,7 +142,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
     fn proxy_request(&self, outgoing: &mut TcpStream, _direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, buffer: &[u8], bytes_read: usize, packetver: u32) {
         if (buffer[0] == 0x71 && buffer[1] == 0x0)
             || (buffer[0] == 0xc5 && buffer[1] == 0x0a) {
-            let mut packet = parse(&buffer.clone()[..bytes_read], packetver);
+            let mut packet = parse(&buffer[..bytes_read], packetver);
             self.specific_proxy.handle_packet(tcp_stream_ref, packet.as_mut());
             if outgoing.write(packet.raw()).is_ok() {
                 outgoing.flush().expect("Failed to flush packet for outgoing socket to proxied server");

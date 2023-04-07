@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::sync::Arc;
 use crate::repository::CharacterRepository;
 use crate::server::model::events::client_notification::Notification;
@@ -328,7 +330,7 @@ mod tests {
             source_not_allocated_point: u32,
             target_not_allocated_point: u32,
         }
-        ;
+
         let scenario = vec![
             Scenarii { source_level: 1, target_level: 10, source_not_allocated_point: 0, target_not_allocated_point: 32 },
             Scenarii { source_level: 10, target_level: 63, source_not_allocated_point: 0, target_not_allocated_point: 520 },
@@ -375,7 +377,7 @@ mod tests {
             source_available_status_point: u32,
             target_available_status_point: u32,
         }
-        ;
+
         let scenario = vec![
             Scenarii { source_level: 63, target_level: 60, job: "Thief", source_str: 31, source_agi: 77, source_dex: 33, source_int: 1, source_luk: 1, source_vit: 1, target_str: 1, target_agi: 1, target_dex: 1, target_int: 1, target_luk: 1, target_vit: 1, source_allocated_status_point: 594, target_allocated_status_point: 0, source_available_status_point: 6, target_available_status_point: 555 },
             Scenarii { source_level: 92, target_level: 82, job: "Clown", source_str: 20, source_agi: 3, source_dex: 91, source_int: 4, source_luk: 1, source_vit: 1, target_str: 20, target_agi: 3, target_dex: 91, target_int: 4, target_luk: 1, target_vit: 1, source_allocated_status_point: 597, target_allocated_status_point: 597, source_available_status_point: 577, target_available_status_point: 378 },
@@ -532,7 +534,6 @@ mod tests {
             job: &'a str,
             expected: u32,
         }
-        ;
         let scenario = vec![
             Scenarii { level: 1, job: "Novice", expected: 48 },
             Scenarii { level: 63, job: "Thief", expected: 600 },
@@ -567,7 +568,6 @@ mod tests {
             vit: u16,
             expected_allocated: u32,
         }
-        ;
         let scenario = vec![
             Scenarii { level: 1, job: "Novice", str: 19, agi: 3, dex: 1, int: 1, luk: 1, vit: 1, expected_allocated: 48 },
             Scenarii { level: 63, job: "Thief", str: 31, agi: 77, dex: 33, int: 1, luk: 1, vit: 1, expected_allocated: 594 },
@@ -659,7 +659,6 @@ mod tests {
             vit: u16,
             status_point_expected: u32,
         }
-        ;
         let scenario = vec![
             Scenarii { level: 1, job: "Novice", str: 19, agi: 3, dex: 0, int: 0, luk: 0, vit: 0, status_point_expected: 48 },
             Scenarii { level: 63, job: "Thief", str: 31, agi: 77, dex: 33, int: 0, luk: 0, vit: 0, status_point_expected: 600 },

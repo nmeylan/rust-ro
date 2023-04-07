@@ -25,6 +25,7 @@ use std::fs::File;
 use std::io::Write;
 use std::path::Path;
 
+
 use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
@@ -39,6 +40,7 @@ use tokio::runtime::Runtime;
 use server::Server;
 use crate::repository::model::item_model::ItemModels;
 use crate::repository::model::mob_model::MobModels;
+
 
 use crate::server::model::configuration::{Config};
 use crate::server::model::map::Map;
@@ -106,7 +108,7 @@ pub async fn main() {
     });
 
     Compiler::compile("a".to_string(), "- script _MainScript -1, {\n function a{return getarg(0) + 1;}\n
-    .@a = a(a(a(a(1)))); \n}", "native_functions_list.txt", 0);
+    .@a = a(a(a(a(1)))); \n}", "native_functions_list.txt", 0).unwrap();
     let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
     let scripts = load_scripts(vm.clone());
 

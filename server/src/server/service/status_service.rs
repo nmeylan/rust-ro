@@ -22,6 +22,7 @@ use crate::server::state::character::Character;
 static mut SERVICE_INSTANCE: Option<StatusService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
+#[allow(dead_code)]
 pub struct StatusService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,

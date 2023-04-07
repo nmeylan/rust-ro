@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use std::sync::Arc;
 use std::sync::mpsc::SyncSender;
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};

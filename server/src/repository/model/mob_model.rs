@@ -1,4 +1,4 @@
-use serde::{Deserialize, Deserializer, Serialize};
+use serde::{Deserialize, Serialize};
 use sqlx::{Error, FromRow, Row};
 use sqlx::postgres::PgRow;
 
@@ -64,12 +64,6 @@ pub struct MobModel {
     pub drops: Vec<Drop>,
     #[serde(default)]
     pub mvp_drops: Vec<Drop>,
-}
-
-pub fn deserialize_card<'de, D>(deserializer: D) -> Result<Option<Drop>, D::Error>
-    where D: Deserializer<'de> {
-    let value: Option<Drop> = Deserialize::deserialize(deserializer)?;
-    Ok(value)
 }
 
 impl Default for MobModel {

@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::sync::Arc;
 use crate::repository::InventoryRepository;
 use crate::server::model::events::client_notification::Notification;
@@ -163,7 +165,7 @@ mod tests {
         struct MockedInventoryRepository {
             has_fetched_items: AtomicBool,
         }
-        ;
+
         #[async_trait]
         impl InventoryRepository for MockedInventoryRepository {
             async fn character_inventory_update_add(&self, _inventory_update_items: &[InventoryItemUpdate], _buy: bool) -> Result<(), Error> {
