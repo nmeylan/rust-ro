@@ -155,13 +155,13 @@ impl JobName {
     pub fn mask(&self) -> u64 {
         let base_mask = match self {
             // 1-1
-            JobName::Novice | JobName::SuperNovice => 1,
-            JobName::Swordsman | JobName::Knight | JobName::Crusader | JobName::BabyKnight | JobName::BabyCrusader | JobName::LordKnight | JobName::Paladin => 2,
-            JobName::Mage | JobName::Wizard | JobName::Sage | JobName::BabyWizard | JobName::BabySage | JobName::HighWizard | JobName::Professor => 4,
-            JobName::Archer | JobName::Hunter | JobName::Bard | JobName::Dancer | JobName::BabyHunter | JobName::BabyBard | JobName::BabyDancer | JobName::Sniper | JobName::Clown | JobName::Gypsy => 8,
-            JobName::Acolyte | JobName::Priest | JobName::Monk | JobName::BabyPriest | JobName::BabyMonk | JobName::HighPriest | JobName::Champion => 16,
-            JobName::Merchant | JobName::Blacksmith | JobName::Alchemist | JobName::BabyBlacksmith | JobName::BabyAlchemist | JobName::Creator | JobName::Whitesmith => 32,
-            JobName::Thief | JobName::Assassin | JobName::Rogue | JobName::BabyAssassin | JobName::BabyRogue | JobName::AssassinCross | JobName::Stalker => 64,
+            JobName::Novice | JobName::SuperNovice | JobName::NoviceHigh => 1,
+            JobName::Swordsman | JobName::SwordsmanHigh | JobName::Knight | JobName::Crusader | JobName::BabyKnight | JobName::BabyCrusader | JobName::LordKnight | JobName::Paladin => 2,
+            JobName::Mage | JobName::MageHigh |JobName::Wizard | JobName::Sage | JobName::BabyWizard | JobName::BabySage | JobName::HighWizard | JobName::Professor => 4,
+            JobName::Archer | JobName::ArcherHigh |JobName::Hunter | JobName::Bard | JobName::Dancer | JobName::BabyHunter | JobName::BabyBard | JobName::BabyDancer | JobName::Sniper | JobName::Clown | JobName::Gypsy => 8,
+            JobName::Acolyte | JobName::AcolyteHigh | JobName::Priest | JobName::Monk | JobName::BabyPriest | JobName::BabyMonk | JobName::HighPriest | JobName::Champion => 16,
+            JobName::Merchant | JobName::MerchantHigh | JobName::Blacksmith | JobName::Alchemist | JobName::BabyBlacksmith | JobName::BabyAlchemist | JobName::Creator | JobName::Whitesmith => 32,
+            JobName::Thief | JobName::ThiefHigh | JobName::Assassin | JobName::Rogue | JobName::BabyAssassin | JobName::BabyRogue | JobName::AssassinCross | JobName::Stalker => 64,
             JobName::Taekwon | JobName::StarGladiator | JobName::SoulLinker => 128,
             _ => 0,
         };

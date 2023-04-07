@@ -15,8 +15,8 @@ prontera,153,193,6	script	Job Master	123,{
 	// Note: These are already set in pc.cpp
 	// BaseClass = roclass(.@eac&EAJ_BASEMASK) which is the players First Class
 	// BaseJob = roclass(.@eac&EAJ_UPPERMASK) which is the players Second Class
-	dispbottom "Debug: eac ("+.@eac+"), rebirth("+.@rebirth_possible+"), first_eac ("+.@first_eac+"), second_eac ("+.@second_eac+")";
-    .@job_opt[0] = 1;
+	// dispbottom "Debug: eac ("+.@eac+"), rebirth("+.@rebirth_possible+"), first_eac ("+.@first_eac+"), second_eac ("+.@second_eac+"), BaseClass ("+BaseClass+"), BaseJob ("+BaseJob+")";
+	declare .@job_opt[0];
 	// From here on the jobmaster checks the current class
 	// and fills the the array `.@job_opt` with possible
 	// job options for the player.
@@ -26,7 +26,6 @@ prontera,153,193,6	script	Job Master	123,{
 		Require_Level(.Req_Rebirth[0], .Req_Rebirth[1]);
 		Job_Options(.@job_opt, Job_Novice_High);
 	}
-
 
 	// Player is Job_Novice, Job_Novice_High or Job_Baby
 	if (.@first_eac == EAJ_NOVICE && .@second_eac != EAJ_SUPER_NOVICE) {
@@ -61,7 +60,6 @@ prontera,153,193,6	script	Job Master	123,{
 		.@class1 = roclass(.@eac|EAJL_2_1); // 2-1
 		.@class2 = roclass(.@eac|EAJL_2_2); // 2-2
 
-		print ".@class1: " + .@class1 + " | .@class2: " + .@class2;
 		// dispbottom "Debug: Classes: class1 ("+.@class1+"), class2 ("+.@class2+")";
 		if(.LastJob && lastJob && (.@eac&EAJL_UPPER)) {
 			// Player is rebirth Cls and linear class changes are enforced
@@ -108,11 +106,14 @@ function	Require_Level	{
 
 function	Can_Rebirth	{
 	// To rebirth, you need to be:
+	// dispbottom "eaclass()&EAJL_2 = " + (eaclass()&EAJL_2) + " "  + (eaclass()&EAJL_2);
 	// * Second Class
 	if( !.RebirthClass )
 		return false; // Rebirth disabled
-	if( !(eaclass()&EAJL_2) )
+	if( !(eaclass()&EAJL_2))
 		return false; // Not second Class
+	if( (eaclass()&EAJL_UPPER))
+		return false; // Already rebirth
 	if( roclass(eaclass()|EAJL_UPPER) < 0 )
 		return false; // Job has no transcended class
 	return true;
@@ -152,10 +153,8 @@ function	Check_SkillPoints	{
 // It's just easier to read, since we're using it very often
 function	Job_Options	{
 	.@argcount = getargcount();
-	.@arr_size = getarraysize(getarg(0));
+    .@arr_size = getarraysize(getarg(0));
 	for( .@i = 1; .@i < .@argcount; .@i++) {
-
-	    print .@i + " " + getarg(.@i);
 		setarray getelementofarray(getarg(0), .@arr_size++),getarg(.@i);
 	}
 }
