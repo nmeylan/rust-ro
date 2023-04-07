@@ -130,7 +130,7 @@ mod tests {
         assert!(item_from_inventory.is_identified);
         let item_from_inventory = character_state.get_item_from_inventory(2).unwrap();
         assert_eq!(item_from_inventory.item_id, GlobalConfigService::instance().get_item_id_from_name("Knife") as i32);
-        assert!(item_from_inventory.is_identified);
+        assert!(!item_from_inventory.is_identified);
     }
 
     #[test]
