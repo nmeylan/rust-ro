@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use std::sync::Arc;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;

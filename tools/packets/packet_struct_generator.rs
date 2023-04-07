@@ -59,7 +59,7 @@ fn write_file_header(file: &mut File) {
     file.write_all("// Auto generated file do not edit manually\n\n".to_string().as_bytes()).unwrap();
 }
 
-fn write_packet_parser(file: &mut File, packets: &Vec<PacketStructDefinition>) {
+fn write_packet_parser(file: &mut File, packets: &[PacketStructDefinition]) {
     file.write_all("pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {\n".to_string().as_bytes()).unwrap();
     #[derive(Clone)]
     struct PacketAndVersion {id: String, version: Option<u32>, struct_name: String}
@@ -665,7 +665,7 @@ fn field_length(field: &StructField) -> String {
     if field.length > -1 { (field.length).to_string() } else { "buffer.len()".to_string() }
 }
 
-fn packet_id(packet_id: &String) -> String {
+fn packet_id(packet_id: &str) -> String {
     let id = format!("{:0>4}", packet_id.replace("0x", ""));
     let (first_byte, second_byte) = id.split_at(2);
     format!("0x{second_byte}{first_byte}") // packet id in db are in Little Endian

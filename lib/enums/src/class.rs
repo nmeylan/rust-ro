@@ -101,32 +101,27 @@ pub enum JobName {
 
 impl JobName {
     pub fn is_rebirth(&self) -> bool {
-        match self {
+        matches!(self,
             JobName::NoviceHigh | JobName::SwordsmanHigh | JobName::MageHigh | JobName::ArcherHigh
             | JobName::AcolyteHigh | JobName::MerchantHigh | JobName::ThiefHigh | JobName::LordKnight | JobName::HighPriest
             | JobName::HighWizard | JobName::Whitesmith | JobName::Sniper | JobName::AssassinCross | JobName::Paladin
-            | JobName::Champion | JobName::Professor | JobName::Stalker | JobName::Creator | JobName::Clown | JobName::Gypsy => true,
-            _ => false,
-        }
+            | JobName::Champion | JobName::Professor | JobName::Stalker | JobName::Creator | JobName::Clown | JobName::Gypsy
+        )
     }
     pub fn is_novice(&self) -> bool {
-        match self {
-            JobName::NoviceHigh | JobName::Novice | JobName::SuperNovice => true,
-            _ => false
-        }
+        matches!(self, JobName::NoviceHigh | JobName::Novice | JobName::SuperNovice)
     }
     pub fn is_first_class(&self) -> bool {
-        match self {
+        matches!(self,
             JobName::Swordsman | JobName::Mage | JobName::Archer | JobName::Acolyte
             | JobName::Merchant | JobName::Thief | JobName::BabySwordman | JobName::BabyMage
             | JobName::BabyArcher | JobName::BabyAcolyte | JobName::BabyMerchant | JobName::BabyThief
             | JobName::SwordsmanHigh | JobName::MageHigh | JobName::ArcherHigh
-            | JobName::AcolyteHigh | JobName::MerchantHigh | JobName::ThiefHigh => true,
-            _ => false,
-        }
+            | JobName::AcolyteHigh | JobName::MerchantHigh | JobName::ThiefHigh
+        )
     }
     pub fn is_second_class(&self) -> bool {
-        match self {
+        matches!(self,
             JobName::Knight | JobName::Priest | JobName::Wizard
             | JobName::Blacksmith | JobName::Hunter | JobName::Assassin | JobName::Crusader | JobName::Monk
             | JobName::Sage | JobName::Rogue | JobName::Alchemist | JobName::Bard | JobName::Dancer
@@ -135,21 +130,15 @@ impl JobName {
             | JobName::BabySage | JobName::BabyRogue | JobName::BabyAlchemist
             | JobName::LordKnight | JobName::HighPriest
             | JobName::HighWizard | JobName::Whitesmith | JobName::Sniper | JobName::AssassinCross | JobName::Paladin
-            | JobName::Champion | JobName::Professor | JobName::Stalker | JobName::Creator | JobName::Clown | JobName::Gypsy => true,
-            _ => false,
-        }
+            | JobName::Champion | JobName::Professor | JobName::Stalker | JobName::Creator | JobName::Clown | JobName::Gypsy
+        )
     }
     pub fn is_gunslinger_ninja(&self) -> bool {
-        match self {
-            JobName::Gunslinger | JobName::Ninja => true,
-            _ => false,
-        }
+        matches!(self,JobName::Gunslinger | JobName::Ninja
+        )
     }
     pub fn is_taekwon(&self) -> bool {
-        match self {
-            JobName::Taekwon | JobName::StarGladiator | JobName::SoulLinker => true,
-            _ => false,
-        }
+        matches!(self,JobName::Taekwon | JobName::StarGladiator | JobName::SoulLinker)
     }
 
     pub fn mask(&self) -> u64 {
@@ -157,8 +146,8 @@ impl JobName {
             // 1-1
             JobName::Novice | JobName::SuperNovice | JobName::NoviceHigh => 1,
             JobName::Swordsman | JobName::SwordsmanHigh | JobName::Knight | JobName::Crusader | JobName::BabyKnight | JobName::BabyCrusader | JobName::LordKnight | JobName::Paladin => 2,
-            JobName::Mage | JobName::MageHigh |JobName::Wizard | JobName::Sage | JobName::BabyWizard | JobName::BabySage | JobName::HighWizard | JobName::Professor => 4,
-            JobName::Archer | JobName::ArcherHigh |JobName::Hunter | JobName::Bard | JobName::Dancer | JobName::BabyHunter | JobName::BabyBard | JobName::BabyDancer | JobName::Sniper | JobName::Clown | JobName::Gypsy => 8,
+            JobName::Mage | JobName::MageHigh | JobName::Wizard | JobName::Sage | JobName::BabyWizard | JobName::BabySage | JobName::HighWizard | JobName::Professor => 4,
+            JobName::Archer | JobName::ArcherHigh | JobName::Hunter | JobName::Bard | JobName::Dancer | JobName::BabyHunter | JobName::BabyBard | JobName::BabyDancer | JobName::Sniper | JobName::Clown | JobName::Gypsy => 8,
             JobName::Acolyte | JobName::AcolyteHigh | JobName::Priest | JobName::Monk | JobName::BabyPriest | JobName::BabyMonk | JobName::HighPriest | JobName::Champion => 16,
             JobName::Merchant | JobName::MerchantHigh | JobName::Blacksmith | JobName::Alchemist | JobName::BabyBlacksmith | JobName::BabyAlchemist | JobName::Creator | JobName::Whitesmith => 32,
             JobName::Thief | JobName::ThiefHigh | JobName::Assassin | JobName::Rogue | JobName::BabyAssassin | JobName::BabyRogue | JobName::AssassinCross | JobName::Stalker => 64,
@@ -269,7 +258,7 @@ impl JobName {
 
         if mask == JOB_2_2_MASK | 2 { return Some(JobName::Crusader); }
         if mask == JOB_2_2_MASK | 4 { return Some(JobName::Sage); }
-        if mask == JOB_2_2_MASK | 8 { if is_male { return Some(JobName::Bard) } else { return Some(JobName::Dancer) } }
+        if mask == JOB_2_2_MASK | 8 { return if is_male { Some(JobName::Bard) } else { Some(JobName::Dancer) } }
         if mask == JOB_2_2_MASK | 16 { return Some(JobName::Monk); }
         if mask == JOB_2_2_MASK | 32 { return Some(JobName::Alchemist); }
         if mask == JOB_2_2_MASK | 64 { return Some(JobName::Rogue); }
@@ -292,7 +281,7 @@ impl JobName {
 
         if mask == JOB_TRANS_2_2_MASK | 2 { return Some(JobName::Paladin); }
         if mask == JOB_TRANS_2_2_MASK | 4 { return Some(JobName::Professor); }
-        if mask == JOB_TRANS_2_2_MASK | 8 { if is_male { return Some(JobName::Clown) } else { return Some(JobName::Gypsy) } }
+        if mask == JOB_TRANS_2_2_MASK | 8 { return if is_male { Some(JobName::Clown) } else { Some(JobName::Gypsy) } }
         if mask == JOB_TRANS_2_2_MASK | 16 { return Some(JobName::Champion); }
         if mask == JOB_TRANS_2_2_MASK | 32 { return Some(JobName::Creator); }
         if mask == JOB_TRANS_2_2_MASK | 64 { return Some(JobName::Stalker); }
@@ -314,7 +303,7 @@ impl JobName {
 
         if mask == JOB_BABY_MASK | JOB_2_2_MASK | 2 { return Some(JobName::BabyCrusader); }
         if mask == JOB_BABY_MASK | JOB_2_2_MASK | 4 { return Some(JobName::BabySage); }
-        if mask == JOB_BABY_MASK | JOB_2_2_MASK | 8 { if is_male { return Some(JobName::BabyBard) } else { return Some(JobName::BabyDancer) } }
+        if mask == JOB_BABY_MASK | JOB_2_2_MASK | 8 { return if is_male { Some(JobName::BabyBard) } else { Some(JobName::BabyDancer) } }
         if mask == JOB_BABY_MASK | JOB_2_2_MASK | 16 { return Some(JobName::BabyMonk); }
         if mask == JOB_BABY_MASK | JOB_2_2_MASK | 32 { return Some(JobName::BabyAlchemist); }
         if mask == JOB_BABY_MASK | JOB_2_2_MASK | 64 { return Some(JobName::BabyRogue); }

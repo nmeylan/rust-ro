@@ -47,7 +47,7 @@ impl PlayerScriptHandler {
             packet_zc_pc_sell_itemlist.set_packet_length((PacketZcPcSellItemlist::base_len(self.configuration_service.packetver()) + packets_sell_items.len() * SellItem::base_len(self.configuration_service.packetver())) as i16);
             packet_zc_pc_sell_itemlist.set_item_list(packets_sell_items.clone());
             packet_zc_pc_sell_itemlist.fill_raw();
-            self.client_notification_channel.send(Notification::Char(CharNotification::new(char_id, packet_zc_pc_sell_itemlist.raw)));
+            self.client_notification_channel.send(Notification::Char(CharNotification::new(char_id, packet_zc_pc_sell_itemlist.raw))).unwrap();
             self.await_player_click_on_sell(&mut packets_sell_items);
             return true;
 

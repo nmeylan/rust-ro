@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::fmt::Debug;
 use std::sync::Arc;
 use packets::packets::{Packet};
@@ -6,7 +8,6 @@ use crate::server::model::events::client_notification::{AreaNotificationRangeTyp
 
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::tasks_queue::TasksQueue;
-
 
 pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug + Clone>(task_queue: Arc<TasksQueue<T>>, expected_event: T, tick: usize) {
     let mut events = vec![];
@@ -50,7 +51,7 @@ pub fn task_queue_not_contains_event<T: PartialEq + Debug+ Clone>(task_queue: Ar
         }
     }
     for event in events {
-        if matches!(&event, _expected_event) {
+        if matches!(&event, expected_event) {
             assert!(false, "Expected {event:?} to not match any event, but matched: {expected_event:?}");
             return;
         }

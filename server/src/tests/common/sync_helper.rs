@@ -1,7 +1,7 @@
+#![allow(dead_code)]
 use std::backtrace::Backtrace;
 use std::sync::{Arc, Condvar, Mutex};
 use std::time::Duration;
-
 
 
 #[derive(Debug, Clone)]
@@ -27,7 +27,7 @@ impl CountDownLatch {
     }
 
     pub fn wait(&self) {
-        self.cvar.wait_while(self.count.lock().unwrap(), |count| { *count > 0 }).unwrap();
+        let _unused = self.cvar.wait_while(self.count.lock().unwrap(), |count| { *count > 0 }).unwrap();
     }
 
     pub fn wait_with_timeout(&self, duration: Duration) {
@@ -61,7 +61,7 @@ impl IncrementLatch {
     }
 
     pub fn wait_expected_count(&self, expected_count: usize) {
-        self.cvar.wait_while(self.count.lock().unwrap(), |count| { *count != expected_count }).unwrap();
+        let _unused = self.cvar.wait_while(self.count.lock().unwrap(), |count| { *count != expected_count }).unwrap();
     }
 
     pub fn wait_expected_count_with_timeout(&self, expected_count: usize, duration: Duration) {

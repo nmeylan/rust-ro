@@ -13,6 +13,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 static mut SERVICE_INSTANCE: Option<ScriptService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
+#[allow(dead_code)]
 pub struct ScriptService {
     client_notification_sender: SyncSender<Notification>,
     configuration_service: &'static GlobalConfigService,

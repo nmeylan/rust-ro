@@ -102,7 +102,7 @@ impl InventoryService {
     }
 
     pub fn character_sell_items(&self,  runtime: &Runtime, character: &mut Character, remove_items: CharacterRemoveItems) {
-        self.remove_item_from_inventory(runtime, remove_items, character);
+        self.remove_item_from_inventory(runtime, remove_items, character).unwrap();
     }
 
     pub fn character_drop_items(&self,  runtime: &Runtime, character: &mut Character, remove_items: CharacterRemoveItems, map_instance: &MapInstance) {
@@ -268,7 +268,7 @@ impl InventoryService {
         None
     }
 
-    pub fn equip_item<'a>(&self, character: &'a mut Character, character_equip_item: CharacterEquipItem) {
+    pub fn equip_item(&self, character: &mut Character, character_equip_item: CharacterEquipItem) {
         let mut packet_zc_req_wear_equip_ack = PacketZcReqWearEquipAck2::new(self.configuration_service.packetver());
         let index = character_equip_item.index;
         packet_zc_req_wear_equip_ack.set_index(index as u16);

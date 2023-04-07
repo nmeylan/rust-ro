@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::service::battle_service::BattleService;
@@ -45,7 +47,7 @@ mod tests {
         // Given
         let context = before_each();
         #[derive(Debug)]
-        struct Stats<'a> { weapon: &'a str, agi: u16, dex: u16, str: u16, luk: u16, mob: &'a str, min_damage: u32, max_damage: u32, average_damage: u32 };
+        struct Stats<'a> { weapon: &'a str, agi: u16, dex: u16, str: u16, luk: u16, mob: &'a str, min_damage: u32, max_damage: u32, average_damage: u32 }
         let stats = vec![
             Stats { weapon: "Knife", agi: 1, dex: 5, str: 5, luk: 1, mob: "LUNATIC", min_damage: 8, max_damage: 19, average_damage: 13 },
         ];
@@ -80,7 +82,7 @@ mod tests {
     fn test_damage_weapon_attack_should_depend_on_dex() {
         // Given
         let context = before_each();#[derive(Debug)]
-        struct Stats<'a> { weapon: &'a str, dex: u16, average_damage: u32 };
+        struct Stats<'a> { weapon: &'a str, dex: u16, average_damage: u32 }
         let stats = vec![
             Stats { weapon: "Knife", dex: 1, average_damage: 9 },
             Stats { weapon: "Knife", dex: 100, average_damage: 17 },

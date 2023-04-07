@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::service::global_config_service::GlobalConfigService;
@@ -54,7 +55,7 @@ mod tests {
         // Given
         let context = before_each();
         #[derive(Debug)]
-        struct Stats<'a> { weapon: &'a str, agi: u16, dex: u16, job: &'a str, expected_aspd: u16 };
+        struct Stats<'a> { weapon: &'a str, agi: u16, dex: u16, job: &'a str, expected_aspd: u16 }
         let stats = vec![
             Stats { weapon: "", agi: 1, dex: 1, job: "Novice", expected_aspd: 150 },
             Stats { weapon: "Knife", agi: 1, dex: 1, job: "Novice", expected_aspd: 135 },
@@ -109,7 +110,7 @@ mod tests {
         // Given
         let context = before_each();
         #[derive(Debug)]
-        struct Stats<'a> { weapon: &'a str, str: u16, dex: u16, luk: u16, expected_status_atk: i32 };
+        struct Stats<'a> { weapon: &'a str, str: u16, dex: u16, luk: u16, expected_status_atk: i32 }
         let stats = vec![
             Stats { weapon: "Knife", str: 1, dex: 1, luk: 1, expected_status_atk: 18 },
             Stats { weapon: "Knife", str: 5, dex: 1, luk: 1, expected_status_atk: 22 },
