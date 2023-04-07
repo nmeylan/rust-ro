@@ -28,6 +28,7 @@ use crate::server::Server;
 
 use skill::SkillService;
 use crate::repository::ItemRepository;
+use crate::server::request_handler::atcommand::handle_set_job;
 
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
@@ -477,6 +478,9 @@ impl NativeMethodHandler for PlayerScriptHandler {
         } else if native.name.eq("checkfalcon") {
             warn!("checkfalcon returns false because feature is not implemented yet");
             execution_thread.push_constant_on_stack(value::Value::new_number(0));
+        } else if native.name.eq("jobchange") {
+            let job = params[0].number_value().expect("Expected jobchange argument 0 to be a number");
+            handle_set_job(self.server.clone().as_ref(), self.session.clone(), &self.runtime, vec![job.to_string().as_ref()]);
         } else {
             if self.handle_shop(native, params, execution_thread, call_frame) {
                 return;
