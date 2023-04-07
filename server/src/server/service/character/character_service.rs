@@ -642,8 +642,8 @@ impl CharacterService {
         packet_exp_required_to_reach_next_base_level.set_count(self.next_base_level_required_exp(&character.status) as i32);
         packet_exp_required_to_reach_next_base_level.fill_raw();
         let mut packet_exp_required_to_reach_next_job_level = PacketZcParChange::new(self.configuration_service.packetver());
-        packet_exp_required_to_reach_next_job_level.set_var_id(StatusTypes::Nextbaseexp.value() as u16);
-        packet_exp_required_to_reach_next_job_level.set_count(self.next_base_level_required_exp(&character.status) as i32);
+        packet_exp_required_to_reach_next_job_level.set_var_id(StatusTypes::Nextjobexp.value() as u16);
+        packet_exp_required_to_reach_next_job_level.set_count(self.next_job_level_required_exp(&character.status) as i32);
         packet_exp_required_to_reach_next_job_level.fill_raw();
 
 
