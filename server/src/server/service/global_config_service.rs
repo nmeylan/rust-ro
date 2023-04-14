@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::sync::{Once};
 use crate::repository::model::item_model::ItemModel;
 use crate::repository::model::mob_model::MobModel;
-use crate::server::model::configuration::{Config, JobConfig, SkillConfig};
+use crate::server::model::configuration::{Config, JobConfig, JobSkillTree, SkillConfig};
 use crate::server::model::map::Map;
 
 static mut SERVICE_INSTANCE: Option<GlobalConfigService> = None;
@@ -15,6 +15,7 @@ pub struct GlobalConfigService {
     mobs: HashMap<u32, MobModel>,
     mobs_name_id: HashMap<String, u32>,
     jobs: Vec<JobConfig>,
+    jobs_skills_tree: Vec<JobSkillTree>,
     skills: HashMap<u32, SkillConfig>,
     skills_name_id: HashMap<String, u32>,
     maps: HashMap<String, Map>,
@@ -34,12 +35,13 @@ impl GlobalConfigService {
                 mobs: HashMap<u32, MobModel>,
                 mobs_name_id: HashMap<String, u32>,
                 jobs: Vec<JobConfig>,
+                jobs_skills_tree: Vec<JobSkillTree>,
                 skills: HashMap<u32, SkillConfig>,
                 skills_name_id: HashMap<String, u32>,
                 maps: HashMap<String, Map>,
     ) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(GlobalConfigService { configuration, items, items_name_id, mobs, mobs_name_id, jobs, skills, skills_name_id, maps });
+            SERVICE_INSTANCE = Some(GlobalConfigService { configuration, items, items_name_id, mobs, mobs_name_id, jobs, jobs_skills_tree, skills, skills_name_id, maps });
         });
     }
 
