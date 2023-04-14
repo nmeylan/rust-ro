@@ -97,6 +97,7 @@ pub async fn main() {
         skill_configs_id_name.insert(skill_config.name.clone(), skill_config.id);
     });
     let job_configs = Config::load_jobs_config(".").unwrap();
+    let job_skills_tree = Config::load_jobs_skill_tree(".").unwrap();
 
     let mut items_id_name: HashMap<String, u32> = Default::default();
     items.iter().for_each(|item| {
@@ -125,6 +126,7 @@ pub async fn main() {
                                   mobs.into_iter().map(|mob| (mob.id as u32, mob)).collect(),
                                   mobs_id_name,
                                   job_configs,
+                                  job_skills_tree,
                                   skills_config,
                                   skill_configs_id_name,
                                   maps

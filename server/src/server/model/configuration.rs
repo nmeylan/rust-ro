@@ -399,6 +399,38 @@ struct InternalSkillItemCost {
     level: Option<u32>,
 }
 
+#[derive(Deserialize, Default, Debug, SettersAll, Clone)]
+struct InternalJobsSkillTreeConfig {
+    jobs_tree: HashMap<String, InternalSkillsTreeConfig>
+}
+
+#[derive(Deserialize, Default, Debug, SettersAll, Clone)]
+struct InternalSkillsTreeConfig {
+    tree: Option<Vec<SkillInTree>>,
+    inherit: Option<Vec<String>>
+}
+
+#[derive(Deserialize, Default, Debug, SettersAll, GettersAll, Clone)]
+pub struct SkillInTree {
+    name: String,
+    #[serde(rename = "maxLevel")]
+    max_level: u8,
+    requires: Option<Vec<SkillTreeRequirement>>
+}
+
+#[derive(Deserialize, Default, Debug, SettersAll, GettersAll, Clone)]
+pub struct SkillTreeRequirement {
+    name: String,
+    level: u8
+}
+
+#[derive(Deserialize, Default, Debug, SettersAll, GettersAll, Clone)]
+pub struct JobSkillTree {
+    name: String,
+    tree: Vec<SkillInTree>,
+    parent_skills: HashMap<String, Vec<SkillInTree>>,
+}
+
 impl Config {
     pub fn load() -> Result<Config, String> {
         let path = Path::new("config.json");
@@ -486,6 +518,33 @@ impl Config {
             });
         }
         Ok(job_configs)
+    }
+
+    pub fn load_jobs_skill_tree(root: &str) -> Result<Vec<JobSkillTree>, String> {
+        let path = Path::new(root).join("config/skill_tree.json");
+        if !path.exists() {
+            return Err(format!("config/job.json file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
+        }
+        let internal_jobs_skill_tree_config: InternalJobsSkillTreeConfig = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        let mut jobs_skill_tree: Vec<JobSkillTree> = vec![];
+        for (name, config) in internal_jobs_skill_tree_config.jobs_tree.iter() {
+            jobs_skill_tree.push(JobSkillTree {
+                name: name.to_string(),
+                tree: config.tree.as_ref().unwrap_or(&vec![]).clone(),
+                parent_skills: Default::default()
+            });
+        }
+        for (name, config) in internal_jobs_skill_tree_config.jobs_tree.iter() {
+            if let Some(inherit) = &config.inherit {
+                let parent_trees = jobs_skill_tree.iter().filter(|job_tree| inherit.contains(&job_tree.name))
+                    .map(|job_tree| job_tree.clone()).collect::<Vec<JobSkillTree>>();
+                let job_tree = jobs_skill_tree.iter_mut().find(|job_tree| job_tree.name.eq(name)).unwrap();
+                for parent_tree in  parent_trees {
+                    job_tree.parent_skills.insert(parent_tree.name, parent_tree.tree);
+                }
+            }
+        }
+        Ok(jobs_skill_tree)
     }
 
     pub fn load_skills_config(root: &str) -> Result<HashMap<u32, SkillConfig>, String> {

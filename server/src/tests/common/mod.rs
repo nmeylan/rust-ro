@@ -138,6 +138,7 @@ pub fn before_all() {
         });
 
         let job_configs = Config::load_jobs_config("..").unwrap();
+        let job_skills_tree = Config::load_jobs_skill_tree("..").unwrap();
         let config = unsafe { CONFIGS.clone().unwrap() };
         crate::GlobalConfigService::init(config,
                                          items.into_iter().map(|item| (item.id as u32, item)).collect(),
@@ -145,6 +146,7 @@ pub fn before_all() {
                                          mobs.into_iter().map(|mob| (mob.id as u32, mob)).collect(),
                                          mobs_id_name,
                                          job_configs,
+                                         job_skills_tree,
                                          skills_config,
                                          skill_configs_id_name, Default::default());
     });
