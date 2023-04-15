@@ -119,36 +119,23 @@ pub fn before_all() {
             CONFIGS = Some(config);
         }
         let skills_config = Config::load_skills_config("..").unwrap();
-        let mut skill_configs_id_name: HashMap<String, u32> = Default::default();
-        skills_config.values().for_each(|skill_config| {
-            skill_configs_id_name.insert(skill_config.name.clone(), skill_config.id);
-        });
-        let mut items_id_name: HashMap<String, u32> = Default::default();
+
         let item_models = serde_json::from_str::<ItemModels>(&fs::read_to_string("../config/items.json").unwrap());
         let items: Vec<ItemModel> = item_models.unwrap().into();
-        items.iter().for_each(|item| {
-            items_id_name.insert(item.name_aegis.clone(), item.id as u32);
-        });
 
-        let mut mobs_id_name: HashMap<String, u32> = Default::default();
         let mob_models = serde_json::from_str::<MobModels>(&fs::read_to_string("../config/mobs.json").unwrap());
         let mobs: Vec<MobModel> = mob_models.unwrap().into();
-        mobs.iter().for_each(|mob| {
-            mobs_id_name.insert(mob.name.clone(), mob.id as u32);
-        });
 
         let job_configs = Config::load_jobs_config("..").unwrap();
         let job_skills_tree = Config::load_jobs_skill_tree("..").unwrap();
         let config = unsafe { CONFIGS.clone().unwrap() };
         crate::GlobalConfigService::init(config,
-                                         items.into_iter().map(|item| (item.id as u32, item)).collect(),
-                                         items_id_name,
-                                         mobs.into_iter().map(|mob| (mob.id as u32, mob)).collect(),
-                                         mobs_id_name,
+                                         items,
+                                         mobs,
                                          job_configs,
                                          job_skills_tree,
                                          skills_config,
-                                         skill_configs_id_name, Default::default());
+                                         Default::default());
     });
     // unsafe { GlobalConfigService::instance_mut().set_config(CONFIGS.clone().unwrap()); }
 }

@@ -24,6 +24,7 @@ impl SkillService {
     pub fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService) -> Self {
         Self { client_notification_sender, configuration_service }
     }
+
     pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
             SERVICE_INSTANCE = Some(SkillService { client_notification_sender, configuration_service });
