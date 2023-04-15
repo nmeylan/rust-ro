@@ -12,7 +12,6 @@
     "drop_rate_mvp": 1.0,
     "max_base_level": 99,
     "max_inventory": 100,
-    "max_job_level": 70,
     "mob_density": 1.0,
     "max_stat_level": 99,
     "base_exp_rate": 1.0,

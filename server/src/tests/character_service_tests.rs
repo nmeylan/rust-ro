@@ -353,7 +353,7 @@ mod tests {
     }
 
     #[test]
-    fn test_update_base_level_should_reset_stats_when_leveling_down_and_allocated_point_higher_than_expected() {
+    fn test_update_base_level_should_reset_stats_when_leveling_down_and_has_allocated_more_status_point_than_supported_by_the_level() {
         // Given
         let context = before_each(mocked_repository());
         struct Scenarii<'a> {
@@ -415,31 +415,36 @@ mod tests {
     fn test_update_job_level_should_be_bound_by_min_and_max_level() {
         // Given
         let context = before_each(mocked_repository());
-        let mut character = create_character();
-        // When
-        context.character_service.update_job_level(&mut character, Some(68), None);
-        // Then
-        assert_eq!(character.status.job_level, 68);
-        // When
-        context.character_service.update_job_level(&mut character, Some(788), None);
-        // Then
-        assert_eq!(character.status.job_level, 70);
-        // When
-        context.character_service.update_job_level(&mut character, None, Some(-6));
-        // Then
-        assert_eq!(character.status.job_level, 64);
-        // When
-        context.character_service.update_job_level(&mut character, None, Some(5));
-        // Then
-        assert_eq!(character.status.job_level, 69);
-        // When
-        context.character_service.update_job_level(&mut character, None, Some(-150));
-        // Then
-        assert_eq!(character.status.job_level, 1);
-        // When
-        context.character_service.update_job_level(&mut character, Some(66), Some(10));
-        // Then
-        assert_eq!(character.status.job_level, 66);
+        struct Scenarii {
+            job: usize,
+            job_level: u32,
+            maybe_new_job_level: Option<u32>,
+            maybe_job_level_delta: Option<i32>,
+            expected: u32
+        }
+        let scenario = vec![
+            Scenarii { job: JobName::Paladin.value(), job_level: 1, maybe_new_job_level: Some(68), maybe_job_level_delta: None, expected: 68 },
+            Scenarii { job: JobName::Paladin.value(), job_level: 68, maybe_new_job_level: Some(788), maybe_job_level_delta: None, expected: 70 },
+            Scenarii { job: JobName::Paladin.value(), job_level: 70, maybe_new_job_level: None, maybe_job_level_delta: Some(-6), expected: 64 },
+            Scenarii { job: JobName::Paladin.value(), job_level: 64, maybe_new_job_level: None, maybe_job_level_delta: Some(5), expected: 69 },
+            Scenarii { job: JobName::Paladin.value(), job_level: 69, maybe_new_job_level: None, maybe_job_level_delta: Some(-150), expected: 1 },
+            Scenarii { job: JobName::Paladin.value(), job_level: 1, maybe_new_job_level: Some(66), maybe_job_level_delta: Some(10), expected: 66 },
+            Scenarii { job: JobName::Novice.value(), job_level: 1, maybe_new_job_level: Some(15), maybe_job_level_delta: None, expected: 10 },
+            Scenarii { job: JobName::Archer.value(), job_level: 1, maybe_new_job_level: Some(60), maybe_job_level_delta: None, expected: 50 },
+            Scenarii { job: JobName::Bard.value(), job_level: 1, maybe_new_job_level: Some(60), maybe_job_level_delta: None, expected: 50 },
+            Scenarii { job: JobName::NoviceHigh.value(), job_level: 1, maybe_new_job_level: Some(60), maybe_job_level_delta: None, expected: 10 },
+            Scenarii { job: JobName::ArcherHigh.value(), job_level: 1, maybe_new_job_level: Some(60), maybe_job_level_delta: None, expected: 50 },
+            Scenarii { job: JobName::Clown.value(), job_level: 1, maybe_new_job_level: Some(80), maybe_job_level_delta: None, expected: 70 },
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.job_level = scenarii.job_level;
+            character.status.job = scenarii.job as u32;
+            // When
+            context.character_service.update_job_level(&mut character, scenarii.maybe_new_job_level, scenarii.maybe_job_level_delta);
+            // Then
+            assert_eq!(character.status.job_level, scenarii.expected, "Expected character of class {} to be level {} but was {}", scenarii.job, scenarii.expected, character.status.job_level);
+        }
     }
 
     #[test]
@@ -447,6 +452,7 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
+        character.status.job = JobName::Paladin.value() as u32;
         // When
         context.character_service.update_job_level(&mut character, Some(68), None);
         // Then
@@ -459,10 +465,21 @@ mod tests {
     }
 
     #[test]
+    fn test_update_job_level_should_update_skill_point_when_leveling_up_or_down() {
+        // Given
+
+        // When
+
+        // Then
+
+    }
+
+    #[test]
     fn test_update_job_level_should_return_delta() {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
+        character.status.job = JobName::Paladin.value() as u32;
         // When
         let delta = context.character_service.update_job_level(&mut character, Some(68), None);
         // Then
