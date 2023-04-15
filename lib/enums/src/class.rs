@@ -27,6 +27,7 @@ pub enum JobName {
     Blacksmith,
     Hunter,
     Assassin,
+    #[value = 14]
     Crusader,
     Monk,
     Sage,
@@ -73,7 +74,7 @@ pub enum JobName {
     Gypsy,
     #[value = 4023]
     BabyNovice,
-    BabySwordman,
+    BabySwordsman,
     BabyMage,
     BabyArcher,
     BabyAcolyte,
@@ -85,6 +86,7 @@ pub enum JobName {
     BabyBlacksmith,
     BabyHunter,
     BabyAssassin,
+    #[value = 4037]
     BabyCrusader,
     BabyMonk,
     BabySage,
@@ -96,6 +98,7 @@ pub enum JobName {
     SuperBaby,
     Taekwon,
     StarGladiator,
+    #[value = 4049]
     SoulLinker,
 }
 
@@ -109,12 +112,15 @@ impl JobName {
         )
     }
     pub fn is_novice(&self) -> bool {
-        matches!(self, JobName::NoviceHigh | JobName::Novice | JobName::SuperNovice)
+        matches!(self, JobName::NoviceHigh | JobName::Novice | JobName::BabyNovice)
+    }
+    pub fn is_supernovice(&self) -> bool {
+        matches!(self, JobName::SuperNovice | JobName::SuperBaby)
     }
     pub fn is_first_class(&self) -> bool {
         matches!(self,
             JobName::Swordsman | JobName::Mage | JobName::Archer | JobName::Acolyte
-            | JobName::Merchant | JobName::Thief | JobName::BabySwordman | JobName::BabyMage
+            | JobName::Merchant | JobName::Thief | JobName::BabySwordsman | JobName::BabyMage
             | JobName::BabyArcher | JobName::BabyAcolyte | JobName::BabyMerchant | JobName::BabyThief
             | JobName::SwordsmanHigh | JobName::MageHigh | JobName::ArcherHigh
             | JobName::AcolyteHigh | JobName::MerchantHigh | JobName::ThiefHigh
@@ -127,7 +133,7 @@ impl JobName {
             | JobName::Sage | JobName::Rogue | JobName::Alchemist | JobName::Bard | JobName::Dancer
             | JobName::BabyKnight | JobName::BabyPriest | JobName::BabyWizard | JobName::BabyBlacksmith
             | JobName::BabyHunter | JobName::BabyAssassin | JobName::BabyCrusader | JobName::BabyMonk
-            | JobName::BabySage | JobName::BabyRogue | JobName::BabyAlchemist
+            | JobName::BabySage | JobName::BabyRogue | JobName::BabyAlchemist | JobName::BabyBard | JobName::BabyDancer
             | JobName::LordKnight | JobName::HighPriest
             | JobName::HighWizard | JobName::Whitesmith | JobName::Sniper | JobName::AssassinCross | JobName::Paladin
             | JobName::Champion | JobName::Professor | JobName::Stalker | JobName::Creator | JobName::Clown | JobName::Gypsy
@@ -204,7 +210,7 @@ impl JobName {
 
             // Baby
             JobName::BabyNovice
-            | JobName::BabySwordman
+            | JobName::BabySwordsman
             | JobName::BabyMage
             | JobName::BabyArcher
             | JobName::BabyAcolyte
@@ -287,7 +293,7 @@ impl JobName {
         if mask == JOB_TRANS_2_2_MASK | 64 { return Some(JobName::Stalker); }
 
         if mask == JOB_BABY_MASK | 1 { return Some(JobName::BabyNovice); }
-        if mask == JOB_BABY_MASK | 2 { return Some(JobName::BabySwordman); }
+        if mask == JOB_BABY_MASK | 2 { return Some(JobName::BabySwordsman); }
         if mask == JOB_BABY_MASK | 4 { return Some(JobName::BabyMage); }
         if mask == JOB_BABY_MASK | 8 { return Some(JobName::BabyArcher); }
         if mask == JOB_BABY_MASK | 16 { return Some(JobName::BabyAcolyte); }
@@ -404,7 +410,7 @@ impl EquipClassFlag {
             JobName::Paladin => EquipClassFlag::Crusader.as_flag() | EquipClassFlag::Swordsman.as_flag(),
             JobName::LordKnight => EquipClassFlag::Knight.as_flag() | EquipClassFlag::Swordsman.as_flag(),
             JobName::BabyNovice => EquipClassFlag::Novice.as_flag(),
-            JobName::BabySwordman => EquipClassFlag::Swordsman.as_flag(),
+            JobName::BabySwordsman => EquipClassFlag::Swordsman.as_flag(),
             JobName::BabyMage => EquipClassFlag::Mage.as_flag(),
             JobName::BabyArcher => EquipClassFlag::Archer.as_flag(),
             JobName::BabyAcolyte => EquipClassFlag::Acolyte.as_flag(),

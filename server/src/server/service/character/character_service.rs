@@ -213,12 +213,16 @@ impl CharacterService {
         new_base_level as i32 - old_base_level as i32
     }
 
+    pub fn get_job_level_max(&self, character: &mut Character) -> u32 {
+        *self.configuration_service.get_job_config(character.status.job).job_level().maxJobLevel() as u32
+    }
+
     pub fn update_job_level(&self, character: &mut Character, maybe_new_base_level: Option<u32>, maybe_level_delta: Option<i32>) -> i32 {
         let old_job_level = character.status.job_level;
         let new_job_level = if let Some(new_job_level) = maybe_new_base_level {
-            new_job_level.min(self.configuration_service.config().game.max_job_level).max(1)
+            new_job_level.min(self.get_job_level_max(character)).max(1)
         } else if let Some(add_level) = maybe_level_delta {
-            ((old_job_level as i32 + add_level).min(self.configuration_service.config().game.max_job_level as i32).max(1)) as u32
+            ((old_job_level as i32 + add_level).min(self.get_job_level_max(character) as i32).max(1)) as u32
         } else {
             old_job_level
         };

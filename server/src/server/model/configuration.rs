@@ -4,6 +4,8 @@ use std::path::Path;
 use serde::{Deserialize, Deserializer};
 use accessor::Setters;
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
+use enums::class::JobName;
+use crate::enums::EnumWithNumberValue;
 use enums::element::Element;
 use enums::skill::{SkillCastTimeDelayType, SkillCopyType, SkillDamageFlags, SkillDamageType, SkillFlags, SkillRequirement, SkillTargetType, SkillType, SkillUnitType};
 use enums::unit::UnitTargetType;
@@ -39,7 +41,6 @@ pub struct GameConfig {
     pub default_char_speed: u16,
     pub max_inventory: u16,
     pub max_base_level: u32,
-    pub max_job_level: u32,
     pub mob_density: f32,
     pub drop_rate: f32,
     pub drop_rate_mvp: f32,
@@ -70,6 +71,7 @@ pub struct BaseLevelRequirement {
     #[serde(rename = "Transcendent")]
     pub transcendent: Vec<u32>,
 }
+
 #[derive(Deserialize, Default, Debug, SettersAll, Clone)]
 pub struct JobLevelRequirement {
     #[serde(rename = "Novice")]
@@ -140,15 +142,20 @@ pub struct ProxyConfig {
 
 #[derive(Deserialize, Debug, Clone)]
 struct InternalJobsConfig {
+    level: HashMap<String, JobLevel>,
     jobs: HashMap<String, InternalJobConfig>,
+}
+
+#[derive(Deserialize, Debug, Clone, GettersAll)]
+pub struct JobLevel {
+    maxJobLevel: u8,
+    minJobLevelToChangeJob: u8,
 }
 
 #[derive(Deserialize, Debug, Clone)]
 struct InternalJobConfig {
     base_weight: Option<u32>,
     id: Option<u32>,
-    base_exp_group: Option<String>,
-    job_exp_group: Option<String>,
     inherit: Option<String>,
     inherit_sp: Option<String>,
     inherit_hp: Option<String>,
@@ -162,11 +169,10 @@ pub struct JobConfig {
     name: String,
     id: u32,
     base_weight: u32,
-    base_exp_group: String,
-    job_exp_group: String,
     base_hp: Vec<u32>,
     base_sp: Vec<u32>,
     base_aspd: HashMap<String, u32>,
+    job_level: JobLevel,
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -193,28 +199,28 @@ pub struct SkillConfig {
     flags: Option<u64>,
     #[serde(default)]
     range: Option<i32>,
-    #[serde(rename = "rangePerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "rangePerLevel", deserialize_with = "deserialize_tuples", default)]
     range_per_level: Option<Vec<(u32, i32)>>,
     #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
     hit: Option<SkillDamageType>,
     #[serde(rename = "hitCount", default)]
     hit_count: Option<i32>,
-    #[serde(rename = "hitCountPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "hitCountPerLevel", deserialize_with = "deserialize_tuples", default)]
     hit_count_per_level: Option<Vec<(u32, i32)>>,
     #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
     element: Option<Element>,
     element_per_level: Option<Vec<InternalSkillElement>>,
     #[serde(rename = "splashArea", default)]
     splash_area: Option<i32>,
-    #[serde(rename = "splashAreaPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "splashAreaPerLevel", deserialize_with = "deserialize_tuples", default)]
     splash_area_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "activeInstance", default)]
     active_instance: Option<u32>,
-    #[serde(rename = "activeInstancePerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "activeInstancePerLevel", deserialize_with = "deserialize_tuples", default)]
     active_instance_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "knockback", default)]
     knockback: Option<u32>,
-    #[serde(rename = "knockbackPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "knockbackPerLevel", deserialize_with = "deserialize_tuples", default)]
     knockback_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "copyflags", deserialize_with = "deserialize_copy_flags", default)]
     copy_flags: Option<u64>,
@@ -224,31 +230,31 @@ pub struct SkillConfig {
     cast_defense_reduction: u32,
     #[serde(rename = "castTime", default)]
     cast_time: Option<u32>,
-    #[serde(rename = "castTimePerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "castTimePerLevel", deserialize_with = "deserialize_tuples", default)]
     cast_time_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "afterCastActDelay", default)]
     after_cast_act_delay: Option<u32>,
-    #[serde(rename = "afterCastActDelayPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "afterCastActDelayPerLevel", deserialize_with = "deserialize_tuples", default)]
     after_cast_act_delay_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "afterCastActDelay", default)]
     after_cast_walk_delay: Option<u32>,
-    #[serde(rename = "afterCastActDelayPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "afterCastActDelayPerLevel", deserialize_with = "deserialize_tuples", default)]
     after_cast_walk_delay_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "duration1", default)]
     duration1: Option<u32>,
-    #[serde(rename = "duration1PerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "duration1PerLevel", deserialize_with = "deserialize_tuples", default)]
     duration1_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "duration2", default)]
     duration2: Option<u32>,
-    #[serde(rename = "duration2PerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "duration2PerLevel", deserialize_with = "deserialize_tuples", default)]
     duration2_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "cooldown", default)]
     cooldown: Option<u32>,
-    #[serde(rename = "cooldownPerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "cooldownPerLevel", deserialize_with = "deserialize_tuples", default)]
     cooldown_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "fixedCastTime", default)]
     fixed_cast_time: Option<u32>,
-    #[serde(rename = "fixedCastTimePerLevel", deserialize_with =  "deserialize_tuples", default)]
+    #[serde(rename = "fixedCastTimePerLevel", deserialize_with = "deserialize_tuples", default)]
     fixed_cast_time_per_level: Option<Vec<(u32, i32)>>,
     #[serde(rename = "casttimeflags", deserialize_with = "deserialize_skill_cast_time_delay_flags", default)]
     cast_time_flags: Option<u64>,
@@ -327,6 +333,7 @@ fn deserialize_tuples<'de, D>(deserializer: D) -> Result<Option<Vec<(u32, i32)>>
     }).collect::<Vec<(u32, i32)>>();
     Ok(Some(res))
 }
+
 fn deserialize_skills<'de, D>(deserializer: D) -> Result<HashMap<u32, SkillConfig>, D::Error>
     where D: Deserializer<'de> {
     let skills: Vec<SkillConfig> = Deserialize::deserialize(deserializer)?;
@@ -401,25 +408,25 @@ struct InternalSkillItemCost {
 
 #[derive(Deserialize, Default, Debug, SettersAll, Clone)]
 struct InternalJobsSkillTreeConfig {
-    jobs_tree: HashMap<String, InternalSkillsTreeConfig>
+    jobs_tree: HashMap<String, InternalSkillsTreeConfig>,
 }
 
 #[derive(Deserialize, Default, Debug, SettersAll, Clone)]
 struct InternalSkillsTreeConfig {
     tree: Option<Vec<SkillInTree>>,
-    inherit: Option<Vec<String>>
+    inherit: Option<Vec<String>>,
 }
 
 #[derive(Deserialize, Default, Debug, SettersAll, GettersAll, Clone)]
 pub struct SkillInTree {
     name: String,
-    requires: Option<Vec<SkillTreeRequirement>>
+    requires: Option<Vec<SkillTreeRequirement>>,
 }
 
 #[derive(Deserialize, Default, Debug, SettersAll, GettersAll, Clone)]
 pub struct SkillTreeRequirement {
     name: String,
-    level: u8
+    level: u8,
 }
 
 #[derive(Deserialize, Default, Debug, SettersAll, GettersAll, Clone)]
@@ -495,6 +502,7 @@ impl Config {
             return Err(format!("config/job.json file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap()));
         }
         let internal_configs: InternalJobsConfig = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+
         let mut job_configs: Vec<JobConfig> = vec![];
         let default_values = internal_configs.jobs.get("default").expect("Expect jobs.default config");
         for (name, config) in internal_configs.jobs.iter() {
@@ -503,11 +511,30 @@ impl Config {
             }
             let mut base_aspd = Self::resolve_inherited_config(name, config, &internal_configs, "base_aspd", |_conf| None, |conf| conf.base_aspd.clone()).unwrap_or_default();
             default_values.base_aspd.as_ref().expect("Expect jobs.default to have base_aspd").iter().for_each(|(weapon, value)| { base_aspd.entry(weapon.to_string()).or_insert(*value); });
+            let job = JobName::from_value(config.id.unwrap_or_else(|| panic!("Expect job {name} to have id but found none")) as usize);
+            let job_level = if job.is_novice() {
+                internal_configs.level.get("novice").expect("Expect level.novice config").clone()
+            } else if job.is_first_class() && job.is_rebirth() {
+                internal_configs.level.get("firstClassHigh").expect("Expect level.novice config").clone()
+            } else if job.is_second_class() && job.is_rebirth() {
+                internal_configs.level.get("secondClassHigh").expect("Expect level.novice config").clone()
+            } else if job.is_first_class() && !job.is_rebirth() {
+                internal_configs.level.get("firstClass").expect("Expect level.novice config").clone()
+            } else if job.is_second_class() && !job.is_rebirth() {
+                internal_configs.level.get("secondClass").expect("Expect level.novice config").clone()
+            } else if job.is_taekwon() {
+                internal_configs.level.get("taekwon").expect("Expect level.novice config").clone()
+            } else if job.is_gunslinger_ninja() {
+                internal_configs.level.get("gunslingerNinja").expect("Expect level.novice config").clone()
+            } else if job.is_supernovice() {
+                internal_configs.level.get("superNovice").expect("Expect level.novice config").clone()
+            } else {
+                panic!("Can't find job level configuration for job {}::{}", name, job.value());
+            };
             job_configs.push(JobConfig {
-                id: config.id.unwrap_or_else(|| panic!("Expect job {name} to have id but found none")),
+                id: job.value() as u32,
                 name: name.clone(),
-                base_exp_group: config.base_exp_group.as_ref().unwrap().clone(),
-                job_exp_group: config.job_exp_group.as_ref().unwrap().clone(),
+                job_level,
                 base_weight: Self::resolve_inherited_config(name, config, &internal_configs, "base_weight", |_conf| None, |conf| conf.base_weight)
                     .or_else(|| Some(default_values.base_weight.expect("Expect jobs.default to have base_weight"))).unwrap(),
                 base_hp: Self::resolve_inherited_config(name, config, &internal_configs, "inherit_hp", |conf| conf.inherit_hp.as_ref(), |conf| conf.base_hp.clone()).unwrap_or_else(|| panic!("job config for class {name}: expected to find property base_hp")),
@@ -529,7 +556,7 @@ impl Config {
             jobs_skill_tree.push(JobSkillTree {
                 name: name.to_string(),
                 tree: config.tree.as_ref().unwrap_or(&vec![]).clone(),
-                parent_skills: Default::default()
+                parent_skills: Default::default(),
             });
         }
         for (name, config) in internal_jobs_skill_tree_config.jobs_tree.iter() {
@@ -537,7 +564,7 @@ impl Config {
                 let parent_trees = jobs_skill_tree.iter().filter(|job_tree| inherit.contains(&job_tree.name))
                     .map(|job_tree| job_tree.clone()).collect::<Vec<JobSkillTree>>();
                 let job_tree = jobs_skill_tree.iter_mut().find(|job_tree| job_tree.name.eq(name)).unwrap();
-                for parent_tree in  parent_trees {
+                for parent_tree in parent_trees {
                     job_tree.parent_skills.insert(parent_tree.name, parent_tree.tree);
                 }
             }
@@ -573,5 +600,4 @@ impl Config {
     pub fn packetver(&self) -> u32 {
         self.server.packetver
     }
-
 }
