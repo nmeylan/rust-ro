@@ -92,21 +92,9 @@ pub async fn main() {
         file.write_all(json.as_bytes()).unwrap();
     }
     let skills_config = Config::load_skills_config(".").unwrap();
-    let mut skill_configs_id_name: HashMap<String, u32> = Default::default();
-    skills_config.values().for_each(|skill_config| {
-        skill_configs_id_name.insert(skill_config.name.clone(), skill_config.id);
-    });
     let job_configs = Config::load_jobs_config(".").unwrap();
     let job_skills_tree = Config::load_jobs_skill_tree(".").unwrap();
 
-    let mut items_id_name: HashMap<String, u32> = Default::default();
-    items.iter().for_each(|item| {
-        items_id_name.insert(item.name_aegis.clone(), item.id as u32);
-    });
-    let mut mobs_id_name: HashMap<String, u32> = Default::default();
-    mobs.iter().for_each(|mob| {
-        mobs_id_name.insert(mob.name.clone(), mob.id as u32);
-    });
 
     Compiler::compile("a".to_string(), "- script _MainScript -1, {\n function a{return getarg(0) + 1;}\n
     .@a = a(a(a(a(1)))); \n}", "native_functions_list.txt", 0).unwrap();
@@ -121,14 +109,11 @@ pub async fn main() {
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
     unsafe {
         GlobalConfigService::init(CONFIGS.clone().unwrap(),
-                                  items.into_iter().map(|item| (item.id as u32, item)).collect(),
-                                  items_id_name,
-                                  mobs.into_iter().map(|mob| (mob.id as u32, mob)).collect(),
-                                  mobs_id_name,
+                                  items,
+                                  mobs,
                                   job_configs,
                                   job_skills_tree,
                                   skills_config,
-                                  skill_configs_id_name,
                                   maps
         );
     }

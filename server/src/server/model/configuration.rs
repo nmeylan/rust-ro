@@ -413,8 +413,6 @@ struct InternalSkillsTreeConfig {
 #[derive(Deserialize, Default, Debug, SettersAll, GettersAll, Clone)]
 pub struct SkillInTree {
     name: String,
-    #[serde(rename = "maxLevel")]
-    max_level: u8,
     requires: Option<Vec<SkillTreeRequirement>>
 }
 

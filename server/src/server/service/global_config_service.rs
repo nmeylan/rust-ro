@@ -30,18 +30,33 @@ impl GlobalConfigService {
     }
 
     pub fn init(configuration: Config,
-                items: HashMap<u32, ItemModel>,
-                items_name_id: HashMap<String, u32>,
-                mobs: HashMap<u32, MobModel>,
-                mobs_name_id: HashMap<String, u32>,
+                items: Vec<ItemModel>,
+                mobs: Vec<MobModel>,
                 jobs: Vec<JobConfig>,
                 jobs_skills_tree: Vec<JobSkillTree>,
                 skills: HashMap<u32, SkillConfig>,
-                skills_name_id: HashMap<String, u32>,
                 maps: HashMap<String, Map>,
     ) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(GlobalConfigService { configuration, items, items_name_id, mobs, mobs_name_id, jobs, jobs_skills_tree, skills, skills_name_id, maps });
+
+            let mut items_name_id: HashMap<String, u32> = Default::default();
+            items.iter().for_each(|item| {
+                items_name_id.insert(item.name_aegis.clone(), item.id as u32);
+            });
+
+            let mut mobs_name_id: HashMap<String, u32> = Default::default();
+            mobs.iter().for_each(|mob| {
+                mobs_name_id.insert(mob.name.clone(), mob.id as u32);
+            });
+            let mut skills_name_id: HashMap<String, u32> = Default::default();
+            skills.values().for_each(|skill_config| {
+                skills_name_id.insert(skill_config.name.clone(), skill_config.id);
+            });
+            SERVICE_INSTANCE = Some(GlobalConfigService { configuration,
+                items: items.into_iter().map(|item| (item.id as u32, item)).collect(), items_name_id,
+                mobs: mobs.into_iter().map(|mob| (mob.id as u32, mob)).collect(), mobs_name_id,
+                jobs, jobs_skills_tree,
+                skills, skills_name_id, maps });
         });
     }
 
