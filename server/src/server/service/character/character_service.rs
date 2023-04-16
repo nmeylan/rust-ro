@@ -227,6 +227,7 @@ impl CharacterService {
             old_job_level
         };
         character.status.job_level = new_job_level;
+        self.update_skill_point(character, new_job_level - 1); // TODO - allocated_skill_points
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, new_job_level);
         let mut packet_zc_notify_effect = PacketZcNotifyEffect::new(self.configuration_service.packetver());
         packet_zc_notify_effect.set_effect_id(Effect::JobLevelUp.value() as i32);
@@ -283,8 +284,12 @@ impl CharacterService {
 
     pub fn update_status_point(&self, character: &mut Character, status_point: u32) {
         character.status.status_point = status_point;
-        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Statuspoint, status_point);
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Statuspoint, character.status.status_point);
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
+    }
+    pub fn update_skill_point(&self, character: &mut Character, skill_point: u32) {
+        character.status.skill_point = skill_point;
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Skillpoint, character.status.skill_point);
     }
 
     pub fn stat_value(&self, status: &Status, status_type: &StatusTypes) -> u16 {
@@ -572,6 +577,10 @@ impl CharacterService {
         packet_status_point.set_var_id(StatusTypes::Statuspoint.value() as u16);
         packet_status_point.set_count(character.status.status_point as i32);
         packet_status_point.fill_raw();
+        let mut packet_skill_point = PacketZcParChange::new(self.configuration_service.packetver());
+        packet_skill_point.set_var_id(StatusTypes::Skillpoint.value() as u16);
+        packet_skill_point.set_count(character.status.skill_point as i32);
+        packet_skill_point.fill_raw();
 
         let mut packet_hit = PacketZcParChange::new(self.configuration_service.packetver());
         packet_hit.set_var_id(StatusTypes::Hit.value() as u16);
@@ -653,7 +662,7 @@ impl CharacterService {
 
         let mut final_response_packet: Vec<u8> = chain_packets(vec![
             &packet_str, &packet_agi, &packet_dex, &packet_int, &packet_luk, &packet_vit,
-            &packet_status_point, &packet_str_increase_cost, &packet_agi_increase_cost, &packet_vit_increase_cost,
+            &packet_status_point, &packet_skill_point, &packet_str_increase_cost, &packet_agi_increase_cost, &packet_vit_increase_cost,
             &packet_dex_increase_cost, &packet_int_increase_cost, &packet_luk_increase_cost,
             &packet_hit, &packet_flee, &packet_aspd, &packet_atk, &packet_atk2, &packet_def,
             &packet_flee2, &packet_crit, &packet_matk, &packet_matk2,

@@ -467,10 +467,28 @@ mod tests {
     #[test]
     fn test_update_job_level_should_update_skill_point_when_leveling_up_or_down() {
         // Given
-
-        // When
-
-        // Then
+        // TODO handle allocated skill points
+        let context = before_each(mocked_repository());
+        struct Scenarii { source_level: u32, job: usize, target_level: u32, current_skill_point: u32, expected_skill_point: u32}
+        let scenario = vec![
+            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 2, current_skill_point: 0, expected_skill_point: 1 },
+            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 10, current_skill_point: 0, expected_skill_point: 9 },
+            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3 },
+            Scenarii{ source_level: 4, job: JobName::Novice.value(), target_level: 10, current_skill_point: 3, expected_skill_point: 9 },
+            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3 },
+            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 2, expected_skill_point: 3 },
+            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 1, current_skill_point: 10, expected_skill_point: 0 },
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.job = scenarii.job as u32;
+            character.status.job_level = scenarii.source_level;
+            character.status.skill_point = scenarii.current_skill_point;
+            // When
+            context.character_service.update_job_level(&mut character, Some(scenarii.target_level), None);
+            // Then
+            assert_eq!(character.status.skill_point, scenarii.expected_skill_point, "Expected character after job level change from {} to {}, to have {} skill points but got {}", scenarii.source_level, scenarii.target_level, scenarii.expected_skill_point, character.status.skill_point);
+        }
 
     }
 
