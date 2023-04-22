@@ -69,6 +69,7 @@ mod tests {
 
 
     use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::server::state::skill::Skill;
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
 
     use crate::util::tick::get_tick;
@@ -304,6 +305,7 @@ mod tests {
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(5, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "base_level".to_string(), value: 78, }));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: 849, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcNotifyEffect::packet_id(GlobalConfigService::instance().packetver()))]));
     }
@@ -458,10 +460,55 @@ mod tests {
         // Then
         assert_eq!(character.status.job_level, 68);
         // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(3, Duration::from_millis(200));
+        context.test_context.increment_latch().wait_expected_count_with_timeout(5, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "job_level".to_string(), value: 68, }));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "skill_point".to_string(), value: 67, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcNotifyEffect::packet_id(GlobalConfigService::instance().packetver()))]));
+    }
+
+    #[test]
+    fn test_allocated_skills_point_should_exclude_platinium_skills() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii {
+            expected_allocated_points: u8,
+            skills: Vec<Skill>
+        }
+        let scenario = vec![
+            Scenarii{ expected_allocated_points: 25 , skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 },
+                             Skill {value: enums::skills::Skill::from_name("SM_SWORD"), level:10},
+                             Skill {value: enums::skills::Skill::from_name("SM_BASH"), level:6},]},
+            Scenarii {
+                expected_allocated_points: 85,
+                skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 },
+                    Skill { value: enums::skills::Skill::from_name("SM_SWORD"), level: 10 },
+                    Skill { value: enums::skills::Skill::from_name("SM_FATALBLOW"), level: 1 },
+                    Skill { value: enums::skills::Skill::from_name("SM_TWOHAND"), level: 10 },
+                    Skill { value: enums::skills::Skill::from_name("SM_RECOVERY"), level: 6 },
+                    Skill { value: enums::skills::Skill::from_name("SM_BASH"), level: 7 },
+                    Skill { value: enums::skills::Skill::from_name("SM_PROVOKE"), level: 5 },
+                    Skill { value: enums::skills::Skill::from_name("SM_MAGNUM"), level: 10 },
+                    Skill { value: enums::skills::Skill::from_name("SM_ENDURE"), level: 5 },
+                    Skill { value: enums::skills::Skill::from_name("KN_SPEARMASTERY"), level: 1 },
+                    Skill { value: enums::skills::Skill::from_name("KN_PIERCE"), level: 3 },
+                    Skill { value: enums::skills::Skill::from_name("KN_TWOHANDQUICKEN"), level: 8 },
+                    Skill { value: enums::skills::Skill::from_name("KN_AUTOCOUNTER"), level: 5 },
+                    Skill { value: enums::skills::Skill::from_name("KN_RIDING"), level: 1 },
+                    Skill { value: enums::skills::Skill::from_name("KN_CAVALIERMASTERY"), level: 5 },
+                ]
+            }
+        ];
+
+        for scenarii in scenario {
+            // Given
+            let mut character = create_character();
+            character.skills = scenarii.skills;
+            // When
+            let actual = context.character_service.get_allocated_skills_point(&character);
+            // Then
+            assert_eq!(actual, scenarii.expected_allocated_points);
+        }
     }
 
     #[test]

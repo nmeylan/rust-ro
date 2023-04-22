@@ -9,7 +9,7 @@ lazy_static  = "1.4.0"
 regex = "1.5"
 tokio = { version = "1.12", features = ["full"] }
 serde_json = "1.0.91"
-serde = { version = "1.0", features = ["derive"] }
+serde = { version = "1.0.152", features = ["derive"] }
 convert_case = "0.6.0"
 futures = "0.3"
 flate2 = "1.0"

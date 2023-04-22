@@ -2,6 +2,7 @@ use sqlx::{Error, Row};
 use crate::Repository;
 use async_trait::async_trait;
 use crate::repository::CharacterRepository;
+use crate::server::state::skill::Skill;
 
 #[async_trait]
 impl CharacterRepository for Repository {
@@ -32,9 +33,21 @@ impl CharacterRepository for Repository {
     }
 
     async fn character_zeny_fetch(&self, char_id: u32) -> Result<i32, Error> {
-        sqlx::query("SELECT zeny FROM char where char_id = $1")
+        sqlx::query("SELECT zeny FROM char WHERE char_id = $1")
             .bind(char_id as i32)
             .fetch_one(&self.pool).await.map(|row| Ok(row.get::<i32, _>(0)))?
     }
 
+    async fn character_allocated_skill_points(&self, char_id: u32) -> Result<i32, Error> {
+        sqlx::query("SELECT sum(lv) FROM skill WHERE char_id = $1")
+            .bind(char_id as i32)
+            .fetch_one(&self.pool).await.map(|row| Ok(row.get::<i32, _>(0)))?
+    }
+
+    async fn character_skills(&self, char_id: u32) -> Result<Vec<Skill>, Error> {
+        sqlx::query("SELECT id, lv FROM skill WHERE char_id = $1")
+            .bind(char_id as i32)
+            .fetch_all(&self.pool).await
+            .map(|rows| rows.iter().map(|row| Skill { value: enums::skills::Skill::from_id(row.get::<i16, _>(0) as u32), level: row.get::<i16, _>(1) as u8 }).collect::<Vec<Skill>>())
+    }
 }

@@ -420,6 +420,8 @@ struct InternalSkillsTreeConfig {
 #[derive(Deserialize, Default, Debug, SettersAll, GettersAll, Clone)]
 pub struct SkillInTree {
     name: String,
+    #[serde(default, rename = "jobLevel")]
+    job_level: u8,
     requires: Option<Vec<SkillTreeRequirement>>,
 }
 

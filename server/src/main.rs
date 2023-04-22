@@ -95,9 +95,6 @@ pub async fn main() {
     let job_configs = Config::load_jobs_config(".").unwrap();
     let job_skills_tree = Config::load_jobs_skill_tree(".").unwrap();
 
-
-    Compiler::compile("a".to_string(), "- script _MainScript -1, {\n function a{return getarg(0) + 1;}\n
-    .@a = a(a(a(a(1)))); \n}", "native_functions_list.txt", 0).unwrap();
     let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
     let scripts = load_scripts(vm.clone());
 

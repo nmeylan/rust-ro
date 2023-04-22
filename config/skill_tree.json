@@ -13,8 +13,7 @@
         },
         {
           "name": "NV_TRICKDEAD",
-          "maxLevel": 1,
-          "Platinium": true
+          "maxLevel": 1
         },
         {
           "name": "WE_CALLBABY",
@@ -2363,6 +2362,7 @@
         {
           "name": "RG_CLOSECONFINE",
           "maxLevel": 1
+          
         }
       ]
     },
@@ -2731,6 +2731,7 @@
         {
           "name": "BA_PANGVOICE",
           "maxLevel": 1
+          
         }
       ]
     },
@@ -2915,6 +2916,7 @@
         {
           "name": "DC_WINKCHARM",
           "maxLevel": 1
+          
         }
       ]
     },
@@ -3787,55 +3789,55 @@
         }
       ]
     },
-    "Novice_High": {
+    "Novice High": {
       "inherit": [
         "Novice"
       ],
       "tree": [
         {
           "name": "NV_TRICKDEAD",
-          "maxLevel": 1,
-          "Platinium": true
+          "maxLevel": 1
+          
         }
       ]
     },
-    "Swordsman_High": {
+    "Swordsman High": {
       "inherit": [
         "Novice",
         "Swordsman"
       ]
     },
-    "Mage_High": {
+    "Mage High": {
       "inherit": [
         "Novice",
         "Mage"
       ]
     },
-    "Archer_High": {
+    "Archer High": {
       "inherit": [
         "Novice",
         "Archer"
       ]
     },
-    "Acolyte_High": {
+    "Acolyte High": {
       "inherit": [
         "Novice",
         "Acolyte"
       ]
     },
-    "Merchant_High": {
+    "Merchant High": {
       "inherit": [
         "Novice",
         "Merchant"
       ]
     },
-    "Thief_High": {
+    "Thief High": {
       "inherit": [
         "Novice",
         "Thief"
       ]
     },
-    "Lord_Knight": {
+    "LordKnight": {
       "inherit": [
         "Novice",
         "Swordsman",
@@ -3917,7 +3919,7 @@
         {
           "name": "LK_BERSERK",
           "maxLevel": 1,
-          "JobLevel": 50
+          "jobLevel": 50
         },
         {
           "name": "LK_SPIRALPIERCE",
@@ -3975,7 +3977,7 @@
         }
       ]
     },
-    "High_Priest": {
+    "HighPriest": {
       "inherit": [
         "Novice",
         "Acolyte",
@@ -4062,7 +4064,7 @@
         }
       ]
     },
-    "High_Wizard": {
+    "HighWizard": {
       "inherit": [
         "Novice",
         "Mage",
@@ -4309,7 +4311,7 @@
         }
       ]
     },
-    "Assassin_Cross": {
+    "AssassinCross": {
       "inherit": [
         "Novice",
         "Thief",
@@ -4402,14 +4404,6 @@
             }
           ]
         }
-      ]
-    },
-    "Lord_Knight2": {
-      "inherit": [
-        "Novice",
-        "Swordsman",
-        "Knight",
-        "Lord_Knight"
       ]
     },
     "Paladin": {
@@ -5037,8 +5031,7 @@
         },
         {
           "name": "NV_TRICKDEAD",
-          "maxLevel": 1,
-          "Platinium": true
+          "maxLevel": 1
         },
         {
           "name": "WE_BABY",
