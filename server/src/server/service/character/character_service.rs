@@ -243,6 +243,16 @@ impl CharacterService {
         self.change_sprite(character, LookType::Job, character.status.job as u16, 0);
     }
 
+    pub fn get_allocated_skills_point(&self, character: &Character) -> u8 {
+        let mut count = 0;
+        character.skills.iter().for_each(|skill| {
+            if !skill.value.is_platinium() {
+                count += skill.level;
+            }
+        });
+        count
+    }
+
     pub fn get_status_point_count_for_level(&self, character: &Character) -> u32 {
         let status_point_count: u32 = if JobName::from_value(character.status.job as usize).is_rebirth() {
             100

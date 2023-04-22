@@ -51,6 +51,7 @@ pub fn create_character() -> Character {
         movements: vec![],
         attack: None,
         inventory: vec![],
+        skills: vec![],
         map_view: Default::default(),
         script_variable_store: Mutex::new(Default::default())
     }

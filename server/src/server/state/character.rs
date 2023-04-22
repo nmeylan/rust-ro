@@ -16,6 +16,7 @@ use crate::server::model::position::Position;
 use crate::server::model::status::{Status};
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
+use crate::server::state::skill::Skill;
 
 
 /// Character state
@@ -54,6 +55,7 @@ pub struct Character {
     pub map_view: HashSet<MapItem>,
     /// Some script can store global variable for the character
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
+    pub skills: Vec<Skill>,
 }
 
 type InventoryIter<'a> = Box<dyn Iterator<Item=(usize, &'a InventoryItemModel)> + 'a>;

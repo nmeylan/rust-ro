@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 use std::sync::{Once};
+use enums::class::JobName;
+use crate::enums::EnumWithStringValue;
 use crate::repository::model::item_model::ItemModel;
 use crate::repository::model::mob_model::MobModel;
 use crate::server::model::configuration::{Config, JobConfig, JobSkillTree, SkillConfig};
@@ -115,5 +117,9 @@ impl GlobalConfigService {
 
     pub fn get_map(&self, name: &str) -> &Map {
         self.maps.get(name).unwrap_or_else(|| panic!("Can't find map with name {name}"))
+    }
+
+    pub fn get_job_skilltree(&self, job: JobName) -> &JobSkillTree {
+        self.jobs_skills_tree.iter().find(|tree| tree.name().eq(job.as_str())).unwrap_or_else(|| panic!("Expected to find skill tree for job {}", job.as_str()))
     }
 }

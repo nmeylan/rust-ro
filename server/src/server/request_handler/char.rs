@@ -6,6 +6,7 @@ use byteorder::{LittleEndian, WriteBytesExt};
 use sqlx::Postgres;
 
 use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcReqDisconnectAck2, PacketZcRestartAck, ZserverAddr};
+use crate::repository::CharacterRepository;
 
 use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::server::model::map::Map;
@@ -22,6 +23,7 @@ use crate::server::service::server_service::ServerService;
 use crate::server::state::character::Character;
 use crate::server::model::status::Status;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::state::skill::Skill;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick_client;
@@ -216,6 +218,9 @@ pub fn handle_select_char(server: &Server, context: Request) {
             .bind(packet_select_char.char_num as i16)
             .fetch_one(&server.repository.pool).await.unwrap()
     });
+    let skills: Vec<Skill> = context.runtime().block_on(async {
+        server.repository.character_skills(session_id).await.unwrap()
+    });
     let mut sessions_guard = write_lock!(server.state().sessions());
     let _session = sessions_guard.get(&session_id).unwrap();
     let char_id: u32 = char_model.char_id as u32;
@@ -238,6 +243,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
         attack: None,
         inventory: vec![], // todo load from db
         map_view: HashSet::new(),
+        skills,
         script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
         account_id: session_id,
         map_instance_key: MapInstanceKey::new(last_map, 0),
