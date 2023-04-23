@@ -24,6 +24,9 @@ impl Server {
                     PersistenceEvent::UpdateEquippedItems(items) => {
                         repository.character_inventory_wearable_item_update(items).await.unwrap();
                     }
+                    PersistenceEvent::ResetSkills(reset_skills) => {
+
+                    }
                 }
             })
         }

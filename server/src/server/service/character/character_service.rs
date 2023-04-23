@@ -5,7 +5,7 @@ use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use tokio::runtime::Runtime;
 
-use enums::class::JobName;
+use enums::class::{JOB_BASE_MASK, JobName};
 use enums::effect::Effect;
 use enums::item::EquipmentLocation;
 use enums::look::LookType;
@@ -23,7 +23,7 @@ use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::path::manhattan_distance;
 
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::model::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
+use crate::server::model::events::persistence_event::{PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
 use crate::server::model::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
 use crate::server::{PLAYER_FOV, Server};
 use crate::server::model::events::map_event::{MapEvent, MobDropItems};
@@ -227,7 +227,14 @@ impl CharacterService {
             old_job_level
         };
         character.status.job_level = new_job_level;
-        self.update_skill_point(character, new_job_level - 1); // TODO - allocated_skill_points
+        if new_job_level > old_job_level {
+            self.update_skill_point(character, character.status.skill_point + new_job_level - old_job_level);
+        } else if old_job_level > new_job_level {
+            if self.should_reset_skills(&character) {
+                self.reset_skills(character);
+            }
+            self.update_skill_point(character, (character.status.skill_point as i32 - (old_job_level as i32 - new_job_level as i32)).max(0) as u32);
+        }
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, new_job_level);
         let mut packet_zc_notify_effect = PacketZcNotifyEffect::new(self.configuration_service.packetver());
         packet_zc_notify_effect.set_effect_id(Effect::JobLevelUp.value() as i32);
@@ -260,6 +267,20 @@ impl CharacterService {
             48
         };
         status_point_count + self.calculate_status_point_delta(1, character.status.base_level) as u32
+    }
+
+    pub fn get_skill_point_count_for_level(&self, character: &Character) -> u8 {
+        let job = JobName::from_value(character.status.job as usize);
+        let mut skill_points = (character.status.job_level as i32 - 1).max(0) as u8;
+        if job.is_second_class() {
+            let first_class_job = JobName::from_mask(job.mask() & JOB_BASE_MASK, true).unwrap();
+            let first_class_job_config = self.configuration_service.get_job_config(first_class_job.value() as u32);
+            skill_points += first_class_job_config.job_level().maxJobLevel() - 1;
+        }
+        if !job.is_novice() {
+            skill_points += 9;
+        }
+        skill_points
     }
 
     pub fn get_spent_status_point(&self, character: &Character) -> u32 {
@@ -479,8 +500,21 @@ impl CharacterService {
         }
     }
 
+    pub fn reset_skills(&self, character: &mut Character) {
+        let skill_points = self.get_allocated_skills_point(character);
+        let skills_to_reset: Vec<i32> = character.skills.iter().filter(|skill| !skill.value.is_platinium()).map(|skill| skill.value.id() as i32).collect();
+        character.skills = character.skills.iter().filter(|skill| skill.value.is_platinium()).cloned().collect();
+        self.update_skill_point(character, skill_points as u32);
+        self.persistence_event_sender.send(PersistenceEvent::ResetSkills(ResetSkills{ char_id: character.char_id as i32, skills: skills_to_reset }));
+        // TODO send skillList
+    }
+
     pub fn should_reset_stats(&self, character: &Character) -> bool {
         self.get_spent_status_point(character) > self.get_status_point_count_for_level(character)
+    }
+
+    pub fn should_reset_skills(&self, character: &Character) -> bool {
+        self.get_allocated_skills_point(character) > self.get_skill_point_count_for_level(character)
     }
 
     pub fn next_base_level_required_exp(&self, status: &Status) -> u32 {

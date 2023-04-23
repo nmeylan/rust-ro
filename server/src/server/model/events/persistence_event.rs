@@ -6,7 +6,8 @@ pub enum PersistenceEvent {
     SaveCharacterPosition(SavePositionUpdate),
     UpdateCharacterStatusU32(StatusUpdate<u32>),
     DeleteItemsFromInventory(DeleteItems),
-    UpdateEquippedItems(Vec<InventoryItemModel>)
+    UpdateEquippedItems(Vec<InventoryItemModel>),
+    ResetSkills(ResetSkills)
 }
 #[derive(Debug, PartialEq)]
 pub struct SavePositionUpdate {
@@ -40,4 +41,10 @@ pub struct DeleteItems {
     pub item_inventory_id: i32,
     pub unique_id: i64,
     pub amount: i16
+}
+
+#[derive(Debug, PartialEq)]
+pub struct ResetSkills {
+    pub char_id: i32,
+    pub skills: Vec<i32>,
 }
