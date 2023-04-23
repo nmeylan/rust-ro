@@ -61,7 +61,7 @@ mod tests {
     use crate::server::model::events::map_event::MapEvent;
     use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny};
     use crate::server::model::events::map_event::{MobDropItems};
-    use crate::server::model::events::persistence_event::{PersistenceEvent, SavePositionUpdate, StatusUpdate};
+    use crate::server::model::events::persistence_event::{PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
     use crate::server::model::map_instance::MapInstanceKey;
     use crate::server::model::movement::Movement;
     use crate::server::model::position::Position;
@@ -514,29 +514,57 @@ mod tests {
     #[test]
     fn test_update_job_level_should_update_skill_point_when_leveling_up_or_down() {
         // Given
-        // TODO handle allocated skill points
         let context = before_each(mocked_repository());
-        struct Scenarii { source_level: u32, job: usize, target_level: u32, current_skill_point: u32, expected_skill_point: u32}
+        struct Scenarii { source_level: u32, job: usize, target_level: u32, current_skill_point: u32, expected_skill_point: u32, skills: Vec<Skill> }
         let scenario = vec![
-            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 2, current_skill_point: 0, expected_skill_point: 1 },
-            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 10, current_skill_point: 0, expected_skill_point: 9 },
-            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3 },
-            Scenarii{ source_level: 4, job: JobName::Novice.value(), target_level: 10, current_skill_point: 3, expected_skill_point: 9 },
-            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3 },
-            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 2, expected_skill_point: 3 },
-            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 1, current_skill_point: 10, expected_skill_point: 0 },
+            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 2, current_skill_point: 0, expected_skill_point: 1, skills: vec![] },
+            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 10, current_skill_point: 0, expected_skill_point: 9, skills: vec![] },
+            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3, skills: vec![] },
+            Scenarii{ source_level: 4, job: JobName::Novice.value(), target_level: 10, current_skill_point: 3, expected_skill_point: 9, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 3 }] },
+            Scenarii{ source_level: 40, job: JobName::Knight.value(), target_level: 41, current_skill_point: 80, expected_skill_point: 81, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
+            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
+            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 2, expected_skill_point: 3, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
+            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 1, current_skill_point: 10, expected_skill_point: 0, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
         ];
         for scenarii in scenario {
             let mut character = create_character();
             character.status.job = scenarii.job as u32;
             character.status.job_level = scenarii.source_level;
             character.status.skill_point = scenarii.current_skill_point;
+            character.skills = scenarii.skills;
             // When
             context.character_service.update_job_level(&mut character, Some(scenarii.target_level), None);
             // Then
             assert_eq!(character.status.skill_point, scenarii.expected_skill_point, "Expected character after job level change from {} to {}, to have {} skill points but got {}", scenarii.source_level, scenarii.target_level, scenarii.expected_skill_point, character.status.skill_point);
         }
 
+    }
+    #[test]
+    fn test_get_skill_point_count_for_level() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii { job: usize, job_level: u32, expected_skill_point_count: u8}
+        let scenario = vec![
+            Scenarii { job: JobName::Novice.value(), job_level: 5, expected_skill_point_count: 4 },
+            Scenarii { job: JobName::Novice.value(), job_level: 10, expected_skill_point_count: 9 },
+            Scenarii { job: JobName::Archer.value(), job_level: 41, expected_skill_point_count: 9 + 40},
+            Scenarii { job: JobName::Archer.value(), job_level: 50, expected_skill_point_count: 9 + 49},
+            Scenarii { job: JobName::Hunter.value(), job_level: 50, expected_skill_point_count: 9 + 49 + 49},
+            Scenarii { job: JobName::Hunter.value(), job_level: 41, expected_skill_point_count: 9 + 49 + 40},
+            Scenarii { job: JobName::NoviceHigh.value(), job_level: 10, expected_skill_point_count: 9},
+            Scenarii { job: JobName::ArcherHigh.value(), job_level: 41, expected_skill_point_count: 9 + 40},
+            Scenarii { job: JobName::Sniper.value(), job_level: 70, expected_skill_point_count: 9 + 49 + 69},
+            Scenarii { job: JobName::Sniper.value(), job_level: 55, expected_skill_point_count: 9 + 49 + 54},
+        ];
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.job = scenarii.job as u32;
+            character.status.job_level = scenarii.job_level;
+            // When
+            let skill_points = context.character_service.get_skill_point_count_for_level(&character);
+            // Then
+            assert_eq!(skill_points, scenarii.expected_skill_point_count, "Expected job {} at level {} to have {} skill points but got {}", JobName::from_value(scenarii.job).as_str(), scenarii.job_level, scenarii.expected_skill_point_count, skill_points);
+        }
     }
 
     #[test]
@@ -833,6 +861,37 @@ mod tests {
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "luk".to_string(), value: 1, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()), 1)]));
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterCalculateStats(character.char_id), 0);
+    }
+
+    #[test]
+    fn test_reset_skills_defer_update_in_db_and_send_packet() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.skills = vec![Skill {value: enums::skills::Skill::from_name("NV_BASIC"), level:9},
+                                Skill {value: enums::skills::Skill::from_name("SM_SWORD"), level:10},
+                                Skill { value: enums::skills::Skill::from_name("SM_FATALBLOW"), level: 1 }, // Platinium
+                                Skill {value: enums::skills::Skill::from_name("SM_TWOHAND"), level:10},
+                                Skill {value: enums::skills::Skill::from_name("SM_RECOVERY"), level:5},
+                                Skill {value: enums::skills::Skill::from_name("SM_BASH"), level:7},
+                                Skill {value: enums::skills::Skill::from_name("SM_PROVOKE"), level:5},
+                                Skill {value: enums::skills::Skill::from_name("SM_MAGNUM"), level:10},
+                                Skill {value: enums::skills::Skill::from_name("SM_ENDURE"), level:5},
+                                Skill {value: enums::skills::Skill::from_name("KN_SPEARMASTERY"), level:1},
+                                Skill {value: enums::skills::Skill::from_name("KN_PIERCE"), level:3},
+                                Skill {value: enums::skills::Skill::from_name("KN_TWOHANDQUICKEN"), level:8},
+                                Skill {value: enums::skills::Skill::from_name("KN_AUTOCOUNTER"), level:5},
+                                Skill {value: enums::skills::Skill::from_name("KN_RIDING"), level:1},
+                                Skill {value: enums::skills::Skill::from_name("KN_CAVALIERMASTERY"), level:5},];
+        let skills_to_reset: Vec<i32> = character.skills.iter().filter(|s| s.value != enums::skills::Skill::from_name("SM_FATALBLOW")).map(|s| s.value.id() as i32).collect();
+        // When
+        context.character_service.reset_skills(&mut character);
+        // Then
+        assert_eq!(character.status.skill_point, 84);
+        context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "skill_point".to_string(), value: character.status.skill_point, }));
+        assert_sent_persistence_event!(context, PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset, }));
+        // TODO send skillList
     }
 
     #[test]

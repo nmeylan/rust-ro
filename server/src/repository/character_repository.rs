@@ -50,4 +50,15 @@ impl CharacterRepository for Repository {
             .fetch_all(&self.pool).await
             .map(|rows| rows.iter().map(|row| Skill { value: enums::skills::Skill::from_id(row.get::<i16, _>(0) as u32), level: row.get::<i16, _>(1) as u8 }).collect::<Vec<Skill>>())
     }
+
+
+    async fn character_reset_skills(&self, char_id: i32, skills: Vec<i32>) -> Result<(), Error> {
+        let sql = format!("DELETE FROM skill WHERE char_id = $1 and id (SELECT * FROM UNNEST($2::int4[]))"); // TODO sanitize db_column
+        sqlx::query(&sql).bind(char_id as i32).bind(skills).execute(&self.pool).await
+            .map_err(|e| {
+                error!("DB error: {}", e.as_database_error().unwrap());
+                e
+            })
+            .map(|_| ())
+    }
 }
