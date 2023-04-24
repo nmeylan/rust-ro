@@ -32,7 +32,7 @@ fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository + Sy
     CharacterServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         character_service: CharacterService::new(client_notification_sender, persistence_event_sender, character_repository, GlobalConfigService::instance(), server_task_queue.clone()),
-        server_task_queue
+        server_task_queue,
     }
 }
 
@@ -422,7 +422,7 @@ mod tests {
             job_level: u32,
             maybe_new_job_level: Option<u32>,
             maybe_job_level_delta: Option<i32>,
-            expected: u32
+            expected: u32,
         }
         let scenario = vec![
             Scenarii { job: JobName::Paladin.value(), job_level: 1, maybe_new_job_level: Some(68), maybe_job_level_delta: None, expected: 68 },
@@ -473,31 +473,34 @@ mod tests {
         let context = before_each(mocked_repository());
         struct Scenarii {
             expected_allocated_points: u8,
-            skills: Vec<Skill>
+            skills: Vec<Skill>,
         }
         let scenario = vec![
-            Scenarii{ expected_allocated_points: 25 , skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 },
-                             Skill {value: enums::skills::Skill::from_name("SM_SWORD"), level:10},
-                             Skill {value: enums::skills::Skill::from_name("SM_BASH"), level:6},]},
+            Scenarii {
+                expected_allocated_points: 25,
+                skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 },
+                             Skill { value: enums::skills::Skill::from_name("SM_SWORD"), level: 10 },
+                             Skill { value: enums::skills::Skill::from_name("SM_BASH"), level: 6 }, ],
+            },
             Scenarii {
                 expected_allocated_points: 85,
                 skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 },
-                    Skill { value: enums::skills::Skill::from_name("SM_SWORD"), level: 10 },
-                    Skill { value: enums::skills::Skill::from_name("SM_FATALBLOW"), level: 1 },
-                    Skill { value: enums::skills::Skill::from_name("SM_TWOHAND"), level: 10 },
-                    Skill { value: enums::skills::Skill::from_name("SM_RECOVERY"), level: 6 },
-                    Skill { value: enums::skills::Skill::from_name("SM_BASH"), level: 7 },
-                    Skill { value: enums::skills::Skill::from_name("SM_PROVOKE"), level: 5 },
-                    Skill { value: enums::skills::Skill::from_name("SM_MAGNUM"), level: 10 },
-                    Skill { value: enums::skills::Skill::from_name("SM_ENDURE"), level: 5 },
-                    Skill { value: enums::skills::Skill::from_name("KN_SPEARMASTERY"), level: 1 },
-                    Skill { value: enums::skills::Skill::from_name("KN_PIERCE"), level: 3 },
-                    Skill { value: enums::skills::Skill::from_name("KN_TWOHANDQUICKEN"), level: 8 },
-                    Skill { value: enums::skills::Skill::from_name("KN_AUTOCOUNTER"), level: 5 },
-                    Skill { value: enums::skills::Skill::from_name("KN_RIDING"), level: 1 },
-                    Skill { value: enums::skills::Skill::from_name("KN_CAVALIERMASTERY"), level: 5 },
-                ]
-            }
+                             Skill { value: enums::skills::Skill::from_name("SM_SWORD"), level: 10 },
+                             Skill { value: enums::skills::Skill::from_name("SM_FATALBLOW"), level: 1 },
+                             Skill { value: enums::skills::Skill::from_name("SM_TWOHAND"), level: 10 },
+                             Skill { value: enums::skills::Skill::from_name("SM_RECOVERY"), level: 6 },
+                             Skill { value: enums::skills::Skill::from_name("SM_BASH"), level: 7 },
+                             Skill { value: enums::skills::Skill::from_name("SM_PROVOKE"), level: 5 },
+                             Skill { value: enums::skills::Skill::from_name("SM_MAGNUM"), level: 10 },
+                             Skill { value: enums::skills::Skill::from_name("SM_ENDURE"), level: 5 },
+                             Skill { value: enums::skills::Skill::from_name("KN_SPEARMASTERY"), level: 1 },
+                             Skill { value: enums::skills::Skill::from_name("KN_PIERCE"), level: 3 },
+                             Skill { value: enums::skills::Skill::from_name("KN_TWOHANDQUICKEN"), level: 8 },
+                             Skill { value: enums::skills::Skill::from_name("KN_AUTOCOUNTER"), level: 5 },
+                             Skill { value: enums::skills::Skill::from_name("KN_RIDING"), level: 1 },
+                             Skill { value: enums::skills::Skill::from_name("KN_CAVALIERMASTERY"), level: 5 },
+                ],
+            },
         ];
 
         for scenarii in scenario {
@@ -515,16 +518,23 @@ mod tests {
     fn test_update_job_level_should_update_skill_point_when_leveling_up_or_down() {
         // Given
         let context = before_each(mocked_repository());
-        struct Scenarii { source_level: u32, job: usize, target_level: u32, current_skill_point: u32, expected_skill_point: u32, skills: Vec<Skill> }
+        struct Scenarii {
+            source_level: u32,
+            job: usize,
+            target_level: u32,
+            current_skill_point: u32,
+            expected_skill_point: u32,
+            skills: Vec<Skill>,
+        }
         let scenario = vec![
-            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 2, current_skill_point: 0, expected_skill_point: 1, skills: vec![] },
-            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 10, current_skill_point: 0, expected_skill_point: 9, skills: vec![] },
-            Scenarii{ source_level: 1, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3, skills: vec![] },
-            Scenarii{ source_level: 4, job: JobName::Novice.value(), target_level: 10, current_skill_point: 3, expected_skill_point: 9, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 3 }] },
-            Scenarii{ source_level: 40, job: JobName::Knight.value(), target_level: 41, current_skill_point: 80, expected_skill_point: 81, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
-            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
-            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 2, expected_skill_point: 3, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
-            Scenarii{ source_level: 10, job: JobName::Novice.value(), target_level: 1, current_skill_point: 10, expected_skill_point: 0, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
+            Scenarii { source_level: 1, job: JobName::Novice.value(), target_level: 2, current_skill_point: 0, expected_skill_point: 1, skills: vec![] },
+            Scenarii { source_level: 1, job: JobName::Novice.value(), target_level: 10, current_skill_point: 0, expected_skill_point: 9, skills: vec![] },
+            Scenarii { source_level: 1, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3, skills: vec![] },
+            Scenarii { source_level: 4, job: JobName::Novice.value(), target_level: 10, current_skill_point: 3, expected_skill_point: 9, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 3 }] },
+            Scenarii { source_level: 40, job: JobName::Knight.value(), target_level: 41, current_skill_point: 80, expected_skill_point: 81, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
+            Scenarii { source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 0, expected_skill_point: 3, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
+            Scenarii { source_level: 10, job: JobName::Novice.value(), target_level: 4, current_skill_point: 2, expected_skill_point: 3, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
+            Scenarii { source_level: 10, job: JobName::Novice.value(), target_level: 1, current_skill_point: 10, expected_skill_point: 0, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }] },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -537,24 +547,28 @@ mod tests {
             // Then
             assert_eq!(character.status.skill_point, scenarii.expected_skill_point, "Expected character after job level change from {} to {}, to have {} skill points but got {}", scenarii.source_level, scenarii.target_level, scenarii.expected_skill_point, character.status.skill_point);
         }
-
     }
+
     #[test]
     fn test_get_skill_point_count_for_level() {
         // Given
         let context = before_each(mocked_repository());
-        struct Scenarii { job: usize, job_level: u32, expected_skill_point_count: u8}
+        struct Scenarii {
+            job: usize,
+            job_level: u32,
+            expected_skill_point_count: u8,
+        }
         let scenario = vec![
             Scenarii { job: JobName::Novice.value(), job_level: 5, expected_skill_point_count: 4 },
             Scenarii { job: JobName::Novice.value(), job_level: 10, expected_skill_point_count: 9 },
-            Scenarii { job: JobName::Archer.value(), job_level: 41, expected_skill_point_count: 9 + 40},
-            Scenarii { job: JobName::Archer.value(), job_level: 50, expected_skill_point_count: 9 + 49},
-            Scenarii { job: JobName::Hunter.value(), job_level: 50, expected_skill_point_count: 9 + 49 + 49},
-            Scenarii { job: JobName::Hunter.value(), job_level: 41, expected_skill_point_count: 9 + 49 + 40},
-            Scenarii { job: JobName::NoviceHigh.value(), job_level: 10, expected_skill_point_count: 9},
-            Scenarii { job: JobName::ArcherHigh.value(), job_level: 41, expected_skill_point_count: 9 + 40},
-            Scenarii { job: JobName::Sniper.value(), job_level: 70, expected_skill_point_count: 9 + 49 + 69},
-            Scenarii { job: JobName::Sniper.value(), job_level: 55, expected_skill_point_count: 9 + 49 + 54},
+            Scenarii { job: JobName::Archer.value(), job_level: 41, expected_skill_point_count: 9 + 40 },
+            Scenarii { job: JobName::Archer.value(), job_level: 50, expected_skill_point_count: 9 + 49 },
+            Scenarii { job: JobName::Hunter.value(), job_level: 50, expected_skill_point_count: 9 + 49 + 49 },
+            Scenarii { job: JobName::Hunter.value(), job_level: 41, expected_skill_point_count: 9 + 49 + 40 },
+            Scenarii { job: JobName::NoviceHigh.value(), job_level: 10, expected_skill_point_count: 9 },
+            Scenarii { job: JobName::ArcherHigh.value(), job_level: 41, expected_skill_point_count: 9 + 40 },
+            Scenarii { job: JobName::Sniper.value(), job_level: 70, expected_skill_point_count: 9 + 49 + 69 },
+            Scenarii { job: JobName::Sniper.value(), job_level: 55, expected_skill_point_count: 9 + 49 + 54 },
         ];
         for scenarii in scenario {
             let mut character = create_character();
@@ -830,6 +844,69 @@ mod tests {
         assert!(!result);
     }
 
+
+    #[test]
+    fn test_should_reset_skills() {
+        // Given
+        let context = before_each(mocked_repository());
+        struct Scenarii {
+            job: usize,
+            job_level: u32,
+            skill_points: u8,
+            skills: Vec<Skill>,
+            expected: bool,
+        }
+
+        let scenario = vec![
+            Scenarii { job: JobName::Novice.value(), job_level: 10, skill_points: 0, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }], expected: false },
+            Scenarii { job: JobName::Novice.value(), job_level: 8, skill_points: 0, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 }], expected: true },
+            Scenarii { job: JobName::Novice.value(), job_level: 8, skill_points: 1, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 6 }], expected: false },
+            Scenarii { job: JobName::Swordsman.value(), job_level: 8, skill_points: 0, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 },
+                                                                                                    Skill {value: enums::skills::Skill::from_name("SM_SWORD"), level:7},], expected: false },
+            Scenarii { job: JobName::Swordsman.value(), job_level: 8, skill_points: 2, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 },
+                                                                                                    Skill {value: enums::skills::Skill::from_name("SM_SWORD"), level:5},], expected: false },
+            Scenarii { job: JobName::Swordsman.value(), job_level: 8, skill_points: 2, skills: vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 },
+                                                                                                    Skill {value: enums::skills::Skill::from_name("SM_SWORD"), level:7},], expected: true },
+            Scenarii { job: JobName::Knight.value(), job_level: 8, skill_points: 0, skills: vec![Skill {value: enums::skills::Skill::from_name("NV_BASIC"), level:9},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_SWORD"), level:10},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_TWOHAND"), level:10},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_RECOVERY"), level:5},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_BASH"), level:7},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_PROVOKE"), level:5},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_MAGNUM"), level:5},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_ENDURE"), level:10},], expected: false },
+            Scenarii { job: JobName::Knight.value(), job_level: 8, skill_points: 5, skills: vec![Skill {value: enums::skills::Skill::from_name("NV_BASIC"), level:9},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_SWORD"), level:10},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_TWOHAND"), level:10},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_RECOVERY"), level:5},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_BASH"), level:7},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_PROVOKE"), level:5},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_MAGNUM"), level:5},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_ENDURE"), level:10},], expected: true },
+            Scenarii { job: JobName::Knight.value(), job_level: 1, skill_points: 0, skills: vec![Skill {value: enums::skills::Skill::from_name("NV_BASIC"), level:9},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_SWORD"), level:10},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_TWOHAND"), level:10},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_RECOVERY"), level:5},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_BASH"), level:7},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_PROVOKE"), level:5},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_MAGNUM"), level:10},
+                                                                                                 Skill {value: enums::skills::Skill::from_name("SM_ENDURE"), level:5},], expected: true },
+        ];
+
+        for scenarii in scenario {
+            // Given
+            let mut character = create_character();
+            character.status.job = scenarii.job as u32;
+            character.status.job_level = scenarii.job_level;
+            character.skills = scenarii.skills;
+            character.status.skill_point = scenarii.skill_points as u32;
+            // When
+            let result = context.character_service.should_reset_skills(&mut character);
+            // Then
+            assert_eq!(result, scenarii.expected, "Expected should_reset_skills to be {} when job is {} and lvl {} with {} free skill points and {} allocated skill point", scenarii.expected, JobName::from_value(scenarii.job).as_str(), scenarii.job_level, scenarii.skill_points, context.character_service.get_allocated_skills_point(&character));
+        }
+    }
+
     #[test]
     fn test_update_status_point_should_defer_update_in_db_and_send_packet() {
         // Given
@@ -868,24 +945,24 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        character.skills = vec![Skill {value: enums::skills::Skill::from_name("NV_BASIC"), level:9},
-                                Skill {value: enums::skills::Skill::from_name("SM_SWORD"), level:10},
+        character.skills = vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 },
+                                Skill { value: enums::skills::Skill::from_name("SM_SWORD"), level: 10 },
                                 Skill { value: enums::skills::Skill::from_name("SM_FATALBLOW"), level: 1 }, // Platinium
-                                Skill {value: enums::skills::Skill::from_name("SM_TWOHAND"), level:10},
-                                Skill {value: enums::skills::Skill::from_name("SM_RECOVERY"), level:5},
-                                Skill {value: enums::skills::Skill::from_name("SM_BASH"), level:7},
-                                Skill {value: enums::skills::Skill::from_name("SM_PROVOKE"), level:5},
-                                Skill {value: enums::skills::Skill::from_name("SM_MAGNUM"), level:10},
-                                Skill {value: enums::skills::Skill::from_name("SM_ENDURE"), level:5},
-                                Skill {value: enums::skills::Skill::from_name("KN_SPEARMASTERY"), level:1},
-                                Skill {value: enums::skills::Skill::from_name("KN_PIERCE"), level:3},
-                                Skill {value: enums::skills::Skill::from_name("KN_TWOHANDQUICKEN"), level:8},
-                                Skill {value: enums::skills::Skill::from_name("KN_AUTOCOUNTER"), level:5},
-                                Skill {value: enums::skills::Skill::from_name("KN_RIDING"), level:1},
-                                Skill {value: enums::skills::Skill::from_name("KN_CAVALIERMASTERY"), level:5},];
+                                Skill { value: enums::skills::Skill::from_name("SM_TWOHAND"), level: 10 },
+                                Skill { value: enums::skills::Skill::from_name("SM_RECOVERY"), level: 5 },
+                                Skill { value: enums::skills::Skill::from_name("SM_BASH"), level: 7 },
+                                Skill { value: enums::skills::Skill::from_name("SM_PROVOKE"), level: 5 },
+                                Skill { value: enums::skills::Skill::from_name("SM_MAGNUM"), level: 10 },
+                                Skill { value: enums::skills::Skill::from_name("SM_ENDURE"), level: 5 },
+                                Skill { value: enums::skills::Skill::from_name("KN_SPEARMASTERY"), level: 1 },
+                                Skill { value: enums::skills::Skill::from_name("KN_PIERCE"), level: 3 },
+                                Skill { value: enums::skills::Skill::from_name("KN_TWOHANDQUICKEN"), level: 8 },
+                                Skill { value: enums::skills::Skill::from_name("KN_AUTOCOUNTER"), level: 5 },
+                                Skill { value: enums::skills::Skill::from_name("KN_RIDING"), level: 1 },
+                                Skill { value: enums::skills::Skill::from_name("KN_CAVALIERMASTERY"), level: 5 }, ];
         let skills_to_reset: Vec<i32> = character.skills.iter().filter(|s| s.value != enums::skills::Skill::from_name("SM_FATALBLOW")).map(|s| s.value.id() as i32).collect();
         // When
-        context.character_service.reset_skills(&mut character);
+        context.character_service.reset_skills(&mut character, true);
         // Then
         assert_eq!(character.status.skill_point, 84);
         context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
@@ -926,7 +1003,12 @@ mod tests {
     fn test_increase_stat_should_decrease_available_status_point() {
         // Given
         let context = before_each(mocked_repository());
-        struct Scenarii {available_status_point: u32, initial_stat_level: u16, value_to_add: u16, expected_available_status_point: u32}
+        struct Scenarii {
+            available_status_point: u32,
+            initial_stat_level: u16,
+            value_to_add: u16,
+            expected_available_status_point: u32,
+        }
         let scenario = vec![
             Scenarii { available_status_point: 3, initial_stat_level: 60, value_to_add: 10, expected_available_status_point: 3 },
             Scenarii { available_status_point: 14, initial_stat_level: 60, value_to_add: 2, expected_available_status_point: 0 },
@@ -950,7 +1032,12 @@ mod tests {
     fn test_increase_stat_should_ensure_enough_status_point_are_available() {
         // Given
         let context = before_each(mocked_repository());
-        struct Scenarii {available_status_point: u32, initial_stat_level: u16, value_to_add: u16, expected_can_raise_stat: bool}
+        struct Scenarii {
+            available_status_point: u32,
+            initial_stat_level: u16,
+            value_to_add: u16,
+            expected_can_raise_stat: bool,
+        }
         let scenario = vec![
             Scenarii { available_status_point: 0, initial_stat_level: 60, value_to_add: 10, expected_can_raise_stat: false },
             Scenarii { available_status_point: 14, initial_stat_level: 60, value_to_add: 2, expected_can_raise_stat: true },
@@ -1056,7 +1143,14 @@ mod tests {
     fn test_gain_exp_should_level_up_when_character_exp_is_above_next_level_exp_requirement() {
         // Given
         let context = before_each(mocked_repository());
-        struct Scenarii<'a> {level: u32, job: &'a str, exp: u32, gain_exp: u32, expected_level: u32, expected_exp: u32}
+        struct Scenarii<'a> {
+            level: u32,
+            job: &'a str,
+            exp: u32,
+            gain_exp: u32,
+            expected_level: u32,
+            expected_exp: u32,
+        }
         let scenario = vec![
             Scenarii { level: 1, job: "Novice", exp: 0, gain_exp: 4, expected_level: 1, expected_exp: 4 },
             Scenarii { level: 1, job: "Novice", exp: 0, gain_exp: 12, expected_level: 2, expected_exp: 3 },
@@ -1117,7 +1211,14 @@ mod tests {
     fn test_gain_job_exp_should_job_level_up_when_character_exp_is_above_next_job_level_exp_requirement() {
         // Given
         let context = before_each(mocked_repository());
-        struct Scenarii<'a> { job_level: u32, job: &'a str, job_exp: u32, gain_exp: u32, expected_job_level: u32, expected_job_exp: u32}
+        struct Scenarii<'a> {
+            job_level: u32,
+            job: &'a str,
+            job_exp: u32,
+            gain_exp: u32,
+            expected_job_level: u32,
+            expected_job_exp: u32,
+        }
         let scenario = vec![
             Scenarii { job_level: 1, job: "Novice", job_exp: 0, gain_exp: 4, expected_job_level: 1, expected_job_exp: 4 },
             Scenarii { job_level: 1, job: "Novice", job_exp: 0, gain_exp: 12, expected_job_level: 2, expected_job_exp: 2 },
@@ -1142,7 +1243,11 @@ mod tests {
     fn test_next_base_level_required_exp() {
         // Given
         let context = before_each(mocked_repository());
-        struct Scenarii<'a> {level: u32, job: &'a str, required_exp: u32}
+        struct Scenarii<'a> {
+            level: u32,
+            job: &'a str,
+            required_exp: u32,
+        }
         let scenario = vec![
             Scenarii { level: 1, job: "Novice", required_exp: 9 },
             Scenarii { level: 54, job: "Archer", required_exp: 178184 },
@@ -1167,7 +1272,11 @@ mod tests {
     fn test_next_job_level_required_exp() {
         // Given
         let context = before_each(mocked_repository());
-        struct Scenarii<'a> {level: u32, job: &'a str, required_exp: u32}
+        struct Scenarii<'a> {
+            level: u32,
+            job: &'a str,
+            required_exp: u32,
+        }
         let scenario = vec![
             Scenarii { level: 1, job: "Novice", required_exp: 10 },
             Scenarii { level: 34, job: "Archer", required_exp: 52417 },

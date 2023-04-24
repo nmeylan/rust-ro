@@ -228,12 +228,12 @@ impl CharacterService {
         };
         character.status.job_level = new_job_level;
         if new_job_level > old_job_level {
-            self.update_skill_point(character, character.status.skill_point + new_job_level - old_job_level);
+            self.update_skill_point(character, character.status.skill_point + new_job_level - old_job_level, true);
         } else if old_job_level > new_job_level {
             if self.should_reset_skills(&character) {
-                self.reset_skills(character);
+                self.reset_skills(character, false);
             }
-            self.update_skill_point(character, (character.status.skill_point as i32 - (old_job_level as i32 - new_job_level as i32)).max(0) as u32);
+            self.update_skill_point(character, (character.status.skill_point as i32 - (old_job_level as i32 - new_job_level as i32)).max(0) as u32, true);
         }
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, new_job_level);
         let mut packet_zc_notify_effect = PacketZcNotifyEffect::new(self.configuration_service.packetver());
@@ -318,9 +318,11 @@ impl CharacterService {
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Statuspoint, character.status.status_point);
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
     }
-    pub fn update_skill_point(&self, character: &mut Character, skill_point: u32) {
+    pub fn update_skill_point(&self, character: &mut Character, skill_point: u32, should_persist: bool) {
         character.status.skill_point = skill_point;
-        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Skillpoint, character.status.skill_point);
+        if should_persist {
+            self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Skillpoint, character.status.skill_point);
+        }
     }
 
     pub fn stat_value(&self, status: &Status, status_type: &StatusTypes) -> u16 {
@@ -500,11 +502,12 @@ impl CharacterService {
         }
     }
 
-    pub fn reset_skills(&self, character: &mut Character) {
+    pub fn reset_skills(&self, character: &mut Character, should_persist_skill_points: bool) {
         let skill_points = self.get_allocated_skills_point(character);
         let skills_to_reset: Vec<i32> = character.skills.iter().filter(|skill| !skill.value.is_platinium()).map(|skill| skill.value.id() as i32).collect();
         character.skills = character.skills.iter().filter(|skill| skill.value.is_platinium()).cloned().collect();
-        self.update_skill_point(character, skill_points as u32);
+
+        self.update_skill_point(character, skill_points as u32, should_persist_skill_points);
         self.persistence_event_sender.send(PersistenceEvent::ResetSkills(ResetSkills{ char_id: character.char_id as i32, skills: skills_to_reset }));
         // TODO send skillList
     }
@@ -514,7 +517,7 @@ impl CharacterService {
     }
 
     pub fn should_reset_skills(&self, character: &Character) -> bool {
-        self.get_allocated_skills_point(character) > self.get_skill_point_count_for_level(character)
+        self.get_allocated_skills_point(character) + character.status.skill_point as u8 > self.get_skill_point_count_for_level(character)
     }
 
     pub fn next_base_level_required_exp(&self, status: &Status) -> u32 {
