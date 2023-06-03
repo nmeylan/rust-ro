@@ -148,8 +148,10 @@ struct InternalJobsConfig {
 
 #[derive(Deserialize, Debug, Clone, GettersAll)]
 pub struct JobLevel {
-    maxJobLevel: u8,
-    minJobLevelToChangeJob: u8,
+    #[serde(rename = "maxJobLevel")]
+    max_job_level: u8,
+    #[serde(rename = "minJobLevelToChangeJob")]
+    min_job_level_to_change_job: u8,
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -181,7 +183,7 @@ struct SkillsConfig {
     skills: HashMap<u32, SkillConfig>,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, GettersAll)]
 #[allow(dead_code)]
 pub struct SkillConfig {
     pub(crate) id: u32,
@@ -264,9 +266,9 @@ pub struct SkillConfig {
     unit: Option<SkillUnit>,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, GettersAll)]
 #[allow(dead_code)]
-struct SkillRequirements {
+pub struct SkillRequirements {
     #[serde(rename = "hpcost", default)]
     hp_cost: Option<u32>,
     #[serde(rename = "hpcostPerLevel", deserialize_with = "deserialize_tuples", default)]
@@ -305,7 +307,7 @@ struct SkillRequirements {
 
 #[derive(Deserialize, Debug, Clone)]
 #[allow(dead_code)]
-struct SkillUnit {
+pub struct SkillUnit {
     id: String,
     #[serde(rename = "alternateId", default)]
     alternate_id: Option<String>,
@@ -392,7 +394,7 @@ fn deserialize_flags<'de, D, MaskEnum>(deserializer: D) -> Result<Option<u64>, D
 
 #[derive(Deserialize, Debug, Clone)]
 #[allow(dead_code)]
-struct InternalSkillElement {
+pub struct InternalSkillElement {
     level: u32,
     #[serde(deserialize_with = "deserialize_optional_string_enum")]
     element: Option<Element>,
@@ -400,7 +402,7 @@ struct InternalSkillElement {
 
 #[derive(Deserialize, Debug, Clone)]
 #[allow(dead_code)]
-struct InternalSkillItemCost {
+pub struct InternalSkillItemCost {
     item: String,
     amount: u32,
     level: Option<u32>,

@@ -26,6 +26,7 @@ use crate::server::Server;
 use crate::server::service::character::character_service::{CharacterService};
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::{ItemService};
+use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::server::service::server_service::ServerService;
@@ -42,6 +43,10 @@ impl Server {
             if let Some(tasks) = server_ref.pop_task() {
                 for task in tasks {
                     match task {
+                        GameEvent::CharacterJoinGame(char_id) => {
+                            let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+                            SkillTreeService::instance().send_skill_tree(character);
+                        }
                         GameEvent::CharacterChangeMap(event) => {
                             let map_instance = server_ref.state().get_map_instance(&event.new_map_name, event.new_instance_id)
                                 .unwrap_or_else(|| ServerService::instance().create_map_instance(server_state_mut.as_mut(), GlobalConfigService::instance().get_map(&event.new_map_name), event.new_instance_id));

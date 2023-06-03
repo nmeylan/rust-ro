@@ -12,6 +12,7 @@ pub enum GameEvent {
     CharacterLoadedFromClientSide(u32),
     CharacterRemoveFromMap(CharacterRemoveFromMap),
     CharacterClearFov(u32),
+    CharacterJoinGame(u32),
     CharacterMove(CharacterMovement),
     CharacterChangeMap(CharacterChangeMap),
     CharacterUpdateLook(CharacterLook),
