@@ -41,6 +41,7 @@ use crate::server::game_loop::GAME_TICK_RATE;
 
 
 use crate::server::service::battle_service::BattleService;
+use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::service::mob_service::MobService;
@@ -109,6 +110,7 @@ impl Server {
         InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone());
         ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance());
         SkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
+        SkillTreeService::init(client_notification_sender.clone(), GlobalConfigService::instance());
         StatusService::init(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance());
         BattleService::init(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance());
         MapInstanceService::init(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone());

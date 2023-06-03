@@ -11,3 +11,9 @@ eframe = { git = 'https://github.com/nmeylan/egui', rev = "cc7b299a132024dff44b5
 [patch."https://github.com/nmeylan/rathena-script-lang-interpreter"]
 #rathena_script_lang_interpreter = {path = "C:\\dev\\ragnarok\\ragnarok-script-interpreter"}
 #rathena_script_lang_interpreter = {path = "/home/nmeylan/dev/ragnarok/ragnarok-script-interpreter"}
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 2

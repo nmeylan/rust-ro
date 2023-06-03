@@ -1,8 +1,11 @@
 use std::sync::{Arc, Once};
 use std::sync::mpsc::SyncSender;
 use enums::class::JobName;
+use enums::EnumWithMaskValueU64;
+use enums::skill::SkillFlags;
+use packets::packets::{Packet, PacketZcSkillinfoList, SKILLINFO};
 use crate::repository::CharacterRepository;
-use crate::server::model::events::client_notification::Notification;
+use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::tasks_queue::TasksQueue;
@@ -12,10 +15,12 @@ use crate::server::state::character::Character;
 use crate::server::state::skill::Skill;
 use crate::enums::EnumWithNumberValue;
 use crate::server::model::configuration::{JobSkillTree, SkillInTree};
+use crate::util::string::StringUtil;
 
 
 static mut SERVICE_INSTANCE: Option<SkillTreeService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
+
 pub struct SkillTreeService {
     client_notification_sender: SyncSender<Notification>,
     configuration_service: &'static GlobalConfigService,
@@ -46,6 +51,50 @@ impl SkillTreeService {
         return skills;
     }
 
+    pub fn send_skill_tree(&self, character: &Character) {
+        let skills = self.skill_tree(character);
+        let skills_info: Vec<SKILLINFO> = skills.iter().map(|skill| {
+            let skill_config = self.configuration_service.get_skill_config(skill.value.id());
+            let mut skill_info = SKILLINFO::new(self.configuration_service.packetver());
+            skill_info.set_skid(skill.value.id() as i16);
+            skill_info.set_atype(skill_config.target_type().value() as i32);
+            skill_info.set_level(skill.level as i16);
+            let mut sp_cost = 0_i16;
+            let mut range = 0_i16;
+            if let Some(requirements) = skill_config.requires().as_ref() {
+                if let Some(cost) = requirements.sp_cost() {
+                    sp_cost = *cost as i16;
+                } else if let Some(sp_cost_per_level) = requirements.sp_cost_per_level() {
+                    sp_cost = sp_cost_per_level.iter().find(|(level, cost)| *level as u8 == skill.level)
+                        .unwrap().1 as i16;
+                }
+                if let Some(r) = skill_config.range() {
+                    range = *r as i16;
+                } else if let Some(range_per_level) = skill_config.range_per_level() {
+                    range = range_per_level.iter().find(|(level, cost)| *level as u8 == skill.level)
+                        .unwrap().1 as i16;
+                }
+            }
+            skill_info.set_spcost(sp_cost);
+            skill_info.set_attack_range(range);
+            let mut skill_name: [char; 24] = [0 as char; 24];
+            skill.value.to_name().fill_char_array(&mut skill_name);
+            skill_info.set_skill_name(skill_name);
+            let mut is_upgradable = 0_i8;
+            if SkillFlags::from_flag(skill_config.flags().unwrap_or(0)).is_permanent() {
+                is_upgradable = if skill.level < *skill_config.max_level() as u8 { 1 } else { 0 };
+            }
+            skill_info.set_upgradable(is_upgradable);
+            skill_info
+        }).collect::<Vec<SKILLINFO>>();
+        let mut packet_zc_skillinfo_list = PacketZcSkillinfoList::new(self.configuration_service.packetver());
+        packet_zc_skillinfo_list.set_packet_length((PacketZcSkillinfoList::base_len(self.configuration_service.packetver()) + skills_info.len() * SKILLINFO::base_len(self.configuration_service.packetver())) as i16);
+        packet_zc_skillinfo_list.set_skill_list(skills_info);
+        packet_zc_skillinfo_list.display();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_skillinfo_list.raw)))
+            .expect("Fail to send client notification");
+    }
+
     fn available_skills_in_tree(character: &Character, skilltree: &Vec<SkillInTree>, skills: &mut Vec<Skill>) {
         for skill_in_tree in skilltree.iter() {
             let skill = enums::skills::Skill::from_name(skill_in_tree.name());
@@ -64,7 +113,6 @@ impl SkillTreeService {
                 continue;
             }
             skills.push(Skill { value: skill, level });
-
         }
     }
 }

@@ -15,7 +15,7 @@ use crate::server::model::position::Position;
 use crate::server::model::request::Request;
 
 use crate::server::model::events::game_event::{CharacterRemoveFromMap, GameEvent};
-use crate::server::model::events::game_event::GameEvent::CharacterInitInventory;
+use crate::server::model::events::game_event::GameEvent::{CharacterInitInventory, CharacterJoinGame};
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::Server;
 use crate::server::service::server_service::ServerService;
@@ -324,6 +324,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_accept_enter.set_pos_dir(Position { x: character.x(), y: character.y(), dir: character.dir() }.to_pos());
     packet_accept_enter.fill_raw();
 
+    server.add_to_next_tick(CharacterJoinGame(char_id));
     ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.char_id());
     socket_send!(context, packet_accept_enter);
 

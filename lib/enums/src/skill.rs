@@ -76,6 +76,8 @@ pub enum SkillDamageFlags {
 
 #[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillFlags {
+    #[mask_value = 0]
+    Permanent,
     //NPC skills are those that players can't have in their skill tree.
     Isnpc,
     Iswedding,
@@ -130,6 +132,12 @@ pub enum SkillFlags {
     ShowScale,
     IncreaseDanceWithWugDamage,
     TargetManHole
+}
+
+impl SkillFlags {
+    pub fn is_permanent(&self) -> bool {
+        matches!(self, Self::Permanent)
+    }
 }
 
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]

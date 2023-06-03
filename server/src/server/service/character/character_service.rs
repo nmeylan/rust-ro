@@ -214,7 +214,7 @@ impl CharacterService {
     }
 
     pub fn get_job_level_max(&self, character: &mut Character) -> u32 {
-        *self.configuration_service.get_job_config(character.status.job).job_level().maxJobLevel() as u32
+        *self.configuration_service.get_job_config(character.status.job).job_level().max_job_level() as u32
     }
 
     pub fn update_job_level(&self, character: &mut Character, maybe_new_base_level: Option<u32>, maybe_level_delta: Option<i32>) -> i32 {
@@ -275,7 +275,7 @@ impl CharacterService {
         if job.is_second_class() {
             let first_class_job = JobName::from_mask(job.mask() & JOB_BASE_MASK, true).unwrap();
             let first_class_job_config = self.configuration_service.get_job_config(first_class_job.value() as u32);
-            skill_points += first_class_job_config.job_level().maxJobLevel() - 1;
+            skill_points += first_class_job_config.job_level().max_job_level() - 1;
         }
         if !job.is_novice() {
             skill_points += 9;
