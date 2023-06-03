@@ -3,7 +3,7 @@
 
 #![allow(dead_code)]
 
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Clone, Copy, PartialEq, Debug)]
 pub enum Skill {
   // novice Basic Skill
   NvBasic,

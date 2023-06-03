@@ -47,6 +47,7 @@ pub trait CharacterRepository {
     async fn character_allocated_skill_points(&self, _char_id: u32) -> Result<i32, Error> { todo!() }
     async fn character_skills(&self, _char_id: u32) -> Result<Vec<Skill>, Error> { todo!() }
     async fn character_reset_skills(&self, char_id: i32, skills: Vec<i32>) -> Result<(), Error> { todo!() }
+    async fn character_allocate_skill_point(&self, char_id: i32,  skill_id: i32, increment: u8) -> Result<(), Error> { todo!() }
 }
 
 #[async_trait]

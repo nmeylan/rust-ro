@@ -1,4 +1,5 @@
 use std::fmt::Debug;
+use enums::skills::Skill;
 use crate::repository::model::item_model::InventoryItemModel;
 
 #[derive(Debug, PartialEq)]
@@ -7,7 +8,8 @@ pub enum PersistenceEvent {
     UpdateCharacterStatusU32(StatusUpdate<u32>),
     DeleteItemsFromInventory(DeleteItems),
     UpdateEquippedItems(Vec<InventoryItemModel>),
-    ResetSkills(ResetSkills)
+    ResetSkills(ResetSkills),
+    IncreaseSkillLevel(IncreaseSkillLevel),
 }
 #[derive(Debug, PartialEq)]
 pub struct SavePositionUpdate {
@@ -47,4 +49,10 @@ pub struct DeleteItems {
 pub struct ResetSkills {
     pub char_id: i32,
     pub skills: Vec<i32>,
+}
+#[derive(Debug, PartialEq)]
+pub struct IncreaseSkillLevel {
+    pub char_id: i32,
+    pub skill: Skill,
+    pub increment: u8,
 }

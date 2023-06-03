@@ -136,7 +136,7 @@ pub enum SkillFlags {
 
 impl SkillFlags {
     pub fn is_permanent(&self) -> bool {
-        matches!(self, Self::Permanent)
+        *self == Self::Permanent
     }
 }
 

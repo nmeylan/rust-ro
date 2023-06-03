@@ -1,15 +1,10 @@
-use std::sync::{Arc, Once};
+use std::sync::{Once};
 use std::sync::mpsc::SyncSender;
 use enums::class::JobName;
 use enums::EnumWithMaskValueU64;
 use enums::skill::SkillFlags;
 use packets::packets::{Packet, PacketZcSkillinfoList, SKILLINFO};
-use crate::repository::CharacterRepository;
 use crate::server::model::events::client_notification::{CharNotification, Notification};
-use crate::server::model::events::game_event::GameEvent;
-use crate::server::model::events::persistence_event::PersistenceEvent;
-use crate::server::model::tasks_queue::TasksQueue;
-use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::server::state::skill::Skill;
@@ -53,6 +48,7 @@ impl SkillTreeService {
 
     pub fn send_skill_tree(&self, character: &Character) {
         let skills = self.skill_tree(character);
+        character.skills.iter().for_each(|s| println!("{:?}", s));
         let skills_info: Vec<SKILLINFO> = skills.iter().map(|skill| {
             let skill_config = self.configuration_service.get_skill_config(skill.value.id());
             let mut skill_info = SKILLINFO::new(self.configuration_service.packetver());
@@ -88,9 +84,9 @@ impl SkillTreeService {
             skill_info
         }).collect::<Vec<SKILLINFO>>();
         let mut packet_zc_skillinfo_list = PacketZcSkillinfoList::new(self.configuration_service.packetver());
-        packet_zc_skillinfo_list.set_packet_length((PacketZcSkillinfoList::base_len(self.configuration_service.packetver()) + skills_info.len() * SKILLINFO::base_len(self.configuration_service.packetver())) as i16);
+        packet_zc_skillinfo_list.set_packet_length((PacketZcSkillinfoList::base_len(self.configuration_service.packetver()) + (skills_info.len() * SKILLINFO::base_len(self.configuration_service.packetver()))) as i16);
         packet_zc_skillinfo_list.set_skill_list(skills_info);
-        packet_zc_skillinfo_list.display();
+        packet_zc_skillinfo_list.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_skillinfo_list.raw)))
             .expect("Fail to send client notification");
     }

@@ -5,6 +5,7 @@ use std::thread::{sleep};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use tokio::runtime::Runtime;
+use enums::skills::Skill;
 
 
 use packets::packets::{Packet, PacketZcNotifyPlayermove};
@@ -164,6 +165,10 @@ impl Server {
                         GameEvent::CharacterUpdateStat(character_update_stat) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_update_stat.char_id).unwrap();
                             CharacterService::instance().character_increase_stat(character, character_update_stat);
+                        }
+                        GameEvent::CharacterSkillUpgrade(character_skill_upgrade) => {
+                            let character = server_state_mut.characters_mut().get_mut(&character_skill_upgrade.char_id).unwrap();
+                            CharacterService::instance().allocate_skill_point(character, Skill::from_id(character_skill_upgrade.skill_id as u32));
                         }
                         GameEvent::CharacterDropItem(character_drop_item) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_drop_item.char_id).unwrap();
