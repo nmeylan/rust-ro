@@ -219,7 +219,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
             .fetch_one(&server.repository.pool).await.unwrap()
     });
     let skills: Vec<Skill> = context.runtime().block_on(async {
-        server.repository.character_skills(session_id).await.unwrap()
+        server.repository.character_skills(char_model.char_id as u32).await.unwrap()
     });
     let mut sessions_guard = write_lock!(server.state().sessions());
     let _session = sessions_guard.get(&session_id).unwrap();

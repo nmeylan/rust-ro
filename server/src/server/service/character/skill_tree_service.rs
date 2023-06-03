@@ -48,6 +48,7 @@ impl SkillTreeService {
 
     pub fn send_skill_tree(&self, character: &Character) {
         let skills = self.skill_tree(character);
+        info!("Skills (from tree)");
         character.skills.iter().for_each(|s| println!("{:?}", s));
         let skills_info: Vec<SKILLINFO> = skills.iter().map(|skill| {
             let skill_config = self.configuration_service.get_skill_config(skill.value.id());
@@ -57,18 +58,20 @@ impl SkillTreeService {
             skill_info.set_level(skill.level as i16);
             let mut sp_cost = 0_i16;
             let mut range = 0_i16;
-            if let Some(requirements) = skill_config.requires().as_ref() {
-                if let Some(cost) = requirements.sp_cost() {
-                    sp_cost = *cost as i16;
-                } else if let Some(sp_cost_per_level) = requirements.sp_cost_per_level() {
-                    sp_cost = sp_cost_per_level.iter().find(|(level, cost)| *level as u8 == skill.level)
-                        .unwrap().1 as i16;
-                }
-                if let Some(r) = skill_config.range() {
-                    range = *r as i16;
-                } else if let Some(range_per_level) = skill_config.range_per_level() {
-                    range = range_per_level.iter().find(|(level, cost)| *level as u8 == skill.level)
-                        .unwrap().1 as i16;
+            if skill.level > 0 {
+                if let Some(requirements) = skill_config.requires().as_ref() {
+                    if let Some(cost) = requirements.sp_cost() {
+                        sp_cost = *cost as i16;
+                    } else if let Some(sp_cost_per_level) = requirements.sp_cost_per_level() {
+                        sp_cost = sp_cost_per_level.iter().find(|(level, cost)| *level as u8 == skill.level)
+                            .unwrap().1 as i16;
+                    }
+                    if let Some(r) = skill_config.range() {
+                        range = *r as i16;
+                    } else if let Some(range_per_level) = skill_config.range_per_level() {
+                        range = range_per_level.iter().find(|(level, cost)| *level as u8 == skill.level)
+                            .unwrap().1 as i16;
+                    }
                 }
             }
             skill_info.set_spcost(sp_cost);
@@ -77,7 +80,7 @@ impl SkillTreeService {
             skill.value.to_name().fill_char_array(&mut skill_name);
             skill_info.set_skill_name(skill_name);
             let mut is_upgradable = 0_i8;
-            if SkillFlags::from_flag(skill_config.flags().unwrap_or(0)).is_permanent() {
+            if !skill.value.is_platinium() {
                 is_upgradable = if skill.level < *skill_config.max_level() as u8 { 1 } else { 0 };
             }
             skill_info.set_upgradable(is_upgradable);
