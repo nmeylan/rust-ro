@@ -7,6 +7,7 @@ use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::character::character_service::CharacterService;
+use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
@@ -31,7 +32,9 @@ fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository + Sy
     let server_task_queue = Arc::new(TasksQueue::new());
     CharacterServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
-        character_service: CharacterService::new(client_notification_sender, persistence_event_sender, character_repository, GlobalConfigService::instance(), server_task_queue.clone()),
+        character_service: CharacterService::new(client_notification_sender.clone(), persistence_event_sender, character_repository, GlobalConfigService::instance(),
+                                                 SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()),
+                                                 server_task_queue.clone()),
         server_task_queue,
     }
 }
@@ -48,7 +51,7 @@ mod tests {
     use enums::class::JobName;
     use enums::look::LookType;
     use enums::status::StatusTypes;
-    use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange, PacketZcNotifyEffect, PacketZcStatusChangeAck};
+    use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange, PacketZcNotifyEffect, PacketZcStatusChangeAck, PacketZcSkillinfoList, SKILLINFO};
     use crate::tests::character_service_tests::GameEvent;
     use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
     use crate::tests::common::assert_helper::{has_sent_persistence_event, has_sent_notification, NotificationExpectation, SentPacket, task_queue_contains_event_at_tick, task_queue_contains_event};
@@ -61,7 +64,7 @@ mod tests {
     use crate::server::model::events::map_event::MapEvent;
     use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny};
     use crate::server::model::events::map_event::{MobDropItems};
-    use crate::server::model::events::persistence_event::{PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
+    use crate::server::model::events::persistence_event::{IncreaseSkillLevel, PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
     use crate::server::model::map_instance::MapInstanceKey;
     use crate::server::model::movement::Movement;
     use crate::server::model::position::Position;
@@ -972,7 +975,7 @@ mod tests {
     }
 
     #[test]
-    fn test_increase_stat_allocate_status_point_to_stat() {
+    fn test_allocate_status_point_allocate_status_point_to_stat() {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
@@ -984,12 +987,12 @@ mod tests {
         character.status.luk = 6;
         character.status.status_point = 1000;
         // When
-        context.character_service.increase_stat(&mut character, StatusTypes::Str, 10);
-        context.character_service.increase_stat(&mut character, StatusTypes::Int, 11);
-        context.character_service.increase_stat(&mut character, StatusTypes::Agi, 12);
-        context.character_service.increase_stat(&mut character, StatusTypes::Dex, 13);
-        context.character_service.increase_stat(&mut character, StatusTypes::Vit, 14);
-        context.character_service.increase_stat(&mut character, StatusTypes::Luk, 15);
+        context.character_service.allocate_status_point(&mut character, StatusTypes::Str, 10);
+        context.character_service.allocate_status_point(&mut character, StatusTypes::Int, 11);
+        context.character_service.allocate_status_point(&mut character, StatusTypes::Agi, 12);
+        context.character_service.allocate_status_point(&mut character, StatusTypes::Dex, 13);
+        context.character_service.allocate_status_point(&mut character, StatusTypes::Vit, 14);
+        context.character_service.allocate_status_point(&mut character, StatusTypes::Luk, 15);
         // Then
         assert_eq!(character.status.str, 11);
         assert_eq!(character.status.int, 13);
@@ -1000,7 +1003,7 @@ mod tests {
     }
 
     #[test]
-    fn test_increase_stat_should_decrease_available_status_point() {
+    fn test_allocate_status_point_should_decrease_available_status_point() {
         // Given
         let context = before_each(mocked_repository());
         struct Scenarii {
@@ -1022,14 +1025,14 @@ mod tests {
             character.status.str = scenarii.initial_stat_level;
             character.status.status_point = scenarii.available_status_point;
             // When
-            context.character_service.increase_stat(&mut character, StatusTypes::Str, scenarii.value_to_add);
+            context.character_service.allocate_status_point(&mut character, StatusTypes::Str, scenarii.value_to_add);
             // Then
             assert_eq!(character.status.status_point, scenarii.expected_available_status_point);
         }
     }
 
     #[test]
-    fn test_increase_stat_should_ensure_enough_status_point_are_available() {
+    fn test_allocate_status_point_should_ensure_enough_status_point_are_available() {
         // Given
         let context = before_each(mocked_repository());
         struct Scenarii {
@@ -1052,7 +1055,7 @@ mod tests {
             character.status.str = scenarii.initial_stat_level;
             character.status.status_point = scenarii.available_status_point;
             // When
-            context.character_service.increase_stat(&mut character, StatusTypes::Str, scenarii.value_to_add);
+            context.character_service.allocate_status_point(&mut character, StatusTypes::Str, scenarii.value_to_add);
             // Then
             if scenarii.expected_can_raise_stat {
                 assert_eq!(character.status.str, scenarii.initial_stat_level + scenarii.value_to_add);
@@ -1063,44 +1066,89 @@ mod tests {
     }
 
     #[test]
-    fn test_increase_stat_should_trigger_calculate_stat() {
+    fn test_allocate_status_point_should_trigger_calculate_stat() {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
         character.status.str = 98;
         character.status.status_point = 1000;
         // When
-        context.character_service.increase_stat(&mut character, StatusTypes::Str, 1);
+        context.character_service.allocate_status_point(&mut character, StatusTypes::Str, 1);
         // Then
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterCalculateStats(character.char_id), 0);
     }
 
     #[test]
-    fn test_increase_stat_cannot_exceed_max_stat_level_configured() {
+    fn test_allocate_status_point_cannot_exceed_max_stat_level_configured() {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
         character.status.str = 99;
         character.status.status_point = 1000;
         // When
-        context.character_service.increase_stat(&mut character, StatusTypes::Str, 1);
+        context.character_service.allocate_status_point(&mut character, StatusTypes::Str, 1);
         // Then
         assert_eq!(character.status.str, 99);
     }
 
     #[test]
-    fn test_increase_stat_should_defer_stat_update_and_status_point_update_in_db() {
+    fn test_allocate_status_point_should_defer_stat_update_and_status_point_update_in_db() {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
         character.status.str = 98;
         character.status.status_point = 1000;
         // When
-        context.character_service.increase_stat(&mut character, StatusTypes::Str, 1);
+        context.character_service.allocate_status_point(&mut character, StatusTypes::Str, 1);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point, }));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "str".to_string(), value: 99, }));
+    }
+
+    #[test]
+    fn test_allocate_skill_point_should_put_point_on_skill_and_decrease_available_skill_point_trigger_skill_list_packet_send() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.job_level = 2;
+        character.status.skill_point = 1;
+        // When
+        context.character_service.allocate_skill_point(&mut character, enums::skills::Skill::NvBasic);
+        // Then
+        assert_eq!(character.skills.iter().find(|s| matches!(s.value, enums::skills::Skill::NvBasic)).unwrap().level, 1);
+        assert_eq!(character.status.skill_point, 0);
+        context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
+        assert_sent_persistence_event!(context, PersistenceEvent::IncreaseSkillLevel(IncreaseSkillLevel { char_id: character.char_id as i32, skill: enums::skills::Skill::NvBasic, increment: 1, }));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id as u32, db_column: "skill_point".to_string(), value: 0, }));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+    }
+
+    #[test]
+    fn test_allocate_skill_point_should_ensure_enough_skill_point_are_available() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.job_level = 2;
+        character.status.skill_point = 0;
+        // When
+        let result = context.character_service.allocate_skill_point(&mut character, enums::skills::Skill::NvBasic);
+        // Then
+        assert_eq!(result, false);
+    }
+
+    #[test]
+    fn test_allocate_skill_point_should_do_nothing_when_skill_is_not_available_in_tree() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.job_level = 2;
+        character.status.skill_point = 1;
+        // When
+        let result = context.character_service.allocate_skill_point(&mut character, enums::skills::Skill::SmBash);
+        // Then
+        assert_eq!(result, false);
     }
 
     #[test]
@@ -1303,7 +1351,7 @@ mod tests {
 
 
     #[test]
-    fn character_increase_stat_should_send_ack_packet() {
+    fn character_increase_stat_point_should_send_ack_packet() {
         // Given
         let context = before_each(mocked_repository());
         let mut character_state = create_character();

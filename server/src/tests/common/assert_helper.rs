@@ -220,6 +220,9 @@ macro_rules! assert_sent_persistence_event {
 }
 
 fn contains_packet(expectation: &NotificationExpectation, packetver: u32, packets: &Vec<u8>) -> bool {
+    if packets.is_empty() {
+        return false;
+    }
     let packets = parse_packet(packets, packetver);
     for expectation_packet in expectation.packets.iter() {
         let mut i = 0;

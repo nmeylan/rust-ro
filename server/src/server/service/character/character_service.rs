@@ -23,7 +23,7 @@ use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::path::manhattan_distance;
 
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::model::events::persistence_event::{PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
+use crate::server::model::events::persistence_event::{IncreaseSkillLevel, PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
 use crate::server::model::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
 use crate::server::{PLAYER_FOV, Server};
 use crate::server::model::events::map_event::{MapEvent, MobDropItems};
@@ -31,6 +31,7 @@ use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::model::position::Position;
 use crate::server::model::status::Status;
 use crate::server::model::tasks_queue::TasksQueue;
+use crate::server::service::character::skill_tree_service::SkillTreeService;
 
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
@@ -39,6 +40,7 @@ use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::server::ServerState;
+use crate::server::state::skill::Skill;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 
@@ -50,6 +52,7 @@ pub struct CharacterService {
     persistence_event_sender: SyncSender<PersistenceEvent>,
     repository: Arc<dyn CharacterRepository + Sync>,
     configuration_service: &'static GlobalConfigService,
+    skill_tree_service: SkillTreeService,
     server_task_queue: Arc<TasksQueue<GameEvent>>,
 }
 
@@ -58,12 +61,12 @@ impl CharacterService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
-        Self { client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue }
+    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, skill_tree_service: SkillTreeService, server_task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
+        Self { client_notification_sender, persistence_event_sender, repository, configuration_service, skill_tree_service, server_task_queue }
     }
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, skill_tree_service: SkillTreeService, server_task_queue: Arc<TasksQueue<GameEvent>>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(CharacterService { client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue });
+            SERVICE_INSTANCE = Some(CharacterService { client_notification_sender, persistence_event_sender, repository, configuration_service, skill_tree_service, server_task_queue });
         });
     }
 
@@ -347,7 +350,7 @@ impl CharacterService {
             }
             _ => {
                 error!("Can't read stat of type {:?}, not handled yet!", status_type);
-               0
+                0
             }
         }
     }
@@ -378,7 +381,7 @@ impl CharacterService {
         }
     }
 
-    pub fn increase_stat(&self, character: &mut Character, status_type: StatusTypes, value_to_add: u16) -> bool {
+    pub fn allocate_status_point(&self, character: &mut Character, status_type: StatusTypes, value_to_add: u16) -> bool {
         let status_point = character.status.status_point;
         let stat = self.stat_mut(&mut character.status, &status_type);
         if *stat + value_to_add > self.configuration_service.config().game.max_stat_level {
@@ -403,6 +406,31 @@ impl CharacterService {
         })).expect("Fail to send persistence notification");
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point })).expect("Fail to send persistence notification");
         self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
+        true
+    }
+
+    pub fn allocate_skill_point(&self, character: &mut Character, skill: enums::skills::Skill) -> bool {
+        let skill_point = character.status.skill_point;
+        if skill_point < 1 {
+            return false
+        }
+        // Skill to allocate point to is not available in skill tree
+        self.skill_tree_service.skill_tree(character).iter().for_each(|s| println!("{:?}", s.value));
+        if self.skill_tree_service.skill_tree(character).iter().find(|s| s.value == skill).is_none() {
+            return false
+        }
+        character.status.skill_point -= 1;
+        let increased_skill;
+        if let Some(skill) = character.skills.iter_mut().find(|s| s.value == skill) {
+            skill.level += 1;
+            increased_skill = *skill;
+        } else {
+            increased_skill = Skill{ value: skill, level: 1 };
+            character.skills.push(increased_skill)
+        }
+        self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Skillpoint, character.status.skill_point);
+        self.persistence_event_sender.send(PersistenceEvent::IncreaseSkillLevel(IncreaseSkillLevel { char_id: character.char_id as i32, skill: increased_skill.value, increment: 1, })).expect("Fail to send persistence notification");
+        self.skill_tree_service.send_skill_tree(character);
         true
     }
 
@@ -436,7 +464,7 @@ impl CharacterService {
         character.status.base_exp = status_copy.base_exp + gain_exp;
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Baseexp, character.status.base_exp);
     }
-    
+
     pub fn gain_job_exp(&self, character: &mut Character, gain_exp: u32) {
         let mut gained_level = 0;
         let mut gain_exp = (gain_exp as f32 * self.configuration_service.config().game.job_exp_rate).ceil() as u32;
@@ -508,7 +536,7 @@ impl CharacterService {
         character.skills = character.skills.iter().filter(|skill| skill.value.is_platinium()).cloned().collect();
 
         self.update_skill_point(character, skill_points as u32, should_persist_skill_points);
-        self.persistence_event_sender.send(PersistenceEvent::ResetSkills(ResetSkills{ char_id: character.char_id as i32, skills: skills_to_reset }));
+        self.persistence_event_sender.send(PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset }));
         // TODO send skillList
     }
 
@@ -521,7 +549,7 @@ impl CharacterService {
     }
 
     pub fn next_base_level_required_exp(&self, status: &Status) -> u32 {
-        let exp =if JobName::from_value(status.job as usize).is_rebirth() {
+        let exp = if JobName::from_value(status.job as usize).is_rebirth() {
             &self.configuration_service.config().game.exp_requirements.base_next_level_requirement.transcendent
         } else {
             &self.configuration_service.config().game.exp_requirements.base_next_level_requirement.normal
@@ -812,7 +840,7 @@ impl CharacterService {
     }
 
     pub fn character_increase_stat(&self, character: &mut Character, character_update_stat: CharacterUpdateStat) {
-        let result = self.increase_stat(character, StatusTypes::from_value(character_update_stat.stat_id as usize), character_update_stat.change_amount);
+        let result = self.allocate_status_point(character, StatusTypes::from_value(character_update_stat.stat_id as usize), character_update_stat.change_amount);
         let mut packet_zc_status_change_ack = PacketZcStatusChangeAck::new(self.configuration_service.packetver());
         packet_zc_status_change_ack.set_status_id(character_update_stat.stat_id);
         packet_zc_status_change_ack.set_result(result);

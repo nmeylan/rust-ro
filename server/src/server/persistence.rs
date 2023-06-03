@@ -25,7 +25,10 @@ impl Server {
                         repository.character_inventory_wearable_item_update(items).await.unwrap();
                     }
                     PersistenceEvent::ResetSkills(reset_skills) => {
-
+                        repository.character_reset_skills(reset_skills.char_id, reset_skills.skills).await.unwrap();
+                    }
+                    PersistenceEvent::IncreaseSkillLevel(increase_skill_level) => {
+                        repository.character_allocate_skill_point(increase_skill_level.char_id, increase_skill_level.skill.id() as i32, increase_skill_level.increment).await.unwrap();
                     }
                 }
             })

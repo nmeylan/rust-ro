@@ -32,6 +32,7 @@ pub enum GameEvent {
     CharacterKillMonster(CharacterKillMonster),
     CharacterPickUpItem(CharacterPickUpItem),
     CharacterUpdateStat(CharacterUpdateStat),
+    CharacterSkillUpgrade(CharacterSkillUpgrade),
     MapNotifyItemRemoved(u32),
     CharacterDropItem(CharacterRemoveItem)
 }
@@ -161,4 +162,9 @@ pub struct CharacterUpdateStat {
     pub char_id: u32,
     pub stat_id: u16,
     pub change_amount: u16,
+}
+#[derive(Debug, PartialEq, Clone)]
+pub struct CharacterSkillUpgrade {
+    pub char_id: u32,
+    pub skill_id: u16,
 }

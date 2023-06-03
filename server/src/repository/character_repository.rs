@@ -61,4 +61,14 @@ impl CharacterRepository for Repository {
             })
             .map(|_| ())
     }
+
+    async fn character_allocate_skill_point(&self, char_id: i32,  skill_id: i32, increment: u8) -> Result<(), Error> {
+        let sql = format!("INSERT INTO skill (char_id, id, lv, flag) values ($1, $2, $3, 0) ON CONFLICT (char_id, id) DO UPDATE set lv = skill.lv + EXCLUDED.lv");
+        sqlx::query(&sql).bind(char_id as i32).bind(skill_id). bind(increment as i16).execute(&self.pool).await
+            .map_err(|e| {
+                error!("DB error: {}", e.as_database_error().unwrap());
+                e
+            })
+            .map(|_| ())
+    }
 }
