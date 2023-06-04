@@ -53,8 +53,7 @@ impl CharacterRepository for Repository {
 
 
     async fn character_reset_skills(&self, char_id: i32, skills: Vec<i32>) -> Result<(), Error> {
-        let sql = format!("DELETE FROM skill WHERE char_id = $1 and id IN (SELECT * FROM UNNEST($2::int4[]))"); // TODO sanitize db_column
-        sqlx::query(&sql).bind(char_id as i32).bind(skills).execute(&self.pool).await
+        sqlx::query("DELETE FROM skill WHERE char_id = $1 and id IN (SELECT * FROM UNNEST($2::int4[]))").bind(char_id as i32).bind(skills).execute(&self.pool).await
             .map_err(|e| {
                 error!("DB error: {}", e.as_database_error().unwrap());
                 e
@@ -63,8 +62,8 @@ impl CharacterRepository for Repository {
     }
 
     async fn character_allocate_skill_point(&self, char_id: i32,  skill_id: i32, increment: u8) -> Result<(), Error> {
-        let sql = format!("INSERT INTO skill (char_id, id, lv, flag) values ($1, $2, $3, 0) ON CONFLICT (char_id, id) DO UPDATE set lv = skill.lv + EXCLUDED.lv");
-        sqlx::query(&sql).bind(char_id as i32).bind(skill_id). bind(increment as i16).execute(&self.pool).await
+        sqlx::query("INSERT INTO skill (char_id, id, lv, flag) values ($1, $2, $3, 0) ON CONFLICT (char_id, id) DO UPDATE set lv = skill.lv + EXCLUDED.lv")
+            .bind(char_id as i32).bind(skill_id). bind(increment as i16).execute(&self.pool).await
             .map_err(|e| {
                 error!("DB error: {}", e.as_database_error().unwrap());
                 e
