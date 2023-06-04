@@ -50,6 +50,7 @@ impl TestContext {
         let increment_latch_clone = increment_latch.clone();
         thread::Builder::new().name("client_notification_thread".to_string()).spawn(move || {
             for notification in client_notification_receiver.iter() {
+                // println!("Sent client notification {:?}", notification);
                 received_notification_cloned.lock().unwrap().push(notification);
                 count_down_latch_clone.countdown();
                 increment_latch_clone.increment();
@@ -59,6 +60,7 @@ impl TestContext {
         let increment_latch_clone = increment_latch.clone();
         thread::Builder::new().name("persistence_event_thread".to_string()).spawn(move || {
             for notification in persistence_event_receiver.iter() {
+                // println!("Sent persistence event {:?}", notification);
                 received_persistence_events_cloned.lock().unwrap().push(notification);
                 count_down_latch_clone.countdown();
                 increment_latch_clone.increment();
