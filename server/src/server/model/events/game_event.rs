@@ -34,7 +34,9 @@ pub enum GameEvent {
     CharacterUpdateStat(CharacterUpdateStat),
     CharacterSkillUpgrade(CharacterSkillUpgrade),
     MapNotifyItemRemoved(u32),
-    CharacterDropItem(CharacterRemoveItem)
+    CharacterDropItem(CharacterRemoveItem),
+    CharacterResetSkills(u32),
+    CharacterResetStats(u32),
 }
 
 #[derive(Debug, PartialEq, Clone)]

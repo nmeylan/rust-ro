@@ -53,7 +53,7 @@ impl CharacterRepository for Repository {
 
 
     async fn character_reset_skills(&self, char_id: i32, skills: Vec<i32>) -> Result<(), Error> {
-        let sql = format!("DELETE FROM skill WHERE char_id = $1 and id (SELECT * FROM UNNEST($2::int4[]))"); // TODO sanitize db_column
+        let sql = format!("DELETE FROM skill WHERE char_id = $1 and id IN (SELECT * FROM UNNEST($2::int4[]))"); // TODO sanitize db_column
         sqlx::query(&sql).bind(char_id as i32).bind(skills).execute(&self.pool).await
             .map_err(|e| {
                 error!("DB error: {}", e.as_database_error().unwrap());

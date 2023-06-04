@@ -93,6 +93,14 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             let result = handle_reload(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
+        "resetskills" => {
+            let result = handle_reset_skills(server, context.session(), context.runtime(), args);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
+        "resetstats" => {
+            let result = handle_reset_stats(server, context.session(), context.runtime(), args);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
         _ => {
             packet_zc_notify_playerchat.set_msg(format!("{symbol}{command} is an Unknown Command."));
         }
@@ -275,4 +283,15 @@ pub fn handle_reload(server: &Server, _session: Arc<Session>, _runtime: &Runtime
         }
         &_ => format!("@reload command accept a string value among: [script] but received {}", args[0])
     }
+}
+
+pub fn handle_reset_skills(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+    server.add_to_next_tick(GameEvent::CharacterResetSkills(session.char_id()));
+    return "Skills have been reset.".to_string();
+}
+
+
+pub fn handle_reset_stats(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+    server.add_to_next_tick(GameEvent::CharacterResetStats(session.char_id()));
+    return "Stats have been reset.".to_string();
 }

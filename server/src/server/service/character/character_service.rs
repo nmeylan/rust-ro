@@ -415,7 +415,6 @@ impl CharacterService {
             return false
         }
         // Skill to allocate point to is not available in skill tree
-        self.skill_tree_service.skill_tree(character).iter().for_each(|s| println!("{:?}", s.value));
         if self.skill_tree_service.skill_tree(character).iter().find(|s| s.value == skill).is_none() {
             return false
         }
@@ -537,7 +536,7 @@ impl CharacterService {
 
         self.update_skill_point(character, skill_points as u32, should_persist_skill_points);
         self.persistence_event_sender.send(PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset }));
-        // TODO send skillList
+        self.skill_tree_service.send_skill_tree(character);
     }
 
     pub fn should_reset_stats(&self, character: &Character) -> bool {
@@ -832,11 +831,11 @@ impl CharacterService {
 
     fn send_status_update_and_defer_db_update(&self, char_id: u32, status_type: StatusTypes, new_value: u32) {
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id, db_column: status_type.to_column().unwrap_or_else(|| panic!("no db column name for status of type {status_type:?}")).to_string(), value: new_value })).expect("Fail to send persistence notification");
-        let mut packet_base_level = PacketZcParChange::new(self.configuration_service.packetver());
-        packet_base_level.set_var_id(status_type.value() as u16);
-        packet_base_level.set_count(new_value as i32);
-        packet_base_level.fill_raw();
-        self.client_notification_sender.send(Notification::Char(CharNotification::new(char_id, packet_base_level.raw))).expect("Fail to send client notification");
+        let mut packet_status_change = PacketZcParChange::new(self.configuration_service.packetver());
+        packet_status_change.set_var_id(status_type.value() as u16);
+        packet_status_change.set_count(new_value as i32);
+        packet_status_change.fill_raw();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(char_id, packet_status_change.raw))).expect("Fail to send client notification");
     }
 
     pub fn character_increase_stat(&self, character: &mut Character, character_update_stat: CharacterUpdateStat) {

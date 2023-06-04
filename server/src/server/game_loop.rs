@@ -181,6 +181,14 @@ impl Server {
                             InventoryService::instance().character_sell_items(&runtime, character, character_remove_items);
 
                         }
+                        GameEvent::CharacterResetSkills(char_id) => {
+                            let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+                            CharacterService::instance().reset_skills(character, true);
+                        }
+                        GameEvent::CharacterResetStats(char_id) => {
+                            let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+                            CharacterService::instance().reset_stats(character);
+                        }
                     }
                 }
             }

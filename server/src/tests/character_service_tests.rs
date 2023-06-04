@@ -970,8 +970,8 @@ mod tests {
         assert_eq!(character.status.skill_point, 84);
         context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "skill_point".to_string(), value: character.status.skill_point, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset, }));
-        // TODO send skillList
+        assert_sent_persistence_event!(context, PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset, })); // Platinium skill are not reset
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
     }
 
     #[test]

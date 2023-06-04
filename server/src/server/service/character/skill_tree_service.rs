@@ -39,6 +39,16 @@ impl SkillTreeService {
     pub fn skill_tree(&self, character: &Character) -> Vec<Skill> {
         let skilltree = self.configuration_service.get_job_skilltree(JobName::from_value(character.status.job as usize));
         let mut skills = vec![];
+
+        let maybe_novice_basic = character.skills.iter().find(|s| s.value == enums::skills::Skill::NvBasic);
+        let mut platinium_novice_skills = character.skills.iter().filter(|s| s.value.to_name().starts_with("NV") && s.value.is_platinium()).cloned().collect::<Vec<Skill>>();
+        if maybe_novice_basic.is_none() {
+            platinium_novice_skills.extend(vec![Skill { value: enums::skills::Skill::NvBasic, level: 0 }]);
+            return platinium_novice_skills;
+        } else if maybe_novice_basic.unwrap().level < 9 {
+            platinium_novice_skills.extend(vec![Skill { value: enums::skills::Skill::NvBasic, level: maybe_novice_basic.unwrap().level }]);
+            return platinium_novice_skills;
+        }
         Self::available_skills_in_tree(character, &skilltree.tree(), &mut skills);
         for (_, parent_skills) in skilltree.parent_skills().iter() {
             Self::available_skills_in_tree(character, &parent_skills, &mut skills);
@@ -48,8 +58,6 @@ impl SkillTreeService {
 
     pub fn send_skill_tree(&self, character: &Character) {
         let skills = self.skill_tree(character);
-        info!("Skills (from tree)");
-        character.skills.iter().for_each(|s| println!("{:?}", s));
         let skills_info: Vec<SKILLINFO> = skills.iter().map(|skill| {
             let skill_config = self.configuration_service.get_skill_config(skill.value.id());
             let mut skill_info = SKILLINFO::new(self.configuration_service.packetver());
