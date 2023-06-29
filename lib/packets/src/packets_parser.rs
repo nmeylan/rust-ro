@@ -37,6 +37,9 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if packetver >= 20120307 && buffer[0] == 0x39 && buffer[1] == 0x04 {
         return Box::new(PacketCzUseItem::from(buffer, packetver));
     }
+    if packetver >= 20120307 && buffer[0] == 0x89 && buffer[1] == 0x08 {
+        return Box::new(PacketCzUseSkill::from(buffer, packetver));
+    }
     if packetver >= 20120307 && buffer[0] == 0x6A && buffer[1] == 0x08 {
         return Box::new(PacketCzEnter2::from(buffer, packetver));
     }
