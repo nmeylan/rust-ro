@@ -24,7 +24,6 @@ use model::events::persistence_event::PersistenceEvent;
 
 
 use crate::util::cell::{MyRefMut, MyUnsafeCell};
-
 use std::cell::RefCell;
 
 
@@ -50,6 +49,7 @@ use crate::server::service::server_service::ServerService;
 use crate::server::service::status_service::StatusService;
 
 use crate::server::state::server::ServerState;
+use crate::util::packet::{debug_packets, debug_packets_from_vec, PacketDirection};
 use crate::util::tick::delayed_tick;
 
 pub mod boot;
@@ -193,14 +193,18 @@ impl Server {
                             match tcp_stream.read(&mut buffer) {
                                 Ok(bytes_read) => {
                                     if bytes_read == 0 {
-                                        tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems cloded.");
+                                        tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems closed.");
                                         break;
                                     }
                                     let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
                                     let context = Request::new(&runtime, server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
                                     request_handler::handle(server_shared_ref.clone(), context);
                                 }
-                                Err(err) => error!("{}", err)
+                                Err(err) => {
+                                    error!("{}", err);
+                                    tcp_stream.shutdown(Shutdown::Both);
+                                    break;
+                                }
                             }
                         }
                     });
@@ -214,6 +218,10 @@ impl Server {
                     let data = response.serialized_packet();
                     let mut tcp_stream_guard = tcp_stream.write().unwrap();
                     debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
+                    if GlobalConfigService::instance().config().server.trace_packet {
+                        debug_packets_from_vec(tcp_stream_guard.peer_addr().as_ref().unwrap(), PacketDirection::Backward,
+                                               GlobalConfigService::instance().packetver(), data, &Option::None);
+                    }
                     tcp_stream_guard.write_all(data).unwrap();
                     tcp_stream_guard.flush().unwrap();
                 }
@@ -231,6 +239,10 @@ impl Server {
                                 let mut tcp_stream_guard = tcp_stream.write().unwrap();
                                 if tcp_stream_guard.peer_addr().is_ok() {
                                     debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
+                                    if GlobalConfigService::instance().config().server.trace_packet {
+                                        debug_packets_from_vec(tcp_stream_guard.peer_addr().as_ref().unwrap(), PacketDirection::Backward,
+                                                               GlobalConfigService::instance().packetver(), data, &Option::None);
+                                    }
                                     tcp_stream_guard.write_all(data).unwrap();
                                     tcp_stream_guard.flush().unwrap();
                                 } else {

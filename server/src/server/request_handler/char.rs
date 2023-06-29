@@ -5,7 +5,7 @@ use std::sync::{Arc, Mutex};
 use byteorder::{LittleEndian, WriteBytesExt};
 use sqlx::Postgres;
 
-use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcReqDisconnectAck2, PacketZcRestartAck, ZserverAddr};
+use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcReqDisconnectAck2, PacketZcRestartAck, ZserverAddr};
 use crate::repository::CharacterRepository;
 
 use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
@@ -38,15 +38,33 @@ pub fn handle_char_enter(server: &Server, context: Request) {
         let session = Arc::new(session.recreate_with_char_socket(context.socket()));
         sessions_guard.insert(packet_char_enter.aid, session.clone());
         if session.auth_code == packet_char_enter.auth_code && session.user_level == packet_char_enter.user_level {
-            let packet_hc_accept_enter_neo_union = context.runtime().block_on(async {
-                load_chars_info(session.account_id, server).await
+            let packet_hc_accept_enter_neo_union: Box<dyn Packet> = context.runtime().block_on(async {
+                let mut hc_accept_enter_neo_union = load_chars_info(session.account_id, server).await;
+                if GlobalConfigService::instance().packetver() >= 20130000 {
+                    let mut accept_enter_neo_union_header = PacketHcAcceptEnterNeoUnionHeader::new(GlobalConfigService::instance().packetver());
+                    accept_enter_neo_union_header.set_char_info(hc_accept_enter_neo_union);
+                    accept_enter_neo_union_header.set_char_slot(12);
+                    accept_enter_neo_union_header.set_premium_slot_end(12);
+                    accept_enter_neo_union_header.set_premium_slot_start(12);
+                    accept_enter_neo_union_header.set_packet_len(29);
+                    accept_enter_neo_union_header.fill_raw_with_packetver(Some(server.packetver()));
+                    let x: Box<dyn Packet> = Box::new(accept_enter_neo_union_header);
+                    x
+                } else {
+                    hc_accept_enter_neo_union.fill_raw_with_packetver(Some(server.packetver()));
+                    let x: Box<dyn Packet> = Box::new(hc_accept_enter_neo_union);
+                    x
+                }
             });
             let mut pincode_loginstate = PacketPincodeLoginstate::new(GlobalConfigService::instance().packetver());
             pincode_loginstate.set_aid(session.account_id);
             pincode_loginstate.set_pincode_seed(session.auth_code);
             pincode_loginstate.fill_raw();
+            let mut packet_hc_block_character = PacketHcBlockCharacter::new(GlobalConfigService::instance().packetver());
+            packet_hc_block_character.set_packet_length(PacketHcBlockCharacter::base_len(GlobalConfigService::instance().packetver()) as i16);
+            packet_hc_block_character.fill_raw();
             // The pincode packet should be appended to PacketHcAcceptEnterNeoUnionHeader packet
-            let final_response_packet: Vec<u8> = chain_packets(vec![&packet_hc_accept_enter_neo_union, &pincode_loginstate]);
+            let final_response_packet: Vec<u8> = chain_packets(vec![packet_hc_accept_enter_neo_union.as_ref(), &packet_hc_block_character, &pincode_loginstate]);
             let mut wtr = vec![];
             // A "account id packet" should be sent just before char info packet
             wtr.write_u32::<LittleEndian>(session.account_id).expect("Unable to write Little endian u32 from session account id");
@@ -350,7 +368,7 @@ pub fn handle_restart(server: &Server, context: Request) {
     let session = sessions_guard.get(&session_id).unwrap();
     let char_id = session.char_id();
     let character_ref = server.state().get_character_from_context_unsafe(&context);
-    server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap{char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance()}));
+    server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap { char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance() }));
     let session = sessions_guard.get(&session_id).unwrap();
     let session = Arc::new(session.recreate_without_character());
     sessions_guard.insert(session_id, session);
@@ -365,7 +383,7 @@ pub fn handle_disconnect(server: &Server, context: Request) {
     let session = context.session();
     let char_id = session.char_id();
     let character_ref = server.state().get_character_from_context_unsafe(&context);
-    server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap{char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance()}));
+    server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap { char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance() }));
     server.state().remove_session(session.account_id);
 
     let mut disconnect_ack = PacketZcReqDisconnectAck2::new(GlobalConfigService::instance().packetver());
@@ -380,25 +398,17 @@ pub fn handle_blocking_play_cancel(context: Request) {
     socket_send!(context, packet_zc_load_confirm);
 }
 
-async fn load_chars_info(account_id: u32, server: &Server) -> PacketHcAcceptEnterNeoUnionHeader {
+async fn load_chars_info(account_id: u32, server: &Server) -> PacketHcAcceptEnterNeoUnion {
     let row_results = sqlx::query_as::<Postgres, CharacterInfoNeoUnionWrapped>("SELECT * FROM char WHERE account_id = $1")
         .bind(account_id as i32)
         .fetch_all(&server.repository.pool).await.unwrap();
-    let mut accept_enter_neo_union_header = PacketHcAcceptEnterNeoUnionHeader::new(GlobalConfigService::instance().packetver());
     let mut accept_enter_neo_union = PacketHcAcceptEnterNeoUnion::new(GlobalConfigService::instance().packetver());
     accept_enter_neo_union.set_packet_length((27 + row_results.len() * CharacterInfoNeoUnion::base_len(server.packetver())) as i16);
     accept_enter_neo_union.set_char_info(row_results.iter().map(|wrapped| {
-        debug!("{}", wrapped.data);
         wrapped.data.clone()
     }).collect::<Vec<CharacterInfoNeoUnion>>());
     accept_enter_neo_union.set_premium_start_slot(12);
     accept_enter_neo_union.set_premium_end_slot(12);
     accept_enter_neo_union.set_total_slot_num(12);
-    accept_enter_neo_union_header.set_char_info(accept_enter_neo_union);
-    accept_enter_neo_union_header.set_char_slot(12);
-    accept_enter_neo_union_header.set_premium_slot_end(12);
-    accept_enter_neo_union_header.set_premium_slot_start(12);
-    accept_enter_neo_union_header.set_packet_len(29);
-    accept_enter_neo_union_header.fill_raw_with_packetver(Some(server.packetver()));
-    accept_enter_neo_union_header
+    accept_enter_neo_union
 }

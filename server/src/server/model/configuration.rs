@@ -29,6 +29,8 @@ pub struct ServerConfig {
     #[set]
     pub log_level: Option<String>,
     #[set]
+    pub trace_packet: bool,
+    #[set]
     pub log_exclude_pattern: Option<String>,
     pub accounts: Vec<u32>,
     pub port: u16,

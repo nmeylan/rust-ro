@@ -17,3 +17,8 @@ opt-level = 1
 
 [profile.dev.package."*"]
 opt-level = 2
+
+[profile.dev.package."packets"]
+opt-level = 0
+[profile.dev.package."enums"]
+opt-level = 0

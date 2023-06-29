@@ -1427,7 +1427,7 @@ struct PACKET_CZ_UPGRADE_SKILLLEVEL {
   short PacketId
   unsigned short SKID
  }
-0x113
+0x113, 0x0889:20120307
 struct PACKET_CZ_USE_SKILL {
   short PacketId
   short selectedLevel

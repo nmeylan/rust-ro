@@ -27477,7 +27477,11 @@ impl Packet for PacketCzUpgradeSkilllevel {
 
 impl PacketCzUseSkill {
     pub fn packet_id(packetver: u32) -> &'static str {
-        "0x1301"
+        if packetver >= 20120307 {
+            "0x0889"
+        } else {
+            "0x1301"
+        }
     }
     pub fn from(buffer: &[u8], packetver: u32) -> PacketCzUseSkill {
         let mut offset: usize = 0;
@@ -27579,8 +27583,11 @@ impl PacketCzUseSkill {
         self.target_id_raw = value;
     }
     pub fn new(packetver: u32) -> PacketCzUseSkill {
-        let packet_id = i16::from_le_bytes([0x13, 0x01]);
-        let packet_id_raw = [0x13, 0x01];
+        let (packet_id, packet_id_raw) = if packetver >= 20120307 {
+            (i16::from_le_bytes([0x89, 0x08]), [0x89, 0x08])
+        } else {
+            (i16::from_le_bytes([0x13, 0x01]), [0x13, 0x01])
+        };
         PacketCzUseSkill {
         raw: vec![],
         packet_id,

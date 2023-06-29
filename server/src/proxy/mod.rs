@@ -8,6 +8,7 @@ use tokio::runtime::Runtime;
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::util::packet::{debug_packets, PacketDirection};
 
 pub mod map;
 pub mod char;
@@ -24,17 +25,7 @@ pub trait PacketHandler {
     fn handle_packet(&self, tcp_stream: Arc<Mutex<TcpStream>>, packet: &mut dyn Packet);
 }
 
-#[derive(Debug, PartialEq, Clone, Copy)]
-enum ProxyDirection {
-    Forward,
-    Backward,
-}
 
-impl Display for ProxyDirection {
-    fn fmt(&self, f: &mut Formatter) -> core::fmt::Result {
-        write!(f, "{self:?}")
-    }
-}
 
 impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
     pub fn proxy(&self, packetver: u32) -> JoinHandle<()> {
@@ -70,12 +61,12 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         let forward = thread::Builder::new().name(format!("{}-{}", self.name, "forward"))
             .spawn(move || {
                 let rt = Runtime::new().unwrap();
-                server_copy_forward_thread.pipe(&mut forward_thread_incoming, &mut forward_thread_outgoing, ProxyDirection::Forward, &rt, packetver)
+                server_copy_forward_thread.pipe(&mut forward_thread_incoming, &mut forward_thread_outgoing, PacketDirection::Forward, &rt, packetver)
             }).unwrap();
         let backward = thread::Builder::new().name(format!("{}-{}", self.name, "backward"))
             .spawn(move || {
                 let rt = Runtime::new().unwrap();
-                server_copy_backward_thread.pipe(&mut backward_thread_outgoing_clone, &mut backward_thread_incoming_clone, ProxyDirection::Backward, &rt, packetver)
+                server_copy_backward_thread.pipe(&mut backward_thread_outgoing_clone, &mut backward_thread_incoming_clone, PacketDirection::Backward, &rt, packetver)
             }).unwrap();
         let _ = forward.join().expect("Forward failed");
         let _ = backward.join().expect("Backward failed");
@@ -83,7 +74,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         debug!("Socket closed");
     }
 
-    fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: ProxyDirection, _runtime: &Runtime, packetver: u32) -> Result<(), String> {
+    fn pipe(&mut self, incoming: &mut TcpStream, outgoing: &mut TcpStream, direction: PacketDirection, _runtime: &Runtime, packetver: u32) -> Result<(), String> {
         let mut buffer = [0; 2048];
         loop {
             // println!("loop direction {} incoming peer {} incoming local {} outgoing local {} outgoing peer {} ", direction,
@@ -100,24 +91,8 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                         break;
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
-                    self.proxy_request(outgoing, &direction, tcp_stream_ref, &buffer[..bytes_read], bytes_read, packetver);
-                    let packet = parse(&buffer[..bytes_read], packetver);
-                    if packet.raw().len() < bytes_read {
-                        let mut offset = 0;
-                        while offset < bytes_read {
-                            let result = panic::catch_unwind(|| {
-                                parse(&buffer[offset..bytes_read], packetver)
-                            });
-                            if let Ok(packet) = result {
-                                offset += packet.raw().len();
-                                self.print_packet(outgoing, direction, packet);
-                            } else {
-                                break;
-                            }
-                        }
-                    } else {
-                        self.print_packet(outgoing, direction, packet);
-                    }
+                    self.proxy_request(outgoing, tcp_stream_ref, &buffer[..bytes_read], bytes_read, packetver);
+                    debug_packets(outgoing.peer_addr().as_ref().unwrap(), direction, packetver, &mut buffer, bytes_read, &Some(self.name.clone()));
                 }
                 Err(error) => return Err(format!("Could not read data: {error}"))
             }
@@ -125,21 +100,8 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         Ok(())
     }
 
-    fn print_packet(&self, outgoing: &mut TcpStream, direction: ProxyDirection, packet: Box<dyn Packet>) {
-        if packet.id(GlobalConfigService::instance().packetver()) != "0x6003"
-            && packet.id(GlobalConfigService::instance().packetver()) != "0x7f00"
-            && packet.id(GlobalConfigService::instance().packetver()) != "0x0887"
-            && packet.id(GlobalConfigService::instance().packetver()) != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
-            println!("\n----------------------------Start Packet----------------------------");
-            info!("{} {} {}", self.name, if direction == ProxyDirection::Backward { "<" } else { ">" }, outgoing.peer_addr().unwrap());
-            packet.display();
-            packet.pretty_debug();
-            info!("{:02X?}", packet.raw());
-            println!("----------------------------End Packet----------------------------\n");
-        }
-    }
 
-    fn proxy_request(&self, outgoing: &mut TcpStream, _direction: &ProxyDirection, tcp_stream_ref: Arc<Mutex<TcpStream>>, buffer: &[u8], bytes_read: usize, packetver: u32) {
+    fn proxy_request(&self, outgoing: &mut TcpStream, tcp_stream_ref: Arc<Mutex<TcpStream>>, buffer: &[u8], bytes_read: usize, packetver: u32) {
         if (buffer[0] == 0x71 && buffer[1] == 0x0)
             || (buffer[0] == 0xc5 && buffer[1] == 0x0a) {
             let mut packet = parse(&buffer[..bytes_read], packetver);

@@ -175,6 +175,7 @@
     "enable_visual_debugger": false,
     "log_exclude_pattern": "sqlx",
     "log_level": "info",
+    "trace_packet": false,
     "packetver": 20120229,
     "port": 6901
   }
