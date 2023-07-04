@@ -44,6 +44,9 @@ impl Display for PacketDirection {
 
 pub fn debug_packets_from_vec(outgoing: &SocketAddr, direction: PacketDirection, packetver: u32, bytes: &Vec<u8>, name: &Option<String>) {
     let mut buffer = [0_u8; 2048];
+    if bytes.len() < 2 {
+        return;
+    }
     for (i, byte) in bytes.iter().enumerate() {
         if i >= buffer.len() {
             break;
