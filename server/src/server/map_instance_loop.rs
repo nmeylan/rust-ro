@@ -98,7 +98,7 @@ impl MapInstanceLoop {
                                     continue;
                                 }
                                 let movement = mob.pop_movement().unwrap();
-                                debug!("mob move {} at {}", movement.position(), movement.move_at());
+                                // debug!("mob move {} at {}", movement.position(), movement.move_at());
                                 mob.update_position(movement.position().x, movement.position().y);
 
                                 if let Some(next_movement) = mob.peek_mut_movement() {

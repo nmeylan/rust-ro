@@ -804,7 +804,9 @@ impl CharacterService {
                 }
             }
         }
-        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets))).expect("Failed to send notification to client");
+        if !packets.is_empty() {
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets))).expect("Failed to send notification to client");
+        }
 
         let mut packets = vec![];
         for map_item in character.map_view.iter() {
@@ -825,7 +827,9 @@ impl CharacterService {
                 }
             }
         }
-        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets))).expect("Failed to send notification to client");
+        if !packets.is_empty() {
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets))).expect("Failed to send notification to client");
+        }
         character.map_view = new_map_view;
     }
 
