@@ -1,9 +1,9 @@
 extern crate proc_macro;
 
-use syn::{parse_macro_input, DeriveInput, Data, DataStruct, Fields};
+use syn::{parse_macro_input, DeriveInput, Data, DataStruct, Fields, Ident};
 use proc_macro::{TokenStream};
-use proc_macro2::{Ident, Span};
 use quote::quote;
+use syn::__private::Span;
 
 #[proc_macro_derive(Setters, attributes(set))]
 pub fn setters(input: TokenStream) -> TokenStream {
@@ -20,7 +20,7 @@ pub fn setters(input: TokenStream) -> TokenStream {
     let generated_setters = fields.iter().filter(|field| field.attrs.iter().any(|attr| attr.path.is_ident("set")))
         .map(|field| {
             let field_name = field.ident.as_ref().unwrap();
-            let function_name = Ident::new(&format!("set_{field_name}"), Span::call_site());
+            let function_name = Ident::new(format!("set_{field_name}").as_str(), Span::call_site());
             let ty = field.ty.clone();
             quote! {
                 pub fn #function_name(&mut self, #field_name: #ty) {
@@ -82,7 +82,7 @@ pub fn getters_all_fields(input: TokenStream) -> TokenStream {
     let generated_setters = fields.iter()
         .map(|field| {
             let field_name = field.ident.as_ref().unwrap();
-            let function_name = Ident::new(&format!("{field_name}"), Span::call_site());
+            let function_name = Ident::new(format!("{field_name}").as_str(), Span::call_site());
             let ty = field.ty.clone();
             quote! {
                 pub fn #function_name(&self) -> &#ty {
