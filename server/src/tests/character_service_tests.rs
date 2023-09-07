@@ -51,7 +51,7 @@ mod tests {
     use enums::class::JobName;
     use enums::look::LookType;
     use enums::status::StatusTypes;
-    use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange, PacketZcNotifyEffect, PacketZcStatusChangeAck, PacketZcSkillinfoList, SKILLINFO};
+    use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange, PacketZcNotifyEffect, PacketZcStatusChangeAck, PacketZcSkillinfoList};
     use crate::tests::character_service_tests::GameEvent;
     use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
     use crate::tests::common::assert_helper::{has_sent_persistence_event, has_sent_notification, NotificationExpectation, SentPacket, task_queue_contains_event_at_tick, task_queue_contains_event};
@@ -1135,7 +1135,7 @@ mod tests {
         // When
         let result = context.character_service.allocate_skill_point(&mut character, enums::skills::Skill::NvBasic);
         // Then
-        assert_eq!(result, false);
+        assert!(!result);
     }
 
     #[test]
@@ -1148,7 +1148,7 @@ mod tests {
         // When
         let result = context.character_service.allocate_skill_point(&mut character, enums::skills::Skill::SmBash);
         // Then
-        assert_eq!(result, false);
+        assert!(!result);
     }
 
     #[test]

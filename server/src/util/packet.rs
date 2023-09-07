@@ -1,5 +1,5 @@
 use std::fmt::{Display, Formatter};
-use std::net::{SocketAddr, TcpStream};
+use std::net::{SocketAddr};
 use std::panic;
 use packets::packets::Packet;
 use packets::packets_parser::parse;
@@ -81,7 +81,7 @@ fn print_packet(name: &Option<String>, outgoing: &SocketAddr, direction: PacketD
         && packet.id(GlobalConfigService::instance().packetver()) != "0x0887"
         && packet.id(GlobalConfigService::instance().packetver()) != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
         println!("\n----------------------------Start Packet----------------------------");
-        info!("{} {} {}", name.as_ref().map(|n| n.clone()).unwrap_or("server".to_string()), if direction == PacketDirection::Backward { "<" } else { ">" }, outgoing);
+        info!("{} {} {}", name.as_ref().cloned().unwrap_or("server".to_string()), if direction == PacketDirection::Backward { "<" } else { ">" }, outgoing);
         packet.display();
         packet.pretty_debug();
         info!("{:02X?}", packet.raw());

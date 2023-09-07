@@ -233,7 +233,7 @@ impl CharacterService {
         if new_job_level > old_job_level {
             self.update_skill_point(character, character.status.skill_point + new_job_level - old_job_level, true);
         } else if old_job_level > new_job_level {
-            if self.should_reset_skills(&character) {
+            if self.should_reset_skills(character) {
                 self.reset_skills(character, false);
             }
             self.update_skill_point(character, (character.status.skill_point as i32 - (old_job_level as i32 - new_job_level as i32)).max(0) as u32, true);
@@ -415,7 +415,7 @@ impl CharacterService {
             return false
         }
         // Skill to allocate point to is not available in skill tree
-        if self.skill_tree_service.skill_tree(character).iter().find(|s| s.value == skill).is_none() {
+        if !self.skill_tree_service.skill_tree(character).iter().any(|s| s.value == skill) {
             return false
         }
         character.status.skill_point -= 1;
@@ -532,10 +532,10 @@ impl CharacterService {
     pub fn reset_skills(&self, character: &mut Character, should_persist_skill_points: bool) {
         let skill_points = self.get_allocated_skills_point(character);
         let skills_to_reset: Vec<i32> = character.skills.iter().filter(|skill| !skill.value.is_platinium()).map(|skill| skill.value.id() as i32).collect();
-        character.skills = character.skills.iter().filter(|skill| skill.value.is_platinium()).cloned().collect();
+        character.skills.retain(|skill| skill.value.is_platinium());
 
         self.update_skill_point(character, skill_points as u32, should_persist_skill_points);
-        self.persistence_event_sender.send(PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset }));
+        self.persistence_event_sender.send(PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset })).expect("Fail to send persistence notification");
         self.skill_tree_service.send_skill_tree(character);
     }
 

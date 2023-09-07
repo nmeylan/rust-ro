@@ -285,13 +285,13 @@ pub fn handle_reload(server: &Server, _session: Arc<Session>, _runtime: &Runtime
     }
 }
 
-pub fn handle_reset_skills(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_reset_skills(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
     server.add_to_next_tick(GameEvent::CharacterResetSkills(session.char_id()));
-    return "Skills have been reset.".to_string();
+    "Skills have been reset.".to_string()
 }
 
 
-pub fn handle_reset_stats(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_reset_stats(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
     server.add_to_next_tick(GameEvent::CharacterResetStats(session.char_id()));
-    return "Stats have been reset.".to_string();
+    "Stats have been reset.".to_string()
 }

@@ -567,8 +567,7 @@ impl Config {
         }
         for (name, config) in internal_jobs_skill_tree_config.jobs_tree.iter() {
             if let Some(inherit) = &config.inherit {
-                let parent_trees = jobs_skill_tree.iter().filter(|job_tree| inherit.contains(&job_tree.name))
-                    .map(|job_tree| job_tree.clone()).collect::<Vec<JobSkillTree>>();
+                let parent_trees = jobs_skill_tree.iter().filter(|job_tree| inherit.contains(&job_tree.name)).cloned().collect::<Vec<JobSkillTree>>();
                 let job_tree = jobs_skill_tree.iter_mut().find(|job_tree| job_tree.name.eq(name)).unwrap();
                 for parent_tree in parent_trees {
                     job_tree.parent_skills.insert(parent_tree.name, parent_tree.tree);

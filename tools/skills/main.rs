@@ -140,8 +140,8 @@ pub fn main() {
     for skill in skills.skills.iter() {
         let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         file.write_all(format!("      Self::{} => {},\n", enum_name,
-                               skill.flags.as_ref().unwrap_or_else(|| &default_flags).is_quest
-                                   || skill.flags.as_ref().unwrap_or_else(|| &default_flags).is_wedding
+                               skill.flags.as_ref().unwrap_or(&default_flags).is_quest
+                                   || skill.flags.as_ref().unwrap_or(&default_flags).is_wedding
         ).as_bytes()).unwrap();
     }
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
