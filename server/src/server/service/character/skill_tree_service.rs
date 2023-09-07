@@ -1,15 +1,15 @@
 use std::sync::{Once};
 use std::sync::mpsc::SyncSender;
 use enums::class::JobName;
-use enums::EnumWithMaskValueU64;
-use enums::skill::SkillFlags;
-use packets::packets::{Packet, PacketZcSkillinfoList, SKILLINFO};
+
+
+use packets::packets::{PacketZcSkillinfoList, SKILLINFO};
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::server::state::skill::Skill;
 use crate::enums::EnumWithNumberValue;
-use crate::server::model::configuration::{JobSkillTree, SkillInTree};
+use crate::server::model::configuration::{SkillInTree};
 use crate::util::string::StringUtil;
 
 
@@ -49,11 +49,11 @@ impl SkillTreeService {
             platinium_novice_skills.extend(vec![Skill { value: enums::skills::Skill::NvBasic, level: maybe_novice_basic.unwrap().level }]);
             return platinium_novice_skills;
         }
-        Self::available_skills_in_tree(character, &skilltree.tree(), &mut skills);
+        Self::available_skills_in_tree(character, skilltree.tree(), &mut skills);
         for (_, parent_skills) in skilltree.parent_skills().iter() {
-            Self::available_skills_in_tree(character, &parent_skills, &mut skills);
+            Self::available_skills_in_tree(character, parent_skills, &mut skills);
         }
-        return skills;
+        skills
     }
 
     pub fn send_skill_tree(&self, character: &Character) {
@@ -71,13 +71,13 @@ impl SkillTreeService {
                     if let Some(cost) = requirements.sp_cost() {
                         sp_cost = *cost as i16;
                     } else if let Some(sp_cost_per_level) = requirements.sp_cost_per_level() {
-                        sp_cost = sp_cost_per_level.iter().find(|(level, cost)| *level as u8 == skill.level)
+                        sp_cost = sp_cost_per_level.iter().find(|(level, _cost)| *level as u8 == skill.level)
                             .unwrap().1 as i16;
                     }
                     if let Some(r) = skill_config.range() {
                         range = *r as i16;
                     } else if let Some(range_per_level) = skill_config.range_per_level() {
-                        range = range_per_level.iter().find(|(level, cost)| *level as u8 == skill.level)
+                        range = range_per_level.iter().find(|(level, _cost)| *level as u8 == skill.level)
                             .unwrap().1 as i16;
                     }
                 }

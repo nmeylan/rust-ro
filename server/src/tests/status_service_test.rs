@@ -141,7 +141,7 @@ mod tests {
         // Given
         let context = before_each();
         let _character = create_character();
-        for (aspd, expectation) in vec![(150.0_f32, "1.00"), (170.0_f32, "1.67"), (190.0_f32, "5.00"), (199.0_f32, "50.00")].iter() {
+        for (aspd, expectation) in [(150.0_f32, "1.00"), (170.0_f32, "1.67"), (190.0_f32, "5.00"), (199.0_f32, "50.00")].iter() {
             // When
             let attack_motion = context.status_service.attack_per_seconds(*aspd);
             // Then

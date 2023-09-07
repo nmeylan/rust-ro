@@ -122,7 +122,7 @@ impl MapInstanceService {
 
     pub fn mob_being_attacked(&self, map_instance_state: &mut MapInstanceState, damage: Damage, map_instance_tasks_queue: Arc<TasksQueue<MapEvent>>, tick: u128) {
         let mobs = map_instance_state.mobs_mut();
-        if let Some(mut mob) = mobs.get_mut(&damage.target_id) {
+        if let Some(mob) = mobs.get_mut(&damage.target_id) {
             mob.add_attack(damage.attacker_id, damage.damage);
             mob.last_attacked_at = tick;
             if mob.should_die() {

@@ -51,7 +51,7 @@ pub fn task_queue_not_contains_event<T: PartialEq + Debug+ Clone>(task_queue: Ar
         }
     }
     for event in events {
-        if matches!(&event, expected_event) {
+        if matches!(&event, _expected_event) {
             assert!(false, "Expected {event:?} to not match any event, but matched: {expected_event:?}");
             return;
         }

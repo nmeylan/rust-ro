@@ -10,7 +10,7 @@ pub mod server_helper;
 pub mod item_helper;
 pub mod sync_helper;
 
-use std::collections::HashMap;
+
 use std::{fs, thread};
 use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
@@ -143,5 +143,5 @@ pub fn before_all() {
 }
 
 pub fn mocked_repository() -> Arc<MockedRepository> {
-    Arc::new(MockedRepository::default())
+    Arc::new(MockedRepository)
 }

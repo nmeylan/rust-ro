@@ -49,7 +49,7 @@ use crate::server::service::server_service::ServerService;
 use crate::server::service::status_service::StatusService;
 
 use crate::server::state::server::ServerState;
-use crate::util::packet::{debug_packets, debug_packets_from_vec, PacketDirection};
+use crate::util::packet::{debug_packets_from_vec, PacketDirection};
 use crate::util::tick::delayed_tick;
 
 pub mod boot;
@@ -202,7 +202,7 @@ impl Server {
                                 }
                                 Err(err) => {
                                     error!("{}", err);
-                                    tcp_stream.shutdown(Shutdown::Both);
+                                    let _ = tcp_stream.shutdown(Shutdown::Both);
                                     break;
                                 }
                             }
@@ -239,7 +239,7 @@ impl Server {
                                 let mut tcp_stream_guard = tcp_stream.write().unwrap();
                                 if tcp_stream_guard.peer_addr().is_ok() {
                                     debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                                    if data.len() == 0 {
+                                    if data.is_empty() {
                                         debug!("{:?}", char_notification);
                                     }
                                     if GlobalConfigService::instance().config().server.trace_packet {

@@ -1,4 +1,5 @@
 [workspace]
+resolver = "2"
 members = [
     "server",
     "tools"
@@ -13,7 +14,7 @@ eframe = { git = 'https://github.com/nmeylan/egui', rev = "cc7b299a132024dff44b5
 #rathena_script_lang_interpreter = {path = "/home/nmeylan/dev/ragnarok/ragnarok-script-interpreter"}
 
 [profile.dev]
-opt-level = 1
+opt-level = 0
 
 [profile.dev.package."*"]
 opt-level = 2

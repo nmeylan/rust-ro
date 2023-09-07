@@ -2,7 +2,7 @@ use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::service::status_service::StatusService;
+
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
 use crate::tests::common::sync_helper::CountDownLatch;
@@ -219,7 +219,7 @@ mod tests {
             // When
             let skills = context.skill_tree_service.skill_tree(&character);
             // Then
-            let mut skills_list_str = skills.iter().fold(String::new(), |memo, skill| format!("{}\n Skill {} - lvl {}", memo, skill.value.to_name(), skill.level));
+            let skills_list_str = skills.iter().fold(String::new(), |memo, skill| format!("{}\n Skill {} - lvl {}", memo, skill.value.to_name(), skill.level));
             assert_eq!(skills.len(), scenarii.expected_skills.len(), "Scenarii {} - Expected job {} to have {} skills but got {}. Received list was \n{}", i, JobName::from_value(character.status.job as usize).as_str(), scenarii.expected_skills.len(), skills.len(), skills_list_str);
             for skill in scenarii.expected_skills {
                 assert!(skills.contains(&skill), "Scenarii {} - Expected {} to be included among following list but was not \n{}", i, skill.value.to_name(), skills_list_str)

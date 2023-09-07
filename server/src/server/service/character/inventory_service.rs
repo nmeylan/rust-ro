@@ -300,13 +300,13 @@ impl InventoryService {
                         let (item_to_remove_index, _) = accessories.iter().find(|(_index, item)| item.equip & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0).unwrap();
                         let item_to_remove_index = *item_to_remove_index;
                         drop(accessories);
-                        let mut item = character.get_item_from_inventory_mut(item_to_remove_index).unwrap();
+                        let item = character.get_item_from_inventory_mut(item_to_remove_index).unwrap();
                         equipped_take_off_items.push(EquippedItem { item_id: item.item_id, removed_equip_location: item.equip, index: item_to_remove_index });
                         item.equip = 0;
                         character.get_item_from_inventory_mut(index).unwrap().equip = EquipmentLocation::AccessoryLeft.as_flag() as i32;
                     } else if accessories.len() == 1 {
                         // When only 1 accessory slot is occupied, equip the new item in the free slot
-                        vec![EquipmentLocation::AccessoryRight.as_flag() as i32, EquipmentLocation::AccessoryLeft.as_flag() as i32].iter()
+                        [EquipmentLocation::AccessoryRight.as_flag() as i32, EquipmentLocation::AccessoryLeft.as_flag() as i32].iter()
                             .find(|item_mask| accessories[0].1.equip & **item_mask == 0)
                             .map(|item_mask| {
                                 equipped_take_off_items.push(EquippedItem { item_id, removed_equip_location: *item_mask, index });

@@ -292,7 +292,7 @@ impl Character {
                     item.amount -= amount;
                     return item.amount as u16;
                 } else {
-                    let _ = std::mem::replace(&mut self.inventory[index], None);
+                    let _ = self.inventory[index].take();
                     return 0;
                 }
             }
