@@ -269,8 +269,7 @@ impl Server {
                                                 let mut tcp_stream_guard = tcp_stream.write().unwrap();
                                                 if tcp_stream_guard.peer_addr().is_ok() {
                                                     debug!("Area - Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                                                    tcp_stream_guard.write_all(data).unwrap();
-                                                    tcp_stream_guard.flush().unwrap();
+                                                    tcp_stream_guard.write_all(data).map(|_| tcp_stream_guard.flush());
                                                 } else {
                                                     error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
                                                 }
