@@ -3620,6 +3620,10 @@
       "id": 4001,
       "inherit": "novice"
     },
+    "super_novice": {
+      "id": 23,
+      "inherit": "novice"
+    },
     "paladin": {
       "id": 4015,
       "inherit": "crusader"

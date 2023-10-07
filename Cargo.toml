@@ -15,6 +15,7 @@ eframe = { git = 'https://github.com/nmeylan/egui', rev = "cc7b299a132024dff44b5
 
 [profile.dev]
 opt-level = 0
+incremental = true
 
 [profile.dev.package."*"]
 opt-level = 2
