@@ -6,3 +6,4 @@ pub mod map_instance_service;
 pub mod mob_service;
 pub mod script_service;
 pub mod server_service;
+pub mod skill_service;

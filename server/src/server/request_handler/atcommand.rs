@@ -256,7 +256,7 @@ pub fn handle_set_job(server: &Server, session: Arc<Session>, _runtime: &Runtime
         JobName::try_from_string(args.first().unwrap())
     };
     if let Ok(job) = maybe_job {
-        server.add_to_next_tick(GameEvent::CharacterChangeJob(CharacterChangeJob { char_id: session.char_id(), job }));
+        server.add_to_next_tick(GameEvent::CharacterChangeJob(CharacterChangeJob { char_id: session.char_id(), job, should_reset_skills: true }));
         return "Your job has been changed.".to_string();
     }
     format!("Job {} not found", args.first().unwrap())

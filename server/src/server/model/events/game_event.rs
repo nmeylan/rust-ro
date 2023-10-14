@@ -141,6 +141,7 @@ pub struct CharacterChangeJobLevel {
 pub struct CharacterChangeJob {
     pub char_id: u32,
     pub job: JobName,
+    pub should_reset_skills: bool
 }
 
 #[derive(Debug, PartialEq, Clone)]

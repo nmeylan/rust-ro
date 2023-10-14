@@ -602,10 +602,49 @@ mod tests {
         let context = before_each(mocked_repository());
         let mut character = create_character();
         // When
-        context.character_service.change_job(&mut character, JobName::Assassin);
+        context.character_service.change_job(&mut character, JobName::Assassin, false);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(character.status.job, JobName::Assassin.value() as u32);
+    }
+
+    #[test]
+    fn test_change_job_should_reset_skills_and_give_back_points_when_should_reset_is_true() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        // When
+        context.character_service.change_job(&mut character, JobName::Assassin, true);
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_eq!(character.status.job, JobName::Assassin.value() as u32);
+
+        // Given
+        let mut character = create_character();
+        character.skills = vec![Skill { value: enums::skills::Skill::from_name("NV_BASIC"), level: 9 },
+                                Skill { value: enums::skills::Skill::from_name("SM_SWORD"), level: 10 },
+                                Skill { value: enums::skills::Skill::from_name("SM_FATALBLOW"), level: 1 }, // Platinium
+                                Skill { value: enums::skills::Skill::from_name("SM_TWOHAND"), level: 10 },
+                                Skill { value: enums::skills::Skill::from_name("SM_RECOVERY"), level: 5 },
+                                Skill { value: enums::skills::Skill::from_name("SM_BASH"), level: 7 },
+                                Skill { value: enums::skills::Skill::from_name("SM_PROVOKE"), level: 5 },
+                                Skill { value: enums::skills::Skill::from_name("SM_MAGNUM"), level: 10 },
+                                Skill { value: enums::skills::Skill::from_name("SM_ENDURE"), level: 5 },
+                                Skill { value: enums::skills::Skill::from_name("KN_SPEARMASTERY"), level: 1 },
+                                Skill { value: enums::skills::Skill::from_name("KN_PIERCE"), level: 3 },
+                                Skill { value: enums::skills::Skill::from_name("KN_TWOHANDQUICKEN"), level: 8 },
+                                Skill { value: enums::skills::Skill::from_name("KN_AUTOCOUNTER"), level: 5 },
+                                Skill { value: enums::skills::Skill::from_name("KN_RIDING"), level: 1 },
+                                Skill { value: enums::skills::Skill::from_name("KN_CAVALIERMASTERY"), level: 5 }, ];
+        let skills_to_reset: Vec<i32> = character.skills.iter().filter(|s| s.value != enums::skills::Skill::from_name("SM_FATALBLOW")).map(|s| s.value.id() as i32).collect();
+        // When
+        context.character_service.change_job(&mut character, JobName::Assassin, true);
+        // Then
+        assert_eq!(character.status.skill_point, 84);
+        context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "skill_point".to_string(), value: character.status.skill_point, }));
+        assert_sent_persistence_event!(context, PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset, })); // Platinium skill are not reset
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
     }
 
     #[test]
@@ -614,7 +653,7 @@ mod tests {
         let context = before_each(mocked_repository());
         let mut character = create_character();
         // When
-        context.character_service.change_job(&mut character, JobName::Assassin);
+        context.character_service.change_job(&mut character, JobName::Assassin, false);
         // Then
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "class".to_string(), value: JobName::Assassin.value() as u32, }));
     }
@@ -625,7 +664,7 @@ mod tests {
         let context = before_each(mocked_repository());
         let mut character = create_character();
         // When
-        context.character_service.change_job(&mut character, JobName::Assassin);
+        context.character_service.change_job(&mut character, JobName::Assassin, false);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver()))]));

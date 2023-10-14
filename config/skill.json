@@ -239,7 +239,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "hpcostPerLevel": [
           {
             "amount": 20,
@@ -341,7 +341,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -368,7 +368,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -1269,7 +1269,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 25
+        "spcost": 25
       }
     },
     {
@@ -1378,7 +1378,7 @@
         "isAutoShadowSpell": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       },
       "unit": {
         "id": "Firewall",
@@ -2008,7 +2008,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -2027,7 +2027,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       },
       "unit": {
         "id": "Pneuma",
@@ -2296,7 +2296,7 @@
         "ignoreHovering": true
       },
       "requires": {
-        "hpCost": 15,
+        "hpcost": 15,
         "spcostPerLevel": [
           {
             "amount": 18,
@@ -2464,7 +2464,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "state": "Water"
       }
     },
@@ -2486,7 +2486,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 35
+        "spcost": 35
       }
     },
     {
@@ -2714,7 +2714,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 15
+        "spcost": 15
       }
     },
     {
@@ -2758,7 +2758,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -2777,7 +2777,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "state": "Cart"
       }
     },
@@ -2800,7 +2800,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 5,
+        "spcost": 5,
         "zenycostPerLevel": [
           {
             "amount": 100,
@@ -2979,7 +2979,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 12,
+        "spcost": 12,
         "ammoFlags": {
           "arrow": true
         },
@@ -3016,7 +3016,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 15,
+        "spcost": 15,
         "ammoFlags": {
           "arrow": true
         },
@@ -3057,7 +3057,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -3121,7 +3121,7 @@
         "ignoreWugBite": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -3141,7 +3141,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 12
+        "spcost": 12
       }
     },
     {
@@ -3159,7 +3159,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -3210,7 +3210,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 60,
+        "spcost": 60,
         "itemcost": [
           {
             "amount": 1,
@@ -3238,7 +3238,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 7,
+        "spcost": 7,
         "weaponFlags": {
           "1hSpear": true,
           "2hSpear": true
@@ -3265,7 +3265,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 12,
+        "spcost": 12,
         "state": "Riding",
         "weaponFlags": {
           "1hSpear": true,
@@ -3292,7 +3292,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 9,
+        "spcost": 9,
         "weaponFlags": {
           "1hSpear": true,
           "2hSpear": true
@@ -3333,7 +3333,7 @@
         }
       ],
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "weaponFlags": {
           "1hSpear": true,
           "2hSpear": true
@@ -3483,7 +3483,7 @@
         "ignoreDefense": true
       },
       "requires": {
-        "spCost": 3,
+        "spcost": 3,
         "weaponFlags": {
           "1hAxe": true,
           "1hSpear": true,
@@ -3674,7 +3674,7 @@
         "noTargetSelf": true
       },
       "requires": {
-        "spCost": 8
+        "spcost": 8
       }
     },
     {
@@ -3799,7 +3799,7 @@
         "isEnsemble": true
       },
       "requires": {
-        "spCost": 20
+        "spcost": 20
       }
     },
     {
@@ -3997,7 +3997,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -4102,7 +4102,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -4144,7 +4144,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 20
+        "spcost": 20
       }
     },
     {
@@ -4271,7 +4271,7 @@
         "ignoreDefense": true
       },
       "requires": {
-        "spCost": 20
+        "spcost": 20
       }
     },
     {
@@ -4290,7 +4290,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -4655,7 +4655,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 75,
+        "spcost": 75,
         "itemcost": [
           {
             "amount": 1,
@@ -5546,7 +5546,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 20
+        "spcost": 20
       },
       "unit": {
         "id": "Icewall",
@@ -5777,7 +5777,7 @@
         "isAutoShadowSpell": true
       },
       "requires": {
-        "spCost": 78
+        "spcost": 78
       },
       "unit": {
         "id": "Dummyskill",
@@ -6093,7 +6093,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -6213,7 +6213,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 30
+        "spcost": 30
       }
     },
     {
@@ -6268,7 +6268,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "weaponFlags": {
           "1hAxe": true,
           "1hSword": true,
@@ -6538,7 +6538,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -6605,7 +6605,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -6674,7 +6674,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -6757,7 +6757,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 12,
+        "spcost": 12,
         "itemcost": [
           {
             "amount": 1,
@@ -6821,7 +6821,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 45,
+        "spcost": 45,
         "itemcost": [
           {
             "amount": 2,
@@ -6885,7 +6885,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 12,
+        "spcost": 12,
         "itemcost": [
           {
             "amount": 1,
@@ -6949,7 +6949,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 12,
+        "spcost": 12,
         "itemcost": [
           {
             "amount": 2,
@@ -7040,7 +7040,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 2,
@@ -7110,7 +7110,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -7181,7 +7181,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 15,
+        "spcost": 15,
         "itemcost": [
           {
             "amount": 2,
@@ -7218,7 +7218,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -7240,7 +7240,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 1,
+        "spcost": 1,
         "itemcost": [
           {
             "amount": 1,
@@ -7381,7 +7381,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 8,
+        "spcost": 8,
         "state": "Falcon"
       }
     },
@@ -7420,7 +7420,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "state": "Falcon"
       }
     },
@@ -7504,7 +7504,7 @@
         "ignoreWugBite": true
       },
       "requires": {
-        "spCost": 15
+        "spcost": 15
       }
     },
     {
@@ -7614,7 +7614,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 3,
+        "spcost": 3,
         "state": "hidding",
         "weaponFlags": {
           "katar": true
@@ -7723,7 +7723,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 20
+        "spcost": 20
       }
     },
     {
@@ -7880,7 +7880,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "itemcost": [
           {
             "amount": 1,
@@ -8031,7 +8031,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 3
+        "spcost": 3
       }
     },
     {
@@ -8050,7 +8050,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -8089,7 +8089,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -8106,7 +8106,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "state": "RecoverWeightRate"
       }
     },
@@ -8136,7 +8136,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 15,
+        "spcost": 15,
         "ammoFlags": {
           "arrow": true
         },
@@ -8161,7 +8161,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 9
+        "spcost": 9
       }
     },
     {
@@ -8182,7 +8182,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 7
+        "spcost": 7
       }
     },
     {
@@ -8201,7 +8201,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 3,
+        "spcost": 3,
         "state": "RecoverWeightRate"
       }
     },
@@ -8228,7 +8228,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 2,
+        "spcost": 2,
         "itemcost": [
           {
             "amount": 1,
@@ -8259,7 +8259,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 12,
+        "spcost": 12,
         "state": "Cart"
       }
     },
@@ -8279,7 +8279,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 40,
+        "spcost": 40,
         "state": "Cart"
       }
     },
@@ -8301,7 +8301,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 8
+        "spcost": 8
       }
     },
     {
@@ -8325,7 +8325,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 15
+        "spcost": 15
       }
     },
     {
@@ -8347,7 +8347,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 30
+        "spcost": 30
       }
     },
     {
@@ -9383,7 +9383,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 15
+        "spcost": 15
       }
     },
     {
@@ -9409,7 +9409,7 @@
         "allowWhenHidden": true
       },
       "requires": {
-        "spCost": 16
+        "spcost": 16
       }
     },
     {
@@ -9439,7 +9439,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "state": "Hidding"
       }
     },
@@ -9741,7 +9741,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 15,
+        "spcost": 15,
         "itemcost": [
           {
             "amount": 1,
@@ -9770,7 +9770,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -9788,7 +9788,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -9834,7 +9834,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 5,
+        "spcost": 5,
         "itemcost": [
           {
             "amount": 1,
@@ -9891,7 +9891,7 @@
         "ignoreCicada": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -9958,7 +9958,7 @@
         "ignoreCicada": true
       },
       "requires": {
-        "spCost": 15,
+        "spcost": 15,
         "itemcost": [
           {
             "amount": 1,
@@ -9986,7 +9986,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 1,
+        "spcost": 1,
         "itemcost": [
           {
             "amount": 1,
@@ -10069,7 +10069,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "itemcost": [
           {
             "amount": 1,
@@ -10095,7 +10095,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -10142,7 +10142,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "itemcost": [
           {
             "amount": 1,
@@ -10189,7 +10189,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 25,
+        "spcost": 25,
         "itemcost": [
           {
             "amount": 1,
@@ -10236,7 +10236,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 25,
+        "spcost": 25,
         "itemcost": [
           {
             "amount": 1,
@@ -10283,7 +10283,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 25,
+        "spcost": 25,
         "itemcost": [
           {
             "amount": 1,
@@ -10312,7 +10312,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -10331,7 +10331,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 50
+        "spcost": 50
       }
     },
     {
@@ -10475,7 +10475,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "state": "Shield"
       }
     },
@@ -10516,7 +10516,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 12,
+        "spcost": 12,
         "state": "Shield"
       }
     },
@@ -10788,7 +10788,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 25
+        "spcost": 25
       }
     },
     {
@@ -10810,7 +10810,7 @@
         "noTargetSelf": true
       },
       "requires": {
-        "spCost": 30
+        "spcost": 30
       }
     },
     {
@@ -10828,7 +10828,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "state": "Shield"
       }
     },
@@ -10962,7 +10962,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 8
+        "spcost": 8
       }
     },
     {
@@ -10981,7 +10981,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -11019,7 +11019,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 14,
+        "spcost": 14,
         "spiritSphereCost": 1
       }
     },
@@ -11138,7 +11138,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "spiritSphereCostPerLevel": [
           {
             "amount": 1,
@@ -11199,7 +11199,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 200,
+        "spcost": 200,
         "spiritSphereCost": 5
       }
     },
@@ -11260,7 +11260,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "spiritSphereCost": 1,
         "weaponFlags": {
           "1hAxe": true,
@@ -11301,7 +11301,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 15,
+        "spcost": 15,
         "spiritSphereCost": 5
       }
     },
@@ -11373,7 +11373,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 1,
+        "spcost": 1,
         "spiritSphereCost": 5,
         "state": "ExplosionSpirits",
         "weaponFlags": {
@@ -11564,7 +11564,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 2
+        "spcost": 2
       }
     },
     {
@@ -11603,7 +11603,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 2
+        "spcost": 2
       }
     },
     {
@@ -11622,7 +11622,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -11689,7 +11689,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 35
+        "spcost": 35
       }
     },
     {
@@ -11735,7 +11735,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 40,
+        "spcost": 40,
         "itemcost": [
           {
             "amount": 1,
@@ -11787,7 +11787,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 40,
+        "spcost": 40,
         "itemcost": [
           {
             "amount": 1,
@@ -11839,7 +11839,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 40,
+        "spcost": 40,
         "itemcost": [
           {
             "amount": 1,
@@ -11891,7 +11891,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 40,
+        "spcost": 40,
         "itemcost": [
           {
             "amount": 1,
@@ -12274,7 +12274,7 @@
         "targetHidden": true
       },
       "requires": {
-        "spCost": 1,
+        "spcost": 1,
         "itemcost": [
           {
             "amount": 1,
@@ -12297,7 +12297,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "itemcost": [
           {
             "amount": 2,
@@ -12324,7 +12324,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12345,7 +12345,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12365,7 +12365,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12387,7 +12387,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12408,7 +12408,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12429,7 +12429,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12450,7 +12450,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12471,7 +12471,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12492,7 +12492,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12513,7 +12513,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12531,7 +12531,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12552,7 +12552,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12570,7 +12570,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12589,7 +12589,7 @@
         "allowWhenPerforming": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -12604,7 +12604,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1,
+        "spcost": 1,
         "weaponFlags": {
           "musical": true,
           "whip": true
@@ -12629,7 +12629,7 @@
         "isEnsemble": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "weaponFlags": {
           "musical": true,
           "whip": true
@@ -12663,7 +12663,7 @@
         "isEnsemble": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "weaponFlags": {
           "musical": true,
           "whip": true
@@ -12698,7 +12698,7 @@
         "isEnsemble": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "weaponFlags": {
           "musical": true,
           "whip": true
@@ -12842,7 +12842,7 @@
         "isEnsemble": true
       },
       "requires": {
-        "spCost": 15,
+        "spcost": 15,
         "weaponFlags": {
           "musical": true,
           "whip": true
@@ -12875,7 +12875,7 @@
         "isEnsemble": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "weaponFlags": {
           "musical": true,
           "whip": true
@@ -12910,7 +12910,7 @@
         "isEnsemble": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "weaponFlags": {
           "musical": true,
           "whip": true
@@ -13897,7 +13897,7 @@
       },
       "requires": {
         "hpRateCost": -10,
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -13918,7 +13918,7 @@
         "isWedding": true
       },
       "requires": {
-        "spCost": 1,
+        "spcost": 1,
         "spRateCost": -10
       }
     },
@@ -13945,7 +13945,7 @@
         "isWedding": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       },
       "unit": {
         "id": "Callfamily",
@@ -13972,7 +13972,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -14572,7 +14572,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "weaponFlags": {
           "2hSword": true
         }
@@ -14651,7 +14651,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 15
+        "spcost": 15
       }
     },
     {
@@ -14669,7 +14669,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 200
+        "spcost": 200
       }
     },
     {
@@ -14977,7 +14977,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 8
+        "spcost": 8
       }
     },
     {
@@ -15170,7 +15170,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 100
+        "spcost": 100
       }
     },
     {
@@ -15534,7 +15534,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -16259,7 +16259,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -16274,7 +16274,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -16294,7 +16294,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "state": "Cart"
       }
     },
@@ -16311,7 +16311,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "itemcost": [
           {
             "amount": 1,
@@ -16338,7 +16338,7 @@
         "ignoreKagehumi": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -16652,7 +16652,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 100
+        "spcost": 100
       }
     },
     {
@@ -16760,7 +16760,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 23
+        "spcost": 23
       }
     },
     {
@@ -16950,7 +16950,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 20
+        "spcost": 20
       }
     },
     {
@@ -17031,7 +17031,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -17057,7 +17057,7 @@
         "targetSelf": true
       },
       "requires": {
-        "spCost": 25
+        "spcost": 25
       },
       "unit": {
         "id": "Fogwall",
@@ -17085,7 +17085,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "itemcost": [
           {
             "amount": 1,
@@ -17195,7 +17195,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 50
+        "spcost": 50
       }
     },
     {
@@ -17220,7 +17220,7 @@
         "isWedding": true
       },
       "requires": {
-        "spCost": 1,
+        "spcost": 1,
         "spRateCost": -10
       }
     },
@@ -17247,7 +17247,7 @@
         "isWedding": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       },
       "unit": {
         "id": "Callfamily",
@@ -17278,7 +17278,7 @@
         "isWedding": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       },
       "unit": {
         "id": "Callfamily",
@@ -17387,7 +17387,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -17455,7 +17455,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -17519,7 +17519,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -17588,7 +17588,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -17654,7 +17654,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -17841,7 +17841,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 50
+        "spcost": 50
       }
     },
     {
@@ -17859,7 +17859,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 100
+        "spcost": 100
       }
     },
     {
@@ -17899,7 +17899,7 @@
         "ignoreLandProtector": true
       },
       "requires": {
-        "spCost": 20
+        "spcost": 20
       },
       "unit": {
         "id": "Dummyskill",
@@ -17945,7 +17945,7 @@
         "ignoreLandProtector": true
       },
       "requires": {
-        "spCost": 20
+        "spcost": 20
       },
       "unit": {
         "id": "Dummyskill",
@@ -17991,7 +17991,7 @@
         "ignoreLandProtector": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       },
       "unit": {
         "id": "Dummyskill",
@@ -18172,7 +18172,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 100
+        "spcost": 100
       }
     },
     {
@@ -18246,7 +18246,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 100
+        "spcost": 100
       }
     },
     {
@@ -18335,7 +18335,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "spRateCost": 8,
         "itemcost": [
           {
@@ -19157,7 +19157,7 @@
         "isSpirit": true
       },
       "requires": {
-        "spCost": 64,
+        "spcost": 64,
         "weaponFlags": {
           "1hAxe": true,
           "1hSpear": true,
@@ -19409,7 +19409,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 30
+        "spcost": 30
       }
     },
     {
@@ -19521,7 +19521,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 70
+        "spcost": 70
       }
     },
     {
@@ -19965,7 +19965,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 30
+        "spcost": 30
       }
     },
     {
@@ -20046,7 +20046,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -20066,7 +20066,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "itemcost": [
           {
             "amount": 1,
@@ -20149,7 +20149,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 40,
+        "spcost": 40,
         "itemcost": [
           {
             "amount": 1,
@@ -20281,7 +20281,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 40,
+        "spcost": 40,
         "itemcost": [
           {
             "amount": 1,
@@ -20407,7 +20407,7 @@
         "ignoreCicada": true
       },
       "requires": {
-        "spCost": 15,
+        "spcost": 15,
         "state": "CartBoost",
         "zenycostPerLevel": [
           {
@@ -20494,7 +20494,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 15,
+        "spcost": 15,
         "zenycostPerLevel": [
           {
             "amount": 3000,
@@ -20559,7 +20559,7 @@
         "allowWhenPerforming": true
       },
       "requires": {
-        "spCost": 15
+        "spcost": 15
       }
     },
     {
@@ -20678,7 +20678,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -20739,7 +20739,7 @@
         "ignoreFlee": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "itemcost": [
           {
             "amount": 1,
@@ -20766,7 +20766,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -20837,7 +20837,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -20853,7 +20853,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -20936,7 +20936,7 @@
         "isSpirit": true
       },
       "requires": {
-        "spCost": 100,
+        "spcost": 100,
         "weaponFlags": {
           "1hSword": true
         }
@@ -20961,7 +20961,7 @@
         "isSpirit": true
       },
       "requires": {
-        "spCost": 200,
+        "spcost": 200,
         "itemcost": [
           {
             "amount": 200,
@@ -20989,7 +20989,7 @@
         "isSpirit": true
       },
       "requires": {
-        "spCost": 200,
+        "spcost": 200,
         "itemcost": [
           {
             "amount": 200,
@@ -21017,7 +21017,7 @@
         "isSpirit": true
       },
       "requires": {
-        "spCost": 200,
+        "spcost": 200,
         "itemcost": [
           {
             "amount": 200,
@@ -21044,7 +21044,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 12,
+        "spcost": 12,
         "ammoFlags": {
           "arrow": true
         },
@@ -21068,7 +21068,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 2,
+        "spcost": 2,
         "zenyCost": 1
       }
     },
@@ -21089,7 +21089,7 @@
         "ignoreFlee": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "spiritSphereCost": 5
       }
     },
@@ -21106,7 +21106,7 @@
       "type": "Weapon",
       "requires": {
         "ammoAmount": 1,
-        "spCost": 20,
+        "spcost": 20,
         "spiritSphereCost": 1,
         "ammoFlags": {
           "arrow": true,
@@ -21142,7 +21142,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 30,
+        "spcost": 30,
         "spiritSphereCost": 1,
         "ammoFlags": {
           "arrow": true,
@@ -21173,7 +21173,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "spiritSphereCost": 4
       }
     },
@@ -21193,7 +21193,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 15,
+        "spcost": 15,
         "spiritSphereCost": 2
       }
     },
@@ -21212,7 +21212,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "spiritSphereCost": 4
       }
     },
@@ -21228,7 +21228,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 7,
+        "spcost": 7,
         "spiritSphereCost": 1
       }
     },
@@ -21250,7 +21250,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 10,
+        "spcost": 10,
         "spiritSphereCost": 1,
         "ammoFlags": {
           "arrow": true,
@@ -22236,7 +22236,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 2,
+        "spcost": 2,
         "ammoFlags": {
           "shuriken": true
         }
@@ -22382,7 +22382,7 @@
         "ignoreGvgReduction": true
       },
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "zenycostPerLevel": [
           {
             "amount": 500,
@@ -22446,7 +22446,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 15
+        "spcost": 15
       },
       "unit": {
         "id": "Tatamigaeshi",
@@ -22604,7 +22604,7 @@
         "allowWhenHidden": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "state": "Hidding"
       }
     },
@@ -22896,7 +22896,7 @@
       "maxLevel": 10,
       "name": "NJ_NINPOU",
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -23103,7 +23103,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 25,
+        "spcost": 25,
         "itemcost": [
           {
             "amount": 1,
@@ -25461,7 +25461,7 @@
         "noTargetSelf": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -25703,7 +25703,7 @@
         "isNpc": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -26150,7 +26150,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -26170,7 +26170,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 15,
+        "spcost": 15,
         "state": "Shield"
       }
     },
@@ -26250,7 +26250,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 15,
+        "spcost": 15,
         "ammoFlags": {
           "dagger": true
         }
@@ -26274,7 +26274,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 25
+        "spcost": 25
       }
     },
     {
@@ -26301,7 +26301,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -26318,7 +26318,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 30
+        "spcost": 30
       }
     },
     {
@@ -26343,7 +26343,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "itemcost": [
           {
             "amount": 1,
@@ -26372,7 +26372,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "weaponFlags": {
           "bow": true
         }
@@ -26397,7 +26397,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 20
+        "spcost": 20
       }
     },
     {
@@ -26420,7 +26420,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -26453,7 +26453,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -26479,7 +26479,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 400
+        "spcost": 400
       }
     },
     {
@@ -26507,7 +26507,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 40,
+        "spcost": 40,
         "spiritSphereCost": 1
       }
     },
@@ -26533,8 +26533,8 @@
         "isQuest": true
       },
       "requires": {
-        "hpCost": 10,
-        "spCost": 20
+        "hpcost": 10,
+        "spcost": 20
       }
     },
     {
@@ -26559,7 +26559,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "itemcost": [
           {
             "amount": 1,
@@ -26590,7 +26590,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "itemcost": [
           {
             "amount": 1,
@@ -26621,7 +26621,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "itemcost": [
           {
             "amount": 1,
@@ -26909,7 +26909,7 @@
         }
       ],
       "requires": {
-        "spCost": 60,
+        "spcost": 60,
         "weaponFlags": {
           "1hSpear": true,
           "2hSpear": true
@@ -27201,7 +27201,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "state": "Ridingdragon"
       }
     },
@@ -27226,7 +27226,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -27248,7 +27248,7 @@
         "ignoreStatus": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -27271,7 +27271,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -27293,7 +27293,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -27316,7 +27316,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -27333,7 +27333,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -27357,7 +27357,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -27376,7 +27376,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -27395,7 +27395,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -28449,7 +28449,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -28737,7 +28737,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -28755,7 +28755,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -28773,7 +28773,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -28791,7 +28791,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -29005,7 +29005,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -29024,7 +29024,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -29043,7 +29043,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -29062,7 +29062,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -29174,7 +29174,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -29304,7 +29304,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 25,
+        "spcost": 25,
         "state": "MoveEnable"
       }
     },
@@ -29345,7 +29345,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -29367,7 +29367,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -29383,7 +29383,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -29616,7 +29616,7 @@
         "noTargetSelf": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "state": "WeaponBlockOn"
       }
     },
@@ -29701,7 +29701,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 40,
+        "spcost": 40,
         "state": "PoisoningWeapon"
       },
       "unit": {
@@ -29734,7 +29734,7 @@
         "ignoreWugBite": true
       },
       "requires": {
-        "spCost": 45
+        "spcost": 45
       }
     },
     {
@@ -29756,7 +29756,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 30
+        "spcost": 30
       }
     },
     {
@@ -29796,7 +29796,7 @@
       },
       "requires": {
         "hpRateCost": 10,
-        "spCost": 100
+        "spcost": 100
       }
     },
     {
@@ -29837,7 +29837,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 5,
+        "spcost": 5,
         "weaponFlags": {
           "katar": true
         }
@@ -29987,7 +29987,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "spRateCost": -10,
         "itemcost": [
           {
@@ -30427,7 +30427,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 300,
+        "spcost": 300,
         "itemcost": [
           {
             "amount": 1,
@@ -31036,7 +31036,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -31053,7 +31053,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -31498,7 +31498,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 40,
+        "spcost": 40,
         "ammoFlags": {
           "arrow": true
         },
@@ -31527,7 +31527,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 15
+        "spcost": 15
       }
     },
     {
@@ -31574,7 +31574,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 35,
+        "spcost": 35,
         "itemcost": [
           {
             "amount": 1,
@@ -31621,7 +31621,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "itemcost": [
           {
             "amount": 1,
@@ -31651,7 +31651,7 @@
       "name": "RA_WUGMASTERY",
       "targetType": "Self",
       "requires": {
-        "spCost": 5,
+        "spcost": 5,
         "itemcost": [
           {
             "amount": 0,
@@ -31673,7 +31673,7 @@
         "allowOnWarg": true
       },
       "requires": {
-        "spCost": 2
+        "spcost": 2
       }
     },
     {
@@ -31696,7 +31696,7 @@
         "increaseDanceWithWugDamage": true
       },
       "requires": {
-        "spCost": 4,
+        "spcost": 4,
         "state": "MoveEnable"
       }
     },
@@ -31883,7 +31883,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 12,
+        "spcost": 12,
         "state": "Wug"
       }
     },
@@ -31904,7 +31904,7 @@
         "ignoreWugBite": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -31938,7 +31938,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -31987,7 +31987,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -32036,7 +32036,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -32085,7 +32085,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -32138,7 +32138,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -32186,7 +32186,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "itemcost": [
           {
             "amount": 1,
@@ -32290,7 +32290,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "state": "Mado"
       }
     },
@@ -32410,7 +32410,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "state": "Mado",
         "itemcost": [
           {
@@ -32487,7 +32487,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "state": "Mado",
         "itemcost": [
           {
@@ -32694,7 +32694,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 25,
+        "spcost": 25,
         "state": "Mado",
         "itemcost": [
           {
@@ -32721,7 +32721,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 5,
+        "spcost": 5,
         "state": "Mado",
         "itemcost": [
           {
@@ -32748,7 +32748,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 5,
+        "spcost": 5,
         "state": "Mado",
         "itemcost": [
           {
@@ -32816,7 +32816,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 200,
+        "spcost": 200,
         "state": "Mado",
         "itemcost": [
           {
@@ -32849,7 +32849,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 100,
+        "spcost": 100,
         "state": "Mado",
         "itemcost": [
           {
@@ -32896,7 +32896,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "state": "Mado",
         "itemcost": [
           {
@@ -32927,7 +32927,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 45,
+        "spcost": 45,
         "state": "Mado"
       }
     },
@@ -32955,7 +32955,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "state": "Mado",
         "itemcost": [
           {
@@ -33814,7 +33814,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 15,
+        "spcost": 15,
         "itemcost": [
           {
             "amount": 1,
@@ -34412,7 +34412,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 100
+        "spcost": 100
       }
     },
     {
@@ -35629,7 +35629,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "weaponFlags": {
           "1hSpear": true,
           "2hSpear": true
@@ -35656,7 +35656,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 30
+        "spcost": 30
       }
     },
     {
@@ -35672,7 +35672,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 150
+        "spcost": 150
       }
     },
     {
@@ -35736,7 +35736,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "state": "Shield"
       }
     },
@@ -37090,7 +37090,7 @@
       "maxLevel": 10,
       "name": "SR_HELLGATE",
       "requires": {
-        "spCost": 1,
+        "spcost": 1,
         "spiritSphereCost": 5,
         "spratePerLevel": [
           {
@@ -37160,7 +37160,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 100,
+        "spcost": 100,
         "spiritSphereCost": 5,
         "state": "ExplosionSpirits"
       }
@@ -37202,7 +37202,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 80,
+        "spcost": 80,
         "spiritSphereCost": 2
       }
     },
@@ -37566,7 +37566,7 @@
         "ignoreHovering": true
       },
       "requires": {
-        "spCost": 45
+        "spcost": 45
       }
     },
     {
@@ -37626,7 +37626,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 120
+        "spcost": 120
       }
     },
     {
@@ -37636,7 +37636,7 @@
       "maxLevel": 5,
       "name": "SR_GENTLETOUCH",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -37656,7 +37656,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -37677,7 +37677,7 @@
         "noTargetSelf": true
       },
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "spiritSphereCost": 5
       }
     },
@@ -37697,7 +37697,7 @@
         "ignoreDefense": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -37800,7 +37800,7 @@
         "reproduce": true
       },
       "requires": {
-        "spCost": 100,
+        "spcost": 100,
         "spiritSphereCost": 2
       }
     },
@@ -38992,7 +38992,7 @@
         "splashSplit": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -39013,7 +39013,7 @@
         "splashSplit": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -39032,7 +39032,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -42113,7 +42113,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "state": "Elementalspirit"
       }
     },
@@ -42435,7 +42435,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "state": "Elementalspirit"
       }
     },
@@ -42490,7 +42490,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "state": "Elementalspirit"
       }
     },
@@ -42774,7 +42774,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "state": "Cart"
       }
     },
@@ -43433,7 +43433,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       },
       "unit": {
         "id": "Dummyskill",
@@ -43644,7 +43644,7 @@
       "range": 9,
       "targetType": "Ground",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       },
       "unit": {
         "id": "Fire_Expansion_Smoke_Powder",
@@ -43666,7 +43666,7 @@
       "range": 9,
       "targetType": "Ground",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       },
       "unit": {
         "id": "Fire_Expansion_Tear_Gas",
@@ -43736,7 +43736,7 @@
         "ignoreGvgReduction": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -43887,7 +43887,7 @@
         "ignoreElement": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -43999,7 +43999,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 4,
+        "spcost": 4,
         "ammoFlags": {
           "throwweapon": true
         }
@@ -44017,7 +44017,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -44080,7 +44080,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 12
+        "spcost": 12
       }
     },
     {
@@ -44094,7 +44094,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -44112,7 +44112,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -44137,7 +44137,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -44153,7 +44153,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 1,
+        "spcost": 1,
         "itemcost": [
           {
             "amount": 1,
@@ -44184,7 +44184,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -44235,7 +44235,7 @@
         "isQuest": true
       },
       "requires": {
-        "spCost": 40,
+        "spcost": 40,
         "state": "Cart"
       }
     },
@@ -44254,7 +44254,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "zenyCost": 100
       }
     },
@@ -44562,7 +44562,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 2,
+        "spcost": 2,
         "spiritSphereCost": 1
       }
     },
@@ -44713,7 +44713,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 45,
+        "spcost": 45,
         "spiritSphereCost": 1,
         "weaponFlags": {
           "gatling": true,
@@ -44739,7 +44739,7 @@
       "type": "Weapon",
       "requires": {
         "ammoAmount": 1,
-        "spCost": 5,
+        "spcost": 5,
         "state": "QdShotReady",
         "ammoFlags": {
           "bullet": true,
@@ -44771,7 +44771,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "spiritSphereCost": 1,
         "weaponFlags": {
           "gatling": true,
@@ -44973,7 +44973,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10,
+        "spcost": 10,
         "spiritSphereCost": 1,
         "weaponFlags": {
           "revolver": true
@@ -45164,7 +45164,7 @@
       },
       "requires": {
         "ammoAmount": 10,
-        "spCost": 70,
+        "spcost": 70,
         "ammoFlags": {
           "bullet": true
         },
@@ -45221,7 +45221,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 30
+        "spcost": 30
       }
     },
     {
@@ -45454,7 +45454,7 @@
         "ignoreFlee": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -45705,7 +45705,7 @@
         "allowWhenHidden": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -46054,7 +46054,7 @@
         "splashSplit": true
       },
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "zenycostPerLevel": [
           {
             "amount": 10000,
@@ -46390,7 +46390,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 100
+        "spcost": 100
       }
     },
     {
@@ -46675,7 +46675,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "itemcost": [
           {
             "amount": 1,
@@ -46699,7 +46699,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "itemcost": [
           {
             "amount": 1,
@@ -46723,7 +46723,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "itemcost": [
           {
             "amount": 1,
@@ -46747,7 +46747,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 20,
+        "spcost": 20,
         "itemcost": [
           {
             "amount": 1,
@@ -46767,7 +46767,7 @@
       "targetType": "Attack",
       "type": "Magic",
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -46784,7 +46784,7 @@
       "targetType": "Ground",
       "type": "Magic",
       "requires": {
-        "spCost": 30
+        "spcost": 30
       },
       "unit": {
         "id": "Zenkai_Water",
@@ -47054,7 +47054,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 50,
+        "spcost": 50,
         "itemcost": [
           {
             "amount": 1,
@@ -47770,7 +47770,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -47942,7 +47942,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 120,
+        "spcost": 120,
         "state": "Elementalspirit2",
         "itemcost": [
           {
@@ -47989,7 +47989,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 65,
+        "spcost": 65,
         "spiritSphereCostPerLevel": [
           {
             "amount": 5,
@@ -48324,7 +48324,7 @@
         "allowOnMado": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -48798,7 +48798,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 100
+        "spcost": 100
       }
     },
     {
@@ -48813,7 +48813,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -48922,7 +48922,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 120
+        "spcost": 120
       }
     },
     {
@@ -49154,7 +49154,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -49248,7 +49248,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -49280,7 +49280,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -50112,7 +50112,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 35
+        "spcost": 35
       }
     },
     {
@@ -51324,7 +51324,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "hpcostPerLevel": [
           {
             "amount": 20,
@@ -51489,7 +51489,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 50
+        "spcost": 50
       }
     },
     {
@@ -51565,7 +51565,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 100
+        "spcost": 100
       }
     },
     {
@@ -51585,7 +51585,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 12,
+        "spcost": 12,
         "ammoFlags": {
           "arrow": true
         }
@@ -51615,7 +51615,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 15,
+        "spcost": 15,
         "ammoFlags": {
           "arrow": true
         }
@@ -51684,7 +51684,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       },
       "unit": {
         "id": "Skidtrap",
@@ -51742,7 +51742,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       },
       "unit": {
         "id": "Landmine",
@@ -51819,7 +51819,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 12
+        "spcost": 12
       },
       "unit": {
         "id": "Sandman",
@@ -51899,7 +51899,7 @@
         "isTrap": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       },
       "unit": {
         "id": "Freezingtrap",
@@ -51929,7 +51929,7 @@
         "targetTrap": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -51959,7 +51959,7 @@
       },
       "requires": {
         "ammoAmount": 1,
-        "spCost": 15,
+        "spcost": 15,
         "ammoFlags": {
           "arrow": true
         }
@@ -52033,7 +52033,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 7
+        "spcost": 7
       }
     },
     {
@@ -52060,7 +52060,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 12
+        "spcost": 12
       }
     },
     {
@@ -52170,7 +52170,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 30,
+        "spcost": 30,
         "state": "Shield"
       }
     },
@@ -52299,7 +52299,7 @@
         "partyOnly": true
       },
       "requires": {
-        "spCost": 25
+        "spcost": 25
       }
     },
     {
@@ -52347,7 +52347,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -52467,7 +52467,7 @@
         "splash": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -52490,7 +52490,7 @@
         "ignoreStatus": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -52511,7 +52511,7 @@
         "noTargetEnemy": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -52532,7 +52532,7 @@
         "noTargetEnemy": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -52553,7 +52553,7 @@
         "noTargetEnemy": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -52574,7 +52574,7 @@
         "noTargetEnemy": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -52595,7 +52595,7 @@
         "noTargetEnemy": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -52616,7 +52616,7 @@
         "noTargetEnemy": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -52690,7 +52690,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -52820,7 +52820,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 5
+        "spcost": 5
       }
     },
     {
@@ -52939,7 +52939,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 10
+        "spcost": 10
       }
     },
     {
@@ -53180,7 +53180,7 @@
         "ignoreHovering": true
       },
       "requires": {
-        "hpCost": 15,
+        "hpcost": 15,
         "spcostPerLevel": [
           {
             "amount": 18,
@@ -53243,7 +53243,7 @@
       "targetType": "Self",
       "type": "Weapon",
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -53258,7 +53258,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 60
+        "spcost": 60
       }
     },
     {
@@ -53275,7 +53275,7 @@
       "targetType": "Self",
       "type": "Magic",
       "requires": {
-        "spCost": 80
+        "spcost": 80
       },
       "unit": {
         "id": "Fire_Mantle",
@@ -53301,7 +53301,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -53316,7 +53316,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 60
+        "spcost": 60
       }
     },
     {
@@ -53333,7 +53333,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 80
+        "spcost": 80
       },
       "unit": {
         "id": "Water_Barrier",
@@ -53360,7 +53360,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -53375,7 +53375,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 60
+        "spcost": 60
       }
     },
     {
@@ -53391,7 +53391,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 80
+        "spcost": 80
       },
       "unit": {
         "id": "Zephyr",
@@ -53417,7 +53417,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -53432,7 +53432,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 60
+        "spcost": 60
       }
     },
     {
@@ -53448,7 +53448,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 80
+        "spcost": 80
       },
       "unit": {
         "id": "Power_Of_Gaia",
@@ -53474,7 +53474,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53489,7 +53489,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53504,7 +53504,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53519,7 +53519,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53534,7 +53534,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53549,7 +53549,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53564,7 +53564,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53579,7 +53579,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53594,7 +53594,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53609,7 +53609,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53624,7 +53624,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53639,7 +53639,7 @@
         "noDamage": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53654,7 +53654,7 @@
       "targetType": "Attack",
       "type": "Magic",
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -53670,7 +53670,7 @@
       "targetType": "Attack",
       "type": "Magic",
       "requires": {
-        "spCost": 60
+        "spcost": 60
       }
     },
     {
@@ -53686,7 +53686,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53702,7 +53702,7 @@
       "targetType": "Attack",
       "type": "Magic",
       "requires": {
-        "spCost": 80
+        "spcost": 80
       }
     },
     {
@@ -53718,7 +53718,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53733,7 +53733,7 @@
       "targetType": "Attack",
       "type": "Magic",
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -53749,7 +53749,7 @@
       "targetType": "Attack",
       "type": "Magic",
       "requires": {
-        "spCost": 60
+        "spcost": 60
       }
     },
     {
@@ -53765,7 +53765,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53781,7 +53781,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 80
+        "spcost": 80
       }
     },
     {
@@ -53797,7 +53797,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -53814,7 +53814,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 60
+        "spcost": 60
       }
     },
     {
@@ -53829,7 +53829,7 @@
       "targetType": "Attack",
       "type": "Magic",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53847,7 +53847,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 80
+        "spcost": 80
       }
     },
     {
@@ -53863,7 +53863,7 @@
       "targetType": "Attack",
       "type": "Magic",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53879,7 +53879,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 40
+        "spcost": 40
       }
     },
     {
@@ -53896,7 +53896,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 60
+        "spcost": 60
       }
     },
     {
@@ -53913,7 +53913,7 @@
       "targetType": "Attack",
       "type": "Magic",
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -53929,7 +53929,7 @@
       "targetType": "Attack",
       "type": "Weapon",
       "requires": {
-        "spCost": 80
+        "spcost": 80
       }
     },
     {
@@ -54088,7 +54088,7 @@
         "isGuild": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -54113,7 +54113,7 @@
         "isGuild": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -54138,7 +54138,7 @@
         "isGuild": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {
@@ -54164,7 +54164,7 @@
         "isGuild": true
       },
       "requires": {
-        "spCost": 1
+        "spcost": 1
       }
     },
     {

@@ -71,14 +71,12 @@ impl SkillTreeService {
                     if let Some(cost) = requirements.sp_cost() {
                         sp_cost = *cost as i16;
                     } else if let Some(sp_cost_per_level) = requirements.sp_cost_per_level() {
-                        sp_cost = sp_cost_per_level.iter().find(|(level, _cost)| *level as u8 == skill.level)
-                            .unwrap().1 as i16;
+                        sp_cost = sp_cost_per_level[skill.level as usize] as i16;
                     }
                     if let Some(r) = skill_config.range() {
                         range = *r as i16;
                     } else if let Some(range_per_level) = skill_config.range_per_level() {
-                        range = range_per_level.iter().find(|(level, _cost)| *level as u8 == skill.level)
-                            .unwrap().1 as i16;
+                        range = range_per_level[skill.level as usize] as i16;
                     }
                 }
             }
