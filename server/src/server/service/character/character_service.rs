@@ -247,10 +247,13 @@ impl CharacterService {
         new_job_level as i32 - old_job_level as i32
     }
 
-    pub fn change_job(&self, character: &mut Character, job: JobName) {
+    pub fn change_job(&self, character: &mut Character, job: JobName, should_reset_skills: bool) {
         character.status.job = job.value() as u32;
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "class".to_string(), value: character.status.job })).expect("Fail to send persistence notification");
         self.change_sprite(character, LookType::Job, character.status.job as u16, 0);
+        if should_reset_skills {
+            self.reset_skills(character, true);
+        }
     }
 
     pub fn get_allocated_skills_point(&self, character: &Character) -> u8 {

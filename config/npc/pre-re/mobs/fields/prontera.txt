@@ -128,3 +128,23 @@ prt_fild11,0,0	monster	Red Mushroom	1085,10,180000,90000
 
 
 prontera,256,67	monster	Red Mushroom	1085,1
+
+
+
+prt_monk,221,178	monster	Red Mushroom	1085,1
+prt_monk,221,176	monster	Red Mushroom	1085,1
+prt_monk,221,174	monster	Red Mushroom	1085,1
+prt_monk,221,172	monster	Red Mushroom	1085,1
+prt_monk,221,170	monster	Red Mushroom	1085,1
+prt_monk,221,168	monster	Red Mushroom	1085,1
+prt_monk,223,178	monster	Red Mushroom	1085,1
+prt_monk,223,176	monster	Red Mushroom	1085,1
+prt_monk,223,174	monster	Red Mushroom	1085,1
+prt_monk,223,172	monster	Red Mushroom	1085,1
+prt_monk,223,170	monster	Red Mushroom	1085,1
+prt_monk,223,168	monster	Red Mushroom	1085,1
+
+
+prt_monk,153,210	monster	Red Mushroom	1085,1
+prt_monk,162,210	monster	Red Mushroom	1085,1
+prt_monk,171,210	monster	Red Mushroom	1085,1

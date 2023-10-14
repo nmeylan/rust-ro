@@ -347,13 +347,6 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     socket_send!(context, packet_accept_enter);
 
 
-    let mut packet_notify_chat = PacketZcNotifyChat::new(GlobalConfigService::instance().packetver());
-    packet_notify_chat.set_gid(character.char_id);
-    packet_notify_chat.set_msg("Hello from rust ragnarok".to_string());
-    packet_notify_chat.set_packet_length((packet_notify_chat.msg.len() + 8) as i16);
-    packet_notify_chat.fill_raw();
-    socket_send!(context, packet_notify_chat);
-
     /*
     * Inventory
     */

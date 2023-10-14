@@ -509,3 +509,5 @@ umbala,106,150,3	duplicate(Warper)	Warper#umb	4_F_VALKYRIE
 veins,214,123,4	duplicate(Warper)	Warper#ve	4_F_VALKYRIE
 xmas,150,136,6	duplicate(Warper)	Warper#xmas	4_F_VALKYRIE
 yuno,162,47,4	duplicate(Warper)	Warper#yuno	4_F_VALKYRIE
+
+prt_monk,159,175,4	duplicate(Warper)	Warper#mnk	4_F_VALKYRIE

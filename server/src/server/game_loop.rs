@@ -146,7 +146,7 @@ impl Server {
                         }
                         GameEvent::CharacterChangeJob(character_change_job) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_change_job.char_id).unwrap();
-                            CharacterService::instance().change_job(character, character_change_job.job);
+                            CharacterService::instance().change_job(character, character_change_job.job, character_change_job.should_reset_skills);
                             // TODO ensure equip required class
                         }
                         GameEvent::CharacterKillMonster(character_kill_monster) => {

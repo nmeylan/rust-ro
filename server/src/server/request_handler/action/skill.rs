@@ -30,9 +30,9 @@ pub fn handle_use_skill(server: &Server, context: Request) {
     packet_zc_notify_skill2.set_start_time(get_tick_client());
     packet_zc_notify_skill2.set_attacked_mt(480);
     packet_zc_notify_skill2.set_level(10);
-    packet_zc_notify_skill2.set_count(1);
+    packet_zc_notify_skill2.set_count(10);
     packet_zc_notify_skill2.set_aid(context.session().char_id());
-    packet_zc_notify_skill2.set_action(6);
+    packet_zc_notify_skill2.set_action(6); //
     packet_zc_notify_skill2.fill_raw();
 
     let character = server.state().get_character(context.session().char_id.unwrap()).unwrap();
