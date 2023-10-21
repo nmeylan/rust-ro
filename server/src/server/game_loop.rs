@@ -233,7 +233,7 @@ impl Server {
                             if let Some(previous_movement) = maybe_previous_movement {
                                 debug!("change path! was {} will {}, move at {}",previous_movement.position(), movement.position(), previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
                                 // movement.set_move_at(previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
-                                movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()) + MOVEMENT_TICK_RATE);
+                                movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()) + MOVEMENT_TICK_RATE / 2);
                             } else {
                                 movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()));
                                 debug!("will move at {}", movement.move_at());

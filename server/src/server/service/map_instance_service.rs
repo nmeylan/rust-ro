@@ -83,15 +83,15 @@ impl MapInstanceService {
     }
 
     pub fn update_mobs_fov(&self, map_instance_state: &mut MapInstanceState, characters: Vec<MapItemSnapshot>) {
-        for (_, mob) in map_instance_state.mobs_mut().iter_mut() {
-            let mut viewed_chars: Vec<MapItem> = Vec::with_capacity(characters.len());
-            for character in characters.iter() {
-                if manhattan_distance(character.x(), character.y(), mob.x(), mob.y()) <= MOB_FOV {
-                    viewed_chars.push(character.map_item());
-                }
-            }
-            mob.update_map_view(viewed_chars);
-        }
+        // for (_, mob) in map_instance_state.mobs_mut().iter_mut() {
+        //     let mut viewed_chars: Vec<MapItem> = Vec::with_capacity(characters.len());
+        //     for character in characters.iter() {
+        //         if manhattan_distance(character.x(), character.y(), mob.x(), mob.y()) <= MOB_FOV {
+        //             viewed_chars.push(character.map_item());
+        //         }
+        //     }
+        //     mob.update_map_view(viewed_chars);
+        // }
     }
 
     pub fn mobs_action(&self, map_instance_state: &mut MapInstanceState) {
