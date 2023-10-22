@@ -6,7 +6,7 @@ use std::path::Path;
 use std::sync::{Arc, Mutex};
 use tokio::sync::Semaphore;
 use tokio::task::JoinHandle;
-use crate::server::model::configuration::Config;
+use configuration::configuration::Config;
 use crate::server::model::Npc;
 
 pub mod mob_spawn_loader;

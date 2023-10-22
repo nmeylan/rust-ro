@@ -2,15 +2,15 @@ use std::{env, fs};
 use std::collections::HashMap;
 use std::path::Path;
 use serde::{Deserialize, Deserializer};
-use accessor::Setters;
+use accessor::{GettersAll, Setters, SettersAll};
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::class::JobName;
-use crate::enums::EnumWithNumberValue;
+use enums::EnumWithNumberValue;
 use enums::element::Element;
 use enums::skill::{SkillCastTimeDelayType, SkillCopyType, SkillDamageFlags, SkillDamageType, SkillFlags, SkillRequirement, SkillTargetType, SkillType, SkillUnitType};
 use enums::unit::UnitTargetType;
 use enums::weapon::{AmmoType, WeaponType};
-use crate::util::serde_helper::*;
+use crate::serde_helper::*;
 
 const DEFAULT_LOG_LEVEL: &str = "info";
 const LOG_LEVELS: [&str; 4] = ["debug", "info", "warn", "error"];
@@ -180,17 +180,17 @@ pub struct JobConfig {
 }
 
 #[derive(Deserialize, Debug, Clone)]
-struct SkillsConfig {
+pub struct SkillsConfig {
     #[serde(rename = "skills", deserialize_with = "deserialize_skills")]
-    skills: HashMap<u32, SkillConfig>,
+    pub skills: HashMap<u32, SkillConfig>,
 }
 
 #[derive(Deserialize, Debug, Clone, GettersAll)]
 #[allow(dead_code)]
 pub struct SkillConfig {
-    pub(crate) id: u32,
-    pub(crate) name: String,
-    description: String,
+    pub id: u32,
+    pub name: String,
+    pub description: String,
     #[serde(rename = "maxLevel")]
     max_level: u32,
     #[serde(rename = "type", deserialize_with = "deserialize_optional_string_enum", default)]
@@ -200,7 +200,7 @@ pub struct SkillConfig {
     #[serde(rename = "damageflags", deserialize_with = "deserialize_damage_flags", default)]
     damage_flags: Option<u64>,
     #[serde(rename = "flags", deserialize_with = "deserialize_skill_flags", default)]
-    flags: Option<u64>,
+    pub flags: Option<u64>,
     #[serde(default)]
     range: Option<i32>,
     #[serde(rename = "rangePerLevel", deserialize_with = "deserialize_tuples", default)]

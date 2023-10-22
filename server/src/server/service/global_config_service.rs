@@ -4,7 +4,7 @@ use enums::class::JobName;
 use crate::enums::EnumWithStringValue;
 use crate::repository::model::item_model::ItemModel;
 use crate::repository::model::mob_model::MobModel;
-use crate::server::model::configuration::{Config, JobConfig, JobSkillTree, SkillConfig};
+use configuration::configuration::{Config, JobConfig, JobSkillTree, SkillConfig};
 use crate::server::model::map::Map;
 
 static mut SERVICE_INSTANCE: Option<GlobalConfigService> = None;
@@ -52,7 +52,7 @@ impl GlobalConfigService {
             });
             let mut skills_name_id: HashMap<String, u32> = Default::default();
             skills.values().for_each(|skill_config| {
-                skills_name_id.insert(skill_config.name.clone(), skill_config.id);
+                skills_name_id.insert(skill_config.name().clone(), *skill_config.id());
             });
             SERVICE_INSTANCE = Some(GlobalConfigService { configuration,
                 items: items.into_iter().map(|item| (item.id as u32, item)).collect(), items_name_id,

@@ -452,6 +452,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "configuration"
+version = "0.1.0"
+dependencies = [
+ "accessor",
+ "byteorder",
+ "enums",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "convert_case"
 version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2175,6 +2186,7 @@ dependencies = [
  "accessor",
  "async-trait",
  "byteorder",
+ "configuration",
  "eframe",
  "enums",
  "fastrand",
@@ -2261,6 +2273,7 @@ name = "skills"
 version = "0.1.0"
 dependencies = [
  "byteorder",
+ "enums",
 ]
 
 [[package]]
@@ -2665,7 +2678,9 @@ name = "tools"
 version = "0.1.0"
 dependencies = [
  "byteorder",
+ "configuration",
  "convert_case",
+ "enums",
  "flate2",
  "flexi_logger 0.19.6",
  "futures",

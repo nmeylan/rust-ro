@@ -24,6 +24,7 @@ async-trait = "0.1.60"
 
 rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "ae0775a9413df3f86b728a5f0bb15d8519614787"}
 
+configuration = { path = "../lib/configuration" }
 accessor = { path = "../lib/accessor" }
 metrics = { path = "../lib/metrics" }
 packets = { path = "../lib/packets" }

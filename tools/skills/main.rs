@@ -4,8 +4,10 @@ use std::io::Write;
 use std::path::Path;
 use convert_case::{Case, Casing};
 use lazy_static::lazy_static;
-use serde::{Deserialize};
 use std::collections::HashMap;
+use configuration::configuration::{SkillsConfig};
+use enums::EnumWithMaskValueU64;
+use enums::skill::SkillFlags;
 
 lazy_static! {
     pub static ref SHORT_CLASS_NAME: HashMap<&'static str, &'static str> = HashMap::from([
@@ -48,27 +50,6 @@ lazy_static! {
     ]);
 }
 
-#[derive(Deserialize, Debug, Clone)]
-struct SkillsConfig {
-    #[serde(rename = "skills")]
-    skills: Vec<SkillConfig>,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct SkillConfig {
-    pub id: u32,
-    pub name: String,
-    pub description: String,
-    flags: Option<Flags>,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-struct Flags {
-    #[serde(rename = "isQuest", default)]
-    is_quest: bool,
-    #[serde(rename = "isWedding", default)]
-    is_wedding: bool,
-}
 
 pub fn main() {
     let path = Path::new("./config/skill.json");
@@ -84,7 +65,7 @@ pub fn main() {
     file.write_all("#![allow(dead_code)]\n\n".to_string().as_bytes()).unwrap();
     file.write_all("#[derive(Clone, Copy, PartialEq, Debug)]\n".to_string().as_bytes()).unwrap();
     file.write_all("pub enum Skill {\n".to_string().as_bytes()).unwrap();
-    for skill in skills.skills.iter() {
+    for (_, skill) in skills.skills.iter() {
         let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         let class_name = SHORT_CLASS_NAME.iter().find(|(k, _)| enum_name.to_lowercase().starts_with(*k)).map(|(_, v)| v);
         if let Some(class_name) = class_name {
@@ -98,7 +79,7 @@ pub fn main() {
     file.write_all("impl Skill {\n".to_string().as_bytes()).unwrap();
     file.write_all("  pub fn id(&self) -> u32{\n".to_string().as_bytes()).unwrap();
     file.write_all("    match self {\n".to_string().as_bytes()).unwrap();
-    for skill in skills.skills.iter() {
+    for (_, skill) in skills.skills.iter() {
         let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         file.write_all(format!("      Self::{} => {},\n", enum_name, skill.id).as_bytes()).unwrap();
     }
@@ -106,7 +87,7 @@ pub fn main() {
     file.write_all("  }\n".to_string().as_bytes()).unwrap();
     file.write_all("  pub fn from_id(id: u32) -> Self {\n".to_string().as_bytes()).unwrap();
     file.write_all("    match id {\n".to_string().as_bytes()).unwrap();
-    for skill in skills.skills.iter() {
+    for (_, skill) in skills.skills.iter() {
         let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         file.write_all(format!("      {} => Self::{},\n", skill.id, enum_name).as_bytes()).unwrap();
     }
@@ -116,7 +97,7 @@ pub fn main() {
 
     file.write_all("  pub fn from_name(name: &str) -> Self {\n".to_string().as_bytes()).unwrap();
     file.write_all("    match name {\n".to_string().as_bytes()).unwrap();
-    for skill in skills.skills.iter() {
+    for (_, skill) in skills.skills.iter() {
         let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         file.write_all(format!("      \"{}\" => Self::{},\n", skill.name, enum_name).as_bytes()).unwrap();
     }
@@ -126,7 +107,7 @@ pub fn main() {
 
     file.write_all("  pub fn to_name(&self) -> &str {\n".to_string().as_bytes()).unwrap();
     file.write_all("    match self {\n".to_string().as_bytes()).unwrap();
-    for skill in skills.skills.iter() {
+    for (_, skill) in skills.skills.iter() {
         let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         file.write_all(format!("      Self::{} => \"{}\",\n", enum_name, skill.name).as_bytes()).unwrap();
     }
@@ -136,12 +117,12 @@ pub fn main() {
 
     file.write_all("  pub fn is_platinium(&self) -> bool {\n".to_string().as_bytes()).unwrap();
     file.write_all("    match self {\n".to_string().as_bytes()).unwrap();
-    let default_flags = Flags { is_quest: false, is_wedding: false };
-    for skill in skills.skills.iter() {
+    let default_flags = 0;
+    for (_, skill) in skills.skills.iter() {
         let enum_name = skill.name.to_case(Case::Title).replace(' ', "");
         file.write_all(format!("      Self::{} => {},\n", enum_name,
-                               skill.flags.as_ref().unwrap_or(&default_flags).is_quest
-                                   || skill.flags.as_ref().unwrap_or(&default_flags).is_wedding
+            SkillFlags::Iswedding.as_flag() & skill.flags.as_ref().unwrap_or(&default_flags) != 0 ||
+            SkillFlags::Isquest.as_flag() & skill.flags.as_ref().unwrap_or(&default_flags) != 0
         ).as_bytes()).unwrap();
     }
     file.write_all("    }\n".to_string().as_bytes()).unwrap();

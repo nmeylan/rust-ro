@@ -1,7 +1,7 @@
 
 use serde::{Deserialize, Serialize};
 use sqlx::{Error, FromRow, Row};
-use crate::util::serde_helper::{*};
+use configuration::serde_helper::{*};
 
 
 use sqlx::postgres::PgRow;
