@@ -1,5 +1,5 @@
 use std::fmt::Debug;
-use enums::skills::Skill;
+use skills::skills::Skill;
 use crate::repository::model::item_model::InventoryItemModel;
 
 #[derive(Debug, PartialEq)]
