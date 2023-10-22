@@ -9,7 +9,6 @@ pub mod skill;
 pub mod status;
 pub mod unit;
 pub mod weapon;
-pub mod skills;
 pub mod look;
 pub mod vanish;
 pub mod map;

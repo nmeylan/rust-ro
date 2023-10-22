@@ -29,6 +29,7 @@ metrics = { path = "../lib/metrics" }
 packets = { path = "../lib/packets" }
 sql = { path = "../lib/sql" }
 enums = { path = "../lib/enums" }
+skills = { path = "../lib/skills" }
 
 
 [[bin]]

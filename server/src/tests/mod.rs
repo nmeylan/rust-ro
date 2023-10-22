@@ -6,3 +6,4 @@ mod map_instance_service_test;
 mod server_service_test;
 mod character_service_tests;
 mod skill_tree_service_test;
+mod skill_service_test;
