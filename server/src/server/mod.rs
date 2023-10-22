@@ -9,7 +9,7 @@ use tokio::runtime::Runtime;
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
 use crate::repository::Repository;
-use crate::server::model::configuration::Config;
+use configuration::configuration::Config;
 
 
 use crate::server::model::map_item::MapItem;

@@ -5,7 +5,7 @@ use enums::vanish::VanishType;
 use crate::enums::EnumWithNumberValue;
 use packets::packets::PacketZcNotifyVanish;
 use crate::repository::Repository;
-use crate::server::model::configuration::{Config, SkillConfig};
+use configuration::configuration::{Config, SkillConfig};
 use crate::server::model::map::{Map, RANDOM_CELL};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
@@ -36,7 +36,7 @@ impl SkillService {
     }
 
     pub fn handle_skill(&self, server: &Server, skill: &SkillConfig, level: u32, _check_requirement: bool, source_char_id: u32) {
-        let skill = Skill::from_name(skill.name.as_str());
+        let skill = Skill::from_name(skill.name().as_str());
         let character_ref = server.state().get_character_unsafe(source_char_id);
         debug!("Handle skill {}, level {}", skill.to_name(), level);
         match skill {

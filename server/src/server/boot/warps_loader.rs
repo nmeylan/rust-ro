@@ -4,7 +4,7 @@ use std::fs::File;
 use std::path::Path;
 use std::io::{BufRead, BufReader};
 use std::time::Instant;
-use crate::server::model::configuration::Config;
+use configuration::configuration::Config;
 use crate::server::boot::{NpcLoader, NpcLoaderTrait};
 use crate::server::model::warp::Warp;
 

@@ -1,7 +1,7 @@
 
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
-use crate::server::model::configuration::GameConfig;
+use configuration::configuration::GameConfig;
 
 
 #[derive(SettersAll, Debug, Clone, Copy)]

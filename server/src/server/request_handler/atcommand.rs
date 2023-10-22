@@ -12,7 +12,7 @@ use std::time::Instant;
 
 use packets::packets::Packet;
 use crate::load_scripts;
-use crate::server::model::configuration::CityConfig;
+use configuration::configuration::CityConfig;
 use crate::server::model::map::RANDOM_CELL;
 use crate::server::model::request::Request;
 use crate::server::model::events::game_event::{CharacterChangeJob, CharacterChangeJobLevel, CharacterChangeLevel, GameEvent};

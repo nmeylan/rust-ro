@@ -7,7 +7,7 @@ use std::sync::mpsc::{SyncSender};
 use tokio::runtime::Runtime;
 
 use packets::packets::Packet;
-use crate::server::model::configuration::Config;
+use configuration::configuration::Config;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::response::Response;
 use crate::server::model::session::Session;

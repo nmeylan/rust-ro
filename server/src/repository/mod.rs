@@ -12,7 +12,7 @@ use sqlx::{Error, PgPool};
 use sqlx::postgres::{PgPoolOptions, PgQueryResult};
 use tokio::runtime::Runtime;
 use crate::repository::model::item_model::{GetItemModel, InventoryItemModel, ItemBuySellModel, ItemModel};
-use crate::server::model::configuration::DatabaseConfig;
+use configuration::configuration::DatabaseConfig;
 use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 use crate::server::script::Value;

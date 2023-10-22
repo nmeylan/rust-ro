@@ -17,6 +17,9 @@ md5 = "0.7.0"
 log = "0.4"
 flexi_logger = "0.19"
 
+configuration = { path = "../lib/configuration" }
+enums = { path = "../lib/enums" }
+
 [[bin]]
 name = "packets"
 path = "packets/main.rs"

@@ -18,7 +18,7 @@ use std::sync::{Arc, Mutex, Once};
 
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
-use crate::server::model::configuration::Config;
+use configuration::configuration::Config;
 
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
