@@ -1,6 +1,6 @@
 use enums::weapon::WeaponType;
 
-pub mod skills;
+pub mod skill_enums;
 
 
 pub trait Skill {
