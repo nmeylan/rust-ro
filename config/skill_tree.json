@@ -4991,34 +4991,6 @@
         }
       ]
     },
-    "Paladin2": {
-      "inherit": [
-        "Novice",
-        "Swordsman",
-        "Crusader",
-        "Paladin"
-      ],
-      "tree": [
-        {
-          "name": "PA_SACRIFICE",
-          "maxLevel": 5,
-          "requires": [
-            {
-              "name": "SM_ENDURE",
-              "level": 5
-            },
-            {
-              "name": "CR_TRUST",
-              "level": 5
-            },
-            {
-              "name": "CR_DEVOTION",
-              "level": 3
-            }
-          ]
-        }
-      ]
-    },
     "Baby": {
       "tree": [
         {
