@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
-use crate::server::model::position::Position;
+use models::position::Position;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum MapItemType {

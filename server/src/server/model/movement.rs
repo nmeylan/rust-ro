@@ -1,5 +1,5 @@
 use crate::server::model::path::PathNode;
-use crate::server::model::position::Position;
+use models::position::Position;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Movement {

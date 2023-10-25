@@ -31,6 +31,7 @@ packets = { path = "../lib/packets" }
 sql = { path = "../lib/sql" }
 enums = { path = "../lib/enums" }
 skills = { path = "../lib/skills" }
+models = { path = "../lib/models" }
 
 
 [[bin]]

@@ -1,11 +1,11 @@
 use std::sync::Mutex;
 use rand::RngCore;
 use enums::class::JobName;
+use models::status::{Look, Status};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
-use crate::server::model::status::{Look, Status};
 use crate::enums::EnumWithNumberValue;
 
 pub fn create_character() -> Character {

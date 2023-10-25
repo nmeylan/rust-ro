@@ -1,5 +1,5 @@
 use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
-use crate::server::model::position::Position;
+use models::position::Position;
 
 pub struct EquippedItem {
     pub item_id: i32,

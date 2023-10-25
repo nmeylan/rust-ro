@@ -5,7 +5,7 @@ use crate::repository::model::item_model::InventoryItemModel;
 
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::movement::Movement;
-use crate::server::model::position::Position;
+use models::position::Position;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum GameEvent {

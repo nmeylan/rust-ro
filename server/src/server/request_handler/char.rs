@@ -4,6 +4,8 @@ use std::sync::{Arc, Mutex};
 
 use byteorder::{LittleEndian, WriteBytesExt};
 use sqlx::Postgres;
+use models::position::Position;
+use models::status::Status;
 
 use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcNotifyChat, PacketZcOverweightPercent, PacketZcReqDisconnectAck2, PacketZcRestartAck, ZserverAddr};
 use crate::repository::CharacterRepository;
@@ -11,17 +13,16 @@ use crate::repository::CharacterRepository;
 use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
 use crate::server::model::map::Map;
 use crate::server::model::map_instance::MapInstanceKey;
-use crate::server::model::position::Position;
 use crate::server::model::request::Request;
 
 use crate::server::model::events::game_event::{CharacterRemoveFromMap, GameEvent};
 use crate::server::model::events::game_event::GameEvent::{CharacterInitInventory, CharacterJoinGame};
+use crate::server::model::status::StatusFromDb;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::Server;
 use crate::server::service::server_service::ServerService;
 
 use crate::server::state::character::Character;
-use crate::server::model::status::Status;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::skill::Skill;
 use crate::util::packet::chain_packets;
@@ -252,7 +253,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
     let character = Character {
         name: char_model.name.clone(),
         char_id,
-        status: Status::from_char_model(&char_model, &server.configuration.game),
+        status: StatusFromDb::from_char_model(&char_model, &server.configuration.game),
         loaded_from_client_side: false,
         x: last_x,
         y: last_y,

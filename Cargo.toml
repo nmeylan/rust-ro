@@ -26,3 +26,5 @@ opt-level = 0
 opt-level = 0
 [profile.dev.package."skills"]
 opt-level = 0
+[profile.dev.package."models"]
+opt-level = 0

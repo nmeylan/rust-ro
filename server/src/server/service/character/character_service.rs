@@ -28,8 +28,8 @@ use crate::server::model::events::persistence_event::PersistenceEvent::SaveChara
 use crate::server::{PLAYER_FOV, Server};
 use crate::server::model::events::map_event::{MapEvent, MobDropItems};
 use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
-use crate::server::model::position::Position;
-use crate::server::model::status::Status;
+use models::position::Position;
+use models::status::Status;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::character::skill_tree_service::SkillTreeService;
 
