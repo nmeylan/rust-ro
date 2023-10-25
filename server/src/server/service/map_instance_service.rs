@@ -17,13 +17,14 @@ use crate::server::model::action::Damage;
 use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
 use crate::server::model::events::map_event::{CharacterDropItems, MapEvent, MobDropItems, MobLocation};
 use crate::server::model::item::DroppedItem;
-use crate::server::model::position::Position;
+use models::position::Position;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::mob_service::MobService;
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::mob::{Mob, MobMovement};
-use crate::server::model::status::Status;
+use models::status::Status;
+use crate::server::model::status::StatusFromDb;
 use crate::util::tick::{delayed_tick, get_tick, get_tick_client};
 
 static mut SERVICE_INSTANCE: Option<MapInstanceService> = None;
@@ -72,7 +73,7 @@ impl MapInstanceService {
                 }
                 let mob_map_item_id = Server::generate_id(map_instance_state.map_items_mut());
                 let mob = Mob::new(mob_map_item_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.info.name.clone(), mob_spawn.info.name_english.clone(),
-                                   Status::from_mob_model(&mob_spawn.info));
+                                   StatusFromDb::from_mob_model(&mob_spawn.info));
 
                 map_instance_state.insert_mob(mob);
                 // END

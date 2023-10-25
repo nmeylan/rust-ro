@@ -67,7 +67,7 @@ mod tests {
     use crate::server::model::events::persistence_event::{IncreaseSkillLevel, PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
     use crate::server::model::map_instance::MapInstanceKey;
     use crate::server::model::movement::Movement;
-    use crate::server::model::position::Position;
+    use models::position::Position;
     use crate::server::model::tasks_queue::TasksQueue;
 
 

@@ -5,9 +5,9 @@ use std::collections::HashMap;
 use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
 use crate::server::model::movement::{Movable, Movement};
 
-use crate::server::model::position::Position;
+use models::position::Position;
 
-use crate::server::model::status::Status;
+use models::status::Status;
 
 
 #[derive(Setters, Clone)]

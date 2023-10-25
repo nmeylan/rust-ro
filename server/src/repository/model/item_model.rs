@@ -10,6 +10,7 @@ use enums::class::EquipClassFlag;
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
 use enums::weapon::{AmmoType, WeaponType};
+use models::weapon::Weapon;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ItemModels {

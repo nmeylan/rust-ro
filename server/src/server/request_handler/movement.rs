@@ -4,19 +4,16 @@ use std::ops::Deref;
 use std::thread::sleep;
 
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
-
-
-
+use models::position::Position;
 
 use packets::packets::{PacketCzRequestMove, PacketCzRequestMove2};
-
 
 
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::events::game_event::CharacterMovement;
 use crate::server::model::events::game_event::GameEvent::{CharacterMove};
-use crate::server::model::position::Position;
 use crate::server::model::path::path_search_client_side_algorithm;
+use crate::server::model::position::PositionPacket;
 use crate::server::model::request::Request;
 use crate::server::Server;
 

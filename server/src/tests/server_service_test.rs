@@ -68,7 +68,7 @@ mod tests {
     use crate::server::model::events::map_event::{MapEvent};
     use crate::server::model::item::DroppedItem;
     use crate::server::model::map_item::ToMapItem;
-    use crate::server::model::position::Position;
+    use models::position::Position;
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
     use crate::tests::common::assert_helper::task_queue_contains_event_at_tick;

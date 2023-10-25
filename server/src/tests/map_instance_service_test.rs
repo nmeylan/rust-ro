@@ -53,7 +53,7 @@ mod tests {
     use crate::server::service::global_config_service::GlobalConfigService;
     
     use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
-    use crate::server::model::position::Position;
+    use models::position::Position;
     use crate::tests::common::assert_helper::{NotificationExpectation, SentPacket, task_queue_contains_event_at_tick, has_sent_notification};
     
     use crate::tests::common::map_instance_helper::create_empty_map_instance_state;

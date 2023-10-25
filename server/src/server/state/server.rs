@@ -7,7 +7,7 @@ use crate::server::model::map::MAP_EXT;
 
 use crate::server::model::map_instance::MapInstance;
 use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
-use crate::server::model::position::Position;
+use models::position::Position;
 use crate::server::model::request::Request;
 use crate::server::model::script::Script;
 use crate::server::model::session::Session;

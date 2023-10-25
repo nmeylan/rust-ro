@@ -13,7 +13,7 @@ use crate::server::boot::map_loader::MapLoader;
 use crate::server::model::map::{Map, RANDOM_CELL};
 use crate::server::model::map_instance::{MapInstance};
 use crate::server::model::map_item::{MapItem, MapItemType};
-use crate::server::model::position::Position;
+use models::position::Position;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, GameEvent};

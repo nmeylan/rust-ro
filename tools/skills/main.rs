@@ -5,6 +5,7 @@ use std::path::Path;
 use convert_case::{Case, Casing};
 use lazy_static::lazy_static;
 use std::collections::{HashMap, HashSet};
+use std::fmt::format;
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
 use enums::EnumWithMaskValueU64;
 use enums::skill::SkillFlags;
@@ -126,6 +127,9 @@ fn write_file_header(job_skills_file: &mut File) {
 
 fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(format!("impl Skill for {} {{\n", to_enum_name(skill_config)).as_bytes()).unwrap();
+    job_skills_file.write_all(b"    pub fn skill_type(&self) -> SkillTargetType {\n").unwrap();
+    // job_skills_file.write_all(format!("        {}", skill_config.).as_bytes()).unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
     job_skills_file.write_all(b"}\n").unwrap();
 }
 
@@ -139,64 +143,64 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
         let enum_name = to_enum_name(skill);
         let class_name = class_name(skill, skill_tree);
         if let Some(class_name) = class_name {
-            file.write_all(format!("  // {} {}\n", class_name, skill.description).as_bytes()).unwrap();
+            file.write_all(format!("    // {} {}\n", class_name, skill.description).as_bytes()).unwrap();
         } else {
-            file.write_all(format!("  // {}\n", skill.description).as_bytes()).unwrap();
+            file.write_all(format!("    // {}\n", skill.description).as_bytes()).unwrap();
         }
-        file.write_all(format!("  {enum_name},\n").as_bytes()).unwrap();
+        file.write_all(format!("    {enum_name},\n").as_bytes()).unwrap();
     }
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     file.write_all("impl Skill {\n".to_string().as_bytes()).unwrap();
-    file.write_all("  pub fn id(&self) -> u32{\n".to_string().as_bytes()).unwrap();
-    file.write_all("    match self {\n".to_string().as_bytes()).unwrap();
+    file.write_all("    pub fn id(&self) -> u32{\n".to_string().as_bytes()).unwrap();
+    file.write_all("        match self {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
         let enum_name = to_enum_name(skill);
-        file.write_all(format!("      Self::{} => {},\n", enum_name, skill.id).as_bytes()).unwrap();
+        file.write_all(format!("            Self::{} => {},\n", enum_name, skill.id).as_bytes()).unwrap();
     }
+    file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
-    file.write_all("  }\n".to_string().as_bytes()).unwrap();
-    file.write_all("  pub fn from_id(id: u32) -> Self {\n".to_string().as_bytes()).unwrap();
-    file.write_all("    match id {\n".to_string().as_bytes()).unwrap();
+    file.write_all("    pub fn from_id(id: u32) -> Self {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        match id {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
         let enum_name = to_enum_name(skill);
-        file.write_all(format!("      {} => Self::{},\n", skill.id, enum_name).as_bytes()).unwrap();
+        file.write_all(format!("            {} => Self::{},\n", skill.id, enum_name).as_bytes()).unwrap();
     }
-    file.write_all("    _ => panic!(\"unknown skill with id {}\", id)\n".to_string().as_bytes()).unwrap();
+    file.write_all("            _ => panic!(\"unknown skill with id {}\", id)\n".to_string().as_bytes()).unwrap();
+    file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
-    file.write_all("  }\n".to_string().as_bytes()).unwrap();
 
-    file.write_all("  pub fn from_name(name: &str) -> Self {\n".to_string().as_bytes()).unwrap();
-    file.write_all("    match name {\n".to_string().as_bytes()).unwrap();
+    file.write_all("    pub fn from_name(name: &str) -> Self {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        match name {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
         let enum_name = to_enum_name(skill);
-        file.write_all(format!("      \"{}\" => Self::{},\n", skill.name, enum_name).as_bytes()).unwrap();
+        file.write_all(format!("            \"{}\" => Self::{},\n", skill.name, enum_name).as_bytes()).unwrap();
     }
-    file.write_all("    _ => panic!(\"unknown skill with name {}\", name)\n".to_string().as_bytes()).unwrap();
+    file.write_all("            _ => panic!(\"unknown skill with name {}\", name)\n".to_string().as_bytes()).unwrap();
+    file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
-    file.write_all("  }\n".to_string().as_bytes()).unwrap();
 
-    file.write_all("  pub fn to_name(&self) -> &str {\n".to_string().as_bytes()).unwrap();
-    file.write_all("    match self {\n".to_string().as_bytes()).unwrap();
+    file.write_all("    pub fn to_name(&self) -> &str {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        match self {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
         let enum_name = to_enum_name(skill);
-        file.write_all(format!("      Self::{} => \"{}\",\n", enum_name, skill.name).as_bytes()).unwrap();
+        file.write_all(format!("            Self::{} => \"{}\",\n", enum_name, skill.name).as_bytes()).unwrap();
     }
+    file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
-    file.write_all("  }\n".to_string().as_bytes()).unwrap();
 
 
-    file.write_all("  pub fn is_platinium(&self) -> bool {\n".to_string().as_bytes()).unwrap();
-    file.write_all("    match self {\n".to_string().as_bytes()).unwrap();
+    file.write_all("    pub fn is_platinium(&self) -> bool {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        match self {\n".to_string().as_bytes()).unwrap();
     let default_flags = 0;
     for skill in skills.iter() {
         let enum_name = to_enum_name(skill);
-        file.write_all(format!("      Self::{} => {},\n", enum_name,
+        file.write_all(format!("            Self::{} => {},\n", enum_name,
                                SkillFlags::Iswedding.as_flag() & skill.flags.as_ref().unwrap_or(&default_flags) != 0 ||
                                    SkillFlags::Isquest.as_flag() & skill.flags.as_ref().unwrap_or(&default_flags) != 0
         ).as_bytes()).unwrap();
     }
+    file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
-    file.write_all("  }\n".to_string().as_bytes()).unwrap();
 
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     println!("Skills enum generated at {}", file_path.to_str().unwrap());

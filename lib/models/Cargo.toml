@@ -1,10 +1,8 @@
 [package]
-name = "skills"
+name = "models"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-byteorder = "1.4.3"
-
 enums = { path = "../enums" }
-models = { path = "../models" }
+accessor = { path = "../accessor" }
