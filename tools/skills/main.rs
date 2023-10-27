@@ -75,7 +75,6 @@ pub fn main() {
             let path = err.path().to_string();
             println!("Path in error {}", path);
             panic!("{}", err);
-            assert_eq!(path, "dependencies.serde.version");
         }
         _ => {}
     }
@@ -164,7 +163,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
             for (level, cost_per_level) in sp_cost_per_level.iter().enumerate() {
                 if level == 0 { continue; }
                 job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
-                job_skills_file.write_all(format!("            if character_sp > {} {{ return Ok({}) }} else {{return Err(())}}\n", cost_per_level, cost_per_level).as_bytes()).unwrap();
+                job_skills_file.write_all(format!("            if character_sp >= {} {{ return Ok({}) }} else {{return Err(())}}\n", cost_per_level, cost_per_level).as_bytes()).unwrap();
                 job_skills_file.write_all(b"        }\n").unwrap();
             }
             job_skills_file.write_all(b"        Err(())\n").unwrap();
