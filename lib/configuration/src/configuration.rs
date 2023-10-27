@@ -7,7 +7,7 @@ use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::class::JobName;
 use enums::EnumWithNumberValue;
 use enums::element::Element;
-use enums::skill::{SkillCastTimeDelayType, SkillCopyType, SkillDamageFlags, SkillDamageType, SkillFlags, SkillRequirement, SkillTargetType, SkillType, SkillUnitType};
+use enums::skill::{SkillCastTimeDelayType, SkillCopyType, SkillDamageFlags, SkillDamageType, SkillFlags, SkillState, SkillTargetType, SkillType, SkillUnitType};
 use enums::unit::UnitTargetType;
 use enums::weapon::{AmmoType, WeaponType};
 use crate::serde_helper::*;
@@ -295,10 +295,10 @@ pub struct SkillRequirements {
     weapon_flags: Option<u64>,
     #[serde(rename = "ammoFlags", deserialize_with = "deserialize_ammo_flags", default)]
     ammo_flags: Option<u64>,
-    #[serde(rename = "ammoFlags", default)]
+    #[serde(rename = "ammoAmount", default)]
     ammo_amount: Option<u32>,
     #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
-    state: Option<SkillRequirement>,
+    state: Option<SkillState>,
     #[serde(rename = "spiritSphereCost", default)]
     sphere_cost: Option<u32>,
     #[serde(rename = "spiritSphereCostPerLevel", deserialize_with = "deserialize_tuples", default)]
@@ -337,7 +337,7 @@ fn deserialize_tuples<'de, D>(deserializer: D) -> Result<Option<Vec<i32>>, D::Er
         if *x.get("level").unwrap() >= res.len() as i32 {
             return Err(serde::de::Error::custom("Level is out of bounds"));
         }
-        std::mem::replace(&mut res[*x.get("level").unwrap() as usize], *value);
+        let _ = std::mem::replace(&mut res[*x.get("level").unwrap() as usize], *value);
     }
     Ok(Some(res))
 }
