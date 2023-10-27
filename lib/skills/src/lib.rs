@@ -3,7 +3,7 @@ use enums::weapon::WeaponType;
 use models::weapon::Weapon;
 
 pub mod skill_enums;
-pub mod skills;
+// pub mod skills;
 
 type SkillRequirementResult<T> = std::result::Result<T, ()>;
 
@@ -15,8 +15,7 @@ pub trait Skill {
     // fn validate_ammo(&self, level: u8, character_hp: u32) -> SkillRequirementResult<u32>;
     fn validate_level(&self, character_level: u32) -> SkillRequirementResult<()>;
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()>;
-    fn validate_weapon(&self, character_weapon: Weapon) -> SkillRequirementResult<()> {
-    }
+    fn validate_weapon(&self, character_weapon: Weapon) -> SkillRequirementResult<()>;
     fn validate_range(&self, character_weapon: Weapon) -> SkillRequirementResult<()>;
 
     fn hit_count(&self) -> u8;
@@ -25,13 +24,3 @@ pub trait Skill {
 
 }
 
-pub trait OffensiveSkill : Skill {
-
-    // fn damage(&self, level: u8) -> u32;
-    // fn skill_damage_type(&self) -> SkillDamageType;
-
-}
-
-pub trait SupportiveSkill {
-
-}
