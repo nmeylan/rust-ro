@@ -3176,6 +3176,10 @@
       "type": "Magic",
       "afterCastActDelayPerLevel": [
         {
+          "level": 1,
+          "time": 0
+        },
+        {
           "level": 2,
           "time": 1000
         },
@@ -14406,6 +14410,10 @@
       "targetType": "Self",
       "type": "Misc",
       "afterCastActDelayPerLevel": [
+        {
+          "level": 1,
+          "time": 0
+        },
         {
           "level": 2,
           "time": 500

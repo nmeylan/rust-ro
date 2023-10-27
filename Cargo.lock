@@ -2188,6 +2188,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde_path_to_error"
+version = "0.1.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4beec8bce849d58d06238cb50db2e1c417cfeafa4c63f692b15c82b7c80f8335"
+dependencies = [
+ "itoa",
+ "serde",
+]
+
+[[package]]
 name = "server"
 version = "0.1.0"
 dependencies = [
@@ -2700,6 +2710,7 @@ dependencies = [
  "regex",
  "serde",
  "serde_json",
+ "serde_path_to_error",
  "tokio",
 ]
 
