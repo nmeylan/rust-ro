@@ -1,5 +1,6 @@
 #![allow(dead_code)]
-use crate::*;
+use crate::{EnumWithNumberValue, EnumWithStringValue, EnumWithMaskValueU64};
+use crate::{WithNumberValue, WithStringValue, WithMaskValueU64};
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillRequirement {
     #[value = 0]

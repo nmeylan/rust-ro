@@ -332,10 +332,13 @@ fn deserialize_tuples<'de, D>(deserializer: D) -> Result<Option<Vec<i32>>, D::Er
     where D: Deserializer<'de> {
     let s: Vec<HashMap<String, i32>> = Deserialize::deserialize(deserializer)?;
     let mut res: Vec<i32> = vec![i32::MAX; s.len() + 1];
-    s.iter().for_each(|x| {
+    for x in s.iter() {
         let (_, value) = x.iter().find(|(k, _)| k.as_str() != "level").unwrap();
-        res.insert(*x.get("level").unwrap() as usize, *value);
-    });
+        if *x.get("level").unwrap() >= res.len() as i32 {
+            return Err(serde::de::Error::custom("Level is out of bounds"));
+        }
+        std::mem::replace(&mut res[*x.get("level").unwrap() as usize], *value);
+    }
     Ok(Some(res))
 }
 

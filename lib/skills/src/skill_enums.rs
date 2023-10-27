@@ -5,7 +5,7 @@
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum Skill {
-    // Novice Basic Skill
+    // Baby Basic Skill
     NvBasic,
     // Rogue Sword Mastery
     SmSword,
@@ -47,9 +47,9 @@ pub enum Skill {
     MgLightningbolt,
     // Mage Thunderstorm
     MgThunderstorm,
-    // Acolyte Divine Protection
+    // Crusader Divine Protection
     AlDp,
-    // Acolyte Demon Bane
+    // Crusader Demon Bane
     AlDemonbane,
     // Acolyte Ruwach
     AlRuwach,
@@ -59,7 +59,7 @@ pub enum Skill {
     AlTeleport,
     // Acolyte Warp Portal
     AlWarp,
-    // Acolyte Heal
+    // Crusader Heal
     AlHeal,
     // Acolyte Increase AGI
     AlIncagi,
@@ -73,7 +73,7 @@ pub enum Skill {
     AlAngelus,
     // Acolyte Blessing
     AlBlessing,
-    // Acolyte Cure
+    // Crusader Cure
     AlCure,
     // Merchant Enlarge Weight Limit
     McInccarry,
@@ -113,7 +113,7 @@ pub enum Skill {
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Knight Spear Mastery
+    // Crusader Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +129,9 @@ pub enum Skill {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Knight Peco Peco Riding
+    // Crusader Peco Peco Riding
     KnRiding,
-    // Knight Cavalier Mastery
+    // Crusader Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -145,7 +145,7 @@ pub enum Skill {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // HighPriest Slow Poison
+    // Priest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -181,13 +181,13 @@ pub enum Skill {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Sage Earth Spike
+    // Wizard Earth Spike
     WzEarthspike,
-    // Sage Heaven's Drive
+    // Wizard Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Sage Sense
+    // Wizard Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -249,7 +249,7 @@ pub enum Skill {
     HtBlastmine,
     // Hunter Claymore Trap
     HtClaymoretrap,
-    // Hunter Remove Trap
+    // Rogue Remove Trap
     HtRemovetrap,
     // Hunter Talkie Box
     HtTalkiebox,
@@ -285,9 +285,9 @@ pub enum Skill {
     AsVenomdust,
     // Assassin Venom Splasher
     AsSplasher,
-    // Novice First Aid
+    // Baby First Aid
     NvFirstaid,
-    // Novice Play Dead
+    // Novice High Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,
