@@ -59,13 +59,16 @@ impl Skill for SoulDrain {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -115,13 +118,16 @@ impl Skill for StaveCrasher {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       300
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -201,13 +207,16 @@ impl Skill for MysticalAmplification {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -272,13 +281,31 @@ impl Skill for NapalmVulcan {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       1000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -328,13 +355,16 @@ impl Skill for Ganbantein {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -399,13 +429,16 @@ impl Skill for GravitationField {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }

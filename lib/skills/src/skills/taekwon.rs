@@ -93,13 +93,16 @@ impl Skill for Running {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -149,13 +152,16 @@ impl Skill for TornadoStance {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -226,13 +232,16 @@ impl Skill for TornadoKick {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       -3
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -282,13 +291,16 @@ impl Skill for HeelDropStance {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -359,13 +371,16 @@ impl Skill for HeelDrop {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       -3
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -415,13 +430,16 @@ impl Skill for RoundhouseStance {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -492,13 +510,16 @@ impl Skill for RoundhouseKick {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       -3
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -548,13 +569,16 @@ impl Skill for CounterKickStance {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -625,13 +649,16 @@ impl Skill for CounterKick {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       -3
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -681,13 +708,16 @@ impl Skill for Tumbling {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -758,13 +788,16 @@ impl Skill for FlyingKick {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       -3
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -814,13 +847,16 @@ impl Skill for PeacefulBreak {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -870,13 +906,16 @@ impl Skill for HappyBreak {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -926,13 +965,16 @@ impl Skill for Kihop {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1003,13 +1045,16 @@ impl Skill for MildWind {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1059,13 +1104,16 @@ impl Skill for TaekwonJump {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1115,13 +1163,16 @@ impl Skill for TaekwonMission {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }

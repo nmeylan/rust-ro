@@ -173,25 +173,76 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"        Ok(())\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 
-    generate_validate_waepon(job_skills_file, skill_config);
+    generate_validate_weapon(job_skills_file, skill_config);
 
     job_skills_file.write_all(b"    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {\n").unwrap();
     job_skills_file.write_all(b"         Ok(())\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 
-    job_skills_file.write_all(b"    fn hit_count(&self) -> u8 {\n").unwrap();
-    job_skills_file.write_all(b"        1\n").unwrap();
-    job_skills_file.write_all(b"    }\n").unwrap();
-    job_skills_file.write_all(b"    fn cast_delay(&self) -> u32 {\n").unwrap();
-    job_skills_file.write_all(b"        0\n").unwrap();
-    job_skills_file.write_all(b"    }\n").unwrap();
-    job_skills_file.write_all(b"    fn after_cast_delay(&self) -> u32 {\n").unwrap();
-    job_skills_file.write_all(b"        0\n").unwrap();
+    generate_hit_count(job_skills_file, skill_config);
+    generate_after_cast_act_delay(job_skills_file, skill_config);
+    generate_after_cast_walk_delay(job_skills_file, skill_config);
+}
+
+fn generate_after_cast_walk_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    fn after_cast_walk_delay(&self) -> u32 {\n").unwrap();
+    if let Some(after_cast_delay) = skill_config.after_cast_walk_delay() {
+        job_skills_file.write_all(format!("       {}\n", after_cast_delay).as_bytes()).unwrap();
+    } else if let Some(after_cast_delay_per_level) = skill_config.after_cast_walk_delay_per_level() {
+        for (level, after_cast_delay_level) in after_cast_delay_per_level.iter().enumerate() {
+            if level == 0 { continue; }
+            job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
+            job_skills_file.write_all(format!("            return {}\n", after_cast_delay_level).as_bytes()).unwrap();
+            job_skills_file.write_all(b"        }\n").unwrap();
+        }
+        job_skills_file.write_all(b"        0\n").unwrap();
+    } else {
+        job_skills_file.write_all(b"        0\n").unwrap();
+    }
     job_skills_file.write_all(b"    }\n").unwrap();
     job_skills_file.write_all(b"}\n").unwrap();
 }
 
-fn generate_validate_waepon(job_skills_file: &mut File, skill_config: &SkillConfig) {
+fn generate_after_cast_act_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    fn cast_delay(&self) -> u32 {\n").unwrap();
+    job_skills_file.write_all(b"        0\n").unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    fn after_cast_act_delay(&self) -> u32 {\n").unwrap();
+    if let Some(after_cast_delay) = skill_config.after_cast_act_delay() {
+        job_skills_file.write_all(format!("       {}\n", after_cast_delay).as_bytes()).unwrap();
+    } else if let Some(after_cast_delay_per_level) = skill_config.after_cast_act_delay_per_level() {
+        for (level, after_cast_delay_level) in after_cast_delay_per_level.iter().enumerate() {
+            if level == 0 { continue; }
+            job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
+            job_skills_file.write_all(format!("            return {}\n", after_cast_delay_level).as_bytes()).unwrap();
+            job_skills_file.write_all(b"        }\n").unwrap();
+        }
+        job_skills_file.write_all(b"        0\n").unwrap();
+    } else {
+        job_skills_file.write_all(b"        0\n").unwrap();
+    }
+    job_skills_file.write_all(b"    }\n").unwrap();
+}
+
+fn generate_hit_count(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    fn hit_count(&self) -> i8 {\n").unwrap();
+    if let Some(hit_count) = skill_config.hit_count() {
+        job_skills_file.write_all(format!("       {}\n", hit_count).as_bytes()).unwrap();
+    } else if let Some(hit_count_per_level) = skill_config.hit_count_per_level() {
+        for (level, hit_count_level) in hit_count_per_level.iter().enumerate() {
+            if level == 0 { continue; }
+            job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
+            job_skills_file.write_all(format!("            return {}\n", hit_count_level).as_bytes()).unwrap();
+            job_skills_file.write_all(b"        }\n").unwrap();
+        }
+        job_skills_file.write_all(b"        0\n").unwrap();
+    } else {
+        job_skills_file.write_all(b"        0\n").unwrap();
+    }
+    job_skills_file.write_all(b"    }\n").unwrap();
+}
+
+fn generate_validate_weapon(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {\n").unwrap();
     if let Some(requirements) = skill_config.requires() {
         if let Some(weapon) = requirements.weapon_flags() {

@@ -59,13 +59,16 @@ impl Skill for IncreaseSpRecovery {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -145,13 +148,16 @@ impl Skill for SafetyWall {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -201,13 +207,28 @@ impl Skill for Resurrection {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 0
+        }
+        if self.level == 2 {
+            return 1000
+        }
+        if self.level == 3 {
+            return 2000
+        }
+        if self.level == 4 {
+            return 3000
+        }
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -257,13 +278,16 @@ impl Skill for MaceMastery {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -328,13 +352,16 @@ impl Skill for ImpositioManus {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       3000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -384,13 +411,16 @@ impl Skill for Suffragium {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -455,13 +485,16 @@ impl Skill for Aspersio {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -511,13 +544,16 @@ impl Skill for BsSacramenti {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -597,13 +633,16 @@ impl Skill for Sanctuary {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -665,13 +704,16 @@ impl Skill for SlowPoison {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -721,13 +763,16 @@ impl Skill for StatusRecovery {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -807,13 +852,16 @@ impl Skill for KyrieEleison {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -863,13 +911,16 @@ impl Skill for Magnificat {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -919,13 +970,16 @@ impl Skill for Gloria {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1005,13 +1059,16 @@ impl Skill for LexDivina {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       3000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1061,13 +1118,16 @@ impl Skill for TurnUndead {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       3000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1117,13 +1177,16 @@ impl Skill for LexAeterna {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       3000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1203,13 +1266,46 @@ impl Skill for MagnusExorcismus {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       4000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1259,13 +1355,16 @@ impl Skill for Redemptio {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
