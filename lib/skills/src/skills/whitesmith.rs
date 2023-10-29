@@ -89,11 +89,11 @@ impl Skill for ShatteringStrike {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0
@@ -119,7 +119,7 @@ impl Skill for CartBoost {
         &self.delegate
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp >= 20 { Ok(20) } else {Err(())}
+        if character_sp > 20 { Ok(20) } else {Err(())}
     }
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -152,11 +152,11 @@ impl Skill for CartBoost {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0
@@ -182,7 +182,7 @@ impl Skill for UpgradeWeapon {
         &self.delegate
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp >= 5 { Ok(5) } else {Err(())}
+        if character_sp > 5 { Ok(5) } else {Err(())}
     }
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -211,11 +211,11 @@ impl Skill for UpgradeWeapon {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0
@@ -241,7 +241,7 @@ impl Skill for CartTermination {
         &self.delegate
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp >= 15 { Ok(15) } else {Err(())}
+        if character_sp > 15 { Ok(15) } else {Err(())}
     }
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -308,11 +308,11 @@ impl Skill for CartTermination {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0
@@ -338,7 +338,7 @@ impl Skill for MaximumPowerThrust {
         &self.delegate
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp >= 15 { Ok(15) } else {Err(())}
+        if character_sp > 15 { Ok(15) } else {Err(())}
     }
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -386,11 +386,11 @@ impl Skill for MaximumPowerThrust {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0

@@ -5,47 +5,47 @@
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum Skill {
-    // Baby Basic Skill
+    // Novice Basic Skill
     NvBasic,
-    // Super_Baby Sword Mastery
+    // Swordsman Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super_Baby Increase HP Recovery
+    // Swordsman Increase HP Recovery
     SmRecovery,
-    // Super_Baby Bash
+    // Swordsman Bash
     SmBash,
-    // Super_Baby Provoke
+    // Swordsman Provoke
     SmProvoke,
-    // Super_Baby Magnum Break
+    // Swordsman Magnum Break
     SmMagnum,
-    // Super_Baby Endure
+    // Swordsman Endure
     SmEndure,
-    // Priest Increase SP Recovery
+    // Mage Increase SP Recovery
     MgSrecovery,
-    // Super_Baby Sight
+    // Mage Sight
     MgSight,
-    // Super_Baby Napalm Beat
+    // Mage Napalm Beat
     MgNapalmbeat,
-    // Priest Safety Wall
+    // Mage Safety Wall
     MgSafetywall,
-    // Super_Baby Soul Strike
+    // Mage Soul Strike
     MgSoulstrike,
-    // Super_Baby Cold Bolt
+    // Mage Cold Bolt
     MgColdbolt,
-    // Super_Baby Frost Diver
+    // Mage Frost Diver
     MgFrostdiver,
-    // Super_Baby Stone Curse
+    // Mage Stone Curse
     MgStonecurse,
-    // Super_Baby Fire Ball
+    // Mage Fire Ball
     MgFireball,
-    // Super_Baby Fire Wall
+    // Mage Fire Wall
     MgFirewall,
-    // Super_Baby Fire Bolt
+    // Mage Fire Bolt
     MgFirebolt,
-    // Super_Baby Lightning Bolt
+    // Mage Lightning Bolt
     MgLightningbolt,
-    // Super_Baby Thunderstorm
+    // Mage Thunderstorm
     MgThunderstorm,
     // Acolyte Divine Protection
     AlDp,
@@ -89,13 +89,13 @@ pub enum Skill {
     McVending,
     // Super_Baby Mammonite
     McMammonite,
-    // Super_Baby Owl's Eye
+    // Archer Owl's Eye
     AcOwl,
-    // Super_Baby Vulture's Eye
+    // Archer Vulture's Eye
     AcVulture,
-    // Super_Baby Improve Concentration
+    // Archer Improve Concentration
     AcConcentration,
-    // Rogue Double Strafe
+    // Archer Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
@@ -113,7 +113,7 @@ pub enum Skill {
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Crusader Spear Mastery
+    // Knight Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +129,9 @@ pub enum Skill {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Crusader Peco Peco Riding
+    // Knight Peco Peco Riding
     KnRiding,
-    // Crusader Cavalier Mastery
+    // Knight Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -145,7 +145,7 @@ pub enum Skill {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -181,13 +181,13 @@ pub enum Skill {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Sage Earth Spike
+    // Wizard Earth Spike
     WzEarthspike,
-    // Sage Heaven's Drive
+    // Wizard Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Sage Sense
+    // Wizard Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -249,7 +249,7 @@ pub enum Skill {
     HtBlastmine,
     // Hunter Claymore Trap
     HtClaymoretrap,
-    // Hunter Remove Trap
+    // Rogue Remove Trap
     HtRemovetrap,
     // Hunter Talkie Box
     HtTalkiebox,
@@ -285,9 +285,9 @@ pub enum Skill {
     AsVenomdust,
     // Assassin Venom Splasher
     AsSplasher,
-    // Baby First Aid
+    // Novice First Aid
     NvFirstaid,
-    // Baby Play Dead
+    // Novice Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,

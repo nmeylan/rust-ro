@@ -78,11 +78,11 @@ impl Skill for RagingPalmStrike {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
        300
@@ -152,11 +152,11 @@ impl Skill for GlacierFist {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0
@@ -241,6 +241,9 @@ impl Skill for ChainCrushCombo {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
+    fn cast_delay(&self) -> u32 {
+        0
+    }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {
             return -1
@@ -274,9 +277,6 @@ impl Skill for ChainCrushCombo {
         }
         0
     }
-    fn cast_delay(&self) -> u32 {
-        0
-    }
     fn after_cast_act_delay(&self) -> u32 {
         0
     }
@@ -301,7 +301,7 @@ impl Skill for Zen {
         &self.delegate
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp >= 20 { Ok(20) } else {Err(())}
+        if character_sp > 20 { Ok(20) } else {Err(())}
     }
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -330,11 +330,11 @@ impl Skill for Zen {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0
