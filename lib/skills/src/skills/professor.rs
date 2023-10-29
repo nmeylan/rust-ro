@@ -164,7 +164,7 @@ impl Skill for SoulExhale {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       3000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -401,7 +401,7 @@ impl Skill for Foresight {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       5000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -593,7 +593,7 @@ impl Skill for DoubleCasting {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1

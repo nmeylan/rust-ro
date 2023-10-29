@@ -373,7 +373,7 @@ impl Skill for WarpPortal {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -551,7 +551,7 @@ impl Skill for IncreaseAgi {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -640,7 +640,7 @@ impl Skill for DecreaseAgi {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -703,7 +703,7 @@ impl Skill for AquaBenedicta {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -762,7 +762,7 @@ impl Skill for SignumCrucis {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       500
     }
     fn hit_count(&self) -> i8 {
        1
@@ -851,7 +851,7 @@ impl Skill for Angelus {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       500
     }
     fn hit_count(&self) -> i8 {
        1
@@ -1058,7 +1058,7 @@ impl Skill for HolyLight {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1

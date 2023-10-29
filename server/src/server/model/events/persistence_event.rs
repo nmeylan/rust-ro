@@ -1,5 +1,5 @@
 use std::fmt::Debug;
-use skills::skill_enums::Skill;
+use skills::skill_enums::SkillEnum;
 use crate::repository::model::item_model::InventoryItemModel;
 
 #[derive(Debug, PartialEq)]
@@ -53,6 +53,6 @@ pub struct ResetSkills {
 #[derive(Debug, PartialEq)]
 pub struct IncreaseSkillLevel {
     pub char_id: i32,
-    pub skill: Skill,
+    pub skill: SkillEnum,
     pub increment: u8,
 }

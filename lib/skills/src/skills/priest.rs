@@ -13,237 +13,6 @@ use models::item::NormalInventoryItem;
 use crate::{Skill, SkillRequirementResult, DelegateSkill};
 
 use crate::skills::*;
-// MG_SRECOVERY
-pub struct IncreaseSpRecovery {
-    level: u8,
-    delegate: Option<Box<dyn DelegateSkill>>,
-}
-impl Skill for IncreaseSpRecovery {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
-        Some(Self { level, delegate: None })
-    }
-    fn level(&self) -> u8 {
-        self.level
-    }
-    fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
-        &self.delegate
-    }
-    fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
-    }
-    fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
-         Ok(())
-    }
-    fn cast_delay(&self) -> u32 {
-        0
-    }
-    fn hit_count(&self) -> i8 {
-        0
-    }
-    fn after_cast_act_delay(&self) -> u32 {
-        0
-    }
-    fn after_cast_walk_delay(&self) -> u32 {
-        0
-    }
-}
-// MG_SAFETYWALL
-pub struct SafetyWall {
-    level: u8,
-    delegate: Option<Box<dyn DelegateSkill>>,
-}
-impl Skill for SafetyWall {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
-        Some(Self { level, delegate: None })
-    }
-    fn level(&self) -> u8 {
-        self.level
-    }
-    fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
-        &self.delegate
-    }
-    fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if self.level == 1 {
-            if character_sp >= 30 { return Ok(30) } else {return Err(())}
-        }
-        if self.level == 2 {
-            if character_sp >= 30 { return Ok(30) } else {return Err(())}
-        }
-        if self.level == 3 {
-            if character_sp >= 30 { return Ok(30) } else {return Err(())}
-        }
-        if self.level == 4 {
-            if character_sp >= 35 { return Ok(35) } else {return Err(())}
-        }
-        if self.level == 5 {
-            if character_sp >= 35 { return Ok(35) } else {return Err(())}
-        }
-        if self.level == 6 {
-            if character_sp >= 35 { return Ok(35) } else {return Err(())}
-        }
-        if self.level == 7 {
-            if character_sp >= 40 { return Ok(40) } else {return Err(())}
-        }
-        if self.level == 8 {
-            if character_sp >= 40 { return Ok(40) } else {return Err(())}
-        }
-        if self.level == 9 {
-            if character_sp >= 40 { return Ok(40) } else {return Err(())}
-        }
-        if self.level == 10 {
-            if character_sp >= 40 { return Ok(40) } else {return Err(())}
-        }
-        Err(())
-    }
-    fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
-    }
-    fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
-         Ok(())
-    }
-    fn cast_delay(&self) -> u32 {
-        0
-    }
-    fn hit_count(&self) -> i8 {
-       1
-    }
-    fn after_cast_act_delay(&self) -> u32 {
-        0
-    }
-    fn after_cast_walk_delay(&self) -> u32 {
-        0
-    }
-}
-// ALL_RESURRECTION
-pub struct Resurrection {
-    level: u8,
-    delegate: Option<Box<dyn DelegateSkill>>,
-}
-impl Skill for Resurrection {
-    fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 4 { return None }
-        Some(Self { level, delegate: None })
-    }
-    fn level(&self) -> u8 {
-        self.level
-    }
-    fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
-        &self.delegate
-    }
-    fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp > 60 { Ok(60) } else {Err(())}
-    }
-    fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
-    }
-    fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
-         Ok(())
-    }
-    fn cast_delay(&self) -> u32 {
-        0
-    }
-    fn hit_count(&self) -> i8 {
-       1
-    }
-    fn after_cast_act_delay(&self) -> u32 {
-        if self.level == 1 {
-            return 0
-        }
-        if self.level == 2 {
-            return 1000
-        }
-        if self.level == 3 {
-            return 2000
-        }
-        if self.level == 4 {
-            return 3000
-        }
-        0
-    }
-    fn after_cast_walk_delay(&self) -> u32 {
-        if self.level == 1 {
-            return 0
-        }
-        if self.level == 2 {
-            return 1000
-        }
-        if self.level == 3 {
-            return 2000
-        }
-        if self.level == 4 {
-            return 3000
-        }
-        0
-    }
-}
 // PR_MACEMASTERY
 pub struct MaceMastery {
     level: u8,
@@ -646,7 +415,7 @@ impl Skill for Sanctuary {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       5000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -865,7 +634,7 @@ impl Skill for KyrieEleison {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -924,7 +693,7 @@ impl Skill for Magnificat {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       4000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -1131,7 +900,7 @@ impl Skill for TurnUndead {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -1279,7 +1048,7 @@ impl Skill for MagnusExorcismus {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       15000
     }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {
@@ -1368,7 +1137,7 @@ impl Skill for Redemptio {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       4000
     }
     fn hit_count(&self) -> i8 {
         0

@@ -60,7 +60,7 @@ impl Skill for Stealth {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1200
     }
     fn hit_count(&self) -> i8 {
        1
@@ -193,7 +193,7 @@ impl Skill for Preserve {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1

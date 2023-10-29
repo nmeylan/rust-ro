@@ -5,7 +5,7 @@ use std::thread::{sleep};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use tokio::runtime::Runtime;
-use skills::skill_enums::Skill;
+use skills::skill_enums::SkillEnum;
 
 
 use packets::packets::{Packet, PacketZcNotifyPlayermove};
@@ -31,6 +31,7 @@ use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::server::service::server_service::ServerService;
+use crate::server::service::skill_service::SkillService;
 
 
 const MOVEMENT_TICK_RATE: u128 = 20;
@@ -168,7 +169,7 @@ impl Server {
                         }
                         GameEvent::CharacterSkillUpgrade(character_skill_upgrade) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_skill_upgrade.char_id).unwrap();
-                            CharacterService::instance().allocate_skill_point(character, Skill::from_id(character_skill_upgrade.skill_id as u32));
+                            CharacterService::instance().allocate_skill_point(character, SkillEnum::from_id(character_skill_upgrade.skill_id as u32));
                         }
                         GameEvent::CharacterDropItem(character_drop_item) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_drop_item.char_id).unwrap();
@@ -188,6 +189,10 @@ impl Server {
                         GameEvent::CharacterResetStats(char_id) => {
                             let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
                             CharacterService::instance().reset_stats(character);
+                        }
+                        GameEvent::CharacterUseSkill(character_use_skill) => {
+                            let character = server_state_mut.characters_mut().get_mut(&character_use_skill.char_id).unwrap();
+                            ServerService::instance().character_use_skill(server_ref.state(), character, character_use_skill);
                         }
                     }
                 }

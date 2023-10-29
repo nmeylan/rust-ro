@@ -536,7 +536,7 @@ impl Skill for FindStone {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       500
     }
     fn hit_count(&self) -> i8 {
        1

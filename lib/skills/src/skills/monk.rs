@@ -178,7 +178,7 @@ impl Skill for SummonSpiritSphere {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -237,7 +237,7 @@ impl Skill for AbsorbSpiritSphere {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -488,7 +488,7 @@ impl Skill for OccultImpaction {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -547,7 +547,7 @@ impl Skill for ThrowSpiritSphere {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {
@@ -621,7 +621,7 @@ impl Skill for MentalStrength {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       5000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -810,6 +810,21 @@ impl Skill for AsuraStrike {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 4000
+        }
+        if self.level == 2 {
+            return 3500
+        }
+        if self.level == 3 {
+            return 3000
+        }
+        if self.level == 4 {
+            return 2500
+        }
+        if self.level == 5 {
+            return 2000
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1055,7 +1070,7 @@ impl Skill for KiTranslation {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1

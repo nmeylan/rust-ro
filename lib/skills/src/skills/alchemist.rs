@@ -237,7 +237,7 @@ impl Skill for Bomb {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -296,7 +296,7 @@ impl Skill for AcidTerror {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -414,7 +414,7 @@ impl Skill for SummonFlora {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -473,7 +473,7 @@ impl Skill for SummonMarineSphere {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -532,7 +532,7 @@ impl Skill for AlchemicalWeapon {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -591,7 +591,7 @@ impl Skill for SynthesizedShield {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -650,7 +650,7 @@ impl Skill for SyntheticArmor {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -709,7 +709,7 @@ impl Skill for BiochemicalHelm {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -960,7 +960,7 @@ impl Skill for HomunculusResurrection {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
         0
@@ -1078,7 +1078,7 @@ impl Skill for TwilightAlchemy1 {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       3000
     }
     fn hit_count(&self) -> i8 {
         0
@@ -1137,7 +1137,7 @@ impl Skill for TwilightAlchemy2 {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       3000
     }
     fn hit_count(&self) -> i8 {
         0
@@ -1196,7 +1196,7 @@ impl Skill for TwilightAlchemy3 {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       3000
     }
     fn hit_count(&self) -> i8 {
         0

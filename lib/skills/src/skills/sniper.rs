@@ -168,7 +168,7 @@ impl Skill for FalconAssault {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -250,7 +250,7 @@ impl Skill for FocusedArrowStrike {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -339,6 +339,36 @@ impl Skill for WindWalker {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 2000
+        }
+        if self.level == 2 {
+            return 2400
+        }
+        if self.level == 3 {
+            return 2800
+        }
+        if self.level == 4 {
+            return 3200
+        }
+        if self.level == 5 {
+            return 3600
+        }
+        if self.level == 6 {
+            return 4000
+        }
+        if self.level == 7 {
+            return 4400
+        }
+        if self.level == 8 {
+            return 4800
+        }
+        if self.level == 9 {
+            return 5200
+        }
+        if self.level == 10 {
+            return 5600
+        }
         0
     }
     fn hit_count(&self) -> i8 {

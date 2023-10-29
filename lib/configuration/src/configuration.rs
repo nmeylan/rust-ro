@@ -203,28 +203,28 @@ pub struct SkillConfig {
     pub flags: Option<u64>,
     #[serde(default)]
     range: Option<i32>,
-    #[serde(rename = "rangePerLevel", deserialize_with = "deserialize_tuples", default)]
+    #[serde(rename = "rangePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     range_per_level: Option<Vec<i32>>,
     #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
     hit: Option<SkillDamageType>,
     #[serde(rename = "hitCount", default)]
     hit_count: Option<i32>,
-    #[serde(rename = "hitCountPerLevel", deserialize_with = "deserialize_tuples", default)]
+    #[serde(rename = "hitCountPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     hit_count_per_level: Option<Vec<i32>>,
     #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
     element: Option<Element>,
     element_per_level: Option<Vec<InternalSkillElement>>,
     #[serde(rename = "splashArea", default)]
     splash_area: Option<i32>,
-    #[serde(rename = "splashAreaPerLevel", deserialize_with = "deserialize_tuples", default)]
+    #[serde(rename = "splashAreaPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     splash_area_per_level: Option<Vec<i32>>,
     #[serde(rename = "activeInstance", default)]
     active_instance: Option<u32>,
-    #[serde(rename = "activeInstancePerLevel", deserialize_with = "deserialize_tuples", default)]
+    #[serde(rename = "activeInstancePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     active_instance_per_level: Option<Vec<i32>>,
     #[serde(rename = "knockback", default)]
     knockback: Option<u32>,
-    #[serde(rename = "knockbackPerLevel", deserialize_with = "deserialize_tuples", default)]
+    #[serde(rename = "knockbackPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     knockback_per_level: Option<Vec<i32>>,
     #[serde(rename = "copyflags", deserialize_with = "deserialize_copy_flags", default)]
     copy_flags: Option<u64>,
@@ -234,32 +234,32 @@ pub struct SkillConfig {
     cast_defense_reduction: u32,
     #[serde(rename = "castTime", default)]
     cast_time: Option<u32>,
-    #[serde(rename = "castTimePerLevel", deserialize_with = "deserialize_tuples", default)]
-    cast_time_per_level: Option<Vec<i32>>,
+    #[serde(rename = "castTimePerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    cast_time_per_level: Option<Vec<u32>>,
     #[serde(rename = "afterCastActDelay", default)]
     after_cast_act_delay: Option<u32>,
-    #[serde(rename = "afterCastActDelayPerLevel", deserialize_with = "deserialize_tuples", default)]
-    after_cast_act_delay_per_level: Option<Vec<i32>>,
+    #[serde(rename = "afterCastActDelayPerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    after_cast_act_delay_per_level: Option<Vec<u32>>,
     #[serde(rename = "afterCastActDelay", default)]
     after_cast_walk_delay: Option<u32>,
-    #[serde(rename = "afterCastActDelayPerLevel", deserialize_with = "deserialize_tuples", default)]
-    after_cast_walk_delay_per_level: Option<Vec<i32>>,
+    #[serde(rename = "afterCastActDelayPerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    after_cast_walk_delay_per_level: Option<Vec<u32>>,
     #[serde(rename = "duration1", default)]
     duration1: Option<u32>,
-    #[serde(rename = "duration1PerLevel", deserialize_with = "deserialize_tuples", default)]
-    duration1_per_level: Option<Vec<i32>>,
+    #[serde(rename = "duration1PerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    duration1_per_level: Option<Vec<u32>>,
     #[serde(rename = "duration2", default)]
     duration2: Option<u32>,
-    #[serde(rename = "duration2PerLevel", deserialize_with = "deserialize_tuples", default)]
-    duration2_per_level: Option<Vec<i32>>,
+    #[serde(rename = "duration2PerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    duration2_per_level: Option<Vec<u32>>,
     #[serde(rename = "cooldown", default)]
     cooldown: Option<u32>,
-    #[serde(rename = "cooldownPerLevel", deserialize_with = "deserialize_tuples", default)]
-    cooldown_per_level: Option<Vec<i32>>,
+    #[serde(rename = "cooldownPerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    cooldown_per_level: Option<Vec<u32>>,
     #[serde(rename = "fixedCastTime", default)]
     fixed_cast_time: Option<u32>,
-    #[serde(rename = "fixedCastTimePerLevel", deserialize_with = "deserialize_tuples", default)]
-    fixed_cast_time_per_level: Option<Vec<i32>>,
+    #[serde(rename = "fixedCastTimePerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    fixed_cast_time_per_level: Option<Vec<u32>>,
     #[serde(rename = "casttimeflags", deserialize_with = "deserialize_skill_cast_time_delay_flags", default)]
     cast_time_flags: Option<u64>,
     #[serde(rename = "castdelayflags", deserialize_with = "deserialize_skill_cast_time_delay_flags", default)]
@@ -273,24 +273,24 @@ pub struct SkillConfig {
 pub struct SkillRequirements {
     #[serde(rename = "hpcost", default)]
     hp_cost: Option<u32>,
-    #[serde(rename = "hpcostPerLevel", deserialize_with = "deserialize_tuples", default)]
-    hp_cost_per_level: Option<Vec<i32>>,
+    #[serde(rename = "hpcostPerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    hp_cost_per_level: Option<Vec<u32>>,
     #[serde(rename = "spcost", default)]
     sp_cost: Option<u32>,
-    #[serde(rename = "spcostPerLevel", deserialize_with = "deserialize_tuples", default)]
-    sp_cost_per_level: Option<Vec<i32>>,
+    #[serde(rename = "spcostPerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    sp_cost_per_level: Option<Vec<u32>>,
     #[serde(rename = "hpratecost", default)]
     hp_rate_cost: Option<u32>,
-    #[serde(rename = "hpratecostPerLevel", deserialize_with = "deserialize_tuples", default)]
-    hp_rate_cost_per_level: Option<Vec<i32>>,
+    #[serde(rename = "hpratecostPerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    hp_rate_cost_per_level: Option<Vec<u32>>,
     #[serde(rename = "spratecost", default)]
     sp_rate_cost: Option<u32>,
-    #[serde(rename = "spratecostPerLevel", deserialize_with = "deserialize_tuples", default)]
-    sp_rate_cost_per_level: Option<Vec<i32>>,
+    #[serde(rename = "spratecostPerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    sp_rate_cost_per_level: Option<Vec<u32>>,
     #[serde(rename = "zenycost", default)]
     zeny_cost: Option<u32>,
-    #[serde(rename = "zenycostPerLevel", deserialize_with = "deserialize_tuples", default)]
-    zeny_cost_per_level: Option<Vec<i32>>,
+    #[serde(rename = "zenycostPerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    zeny_cost_per_level: Option<Vec<u32>>,
     #[serde(rename = "weaponFlags", deserialize_with = "deserialize_weapon_flags", default)]
     weapon_flags: Option<u64>,
     #[serde(rename = "ammoFlags", deserialize_with = "deserialize_ammo_flags", default)]
@@ -301,8 +301,8 @@ pub struct SkillRequirements {
     state: Option<SkillState>,
     #[serde(rename = "spiritSphereCost", default)]
     sphere_cost: Option<u32>,
-    #[serde(rename = "spiritSphereCostPerLevel", deserialize_with = "deserialize_tuples", default)]
-    sphere_cost_per_level: Option<Vec<i32>>,
+    #[serde(rename = "spiritSphereCostPerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    sphere_cost_per_level: Option<Vec<u32>>,
     #[serde(rename = "itemcost", default)]
     item_cost: Vec<InternalSkillItemCost>,
 }
@@ -315,11 +315,11 @@ pub struct SkillUnit {
     alternate_id: Option<String>,
     #[serde(default)]
     layout: Option<i32>,
-    #[serde(rename = "layoutPerLevel", deserialize_with = "deserialize_tuples", default)]
+    #[serde(rename = "layoutPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     layout_per_level: Option<Vec<i32>>,
     #[serde(default)]
     range: Option<i32>,
-    #[serde(rename = "rangePerLevel", deserialize_with = "deserialize_tuples", default)]
+    #[serde(rename = "rangePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     range_per_level: Option<Vec<i32>>,
     interval: i32,
     #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
@@ -328,19 +328,27 @@ pub struct SkillUnit {
     flag: Option<u64>,
 }
 
-fn deserialize_tuples<'de, D>(deserializer: D) -> Result<Option<Vec<i32>>, D::Error>
-    where D: Deserializer<'de> {
-    let s: Vec<HashMap<String, i32>> = Deserialize::deserialize(deserializer)?;
-    let mut res: Vec<i32> = vec![i32::MAX; s.len() + 1];
-    for x in s.iter() {
-        let (_, value) = x.iter().find(|(k, _)| k.as_str() != "level").unwrap();
-        if *x.get("level").unwrap() >= res.len() as i32 {
-            return Err(serde::de::Error::custom("Level is out of bounds"));
+
+macro_rules! deserialize_tuples {
+    ($function:ident, $type:ty, $max:expr) => {
+        fn $function<'de, D>(deserializer: D) -> Result<Option<Vec<$type>>, D::Error>
+            where D: Deserializer<'de> {
+            let s: Vec<HashMap<String, $type>> = Deserialize::deserialize(deserializer)?;
+            let mut res: Vec<$type> = vec![$max; s.len() + 1];
+            for x in s.iter() {
+                let (_, value) = x.iter().find(|(k, _)| k.as_str() != "level").unwrap();
+                if *x.get("level").unwrap() >= res.len() as $type {
+                    return Err(serde::de::Error::custom("Level is out of bounds"));
+                }
+                let _ = std::mem::replace(&mut res[*x.get("level").unwrap() as usize], *value);
+            }
+            Ok(Some(res))
         }
-        let _ = std::mem::replace(&mut res[*x.get("level").unwrap() as usize], *value);
     }
-    Ok(Some(res))
 }
+
+deserialize_tuples!(deserialize_tuples_i32, i32, i32::MAX);
+deserialize_tuples!(deserialize_tuples_u32, u32, u32::MAX);
 
 fn deserialize_skills<'de, D>(deserializer: D) -> Result<HashMap<u32, SkillConfig>, D::Error>
     where D: Deserializer<'de> {

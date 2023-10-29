@@ -119,7 +119,7 @@ impl Skill for StaveCrasher {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       300
     }
     fn hit_count(&self) -> i8 {
        1
@@ -208,7 +208,7 @@ impl Skill for MysticalAmplification {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       700
     }
     fn hit_count(&self) -> i8 {
        1
@@ -282,7 +282,7 @@ impl Skill for NapalmVulcan {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {
@@ -356,7 +356,7 @@ impl Skill for Ganbantein {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       3000
     }
     fn hit_count(&self) -> i8 {
        1
@@ -430,7 +430,7 @@ impl Skill for GravitationField {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       5000
     }
     fn hit_count(&self) -> i8 {
        1

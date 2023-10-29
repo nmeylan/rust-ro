@@ -412,7 +412,7 @@ impl CharacterService {
         true
     }
 
-    pub fn allocate_skill_point(&self, character: &mut Character, skill: skills::skill_enums::Skill) -> bool {
+    pub fn allocate_skill_point(&self, character: &mut Character, skill: skills::skill_enums::SkillEnum) -> bool {
         let skill_point = character.status.skill_point;
         if skill_point < 1 {
             return false

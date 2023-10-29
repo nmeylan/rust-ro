@@ -412,6 +412,21 @@ impl Skill for SpiralPierce {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 300
+        }
+        if self.level == 2 {
+            return 500
+        }
+        if self.level == 3 {
+            return 700
+        }
+        if self.level == 4 {
+            return 900
+        }
+        if self.level == 5 {
+            return 1000
+        }
         0
     }
     fn hit_count(&self) -> i8 {

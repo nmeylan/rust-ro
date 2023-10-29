@@ -190,7 +190,7 @@ impl Skill for BrandishSpear {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       700
     }
     fn hit_count(&self) -> i8 {
        1
@@ -561,7 +561,7 @@ impl Skill for BowlingBash {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       700
     }
     fn hit_count(&self) -> i8 {
        1
@@ -738,7 +738,7 @@ impl Skill for ChargeAttack {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       500
     }
     fn hit_count(&self) -> i8 {
        1
