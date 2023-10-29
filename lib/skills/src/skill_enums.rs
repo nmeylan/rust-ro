@@ -3,58 +3,60 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use crate::skills::sniper::{*};
-use crate::skills::lordknight::{*};
-use crate::skills::bard::{*};
-use crate::skills::professor::{*};
-use crate::skills::paladin::{*};
-use crate::skills::merchant::{*};
-use crate::skills::priest::{*};
-use crate::skills::highpriest::{*};
-use crate::skills::archer::{*};
-use crate::skills::hunter::{*};
-use crate::skills::highwizard::{*};
-use crate::skills::assassincross::{*};
-use crate::skills::clown::{*};
-use crate::skills::wizard::{*};
-use crate::skills::whitesmith::{*};
-use crate::skills::thief::{*};
-use crate::skills::monk::{*};
-use crate::skills::dancer::{*};
 use crate::skills::alchemist::{*};
-use crate::skills::knight::{*};
-use crate::skills::champion::{*};
-use crate::skills::sage::{*};
-use crate::skills::gunslinger::{*};
-use crate::skills::rogue::{*};
-use crate::skills::acolyte::{*};
 use crate::skills::swordsman::{*};
-use crate::skills::stalker::{*};
+use crate::skills::whitesmith::{*};
+use crate::skills::acolyte::{*};
+use crate::skills::clown::{*};
 use crate::skills::assassin::{*};
-use crate::skills::blacksmith::{*};
-use crate::skills::ninja::{*};
-use crate::skills::taekwon::{*};
+use crate::skills::wizard::{*};
+use crate::skills::lordknight::{*};
+use crate::skills::archer::{*};
 use crate::skills::novice::{*};
+use crate::skills::gunslinger::{*};
+use crate::skills::bard::{*};
+use crate::skills::knight::{*};
+use crate::skills::priest::{*};
+use crate::skills::champion::{*};
+use crate::skills::assassincross::{*};
+use crate::skills::sniper::{*};
+use crate::skills::rogue::{*};
+use crate::skills::stalker::{*};
+use crate::skills::sage::{*};
+use crate::skills::taekwon::{*};
 use crate::skills::crusader::{*};
+use crate::skills::paladin::{*};
+use crate::skills::monk::{*};
+use crate::skills::blacksmith::{*};
+use crate::skills::thief::{*};
+use crate::skills::highpriest::{*};
+use crate::skills::merchant::{*};
+use crate::skills::highwizard::{*};
+use crate::skills::ninja::{*};
+use crate::skills::mage::{*};
+use crate::skills::professor::{*};
+use crate::skills::creator::{*};
+use crate::skills::dancer::{*};
+use crate::skills::hunter::{*};
 use crate::Skill;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super_Baby Sword Mastery
+    // Super Novice Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super_Baby Increase HP Recovery
+    // Super Novice Increase HP Recovery
     SmRecovery,
-    // Super_Baby Bash
+    // Super Novice Bash
     SmBash,
-    // Super_Baby Provoke
+    // Super Novice Provoke
     SmProvoke,
-    // Super_Baby Magnum Break
+    // Super Novice Magnum Break
     SmMagnum,
-    // Super_Baby Endure
+    // Super Novice Endure
     SmEndure,
     // Mage Increase SP Recovery
     MgSrecovery,
@@ -82,69 +84,69 @@ pub enum SkillEnum {
     MgLightningbolt,
     // Mage Thunderstorm
     MgThunderstorm,
-    // Crusader Divine Protection
+    // Acolyte Divine Protection
     AlDp,
-    // Crusader Demon Bane
+    // Acolyte Demon Bane
     AlDemonbane,
-    // Super_Baby Ruwach
+    // Acolyte Ruwach
     AlRuwach,
-    // Super_Baby Pneuma
+    // Acolyte Pneuma
     AlPneuma,
-    // Super_Baby Teleport
+    // Acolyte Teleport
     AlTeleport,
-    // Super_Baby Warp Portal
+    // Acolyte Warp Portal
     AlWarp,
-    // Crusader Heal
+    // Acolyte Heal
     AlHeal,
-    // Super_Baby Increase AGI
+    // Acolyte Increase AGI
     AlIncagi,
-    // Super_Baby Decrease AGI
+    // Acolyte Decrease AGI
     AlDecagi,
-    // Super_Baby Aqua Benedicta
+    // Acolyte Aqua Benedicta
     AlHolywater,
-    // Super_Baby Signum Crucis
+    // Acolyte Signum Crucis
     AlCrucis,
-    // Super_Baby Angelus
+    // Acolyte Angelus
     AlAngelus,
-    // Super_Baby Blessing
+    // Acolyte Blessing
     AlBlessing,
-    // Crusader Cure
+    // Acolyte Cure
     AlCure,
-    // Super_Baby Enlarge Weight Limit
+    // Super Novice Enlarge Weight Limit
     McInccarry,
-    // Super_Baby Discount
+    // Super Novice Discount
     McDiscount,
-    // Super_Baby Overcharge
+    // Super Novice Overcharge
     McOvercharge,
-    // Super_Baby Pushcart
+    // Super Novice Pushcart
     McPushcart,
-    // Super_Baby Item Appraisal
+    // Super Novice Item Appraisal
     McIdentify,
-    // Super_Baby Vending
+    // Super Novice Vending
     McVending,
-    // Super_Baby Mammonite
+    // Super Novice Mammonite
     McMammonite,
-    // Archer Owl's Eye
+    // Super Novice Owl's Eye
     AcOwl,
-    // Archer Vulture's Eye
+    // Super Novice Vulture's Eye
     AcVulture,
-    // Archer Improve Concentration
+    // Super Novice Improve Concentration
     AcConcentration,
-    // Archer Double Strafe
+    // Rogue Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Super_Baby Double Attack
+    // Super Novice Double Attack
     TfDouble,
-    // Super_Baby Improve Dodge
+    // Super Novice Improve Dodge
     TfMiss,
-    // Super_Baby Steal
+    // Super Novice Steal
     TfSteal,
-    // Super_Baby Hiding
+    // Super Novice Hiding
     TfHiding,
-    // Super_Baby Envenom
+    // Super Novice Envenom
     TfPoison,
-    // Super_Baby Detoxify
+    // Super Novice Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
@@ -216,13 +218,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Sage Earth Spike
+    // Wizard Earth Spike
     WzEarthspike,
-    // Sage Heaven's Drive
+    // Wizard Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Sage Sense
+    // Wizard Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -322,7 +324,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice High Play Dead
+    // Novice Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,
@@ -1856,13 +1858,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Super_Baby Open Buying Store
+    // Super Novice Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Super_Baby Decorate Cart
+    // Super Novice Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,
@@ -7330,6 +7332,19 @@ impl SkillEnum {
             Self::SmProvoke => Provoke::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::SmMagnum => MagnumBreak::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::SmEndure => Endure::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgSrecovery => IncreaseSpRecovery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgSight => Sight::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgNapalmbeat => NapalmBeat::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgSafetywall => SafetyWall::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgSoulstrike => SoulStrike::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgColdbolt => ColdBolt::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgFrostdiver => FrostDiver::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgStonecurse => StoneCurse::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgFireball => FireBall::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgFirewall => FireWall::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgFirebolt => FireBolt::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgLightningbolt => LightningBolt::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgThunderstorm => Thunderstorm::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::AlDp => DivineProtection::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::AlDemonbane => DemonBane::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::AlRuwach => Ruwach::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
@@ -7463,6 +7478,7 @@ impl SkillEnum {
             Self::McChangecart => ChangeCart::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::McLoud => CrazyUproar::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::AlHolylight => HolyLight::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MgEnergycoat => EnergyCoat::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::RgSnatcher => Gank::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::RgStealcoin => Mug::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::RgBackstap => BackStab::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
@@ -7548,6 +7564,14 @@ impl SkillEnum {
             Self::BdRokisweil => ClassicalPluck::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::BdIntoabyss => PowerChord::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::BdSiegfried => AcousticRhythm::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BaMusicallesson => MusicLessons::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BaMusicalstrike => MelodyStrike::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BaDissonance => UnchainedSerenade::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BaFrostjoker => UnbarringOctave::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BaWhistle => PerfectTablature::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BaAssassincross => ImpressiveRiff::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BaPoembragi => MagicStrings::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BaAppleidun => SongofLutie::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::DcDancinglesson => DanceLessons::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::DcThrowarrow => SlingingArrow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::DcUglydance => HipShaker::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
@@ -7622,6 +7646,8 @@ impl SkillEnum {
             Self::StPreserve => Preserve::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::StFullstrip => DivestAll::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::WsWeaponrefine => UpgradeWeapon::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrSlimpitcher => AidCondensedPotion::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrFullprotection => FullProtection::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::PaShieldchain => ShieldChain::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::HpManarecharge => ManaRecharge::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::PfDoublecasting => DoubleCasting::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
@@ -7632,6 +7658,8 @@ impl SkillEnum {
             Self::CgLongingfreedom => LongingforFreedom::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::CgHermode => WandofHermode::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::CgTarotcard => TarotCardofFate::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrAciddemonstration => AcidDemonstration::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrCultivation => PlantCultivation::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::TkMission => TaekwonMission::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::KnOnehand => OnehandQuicken::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::AmTwilight1 => TwilightAlchemy1::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
@@ -7692,6 +7720,7 @@ impl SkillEnum {
             Self::SaCreatecon => CreateElementalConverter::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::SaElementwater => ElementalChangeWater::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::HtPhantasmic => PhantasmicArrow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BaPangvoice => PangVoice::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::DcWinkcharm => WinkofCharm::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::BsUnfairlytrick => UnfairTrick::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
             Self::BsGreed => Greed::new(level).map(|s| Box::new(s) as Box<dyn Skill>),

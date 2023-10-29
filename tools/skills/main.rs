@@ -16,6 +16,7 @@ lazy_static! {
         ("swordsman", "sm"),
         ("acolyte", "al"),
         ("magician", "mg"),
+        ("mage", "mg"),
         ("merchant", "mc"),
         ("archer", "ac"),
         ("thief", "tf"),
@@ -31,7 +32,6 @@ lazy_static! {
         ("sage", "sa"),
         ("alchemist", "am"),
         ("bard", "ba"),
-        ("bard", "bd"),
         ("dancer", "dc"),
         ("lordknight", "lk"),
         ("highpriest", "hp"),
@@ -43,7 +43,7 @@ lazy_static! {
         ("professor", "pf"),
         ("whitesmith", "ws"),
         ("clown", "cg"),
-        ("creator", "gn"),
+        ("creator", "cr"),
         ("highwizard", "hw"),
         ("taekwon", "tk"),
         ("stargladiator", "sg"),
@@ -116,7 +116,8 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
             }
 
             if let Some(job) = SHORT_CLASS_NAME.get(job_tree.name().to_lowercase().as_str()) {
-                if !skill.name().to_lowercase().starts_with(job){
+                if (!skill.name().to_lowercase().starts_with(job) && !job_tree.name().to_lowercase().eq("bard")) || (job_tree.name().to_lowercase().eq("bard") && !(skill.name().to_lowercase().starts_with("bd") ||skill.name().to_lowercase().starts_with("ba"))) {
+                    println!("Skipping skill {} for job {}", skill.name(), job_tree.name());
                     continue;
                 }
                 let skill_config = get_skill_config(skill.name(), &skills).unwrap();
