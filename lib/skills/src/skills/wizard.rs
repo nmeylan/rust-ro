@@ -30,7 +30,7 @@ impl Skill for FirePillar {
         &self.delegate
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp >= 75 { Ok(75) } else {Err(())}
+        if character_sp > 75 { Ok(75) } else {Err(())}
     }
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -58,6 +58,9 @@ impl Skill for FirePillar {
     }
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
+    }
+    fn cast_delay(&self) -> u32 {
+        0
     }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {
@@ -90,9 +93,6 @@ impl Skill for FirePillar {
         if self.level == 10 {
             return 12
         }
-        0
-    }
-    fn cast_delay(&self) -> u32 {
         0
     }
     fn after_cast_act_delay(&self) -> u32 {
@@ -182,11 +182,11 @@ impl Skill for Sightrasher {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
        2000
@@ -271,6 +271,9 @@ impl Skill for MeteorStorm {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
+    fn cast_delay(&self) -> u32 {
+        0
+    }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {
             return 1
@@ -307,9 +310,6 @@ impl Skill for MeteorStorm {
         }
         0
     }
-    fn cast_delay(&self) -> u32 {
-        0
-    }
     fn after_cast_act_delay(&self) -> u32 {
         if self.level == 1 {
             return 2000
@@ -344,6 +344,36 @@ impl Skill for MeteorStorm {
         0
     }
     fn after_cast_walk_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 2000
+        }
+        if self.level == 2 {
+            return 3000
+        }
+        if self.level == 3 {
+            return 3000
+        }
+        if self.level == 4 {
+            return 4000
+        }
+        if self.level == 5 {
+            return 4000
+        }
+        if self.level == 6 {
+            return 5000
+        }
+        if self.level == 7 {
+            return 5000
+        }
+        if self.level == 8 {
+            return 6000
+        }
+        if self.level == 9 {
+            return 6000
+        }
+        if self.level == 10 {
+            return 7000
+        }
         0
     }
 }
@@ -423,6 +453,9 @@ impl Skill for JupitelThunder {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
+    fn cast_delay(&self) -> u32 {
+        0
+    }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {
             return 3
@@ -454,9 +487,6 @@ impl Skill for JupitelThunder {
         if self.level == 10 {
             return 12
         }
-        0
-    }
-    fn cast_delay(&self) -> u32 {
         0
     }
     fn after_cast_act_delay(&self) -> u32 {
@@ -542,11 +572,11 @@ impl Skill for LordofVermilion {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       -10
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       -10
     }
     fn after_cast_act_delay(&self) -> u32 {
        5000
@@ -635,11 +665,11 @@ impl Skill for WaterBall {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0
@@ -665,7 +695,7 @@ impl Skill for IceWall {
         &self.delegate
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp >= 20 { Ok(20) } else {Err(())}
+        if character_sp > 20 { Ok(20) } else {Err(())}
     }
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -694,11 +724,11 @@ impl Skill for IceWall {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0
@@ -783,11 +813,11 @@ impl Skill for FrostNova {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
        1000
@@ -813,7 +843,7 @@ impl Skill for StormGust {
         &self.delegate
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp >= 78 { Ok(78) } else {Err(())}
+        if character_sp > 78 { Ok(78) } else {Err(())}
     }
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -842,11 +872,11 @@ impl Skill for StormGust {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
        5000
@@ -916,6 +946,9 @@ impl Skill for EarthSpike {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
+    fn cast_delay(&self) -> u32 {
+        0
+    }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {
             return 1
@@ -932,9 +965,6 @@ impl Skill for EarthSpike {
         if self.level == 5 {
             return 5
         }
-        0
-    }
-    fn cast_delay(&self) -> u32 {
         0
     }
     fn after_cast_act_delay(&self) -> u32 {
@@ -1005,6 +1035,9 @@ impl Skill for HeavensDrive {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
+    fn cast_delay(&self) -> u32 {
+        0
+    }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {
             return 1
@@ -1021,9 +1054,6 @@ impl Skill for HeavensDrive {
         if self.level == 5 {
             return 5
         }
-        0
-    }
-    fn cast_delay(&self) -> u32 {
         0
     }
     fn after_cast_act_delay(&self) -> u32 {
@@ -1094,11 +1124,11 @@ impl Skill for Quagmire {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
        1000
@@ -1124,7 +1154,7 @@ impl Skill for Sense {
         &self.delegate
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp >= 10 { Ok(10) } else {Err(())}
+        if character_sp > 10 { Ok(10) } else {Err(())}
     }
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -1153,11 +1183,11 @@ impl Skill for Sense {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0
@@ -1183,7 +1213,7 @@ impl Skill for SightBlaster {
         &self.delegate
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
-        if character_sp >= 40 { Ok(40) } else {Err(())}
+        if character_sp > 40 { Ok(40) } else {Err(())}
     }
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -1212,11 +1242,11 @@ impl Skill for SightBlaster {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> i8 {
-       1
-    }
     fn cast_delay(&self) -> u32 {
         0
+    }
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn after_cast_act_delay(&self) -> u32 {
         0

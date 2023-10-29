@@ -5,6 +5,7 @@ use std::path::Path;
 use convert_case::{Case, Casing};
 use lazy_static::lazy_static;
 use std::collections::{HashMap, HashSet};
+use futures::AsyncReadExt;
 use regex::Regex;
 use serde_json::Error;
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
@@ -179,67 +180,28 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"         Ok(())\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 
+    job_skills_file.write_all(b"    fn cast_delay(&self) -> u32 {\n").unwrap();
+    job_skills_file.write_all(b"        0\n").unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
     generate_hit_count(job_skills_file, skill_config);
     generate_after_cast_act_delay(job_skills_file, skill_config);
     generate_after_cast_walk_delay(job_skills_file, skill_config);
+    job_skills_file.write_all(b"}\n").unwrap();
 }
 
 fn generate_after_cast_walk_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn after_cast_walk_delay(&self) -> u32 {\n").unwrap();
-    if let Some(after_cast_delay) = skill_config.after_cast_walk_delay() {
-        job_skills_file.write_all(format!("       {}\n", after_cast_delay).as_bytes()).unwrap();
-    } else if let Some(after_cast_delay_per_level) = skill_config.after_cast_walk_delay_per_level() {
-        for (level, after_cast_delay_level) in after_cast_delay_per_level.iter().enumerate() {
-            if level == 0 { continue; }
-            job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
-            job_skills_file.write_all(format!("            return {}\n", after_cast_delay_level).as_bytes()).unwrap();
-            job_skills_file.write_all(b"        }\n").unwrap();
-        }
-        job_skills_file.write_all(b"        0\n").unwrap();
-    } else {
-        job_skills_file.write_all(b"        0\n").unwrap();
-    }
-    job_skills_file.write_all(b"    }\n").unwrap();
-    job_skills_file.write_all(b"}\n").unwrap();
+    generate_return_per_level(job_skills_file, &skill_config.after_cast_walk_delay().map(|v| v as i32), &skill_config.after_cast_act_delay_per_level().as_ref().map(|v| v.iter().map(|e| *e).collect::<Vec<i32>>()));
 }
 
 fn generate_after_cast_act_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn cast_delay(&self) -> u32 {\n").unwrap();
-    job_skills_file.write_all(b"        0\n").unwrap();
-    job_skills_file.write_all(b"    }\n").unwrap();
     job_skills_file.write_all(b"    fn after_cast_act_delay(&self) -> u32 {\n").unwrap();
-    if let Some(after_cast_delay) = skill_config.after_cast_act_delay() {
-        job_skills_file.write_all(format!("       {}\n", after_cast_delay).as_bytes()).unwrap();
-    } else if let Some(after_cast_delay_per_level) = skill_config.after_cast_act_delay_per_level() {
-        for (level, after_cast_delay_level) in after_cast_delay_per_level.iter().enumerate() {
-            if level == 0 { continue; }
-            job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
-            job_skills_file.write_all(format!("            return {}\n", after_cast_delay_level).as_bytes()).unwrap();
-            job_skills_file.write_all(b"        }\n").unwrap();
-        }
-        job_skills_file.write_all(b"        0\n").unwrap();
-    } else {
-        job_skills_file.write_all(b"        0\n").unwrap();
-    }
-    job_skills_file.write_all(b"    }\n").unwrap();
+    generate_return_per_level(job_skills_file, &skill_config.after_cast_act_delay().map(|v| v as i32), skill_config.after_cast_act_delay_per_level());
 }
 
 fn generate_hit_count(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn hit_count(&self) -> i8 {\n").unwrap();
-    if let Some(hit_count) = skill_config.hit_count() {
-        job_skills_file.write_all(format!("       {}\n", hit_count).as_bytes()).unwrap();
-    } else if let Some(hit_count_per_level) = skill_config.hit_count_per_level() {
-        for (level, hit_count_level) in hit_count_per_level.iter().enumerate() {
-            if level == 0 { continue; }
-            job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
-            job_skills_file.write_all(format!("            return {}\n", hit_count_level).as_bytes()).unwrap();
-            job_skills_file.write_all(b"        }\n").unwrap();
-        }
-        job_skills_file.write_all(b"        0\n").unwrap();
-    } else {
-        job_skills_file.write_all(b"        0\n").unwrap();
-    }
-    job_skills_file.write_all(b"    }\n").unwrap();
+    generate_return_per_level(job_skills_file, skill_config.hit_count(), skill_config.hit_count_per_level());
 }
 
 fn generate_validate_weapon(job_skills_file: &mut File, skill_config: &SkillConfig) {
@@ -262,24 +224,8 @@ fn generate_validate_weapon(job_skills_file: &mut File, skill_config: &SkillConf
 
 fn generate_validate_zeny(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {\n").unwrap();
-    if let Some(requirements) = skill_config.requires() {
-        if let Some(zenycost) = requirements.zeny_cost() {
-            job_skills_file.write_all(format!("        if zeny >= {} {{ Ok({}) }} else {{Err(())}}\n", zenycost, zenycost).as_bytes()).unwrap();
-        } else if let Some(zeny_cost_per_level) = requirements.zeny_cost_per_level() {
-            for (level, zenycost) in zeny_cost_per_level.iter().enumerate() {
-                if level == 0 { continue; }
-                job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
-                job_skills_file.write_all(format!("            if zeny >= {} {{ return Ok({}) }} else {{return Err(())}}\n", zenycost, zenycost).as_bytes()).unwrap();
-                job_skills_file.write_all(b"        }\n").unwrap();
-            }
-            job_skills_file.write_all(b"        Err(())\n").unwrap();
-        } else {
-            job_skills_file.write_all(b"        Ok(0)\n").unwrap();
-        }
-    } else {
-        job_skills_file.write_all(b"        Ok(0)\n").unwrap();
-    }
-    job_skills_file.write_all(b"    }\n").unwrap();
+    let requirements = skill_config.requires().as_ref();
+    generate_validate_per_level(job_skills_file, "zeny", requirements.map(|c| c.zeny_cost()).unwrap_or(&None), requirements.map(|c| c.zeny_cost_per_level()).unwrap_or(&None));
 }
 
 fn generate_validate_state(job_skills_file: &mut File, skill_config: &SkillConfig) {
@@ -322,6 +268,19 @@ fn generate_validate_ammo(job_skills_file: &mut File, skill_config: &SkillConfig
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 
+fn generate_validate_sp(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {\n").unwrap();
+    let requirements = skill_config.requires().as_ref();
+    generate_validate_per_level(job_skills_file, "character_sp", requirements.map(|c| c.sp_cost()).unwrap_or(&None), requirements.map(|c| c.sp_cost_per_level()).unwrap_or(&None));
+}
+
+fn generate_validate_hp(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {\n").unwrap();
+    let requirements = skill_config.requires().as_ref();
+    generate_validate_per_level(job_skills_file, "character_hp", requirements.map(|c| c.hp_cost()).unwrap_or(&None), requirements.map(|c| c.hp_cost_per_level()).unwrap_or(&None));
+}
+
+
 fn generate_getters(job_skills_file: &mut File) {
     job_skills_file.write_all(b"    fn level(&self) -> u8 {\n").unwrap();
     job_skills_file.write_all(b"        self.level\n").unwrap();
@@ -339,44 +298,34 @@ fn generate_new(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 
-fn generate_validate_sp(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {\n").unwrap();
-    if let Some(requirements) = skill_config.requires() {
-        if let Some(spcost) = requirements.sp_cost() {
-            job_skills_file.write_all(format!("        if character_sp >= {} {{ Ok({}) }} else {{Err(())}}\n", spcost, spcost).as_bytes()).unwrap();
-        } else if let Some(sp_cost_per_level) = requirements.sp_cost_per_level() {
-            for (level, cost_per_level) in sp_cost_per_level.iter().enumerate() {
-                if level == 0 { continue; }
-                job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
-                job_skills_file.write_all(format!("            if character_sp >= {} {{ return Ok({}) }} else {{return Err(())}}\n", cost_per_level, cost_per_level).as_bytes()).unwrap();
-                job_skills_file.write_all(b"        }\n").unwrap();
-            }
-            job_skills_file.write_all(b"        Err(())\n").unwrap();
-        } else {
-            job_skills_file.write_all(b"        Ok(0)\n").unwrap();
+fn generate_return_per_level(job_skills_file: &mut File, value: &Option<i32>, value_per_level: &Option<Vec<i32>>) {
+    if let Some(value) = value{
+        job_skills_file.write_all(format!("       {}\n", value).as_bytes()).unwrap();
+    } else if let Some(value_per_level) = value_per_level {
+        for (level, value_per_level) in value_per_level.iter().enumerate() {
+            if level == 0 { continue; }
+            job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
+            job_skills_file.write_all(format!("            return {}\n", value_per_level).as_bytes()).unwrap();
+            job_skills_file.write_all(b"        }\n").unwrap();
         }
+        job_skills_file.write_all(b"        0\n").unwrap();
     } else {
-        job_skills_file.write_all(b"        Ok(0)\n").unwrap();
+        job_skills_file.write_all(b"        0\n").unwrap();
     }
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 
-fn generate_validate_hp(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {\n").unwrap();
-    if let Some(requirements) = skill_config.requires() {
-        if let Some(hp_cost) = requirements.hp_cost() {
-            job_skills_file.write_all(format!("        if character_hp > {} {{ Ok({}) }} else {{Err(())}}\n", hp_cost, hp_cost).as_bytes()).unwrap();
-        } else if let Some(hp_cost_per_level) = requirements.hp_cost_per_level() {
-            for (level, cost_per_level) in hp_cost_per_level.iter().enumerate() {
-                if level == 0 { continue; }
-                job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
-                job_skills_file.write_all(format!("            if character_hp >= {} {{ return Ok({}) }} else {{return Err(())}}\n", cost_per_level, cost_per_level).as_bytes()).unwrap();
-                job_skills_file.write_all(b"        }\n").unwrap();
-            }
-            job_skills_file.write_all(b"        Err(())\n").unwrap();
-        } else {
-            job_skills_file.write_all(b"        Ok(0)\n").unwrap();
+fn generate_validate_per_level(job_skills_file: &mut File, field_name: &str, value: &Option<u32>, value_per_level: &Option<Vec<i32>>) {
+    if let Some(value) = value {
+        job_skills_file.write_all(format!("        if {} > {} {{ Ok({}) }} else {{Err(())}}\n", field_name, value, value).as_bytes()).unwrap();
+    } else if let Some(value_per_level) = value_per_level {
+        for (level, value_per_level) in value_per_level.iter().enumerate() {
+            if level == 0 { continue; }
+            job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
+            job_skills_file.write_all(format!("            if {} >= {} {{ return Ok({}) }} else {{return Err(())}}\n", field_name, value_per_level, value_per_level).as_bytes()).unwrap();
+            job_skills_file.write_all(b"        }\n").unwrap();
         }
+        job_skills_file.write_all(b"        Err(())\n").unwrap();
     } else {
         job_skills_file.write_all(b"        Ok(0)\n").unwrap();
     }
