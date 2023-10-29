@@ -5,7 +5,7 @@
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum Skill {
-    // Novice Basic Skill
+    // Baby Basic Skill
     NvBasic,
     // Super_Baby Sword Mastery
     SmSword,
@@ -21,59 +21,59 @@ pub enum Skill {
     SmMagnum,
     // Super_Baby Endure
     SmEndure,
-    // Mage Increase SP Recovery
+    // Priest Increase SP Recovery
     MgSrecovery,
-    // Mage Sight
+    // Super_Baby Sight
     MgSight,
-    // Mage Napalm Beat
+    // Super_Baby Napalm Beat
     MgNapalmbeat,
-    // Mage Safety Wall
+    // Priest Safety Wall
     MgSafetywall,
-    // Mage Soul Strike
+    // Super_Baby Soul Strike
     MgSoulstrike,
-    // Mage Cold Bolt
+    // Super_Baby Cold Bolt
     MgColdbolt,
-    // Mage Frost Diver
+    // Super_Baby Frost Diver
     MgFrostdiver,
-    // Mage Stone Curse
+    // Super_Baby Stone Curse
     MgStonecurse,
-    // Mage Fire Ball
+    // Super_Baby Fire Ball
     MgFireball,
-    // Mage Fire Wall
+    // Super_Baby Fire Wall
     MgFirewall,
-    // Mage Fire Bolt
+    // Super_Baby Fire Bolt
     MgFirebolt,
-    // Mage Lightning Bolt
+    // Super_Baby Lightning Bolt
     MgLightningbolt,
-    // Mage Thunderstorm
+    // Super_Baby Thunderstorm
     MgThunderstorm,
-    // Super_Baby Divine Protection
+    // Acolyte Divine Protection
     AlDp,
-    // Super_Baby Demon Bane
+    // Acolyte Demon Bane
     AlDemonbane,
-    // Super_Baby Ruwach
+    // Acolyte Ruwach
     AlRuwach,
-    // Super_Baby Pneuma
+    // Acolyte Pneuma
     AlPneuma,
-    // Super_Baby Teleport
+    // Acolyte Teleport
     AlTeleport,
-    // Super_Baby Warp Portal
+    // Acolyte Warp Portal
     AlWarp,
-    // Super_Baby Heal
+    // Acolyte Heal
     AlHeal,
-    // Super_Baby Increase AGI
+    // Acolyte Increase AGI
     AlIncagi,
-    // Super_Baby Decrease AGI
+    // Acolyte Decrease AGI
     AlDecagi,
-    // Super_Baby Aqua Benedicta
+    // Acolyte Aqua Benedicta
     AlHolywater,
-    // Super_Baby Signum Crucis
+    // Acolyte Signum Crucis
     AlCrucis,
-    // Super_Baby Angelus
+    // Acolyte Angelus
     AlAngelus,
-    // Super_Baby Blessing
+    // Acolyte Blessing
     AlBlessing,
-    // Super_Baby Cure
+    // Acolyte Cure
     AlCure,
     // Super_Baby Enlarge Weight Limit
     McInccarry,
@@ -95,7 +95,7 @@ pub enum Skill {
     AcVulture,
     // Super_Baby Improve Concentration
     AcConcentration,
-    // Archer Double Strafe
+    // Rogue Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
@@ -113,7 +113,7 @@ pub enum Skill {
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Knight Spear Mastery
+    // Crusader Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +129,9 @@ pub enum Skill {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Knight Peco Peco Riding
+    // Crusader Peco Peco Riding
     KnRiding,
-    // Knight Cavalier Mastery
+    // Crusader Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -285,9 +285,9 @@ pub enum Skill {
     AsVenomdust,
     // Assassin Venom Splasher
     AsSplasher,
-    // Novice First Aid
+    // Baby First Aid
     NvFirstaid,
-    // Novice Play Dead
+    // Baby Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,

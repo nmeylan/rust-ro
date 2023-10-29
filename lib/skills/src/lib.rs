@@ -35,9 +35,10 @@ pub trait Skill {
         Ok(())
     }
 
-    fn hit_count(&self) -> u8;
+    fn hit_count(&self) -> i8;
     fn cast_delay(&self) -> u32;
-    fn after_cast_delay(&self) -> u32;
+    fn after_cast_act_delay(&self) -> u32;
+    fn after_cast_walk_delay(&self) -> u32;
 }
 
 pub trait DelegateSkill {

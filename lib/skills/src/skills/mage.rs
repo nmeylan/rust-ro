@@ -59,13 +59,16 @@ impl Skill for IncreaseSpRecovery {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -115,13 +118,16 @@ impl Skill for Sight {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -201,13 +207,46 @@ impl Skill for NapalmBeat {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 1000
+        }
+        if self.level == 2 {
+            return 1000
+        }
+        if self.level == 3 {
+            return 1000
+        }
+        if self.level == 4 {
+            return 900
+        }
+        if self.level == 5 {
+            return 900
+        }
+        if self.level == 6 {
+            return 800
+        }
+        if self.level == 7 {
+            return 800
+        }
+        if self.level == 8 {
+            return 700
+        }
+        if self.level == 9 {
+            return 600
+        }
+        if self.level == 10 {
+            return 500
+        }
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -287,13 +326,16 @@ impl Skill for SafetyWall {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -373,13 +415,76 @@ impl Skill for SoulStrike {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 1
+        }
+        if self.level == 3 {
+            return 2
+        }
+        if self.level == 4 {
+            return 2
+        }
+        if self.level == 5 {
+            return 3
+        }
+        if self.level == 6 {
+            return 3
+        }
+        if self.level == 7 {
+            return 4
+        }
+        if self.level == 8 {
+            return 4
+        }
+        if self.level == 9 {
+            return 5
+        }
+        if self.level == 10 {
+            return 5
+        }
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 1200
+        }
+        if self.level == 2 {
+            return 1000
+        }
+        if self.level == 3 {
+            return 1400
+        }
+        if self.level == 4 {
+            return 1200
+        }
+        if self.level == 5 {
+            return 1600
+        }
+        if self.level == 6 {
+            return 1400
+        }
+        if self.level == 7 {
+            return 1800
+        }
+        if self.level == 8 {
+            return 1600
+        }
+        if self.level == 9 {
+            return 2000
+        }
+        if self.level == 10 {
+            return 1800
+        }
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -459,13 +564,76 @@ impl Skill for ColdBolt {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 1000
+        }
+        if self.level == 2 {
+            return 1200
+        }
+        if self.level == 3 {
+            return 1400
+        }
+        if self.level == 4 {
+            return 1600
+        }
+        if self.level == 5 {
+            return 1800
+        }
+        if self.level == 6 {
+            return 2000
+        }
+        if self.level == 7 {
+            return 2200
+        }
+        if self.level == 8 {
+            return 2400
+        }
+        if self.level == 9 {
+            return 2600
+        }
+        if self.level == 10 {
+            return 2800
+        }
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -545,13 +713,16 @@ impl Skill for FrostDiver {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       1500
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -631,13 +802,16 @@ impl Skill for StoneCurse {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -687,13 +861,46 @@ impl Skill for FireBall {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 1500
+        }
+        if self.level == 2 {
+            return 1500
+        }
+        if self.level == 3 {
+            return 1500
+        }
+        if self.level == 4 {
+            return 1500
+        }
+        if self.level == 5 {
+            return 1500
+        }
+        if self.level == 6 {
+            return 1000
+        }
+        if self.level == 7 {
+            return 1000
+        }
+        if self.level == 8 {
+            return 1000
+        }
+        if self.level == 9 {
+            return 1000
+        }
+        if self.level == 10 {
+            return 1000
+        }
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -743,13 +950,16 @@ impl Skill for FireWall {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -829,13 +1039,76 @@ impl Skill for FireBolt {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 1000
+        }
+        if self.level == 2 {
+            return 1200
+        }
+        if self.level == 3 {
+            return 1400
+        }
+        if self.level == 4 {
+            return 1600
+        }
+        if self.level == 5 {
+            return 1800
+        }
+        if self.level == 6 {
+            return 2000
+        }
+        if self.level == 7 {
+            return 2200
+        }
+        if self.level == 8 {
+            return 2400
+        }
+        if self.level == 9 {
+            return 2600
+        }
+        if self.level == 10 {
+            return 2800
+        }
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -915,13 +1188,76 @@ impl Skill for LightningBolt {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 1000
+        }
+        if self.level == 2 {
+            return 1200
+        }
+        if self.level == 3 {
+            return 1400
+        }
+        if self.level == 4 {
+            return 1600
+        }
+        if self.level == 5 {
+            return 1800
+        }
+        if self.level == 6 {
+            return 2000
+        }
+        if self.level == 7 {
+            return 2200
+        }
+        if self.level == 8 {
+            return 2400
+        }
+        if self.level == 9 {
+            return 2600
+        }
+        if self.level == 10 {
+            return 2800
+        }
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1001,13 +1337,46 @@ impl Skill for Thunderstorm {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1057,13 +1426,16 @@ impl Skill for EnergyCoat {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn hit_count(&self) -> u8 {
-        1
+    fn hit_count(&self) -> i8 {
+       1
     }
     fn cast_delay(&self) -> u32 {
         0
     }
-    fn after_cast_delay(&self) -> u32 {
+    fn after_cast_act_delay(&self) -> u32 {
+        0
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
