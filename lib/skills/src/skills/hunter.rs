@@ -905,7 +905,7 @@ impl Skill for BlitzBeat {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1500
     }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {

@@ -14,6 +14,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::service::mob_service::MobService;
 use crate::server::service::server_service::ServerService;
+use crate::server::service::skill_service::SkillService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
@@ -49,7 +50,9 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
                                            CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository), GlobalConfigService::instance(),
                                                                  SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue.clone()),
                                            MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue),
-                                           BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender, persistence_event_sender, GlobalConfigService::instance()), GlobalConfigService::instance()), ),
+                                           BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance()),
+                                           SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()),
+        ),
     }
 }
 

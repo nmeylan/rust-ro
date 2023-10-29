@@ -39,6 +39,10 @@ pub trait Skill {
     fn cast_delay(&self) -> u32;
     fn after_cast_act_delay(&self) -> u32;
     fn after_cast_walk_delay(&self) -> u32;
+
+    fn to_skill(&self) -> Box<&dyn Skill>  where Self: Sized {
+        Box::new(self)
+    }
 }
 
 pub trait DelegateSkill {

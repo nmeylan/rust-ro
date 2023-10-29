@@ -25,6 +25,7 @@ pub enum GameEvent {
     CharacterEquipItem(CharacterEquipItem),
     CharacterTakeoffEquipItem(CharacterTakeoffEquipItem),
     CharacterAttack(CharacterAttack),
+    CharacterUseSkill(CharacterUseSkill),
     CharacterCalculateStats(u32),
     CharacterChangeLevel(CharacterChangeLevel),
     CharacterChangeJobLevel(CharacterChangeJobLevel),
@@ -121,6 +122,14 @@ pub struct CharacterAttack {
     pub char_id: u32,
     pub target_id: u32,
     pub repeat: bool,
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub struct CharacterUseSkill {
+    pub char_id: u32,
+    pub target_id: u32,
+    pub skill_id: u32,
+    pub skill_level: u8,
 }
 
 #[derive(Debug, PartialEq, Clone)]

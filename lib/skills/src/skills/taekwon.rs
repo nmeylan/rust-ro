@@ -94,6 +94,24 @@ impl Skill for Running {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 6000
+        }
+        if self.level == 2 {
+            return 5000
+        }
+        if self.level == 3 {
+            return 4000
+        }
+        if self.level == 4 {
+            return 3000
+        }
+        if self.level == 5 {
+            return 2000
+        }
+        if self.level == 6 {
+            return 1000
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1105,6 +1123,21 @@ impl Skill for TaekwonJump {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 5000
+        }
+        if self.level == 2 {
+            return 4000
+        }
+        if self.level == 3 {
+            return 3000
+        }
+        if self.level == 4 {
+            return 2000
+        }
+        if self.level == 5 {
+            return 1000
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1164,7 +1197,7 @@ impl Skill for TaekwonMission {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1

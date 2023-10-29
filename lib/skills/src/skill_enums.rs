@@ -3,23 +3,58 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
+use crate::skills::sniper::{*};
+use crate::skills::lordknight::{*};
+use crate::skills::bard::{*};
+use crate::skills::professor::{*};
+use crate::skills::paladin::{*};
+use crate::skills::merchant::{*};
+use crate::skills::priest::{*};
+use crate::skills::highpriest::{*};
+use crate::skills::archer::{*};
+use crate::skills::hunter::{*};
+use crate::skills::highwizard::{*};
+use crate::skills::assassincross::{*};
+use crate::skills::clown::{*};
+use crate::skills::wizard::{*};
+use crate::skills::whitesmith::{*};
+use crate::skills::thief::{*};
+use crate::skills::monk::{*};
+use crate::skills::dancer::{*};
+use crate::skills::alchemist::{*};
+use crate::skills::knight::{*};
+use crate::skills::champion::{*};
+use crate::skills::sage::{*};
+use crate::skills::gunslinger::{*};
+use crate::skills::rogue::{*};
+use crate::skills::acolyte::{*};
+use crate::skills::swordsman::{*};
+use crate::skills::stalker::{*};
+use crate::skills::assassin::{*};
+use crate::skills::blacksmith::{*};
+use crate::skills::ninja::{*};
+use crate::skills::taekwon::{*};
+use crate::skills::novice::{*};
+use crate::skills::crusader::{*};
+use crate::Skill;
+
 #[derive(Clone, Copy, PartialEq, Debug)]
-pub enum Skill {
+pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Swordsman Sword Mastery
+    // Super_Baby Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Swordsman Increase HP Recovery
+    // Super_Baby Increase HP Recovery
     SmRecovery,
-    // Swordsman Bash
+    // Super_Baby Bash
     SmBash,
-    // Swordsman Provoke
+    // Super_Baby Provoke
     SmProvoke,
-    // Swordsman Magnum Break
+    // Super_Baby Magnum Break
     SmMagnum,
-    // Swordsman Endure
+    // Super_Baby Endure
     SmEndure,
     // Mage Increase SP Recovery
     MgSrecovery,
@@ -47,33 +82,33 @@ pub enum Skill {
     MgLightningbolt,
     // Mage Thunderstorm
     MgThunderstorm,
-    // Acolyte Divine Protection
+    // Crusader Divine Protection
     AlDp,
-    // Acolyte Demon Bane
+    // Crusader Demon Bane
     AlDemonbane,
-    // Acolyte Ruwach
+    // Super_Baby Ruwach
     AlRuwach,
-    // Acolyte Pneuma
+    // Super_Baby Pneuma
     AlPneuma,
-    // Acolyte Teleport
+    // Super_Baby Teleport
     AlTeleport,
-    // Acolyte Warp Portal
+    // Super_Baby Warp Portal
     AlWarp,
-    // Acolyte Heal
+    // Crusader Heal
     AlHeal,
-    // Acolyte Increase AGI
+    // Super_Baby Increase AGI
     AlIncagi,
-    // Acolyte Decrease AGI
+    // Super_Baby Decrease AGI
     AlDecagi,
-    // Acolyte Aqua Benedicta
+    // Super_Baby Aqua Benedicta
     AlHolywater,
-    // Acolyte Signum Crucis
+    // Super_Baby Signum Crucis
     AlCrucis,
-    // Acolyte Angelus
+    // Super_Baby Angelus
     AlAngelus,
-    // Acolyte Blessing
+    // Super_Baby Blessing
     AlBlessing,
-    // Acolyte Cure
+    // Crusader Cure
     AlCure,
     // Super_Baby Enlarge Weight Limit
     McInccarry,
@@ -113,7 +148,7 @@ pub enum Skill {
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Knight Spear Mastery
+    // Crusader Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +164,9 @@ pub enum Skill {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Knight Peco Peco Riding
+    // Crusader Peco Peco Riding
     KnRiding,
-    // Knight Cavalier Mastery
+    // Crusader Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -181,13 +216,13 @@ pub enum Skill {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Wizard Earth Spike
+    // Sage Earth Spike
     WzEarthspike,
-    // Wizard Heaven's Drive
+    // Sage Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Wizard Sense
+    // Sage Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -249,7 +284,7 @@ pub enum Skill {
     HtBlastmine,
     // Hunter Claymore Trap
     HtClaymoretrap,
-    // Rogue Remove Trap
+    // Hunter Remove Trap
     HtRemovetrap,
     // Hunter Talkie Box
     HtTalkiebox,
@@ -287,7 +322,7 @@ pub enum Skill {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice Play Dead
+    // Novice High Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,
@@ -2426,7 +2461,7 @@ pub enum Skill {
     // Item Emergency Call
     GdItememergencycall,
 }
-impl Skill {
+impl SkillEnum {
     pub fn id(&self) -> u32{
         match self {
             Self::NvBasic => 1,
@@ -7283,6 +7318,391 @@ impl Skill {
             Self::GdEmergencycall => "GD_EMERGENCYCALL",
             Self::GdDevelopment => "GD_DEVELOPMENT",
             Self::GdItememergencycall => "GD_ITEMEMERGENCYCALL",
+        }
+    }
+    pub fn to_object(&self, level: u8) -> Option<Box<dyn Skill>> {
+        match self {
+            Self::NvBasic => BasicSkill::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SmSword => SwordMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SmTwohand => TwoHandedSwordMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SmRecovery => IncreaseHpRecovery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SmBash => Bash::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SmProvoke => Provoke::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SmMagnum => MagnumBreak::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SmEndure => Endure::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlDp => DivineProtection::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlDemonbane => DemonBane::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlRuwach => Ruwach::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlPneuma => Pneuma::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlTeleport => Teleport::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlWarp => WarpPortal::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlHeal => Heal::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlIncagi => IncreaseAgi::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlDecagi => DecreaseAgi::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlHolywater => AquaBenedicta::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlCrucis => SignumCrucis::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlAngelus => Angelus::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlBlessing => Blessing::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlCure => Cure::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McInccarry => EnlargeWeightLimit::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McDiscount => Discount::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McOvercharge => Overcharge::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McPushcart => Pushcart::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McIdentify => ItemAppraisal::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McVending => Vending::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McMammonite => Mammonite::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AcOwl => OwlsEye::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AcVulture => VulturesEye::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AcConcentration => ImproveConcentration::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AcDouble => DoubleStrafe::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AcShower => ArrowShower::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TfDouble => DoubleAttack::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TfMiss => ImproveDodge::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TfSteal => Steal::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TfHiding => Hiding::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TfPoison => Envenom::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TfDetoxify => Detoxify::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnSpearmastery => SpearMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnPierce => Pierce::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnBrandishspear => BrandishSpear::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnSpearstab => SpearStab::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnSpearboomerang => SpearBoomerang::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnTwohandquicken => TwohandQuicken::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnAutocounter => CounterAttack::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnBowlingbash => BowlingBash::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnRiding => PecoPecoRiding::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnCavaliermastery => CavalierMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrMacemastery => MaceMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrImpositio => ImpositioManus::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrSuffragium => Suffragium::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrAspersio => Aspersio::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrBenedictio => BsSacramenti::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrSanctuary => Sanctuary::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrSlowpoison => SlowPoison::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrStrecovery => StatusRecovery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrKyrie => KyrieEleison::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrMagnificat => Magnificat::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrGloria => Gloria::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrLexdivina => LexDivina::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrTurnundead => TurnUndead::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrLexaeterna => LexAeterna::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrMagnus => MagnusExorcismus::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzFirepillar => FirePillar::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzSightrasher => Sightrasher::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzMeteor => MeteorStorm::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzJupitel => JupitelThunder::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzVermilion => LordofVermilion::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzWaterball => WaterBall::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzIcewall => IceWall::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzFrostnova => FrostNova::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzStormgust => StormGust::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzEarthspike => EarthSpike::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzHeavendrive => HeavensDrive::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzQuagmire => Quagmire::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzEstimation => Sense::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsIron => IronTempering::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsSteel => SteelTempering::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsEnchantedstone => EnchantedStoneCraft::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsOrideocon => OrideconResearch::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsDagger => SmithDagger::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsSword => SmithSword::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsTwohandsword => SmithTwohandedSword::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsAxe => SmithAxe::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsMace => SmithMace::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsKnuckle => SmithKnucklebrace::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsSpear => SmithSpear::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsHiltbinding => HiltBinding::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsFindingore => OreDiscovery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsWeaponresearch => WeaponryResearch::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsRepairweapon => WeaponRepair::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsSkintemper => SkinTempering::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsHammerfall => HammerFall::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsAdrenaline => AdrenalineRush::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsWeaponperfect => WeaponPerfection::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsOverthrust => PowerThrust::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsMaximize => MaximizePower::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtSkidtrap => SkidTrap::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtLandmine => LandMine::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtAnklesnare => AnkleSnare::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtShockwave => ShockwaveTrap::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtSandman => Sandman::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtFlasher => Flasher::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtFreezingtrap => FreezingTrap::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtBlastmine => BlastMine::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtClaymoretrap => ClaymoreTrap::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtRemovetrap => RemoveTrap::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtTalkiebox => TalkieBox::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtBeastbane => BeastBane::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtFalcon => FalconryMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtSteelcrow => SteelCrow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtBlitzbeat => BlitzBeat::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtDetecting => Detect::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtSpringtrap => SpringTrap::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsRight => RighthandMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsLeft => LefthandMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsKatar => KatarMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsCloaking => Cloaking::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsSonicblow => SonicBlow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsGrimtooth => Grimtooth::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsEnchantpoison => EnchantPoison::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsPoisonreact => PoisonReact::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsVenomdust => VenomDust::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsSplasher => VenomSplasher::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NvFirstaid => FirstAid::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NvTrickdead => PlayDead::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SmMovingrecovery => MovingHpRecovery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SmFatalblow => FatalBlow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SmAutoberserk => AutoBerserk::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AcMakingarrow => ArrowCrafting::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AcChargearrow => ArrowRepel::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TfSprinklesand => SandAttack::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TfBacksliding => BackSlide::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TfPickstone => FindStone::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TfThrowstone => StoneFling::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McCartrevolution => CartRevolution::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McChangecart => ChangeCart::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McLoud => CrazyUproar::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AlHolylight => HolyLight::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgSnatcher => Gank::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgStealcoin => Mug::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgBackstap => BackStab::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgTunneldrive => Stalk::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgRaid => SightlessMind::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgStripweapon => DivestWeapon::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgStripshield => DivestShield::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgStriparmor => DivestArmor::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgStriphelm => DivestHelm::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgIntimidate => Snatch::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgGraffiti => Scribble::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgFlaggraffiti => Piece::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgCleaner => Remover::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgGangster => Slyness::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgCompulsion => Haggle::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgPlagiarism => Intimidate::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmAxemastery => AxeMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmLearningpotion => PotionResearch::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmPharmacy => PreparePotion::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmDemonstration => Bomb::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmAcidterror => AcidTerror::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmPotionpitcher => AidPotion::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmCannibalize => SummonFlora::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmSpheremine => SummonMarineSphere::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmCpWeapon => AlchemicalWeapon::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmCpShield => SynthesizedShield::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmCpArmor => SyntheticArmor::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmCpHelm => BiochemicalHelm::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmBioethics => Bioethics::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmCallhomun => CallHomunculus::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmRest => Vaporize::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmResurrecthomun => HomunculusResurrection::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrTrust => Faith::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrAutoguard => Guard::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrShieldcharge => Smite::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrShieldboomerang => ShieldBoomerang::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrReflectshield => ShieldReflect::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrHolycross => HolyCross::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrGrandcross => GrandCross::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrDevotion => Sacrifice::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrProvidence => ResistantSouls::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrDefender => DefendingAura::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrSpearquicken => SpearQuicken::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoIronhand => IronFists::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoSpiritsrecovery => SpiritualCadence::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoCallspirits => SummonSpiritSphere::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoAbsorbspirits => AbsorbSpiritSphere::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoTripleattack => RagingTrifectaBlow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoBodyrelocation => Snap::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoDodge => Dodge::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoInvestigate => OccultImpaction::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoFingeroffensive => ThrowSpiritSphere::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoSteelbody => MentalStrength::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoBladestop => Root::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoExplosionspirits => Fury::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoExtremityfist => AsuraStrike::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoChaincombo => RagingQuadrupleBlow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoCombofinish => RagingThrust::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaAdvancedbook => Study::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaCastcancel => CastCancel::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaMagicrod => MagicRod::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaSpellbreaker => SpellBreaker::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaFreecast => FreeCast::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaAutospell => Hindsight::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaFlamelauncher => EndowBlaze::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaFrostweapon => EndowTsunami::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaLightningloader => EndowTornado::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaSeismicweapon => EndowQuake::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaDragonology => Dragonology::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaVolcano => Volcano::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaDeluge => Deluge::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaViolentgale => Whirlwind::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaLandprotector => MagneticEarth::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaDispell => Dispell::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaAbracadabra => Hocuspocus::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BdAdaptation => Amp::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BdEncore => Encore::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BdLullaby => Lullaby::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BdRichmankim => MentalSensing::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BdEternalchaos => DownTempo::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BdDrumbattlefield => BattleTheme::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BdRingnibelungen => HarmonicLick::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BdRokisweil => ClassicalPluck::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BdIntoabyss => PowerChord::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BdSiegfried => AcousticRhythm::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::DcDancinglesson => DanceLessons::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::DcThrowarrow => SlingingArrow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::DcUglydance => HipShaker::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::DcScream => Dazzler::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::DcHumming => FocusBallet::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::DcDontforgetme => SlowGrace::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::DcFortunekiss => LadyLuck::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::DcServiceforyou => GypsysKiss::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::LkAurablade => AuraBlade::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::LkParrying => Parrying::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::LkConcentration => Concentration::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::LkTensionrelax => Relax::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::LkBerserk => Frenzy::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HpAssumptio => Assumptio::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HpBasilica => Basilica::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HpMeditatio => Meditatio::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HwSouldrain => SoulDrain::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HwMagiccrasher => StaveCrasher::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HwMagicpower => MysticalAmplification::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PaPressure => GloriaDomini::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PaSacrifice => MartyrsReckoning::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PaGospel => BattleChant::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::ChPalmstrike => RagingPalmStrike::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::ChTigerfist => GlacierFist::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::ChChaincrush => ChainCrushCombo::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PfHpconversion => Indulge::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PfSoulchange => SoulExhale::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PfSoulburn => SoulSiphon::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AscKatar => AdvancedKatarMastery::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AscEdp => EnchantDeadlyPoison::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AscBreaker => SoulDestroyer::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SnSight => FalconEyes::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SnFalconassault => FalconAssault::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SnSharpshooting => FocusedArrowStrike::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SnWindwalk => WindWalker::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WsMeltdown => ShatteringStrike::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WsCartboost => CartBoost::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::StChasewalk => Stealth::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::StRejectsword => CounterInstinct::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CgArrowvulcan => VulcanArrow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CgMoonlit => ShelteringBliss::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CgMarionette => MarionetteControl::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::LkSpiralpierce => SpiralPierce::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::LkHeadcrush => TraumaticBlow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::LkJointbeat => VitalStrike::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HwNapalmvulcan => NapalmVulcan::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::ChSoulcollect => Zen::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PfMindbreaker => MindBreaker::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PfMemorize => Foresight::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PfFogwall => BlindingMist::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PfSpiderweb => FiberLock::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AscMeteorassault => MeteorAssault::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AscCdp => CreateDeadlyPoison::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkRun => Running::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkReadystorm => TornadoStance::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkStormkick => TornadoKick::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkReadydown => HeelDropStance::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkDownkick => HeelDrop::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkReadyturn => RoundhouseStance::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkTurnkick => RoundhouseKick::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkReadycounter => CounterKickStance::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkCounter => CounterKick::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkDodge => Tumbling::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkJumpkick => FlyingKick::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkHptime => PeacefulBreak::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkSptime => HappyBreak::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkPower => Kihop::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkSevenwind => MildWind::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkHighjump => TaekwonJump::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmBerserkpitcher => AidBerserkPotion::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsAdrenaline2 => AdvancedAdrenalineRush::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::StPreserve => Preserve::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::StFullstrip => DivestAll::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WsWeaponrefine => UpgradeWeapon::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PaShieldchain => ShieldChain::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HpManarecharge => ManaRecharge::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PfDoublecasting => DoubleCasting::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HwGanbantein => Ganbantein::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HwGravitation => GravitationField::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WsCarttermination => CartTermination::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WsOverthrustmax => MaximumPowerThrust::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CgLongingfreedom => LongingforFreedom::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CgHermode => WandofHermode::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CgTarotcard => TarotCardofFate::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::TkMission => TaekwonMission::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnOnehand => OnehandQuicken::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmTwilight1 => TwilightAlchemy1::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmTwilight2 => TwilightAlchemy2::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AmTwilight3 => TwilightAlchemy3::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtPower => BeastStrafing::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsGlittering => FliptheCoin::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsFling => Fling::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsTripleaction => TripleAction::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsBullseye => BullsEye::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsMadnesscancel => MadnessCanceller::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsAdjustment => AdJustment::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsIncreasing => IncreasingAccuracy::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsMagicalbullet => MagicalBullet::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsCracker => Cracker::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsSingleaction => SingleAction::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsSnakeeye => SnakeEye::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsChainaction => ChainAction::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsTracking => Tracking::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsDisarm => Disarm::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsPiercingshot => PiercingShot::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsRapidshower => RapidShower::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsDesperado => Desperado::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsGatlingfever => GatlingFever::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsDust => Dust::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsFullbuster => FullBuster::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsSpreadattack => SpreadAttack::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::GsGrounddrift => GroundDrift::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjTobidougu => ShurikenTraining::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjSyuriken => ThrowShuriken::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjKunai => ThrowKunai::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjHuuma => ThrowHuumaShuriken::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjZenynage => ThrowZeny::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjTatamigaeshi => ImprovisedDefense::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjKasumikiri => VanishingSlash::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjShadowjump => ShadowLeap::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjKirikage => ShadowSlash::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjUtsusemi => CicadaSkinSheeding::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjBunsinjyutsu => MirrorImage::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjNinpou => SpiritoftheBlade::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjKouenka => CrimsonFirePetal::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjKaensin => CrimsonFireFormation::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjBakuenryu => RagingFireDragon::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjHyousensou => SpearofIce::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjSuiton => HiddenWater::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjHyousyouraku => IceMeteor::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjHuujin => WindBlade::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjRaigekisai => LightningStrikeofDestruction::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjKamaitachi => Kamaitachi::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjNen => Soul::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::NjIssen => FinalStrike::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::KnChargeatk => ChargeAttack::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::CrShrink => Shrink::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsSonicaccel => SonicAcceleration::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::AsVenomknife => ThrowVenomKnife::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::RgCloseconfine => CloseConfine::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::WzSightblaster => SightBlaster::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaCreatecon => CreateElementalConverter::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaElementwater => ElementalChangeWater::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::HtPhantasmic => PhantasmicArrow::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::DcWinkcharm => WinkofCharm::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsUnfairlytrick => UnfairTrick::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::BsGreed => Greed::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::PrRedemptio => Redemptio::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoKitranslation => KiTranslation::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::MoBalkyoung => KiExplosion::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaElementground => ElementalChangeEarth::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaElementfire => ElementalChangeFire::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::SaElementwind => ElementalChangeWind::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+            Self::McCartdecorate => DecorateCart::new(level).map(|s| Box::new(s) as Box<dyn Skill>),
+        _ => None
         }
     }
     pub fn is_platinium(&self) -> bool {

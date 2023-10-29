@@ -26,7 +26,7 @@ use crate::server::script::constant::{get_battle_flag, load_constant};
 use crate::server::Server;
 
 
-use skill::SkillService;
+use skill::ScriptSkillService;
 use crate::repository::ItemRepository;
 use crate::server::request_handler::atcommand::handle_set_job;
 
@@ -440,7 +440,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             };
             let skill_level = params[1].number_value().unwrap();
             let check_requirements = params.get(2).unwrap_or(&value::Value::new_number(0)).number_value().unwrap_or(0) == 1;
-            SkillService::instance().handle_skill(self.server.clone().as_ref(), skill, skill_level as u32, check_requirements, self.session.char_id());
+            ScriptSkillService::instance().handle_skill(self.server.clone().as_ref(), skill, skill_level as u32, check_requirements, self.session.char_id());
         } else if native.name.eq("jobname") {
             let job_number = params[0].number_value().expect("Expected jobname argument 0 to be a number");
             execution_thread.push_constant_on_stack(value::Value::new_string(JobName::from_value(job_number as usize).as_str().to_string()));

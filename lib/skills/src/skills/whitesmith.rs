@@ -90,6 +90,36 @@ impl Skill for ShatteringStrike {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 500
+        }
+        if self.level == 2 {
+            return 500
+        }
+        if self.level == 3 {
+            return 600
+        }
+        if self.level == 4 {
+            return 600
+        }
+        if self.level == 5 {
+            return 700
+        }
+        if self.level == 6 {
+            return 700
+        }
+        if self.level == 7 {
+            return 800
+        }
+        if self.level == 8 {
+            return 800
+        }
+        if self.level == 9 {
+            return 900
+        }
+        if self.level == 10 {
+            return 1000
+        }
         0
     }
     fn hit_count(&self) -> i8 {

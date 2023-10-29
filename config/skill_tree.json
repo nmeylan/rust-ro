@@ -4992,19 +4992,10 @@
       ]
     },
     "Baby": {
+      "inherit": [
+        "Novice"
+      ],
       "tree": [
-        {
-          "name": "NV_BASIC",
-          "maxLevel": 9
-        },
-        {
-          "name": "NV_FIRSTAID",
-          "maxLevel": 1
-        },
-        {
-          "name": "NV_TRICKDEAD",
-          "maxLevel": 1
-        },
         {
           "name": "WE_BABY",
           "maxLevel": 1

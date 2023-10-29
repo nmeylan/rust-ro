@@ -1,57 +1,55 @@
-use std::{fs, mem};
+use std::{fs};
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
 use convert_case::{Case, Casing};
 use lazy_static::lazy_static;
 use std::collections::{HashMap, HashSet};
-use futures::AsyncReadExt;
 use regex::Regex;
-use serde_json::Error;
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::SkillFlags;
 
 lazy_static! {
     pub static ref SHORT_CLASS_NAME: HashMap<&'static str, &'static str> = HashMap::from([
-        ("nv", "Novice"),
-        ("sm", "Swordsman"),
-        ("al", "Acolyte"),
-        ("mg", "Magician"),
-        ("mc", "Merchant"),
-        ("ac", "Archer"),
-        ("tf", "Thief"),
-        ("kn", "Knight"),
-        ("pr", "Priest"),
-        ("wz", "Wizard"),
-        ("bs", "Blacksmith"),
-        ("ht", "Hunter"),
-        ("as", "Assassin"),
-        ("rg", "Rogue"),
-        ("cr", "Crusader"),
-        ("mo", "Monk"),
-        ("sa", "Sage"),
-        ("am", "Alchemist"),
-        ("ba", "Bard"),
-        ("bd", "Bard"),
-        ("dc", "Dancer"),
-        ("lk", "LordKnight"),
-        ("hp", "HighPriest"),
-        ("ch", "Champion"),
-        ("pa", "Paladin"),
-        ("asc", "AssassinCross"),
-        ("sn", "Sniper"),
-        ("st", "Stalker"),
-        ("pf", "Professor"),
-        ("ws", "Whitesmith"),
-        ("cg", "Clown"),
-        ("gn", "Creator"),
-        ("hw", "HighWizard"),
-        ("tk", "Taekwon"),
-        ("sg", "StarGladiator"),
-        ("sl", "SoulLinker"),
-        ("gs", "Gunslinger"),
-        ("nj", "Ninja"),
+        ("novice", "nv"),
+        ("swordsman", "sm"),
+        ("acolyte", "al"),
+        ("magician", "mg"),
+        ("merchant", "mc"),
+        ("archer", "ac"),
+        ("thief", "tf"),
+        ("knight", "kn"),
+        ("priest", "pr"),
+        ("wizard", "wz"),
+        ("blacksmith", "bs"),
+        ("hunter", "ht"),
+        ("assassin", "as"),
+        ("rogue", "rg"),
+        ("crusader", "cr"),
+        ("monk", "mo"),
+        ("sage", "sa"),
+        ("alchemist", "am"),
+        ("bard", "ba"),
+        ("bard", "bd"),
+        ("dancer", "dc"),
+        ("lordknight", "lk"),
+        ("highpriest", "hp"),
+        ("champion", "ch"),
+        ("paladin", "pa"),
+        ("assassincross", "asc"),
+        ("sniper", "sn"),
+        ("stalker", "st"),
+        ("professor", "pf"),
+        ("whitesmith", "ws"),
+        ("clown", "cg"),
+        ("creator", "gn"),
+        ("highwizard", "hw"),
+        ("taekwon", "tk"),
+        ("stargladiator", "sg"),
+        ("soullinker", "sl"),
+        ("gunslinger", "gs"),
+        ("ninja", "nj"),
     ]);
      static ref NON_ALPHA_REGEX: Regex = Regex::new(r"[^A-Za-z0-9]*").unwrap();
 }
@@ -79,17 +77,19 @@ pub fn main() {
         }
         _ => {}
     }
-    let mut skills_config: SkillsConfig = result.unwrap();
-    let mut skill_tree: Vec<JobSkillTree> = configuration::configuration::Config::load_jobs_skill_tree(".").unwrap();
+    let skills_config: SkillsConfig = result.unwrap();
+    let skill_tree: Vec<JobSkillTree> = configuration::configuration::Config::load_jobs_skill_tree(".").unwrap();
     let mut vec: Vec<(u32, SkillConfig)> = skills_config.skills.into_iter().collect::<Vec<(u32, SkillConfig)>>();
     vec.sort_by_key(|&(k, _)| k);
     let skills: Vec<SkillConfig> = vec.into_iter().map(|(_, v)| v).collect();
 
-    generate_skills_enum(output_path, &skills, &skill_tree);
-    generate_skills_impl(output_path, &skills, &skill_tree);
+    let mut skills_already_generated: HashSet<String> = HashSet::with_capacity(1000);
+    let mut jobs_with_skills: HashSet<String> = HashSet::with_capacity(100);
+    generate_skills_impl(output_path, &skills, &skill_tree, &mut skills_already_generated, &mut jobs_with_skills);
+    generate_skills_enum(output_path, &skills, &skill_tree, &skills_already_generated, &jobs_with_skills);
 }
 
-fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>) {
+fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, skills_already_generated: &mut HashSet<String>, jobs_with_skills: &mut HashSet<String>) {
     let file_path = output_path.join("skills").join("mod.rs");
     let mut file = File::create(file_path.clone()).unwrap();
 
@@ -100,8 +100,7 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     for skill in skills.iter() {
         file.write_all(format!("pub struct {};\n", to_enum_name(skill)).as_bytes()).unwrap();
     }
-    let mut files: HashMap<String, File> = HashMap::new();
-    let mut skills_already_generated: HashSet<String> = HashSet::with_capacity(1000);
+
     for job_tree in skill_tree.iter() {
         if job_tree.tree().is_empty() {
             continue;
@@ -112,9 +111,19 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
 
         write_file_header(&mut job_skills_file);
         for skill in job_tree.tree().iter() {
-            let skill_config = get_skill_config(skill.name(), &skills).unwrap();
-            write_skills(&mut job_skills_file, skill_config);
-            skills_already_generated.insert(skill.name().clone());
+            if skills_already_generated.contains(skill.name()) {
+                continue;
+            }
+
+            if let Some(job) = SHORT_CLASS_NAME.get(job_tree.name().to_lowercase().as_str()) {
+                if !skill.name().to_lowercase().starts_with(job){
+                    continue;
+                }
+                let skill_config = get_skill_config(skill.name(), &skills).unwrap();
+                write_skills(&mut job_skills_file, skill_config);
+                skills_already_generated.insert(skill.name().clone());
+                jobs_with_skills.insert(file_name.clone());
+            }
         }
     }
 
@@ -149,7 +158,7 @@ fn write_file_header_comments(file: &mut File) {
 
 fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(format!("// {}\n", skill_config.name).as_bytes()).unwrap();
-    job_skills_file.write_all(format!("pub struct {} {{\n", to_skill_name(skill_config)).as_bytes()).unwrap();
+    job_skills_file.write_all(format!("pub struct {} {{\n", to_struct_name(skill_config)).as_bytes()).unwrap();
     job_skills_file.write_all(b"    level: u8,\n").unwrap();
     job_skills_file.write_all(b"    delegate: Option<Box<dyn DelegateSkill>>,\n").unwrap();
     job_skills_file.write_all(b"}\n").unwrap();
@@ -181,8 +190,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    }\n").unwrap();
 
     job_skills_file.write_all(b"    fn cast_delay(&self) -> u32 {\n").unwrap();
-    job_skills_file.write_all(b"        0\n").unwrap();
-    job_skills_file.write_all(b"    }\n").unwrap();
+    generate_return_per_level_u32(job_skills_file, skill_config.cast_time(), skill_config.cast_time_per_level());
     generate_hit_count(job_skills_file, skill_config);
     generate_after_cast_act_delay(job_skills_file, skill_config);
     generate_after_cast_walk_delay(job_skills_file, skill_config);
@@ -191,17 +199,17 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
 
 fn generate_after_cast_walk_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn after_cast_walk_delay(&self) -> u32 {\n").unwrap();
-    generate_return_per_level(job_skills_file, &skill_config.after_cast_walk_delay().map(|v| v as i32), &skill_config.after_cast_act_delay_per_level().as_ref().map(|v| v.iter().map(|e| *e).collect::<Vec<i32>>()));
+    generate_return_per_level_u32(job_skills_file, &skill_config.after_cast_walk_delay(), &skill_config.after_cast_act_delay_per_level());
 }
 
 fn generate_after_cast_act_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn after_cast_act_delay(&self) -> u32 {\n").unwrap();
-    generate_return_per_level(job_skills_file, &skill_config.after_cast_act_delay().map(|v| v as i32), skill_config.after_cast_act_delay_per_level());
+    generate_return_per_level_u32(job_skills_file, &skill_config.after_cast_act_delay(), skill_config.after_cast_act_delay_per_level());
 }
 
 fn generate_hit_count(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn hit_count(&self) -> i8 {\n").unwrap();
-    generate_return_per_level(job_skills_file, skill_config.hit_count(), skill_config.hit_count_per_level());
+    generate_return_per_level_i32(job_skills_file, skill_config.hit_count(), skill_config.hit_count_per_level());
 }
 
 fn generate_validate_weapon(job_skills_file: &mut File, skill_config: &SkillConfig) {
@@ -291,31 +299,38 @@ fn generate_getters(job_skills_file: &mut File) {
 }
 
 fn generate_new(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(format!("impl Skill for {} {{\n", to_skill_name(skill_config)).as_bytes()).unwrap();
+    job_skills_file.write_all(format!("impl Skill for {} {{\n", to_struct_name(skill_config)).as_bytes()).unwrap();
     job_skills_file.write_all(b"    fn new(level: u8) -> Option<Self> where Self : Sized {\n").unwrap();
     job_skills_file.write_all(format!("        if level < 1 || level > {} {{ return None }}\n", skill_config.max_level()).as_bytes()).unwrap();
     job_skills_file.write_all(b"        Some(Self { level, delegate: None })\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 
-fn generate_return_per_level(job_skills_file: &mut File, value: &Option<i32>, value_per_level: &Option<Vec<i32>>) {
-    if let Some(value) = value{
-        job_skills_file.write_all(format!("       {}\n", value).as_bytes()).unwrap();
-    } else if let Some(value_per_level) = value_per_level {
-        for (level, value_per_level) in value_per_level.iter().enumerate() {
-            if level == 0 { continue; }
-            job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
-            job_skills_file.write_all(format!("            return {}\n", value_per_level).as_bytes()).unwrap();
-            job_skills_file.write_all(b"        }\n").unwrap();
+macro_rules! generate_return_per_level {
+    ($function:ident, $type:ty) => {
+        fn $function(job_skills_file: &mut File, value: &Option<$type>, value_per_level: &Option<Vec<$type>>) {
+            if let Some(value) = value{
+                job_skills_file.write_all(format!("       {}\n", value).as_bytes()).unwrap();
+            } else if let Some(value_per_level) = value_per_level {
+                for (level, value_per_level) in value_per_level.iter().enumerate() {
+                    if level == 0 { continue; }
+                    job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
+                    job_skills_file.write_all(format!("            return {}\n", value_per_level).as_bytes()).unwrap();
+                    job_skills_file.write_all(b"        }\n").unwrap();
+                }
+                job_skills_file.write_all(b"        0\n").unwrap();
+            } else {
+                job_skills_file.write_all(b"        0\n").unwrap();
+            }
+            job_skills_file.write_all(b"    }\n").unwrap();
         }
-        job_skills_file.write_all(b"        0\n").unwrap();
-    } else {
-        job_skills_file.write_all(b"        0\n").unwrap();
     }
-    job_skills_file.write_all(b"    }\n").unwrap();
 }
+generate_return_per_level!(generate_return_per_level_u32, u32);
+generate_return_per_level!(generate_return_per_level_i32, i32);
 
-fn generate_validate_per_level(job_skills_file: &mut File, field_name: &str, value: &Option<u32>, value_per_level: &Option<Vec<i32>>) {
+
+fn generate_validate_per_level(job_skills_file: &mut File, field_name: &str, value: &Option<u32>, value_per_level: &Option<Vec<u32>>) {
     if let Some(value) = value {
         job_skills_file.write_all(format!("        if {} > {} {{ Ok({}) }} else {{Err(())}}\n", field_name, value, value).as_bytes()).unwrap();
     } else if let Some(value_per_level) = value_per_level {
@@ -332,12 +347,16 @@ fn generate_validate_per_level(job_skills_file: &mut File, field_name: &str, val
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 
-fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>) {
+fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, skills_already_generated: &HashSet<String>, jobs_with_skills: &HashSet<String>) {
     let file_path = output_path.join("skill_enums.rs");
     let mut file = File::create(file_path.clone()).unwrap();
     write_file_header_comments(&mut file);
+    for job in jobs_with_skills {
+        file.write_all(format!("use crate::skills::{}::{{*}};\n", job).as_bytes()).unwrap();
+    }
+    file.write_all("use crate::Skill;\n\n".to_string().as_bytes()).unwrap();
     file.write_all("#[derive(Clone, Copy, PartialEq, Debug)]\n".to_string().as_bytes()).unwrap();
-    file.write_all("pub enum Skill {\n".to_string().as_bytes()).unwrap();
+    file.write_all("pub enum SkillEnum {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
         let enum_name = to_enum_name(skill);
         let class_name = class_name(skill, skill_tree);
@@ -349,7 +368,7 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
         file.write_all(format!("    {enum_name},\n").as_bytes()).unwrap();
     }
     file.write_all("}\n".to_string().as_bytes()).unwrap();
-    file.write_all("impl Skill {\n".to_string().as_bytes()).unwrap();
+    file.write_all("impl SkillEnum {\n".to_string().as_bytes()).unwrap();
     file.write_all("    pub fn id(&self) -> u32{\n".to_string().as_bytes()).unwrap();
     file.write_all("        match self {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
@@ -388,6 +407,19 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
 
 
+    file.write_all("    pub fn to_object(&self, level: u8) -> Option<Box<dyn Skill>> {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        match self {\n".to_string().as_bytes()).unwrap();
+    for skill in skills.iter() {
+        if !skills_already_generated.contains(skill.name()) {
+            continue;
+        }
+        file.write_all(format!("            Self::{} => {}::new(level).map(|s| Box::new(s) as Box<dyn Skill>),\n", to_enum_name(skill), to_struct_name(skill)).as_bytes()).unwrap();
+    }
+    file.write_all("        _ => None\n".to_string().as_bytes()).unwrap();
+    file.write_all("        }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+
+
     file.write_all("    pub fn is_platinium(&self) -> bool {\n".to_string().as_bytes()).unwrap();
     file.write_all("        match self {\n".to_string().as_bytes()).unwrap();
     let default_flags = 0;
@@ -409,7 +441,7 @@ fn to_enum_name(skill: &SkillConfig) -> String {
     skill.name.to_case(Case::Title).replace(' ', "")
 }
 
-fn to_skill_name(skill: &SkillConfig) -> String {
+fn to_struct_name(skill: &SkillConfig) -> String {
     NON_ALPHA_REGEX.replace_all(&skill.description, "").to_case(Case::UpperCamel)
 }
 

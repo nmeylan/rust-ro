@@ -33,10 +33,8 @@ use rand::Rng;
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::ItemService;
-use script::skill::SkillService;
+use script::skill::ScriptSkillService;
 use crate::server::game_loop::GAME_TICK_RATE;
-
-
 
 
 use crate::server::service::battle_service::BattleService;
@@ -46,6 +44,7 @@ use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::service::mob_service::MobService;
 use crate::server::service::script_service::ScriptService;
 use crate::server::service::server_service::ServerService;
+use crate::server::service::skill_service::SkillService;
 use crate::server::service::status_service::StatusService;
 
 use crate::server::state::server::ServerState;
@@ -111,7 +110,7 @@ impl Server {
                                tasks_queue.clone());
         InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone());
         ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance());
-        SkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
+        ScriptSkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
         SkillTreeService::init(client_notification_sender.clone(), GlobalConfigService::instance());
         StatusService::init(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance());
         BattleService::init(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance());
@@ -121,7 +120,8 @@ impl Server {
                             InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone()),
                             CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone()),
                             MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone()),
-                            BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender, GlobalConfigService::instance()), GlobalConfigService::instance()),
+                            BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance()),
+                            SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(),  GlobalConfigService::instance()),
         );
         Server {
             configuration,

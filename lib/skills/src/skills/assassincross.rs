@@ -223,7 +223,7 @@ impl Skill for SoulDestroyer {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       700
     }
     fn hit_count(&self) -> i8 {
        1
@@ -372,7 +372,7 @@ impl Skill for MeteorAssault {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       500
     }
     fn hit_count(&self) -> i8 {
        1

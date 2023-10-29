@@ -60,6 +60,36 @@ impl Skill for FirePillar {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 3000
+        }
+        if self.level == 2 {
+            return 2700
+        }
+        if self.level == 3 {
+            return 2400
+        }
+        if self.level == 4 {
+            return 2100
+        }
+        if self.level == 5 {
+            return 1800
+        }
+        if self.level == 6 {
+            return 1500
+        }
+        if self.level == 7 {
+            return 1200
+        }
+        if self.level == 8 {
+            return 900
+        }
+        if self.level == 9 {
+            return 600
+        }
+        if self.level == 10 {
+            return 300
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -183,7 +213,7 @@ impl Skill for Sightrasher {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       500
     }
     fn hit_count(&self) -> i8 {
        1
@@ -272,7 +302,7 @@ impl Skill for MeteorStorm {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       15000
     }
     fn hit_count(&self) -> i8 {
         if self.level == 1 {
@@ -454,6 +484,36 @@ impl Skill for JupitelThunder {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 2500
+        }
+        if self.level == 2 {
+            return 3000
+        }
+        if self.level == 3 {
+            return 3500
+        }
+        if self.level == 4 {
+            return 4000
+        }
+        if self.level == 5 {
+            return 4500
+        }
+        if self.level == 6 {
+            return 5000
+        }
+        if self.level == 7 {
+            return 5500
+        }
+        if self.level == 8 {
+            return 6000
+        }
+        if self.level == 9 {
+            return 6500
+        }
+        if self.level == 10 {
+            return 7000
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -573,6 +633,36 @@ impl Skill for LordofVermilion {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 15000
+        }
+        if self.level == 2 {
+            return 14500
+        }
+        if self.level == 3 {
+            return 14000
+        }
+        if self.level == 4 {
+            return 13500
+        }
+        if self.level == 5 {
+            return 13000
+        }
+        if self.level == 6 {
+            return 12500
+        }
+        if self.level == 7 {
+            return 12000
+        }
+        if self.level == 8 {
+            return 11500
+        }
+        if self.level == 9 {
+            return 11000
+        }
+        if self.level == 10 {
+            return 10500
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -666,6 +756,36 @@ impl Skill for WaterBall {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 1000
+        }
+        if self.level == 2 {
+            return 2000
+        }
+        if self.level == 3 {
+            return 3000
+        }
+        if self.level == 4 {
+            return 4000
+        }
+        if self.level == 5 {
+            return 5000
+        }
+        if self.level == 6 {
+            return 6000
+        }
+        if self.level == 7 {
+            return 7000
+        }
+        if self.level == 8 {
+            return 8000
+        }
+        if self.level == 9 {
+            return 9000
+        }
+        if self.level == 10 {
+            return 10000
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -814,6 +934,36 @@ impl Skill for FrostNova {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 6000
+        }
+        if self.level == 2 {
+            return 6000
+        }
+        if self.level == 3 {
+            return 5500
+        }
+        if self.level == 4 {
+            return 5500
+        }
+        if self.level == 5 {
+            return 5000
+        }
+        if self.level == 6 {
+            return 5000
+        }
+        if self.level == 7 {
+            return 4500
+        }
+        if self.level == 8 {
+            return 4500
+        }
+        if self.level == 9 {
+            return 4000
+        }
+        if self.level == 10 {
+            return 4000
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -873,6 +1023,36 @@ impl Skill for StormGust {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 6000
+        }
+        if self.level == 2 {
+            return 7000
+        }
+        if self.level == 3 {
+            return 8000
+        }
+        if self.level == 4 {
+            return 9000
+        }
+        if self.level == 5 {
+            return 10000
+        }
+        if self.level == 6 {
+            return 11000
+        }
+        if self.level == 7 {
+            return 12000
+        }
+        if self.level == 8 {
+            return 13000
+        }
+        if self.level == 9 {
+            return 14000
+        }
+        if self.level == 10 {
+            return 15000
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -947,6 +1127,21 @@ impl Skill for EarthSpike {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 1000
+        }
+        if self.level == 2 {
+            return 2000
+        }
+        if self.level == 3 {
+            return 3000
+        }
+        if self.level == 4 {
+            return 4000
+        }
+        if self.level == 5 {
+            return 5000
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1036,6 +1231,21 @@ impl Skill for HeavensDrive {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 1000
+        }
+        if self.level == 2 {
+            return 2000
+        }
+        if self.level == 3 {
+            return 3000
+        }
+        if self.level == 4 {
+            return 4000
+        }
+        if self.level == 5 {
+            return 5000
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1243,7 +1453,7 @@ impl Skill for SightBlaster {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       2000
     }
     fn hit_count(&self) -> i8 {
        1

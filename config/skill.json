@@ -496,7 +496,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 4000
@@ -843,7 +843,7 @@
           "time": 2800
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 700
@@ -1215,7 +1215,7 @@
           "time": 1000
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1500
@@ -1286,7 +1286,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -1444,7 +1444,7 @@
           "time": 2800
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 700
@@ -1633,7 +1633,7 @@
           "time": 2800
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 700
@@ -1782,7 +1782,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -3192,7 +3192,7 @@
           "time": 3000
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 6000
@@ -4475,7 +4475,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -5034,7 +5034,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2500
@@ -5227,7 +5227,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 15000
@@ -5390,7 +5390,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -5576,7 +5576,7 @@
       "splashArea": 3,
       "targetType": "Self",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 6000
@@ -5731,7 +5731,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 6000
@@ -5807,7 +5807,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -5896,7 +5896,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -11343,7 +11343,7 @@
           "time": 1000
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 4000
@@ -14728,7 +14728,7 @@
           "time": 1500
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -14835,7 +14835,7 @@
           "time": 6000
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -15083,7 +15083,7 @@
           "time": 4000
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -15977,7 +15977,7 @@
       "splashArea": -1,
       "targetType": "Self",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -16120,7 +16120,7 @@
       "name": "WS_MELTDOWN",
       "targetType": "Self",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 500
@@ -16466,7 +16466,7 @@
           "time": 3000
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -16697,7 +16697,7 @@
           "time": 2000
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 300
@@ -17307,7 +17307,7 @@
       "name": "TK_RUN",
       "targetType": "Self",
       "type": "Misc",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 6000
@@ -17823,7 +17823,7 @@
       "name": "TK_HIGHJUMP",
       "targetType": "Self",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -19331,7 +19331,7 @@
       "range": 9,
       "targetType": "Support",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 4500
@@ -19465,7 +19465,7 @@
       "range": 9,
       "targetType": "Support",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 6000
@@ -19825,7 +19825,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -19884,7 +19884,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -21311,7 +21311,7 @@
       "range": -9,
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1200
@@ -22760,7 +22760,7 @@
       "name": "NJ_BUNSINJYUTSU",
       "targetType": "Self",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 4000
@@ -22918,7 +22918,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 700
@@ -23064,7 +23064,7 @@
       "name": "NJ_KAENSIN",
       "targetType": "Self",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 6000
@@ -23200,7 +23200,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 700
@@ -23550,7 +23550,7 @@
       "name": "NJ_HYOUSYOURAKU",
       "targetType": "Self",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -23650,7 +23650,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -23966,7 +23966,7 @@
       "maxLevel": 5,
       "name": "NJ_NEN",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -26874,7 +26874,7 @@
       "range": 5,
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -27047,7 +27047,19 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
+        {
+          "level": 1,
+          "time": 1000
+        },
+        {
+          "level": 2,
+          "time": 1000
+        },
+        {
+          "level": 3,
+          "time": 1000
+        },
         {
           "level": 4,
           "time": 1000
@@ -27617,7 +27629,7 @@
       "splashArea": 9,
       "targetType": "Self",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -27707,7 +27719,7 @@
       "name": "WL_JACKFROST",
       "targetType": "Self",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -28301,7 +28313,7 @@
       "splashArea": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 10000
@@ -28386,7 +28398,7 @@
       "range": 11,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3500
@@ -28474,7 +28486,7 @@
       "range": 6,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -28595,7 +28607,7 @@
       "range": 11,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -30387,7 +30399,7 @@
       "splashArea": 2,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -31225,7 +31237,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -32230,7 +32242,7 @@
       "range": 11,
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 200
@@ -32386,7 +32398,7 @@
           "time": 500
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 500
@@ -32533,7 +32545,7 @@
           "time": 2000
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1400
@@ -32783,7 +32795,7 @@
       "name": "NC_SELFDESTRUCTION",
       "targetType": "Self",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -33194,7 +33206,7 @@
       "name": "NC_REPAIR",
       "targetType": "Support",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 200
@@ -34003,7 +34015,7 @@
       "maxLevel": 10,
       "name": "SC_AUTOSHADOWSPELL",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 4000
@@ -35759,7 +35771,7 @@
       "maxLevel": 5,
       "name": "LG_EXEEDBREAK",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -36076,7 +36088,7 @@
       "splashArea": 5,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -36218,7 +36230,7 @@
       "name": "LG_PIETY",
       "splashArea": 1,
       "targetType": "Support",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -36951,7 +36963,7 @@
       "range": 1,
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1100
@@ -37762,7 +37774,7 @@
           "time": 1000
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -38250,7 +38262,7 @@
       "range": 11,
       "targetType": "Ground",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -38750,7 +38762,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -38894,7 +38906,7 @@
       "range": 9,
       "splashArea": 2,
       "targetType": "Ground",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1100
@@ -39055,7 +39067,7 @@
       "name": "WM_SEVERE_RAINSTORM",
       "range": 9,
       "targetType": "Ground",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1500
@@ -39269,7 +39281,7 @@
       "maxLevel": 5,
       "name": "WM_VOICEOFSIREN",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -39378,7 +39390,7 @@
       "name": "WM_DEADHILLHERE",
       "range": 7,
       "targetType": "Support",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -39720,7 +39732,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -39904,7 +39916,7 @@
       "maxLevel": 5,
       "name": "WM_DANCE_WITH_WUG",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1500
@@ -40017,7 +40029,11 @@
       "name": "WM_SOUND_OF_DESTRUCTION",
       "range": 9,
       "targetType": "Ground",
-      "casttime": [
+      "castTimePerLevel": [
+        {
+          "level": 1,
+          "time": 0
+        },
         {
           "level": 2,
           "time": 500
@@ -40126,7 +40142,7 @@
       "maxLevel": 5,
       "name": "WM_SATURDAY_NIGHT_FEVER",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -40927,7 +40943,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2200
@@ -41048,7 +41064,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -41165,7 +41181,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2200
@@ -41253,7 +41269,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 8000
@@ -41370,7 +41386,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2300
@@ -41535,7 +41551,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2200
@@ -41653,7 +41669,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -41773,7 +41789,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1800
@@ -41961,7 +41977,7 @@
       "name": "SO_ARRULLO",
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2200
@@ -42136,7 +42152,7 @@
       "maxLevel": 3,
       "name": "SO_SUMMON_AGNI",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -42212,7 +42228,7 @@
       "maxLevel": 3,
       "name": "SO_SUMMON_AQUA",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -42288,7 +42304,7 @@
       "maxLevel": 3,
       "name": "SO_SUMMON_VENTUS",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -42364,7 +42380,7 @@
       "maxLevel": 3,
       "name": "SO_SUMMON_TERA",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -42798,7 +42814,7 @@
       "name": "GN_CARTCANNON",
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -43315,7 +43331,7 @@
       "splashArea": 4,
       "targetType": "Ground",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -43468,7 +43484,7 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -43782,7 +43798,7 @@
           "max": 6
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -44325,7 +44341,7 @@
       "range": -9,
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -44417,7 +44433,7 @@
           "time": 500
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -44586,7 +44602,7 @@
       "range": -9,
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -45094,7 +45110,7 @@
       "splashArea": -1,
       "targetType": "Self",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1200
@@ -45311,7 +45327,7 @@
       "range": -9,
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -45841,7 +45857,7 @@
       "splashArea": 2,
       "targetType": "Ground",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -46172,7 +46188,7 @@
       "splashArea": 3,
       "targetType": "Ground",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -46514,7 +46530,7 @@
       "name": "KO_KYOUGAKU",
       "range": 5,
       "targetType": "Attack",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -46596,7 +46612,7 @@
       "name": "KO_JYUSATSU",
       "range": 5,
       "targetType": "Attack",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -46815,7 +46831,7 @@
       "maxLevel": 5,
       "name": "KO_GENWAKU",
       "targetType": "Support",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -47149,7 +47165,7 @@
       "name": "OB_ZANGETSU",
       "range": 7,
       "targetType": "Support",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -47308,7 +47324,7 @@
       "name": "OB_AKAITSUKI",
       "range": 7,
       "targetType": "Attack",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -47638,7 +47654,19 @@
       "range": 9,
       "targetType": "Ground",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
+        {
+          "level": 1,
+          "time": 0
+        },
+        {
+          "level": 2,
+          "time": 0
+        },
+        {
+          "level": 3,
+          "time": 0
+        },
         {
           "level": 4,
           "time": 1000
@@ -48133,7 +48161,7 @@
       "maxLevel": 5,
       "name": "AB_OFFERTORIUM",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -49300,7 +49328,7 @@
       "name": "MH_SUMMON_LEGION",
       "range": 9,
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1600
@@ -49384,7 +49412,7 @@
       "range": 5,
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -49465,7 +49493,7 @@
       "range": 5,
       "targetType": "Ground",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 500
@@ -49575,7 +49603,7 @@
       "name": "MH_PAIN_KILLER",
       "range": 1,
       "targetType": "Support",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -49713,7 +49741,7 @@
       "maxLevel": 5,
       "name": "MH_OVERED_BOOST",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 800
@@ -49797,7 +49825,7 @@
       "range": 7,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -49879,7 +49907,7 @@
       "range": 7,
       "targetType": "Ground",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1500
@@ -50013,7 +50041,7 @@
       "name": "MH_SILENT_BREEZE",
       "targetType": "Support",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -50256,7 +50284,7 @@
       "name": "MH_STAHL_HORN",
       "targetType": "Attack",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 800
@@ -50329,7 +50357,7 @@
       "maxLevel": 5,
       "name": "MH_GOLDENE_FERSE",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -50480,7 +50508,7 @@
       "range": 9,
       "targetType": "Attack",
       "type": "Magic",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 200
@@ -50560,7 +50588,7 @@
       "maxLevel": 5,
       "name": "MH_ANGRIFFS_MODUS",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 200
@@ -50783,7 +50811,7 @@
       "name": "MH_MAGMA_FLOW",
       "targetType": "Self",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -50887,7 +50915,7 @@
       "maxLevel": 5,
       "name": "MH_GRANITIC_ARMOR",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -50951,7 +50979,7 @@
       "range": 7,
       "targetType": "Ground",
       "type": "Weapon",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -51065,7 +51093,7 @@
       "maxLevel": 5,
       "name": "MH_PYROCLASTIC",
       "targetType": "Self",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -51148,7 +51176,7 @@
       "name": "MH_VOLCANIC_ASH",
       "range": 7,
       "targetType": "Ground",
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 4000
@@ -52105,7 +52133,7 @@
           "time": 2000
         }
       ],
-      "casttime": [
+      "castTimePerLevel": [
         {
           "level": 1,
           "time": 300

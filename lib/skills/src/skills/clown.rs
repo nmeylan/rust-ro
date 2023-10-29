@@ -98,6 +98,36 @@ impl Skill for VulcanArrow {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
+        if self.level == 1 {
+            return 2000
+        }
+        if self.level == 2 {
+            return 2200
+        }
+        if self.level == 3 {
+            return 2400
+        }
+        if self.level == 4 {
+            return 2600
+        }
+        if self.level == 5 {
+            return 2800
+        }
+        if self.level == 6 {
+            return 3000
+        }
+        if self.level == 7 {
+            return 3200
+        }
+        if self.level == 8 {
+            return 3400
+        }
+        if self.level == 9 {
+            return 3600
+        }
+        if self.level == 10 {
+            return 3800
+        }
         0
     }
     fn hit_count(&self) -> i8 {
@@ -491,7 +521,7 @@ impl Skill for TarotCardofFate {
          Ok(())
     }
     fn cast_delay(&self) -> u32 {
-        0
+       1000
     }
     fn hit_count(&self) -> i8 {
        1
