@@ -17,17 +17,41 @@ use crate::skills::*;
 pub struct MaceMastery {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for MaceMastery {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 10 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        65
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -62,16 +86,16 @@ impl Skill for MaceMastery {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
         0
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
         0
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -79,17 +103,41 @@ impl Skill for MaceMastery {
 pub struct ImpositioManus {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for ImpositioManus {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 5 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        66
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if self.level == 1 {
@@ -139,16 +187,16 @@ impl Skill for ImpositioManus {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        3000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -156,17 +204,41 @@ impl Skill for ImpositioManus {
 pub struct Suffragium {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for Suffragium {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 3 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        67
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if character_sp > 8 { Ok(8) } else {Err(())}
@@ -201,16 +273,16 @@ impl Skill for Suffragium {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        2000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -218,17 +290,41 @@ impl Skill for Suffragium {
 pub struct Aspersio {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for Aspersio {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 5 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        68
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if self.level == 1 {
@@ -278,16 +374,16 @@ impl Skill for Aspersio {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        2000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -295,17 +391,41 @@ impl Skill for Aspersio {
 pub struct BsSacramenti {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for BsSacramenti {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 5 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        69
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if character_sp > 20 { Ok(20) } else {Err(())}
@@ -340,16 +460,16 @@ impl Skill for BsSacramenti {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
         0
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -357,17 +477,41 @@ impl Skill for BsSacramenti {
 pub struct Sanctuary {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for Sanctuary {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 10 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        70
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if self.level == 1 {
@@ -432,16 +576,16 @@ impl Skill for Sanctuary {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
        5000
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
         0
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -449,17 +593,41 @@ impl Skill for Sanctuary {
 pub struct SlowPoison {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for SlowPoison {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 4 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        71
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if self.level == 1 {
@@ -506,16 +674,16 @@ impl Skill for SlowPoison {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
         0
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -523,17 +691,41 @@ impl Skill for SlowPoison {
 pub struct StatusRecovery {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for StatusRecovery {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 1 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        72
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if character_sp > 5 { Ok(5) } else {Err(())}
@@ -568,16 +760,16 @@ impl Skill for StatusRecovery {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        2000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -585,17 +777,41 @@ impl Skill for StatusRecovery {
 pub struct KyrieEleison {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for KyrieEleison {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 10 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        73
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if self.level == 1 {
@@ -660,16 +876,16 @@ impl Skill for KyrieEleison {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
        2000
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        2000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -677,17 +893,41 @@ impl Skill for KyrieEleison {
 pub struct Magnificat {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for Magnificat {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 5 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        74
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if character_sp > 40 { Ok(40) } else {Err(())}
@@ -722,16 +962,16 @@ impl Skill for Magnificat {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
        4000
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        2000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -739,17 +979,41 @@ impl Skill for Magnificat {
 pub struct Gloria {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for Gloria {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 5 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        75
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if character_sp > 20 { Ok(20) } else {Err(())}
@@ -784,16 +1048,16 @@ impl Skill for Gloria {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        2000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -801,17 +1065,41 @@ impl Skill for Gloria {
 pub struct LexDivina {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for LexDivina {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 10 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        76
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if self.level == 1 {
@@ -876,16 +1164,16 @@ impl Skill for LexDivina {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
         0
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        3000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -893,17 +1181,41 @@ impl Skill for LexDivina {
 pub struct TurnUndead {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for TurnUndead {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 10 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        77
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if character_sp > 20 { Ok(20) } else {Err(())}
@@ -938,16 +1250,16 @@ impl Skill for TurnUndead {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
        1000
     }
     fn hit_count(&self) -> i8 {
        1
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        3000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -955,17 +1267,41 @@ impl Skill for TurnUndead {
 pub struct LexAeterna {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for LexAeterna {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 1 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        78
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if character_sp > 10 { Ok(10) } else {Err(())}
@@ -1000,16 +1336,16 @@ impl Skill for LexAeterna {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
         0
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        3000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1017,17 +1353,41 @@ impl Skill for LexAeterna {
 pub struct MagnusExorcismus {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for MagnusExorcismus {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 10 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        79
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if self.level == 1 {
@@ -1092,7 +1452,7 @@ impl Skill for MagnusExorcismus {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
        15000
     }
     fn hit_count(&self) -> i8 {
@@ -1128,10 +1488,10 @@ impl Skill for MagnusExorcismus {
         }
         0
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
        4000
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }
@@ -1139,17 +1499,41 @@ impl Skill for MagnusExorcismus {
 pub struct Redemptio {
     level: u8,
     delegate: Option<Box<dyn DelegateSkill>>,
+    cast_time: u32,
+    after_cast_act_delay: u32,
+    after_cast_walk_delay: u32,
 }
 impl Skill for Redemptio {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level < 1 || level > 1 { return None }
-        Some(Self { level, delegate: None })
+        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
         self.level
     }
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {
         &self.delegate
+    }
+    fn cast_time(&self) -> u32 {
+        self.cast_time
+    }
+    fn after_cast_act_delay(&self) -> u32 {
+        self.after_cast_act_delay
+    }
+    fn after_cast_walk_delay(&self) -> u32 {
+        self.after_cast_walk_delay
+    }
+    fn update_cast_time(&mut self, new_value: u32) {
+        self.cast_time = new_value;
+    }
+    fn update_after_cast_act_delay(&mut self, new_value: u32) {
+        self.after_cast_act_delay = new_value;
+    }
+    fn update_after_cast_walk_delay(&mut self, new_value: u32) {
+        self.after_cast_walk_delay = new_value;
+    }
+    fn id(&self) -> u32 {
+        1014
     }
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {
         if character_sp > 400 { Ok(400) } else {Err(())}
@@ -1184,16 +1568,16 @@ impl Skill for Redemptio {
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
         false
     }
-    fn cast_time(&self) -> u32 {
+    fn base_cast_time(&self) -> u32 {
        4000
     }
     fn hit_count(&self) -> i8 {
         0
     }
-    fn after_cast_act_delay(&self) -> u32 {
+    fn base_after_cast_act_delay(&self) -> u32 {
         0
     }
-    fn after_cast_walk_delay(&self) -> u32 {
+    fn base_after_cast_walk_delay(&self) -> u32 {
         0
     }
 }

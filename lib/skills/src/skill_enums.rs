@@ -3,41 +3,41 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use crate::skills::sniper::{*};
-use crate::skills::taekwon::{*};
-use crate::skills::gunslinger::{*};
-use crate::skills::highwizard::{*};
-use crate::skills::bard::{*};
-use crate::skills::ninja::{*};
-use crate::skills::dancer::{*};
-use crate::skills::sage::{*};
 use crate::skills::hunter::{*};
-use crate::skills::assassincross::{*};
-use crate::skills::novice::{*};
-use crate::skills::assassin::{*};
-use crate::skills::professor::{*};
-use crate::skills::knight::{*};
-use crate::skills::clown::{*};
-use crate::skills::crusader::{*};
 use crate::skills::whitesmith::{*};
 use crate::skills::creator::{*};
-use crate::skills::rogue::{*};
-use crate::skills::lordknight::{*};
-use crate::skills::acolyte::{*};
-use crate::skills::swordsman::{*};
-use crate::skills::archer::{*};
-use crate::skills::blacksmith::{*};
-use crate::skills::wizard::{*};
-use crate::skills::highpriest::{*};
-use crate::skills::alchemist::{*};
-use crate::skills::thief::{*};
-use crate::skills::paladin::{*};
-use crate::skills::merchant::{*};
-use crate::skills::priest::{*};
+use crate::skills::dancer::{*};
 use crate::skills::champion::{*};
-use crate::skills::stalker::{*};
+use crate::skills::priest::{*};
+use crate::skills::crusader::{*};
+use crate::skills::sniper::{*};
+use crate::skills::professor::{*};
+use crate::skills::alchemist::{*};
+use crate::skills::paladin::{*};
 use crate::skills::mage::{*};
+use crate::skills::rogue::{*};
+use crate::skills::highwizard::{*};
+use crate::skills::gunslinger::{*};
+use crate::skills::assassin::{*};
+use crate::skills::taekwon::{*};
+use crate::skills::acolyte::{*};
+use crate::skills::sage::{*};
+use crate::skills::archer::{*};
+use crate::skills::ninja::{*};
+use crate::skills::stalker::{*};
+use crate::skills::assassincross::{*};
+use crate::skills::lordknight::{*};
+use crate::skills::swordsman::{*};
+use crate::skills::clown::{*};
+use crate::skills::knight::{*};
+use crate::skills::highpriest::{*};
+use crate::skills::wizard::{*};
+use crate::skills::thief::{*};
+use crate::skills::bard::{*};
+use crate::skills::blacksmith::{*};
 use crate::skills::monk::{*};
+use crate::skills::novice::{*};
+use crate::skills::merchant::{*};
 use crate::Skill;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
@@ -58,13 +58,13 @@ pub enum SkillEnum {
     SmMagnum,
     // Super Novice Endure
     SmEndure,
-    // Super Novice Increase SP Recovery
+    // Priest Increase SP Recovery
     MgSrecovery,
     // Super Novice Sight
     MgSight,
     // Super Novice Napalm Beat
     MgNapalmbeat,
-    // Super Novice Safety Wall
+    // Priest Safety Wall
     MgSafetywall,
     // Super Novice Soul Strike
     MgSoulstrike,
@@ -84,9 +84,9 @@ pub enum SkillEnum {
     MgLightningbolt,
     // Super Novice Thunderstorm
     MgThunderstorm,
-    // Crusader Divine Protection
+    // Super Novice Divine Protection
     AlDp,
-    // Crusader Demon Bane
+    // Super Novice Demon Bane
     AlDemonbane,
     // Super Novice Ruwach
     AlRuwach,
@@ -96,7 +96,7 @@ pub enum SkillEnum {
     AlTeleport,
     // Super Novice Warp Portal
     AlWarp,
-    // Crusader Heal
+    // Super Novice Heal
     AlHeal,
     // Super Novice Increase AGI
     AlIncagi,
@@ -110,7 +110,7 @@ pub enum SkillEnum {
     AlAngelus,
     // Super Novice Blessing
     AlBlessing,
-    // Crusader Cure
+    // Super Novice Cure
     AlCure,
     // Super Novice Enlarge Weight Limit
     McInccarry,
@@ -126,13 +126,13 @@ pub enum SkillEnum {
     McVending,
     // Super Novice Mammonite
     McMammonite,
-    // Archer Owl's Eye
+    // Super Novice Owl's Eye
     AcOwl,
-    // Archer Vulture's Eye
+    // Super Novice Vulture's Eye
     AcVulture,
-    // Archer Improve Concentration
+    // Super Novice Improve Concentration
     AcConcentration,
-    // Archer Double Strafe
+    // Rogue Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
@@ -150,7 +150,7 @@ pub enum SkillEnum {
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Crusader Spear Mastery
+    // Knight Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -166,9 +166,9 @@ pub enum SkillEnum {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Crusader Peco Peco Riding
+    // Knight Peco Peco Riding
     KnRiding,
-    // Crusader Cavalier Mastery
+    // Knight Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -182,7 +182,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // HighPriest Slow Poison
+    // Priest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -218,13 +218,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Wizard Earth Spike
+    // Sage Earth Spike
     WzEarthspike,
-    // Wizard Heaven's Drive
+    // Sage Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Wizard Sense
+    // Sage Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -324,7 +324,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice High Play Dead
+    // Novice Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,

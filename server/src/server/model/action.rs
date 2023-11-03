@@ -1,3 +1,5 @@
+use skills::Skill;
+
 #[derive(Clone, Copy, Debug)]
 pub struct Attack {
     pub target: u32,
@@ -12,4 +14,11 @@ pub struct Damage {
     pub attacker_id: u32,
     pub damage: u32,
     pub attacked_at: u128,
+}
+
+pub struct SkillInUse {
+    pub target: Option<u32>,
+    pub start_skill_tick: u128,
+    pub skill: Box<dyn Skill>,
+    pub used_at_tick: Option<u128>, // when the skill was actually used
 }

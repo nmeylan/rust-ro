@@ -192,7 +192,7 @@ impl Server {
                         }
                         GameEvent::CharacterUseSkill(character_use_skill) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_use_skill.char_id).unwrap();
-                            ServerService::instance().character_use_skill(server_ref.state(), character, character_use_skill);
+                            ServerService::instance().character_start_use_skill(server_ref.state(), character, character_use_skill, tick);
                         }
                     }
                 }
@@ -202,6 +202,7 @@ impl Server {
                 if let Some(map_instance) = map_instance {
                     CharacterService::instance().load_units_in_fov(server_ref.state(), character, map_instance.state().borrow().as_ref());
                     ServerService::instance().character_attack(server_ref.state(), tick, character);
+                    ServerService::instance().character_use_skill(server_ref.state(), tick, character);
                 }
             }
             for (_, map) in server_ref.state().map_instances().borrow().iter() {
