@@ -97,6 +97,10 @@ impl TestContext {
         &self.increment_latch
     }
 
+    pub fn reset_increment_latch(&mut self) {
+        self.increment_latch.reset();
+    }
+
     pub fn clear_sent_packet(&self) {
         *self.received_notification.lock().unwrap() = vec![];
     }
