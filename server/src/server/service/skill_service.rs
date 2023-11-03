@@ -80,7 +80,7 @@ impl SkillService {
         packet_zc_notify_skill2.set_start_time(0);
         packet_zc_notify_skill2.set_attacked_mt(480); // TODO
         packet_zc_notify_skill2.set_level(skill.level() as i16);
-        packet_zc_notify_skill2.set_count(skill.hit_count() as i16);
+        packet_zc_notify_skill2.set_count(skill.hit_count().abs() as i16);
         packet_zc_notify_skill2.set_aid(character.char_id);
         packet_zc_notify_skill2.set_action(6); // TODO
         packet_zc_notify_skill2.fill_raw();
