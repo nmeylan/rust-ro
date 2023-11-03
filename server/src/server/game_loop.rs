@@ -45,6 +45,9 @@ impl Server {
             if let Some(tasks) = server_ref.pop_task() {
                 for task in tasks {
                     match task {
+                        GameEvent::CharacterLeaveGame(char_id) => {
+                            server_state_mut.characters_mut().remove(&char_id);
+                        }
                         GameEvent::CharacterJoinGame(char_id) => {
                             let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
                             SkillTreeService::instance().send_skill_tree(character);

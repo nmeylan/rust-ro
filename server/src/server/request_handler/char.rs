@@ -363,7 +363,8 @@ pub fn handle_restart(server: &Server, context: Request) {
     let session = sessions_guard.get(&session_id).unwrap();
     let char_id = session.char_id();
     let character_ref = server.state().get_character_from_context_unsafe(&context);
-    server.add_to_next_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap { char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance() }));
+    server.add_to_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap { char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance() }), 1);
+    server.add_to_tick(GameEvent::CharacterLeaveGame(char_id),2);
     let session = sessions_guard.get(&session_id).unwrap();
     let session = Arc::new(session.recreate_without_character());
     sessions_guard.insert(session_id, session);

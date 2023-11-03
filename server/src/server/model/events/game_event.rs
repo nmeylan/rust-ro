@@ -9,6 +9,7 @@ use models::position::Position;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum GameEvent {
+    CharacterLeaveGame(u32),
     CharacterLoadedFromClientSide(u32),
     CharacterRemoveFromMap(CharacterRemoveFromMap),
     CharacterClearFov(u32),
