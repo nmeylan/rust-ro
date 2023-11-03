@@ -60,6 +60,11 @@ impl IncrementLatch {
         self.cvar.notify_one();
     }
 
+    pub fn reset(&self) {
+        let mut count_guard = self.count.lock().unwrap();
+        *count_guard = 0;
+    }
+
     pub fn wait_expected_count(&self, expected_count: usize) {
         let _unused = self.cvar.wait_while(self.count.lock().unwrap(), |count| { *count != expected_count }).unwrap();
     }

@@ -307,6 +307,8 @@ pub struct SkillRequirements {
     sphere_cost_per_level: Option<Vec<u32>>,
     #[serde(rename = "itemcost", default)]
     item_cost: Vec<InternalSkillItemCost>,
+    #[serde(rename = "joblevel", default)]
+    job_level: Option<u32>,
 }
 
 #[derive(Deserialize, Debug, Clone, GettersAll)]

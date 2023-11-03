@@ -14682,7 +14682,8 @@
         "noDamage": true
       },
       "requires": {
-        "spcost": 200
+        "spcost": 200,
+        "joblevel": 50
       }
     },
     {

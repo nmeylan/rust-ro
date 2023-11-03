@@ -609,42 +609,42 @@ mod tests {
     }
 
     #[test]
-    fn test_change_job_should_reset_skills_and_give_back_points_when_should_reset_is_true() {
+    fn test_change_job_should_reset_skills_and_reset_skill_level_when_should_reset_is_true() {
         // Given
-        let context = before_each(mocked_repository());
-        let mut character = create_character();
+        let mut context = before_each(mocked_repository());
+        struct Scenarii {
+            from_job: usize,
+            to_job: usize,
+            job_level: u32,
+            expected_skill_point_count: u32,
+            from_skill_point: u32,
+        }
+        let scenario = vec![
+            Scenarii { from_job: JobName::Novice.value(), to_job: JobName::Archer.value(), job_level: 5, from_skill_point: 5, expected_skill_point_count: 9 + 4 },
+            Scenarii { from_job: JobName::Novice.value(), to_job: JobName::Clown.value(), job_level: 5, from_skill_point: 5, expected_skill_point_count: 9 + 49 + 4 },
+            Scenarii { from_job: JobName::Archer.value(), to_job: JobName::Clown.value(), job_level: 5, from_skill_point: 9 + 4, expected_skill_point_count: 9 + 49 + 4 },
+            Scenarii { from_job: JobName::Clown.value(), to_job: JobName::Novice.value(), job_level: 5, from_skill_point: 9 + 49 + 4 , expected_skill_point_count: 4 },
+            Scenarii { from_job: JobName::Clown.value(), to_job: JobName::Archer.value(), job_level: 5, from_skill_point: 9 + 49 + 4, expected_skill_point_count: 9 + 4 },
+            Scenarii { from_job: JobName::Clown.value(), to_job: JobName::LordKnight.value(), job_level: 5, from_skill_point: 9 + 49 + 4, expected_skill_point_count: 9 + 49 + 4 },
+            Scenarii { from_job: JobName::Clown.value(), to_job: JobName::Archer.value(), job_level: 40, from_skill_point: 9 + 49 + 39, expected_skill_point_count: 9 + 39 },
+        ];
         // When
-        context.character_service.change_job(&mut character, JobName::Assassin, true);
-        // Then
-        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
-        assert_eq!(character.status.job, JobName::Assassin.value() as u32);
-
-        // Given
-        let mut character = create_character();
-        character.known_skills = vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level: 10 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_FATALBLOW"), level: 1 }, // Platinium
-                                KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_TWOHAND"), level: 10 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_RECOVERY"), level: 5 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_BASH"), level: 7 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_PROVOKE"), level: 5 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_MAGNUM"), level: 10 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_ENDURE"), level: 5 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("KN_SPEARMASTERY"), level: 1 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("KN_PIERCE"), level: 3 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("KN_TWOHANDQUICKEN"), level: 8 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("KN_AUTOCOUNTER"), level: 5 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("KN_RIDING"), level: 1 },
-                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("KN_CAVALIERMASTERY"), level: 5 }, ];
-        let skills_to_reset: Vec<i32> = character.known_skills.iter().filter(|s| s.value != skills::skill_enums::SkillEnum::from_name("SM_FATALBLOW")).map(|s| s.value.id() as i32).collect();
-        // When
-        context.character_service.change_job(&mut character, JobName::Assassin, true);
-        // Then
-        assert_eq!(character.status.skill_point, 84);
-        context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
-        assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "skill_point".to_string(), value: character.status.skill_point, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset, })); // Platinium skill are not reset
-        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+        for scenarii in scenario {
+            context.test_context.reset_increment_latch();
+            let mut character = create_character();
+            character.status.job = scenarii.from_job as u32;
+            character.status.job_level = scenarii.job_level;
+            character.status.skill_point = scenarii.from_skill_point;
+            // When
+            context.character_service.change_job(&mut character, JobName::from_value(scenarii.to_job), true);
+            // Then
+            assert_eq!(character.status.skill_point, scenarii.expected_skill_point_count, "Expected from job {} at level {} to job {} to have {} skill points but got {}", JobName::from_value(scenarii.from_job).as_str(), JobName::from_value(scenarii.to_job).as_str(), scenarii.job_level, scenarii.expected_skill_point_count, character.status.skill_point);
+            context.test_context.increment_latch().wait_expected_count_with_timeout(6, Duration::from_millis(200));
+            assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "skill_point".to_string(), value: character.status.skill_point, }));
+            assert_sent_persistence_event!(context, PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: vec![], }));
+            // Platinium skill are not reset
+            assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+        }
     }
 
     #[test]
@@ -903,36 +903,72 @@ mod tests {
             Scenarii { job: JobName::Novice.value(), job_level: 10, skill_points: 0, skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 }], expected: false },
             Scenarii { job: JobName::Novice.value(), job_level: 8, skill_points: 0, skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 }], expected: true },
             Scenarii { job: JobName::Novice.value(), job_level: 8, skill_points: 1, skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 6 }], expected: false },
-            Scenarii { job: JobName::Swordsman.value(), job_level: 8, skill_points: 0, skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
-                                                                                                    KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level:7},], expected: false },
-            Scenarii { job: JobName::Swordsman.value(), job_level: 8, skill_points: 2, skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
-                                                                                                    KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level:5},], expected: false },
-            Scenarii { job: JobName::Swordsman.value(), job_level: 8, skill_points: 2, skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
-                                                                                                    KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level:7},], expected: true },
-            Scenarii { job: JobName::Knight.value(), job_level: 8, skill_points: 0, skills: vec![KnownSkill {value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level:9},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level:10},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_TWOHAND"), level:10},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_RECOVERY"), level:5},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_BASH"), level:7},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_PROVOKE"), level:5},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_MAGNUM"), level:5},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_ENDURE"), level:10},], expected: false },
-            Scenarii { job: JobName::Knight.value(), job_level: 8, skill_points: 5, skills: vec![KnownSkill {value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level:9},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level:10},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_TWOHAND"), level:10},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_RECOVERY"), level:5},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_BASH"), level:7},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_PROVOKE"), level:5},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_MAGNUM"), level:5},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_ENDURE"), level:10},], expected: true },
-            Scenarii { job: JobName::Knight.value(), job_level: 1, skill_points: 0, skills: vec![KnownSkill {value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level:9},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level:10},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_TWOHAND"), level:10},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_RECOVERY"), level:5},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_BASH"), level:7},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_PROVOKE"), level:5},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_MAGNUM"), level:10},
-                                                                                                 KnownSkill {value: skills::skill_enums::SkillEnum::from_name("SM_ENDURE"), level:5},], expected: true },
+            Scenarii {
+                job: JobName::Swordsman.value(),
+                job_level: 8,
+                skill_points: 0,
+                skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level: 7 }, ],
+                expected: false,
+            },
+            Scenarii {
+                job: JobName::Swordsman.value(),
+                job_level: 8,
+                skill_points: 2,
+                skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level: 5 }, ],
+                expected: false,
+            },
+            Scenarii {
+                job: JobName::Swordsman.value(),
+                job_level: 8,
+                skill_points: 2,
+                skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level: 7 }, ],
+                expected: true,
+            },
+            Scenarii {
+                job: JobName::Knight.value(),
+                job_level: 8,
+                skill_points: 0,
+                skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level: 10 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_TWOHAND"), level: 10 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_RECOVERY"), level: 5 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_BASH"), level: 7 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_PROVOKE"), level: 5 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_MAGNUM"), level: 5 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_ENDURE"), level: 10 }, ],
+                expected: false,
+            },
+            Scenarii {
+                job: JobName::Knight.value(),
+                job_level: 8,
+                skill_points: 5,
+                skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level: 10 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_TWOHAND"), level: 10 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_RECOVERY"), level: 5 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_BASH"), level: 7 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_PROVOKE"), level: 5 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_MAGNUM"), level: 5 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_ENDURE"), level: 10 }, ],
+                expected: true,
+            },
+            Scenarii {
+                job: JobName::Knight.value(),
+                job_level: 1,
+                skill_points: 0,
+                skills: vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level: 10 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_TWOHAND"), level: 10 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_RECOVERY"), level: 5 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_BASH"), level: 7 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_PROVOKE"), level: 5 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_MAGNUM"), level: 10 },
+                             KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_ENDURE"), level: 5 }, ],
+                expected: true,
+            },
         ];
 
         for scenarii in scenario {
@@ -990,7 +1026,7 @@ mod tests {
         character.known_skills = vec![KnownSkill { value: skills::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
                                       KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_SWORD"), level: 10 },
                                       KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_FATALBLOW"), level: 1 }, // Platinium
-                                KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_TWOHAND"), level: 10 },
+                                      KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_TWOHAND"), level: 10 },
                                       KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_RECOVERY"), level: 5 },
                                       KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_BASH"), level: 7 },
                                       KnownSkill { value: skills::skill_enums::SkillEnum::from_name("SM_PROVOKE"), level: 5 },
@@ -1009,7 +1045,8 @@ mod tests {
         assert_eq!(character.status.skill_point, 84);
         context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "skill_point".to_string(), value: character.status.skill_point, }));
-        assert_sent_persistence_event!(context, PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset, })); // Platinium skill are not reset
+        assert_sent_persistence_event!(context, PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset, }));
+        // Platinium skill are not reset
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
     }
 

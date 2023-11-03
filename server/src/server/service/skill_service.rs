@@ -61,6 +61,9 @@ impl SkillService {
 
         let no_delay = skill.cast_time() == 0;
         character.set_skill_in_use(target.map(|target| target.map_item().id()), tick, skill, no_delay);
+        if no_delay {
+            self.do_use_skill(character, target, tick);
+        }
     }
 
     pub fn do_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, tick: u128) {
