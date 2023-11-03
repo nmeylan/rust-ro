@@ -16,7 +16,7 @@ use configuration::configuration::DatabaseConfig;
 use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 use crate::server::script::Value;
-use crate::server::state::skill::Skill;
+use crate::server::state::skill::KnownSkill;
 
 pub struct Repository {
     pub pool: PgPool,
@@ -45,7 +45,7 @@ pub trait CharacterRepository {
     async fn character_update_status(&self, _char_id: u32, _db_column: String, _value: u32) -> Result<(), Error> { todo!() }
     async fn character_zeny_fetch(&self, _char_id: u32) -> Result<i32, Error> { todo!() }
     async fn character_allocated_skill_points(&self, _char_id: u32) -> Result<i32, Error> { todo!() }
-    async fn character_skills(&self, _char_id: u32) -> Result<Vec<Skill>, Error> { todo!() }
+    async fn character_skills(&self, _char_id: u32) -> Result<Vec<KnownSkill>, Error> { todo!() }
     async fn character_reset_skills(&self, _char_id: i32, _skills: Vec<i32>) -> Result<(), Error> { todo!() }
     async fn character_allocate_skill_point(&self, _char_id: i32,  _skill_id: i32, _increment: u8) -> Result<(), Error> { todo!() }
 }

@@ -152,15 +152,39 @@ impl ServerService {
         }
     }
 
-    pub fn character_use_skill(&self, server_state: &ServerState, character: &mut Character, character_use_skill: CharacterUseSkill) {
-        let map_item = server_state.map_item(character_use_skill.target_id, character.current_map_name(), character.current_map_instance());
-        let target = if let Some(map_item) = map_item {
-            let target_position = server_state.map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
-            Some(MapItemSnapshot::new(map_item, target_position))
+    pub fn character_start_use_skill(&self, server_state: &ServerState, character: &mut Character, character_use_skill: CharacterUseSkill, tick: u128) {
+        if character.is_using_skill() {
+            return;
+        }
+        let target = Self::get_target(server_state, character, Some(character_use_skill.target_id));
+        self.skill_service.start_use_skill(character, target, character_use_skill.skill_id, character_use_skill.skill_level, tick);
+    }
+
+    pub fn character_use_skill(&self, server_state: &ServerState, tick: u128, character: &mut Character) {
+        if !character.is_using_skill() {
+            return;
+        }
+        if character.skill_has_been_used() {
+            self.skill_service.after_skill_used(character, tick);
+        } else {
+            let target = Self::get_target(server_state, character, character.skill_in_use().target);
+            self.skill_service.do_use_skill(character, target, tick);
+        }
+    }
+
+    fn get_target(server_state: &ServerState, character: &mut Character, target_id: Option<u32>) -> Option<MapItemSnapshot> {
+        if let Some(target_id) = target_id {
+            let map_item = server_state.map_item(target_id, character.current_map_name(), character.current_map_instance());
+            let target = if let Some(map_item) = map_item {
+                let target_position = server_state.map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
+                Some(MapItemSnapshot::new(map_item, target_position))
+            } else {
+                None
+            };
+            target
         } else {
             None
-        };
-        self.skill_service.start_use_skill(character, target, character_use_skill.skill_id, character_use_skill.skill_level);
+        }
     }
 
     pub fn character_pickup_item(&self, server_state: &mut ServerState, character: &mut Character, map_item_id: u32, map_instance: &MapInstance, runtime: &Runtime) {

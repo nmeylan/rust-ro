@@ -24,7 +24,7 @@ use crate::server::service::server_service::ServerService;
 
 use crate::server::state::character::Character;
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::state::skill::Skill;
+use crate::server::state::skill::KnownSkill;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick_client;
@@ -237,7 +237,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
             .bind(packet_select_char.char_num as i16)
             .fetch_one(&server.repository.pool).await.unwrap()
     });
-    let skills: Vec<Skill> = context.runtime().block_on(async {
+    let skills: Vec<KnownSkill> = context.runtime().block_on(async {
         server.repository.character_skills(char_model.char_id as u32).await.unwrap()
     });
     let mut sessions_guard = write_lock!(server.state().sessions());
@@ -260,9 +260,10 @@ pub fn handle_select_char(server: &Server, context: Request) {
         dir: 0,
         movements: vec![],
         attack: None,
+        skill_in_use: None,
         inventory: vec![], // todo load from db
         map_view: HashSet::new(),
-        skills,
+        known_skills: skills,
         script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
         account_id: session_id,
         map_instance_key: MapInstanceKey::new(last_map, 0),

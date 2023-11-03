@@ -7,7 +7,7 @@ use lazy_static::lazy_static;
 use std::collections::{HashMap, HashSet};
 use regex::Regex;
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
-use enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
+use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::skill::SkillFlags;
 
 lazy_static! {
@@ -159,13 +159,12 @@ fn write_file_header_comments(file: &mut File) {
 
 fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(format!("// {}\n", skill_config.name).as_bytes()).unwrap();
-    job_skills_file.write_all(format!("pub struct {} {{\n", to_struct_name(skill_config)).as_bytes()).unwrap();
-    job_skills_file.write_all(b"    level: u8,\n").unwrap();
-    job_skills_file.write_all(b"    delegate: Option<Box<dyn DelegateSkill>>,\n").unwrap();
-    job_skills_file.write_all(b"}\n").unwrap();
 
+    generate_struct(job_skills_file, skill_config);
     generate_new(job_skills_file, skill_config);
     generate_getters(job_skills_file);
+
+    generate_id(job_skills_file, skill_config);
     generate_validate_sp(job_skills_file, skill_config);
     generate_validate_hp(job_skills_file, skill_config);
     generate_validate_ammo(job_skills_file, skill_config);
@@ -194,12 +193,22 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
 
     generate_skip_validation_item(job_skills_file, skill_config);
 
-    job_skills_file.write_all(b"    fn cast_time(&self) -> u32 {\n").unwrap();
-    generate_return_per_level_u32(job_skills_file, skill_config.cast_time(), skill_config.cast_time_per_level());
+    generate_base_cast_time(job_skills_file, skill_config);
     generate_hit_count(job_skills_file, skill_config);
-    generate_after_cast_act_delay(job_skills_file, skill_config);
-    generate_after_cast_walk_delay(job_skills_file, skill_config);
+    generate_base_after_cast_act_delay(job_skills_file, skill_config);
+    generate_base_after_cast_walk_delay(job_skills_file, skill_config);
     job_skills_file.write_all(b"}\n").unwrap();
+}
+
+fn generate_base_cast_time(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    fn base_cast_time(&self) -> u32 {\n").unwrap();
+    generate_return_per_level_u32(job_skills_file, skill_config.cast_time(), skill_config.cast_time_per_level());
+}
+
+fn generate_id(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    fn id(&self) -> u32 {\n").unwrap();
+    job_skills_file.write_all(format!("        {}\n", skill_config.id).as_bytes()).unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
 }
 
 fn generate_skip_validation_item(job_skills_file: &mut File, skill_config: &SkillConfig) {
@@ -208,7 +217,7 @@ fn generate_skip_validation_item(job_skills_file: &mut File, skill_config: &Skil
         if let Some(item_cost) = skip_requirement.item_cost() {
             if let Some(state) = item_cost.state() {
                 job_skills_file.write_all(format!("        // {}\n", state.as_str()).as_bytes()).unwrap();
-                job_skills_file.write_all(format!("        if state & {} > 0 {{ return true; }}\n", state.as_flag()).as_bytes()).unwrap();
+                job_skills_file.write_all(format!("        if state.unwrap_or(0) & {} > 0 {{ return true; }}\n", state.as_flag()).as_bytes()).unwrap();
             }
         }
     }
@@ -216,13 +225,13 @@ fn generate_skip_validation_item(job_skills_file: &mut File, skill_config: &Skil
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 
-fn generate_after_cast_walk_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn after_cast_walk_delay(&self) -> u32 {\n").unwrap();
+fn generate_base_after_cast_walk_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    fn base_after_cast_walk_delay(&self) -> u32 {\n").unwrap();
     generate_return_per_level_u32(job_skills_file, &skill_config.after_cast_walk_delay(), &skill_config.after_cast_act_delay_per_level());
 }
 
-fn generate_after_cast_act_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn after_cast_act_delay(&self) -> u32 {\n").unwrap();
+fn generate_base_after_cast_act_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    fn base_after_cast_act_delay(&self) -> u32 {\n").unwrap();
     generate_return_per_level_u32(job_skills_file, &skill_config.after_cast_act_delay(), skill_config.after_cast_act_delay_per_level());
 }
 
@@ -309,6 +318,24 @@ fn generate_validate_hp(job_skills_file: &mut File, skill_config: &SkillConfig) 
 }
 
 
+fn generate_struct(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(format!("pub struct {} {{\n", to_struct_name(skill_config)).as_bytes()).unwrap();
+    job_skills_file.write_all(b"    level: u8,\n").unwrap();
+    job_skills_file.write_all(b"    delegate: Option<Box<dyn DelegateSkill>>,\n").unwrap();
+    job_skills_file.write_all(b"    cast_time: u32,\n").unwrap();
+    job_skills_file.write_all(b"    after_cast_act_delay: u32,\n").unwrap();
+    job_skills_file.write_all(b"    after_cast_walk_delay: u32,\n").unwrap();
+    job_skills_file.write_all(b"}\n").unwrap();
+}
+
+fn generate_new(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(format!("impl Skill for {} {{\n", to_struct_name(skill_config)).as_bytes()).unwrap();
+    job_skills_file.write_all(b"    fn new(level: u8) -> Option<Self> where Self : Sized {\n").unwrap();
+    job_skills_file.write_all(format!("        if level < 1 || level > {} {{ return None }}\n", skill_config.max_level()).as_bytes()).unwrap();
+    job_skills_file.write_all(b"        Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })\n").unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
+}
+
 fn generate_getters(job_skills_file: &mut File) {
     job_skills_file.write_all(b"    fn level(&self) -> u8 {\n").unwrap();
     job_skills_file.write_all(b"        self.level\n").unwrap();
@@ -316,13 +343,25 @@ fn generate_getters(job_skills_file: &mut File) {
     job_skills_file.write_all(b"    fn delegate(&self) -> &Option<Box<dyn DelegateSkill>> {\n").unwrap();
     job_skills_file.write_all(b"        &self.delegate\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
-}
+    job_skills_file.write_all(b"    fn cast_time(&self) -> u32 {\n").unwrap();
+    job_skills_file.write_all(b"        self.cast_time\n").unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    fn after_cast_act_delay(&self) -> u32 {\n").unwrap();
+    job_skills_file.write_all(b"        self.after_cast_act_delay\n").unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    fn after_cast_walk_delay(&self) -> u32 {\n").unwrap();
+    job_skills_file.write_all(b"        self.after_cast_walk_delay\n").unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
 
-fn generate_new(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(format!("impl Skill for {} {{\n", to_struct_name(skill_config)).as_bytes()).unwrap();
-    job_skills_file.write_all(b"    fn new(level: u8) -> Option<Self> where Self : Sized {\n").unwrap();
-    job_skills_file.write_all(format!("        if level < 1 || level > {} {{ return None }}\n", skill_config.max_level()).as_bytes()).unwrap();
-    job_skills_file.write_all(b"        Some(Self { level, delegate: None })\n").unwrap();
+
+    job_skills_file.write_all(b"    fn update_cast_time(&mut self, new_value: u32) {\n").unwrap();
+    job_skills_file.write_all(b"        self.cast_time = new_value;\n").unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    fn update_after_cast_act_delay(&mut self, new_value: u32) {\n").unwrap();
+    job_skills_file.write_all(b"        self.after_cast_act_delay = new_value;\n").unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    fn update_after_cast_walk_delay(&mut self, new_value: u32) {\n").unwrap();
+    job_skills_file.write_all(b"        self.after_cast_walk_delay = new_value;\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 

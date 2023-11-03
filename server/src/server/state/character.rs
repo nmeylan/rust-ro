@@ -9,14 +9,15 @@ use enums::item::{EquipmentLocation};
 use enums::look::LookType;
 
 use crate::repository::model::item_model::{InventoryItemModel};
-use crate::server::model::action::Attack;
+use crate::server::model::action::{Attack, SkillInUse};
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::map_instance::{MapInstanceKey};
 use models::position::Position;
 use models::status::Status;
+use skills::Skill;
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
-use crate::server::state::skill::Skill;
+use crate::server::state::skill::KnownSkill;
 
 
 /// Character state
@@ -46,6 +47,8 @@ pub struct Character {
     pub movements: Vec<Movement>,
     /// When a character is attacking, it has a target. It can repeat its attack, so we need also to keep track of the last attack, to know when next attack can occur.
     pub attack: Option<Attack>,
+    /// When a character started using skill, it has probably target, cast time, cooldown, after cast walk delay... So we need to keep track of the skill lifecycle.
+    pub skill_in_use: Option<SkillInUse>,
     /// Character inventory is a list of item. Their index in the Vec below is sent to client, client side inventory items identifier is the index in this Vec.
     /// When action are made in inventory in client side, client only send to the server the index of the item in the inventory.
     /// When an item is removed client side, index of all items do not change, then when another item is added to inventory, client expect we use the first free index.
@@ -55,7 +58,7 @@ pub struct Character {
     pub map_view: HashSet<MapItem>,
     /// Some script can store global variable for the character
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
-    pub skills: Vec<Skill>,
+    pub known_skills: Vec<KnownSkill>,
 }
 
 type InventoryIter<'a> = Box<dyn Iterator<Item=(usize, &'a InventoryItemModel)> + 'a>;
@@ -71,6 +74,7 @@ impl Movable for Character {
         self.movements = movements;
     }
 }
+
 impl Character {
     pub fn x(&self) -> u16 {
         self.x
@@ -86,6 +90,9 @@ impl Character {
     pub fn is_attacking(&self) -> bool {
         self.attack.is_some()
     }
+    pub fn is_using_skill(&self) -> bool {
+        self.skill_in_use.is_some()
+    }
 
     pub fn set_attack(&mut self, target_id: u32, repeat: bool, tick: u128) {
         self.attack = Some(Attack {
@@ -93,6 +100,14 @@ impl Character {
             repeat,
             last_attack_tick: tick,
             last_attack_motion: 0,
+        });
+    }
+    pub fn set_skill_in_use(&mut self, target_id: Option<u32>, start_skill_tick: u128, skill: Box<dyn Skill>, no_cast_delay: bool) {
+        self.skill_in_use = Some(SkillInUse {
+            target: target_id,
+            start_skill_tick,
+            skill,
+            used_at_tick: if no_cast_delay { Some(start_skill_tick) } else { None },
         });
     }
     pub fn attack(&self) -> Attack {
@@ -106,6 +121,21 @@ impl Character {
     }
     pub fn clear_attack(&mut self) {
         self.attack = None;
+    }
+
+    pub fn update_skill_used_at_tick(&mut self, tick: u128) {
+        self.skill_in_use.as_mut().unwrap().used_at_tick = Some(tick);
+    }
+
+    pub fn skill_in_use(&self) -> &SkillInUse {
+        self.skill_in_use.as_ref().unwrap()
+    }
+    pub fn skill_has_been_used(&self) -> bool {
+        self.skill_in_use.as_ref().unwrap().used_at_tick.is_some()
+    }
+
+    pub fn clear_skill_in_use(&mut self) {
+        self.skill_in_use = None;
     }
 
     pub fn update_position(&mut self, x: u16, y: u16) {

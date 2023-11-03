@@ -1,4 +1,4 @@
-use enums::skill::{SkillState, SkillTargetType};
+use enums::skill::{SkillTargetType};
 use enums::weapon::{AmmoType};
 use models::item::NormalInventoryItem;
 use models::weapon::Weapon;
@@ -12,6 +12,7 @@ pub trait Skill {
     fn new(level: u8) -> Option<Self> where Self: Sized;
     fn delegate(&self) -> &Option<Box<dyn DelegateSkill>>;
     fn level(&self) -> u8;
+    fn id(&self) -> u32;
 
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32>;
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32>;
@@ -38,6 +39,14 @@ pub trait Skill {
     fn skip_item_validation(&self, state: Option<u64>) -> bool;
 
     fn hit_count(&self) -> i8;
+    fn base_cast_time(&self) -> u32;
+    fn base_after_cast_act_delay(&self) -> u32;
+    fn base_after_cast_walk_delay(&self) -> u32;
+
+    fn update_cast_time(&mut self, new_value: u32);
+    fn update_after_cast_act_delay(&mut self, new_value: u32);
+    fn update_after_cast_walk_delay(&mut self, new_value: u32);
+
     fn cast_time(&self) -> u32;
     fn after_cast_act_delay(&self) -> u32;
     fn after_cast_walk_delay(&self) -> u32;

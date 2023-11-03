@@ -2,7 +2,7 @@ use sqlx::{Error, Row};
 use crate::Repository;
 use async_trait::async_trait;
 use crate::repository::CharacterRepository;
-use crate::server::state::skill::Skill;
+use crate::server::state::skill::KnownSkill;
 
 #[async_trait]
 impl CharacterRepository for Repository {
@@ -44,11 +44,11 @@ impl CharacterRepository for Repository {
             .fetch_one(&self.pool).await.map(|row| Ok(row.get::<i32, _>(0)))?
     }
 
-    async fn character_skills(&self, char_id: u32) -> Result<Vec<Skill>, Error> {
+    async fn character_skills(&self, char_id: u32) -> Result<Vec<KnownSkill>, Error> {
         sqlx::query("SELECT id, lv FROM skill WHERE char_id = $1")
             .bind(char_id as i32)
             .fetch_all(&self.pool).await
-            .map(|rows| rows.iter().map(|row| Skill { value: skills::skill_enums::SkillEnum::from_id(row.get::<i32, _>(0) as u32), level: row.get::<i16, _>(1) as u8 }).collect::<Vec<Skill>>())
+            .map(|rows| rows.iter().map(|row| KnownSkill { value: skills::skill_enums::SkillEnum::from_id(row.get::<i32, _>(0) as u32), level: row.get::<i16, _>(1) as u8 }).collect::<Vec<KnownSkill>>())
     }
 
 

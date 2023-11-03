@@ -7,7 +7,7 @@ use packets::packets::{PacketZcSkillinfoList, SKILLINFO};
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
-use crate::server::state::skill::Skill;
+use crate::server::state::skill::KnownSkill;
 use crate::enums::EnumWithNumberValue;
 use configuration::configuration::{SkillInTree};
 use crate::util::string::StringUtil;
@@ -36,17 +36,17 @@ impl SkillTreeService {
         });
     }
 
-    pub fn skill_tree(&self, character: &Character) -> Vec<Skill> {
+    pub fn skill_tree(&self, character: &Character) -> Vec<KnownSkill> {
         let skilltree = self.configuration_service.get_job_skilltree(JobName::from_value(character.status.job as usize));
         let mut skills = vec![];
 
-        let maybe_novice_basic = character.skills.iter().find(|s| s.value == skills::skill_enums::SkillEnum::NvBasic);
-        let mut platinium_novice_skills = character.skills.iter().filter(|s| s.value.to_name().starts_with("NV") && s.value.is_platinium()).cloned().collect::<Vec<Skill>>();
+        let maybe_novice_basic = character.known_skills.iter().find(|s| s.value == skills::skill_enums::SkillEnum::NvBasic);
+        let mut platinium_novice_skills = character.known_skills.iter().filter(|s| s.value.to_name().starts_with("NV") && s.value.is_platinium()).cloned().collect::<Vec<KnownSkill>>();
         if maybe_novice_basic.is_none() {
-            platinium_novice_skills.extend(vec![Skill { value: skills::skill_enums::SkillEnum::NvBasic, level: 0 }]);
+            platinium_novice_skills.extend(vec![KnownSkill { value: skills::skill_enums::SkillEnum::NvBasic, level: 0 }]);
             return platinium_novice_skills;
         } else if maybe_novice_basic.unwrap().level < 9 {
-            platinium_novice_skills.extend(vec![Skill { value: skills::skill_enums::SkillEnum::NvBasic, level: maybe_novice_basic.unwrap().level }]);
+            platinium_novice_skills.extend(vec![KnownSkill { value: skills::skill_enums::SkillEnum::NvBasic, level: maybe_novice_basic.unwrap().level }]);
             return platinium_novice_skills;
         }
         Self::available_skills_in_tree(character, skilltree.tree(), &mut skills);
@@ -100,24 +100,24 @@ impl SkillTreeService {
             .expect("Fail to send client notification");
     }
 
-    fn available_skills_in_tree(character: &Character, skilltree: &Vec<SkillInTree>, skills: &mut Vec<Skill>) {
+    fn available_skills_in_tree(character: &Character, skilltree: &Vec<SkillInTree>, skills: &mut Vec<KnownSkill>) {
         for skill_in_tree in skilltree.iter() {
             let skill = skills::skill_enums::SkillEnum::from_name(skill_in_tree.name());
-            let level = character.skills.iter().find(|s| s.value.id() == skill.id()).map_or(0, |s| s.level);
+            let level = character.known_skills.iter().find(|s| s.value.id() == skill.id()).map_or(0, |s| s.level);
             if let Some(requirements) = skill_in_tree.requires() {
                 let fulfill_requirements = requirements.iter().all(|requirement| {
                     let requirement_skill = skills::skill_enums::SkillEnum::from_name(requirement.name());
-                    character.skills.iter().any(|s| { s.value.id() == requirement_skill.id() && s.level >= *requirement.level() })
+                    character.known_skills.iter().any(|s| { s.value.id() == requirement_skill.id() && s.level >= *requirement.level() })
                 });
                 if fulfill_requirements {
-                    skills.push(Skill { value: skill, level })
+                    skills.push(KnownSkill { value: skill, level })
                 }
                 continue;
             }
             if skill.is_platinium() || *skill_in_tree.job_level() as u32 > character.get_job_level() {
                 continue;
             }
-            skills.push(Skill { value: skill, level });
+            skills.push(KnownSkill { value: skill, level });
         }
     }
 }
