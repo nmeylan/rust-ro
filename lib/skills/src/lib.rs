@@ -16,7 +16,7 @@ pub trait Skill {
     fn validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32>;
     fn validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32>;
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32>;
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()>;
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()>;
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32>;
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32>;
     fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>>;
@@ -35,8 +35,10 @@ pub trait Skill {
         Ok(())
     }
 
+    fn skip_item_validation(&self, state: Option<u64>) -> bool;
+
     fn hit_count(&self) -> i8;
-    fn cast_delay(&self) -> u32;
+    fn cast_time(&self) -> u32;
     fn after_cast_act_delay(&self) -> u32;
     fn after_cast_walk_delay(&self) -> u32;
 

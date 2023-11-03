@@ -38,6 +38,9 @@ impl SkillService {
         let item_snapshot = target.unwrap();
         let skill = SkillEnum::from_id(skill_id);
         let skill = skill.to_object(skill_level).unwrap();
+
+        skill.validate_sp(character.status.sp);
+        skill.validate_hp(character.status.sp);
 // PacketZcUseskillAck2
         // PacketZcNotifySkill2
         let mut packet_zc_useskill_ack2 = PacketZcUseskillAck2::new(self.configuration_service.packetver());

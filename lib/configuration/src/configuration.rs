@@ -265,6 +265,8 @@ pub struct SkillConfig {
     #[serde(rename = "castdelayflags", deserialize_with = "deserialize_skill_cast_time_delay_flags", default)]
     cast_delay_flags: Option<u64>,
     requires: Option<SkillRequirements>,
+    #[serde(rename = "skiprequires")]
+    skip_requires: Option<SkillSkipRequirements>,
     unit: Option<SkillUnit>,
 }
 
@@ -305,6 +307,13 @@ pub struct SkillRequirements {
     sphere_cost_per_level: Option<Vec<u32>>,
     #[serde(rename = "itemcost", default)]
     item_cost: Vec<InternalSkillItemCost>,
+}
+
+#[derive(Deserialize, Debug, Clone, GettersAll)]
+#[allow(dead_code)]
+pub struct SkillSkipRequirements {
+    #[serde(rename = "itemcost", default)]
+    item_cost: Option<InternalSkillSkipItemCost>,
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -406,7 +415,7 @@ fn deserialize_flags<'de, D, MaskEnum>(deserializer: D) -> Result<Option<u64>, D
     Ok(Some(flags))
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, GettersAll)]
 #[allow(dead_code)]
 pub struct InternalSkillElement {
     level: u32,
@@ -420,6 +429,12 @@ pub struct InternalSkillItemCost {
     item: String,
     amount: u32,
     level: Option<u32>,
+}
+#[derive(Deserialize, Debug, Clone, GettersAll)]
+#[allow(dead_code)]
+pub struct InternalSkillSkipItemCost {
+    #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
+    state: Option<SkillState>,
 }
 
 #[derive(Deserialize, Default, Debug, SettersAll, Clone)]
