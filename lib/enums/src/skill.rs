@@ -1,7 +1,8 @@
 #![allow(dead_code)]
 use crate::{EnumWithNumberValue, EnumWithStringValue, EnumWithMaskValueU64};
 use crate::{WithNumberValue, WithStringValue, WithMaskValueU64};
-#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+
+#[derive(WithNumberValue, WithStringValue, WithMaskValueU64, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillState {
     #[value = 0]
     None,
@@ -30,7 +31,8 @@ pub enum SkillState {
     ExplosionSpirits,
     CartBoost,
     PoisoningWeapon,
-    RollingCutter
+    RollingCutter,
+    SoulLinked
 }
 
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]

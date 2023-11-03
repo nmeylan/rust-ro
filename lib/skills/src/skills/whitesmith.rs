@@ -68,7 +68,7 @@ impl Skill for ShatteringStrike {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -89,7 +89,10 @@ impl Skill for ShatteringStrike {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         if self.level == 1 {
             return 500
         }
@@ -157,9 +160,10 @@ impl Skill for CartBoost {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         if let Some(state) = state {
-            if state.value() == 4 { Ok(()) } else { Err(()) }
+            // Cart
+            if state & 16 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -182,7 +186,10 @@ impl Skill for CartBoost {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -220,7 +227,7 @@ impl Skill for UpgradeWeapon {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -241,7 +248,10 @@ impl Skill for UpgradeWeapon {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -279,9 +289,10 @@ impl Skill for CartTermination {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         if let Some(state) = state {
-            if state.value() == 24 { Ok(()) } else { Err(()) }
+            // CartBoost
+            if state & 16777216 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -338,7 +349,10 @@ impl Skill for CartTermination {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -376,7 +390,7 @@ impl Skill for MaximumPowerThrust {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -416,7 +430,10 @@ impl Skill for MaximumPowerThrust {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {

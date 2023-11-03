@@ -38,7 +38,7 @@ impl Skill for IronTempering {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -59,7 +59,10 @@ impl Skill for IronTempering {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -97,7 +100,7 @@ impl Skill for SteelTempering {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -118,7 +121,10 @@ impl Skill for SteelTempering {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -156,7 +162,7 @@ impl Skill for EnchantedStoneCraft {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -177,7 +183,10 @@ impl Skill for EnchantedStoneCraft {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -215,7 +224,7 @@ impl Skill for OrideconResearch {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -236,7 +245,10 @@ impl Skill for OrideconResearch {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -274,7 +286,7 @@ impl Skill for SmithDagger {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -295,7 +307,10 @@ impl Skill for SmithDagger {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -333,7 +348,7 @@ impl Skill for SmithSword {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -354,7 +369,10 @@ impl Skill for SmithSword {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -392,7 +410,7 @@ impl Skill for SmithTwohandedSword {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -413,7 +431,10 @@ impl Skill for SmithTwohandedSword {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -451,7 +472,7 @@ impl Skill for SmithAxe {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -472,7 +493,10 @@ impl Skill for SmithAxe {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -510,7 +534,7 @@ impl Skill for SmithMace {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -531,7 +555,10 @@ impl Skill for SmithMace {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -569,7 +596,7 @@ impl Skill for SmithKnucklebrace {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -590,7 +617,10 @@ impl Skill for SmithKnucklebrace {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -628,7 +658,7 @@ impl Skill for SmithSpear {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -649,7 +679,10 @@ impl Skill for SmithSpear {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -687,7 +720,7 @@ impl Skill for HiltBinding {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -708,7 +741,10 @@ impl Skill for HiltBinding {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -746,7 +782,7 @@ impl Skill for OreDiscovery {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -767,7 +803,10 @@ impl Skill for OreDiscovery {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -805,7 +844,7 @@ impl Skill for WeaponryResearch {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -826,7 +865,10 @@ impl Skill for WeaponryResearch {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -864,7 +906,7 @@ impl Skill for WeaponRepair {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -885,7 +927,10 @@ impl Skill for WeaponRepair {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
        7500
     }
     fn hit_count(&self) -> i8 {
@@ -923,7 +968,7 @@ impl Skill for SkinTempering {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -944,7 +989,10 @@ impl Skill for SkinTempering {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -982,7 +1030,7 @@ impl Skill for HammerFall {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -1007,7 +1055,10 @@ impl Skill for HammerFall {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1060,7 +1111,7 @@ impl Skill for AdrenalineRush {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -1085,7 +1136,10 @@ impl Skill for AdrenalineRush {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1138,7 +1192,7 @@ impl Skill for WeaponPerfection {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -1159,7 +1213,10 @@ impl Skill for WeaponPerfection {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1212,7 +1269,7 @@ impl Skill for PowerThrust {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -1237,7 +1294,10 @@ impl Skill for PowerThrust {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1275,7 +1335,7 @@ impl Skill for MaximizePower {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -1296,7 +1356,10 @@ impl Skill for MaximizePower {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1334,7 +1397,7 @@ impl Skill for UnfairTrick {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -1355,7 +1418,10 @@ impl Skill for UnfairTrick {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1393,7 +1459,7 @@ impl Skill for Greed {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -1414,7 +1480,10 @@ impl Skill for Greed {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {
@@ -1452,7 +1521,7 @@ impl Skill for AdvancedAdrenalineRush {
     fn validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {
+    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {
@@ -1477,7 +1546,10 @@ impl Skill for AdvancedAdrenalineRush {
     fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn cast_delay(&self) -> u32 {
+    fn skip_item_validation(&self, state: Option<u64>) -> bool {
+        false
+    }
+    fn cast_time(&self) -> u32 {
         0
     }
     fn hit_count(&self) -> i8 {

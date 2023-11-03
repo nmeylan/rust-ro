@@ -7,7 +7,7 @@ use lazy_static::lazy_static;
 use std::collections::{HashMap, HashSet};
 use regex::Regex;
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
-use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
+use enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
 use enums::skill::SkillFlags;
 
 lazy_static! {
@@ -116,7 +116,7 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
             }
 
             if let Some(job) = SHORT_CLASS_NAME.get(job_tree.name().to_lowercase().as_str()) {
-                if (!skill.name().to_lowercase().starts_with(job) && !job_tree.name().to_lowercase().eq("bard")) || (job_tree.name().to_lowercase().eq("bard") && !(skill.name().to_lowercase().starts_with("bd") ||skill.name().to_lowercase().starts_with("ba"))) {
+                if (!skill.name().to_lowercase().starts_with(job) && !job_tree.name().to_lowercase().eq("bard")) || (job_tree.name().to_lowercase().eq("bard") && !(skill.name().to_lowercase().starts_with("bd") || skill.name().to_lowercase().starts_with("ba"))) {
                     println!("Skipping skill {} for job {}", skill.name(), job_tree.name());
                     continue;
                 }
@@ -175,6 +175,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {\n").unwrap();
     job_skills_file.write_all(b"        Ok(0)\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
+
     job_skills_file.write_all(b"    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {\n").unwrap();
     job_skills_file.write_all(b"        Ok(None)\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
@@ -190,12 +191,29 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"         Ok(())\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 
-    job_skills_file.write_all(b"    fn cast_delay(&self) -> u32 {\n").unwrap();
+
+    generate_skip_validation_item(job_skills_file, skill_config);
+
+    job_skills_file.write_all(b"    fn cast_time(&self) -> u32 {\n").unwrap();
     generate_return_per_level_u32(job_skills_file, skill_config.cast_time(), skill_config.cast_time_per_level());
     generate_hit_count(job_skills_file, skill_config);
     generate_after_cast_act_delay(job_skills_file, skill_config);
     generate_after_cast_walk_delay(job_skills_file, skill_config);
     job_skills_file.write_all(b"}\n").unwrap();
+}
+
+fn generate_skip_validation_item(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    fn skip_item_validation(&self, state: Option<u64>) -> bool {\n").unwrap();
+    if let Some(skip_requirement) = skill_config.skip_requires() {
+        if let Some(item_cost) = skip_requirement.item_cost() {
+            if let Some(state) = item_cost.state() {
+                job_skills_file.write_all(format!("        // {}\n", state.as_str()).as_bytes()).unwrap();
+                job_skills_file.write_all(format!("        if state & {} > 0 {{ return true; }}\n", state.as_flag()).as_bytes()).unwrap();
+            }
+        }
+    }
+    job_skills_file.write_all(b"        false\n").unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
 }
 
 fn generate_after_cast_walk_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
@@ -238,11 +256,12 @@ fn generate_validate_zeny(job_skills_file: &mut File, skill_config: &SkillConfig
 }
 
 fn generate_validate_state(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn validate_state(&self, state: Option<SkillState>) -> SkillRequirementResult<()> {\n").unwrap();
+    job_skills_file.write_all(b"    fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {\n").unwrap();
     if let Some(requirements) = skill_config.requires() {
         if let Some(state) = requirements.state() {
             job_skills_file.write_all(b"        if let Some(state) = state {\n").unwrap();
-            job_skills_file.write_all(format!("            if state.value() == {} {{ Ok(()) }} else {{ Err(()) }}\n", state.value()).as_bytes()).unwrap();
+            job_skills_file.write_all(format!("            // {}\n", state.as_str()).as_bytes()).unwrap();
+            job_skills_file.write_all(format!("            if state & {} > 0 {{ Ok(()) }} else {{ Err(()) }}\n", state.as_flag()).as_bytes()).unwrap();
             job_skills_file.write_all(b"        } else {\n").unwrap();
             job_skills_file.write_all(b"            Err(())\n").unwrap();
             job_skills_file.write_all(b"        }\n").unwrap();

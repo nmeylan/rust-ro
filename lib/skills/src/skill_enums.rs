@@ -3,41 +3,41 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use crate::skills::alchemist::{*};
-use crate::skills::swordsman::{*};
-use crate::skills::whitesmith::{*};
-use crate::skills::acolyte::{*};
-use crate::skills::clown::{*};
-use crate::skills::assassin::{*};
-use crate::skills::wizard::{*};
-use crate::skills::lordknight::{*};
-use crate::skills::archer::{*};
-use crate::skills::novice::{*};
+use crate::skills::sniper::{*};
+use crate::skills::taekwon::{*};
 use crate::skills::gunslinger::{*};
+use crate::skills::highwizard::{*};
 use crate::skills::bard::{*};
+use crate::skills::ninja::{*};
+use crate::skills::dancer::{*};
+use crate::skills::sage::{*};
+use crate::skills::hunter::{*};
+use crate::skills::assassincross::{*};
+use crate::skills::novice::{*};
+use crate::skills::assassin::{*};
+use crate::skills::professor::{*};
 use crate::skills::knight::{*};
+use crate::skills::clown::{*};
+use crate::skills::crusader::{*};
+use crate::skills::whitesmith::{*};
+use crate::skills::creator::{*};
+use crate::skills::rogue::{*};
+use crate::skills::lordknight::{*};
+use crate::skills::acolyte::{*};
+use crate::skills::swordsman::{*};
+use crate::skills::archer::{*};
+use crate::skills::blacksmith::{*};
+use crate::skills::wizard::{*};
+use crate::skills::highpriest::{*};
+use crate::skills::alchemist::{*};
+use crate::skills::thief::{*};
+use crate::skills::paladin::{*};
+use crate::skills::merchant::{*};
 use crate::skills::priest::{*};
 use crate::skills::champion::{*};
-use crate::skills::assassincross::{*};
-use crate::skills::sniper::{*};
-use crate::skills::rogue::{*};
 use crate::skills::stalker::{*};
-use crate::skills::sage::{*};
-use crate::skills::taekwon::{*};
-use crate::skills::crusader::{*};
-use crate::skills::paladin::{*};
-use crate::skills::monk::{*};
-use crate::skills::blacksmith::{*};
-use crate::skills::thief::{*};
-use crate::skills::highpriest::{*};
-use crate::skills::merchant::{*};
-use crate::skills::highwizard::{*};
-use crate::skills::ninja::{*};
 use crate::skills::mage::{*};
-use crate::skills::professor::{*};
-use crate::skills::creator::{*};
-use crate::skills::dancer::{*};
-use crate::skills::hunter::{*};
+use crate::skills::monk::{*};
 use crate::Skill;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
@@ -58,59 +58,59 @@ pub enum SkillEnum {
     SmMagnum,
     // Super Novice Endure
     SmEndure,
-    // Mage Increase SP Recovery
+    // Super Novice Increase SP Recovery
     MgSrecovery,
-    // Mage Sight
+    // Super Novice Sight
     MgSight,
-    // Mage Napalm Beat
+    // Super Novice Napalm Beat
     MgNapalmbeat,
-    // Mage Safety Wall
+    // Super Novice Safety Wall
     MgSafetywall,
-    // Mage Soul Strike
+    // Super Novice Soul Strike
     MgSoulstrike,
-    // Mage Cold Bolt
+    // Super Novice Cold Bolt
     MgColdbolt,
-    // Mage Frost Diver
+    // Super Novice Frost Diver
     MgFrostdiver,
-    // Mage Stone Curse
+    // Super Novice Stone Curse
     MgStonecurse,
-    // Mage Fire Ball
+    // Super Novice Fire Ball
     MgFireball,
-    // Mage Fire Wall
+    // Super Novice Fire Wall
     MgFirewall,
-    // Mage Fire Bolt
+    // Super Novice Fire Bolt
     MgFirebolt,
-    // Mage Lightning Bolt
+    // Super Novice Lightning Bolt
     MgLightningbolt,
-    // Mage Thunderstorm
+    // Super Novice Thunderstorm
     MgThunderstorm,
-    // Acolyte Divine Protection
+    // Crusader Divine Protection
     AlDp,
-    // Acolyte Demon Bane
+    // Crusader Demon Bane
     AlDemonbane,
-    // Acolyte Ruwach
+    // Super Novice Ruwach
     AlRuwach,
-    // Acolyte Pneuma
+    // Super Novice Pneuma
     AlPneuma,
-    // Acolyte Teleport
+    // Super Novice Teleport
     AlTeleport,
-    // Acolyte Warp Portal
+    // Super Novice Warp Portal
     AlWarp,
-    // Acolyte Heal
+    // Crusader Heal
     AlHeal,
-    // Acolyte Increase AGI
+    // Super Novice Increase AGI
     AlIncagi,
-    // Acolyte Decrease AGI
+    // Super Novice Decrease AGI
     AlDecagi,
-    // Acolyte Aqua Benedicta
+    // Super Novice Aqua Benedicta
     AlHolywater,
-    // Acolyte Signum Crucis
+    // Super Novice Signum Crucis
     AlCrucis,
-    // Acolyte Angelus
+    // Super Novice Angelus
     AlAngelus,
-    // Acolyte Blessing
+    // Super Novice Blessing
     AlBlessing,
-    // Acolyte Cure
+    // Crusader Cure
     AlCure,
     // Super Novice Enlarge Weight Limit
     McInccarry,
@@ -126,13 +126,13 @@ pub enum SkillEnum {
     McVending,
     // Super Novice Mammonite
     McMammonite,
-    // Super Novice Owl's Eye
+    // Archer Owl's Eye
     AcOwl,
-    // Super Novice Vulture's Eye
+    // Archer Vulture's Eye
     AcVulture,
-    // Super Novice Improve Concentration
+    // Archer Improve Concentration
     AcConcentration,
-    // Rogue Double Strafe
+    // Archer Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
@@ -286,7 +286,7 @@ pub enum SkillEnum {
     HtBlastmine,
     // Hunter Claymore Trap
     HtClaymoretrap,
-    // Hunter Remove Trap
+    // Rogue Remove Trap
     HtRemovetrap,
     // Hunter Talkie Box
     HtTalkiebox,
@@ -324,7 +324,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice Play Dead
+    // Novice High Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,
