@@ -6,7 +6,7 @@ use enums::item::EquipmentLocation;
 use crate::item::{Wearable, WearGear, WearWeapon};
 
 
-#[derive(SettersAll, Debug, Clone)]
+#[derive(SettersAll, Debug, Default, Clone)]
 pub struct Status {
     pub job: u32,
     pub hp: u32,

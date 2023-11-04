@@ -449,7 +449,9 @@ impl CharacterService {
     pub fn gain_base_exp(&self, character: &mut Character, gain_exp: u32) {
         let mut gained_level = 0;
         let mut gain_exp = (gain_exp as f32 * self.configuration_service.config().game.base_exp_rate).ceil() as u32;
-        let mut status_copy = character.status.clone();
+        let mut status_copy = Status::default();
+        status_copy.base_exp = character.status.base_exp;
+        status_copy.base_level = character.status.base_level;
         loop {
             let next_level_requirement = self.next_base_level_required_exp(&status_copy);
             if next_level_requirement == u32::MAX {
@@ -480,7 +482,10 @@ impl CharacterService {
     pub fn gain_job_exp(&self, character: &mut Character, gain_exp: u32) {
         let mut gained_level = 0;
         let mut gain_exp = (gain_exp as f32 * self.configuration_service.config().game.job_exp_rate).ceil() as u32;
-        let mut status_copy = character.status.clone();
+        let mut status_copy = Status::default();
+        status_copy.job_exp = character.status.job_exp;
+        status_copy.job = character.status.job;
+        status_copy.job_level = character.status.job_level;
         loop {
             let next_level_requirement = self.next_job_level_required_exp(&status_copy);
             if next_level_requirement == u32::MAX {
