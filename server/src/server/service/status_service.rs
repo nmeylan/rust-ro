@@ -5,6 +5,7 @@ use std::sync::mpsc::SyncSender;
 
 
 use enums::weapon::WeaponType;
+use models::status::Status;
 use crate::enums::EnumWithStringValue;
 
 
@@ -47,8 +48,8 @@ impl StatusService {
         50_f32 / (200_f32 - aspd.min(199.0))
     }
 
-    pub fn attack_motion(&self, character: &Character) -> u32 {
-        let aspd = self.aspd(character);
+    pub fn attack_motion(&self, status: &Status) -> u32 {
+        let aspd = self.aspd(status);
         (1000.0 / self.attack_per_seconds(aspd)).round() as u32
     }
 
@@ -59,19 +60,19 @@ impl StatusService {
     ///  PRE-RE formula: 200-(WD-([WD*AGI/25]+[WD*DEX/100])/10)*(1-SM)  https://irowiki.org/classic/ASPD
     /// [] - Square brackets hold the same priority as normal brackets, but indicate that the value of the contents should be rounded down to the nearest whole number (integer) once calculated.
     /// http://calc.free-ro.com/
-    pub fn aspd(&self, character: &Character) -> f32 {
-        let weapon_delay = self.weapon_delay(character) as f32 / 10.0;
+    pub fn aspd(&self, status: &Status) -> f32 {
+        let weapon_delay = self.weapon_delay(status) as f32 / 10.0;
         let speed_modifier = 0_f32;
-        200.0 - (weapon_delay - ((((weapon_delay * (character.status.agi as f32)) / 25.0).floor() + ((weapon_delay * (character.status.dex as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
+        200.0 - (weapon_delay - ((((weapon_delay * (status.agi as f32)) / 25.0).floor() + ((weapon_delay * (status.dex as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
     }
 
-    fn weapon_delay(&self, character: &Character) -> u32 {
-        let weapon = self.right_hand_weapon_type(character);
-        *self.configuration_service.get_job_config(character.status.job).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
+    fn weapon_delay(&self, status: &Status) -> u32 {
+        let weapon = self.right_hand_weapon_type(status);
+        *self.configuration_service.get_job_config(status.job).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
     }
 
-    pub fn right_hand_weapon_type(&self, character: &Character) -> WeaponType {
-        character.status.right_hand_weapon()
+    pub fn right_hand_weapon_type(&self, status: &Status) -> WeaponType {
+        status.right_hand_weapon()
             .map(|weapon| weapon.weapon_type)
             .unwrap_or(WeaponType::Fist)
     }
@@ -87,49 +88,49 @@ impl StatusService {
     ///For weapons, the true value is equal to: STR + [STR/10]^2 + [DEX/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
     ///For missile weapons, the true value is equal to: DEX + [DEX/10]^2 + [STR/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
     ///Not counting the value of WeaponAtk and AtkBonusCards, this true value is often referred to as the base damage. This base damage is basically the your Atk with bare fists.
-    pub fn status_atk_left_side(&self, character: &Character) -> i32 {
+    pub fn status_atk_left_side(&self, status: &Status) -> i32 {
         let imposito_magnus = 0;
         let _upgrade_damage = 0;
         let _atk_cards = 0;
-        (self.fist_atk(character) + self.weapon_atk(character) + imposito_magnus + self.weapon_upgrade_damage(character) + self.atk_cards(character)) as i32
+        (self.fist_atk(status) + self.weapon_atk(status) + imposito_magnus + self.weapon_upgrade_damage(status) + self.atk_cards(status)) as i32
     }
 
-    pub fn fist_atk(&self, character: &Character) -> u32 {
+    pub fn fist_atk(&self, status: &Status) -> u32 {
         let mut str;
         let dex;
 
-        let weapon_type = self.right_hand_weapon_type(character);
+        let weapon_type = self.right_hand_weapon_type(status);
         let is_ranged_weapon = weapon_type.is_ranged();
         if is_ranged_weapon {
-            str = character.status.dex;
-            dex = character.status.str;
+            str = status.dex;
+            dex = status.str;
         } else {
-            str = character.status.str;
-            dex = character.status.dex;
+            str = status.str;
+            dex = status.dex;
         }
         // For homunculus
         // dstr = str / 10;
         // str += dstr*dstr;
         let dstr = str / 10;
         str += dstr * dstr;
-        str += dex / 5 + character.status.luk / 5;
+        str += dex / 5 + status.luk / 5;
         str as u32
     }
 
-    pub fn atk_cards(&self, _character: &Character) -> u32 {
+    pub fn atk_cards(&self, _status: &Status) -> u32 {
         0
     }
 
-    pub fn weapon_upgrade_damage(&self, _character: &Character) -> u32 {
+    pub fn weapon_upgrade_damage(&self, _status: &Status) -> u32 {
         0
     }
 
-    pub fn weapon_atk(&self, character: &Character) -> u32 {
-        character.status.right_hand_weapon().map(|weapon| weapon.attack).unwrap_or(0)
+    pub fn weapon_atk(&self, status: &Status) -> u32 {
+        status.right_hand_weapon().map(|weapon| weapon.attack).unwrap_or(0)
     }
 
-    pub fn weapon_lvl(&self, character: &Character) -> Option<i16> {
-        if let Some(right_hand_weapon) = character.status.right_hand_weapon() {
+    pub fn weapon_lvl(&self, status: &Status) -> Option<i16> {
+        if let Some(right_hand_weapon) = status.right_hand_weapon() {
             Some(right_hand_weapon.level as i16)
         } else {
             None

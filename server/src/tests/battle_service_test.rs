@@ -122,7 +122,7 @@ mod tests {
         assert!(attack_1.is_some());
         assert!(attack_2.is_some());
         assert_eq!(character.attack.unwrap().last_attack_tick, second_attack_tick);
-        assert_eq!(character.attack.unwrap().last_attack_motion, context.status_service.attack_motion(&character));
+        assert_eq!(character.attack.unwrap().last_attack_motion, context.status_service.attack_motion(&character.status));
     }
 
     #[test]
