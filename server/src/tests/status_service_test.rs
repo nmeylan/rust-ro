@@ -45,7 +45,7 @@ mod tests {
         let mut character = create_character();
         let _inventory_index = equip_item(&mut character, "Knife");
         // When
-        let weapon_type = context.status_service.right_hand_weapon_type(&character);
+        let weapon_type = context.status_service.right_hand_weapon_type(&character.status);
         // Then
         assert_eq!(weapon_type, WeaponType::Dagger);
     }
@@ -74,7 +74,7 @@ mod tests {
                 equip_item(&mut character, stat.weapon);
             }
             // When
-            let aspd = context.status_service.aspd(&character).round() as u16;
+            let aspd = context.status_service.aspd(&character.status).round() as u16;
             // Then
             assert_eq!(aspd, stat.expected_aspd, "Expected aspd to be {} but was {} with stats {:?}", stat.expected_aspd, aspd, stat);
         }
@@ -87,7 +87,7 @@ mod tests {
         let mut character = create_character();
         let _inventory_index = equip_item(&mut character, "Knife");
         // When
-        let aspd = context.status_service.aspd(&character);
+        let aspd = context.status_service.aspd(&character.status);
         let client_side_aspd = context.status_service.client_aspd(aspd);
         // Then
         assert_eq!(client_side_aspd, 648);
@@ -100,7 +100,7 @@ mod tests {
         let mut character = create_character();
         let _inventory_index = equip_item(&mut character, "Knife");
         // When
-        let attack_motion = context.status_service.attack_motion(&character);
+        let attack_motion = context.status_service.attack_motion(&character.status);
         // Then
         assert_eq!(attack_motion, 1296);
     }
@@ -130,7 +130,7 @@ mod tests {
                 equip_item(&mut character, stat.weapon);
             }
             // When
-            let status_atk = context.status_service.status_atk_left_side(&character);
+            let status_atk = context.status_service.status_atk_left_side(&character.status);
             // Then
             assert_eq!(status_atk, stat.expected_status_atk, "Expected status atk1 to be {} but was {} with stats {:?}", stat.expected_status_atk, status_atk, stat);
         }

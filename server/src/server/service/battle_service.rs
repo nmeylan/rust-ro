@@ -47,7 +47,7 @@ impl BattleService {
         let _rng = fastrand::Rng::new();
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let imposito_magnus: f32 = 0.0;
-        let base_atk = self.status_service.fist_atk(source) as f32 + upgrade_bonus + imposito_magnus + self.status_service.atk_cards(source) as f32;
+        let base_atk = self.status_service.fist_atk(&source.status) as f32 + upgrade_bonus + imposito_magnus + self.status_service.atk_cards(&source.status) as f32;
 
         let size_modifier: f32 = 1.0; // TODO
         let skill_modifier: f32 = 1.0; // TODO
@@ -76,7 +76,7 @@ impl BattleService {
                                         (
                                             (base_atk + self.weapon_atk(source, weapon) as f32 * size_modifier) * skill_modifier * (1.0 - def)
                                         )
-                                            - vitdef + bane_skill + self.status_service.weapon_upgrade_damage(source) as f32
+                                            - vitdef + bane_skill + self.status_service.weapon_upgrade_damage(&source.status) as f32
                                     )
                                         + mastery_skill + weaponery_research_skill + evenom_skill
                                 )
@@ -118,7 +118,7 @@ impl BattleService {
         character.attack?;
         let attack = character.attack();
 
-        let attack_motion = self.status_service.attack_motion(character);
+        let attack_motion = self.status_service.attack_motion(&character.status);
 
         if tick < attack.last_attack_tick + attack_motion as u128 {
             return None;
