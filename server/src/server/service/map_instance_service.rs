@@ -16,7 +16,7 @@ use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
 use crate::server::model::action::Damage;
 use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
 use crate::server::model::events::map_event::{CharacterDropItems, MapEvent, MobDropItems, MobLocation};
-use crate::server::model::item::DroppedItem;
+use models::item::DroppedItem;
 use models::position::Position;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::global_config_service::GlobalConfigService;

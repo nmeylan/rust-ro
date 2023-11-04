@@ -47,7 +47,7 @@ mod tests {
     use crate::server::model::action::Damage;
     use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
     use crate::server::model::events::map_event::{MapEvent, MobDropItems, MobLocation};
-    use crate::server::model::item::DroppedItem;
+    use models::item::DroppedItem;
     use crate::server::model::map_item::{MapItem, MapItemType};
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;

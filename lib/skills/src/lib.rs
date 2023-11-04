@@ -1,7 +1,6 @@
 use enums::skill::{SkillTargetType};
 use enums::weapon::{AmmoType};
-use models::item::NormalInventoryItem;
-use models::weapon::Weapon;
+use models::item::{NormalInventoryItem, WearWeapon};
 
 pub mod skill_enums;
 pub mod skills;
@@ -23,14 +22,14 @@ pub trait Skill {
     fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>>;
 
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()>;
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()>;
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()>;
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()>;
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()>;
 
     fn validate_delegate(&self) -> SkillRequirementResult<()> {
         if self.delegate().is_none() {
             return Ok(());
         }
-        self.delegate().as_ref().unwrap().validate_extra()
+        self.delegate().as_ref().unwrap().extra_validation()
     }
     fn validate_override(&self) -> SkillRequirementResult<()> {
         Ok(())
@@ -57,6 +56,9 @@ pub trait Skill {
 }
 
 pub trait DelegateSkill {
-    fn validate_extra(&self) -> SkillRequirementResult<()>;
+    fn extra_validation(&self) -> SkillRequirementResult<()>;
+
+    // fn damage_calculation(&self, attacker_status: Status, target_status: Option<Status>)
+
 }
 

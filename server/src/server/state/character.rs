@@ -5,10 +5,11 @@ use std::iter::Filter;
 use std::sync::{Mutex};
 use accessor::Setters;
 use enums::{EnumWithMaskValueU64};
-use enums::item::{EquipmentLocation};
+use enums::item::{EquipmentLocation, ItemType};
 use enums::look::LookType;
+use models::item::EquippedItem;
 
-use crate::repository::model::item_model::{InventoryItemModel};
+use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::server::model::action::{Attack, SkillInUse};
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::map_instance::{MapInstanceKey};
@@ -296,7 +297,7 @@ impl Character {
         None
     }
 
-    pub(crate) fn get_item_from_inventory_mut(&mut self, index: usize) -> Option<&mut InventoryItemModel> {
+    fn get_item_from_inventory_mut(&mut self, index: usize) -> Option<&mut InventoryItemModel> {
         if let Some(inventory_slot) = self.inventory.get_mut(index) {
             if inventory_slot.is_some() {
                 return Some(inventory_slot.as_mut().unwrap());
@@ -305,13 +306,41 @@ impl Character {
         None
     }
 
-    pub fn takeoff_equip_item(&mut self, index: usize) -> Option<i32> {
-        if let Some(item) = self.get_item_from_inventory_mut(index) {
+    pub fn takeoff_equip_item(&mut self, index: usize) -> Option<EquippedItem> {
+        let res = if let Some(item) = self.get_item_from_inventory_mut(index) {
             let old_equip = item.equip;
             item.equip = 0;
-            return Some(old_equip);
+            Some(EquippedItem { item_id: item.item_id, location: old_equip as u64, index })
+        } else {
+            None
+        };
+        let item = self.get_item_from_inventory(index);
+        if let Some(item) = item {
+            if matches!(item.item_type, ItemType::Weapon) {
+                self.status.takeoff_weapon(index);
+            } else {
+                self.status.takeoff_equipment(index);
+            }
         }
-        None
+        res
+    }
+
+    pub fn wear_equip_item(&mut self, index: usize, location: u64, item_to_equip_model: &ItemModel) -> Option<EquippedItem> {
+        let res = if let Some(item) = self.get_item_from_inventory_mut(index) {
+            item.equip = location as i32;
+            Some(EquippedItem { item_id: item.item_id, location, index })
+        } else {
+            None
+        };
+        let item = self.get_item_from_inventory(index);
+        if let Some(item) = item {
+            if matches!(item.item_type, ItemType::Weapon) {
+                self.status.wear_weapon(item_to_equip_model.to_wear_weapon(index, location, item));
+            } else {
+                self.status.wear_equipment(item_to_equip_model.to_wear_gear(index, location, item));
+            }
+        }
+        res
     }
 
     pub fn del_item_from_inventory(&mut self, index: usize, amount: i16) -> u16 {
@@ -340,20 +369,11 @@ impl Character {
             .sum()
     }
 
-    pub fn right_hand_weapon(&self) -> Option<(usize, &InventoryItemModel)> {
-        self.inventory_equipped().find(|(_, item)| item.equip & EquipmentLocation::HandRight.as_flag() as i32 != 0)
-    }
-
     pub fn inventory_equip(&self) -> Vec<(usize, &InventoryItemModel)> {
         self.inventory_iter()
             .filter(|(_, item)| item.item_type.is_equipment())
             .collect()
     }
-    pub fn inventory_equipped(&self) -> Filter<InventoryIter, fn(&(usize, &InventoryItemModel)) -> bool> {
-        self.inventory_iter()
-            .filter(|(_, item)| item.item_type.is_equipment() && item.equip != 0)
-    }
-
     pub fn inventory_wearable(&self) -> Vec<(usize, &InventoryItemModel)> {
         self.inventory_iter()
             .filter(|(_, item)| item.item_type.is_wearable())

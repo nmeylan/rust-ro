@@ -346,8 +346,8 @@ mod tests {
         // When
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: knife_index });
         // Then
-        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 1);
-        assert!(character.inventory_equipped().any(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Knife")));
+        assert_eq!(character.status.wearables().len(), 1);
+        assert!(character.status.wearables().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Knife")));
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_not_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         context.test_context.clear_sent_packet();
@@ -355,8 +355,8 @@ mod tests {
         // When
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: sword_index });
         // Then
-        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 1);
-        assert!(character.inventory_equipped().any(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")));
+        assert_eq!(character.status.wearables().len(), 1);
+        assert!(character.status.wearables().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")));
         context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()), 1)]));
         context.test_context.clear_sent_packet();
@@ -364,9 +364,9 @@ mod tests {
         // When
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: guard_index });
         // Then
-        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 2);
-        assert!(character.inventory_equipped().any(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Guard")));
-        assert!(character.inventory_equipped().any(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")));
+        assert_eq!(character.status.wearables().len(), 2);
+        assert!(character.status.wearables().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Guard")));
+        assert!(character.status.wearables().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")));
         context.test_context.increment_latch().wait_expected_count_with_timeout(6, Duration::from_millis(200));
         assert_not_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         context.test_context.clear_sent_packet();
@@ -374,8 +374,8 @@ mod tests {
         // When
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: two_h_sword_index });
         // Then
-        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 1);
-        assert!(character.inventory_equipped().any(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Two_Hand_Sword")));
+        assert_eq!(character.status.wearables().len(), 1);
+        assert!(character.status.wearables().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Two_Hand_Sword")));
         context.test_context.increment_latch().wait_expected_count_with_timeout(8, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()), 2)]));
         context.test_context.clear_sent_packet();
@@ -395,13 +395,14 @@ mod tests {
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: glove_index });
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: rosary_index });
         // Then
-        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 2);
-        let glove_item = character.inventory_equipped().find(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Glove"));
-        let rosary_item = character.inventory_equipped().find(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Rosary"));
+        let equipped_items = character.status.wearables();
+        assert_eq!(equipped_items.len(), 2);
+        let glove_item = equipped_items.iter().find(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Glove"));
+        let rosary_item = equipped_items.iter().find(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Rosary"));
         assert!(glove_item.is_some());
-        assert!(glove_item.unwrap().1.equip == EquipmentLocation::AccessoryLeft.as_flag() as i32);
+        assert!(glove_item.unwrap().location() == EquipmentLocation::AccessoryLeft.as_flag());
         assert!(rosary_item.is_some());
-        assert!(rosary_item.unwrap().1.equip == EquipmentLocation::AccessoryRight.as_flag() as i32);
+        assert!(rosary_item.unwrap().location() == EquipmentLocation::AccessoryRight.as_flag());
     }
 
     #[test]
@@ -420,13 +421,14 @@ mod tests {
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: rosary_index });
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: belt_index });
         // Then
-        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 2);
-        let belt_item = character.inventory_equipped().find(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Belt"));
-        let rosary_item = character.inventory_equipped().find(|(_, item)| item.item_id as u32 == GlobalConfigService::instance().get_item_id_from_name("Rosary"));
+        let equipped_items = character.status.wearables();
+        assert_eq!(equipped_items.len(), 2);
+        let belt_item = equipped_items.iter().find(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Belt"));
+        let rosary_item = equipped_items.iter().find(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Rosary"));
         assert!(belt_item.is_some());
-        assert!(belt_item.unwrap().1.equip == EquipmentLocation::AccessoryLeft.as_flag() as i32);
+        assert!(belt_item.unwrap().location() == EquipmentLocation::AccessoryLeft.as_flag());
         assert!(rosary_item.is_some());
-        assert!(rosary_item.unwrap().1.equip == EquipmentLocation::AccessoryRight.as_flag() as i32);
+        assert!(rosary_item.unwrap().location() == EquipmentLocation::AccessoryRight.as_flag());
     }
 
     #[test]
@@ -449,11 +451,11 @@ mod tests {
         let mut character = create_character();
         let _char_id = character.char_id;
         let knife_index = equip_item(&mut character, "Knife");
-        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 1);
+        assert_eq!(character.status.wearables().len(), 1);
         // When
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
         // Then
-        assert_eq!(character.inventory_equipped().collect::<Vec<_>>().len(), 0);
+        assert_eq!(character.status.wearables().len(), 0);
     }
 
     #[test]

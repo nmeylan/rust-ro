@@ -4,7 +4,7 @@ use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::map_item::{MapItem, ToMapItem};
 use crate::server::state::mob::Mob;
 use crate::enums::EnumWithMaskValueU16;
-use crate::server::model::item::DroppedItem;
+use models::item::DroppedItem;
 
 use crate::util::coordinate;
 

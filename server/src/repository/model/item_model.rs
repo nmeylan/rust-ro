@@ -10,7 +10,7 @@ use enums::class::EquipClassFlag;
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
 use enums::weapon::{AmmoType, WeaponType};
-use models::weapon::Weapon;
+use models::item::{WearGear, WearWeapon};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ItemModels {
@@ -261,6 +261,35 @@ impl ItemModel {
             acc | enum_flag.as_flag()
         })
     }
+
+    pub fn to_wear_weapon(&self, inventory_index: usize, location: u64, inventory_model: &InventoryItemModel) -> WearWeapon {
+        WearWeapon {
+            item_id: self.id,
+            attack: self.attack.unwrap_or(0) as u32,
+            level: self.weapon_level.unwrap_or(0) as u8,
+            weapon_type: self.weapon_type.unwrap_or(WeaponType::Fist),
+            location,
+            refine: inventory_model.refine,
+            card0: inventory_model.card0,
+            card1: inventory_model.card1,
+            card2: inventory_model.card2,
+            card3: inventory_model.card3,
+            inventory_index,
+        }
+    }
+
+    pub fn to_wear_gear(&self, inventory_index: usize, location: u64, inventory_model: &InventoryItemModel) -> WearGear {
+        WearGear {
+            item_id: self.id,
+            level: self.armor_level.unwrap_or(0) as u8,
+            location,
+            refine: inventory_model.refine,
+            card0: inventory_model.card0,
+            def: self.defense.unwrap_or(0),
+            inventory_index,
+        }
+    }
+
 }
 
 #[derive(sqlx::FromRow, Debug)]

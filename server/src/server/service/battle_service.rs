@@ -63,7 +63,7 @@ impl BattleService {
         let damage_reduction_modifier: f32 = 1.0;
         let number_of_hits: f32 = 1.0;
         let kyrie_eleison_effect: f32 = 0.0;
-        let weapon = source.right_hand_weapon().map(|(_, weapon)| self.configuration_service.get_item(weapon.item_id));
+        let weapon = source.status.right_hand_weapon().map(|weapon| self.configuration_service.get_item(weapon.item_id));
         
         (
             (

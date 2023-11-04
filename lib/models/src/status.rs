@@ -1,7 +1,12 @@
+use std::iter::{Filter, Map};
+use std::slice::Iter;
 use accessor::SettersAll;
+use enums::EnumWithMaskValueU64;
+use enums::item::EquipmentLocation;
+use crate::item::{Wearable, WearGear, WearWeapon};
 
 
-#[derive(SettersAll, Debug, Clone, Copy)]
+#[derive(SettersAll, Debug, Clone)]
 pub struct Status {
     pub job: u32,
     pub hp: u32,
@@ -31,7 +36,47 @@ pub struct Status {
     pub skill_point: u32,
     pub base_exp: u32,
     pub job_exp: u32,
+    pub weapons: Vec<WearWeapon>,
+    pub equipments: Vec<WearGear>
 }
+
+impl Status {
+    pub fn right_hand_weapon(&self) -> Option<&WearWeapon> {
+        self.weapons.iter().find(|w| w.location & EquipmentLocation::HandRight.as_flag() > 0)
+    }
+
+    pub fn equipped_gears(&self) -> &Vec<WearGear> {
+        &self.equipments
+    }
+
+    pub fn equipped_weapons(&self) -> &Vec<WearWeapon> {
+        &self.weapons
+    }
+
+    pub fn takeoff_weapon(&mut self, inventory_index: usize) {
+        self.weapons.retain(|w| w.inventory_index != inventory_index);
+    }
+
+    pub fn wear_weapon(&mut self, wear_weapon: WearWeapon) {
+        self.weapons.push(wear_weapon);
+    }
+
+    pub fn takeoff_equipment(&mut self, inventory_index: usize) {
+        self.equipments.retain(|w| w.inventory_index != inventory_index);
+    }
+
+    pub fn wear_equipment(&mut self, wear_weapon: WearGear) {
+        self.equipments.push(wear_weapon);
+    }
+
+    pub fn wearables(&self) -> Vec<&dyn Wearable> {
+        let mut equipments = self.equipped_gears().iter().map(|e| e as &dyn Wearable).collect::<Vec<&dyn Wearable>>();
+        let weapons = self.equipped_weapons().iter().map(|e| e as &dyn Wearable).collect::<Vec<&dyn Wearable>>();
+        equipments.extend(weapons);
+        equipments
+    }
+}
+
 
 #[derive(SettersAll, Debug, Clone, Copy, Default)]
 pub struct Look {
