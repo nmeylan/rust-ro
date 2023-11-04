@@ -46,6 +46,8 @@ impl StatusFromDb {
             skill_point: char_model.skill_point as u32,
             base_exp: char_model.base_exp as u32,
             job_exp: char_model.job_exp as u32,
+            weapons: vec![],
+            equipments: vec![],
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
@@ -77,7 +79,9 @@ impl StatusFromDb {
             status_point: 0,
             skill_point: 0,
             base_exp: 0,
-            job_exp: 0
+            job_exp: 0,
+            weapons: vec![],
+            equipments: vec![],
         }
     }
 }

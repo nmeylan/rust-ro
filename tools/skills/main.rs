@@ -145,7 +145,7 @@ fn write_file_header(file: &mut File) {
     file.write_all(b"use enums::{EnumWithMaskValueU64, EnumWithNumberValue};\n").unwrap();
     file.write_all(b"use enums::skill::*;\n").unwrap();
     file.write_all(b"use enums::weapon::AmmoType;\n").unwrap();
-    file.write_all(b"\nuse models::weapon::Weapon;\n").unwrap();
+    file.write_all(b"\nuse models::item::WearWeapon;\n").unwrap();
     file.write_all(b"use models::item::NormalInventoryItem;\n").unwrap();
     file.write_all(b"\nuse crate::{Skill, SkillRequirementResult, DelegateSkill};\n\n").unwrap();
     file.write_all(b"use crate::skills::*;\n").unwrap();
@@ -186,7 +186,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
 
     generate_validate_weapon(job_skills_file, skill_config);
 
-    job_skills_file.write_all(b"    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {\n").unwrap();
+    job_skills_file.write_all(b"    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {\n").unwrap();
     job_skills_file.write_all(b"         Ok(())\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 
@@ -241,7 +241,7 @@ fn generate_hit_count(job_skills_file: &mut File, skill_config: &SkillConfig) {
 }
 
 fn generate_validate_weapon(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {\n").unwrap();
+    job_skills_file.write_all(b"    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {\n").unwrap();
     if let Some(requirements) = skill_config.requires() {
         if let Some(weapon) = requirements.weapon_flags() {
             job_skills_file.write_all(b"        if let Some(character_weapon) = character_weapon {\n").unwrap();

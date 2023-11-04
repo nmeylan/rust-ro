@@ -71,8 +71,8 @@ impl StatusService {
     }
 
     pub fn right_hand_weapon_type(&self, character: &Character) -> WeaponType {
-        character.right_hand_weapon()
-            .map(|(_, weapon)| self.configuration_service.get_item(weapon.item_id).weapon_type.expect("Expected weapon to have subtype"))
+        character.status.right_hand_weapon()
+            .map(|weapon| weapon.weapon_type)
             .unwrap_or(WeaponType::Fist)
     }
 
@@ -125,17 +125,12 @@ impl StatusService {
     }
 
     pub fn weapon_atk(&self, character: &Character) -> u32 {
-        let right_hand_weapon_atk: u32 = if let Some((_, right_hand_weapon)) = character.right_hand_weapon() {
-            self.configuration_service.get_item(right_hand_weapon.item_id).attack.unwrap_or(0) as u32
-        } else {
-            0
-        };
-        right_hand_weapon_atk
+        character.status.right_hand_weapon().map(|weapon| weapon.attack).unwrap_or(0)
     }
 
     pub fn weapon_lvl(&self, character: &Character) -> Option<i16> {
-        if let Some((_, right_hand_weapon)) = character.right_hand_weapon() {
-            self.configuration_service.get_item(right_hand_weapon.item_id).weapon_level
+        if let Some(right_hand_weapon) = character.status.right_hand_weapon() {
+            Some(right_hand_weapon.level as i16)
         } else {
             None
         }

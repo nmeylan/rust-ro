@@ -1,6 +1,8 @@
 use std::sync::Mutex;
 use rand::RngCore;
 use enums::class::JobName;
+use enums::EnumWithMaskValueU64;
+use enums::item::EquipmentLocation;
 use models::status::{Look, Status};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::map_instance::MapInstanceKey;
@@ -39,7 +41,9 @@ pub fn create_character() -> Character {
             status_point: 48,
             skill_point: 0,
             base_exp: 0,
-            job_exp: 0
+            job_exp: 0,
+            weapons: vec![],
+            equipments: vec![],
         },
         char_id: 150000,
         account_id: 2000000,
@@ -54,7 +58,7 @@ pub fn create_character() -> Character {
         inventory: vec![],
         known_skills: vec![],
         map_view: Default::default(),
-        script_variable_store: Mutex::new(Default::default())
+        script_variable_store: Mutex::new(Default::default()),
     }
 }
 
@@ -80,9 +84,11 @@ pub fn equip_item(character: &mut Character, aegis_name: &str) -> usize {
         card2: 0,
         card3: 0,
         name_english: item.name_english.clone(),
-        weight: item.weight
+        weight: item.weight,
     };
-    character.add_in_inventory(inventory_item)
+    let index = character.add_in_inventory(inventory_item);
+    character.wear_equip_item(index, item.location, item);
+    index
 }
 
 pub fn add_item_in_inventory(character: &mut Character, aegis_name: &str) -> usize {
@@ -103,11 +109,12 @@ pub fn add_item_in_inventory(character: &mut Character, aegis_name: &str) -> usi
         card2: 0,
         card3: 0,
         name_english: item.name_english.clone(),
-        weight: item.weight
+        weight: item.weight,
     };
     character.add_in_inventory(inventory_item)
 }
-pub fn add_items_in_inventory(character: &mut Character, aegis_name: &str, amount : i16) -> usize {
+
+pub fn add_items_in_inventory(character: &mut Character, aegis_name: &str, amount: i16) -> usize {
     let mut rng = rand::thread_rng();
     let item = GlobalConfigService::instance().get_item_by_name(aegis_name);
     let inventory_item = InventoryItemModel {
@@ -125,7 +132,7 @@ pub fn add_items_in_inventory(character: &mut Character, aegis_name: &str, amoun
         card2: 0,
         card3: 0,
         name_english: item.name_english.clone(),
-        weight: item.weight
+        weight: item.weight,
     };
     character.add_in_inventory(inventory_item)
 }

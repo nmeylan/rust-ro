@@ -69,7 +69,7 @@ mod tests {
     
     
     use crate::server::model::events::map_event::{MapEvent};
-    use crate::server::model::item::DroppedItem;
+    use models::item::DroppedItem;
     use crate::server::model::map_item::ToMapItem;
     use models::position::Position;
     use crate::server::model::tasks_queue::TasksQueue;

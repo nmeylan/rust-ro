@@ -7,7 +7,7 @@ use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
 
-use models::weapon::Weapon;
+use models::item::WearWeapon;
 use models::item::NormalInventoryItem;
 
 use crate::{Skill, SkillRequirementResult, DelegateSkill};
@@ -77,10 +77,10 @@ impl Skill for DanceLessons {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -182,14 +182,14 @@ impl Skill for SlingingArrow {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = character_weapon {
             if 16384 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -287,14 +287,14 @@ impl Skill for HipShaker {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = character_weapon {
             if 16384 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -392,10 +392,10 @@ impl Skill for Dazzler {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -508,14 +508,14 @@ impl Skill for FocusBallet {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = character_weapon {
             if 24576 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -628,14 +628,14 @@ impl Skill for SlowGrace {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = character_weapon {
             if 24576 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -748,14 +748,14 @@ impl Skill for LadyLuck {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = character_weapon {
             if 24576 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -868,14 +868,14 @@ impl Skill for GypsysKiss {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = character_weapon {
             if 24576 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -958,10 +958,10 @@ impl Skill for WinkofCharm {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {

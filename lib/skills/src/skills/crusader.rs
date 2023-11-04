@@ -7,7 +7,7 @@ use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
 
-use models::weapon::Weapon;
+use models::item::WearWeapon;
 use models::item::NormalInventoryItem;
 
 use crate::{Skill, SkillRequirementResult, DelegateSkill};
@@ -77,10 +77,10 @@ impl Skill for Faith {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -198,10 +198,10 @@ impl Skill for Guard {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -289,10 +289,10 @@ impl Skill for Smite {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -380,10 +380,10 @@ impl Skill for ShieldBoomerang {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -501,10 +501,10 @@ impl Skill for ShieldReflect {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -617,10 +617,10 @@ impl Skill for HolyCross {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -733,10 +733,10 @@ impl Skill for GrandCross {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -819,10 +819,10 @@ impl Skill for Sacrifice {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -905,10 +905,10 @@ impl Skill for ResistantSouls {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -996,10 +996,10 @@ impl Skill for DefendingAura {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -1112,14 +1112,14 @@ impl Skill for SpearQuicken {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = character_weapon {
             if 32 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -1207,10 +1207,10 @@ impl Skill for Shrink {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<Weapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {

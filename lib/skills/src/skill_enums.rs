@@ -3,154 +3,154 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use crate::skills::hunter::{*};
-use crate::skills::whitesmith::{*};
 use crate::skills::creator::{*};
+use crate::skills::acolyte::{*};
+use crate::skills::stalker::{*};
 use crate::skills::dancer::{*};
-use crate::skills::champion::{*};
-use crate::skills::priest::{*};
-use crate::skills::crusader::{*};
-use crate::skills::sniper::{*};
 use crate::skills::professor::{*};
+use crate::skills::merchant::{*};
+use crate::skills::highpriest::{*};
+use crate::skills::taekwon::{*};
+use crate::skills::thief::{*};
+use crate::skills::highwizard::{*};
+use crate::skills::lordknight::{*};
 use crate::skills::alchemist::{*};
+use crate::skills::wizard::{*};
+use crate::skills::clown::{*};
+use crate::skills::novice::{*};
+use crate::skills::rogue::{*};
+use crate::skills::assassin::{*};
+use crate::skills::gunslinger::{*};
+use crate::skills::knight::{*};
+use crate::skills::crusader::{*};
+use crate::skills::bard::{*};
+use crate::skills::hunter::{*};
 use crate::skills::paladin::{*};
 use crate::skills::mage::{*};
-use crate::skills::rogue::{*};
-use crate::skills::highwizard::{*};
-use crate::skills::gunslinger::{*};
-use crate::skills::assassin::{*};
-use crate::skills::taekwon::{*};
-use crate::skills::acolyte::{*};
-use crate::skills::sage::{*};
-use crate::skills::archer::{*};
-use crate::skills::ninja::{*};
-use crate::skills::stalker::{*};
-use crate::skills::assassincross::{*};
-use crate::skills::lordknight::{*};
-use crate::skills::swordsman::{*};
-use crate::skills::clown::{*};
-use crate::skills::knight::{*};
-use crate::skills::highpriest::{*};
-use crate::skills::wizard::{*};
-use crate::skills::thief::{*};
-use crate::skills::bard::{*};
-use crate::skills::blacksmith::{*};
+use crate::skills::sniper::{*};
+use crate::skills::champion::{*};
 use crate::skills::monk::{*};
-use crate::skills::novice::{*};
-use crate::skills::merchant::{*};
+use crate::skills::sage::{*};
+use crate::skills::assassincross::{*};
+use crate::skills::priest::{*};
+use crate::skills::archer::{*};
+use crate::skills::whitesmith::{*};
+use crate::skills::ninja::{*};
+use crate::skills::blacksmith::{*};
+use crate::skills::swordsman::{*};
 use crate::Skill;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super Novice Sword Mastery
+    // Super_Baby Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super Novice Increase HP Recovery
+    // Super_Baby Increase HP Recovery
     SmRecovery,
-    // Super Novice Bash
+    // Super_Baby Bash
     SmBash,
-    // Super Novice Provoke
+    // Super_Baby Provoke
     SmProvoke,
-    // Super Novice Magnum Break
+    // Super_Baby Magnum Break
     SmMagnum,
-    // Super Novice Endure
+    // Super_Baby Endure
     SmEndure,
-    // Priest Increase SP Recovery
+    // Super_Baby Increase SP Recovery
     MgSrecovery,
-    // Super Novice Sight
+    // Super_Baby Sight
     MgSight,
-    // Super Novice Napalm Beat
+    // Super_Baby Napalm Beat
     MgNapalmbeat,
-    // Priest Safety Wall
+    // Super_Baby Safety Wall
     MgSafetywall,
-    // Super Novice Soul Strike
+    // Super_Baby Soul Strike
     MgSoulstrike,
-    // Super Novice Cold Bolt
+    // Super_Baby Cold Bolt
     MgColdbolt,
-    // Super Novice Frost Diver
+    // Super_Baby Frost Diver
     MgFrostdiver,
-    // Super Novice Stone Curse
+    // Super_Baby Stone Curse
     MgStonecurse,
-    // Super Novice Fire Ball
+    // Super_Baby Fire Ball
     MgFireball,
-    // Super Novice Fire Wall
+    // Super_Baby Fire Wall
     MgFirewall,
-    // Super Novice Fire Bolt
+    // Super_Baby Fire Bolt
     MgFirebolt,
-    // Super Novice Lightning Bolt
+    // Super_Baby Lightning Bolt
     MgLightningbolt,
-    // Super Novice Thunderstorm
+    // Super_Baby Thunderstorm
     MgThunderstorm,
-    // Super Novice Divine Protection
+    // Super_Baby Divine Protection
     AlDp,
-    // Super Novice Demon Bane
+    // Super_Baby Demon Bane
     AlDemonbane,
-    // Super Novice Ruwach
+    // Super_Baby Ruwach
     AlRuwach,
-    // Super Novice Pneuma
+    // Super_Baby Pneuma
     AlPneuma,
-    // Super Novice Teleport
+    // Super_Baby Teleport
     AlTeleport,
-    // Super Novice Warp Portal
+    // Super_Baby Warp Portal
     AlWarp,
-    // Super Novice Heal
+    // Super_Baby Heal
     AlHeal,
-    // Super Novice Increase AGI
+    // Super_Baby Increase AGI
     AlIncagi,
-    // Super Novice Decrease AGI
+    // Super_Baby Decrease AGI
     AlDecagi,
-    // Super Novice Aqua Benedicta
+    // Super_Baby Aqua Benedicta
     AlHolywater,
-    // Super Novice Signum Crucis
+    // Super_Baby Signum Crucis
     AlCrucis,
-    // Super Novice Angelus
+    // Super_Baby Angelus
     AlAngelus,
-    // Super Novice Blessing
+    // Super_Baby Blessing
     AlBlessing,
-    // Super Novice Cure
+    // Super_Baby Cure
     AlCure,
-    // Super Novice Enlarge Weight Limit
+    // Super_Baby Enlarge Weight Limit
     McInccarry,
-    // Super Novice Discount
+    // Super_Baby Discount
     McDiscount,
-    // Super Novice Overcharge
+    // Super_Baby Overcharge
     McOvercharge,
-    // Super Novice Pushcart
+    // Super_Baby Pushcart
     McPushcart,
-    // Super Novice Item Appraisal
+    // Super_Baby Item Appraisal
     McIdentify,
-    // Super Novice Vending
+    // Super_Baby Vending
     McVending,
-    // Super Novice Mammonite
+    // Super_Baby Mammonite
     McMammonite,
-    // Super Novice Owl's Eye
+    // Super_Baby Owl's Eye
     AcOwl,
-    // Super Novice Vulture's Eye
+    // Super_Baby Vulture's Eye
     AcVulture,
-    // Super Novice Improve Concentration
+    // Super_Baby Improve Concentration
     AcConcentration,
     // Rogue Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Super Novice Double Attack
+    // Super_Baby Double Attack
     TfDouble,
-    // Super Novice Improve Dodge
+    // Super_Baby Improve Dodge
     TfMiss,
-    // Super Novice Steal
+    // Super_Baby Steal
     TfSteal,
-    // Super Novice Hiding
+    // Super_Baby Hiding
     TfHiding,
-    // Super Novice Envenom
+    // Super_Baby Envenom
     TfPoison,
-    // Super Novice Detoxify
+    // Super_Baby Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Knight Spear Mastery
+    // Crusader Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -166,9 +166,9 @@ pub enum SkillEnum {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Knight Peco Peco Riding
+    // Crusader Peco Peco Riding
     KnRiding,
-    // Knight Cavalier Mastery
+    // Crusader Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -182,7 +182,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -1858,13 +1858,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Super Novice Open Buying Store
+    // Super_Baby Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Super Novice Decorate Cart
+    // Super_Baby Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,

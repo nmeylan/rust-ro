@@ -7,7 +7,7 @@ use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
 
-use models::weapon::Weapon;
+use models::item::WearWeapon;
 use models::item::NormalInventoryItem;
 
 use crate::{Skill, SkillRequirementResult, DelegateSkill};
