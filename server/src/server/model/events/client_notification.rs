@@ -1,10 +1,26 @@
-#[derive(Debug)]
+use packets::packets::Packet;
+use packets::packets_parser;
+
+#[derive(Debug, Clone)]
 pub enum Notification {
     Char(CharNotification),
     Area(AreaNotification),
 }
 
-#[derive(Debug)]
+impl Notification {
+    pub fn packet(&self, packetver: u32) -> Box<dyn Packet> {
+        match self {
+            Notification::Char(notification) => {
+                packets_parser::parse(&notification.packet[..], packetver)
+            }
+            Notification::Area(notification) => {
+                packets_parser::parse(&notification.packet[..], packetver)
+            }
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
 pub struct CharNotification {
     char_id: u32,
     packet: Vec<u8>,
@@ -26,14 +42,14 @@ impl CharNotification {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct AreaNotification {
     pub(crate) map_name: String,
     pub(crate) map_instance_id: u8,
     pub(crate) range_type: AreaNotificationRangeType,
     pub(crate) packet: Vec<u8>,
 }
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone)]
 pub enum AreaNotificationRangeType {
     #[allow(dead_code)]
     Map, // Notify all players of the map,

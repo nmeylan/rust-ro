@@ -42,8 +42,8 @@ pub struct MapItem {
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct MapItemSnapshot {
-    map_item: MapItem,
-    position: Position,
+    pub(crate) map_item: MapItem,
+    pub(crate) position: Position,
 }
 
 impl MapItem {

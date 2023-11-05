@@ -154,7 +154,16 @@ impl<'a> NotificationExpectation<'a> {
 }
 
 pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: NotificationExpectation, packetver: u32) -> bool {
-    let res = notifications.iter().find(|sent_notification| {
+    let res = get_sent_notification(notifications, &expectation, packetver).is_some();
+    if !res {
+        println!("Can't find {expectation:?} among events below");
+        notifications.iter().for_each(|e| println!("  {e:?}"));
+    }
+    res
+}
+
+pub fn get_sent_notification(notifications: &Vec<Notification>, expectation: &NotificationExpectation, packetver: u32) -> Option<Notification> {
+    let maybe_notification = notifications.iter().find(|sent_notification| {
         match expectation.kind {
             NotificationExpectationKind::Char => {
                 if let Notification::Char(sent_char_notification) = sent_notification {
@@ -183,12 +192,8 @@ pub fn has_sent_notification(notifications: &Vec<Notification>, expectation: Not
                 false
             }
         }
-    }).is_some();
-    if !res {
-        println!("Can't find {expectation:?} among events below");
-        notifications.iter().for_each(|e| println!("  {e:?}"));
-    }
-    res
+    });
+    maybe_notification.cloned()
 }
 
 pub fn has_sent_persistence_event(persistence_events: &Vec<PersistenceEvent>, persistence_event: PersistenceEvent) -> bool {

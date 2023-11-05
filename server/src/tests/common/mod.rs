@@ -19,9 +19,11 @@ use std::sync::{Arc, Mutex, Once};
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use configuration::configuration::Config;
+use packets::packets::Packet;
 
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
+use crate::tests::common::assert_helper::NotificationExpectation;
 
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
@@ -103,6 +105,18 @@ impl TestContext {
 
     pub fn clear_sent_packet(&self) {
         *self.received_notification.lock().unwrap() = vec![];
+    }
+
+    pub fn get_sent_packet(&self, packet_ids: Vec<&str>, packetver: u32) -> Vec<Box<dyn Packet>> {
+        let notification_guard = self.received_notification.lock().unwrap();
+        let mut packets_found = vec![];
+        for notification in notification_guard.iter() {
+            let packet_sent = notification.packet(packetver);
+            if packet_ids.contains(&packet_sent.id(packetver)) {
+                packets_found.push(packet_sent);
+            }
+        }
+        packets_found
     }
 }
 
