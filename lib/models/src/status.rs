@@ -69,7 +69,7 @@ impl Status {
         self.equipments.push(wear_weapon);
     }
 
-    pub fn wearables(&self) -> Vec<&dyn Wearable> {
+    pub fn all_equipped_items(&self) -> Vec<&dyn Wearable> {
         let mut equipments = self.equipped_gears().iter().map(|e| e as &dyn Wearable).collect::<Vec<&dyn Wearable>>();
         let weapons = self.equipped_weapons().iter().map(|e| e as &dyn Wearable).collect::<Vec<&dyn Wearable>>();
         equipments.extend(weapons);

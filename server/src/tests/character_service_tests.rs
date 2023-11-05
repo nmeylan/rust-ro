@@ -1015,7 +1015,7 @@ mod tests {
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "int".to_string(), value: 1, }));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "luk".to_string(), value: 1, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()), 1)]));
-        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterCalculateStats(character.char_id), 0);
+        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateClientSideStats(character.char_id), 0);
     }
 
     #[test]
@@ -1151,7 +1151,7 @@ mod tests {
         // When
         context.character_service.allocate_status_point(&mut character, StatusTypes::Str, 1);
         // Then
-        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterCalculateStats(character.char_id), 0);
+        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateClientSideStats(character.char_id), 0);
     }
 
     #[test]

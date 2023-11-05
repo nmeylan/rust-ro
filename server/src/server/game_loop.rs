@@ -128,7 +128,7 @@ impl Server {
                                 .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, &item)
                                     .map(|packet| CharacterService::instance().send_area_notification_around_characters(character, packet)));
                         }
-                        GameEvent::CharacterCalculateStats(char_id) => {
+                        GameEvent::CharacterUpdateClientSideStats(char_id) => {
                             let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
                             CharacterService::instance().calculate_status(&server_ref, character);
                         }

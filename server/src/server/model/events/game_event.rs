@@ -27,7 +27,7 @@ pub enum GameEvent {
     CharacterTakeoffEquipItem(CharacterTakeoffEquipItem),
     CharacterAttack(CharacterAttack),
     CharacterUseSkill(CharacterUseSkill),
-    CharacterCalculateStats(u32),
+    CharacterUpdateClientSideStats(u32),
     CharacterChangeLevel(CharacterChangeLevel),
     CharacterChangeJobLevel(CharacterChangeJobLevel),
     CharacterChangeJob(CharacterChangeJob),
