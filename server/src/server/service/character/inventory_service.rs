@@ -356,7 +356,7 @@ impl InventoryService {
             .expect("Fail to send client notification");
         self.persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
             .expect("Fail to send persistence event");
-        self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
+        self.server_task_queue.add_to_first_index(GameEvent::CharacterUpdateClientSideStats(character.char_id));
         equipped_item
     }
 
@@ -383,7 +383,7 @@ impl InventoryService {
             .expect("Fail to send client notification");
         self.persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
             .expect("Fail to send persistence event");
-        self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
+        self.server_task_queue.add_to_first_index(GameEvent::CharacterUpdateClientSideStats(character.char_id));
         takeoff_equipement
     }
 }

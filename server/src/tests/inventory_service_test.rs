@@ -346,8 +346,12 @@ mod tests {
         // When
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: knife_index });
         // Then
-        assert_eq!(character.status.wearables().len(), 1);
-        assert!(character.status.wearables().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Knife")));
+        assert_eq!(character.status.all_equipped_items().len(), 1);
+        assert!(character.status.all_equipped_items().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Knife")));
+        assert_eq!(character.inventory[knife_index].as_ref().unwrap().equip as u64, EquipmentLocation::HandRight.as_flag());
+        assert_eq!(character.inventory[sword_index].as_ref().unwrap().equip as u64, 0);
+        assert_eq!(character.inventory[guard_index].as_ref().unwrap().equip as u64, 0);
+        assert_eq!(character.inventory[two_h_sword_index].as_ref().unwrap().equip as u64, 0);
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_not_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         context.test_context.clear_sent_packet();
@@ -355,8 +359,12 @@ mod tests {
         // When
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: sword_index });
         // Then
-        assert_eq!(character.status.wearables().len(), 1);
-        assert!(character.status.wearables().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")));
+        assert_eq!(character.status.all_equipped_items().len(), 1);
+        assert!(character.status.all_equipped_items().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")));
+        assert_eq!(character.inventory[sword_index].as_ref().unwrap().equip as u64, EquipmentLocation::HandRight.as_flag());
+        assert_eq!(character.inventory[knife_index].as_ref().unwrap().equip as u64, 0);
+        assert_eq!(character.inventory[guard_index].as_ref().unwrap().equip as u64, 0);
+        assert_eq!(character.inventory[two_h_sword_index].as_ref().unwrap().equip as u64, 0);
         context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()), 1)]));
         context.test_context.clear_sent_packet();
@@ -364,9 +372,13 @@ mod tests {
         // When
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: guard_index });
         // Then
-        assert_eq!(character.status.wearables().len(), 2);
-        assert!(character.status.wearables().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Guard")));
-        assert!(character.status.wearables().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")));
+        assert_eq!(character.status.all_equipped_items().len(), 2);
+        assert!(character.status.all_equipped_items().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Guard")));
+        assert!(character.status.all_equipped_items().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Sword")));
+        assert_eq!(character.inventory[sword_index].as_ref().unwrap().equip as u64, EquipmentLocation::HandRight.as_flag());
+        assert_eq!(character.inventory[knife_index].as_ref().unwrap().equip as u64, 0);
+        assert_eq!(character.inventory[guard_index].as_ref().unwrap().equip as u64, EquipmentLocation::HandLeft.as_flag());
+        assert_eq!(character.inventory[two_h_sword_index].as_ref().unwrap().equip as u64, 0);
         context.test_context.increment_latch().wait_expected_count_with_timeout(6, Duration::from_millis(200));
         assert_not_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         context.test_context.clear_sent_packet();
@@ -374,8 +386,12 @@ mod tests {
         // When
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: two_h_sword_index });
         // Then
-        assert_eq!(character.status.wearables().len(), 1);
-        assert!(character.status.wearables().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Two_Hand_Sword")));
+        assert_eq!(character.status.all_equipped_items().len(), 1);
+        assert!(character.status.all_equipped_items().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Two_Hand_Sword")));
+        assert_eq!(character.inventory[sword_index].as_ref().unwrap().equip as u64, 0);
+        assert_eq!(character.inventory[knife_index].as_ref().unwrap().equip as u64, 0);
+        assert_eq!(character.inventory[guard_index].as_ref().unwrap().equip as u64, 0);
+        assert_eq!(character.inventory[two_h_sword_index].as_ref().unwrap().equip as u64, EquipmentLocation::HandRight.as_flag() | EquipmentLocation::HandLeft.as_flag());
         context.test_context.increment_latch().wait_expected_count_with_timeout(8, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcReqTakeoffEquipAck2::packet_id(GlobalConfigService::instance().packetver()), 2)]));
         context.test_context.clear_sent_packet();
@@ -395,10 +411,12 @@ mod tests {
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: glove_index });
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: rosary_index });
         // Then
-        let equipped_items = character.status.wearables();
+        let equipped_items = character.status.all_equipped_items();
         assert_eq!(equipped_items.len(), 2);
         let glove_item = equipped_items.iter().find(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Glove"));
         let rosary_item = equipped_items.iter().find(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Rosary"));
+        assert_eq!(character.inventory[glove_index].as_ref().unwrap().equip as u64, EquipmentLocation::AccessoryLeft.as_flag());
+        assert_eq!(character.inventory[rosary_index].as_ref().unwrap().equip as u64, EquipmentLocation::AccessoryRight.as_flag());
         assert!(glove_item.is_some());
         assert!(glove_item.unwrap().location() == EquipmentLocation::AccessoryLeft.as_flag());
         assert!(rosary_item.is_some());
@@ -421,10 +439,13 @@ mod tests {
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: rosary_index });
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: belt_index });
         // Then
-        let equipped_items = character.status.wearables();
+        let equipped_items = character.status.all_equipped_items();
         assert_eq!(equipped_items.len(), 2);
         let belt_item = equipped_items.iter().find(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Belt"));
         let rosary_item = equipped_items.iter().find(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Rosary"));
+        assert_eq!(character.inventory[belt_index].as_ref().unwrap().equip as u64, EquipmentLocation::AccessoryLeft.as_flag());
+        assert_eq!(character.inventory[rosary_index].as_ref().unwrap().equip as u64, EquipmentLocation::AccessoryRight.as_flag());
+        assert_eq!(character.inventory[glove_index].as_ref().unwrap().equip as u64, 0);
         assert!(belt_item.is_some());
         assert!(belt_item.unwrap().location() == EquipmentLocation::AccessoryLeft.as_flag());
         assert!(rosary_item.is_some());
@@ -432,7 +453,7 @@ mod tests {
     }
 
     #[test]
-    fn test_equip_item_should_trigger_stat_calculation() {
+    fn test_equip_item_should_trigger_client_side_stat_update() {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
@@ -441,7 +462,7 @@ mod tests {
         // When
         context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: inventory_index });
         // Then
-        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterCalculateStats(char_id), 0);
+        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateClientSideStats(char_id), 0);
     }
 
     #[test]
@@ -451,11 +472,11 @@ mod tests {
         let mut character = create_character();
         let _char_id = character.char_id;
         let knife_index = equip_item(&mut character, "Knife");
-        assert_eq!(character.status.wearables().len(), 1);
+        assert_eq!(character.status.all_equipped_items().len(), 1);
         // When
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
         // Then
-        assert_eq!(character.status.wearables().len(), 0);
+        assert_eq!(character.status.all_equipped_items().len(), 0);
     }
 
     #[test]
@@ -468,7 +489,7 @@ mod tests {
         // When
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
         // Then
-        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterCalculateStats(char_id), 0);
+        assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateClientSideStats(char_id), 0);
     }
 
     #[test]

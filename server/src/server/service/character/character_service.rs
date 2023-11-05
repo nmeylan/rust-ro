@@ -332,7 +332,7 @@ impl CharacterService {
     pub fn update_status_point(&self, character: &mut Character, status_point: u32) {
         character.status.status_point = status_point;
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Statuspoint, character.status.status_point);
-        self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
+        self.server_task_queue.add_to_first_index(GameEvent::CharacterUpdateClientSideStats(character.char_id));
     }
     pub fn update_skill_point(&self, character: &mut Character, skill_point: u32, should_persist: bool) {
         character.status.skill_point = skill_point;
@@ -418,7 +418,7 @@ impl CharacterService {
             value,
         })).expect("Fail to send persistence notification");
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "status_point".to_string(), value: character.status.status_point })).expect("Fail to send persistence notification");
-        self.server_task_queue.add_to_first_index(GameEvent::CharacterCalculateStats(character.char_id));
+        self.server_task_queue.add_to_first_index(GameEvent::CharacterUpdateClientSideStats(character.char_id));
         true
     }
 
