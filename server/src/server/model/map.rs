@@ -32,7 +32,7 @@ impl Map {
         Self { x_size, y_size, length, name, name_with_ext, warps, mob_spawns, scripts }
     }
     pub fn find_random_walkable_cell(cells: &Vec<u16>, x_size: u16) -> (u16, u16) {
-        let rng = fastrand::Rng::new();
+        let mut rng = fastrand::Rng::new();
 
         loop {
             let index = rng.usize(0..cells.len());
@@ -42,7 +42,7 @@ impl Map {
         }
     }
     pub fn find_random_free_cell_around(cells: &Vec<u16>, x_size: u16, x: u16, y :u16) -> (u16, u16) {
-        let rng = fastrand::Rng::new();
+        let mut rng = fastrand::Rng::new();
 
         loop {
             let random_x = rng.u16((x.max(1) - 1)..(x.max(1) + 1));
@@ -55,7 +55,7 @@ impl Map {
     }
 
     pub fn find_random_walkable_cell_in_max_range(cells: &[u16], x_size: u16, y_size: u16, x: u16, y: u16, max_range: usize) -> Option<(u16, u16)> {
-        let rng = fastrand::Rng::new();
+        let mut rng = fastrand::Rng::new();
         let max_range = max_range as u16;
         let allowed_dirs = allowed_dirs(x_size, y_size, x, y);
         let mut directions = vec![DIR_NORTH, DIR_SOUTH, DIR_EAST, DIR_WEST, DIR_SOUTH | DIR_EAST, DIR_SOUTH | DIR_WEST, DIR_NORTH | DIR_EAST, DIR_NORTH | DIR_WEST];

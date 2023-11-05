@@ -93,7 +93,7 @@ impl BattleService {
 
     //  rnd(min(DEX*(0.8+0.2*WeaponLevel),ATK), ATK)
     pub fn weapon_atk(&self, source: &Character, weapon: Option<&ItemModel>) -> u32 {
-        let rng = fastrand::Rng::new();
+        let mut rng = fastrand::Rng::new();
         let mut weapon_level = 0;
         let mut weapon_attack = 0;
         if let Some(weapon) = weapon {

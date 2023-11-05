@@ -1,6 +1,6 @@
 use std::error::Error as StdError;
 use std::fmt::{Display, Formatter};
-use sqlx::error::DatabaseError;
+use sqlx::error::{DatabaseError, ErrorKind};
 
 #[derive(Debug)]
 pub struct PersistenceError {
@@ -36,5 +36,9 @@ impl DatabaseError for PersistenceError {
 
     fn into_error(self: Box<Self>) -> Box<dyn std::error::Error + Send + Sync + 'static> {
         self
+    }
+
+    fn kind(&self) -> ErrorKind {
+        ErrorKind::Other
     }
 }

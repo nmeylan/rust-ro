@@ -36,7 +36,7 @@ impl MobService {
         if mob.is_moving() || mob.status.speed == 1000 {
             return None;
         }
-        let rng = fastrand::Rng::new();
+        let mut rng = fastrand::Rng::new();
         let mut movement: Option<MobMovement> = None;
         let rand = rng.i32(0..=100);
         let should_move = if mob.is_view_char {
