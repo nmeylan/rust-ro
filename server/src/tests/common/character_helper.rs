@@ -1,8 +1,8 @@
 use std::sync::Mutex;
 use rand::RngCore;
 use enums::class::JobName;
-use enums::EnumWithMaskValueU64;
-use enums::item::EquipmentLocation;
+
+
 use models::status::{Look, Status};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::map_instance::MapInstanceKey;

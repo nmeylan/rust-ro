@@ -23,7 +23,7 @@ pub struct MusicLessons {
 }
 impl Skill for MusicLessons {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -109,7 +109,7 @@ pub struct MelodyStrike {
 }
 impl Skill for MelodyStrike {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 5 { return None }
+        if !(1..=5).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -218,7 +218,7 @@ pub struct UnchainedSerenade {
 }
 impl Skill for UnchainedSerenade {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 5 { return None }
+        if !(1..=5).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -323,7 +323,7 @@ pub struct UnbarringOctave {
 }
 impl Skill for UnbarringOctave {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 5 { return None }
+        if !(1..=5).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -424,7 +424,7 @@ pub struct PerfectTablature {
 }
 impl Skill for PerfectTablature {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -544,7 +544,7 @@ pub struct ImpressiveRiff {
 }
 impl Skill for ImpressiveRiff {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -664,7 +664,7 @@ pub struct MagicStrings {
 }
 impl Skill for MagicStrings {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -784,7 +784,7 @@ pub struct SongofLutie {
 }
 impl Skill for SongofLutie {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -904,7 +904,7 @@ pub struct Amp {
 }
 impl Skill for Amp {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -990,7 +990,7 @@ pub struct Encore {
 }
 impl Skill for Encore {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1080,7 +1080,7 @@ pub struct Lullaby {
 }
 impl Skill for Lullaby {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1170,7 +1170,7 @@ pub struct MentalSensing {
 }
 impl Skill for MentalSensing {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 5 { return None }
+        if !(1..=5).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1260,7 +1260,7 @@ pub struct DownTempo {
 }
 impl Skill for DownTempo {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1350,7 +1350,7 @@ pub struct BattleTheme {
 }
 impl Skill for BattleTheme {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 5 { return None }
+        if !(1..=5).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1455,7 +1455,7 @@ pub struct HarmonicLick {
 }
 impl Skill for HarmonicLick {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 5 { return None }
+        if !(1..=5).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1560,7 +1560,7 @@ pub struct ClassicalPluck {
 }
 impl Skill for ClassicalPluck {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1650,7 +1650,7 @@ pub struct PowerChord {
 }
 impl Skill for PowerChord {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1740,7 +1740,7 @@ pub struct AcousticRhythm {
 }
 impl Skill for AcousticRhythm {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 5 { return None }
+        if !(1..=5).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1830,7 +1830,7 @@ pub struct PangVoice {
 }
 impl Skill for PangVoice {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {

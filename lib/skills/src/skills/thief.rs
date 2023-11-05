@@ -23,7 +23,7 @@ pub struct DoubleAttack {
 }
 impl Skill for DoubleAttack {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -109,7 +109,7 @@ pub struct ImproveDodge {
 }
 impl Skill for ImproveDodge {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -195,7 +195,7 @@ pub struct Steal {
 }
 impl Skill for Steal {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -281,7 +281,7 @@ pub struct Hiding {
 }
 impl Skill for Hiding {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -367,7 +367,7 @@ pub struct Envenom {
 }
 impl Skill for Envenom {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -453,7 +453,7 @@ pub struct Detoxify {
 }
 impl Skill for Detoxify {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -539,7 +539,7 @@ pub struct SandAttack {
 }
 impl Skill for SandAttack {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -625,7 +625,7 @@ pub struct BackSlide {
 }
 impl Skill for BackSlide {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -711,7 +711,7 @@ pub struct FindStone {
 }
 impl Skill for FindStone {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -802,7 +802,7 @@ pub struct StoneFling {
 }
 impl Skill for StoneFling {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {

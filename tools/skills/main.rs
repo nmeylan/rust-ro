@@ -120,7 +120,7 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
                     println!("Skipping skill {} for job {}", skill.name(), job_tree.name());
                     continue;
                 }
-                let skill_config = get_skill_config(skill.name(), &skills).unwrap();
+                let skill_config = get_skill_config(skill.name(), skills).unwrap();
                 write_skills(&mut job_skills_file, skill_config);
                 skills_already_generated.insert(skill.name().clone());
                 jobs_with_skills.insert(file_name.clone());
@@ -227,12 +227,12 @@ fn generate_skip_validation_item(job_skills_file: &mut File, skill_config: &Skil
 
 fn generate_base_after_cast_walk_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn base_after_cast_walk_delay(&self) -> u32 {\n").unwrap();
-    generate_return_per_level_u32(job_skills_file, &skill_config.after_cast_walk_delay(), &skill_config.after_cast_act_delay_per_level());
+    generate_return_per_level_u32(job_skills_file, skill_config.after_cast_walk_delay(), skill_config.after_cast_act_delay_per_level());
 }
 
 fn generate_base_after_cast_act_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn base_after_cast_act_delay(&self) -> u32 {\n").unwrap();
-    generate_return_per_level_u32(job_skills_file, &skill_config.after_cast_act_delay(), skill_config.after_cast_act_delay_per_level());
+    generate_return_per_level_u32(job_skills_file, skill_config.after_cast_act_delay(), skill_config.after_cast_act_delay_per_level());
 }
 
 fn generate_hit_count(job_skills_file: &mut File, skill_config: &SkillConfig) {
@@ -505,15 +505,10 @@ fn to_struct_name(skill: &SkillConfig) -> String {
 }
 
 fn get_skill_config<'a>(skill_name: &String, skills: &'a Vec<SkillConfig>) -> Option<&'a SkillConfig> {
-    for skill_config in skills {
-        if skill_name.eq(skill_config.name()) {
-            return Some(skill_config);
-        }
-    }
-    None
+    skills.iter().find(|&skill_config| skill_name.eq(skill_config.name()))
 }
 
-fn class_name<'a>(skill_config: &'a SkillConfig, skill_tree: &Vec<JobSkillTree>) -> Option<String> {
+fn class_name(skill_config: &SkillConfig, skill_tree: &Vec<JobSkillTree>) -> Option<String> {
     for job_tree in skill_tree.iter() {
         for skill in job_tree.tree().iter() {
             if skill_config.name().to_lowercase().starts_with("bd") {

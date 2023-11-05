@@ -23,7 +23,7 @@ pub struct Running {
 }
 impl Skill for Running {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -162,7 +162,7 @@ pub struct TornadoStance {
 }
 impl Skill for TornadoStance {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -248,7 +248,7 @@ pub struct TornadoKick {
 }
 impl Skill for TornadoKick {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 7 { return None }
+        if !(1..=7).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -355,7 +355,7 @@ pub struct HeelDropStance {
 }
 impl Skill for HeelDropStance {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -441,7 +441,7 @@ pub struct HeelDrop {
 }
 impl Skill for HeelDrop {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 7 { return None }
+        if !(1..=7).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -548,7 +548,7 @@ pub struct RoundhouseStance {
 }
 impl Skill for RoundhouseStance {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -634,7 +634,7 @@ pub struct RoundhouseKick {
 }
 impl Skill for RoundhouseKick {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 7 { return None }
+        if !(1..=7).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -741,7 +741,7 @@ pub struct CounterKickStance {
 }
 impl Skill for CounterKickStance {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -827,7 +827,7 @@ pub struct CounterKick {
 }
 impl Skill for CounterKick {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 7 { return None }
+        if !(1..=7).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -934,7 +934,7 @@ pub struct Tumbling {
 }
 impl Skill for Tumbling {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1020,7 +1020,7 @@ pub struct FlyingKick {
 }
 impl Skill for FlyingKick {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 7 { return None }
+        if !(1..=7).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1127,7 +1127,7 @@ pub struct PeacefulBreak {
 }
 impl Skill for PeacefulBreak {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1213,7 +1213,7 @@ pub struct HappyBreak {
 }
 impl Skill for HappyBreak {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 10 { return None }
+        if !(1..=10).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1299,7 +1299,7 @@ pub struct Kihop {
 }
 impl Skill for Kihop {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 5 { return None }
+        if !(1..=5).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1385,7 +1385,7 @@ pub struct MildWind {
 }
 impl Skill for MildWind {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 7 { return None }
+        if !(1..=7).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1492,7 +1492,7 @@ pub struct TaekwonJump {
 }
 impl Skill for TaekwonJump {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 5 { return None }
+        if !(1..=5).contains(&level) { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1593,7 +1593,7 @@ pub struct TaekwonMission {
 }
 impl Skill for TaekwonMission {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level < 1 || level > 1 { return None }
+        if level != 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {

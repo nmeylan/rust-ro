@@ -7,10 +7,10 @@ use crate::enums::EnumWithNumberValue;
 use packets::packets::{PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyMove, PacketZcNotifyVanish};
 use crate::server::model::map::Map;
 
-use crate::server::model::map_item::{MapItem, MapItemSnapshot};
-use crate::server::model::path::manhattan_distance;
+use crate::server::model::map_item::{MapItemSnapshot};
+
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
-use crate::server::{MOB_FOV, Server};
+use crate::server::{Server};
 use crate::server::game_loop::GAME_TICK_RATE;
 use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
 use crate::server::model::action::Damage;
@@ -23,7 +23,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::mob_service::MobService;
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::mob::{Mob, MobMovement};
-use models::status::Status;
+
 use crate::server::model::status::StatusFromDb;
 use crate::util::tick::{delayed_tick, get_tick, get_tick_client};
 
@@ -83,7 +83,7 @@ impl MapInstanceService {
         }
     }
 
-    pub fn update_mobs_fov(&self, map_instance_state: &mut MapInstanceState, characters: Vec<MapItemSnapshot>) {
+    pub fn update_mobs_fov(&self, _map_instance_state: &mut MapInstanceState, _characters: Vec<MapItemSnapshot>) {
         // for (_, mob) in map_instance_state.mobs_mut().iter_mut() {
         //     let mut viewed_chars: Vec<MapItem> = Vec::with_capacity(characters.len());
         //     for character in characters.iter() {

@@ -1,11 +1,11 @@
 use std::collections::HashSet;
 
 
-use std::iter::Filter;
+
 use std::sync::{Mutex};
 use accessor::Setters;
-use enums::{EnumWithMaskValueU64};
-use enums::item::{EquipmentLocation, ItemType};
+
+use enums::item::{ItemType};
 use enums::look::LookType;
 use models::item::EquippedItem;
 

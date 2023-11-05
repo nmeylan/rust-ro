@@ -167,7 +167,7 @@ pub fn get_sent_notification(notifications: &Vec<Notification>, expectation: &No
         match expectation.kind {
             NotificationExpectationKind::Char => {
                 if let Notification::Char(sent_char_notification) = sent_notification {
-                    if expectation.char_id.is_some() && sent_char_notification.char_id() == expectation.char_id.unwrap() && contains_packet(&expectation, packetver, sent_char_notification.serialized_packet()) {
+                    if expectation.char_id.is_some() && sent_char_notification.char_id() == expectation.char_id.unwrap() && contains_packet(expectation, packetver, sent_char_notification.serialized_packet()) {
                         return true;
                     }
                 }
@@ -176,7 +176,7 @@ pub fn get_sent_notification(notifications: &Vec<Notification>, expectation: &No
             NotificationExpectationKind::AreaFov => {
                 if let Notification::Area(sent_area_notification) = sent_notification {
                     if let AreaNotificationRangeType::Fov { x, y, .. } = sent_area_notification.range_type {
-                        if expectation.x.is_some() && x == expectation.x.unwrap() && expectation.y.is_some() && y == expectation.y.unwrap() && contains_packet(&expectation, packetver, sent_area_notification.serialized_packet()) {
+                        if expectation.x.is_some() && x == expectation.x.unwrap() && expectation.y.is_some() && y == expectation.y.unwrap() && contains_packet(expectation, packetver, sent_area_notification.serialized_packet()) {
                             return true;
                         }
                     }
@@ -185,7 +185,7 @@ pub fn get_sent_notification(notifications: &Vec<Notification>, expectation: &No
             }
             NotificationExpectationKind::AreaMap => {
                 if let Notification::Area(sent_area_map_notification) = sent_notification {
-                    if matches!(sent_area_map_notification.range_type, AreaNotificationRangeType::Map) && expectation.map_name.is_some() && sent_area_map_notification.map_name.as_str() == expectation.map_name.unwrap() && contains_packet(&expectation, packetver, sent_area_map_notification.serialized_packet()) {
+                    if matches!(sent_area_map_notification.range_type, AreaNotificationRangeType::Map) && expectation.map_name.is_some() && sent_area_map_notification.map_name.as_str() == expectation.map_name.unwrap() && contains_packet(expectation, packetver, sent_area_map_notification.serialized_packet()) {
                         return true;
                     }
                 }

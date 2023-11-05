@@ -1,5 +1,5 @@
-use enums::EnumWithMaskValueU64;
-use enums::item::EquipmentLocation;
+
+
 use enums::weapon::WeaponType;
 use crate::position::Position;
 
