@@ -254,7 +254,7 @@ pub enum UseSkillFailure {
     Pos,
     HelperSpInsufficient,
     NeerWall,
-    NeedExp_1percent,
+    NeedExp1percent,
     ChorusSpInsufficient,
     GcWeaponblocking,
     GcPoisoningweapon,
