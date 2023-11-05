@@ -60,14 +60,7 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
 #[cfg(test)]
 mod tests {
     use std::sync::Arc;
-    
     use tokio::runtime::Runtime;
-    
-    
-    
-    
-    
-    
     use crate::server::model::events::map_event::{MapEvent};
     use models::item::DroppedItem;
     use crate::server::model::map_item::ToMapItem;

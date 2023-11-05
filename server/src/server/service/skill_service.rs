@@ -1,9 +1,11 @@
 use std::mem;
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
-use packets::packets::{PacketZcNotifySkill2, PacketZcUseskillAck2};
+use enums::EnumWithNumberValue;
+use enums::skill::{UseSkillFailure, UseSkillFailureClientSideType};
+use packets::packets::{PacketZcAckTouseskill, PacketZcNotifySkill2, PacketZcUseskillAck2};
 use skills::skill_enums::SkillEnum;
-use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
+use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map_item::MapItemSnapshot;
 use crate::server::service::global_config_service::GlobalConfigService;
@@ -39,14 +41,17 @@ impl SkillService {
         let skill = SkillEnum::from_id(skill_id);
         let mut skill = skill.to_object(skill_level).unwrap();
 
-        skill.validate_sp(character.status.sp);
+        let validate_sp = skill.validate_sp(character.status.sp);
+        if validate_sp.is_err() {
+            self.send_skill_fail_packet(character, UseSkillFailure::SpInsufficient);
+            return;
+        }
         skill.validate_hp(character.status.sp);
 
         // TODO use char stats
         skill.update_cast_time(skill.base_cast_time());
         skill.update_after_cast_act_delay(skill.base_after_cast_act_delay());
         skill.update_after_cast_walk_delay(skill.base_after_cast_walk_delay());
-
         let mut packet_zc_useskill_ack2 = PacketZcUseskillAck2::new(self.configuration_service.packetver());
         packet_zc_useskill_ack2.set_target_id(item_snapshot.map_item().id());
         packet_zc_useskill_ack2.set_skid(skill_id as u16);
@@ -64,6 +69,15 @@ impl SkillService {
         if no_delay {
             self.do_use_skill(character, target, tick);
         }
+    }
+
+    fn send_skill_fail_packet(&self, character: &mut Character, cause: UseSkillFailure) {
+        let mut packet_zc_ack_touseskill = PacketZcAckTouseskill::new(self.configuration_service.packetver());
+        packet_zc_ack_touseskill.set_cause(cause.value() as u8);
+        packet_zc_ack_touseskill.set_num(UseSkillFailureClientSideType::SkillFailed.value() as u32);
+        packet_zc_ack_touseskill.set_result(false);
+        packet_zc_ack_touseskill.fill_raw();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_ack_touseskill.raw_mut())))).unwrap();
     }
 
     pub fn do_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, tick: u128) {

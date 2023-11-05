@@ -1,5 +1,3 @@
-use std::iter::{Filter, Map};
-use std::slice::Iter;
 use accessor::SettersAll;
 use enums::EnumWithMaskValueU64;
 use enums::item::EquipmentLocation;
