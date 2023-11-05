@@ -40,7 +40,7 @@ mod tests {
     use models::position::Position;
     use skills::skill_enums::SkillEnum;
     use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcUseskillAck2};
-    use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event};
+    use crate::{assert_sent_packet_in_current_packetver};
     use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem};
     use crate::server::state::skill::KnownSkill;

@@ -60,7 +60,7 @@ impl SkillService {
         packet_zc_useskill_ack2.set_aid(character.char_id);
         packet_zc_useskill_ack2.fill_raw();
         self.client_notification_sender.send(Notification::Area(
-            (AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_useskill_ack2.raw_mut())))
+            AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_useskill_ack2.raw_mut()))
         )).unwrap();
 
 
@@ -101,7 +101,7 @@ impl SkillService {
 
         character.update_skill_used_at_tick(tick);
         self.client_notification_sender.send(Notification::Area(
-            (AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_skill2.raw_mut())))
+            AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_skill2.raw_mut()))
         )).unwrap();
     }
 

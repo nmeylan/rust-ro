@@ -130,11 +130,7 @@ impl StatusService {
     }
 
     pub fn weapon_lvl(&self, status: &Status) -> Option<i16> {
-        if let Some(right_hand_weapon) = status.right_hand_weapon() {
-            Some(right_hand_weapon.level as i16)
-        } else {
-            None
-        }
+        status.right_hand_weapon().map(|right_hand_weapon| right_hand_weapon.level as i16)
     }
 
     /// UI right side atk in status info panel

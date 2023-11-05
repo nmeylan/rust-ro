@@ -1,7 +1,7 @@
 use crate::{Server};
 use crate::server::model::request::Request;
 
-use packets::packets::{Packet, PacketCzUseSkill};
+use packets::packets::{PacketCzUseSkill};
 use crate::server::model::events::game_event::{CharacterUseSkill, GameEvent};
 
 pub fn handle_use_skill(server: &Server, context: Request) {

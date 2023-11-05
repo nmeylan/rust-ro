@@ -6,7 +6,7 @@ use enums::class::{EquipClassFlag, JobName};
 use enums::EnumWithMaskValueU64;
 use enums::item::{EquipmentLocation};
 use enums::look::LookType;
-use models::item::{Wearable, WearGear};
+use models::item::{Wearable};
 
 use crate::enums::EnumWithNumberValue;
 use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};

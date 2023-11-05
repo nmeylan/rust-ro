@@ -153,7 +153,7 @@ mod tests {
         // Given
         let context = before_each();
         let _character = create_character();
-        for (vit) in [0, 1, 2, 45, 88].iter() {
+        for vit in [0, 1, 2, 45, 88].iter() {
             // When
             let actual_vit = context.status_service.mob_vit_def(*vit);
             // Then
