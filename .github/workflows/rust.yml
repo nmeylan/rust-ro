@@ -30,7 +30,7 @@ jobs:
     - name: Install latest nightly
       uses: actions-rs/toolchain@v1
       with:
-          toolchain: stable
+          toolchain: nightly-2023-11-03
           override: true
     - name: Build
       run: cargo build --release --verbose
