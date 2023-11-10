@@ -1,9 +1,5 @@
 #![allow(dead_code)]
 
-use sqlx::{Decode, Postgres};
-use sqlx::database::HasValueRef;
-use sqlx::error::BoxDynError;
-use sqlx::TypeInfo;
 use crate::*;
 
 #[derive(WithNumberValue, WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
@@ -76,22 +72,4 @@ pub enum AmmoType {
     Cannonball,
     Throwweapon,
     MaxType,
-}
-
-impl<'r> Decode<'r, Postgres> for WeaponType {
-    fn decode(value: <Postgres as HasValueRef<'r>>::ValueRef) -> Result<Self, BoxDynError> {
-        let value = <&str as Decode<Postgres>>::decode(value)?;
-        Ok(WeaponType::from_string_ignore_case(value))
-    }
-}
-
-impl sqlx::Type<Postgres> for WeaponType {
-    fn type_info() -> <sqlx::Postgres as sqlx::Database>::TypeInfo {
-        <&str as sqlx::Type<sqlx::Postgres>>::type_info()
-    }
-
-
-    fn compatible(ty: &<sqlx::Postgres as sqlx::Database>::TypeInfo) -> bool {
-        ty.name() == "VARCHAR"
-    }
 }

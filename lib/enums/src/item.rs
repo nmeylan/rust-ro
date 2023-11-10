@@ -1,9 +1,4 @@
 #![allow(dead_code)]
-
-use sqlx::{Decode, Postgres};
-use sqlx::database::HasValueRef;
-use sqlx::error::BoxDynError;
-use sqlx::TypeInfo;
 use crate::*;
 use crate::item::ItemType::{DelayConsume, Usable};
 
@@ -167,23 +162,5 @@ impl ItemType {
     }
     pub fn is_etc(&self) -> bool {
         matches!(self, ItemType::Etc | ItemType::Card | ItemType::Unknown2 | ItemType::Ammo | ItemType::Max)
-    }
-}
-
-impl<'r> Decode<'r, Postgres> for ItemType {
-    fn decode(value: <Postgres as HasValueRef<'r>>::ValueRef) -> Result<Self, BoxDynError> {
-        let value = <&str as Decode<Postgres>>::decode(value)?;
-        Ok(ItemType::from_string(value))
-    }
-}
-
-impl sqlx::Type<Postgres> for ItemType {
-    fn type_info() -> <sqlx::Postgres as sqlx::Database>::TypeInfo {
-        <&str as sqlx::Type<sqlx::Postgres>>::type_info()
-    }
-
-
-    fn compatible(ty: &<sqlx::Postgres as sqlx::Database>::TypeInfo) -> bool {
-        ty.name() == "VARCHAR"
     }
 }

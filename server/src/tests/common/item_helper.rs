@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::repository::model::item_model::InventoryItemModel;
+use crate::repository::model::item_model::{DBItemType, InventoryItemModel};
 use crate::server::service::global_config_service::GlobalConfigService;
 
 pub fn create_inventory_item(item_name: &str, amount: i16) -> InventoryItemModel {
@@ -10,7 +10,7 @@ pub fn create_inventory_item(item_name: &str, amount: i16) -> InventoryItemModel
         id: rng.next_u32() as i32,
         unique_id: 0,
         item_id: item.id,
-        item_type: item.item_type,
+        item_type: DBItemType::from_type(item.item_type),
         amount,
         refine: 0,
         is_identified: false,
