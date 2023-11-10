@@ -4,12 +4,11 @@ use rand::RngCore;
 use tokio::runtime::Runtime;
 use enums::class::{EquipClassFlag, JobName};
 use enums::EnumWithMaskValueU64;
-use enums::item::{EquipmentLocation};
+use enums::item::{EquipmentLocation, ItemType};
 use enums::look::LookType;
 use models::item::{Wearable};
-
 use crate::enums::EnumWithNumberValue;
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::repository::{InventoryRepository};
 
@@ -271,11 +270,13 @@ impl InventoryService {
 
     pub fn equip_item(&self, character: &mut Character, character_equip_item: CharacterEquipItem) -> Option<EquippedItem> {
         let mut packet_zc_req_wear_equip_ack = PacketZcReqWearEquipAck2::new(self.configuration_service.packetver());
+        let mut packet_zc_equip_arrow = PacketZcEquipArrow::new(self.configuration_service.packetver());
         let index = character_equip_item.index;
         packet_zc_req_wear_equip_ack.set_index(index as u16);
         packet_zc_req_wear_equip_ack.set_result(1);
         packet_zc_req_wear_equip_ack.set_view_id(0);
         packet_zc_req_wear_equip_ack.set_wear_location(0);
+        packet_zc_equip_arrow.set_index(index as i16);
 
         let mut packets_raws_by_value = vec![];
 
@@ -285,7 +286,7 @@ impl InventoryService {
             let location = item_to_equip_model.location as i32; // it won't work for shadow gear
             let item_id = item_to_equip_model.id;
             let mut equipped_take_off_items: Vec<EquippedItem> = vec![];
-            if !item_to_equip_model.item_type.is_equipment() {
+            if !item_to_equip_model.item_type.is_wearable() {
                 return None;
             }
             // TODO check if can carry (< 90% weight)
@@ -349,9 +350,15 @@ impl InventoryService {
                 }
                 packets_raws_by_value = chain_packets_raws_by_value(take_off_items_packets.iter().map(|packet| packet.raw.clone()).collect());
             }
+            if matches!(item_to_equip_model.item_type, ItemType::Ammo) {
+                packet_zc_equip_arrow.fill_raw();
+                packets_raws_by_value.extend(packet_zc_equip_arrow.raw);
+
+            } else {
+                packet_zc_req_wear_equip_ack.fill_raw();
+                packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
+            }
         }
-        packet_zc_req_wear_equip_ack.fill_raw();
-        packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
             .expect("Fail to send client notification");
         self.persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))

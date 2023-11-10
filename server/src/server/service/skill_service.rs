@@ -46,7 +46,11 @@ impl SkillService {
             self.send_skill_fail_packet(character, UseSkillFailure::SpInsufficient);
             return;
         }
-        skill.validate_hp(character.status.sp);
+        let validate_hp = skill.validate_hp(character.status.hp);
+        if validate_hp.is_err() {
+            self.send_skill_fail_packet(character, UseSkillFailure::HpInsufficient);
+            return;
+        }
 
         // TODO use char stats
         skill.update_cast_time(skill.base_cast_time());
