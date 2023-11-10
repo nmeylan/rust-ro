@@ -4,7 +4,7 @@ use enums::class::JobName;
 
 
 use models::status::{Look, Status};
-use crate::repository::model::item_model::InventoryItemModel;
+use crate::repository::model::item_model::{DBItemType, InventoryItemModel};
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
@@ -74,7 +74,7 @@ pub fn equip_item(character: &mut Character, aegis_name: &str) -> usize {
         id: rng.next_u32() as i32,
         unique_id: rng.next_u32() as i64,
         item_id: item.id,
-        item_type: item.item_type,
+        item_type: DBItemType::from_type(item.item_type),
         amount: 1,
         refine: 0,
         is_identified: false,
@@ -99,7 +99,7 @@ pub fn add_item_in_inventory(character: &mut Character, aegis_name: &str) -> usi
         id: rng.next_u32() as i32,
         unique_id: rng.next_u32() as i64,
         item_id: item.id,
-        item_type: item.item_type,
+        item_type: DBItemType::from_type(item.item_type),
         amount: 1,
         refine: 0,
         is_identified: false,
@@ -122,7 +122,7 @@ pub fn add_items_in_inventory(character: &mut Character, aegis_name: &str, amoun
         id: rng.next_u32() as i32,
         unique_id: rng.next_u32() as i64,
         item_id: item.id,
-        item_type: item.item_type,
+        item_type: DBItemType::from_type(item.item_type),
         amount,
         refine: 0,
         is_identified: false,

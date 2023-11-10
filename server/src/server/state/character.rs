@@ -265,7 +265,7 @@ impl Character {
     pub fn add_items(&mut self, items: Vec<InventoryItemModel>) -> Vec<(usize, InventoryItemModel)> {
         let mut added_items = vec![];
         for item in items {
-            if item.item_type.is_stackable() {
+            if item.item_type().is_stackable() {
                 if let Some((index, item_in_inventory)) = self.inventory.iter_mut().enumerate().filter(|(_, i)| i.is_some()).map(|(index, i)| (index, i.as_mut().unwrap())).find(|(_index, i)| i.item_id == item.item_id) {
                     item_in_inventory.amount += item.amount;
                     added_items.push((index, item.clone()));
@@ -315,9 +315,9 @@ impl Character {
         };
         let item = self.get_item_from_inventory(index);
         if let Some(item) = item {
-            if matches!(item.item_type, ItemType::Weapon) {
+            if matches!(item.item_type(), ItemType::Weapon) {
                 self.status.takeoff_weapon(index);
-            } else if matches!(item.item_type, ItemType::Ammo) {
+            } else if matches!(item.item_type(), ItemType::Ammo) {
                 self.status.takeoff_ammo();
             } else {
                 self.status.takeoff_equipment(index);
@@ -335,9 +335,9 @@ impl Character {
         };
         let item = self.get_item_from_inventory(index);
         if let Some(item) = item {
-            if matches!(item.item_type, ItemType::Weapon) {
+            if matches!(item.item_type(), ItemType::Weapon) {
                 self.status.wear_weapon(item_to_equip_model.to_wear_weapon(index, location, item));
-            } else if matches!(item.item_type, ItemType::Ammo) {
+            } else if matches!(item.item_type(), ItemType::Ammo) {
                 self.status.wear_ammo(item_to_equip_model.to_wear_ammo(index));
             } else {
                 self.status.wear_equipment(item_to_equip_model.to_wear_gear(index, location, item));
@@ -374,18 +374,18 @@ impl Character {
 
     pub fn inventory_equip(&self) -> Vec<(usize, &InventoryItemModel)> {
         self.inventory_iter()
-            .filter(|(_, item)| item.item_type.is_equipment())
+            .filter(|(_, item)| item.item_type().is_equipment())
             .collect()
     }
     pub fn inventory_wearable(&self) -> Vec<(usize, &InventoryItemModel)> {
         self.inventory_iter()
-            .filter(|(_, item)| item.item_type.is_wearable())
+            .filter(|(_, item)| item.item_type().is_wearable())
             .collect()
     }
 
     pub fn inventory_normal(&self) -> Vec<(usize, &InventoryItemModel)> {
         self.inventory_iter()
-            .filter(|(_, item)| !item.item_type.is_equipment())
+            .filter(|(_, item)| !item.item_type().is_equipment())
             .collect()
     }
 

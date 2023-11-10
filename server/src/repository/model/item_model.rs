@@ -1,6 +1,9 @@
 
 use serde::{Deserialize, Serialize};
-use sqlx::{Error, FromRow, Row};
+use sqlx::{Decode, Error, FromRow, Postgres, Row};
+use sqlx::database::HasValueRef;
+use sqlx::error::BoxDynError;
+use sqlx::TypeInfo;
 use configuration::serde_helper::{*};
 
 
@@ -331,6 +334,23 @@ pub struct GetItemModel {
     pub name_aegis: String,
 }
 
+struct DBWeaponType {
+    weapon_type: WeaponType
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct DBItemType {
+    item_type: ItemType
+}
+
+impl DBItemType {
+    pub(crate) fn from_type(item_type: ItemType) -> Self {
+        Self {
+            item_type,
+        }
+    }
+}
+
 #[derive(sqlx::FromRow, Debug, Clone, PartialEq)]
 pub struct InventoryItemModel {
     // Come from inventory table
@@ -339,7 +359,7 @@ pub struct InventoryItemModel {
     #[sqlx(rename = "nameid")]
     pub item_id: i32,
     #[sqlx(rename = "type")]
-    pub item_type: ItemType,
+    pub(crate) item_type: DBItemType,
     pub amount: i16,
     pub refine: i16,
     #[sqlx(rename = "identified")]
@@ -364,7 +384,7 @@ impl InventoryItemModel {
             id: 0,
             unique_id: 0,
             item_id: item.id,
-            item_type: item.item_type,
+            item_type: DBItemType{ item_type: item.item_type },
             amount,
             refine: 0,
             is_identified,
@@ -377,5 +397,27 @@ impl InventoryItemModel {
             name_english: item.name_english.clone(),
             weight: item.weight
         }
+    }
+
+    pub fn item_type(&self) -> ItemType {
+        self.item_type.item_type
+    }
+}
+
+impl<'r> Decode<'r, Postgres> for DBItemType {
+    fn decode(value: <Postgres as HasValueRef<'r>>::ValueRef) -> Result<Self, BoxDynError> {
+        let value = <&str as Decode<Postgres>>::decode(value)?;
+        Ok(DBItemType{ item_type: ItemType::from_string(value) } )
+    }
+}
+
+impl sqlx::Type<Postgres> for DBItemType {
+    fn type_info() -> <sqlx::Postgres as sqlx::Database>::TypeInfo {
+        <&str as sqlx::Type<sqlx::Postgres>>::type_info()
+    }
+
+
+    fn compatible(ty: &<sqlx::Postgres as sqlx::Database>::TypeInfo) -> bool {
+        ty.name() == "VARCHAR"
     }
 }

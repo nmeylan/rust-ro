@@ -55,7 +55,7 @@ impl InventoryService {
     pub fn add_items_in_inventory(&self, runtime: &Runtime, add_items: CharacterAddItems, character: &mut Character) {
         let mut rng = rand::thread_rng();
         let inventory_item_updates: Vec<InventoryItemUpdate> = add_items.items.iter().map(|item| {
-            if item.item_type.is_stackable() {
+            if item.item_type().is_stackable() {
                 InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id, amount: item.amount, stackable: true, identified: item.is_identified, unique_id: 0 }
             } else {
                 InventoryItemUpdate { char_id: add_items.char_id as i32, item_id: item.item_id, amount: item.amount, stackable: false, identified: item.is_identified, unique_id: rng.next_u32() as i64 }
@@ -74,7 +74,7 @@ impl InventoryService {
                 packet_zc_item_pickup_ack3.set_count(item.amount as u16);
                 packet_zc_item_pickup_ack3.set_index(*index as u16);
                 packet_zc_item_pickup_ack3.set_is_identified(item.is_identified);
-                packet_zc_item_pickup_ack3.set_atype(item.item_type.to_client_type() as u8);
+                packet_zc_item_pickup_ack3.set_atype(item.item_type().to_client_type() as u8);
                 packet_zc_item_pickup_ack3.set_location(item_info.location as u16);
                 packet_zc_item_pickup_ack3.fill_raw();
                 packets.push(packet_zc_item_pickup_ack3)
@@ -175,7 +175,7 @@ impl InventoryService {
             let item_info = self.configuration_service.get_item(item.item_id);
             let mut equipmentitem_extrainfo301 = EquipmentitemExtrainfo301::new(self.configuration_service.packetver());
             equipmentitem_extrainfo301.set_itid(item.item_id as u16);
-            equipmentitem_extrainfo301.set_atype(item.item_type.value() as u8);
+            equipmentitem_extrainfo301.set_atype(item.item_type().value() as u8);
             equipmentitem_extrainfo301.set_index(*index as i16);
             equipmentitem_extrainfo301.set_is_damaged(item.is_damaged);
             equipmentitem_extrainfo301.set_is_identified(item.is_identified);
@@ -199,7 +199,7 @@ impl InventoryService {
         character.inventory_normal().iter().for_each(|(index, item)| {
             let mut extrainfo3 = NormalitemExtrainfo3::new(self.configuration_service.packetver());
             extrainfo3.set_itid(item.item_id as u16);
-            extrainfo3.set_atype(item.item_type.to_client_type() as u8);
+            extrainfo3.set_atype(item.item_type().to_client_type() as u8);
             extrainfo3.set_index(*index as i16);
             extrainfo3.set_count(item.amount);
             extrainfo3.set_is_identified(item.is_identified);
@@ -294,7 +294,7 @@ impl InventoryService {
                 if location & EquipmentLocation::AccessoryLeft.as_flag() as i32 != 0 || location & EquipmentLocation::AccessoryRight.as_flag() as i32 != 0 {
                     // Remove equipped accessory if both(right and left) slots are occupied, otherwise just equip the item in the free slot (right or left)
                     let accessories: Vec<(usize, &InventoryItemModel)> = character.inventory.iter().enumerate()
-                        .filter(|(_, i)| if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
+                        .filter(|(_, i)| if let Some(j) = i { j.item_type().is_equipment() && (j.equip & location != 0) } else { false })
                         .map(|(index, item)| (index, item.as_ref().unwrap()))
                         .collect();
                     if accessories.len() == 2 {
@@ -324,7 +324,7 @@ impl InventoryService {
                     // Remove equipped items in same location. E.g: when goggle item is equipped it remove top and mid head items, when a 2h weapon is equipped it remove shield and weapon items...
                     let mut items_index_to_remove = vec![];
                     character.inventory.iter().enumerate()
-                        .filter(|(_, i)| if let Some(j) = i { j.item_type.is_equipment() && (j.equip & location != 0) } else { false })
+                        .filter(|(_, i)| if let Some(j) = i { j.item_type().is_equipment() && (j.equip & location != 0) } else { false })
                         .for_each(|(item_index, inventory_item)| {
                             let inventory_item = inventory_item.as_ref().unwrap();
                             equipped_take_off_items.push(EquippedItem { item_id: inventory_item.id, location: inventory_item.equip as u64, index: item_index });
