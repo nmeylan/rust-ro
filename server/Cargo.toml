@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 byteorder = "1.5.0"
 lazy_static  = "1.4.0"
-regex = "1.10.2"
+regex = { version = "1.10.2", features = ["default"] }
 tokio = { version = "1.33.0", features = ["full", "tracing"] }
 futures = "0.3"
 sqlx = { version = "0.7.2", features = [ "runtime-tokio-rustls", "postgres" ] }
