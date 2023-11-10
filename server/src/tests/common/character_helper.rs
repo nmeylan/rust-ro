@@ -44,6 +44,7 @@ pub fn create_character() -> Character {
             job_exp: 0,
             weapons: vec![],
             equipments: vec![],
+            ammo: None,
         },
         char_id: 150000,
         account_id: 2000000,

@@ -1,6 +1,6 @@
-
-
-use enums::weapon::WeaponType;
+use enums::EnumWithMaskValueU64;
+use enums::item::EquipmentLocation;
+use enums::weapon::{AmmoType, WeaponType};
 use crate::position::Position;
 
 
@@ -68,6 +68,13 @@ pub struct WearGear {
     pub inventory_index: usize,
 }
 
+#[derive(Debug, Clone, Copy)]
+pub struct WearAmmo {
+    pub item_id: i32,
+    pub inventory_index: usize,
+    pub ammo_type: AmmoType,
+}
+
 pub trait Wearable {
     fn location(&self) -> u64;
     fn item_id(&self) -> i32;
@@ -95,6 +102,16 @@ impl Wearable for WearWeapon {
 impl Wearable for EquippedItem {
     fn location(&self) -> u64 {
         self.location
+    }
+
+    fn item_id(&self) -> i32 {
+        self.item_id
+    }
+}
+
+impl Wearable for WearAmmo {
+    fn location(&self) -> u64 {
+        EquipmentLocation::Ammo.as_flag()
     }
 
     fn item_id(&self) -> i32 {

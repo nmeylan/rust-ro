@@ -1,7 +1,9 @@
+use std::ptr::eq;
 use accessor::SettersAll;
 use enums::EnumWithMaskValueU64;
 use enums::item::EquipmentLocation;
-use crate::item::{Wearable, WearGear, WearWeapon};
+use enums::weapon::AmmoType;
+use crate::item::{Wearable, WearAmmo, WearGear, WearWeapon};
 
 
 #[derive(SettersAll, Debug, Default, Clone)]
@@ -35,7 +37,8 @@ pub struct Status {
     pub base_exp: u32,
     pub job_exp: u32,
     pub weapons: Vec<WearWeapon>,
-    pub equipments: Vec<WearGear>
+    pub equipments: Vec<WearGear>,
+    pub ammo: Option<WearAmmo>
 }
 
 impl Status {
@@ -49,6 +52,9 @@ impl Status {
 
     pub fn equipped_weapons(&self) -> &Vec<WearWeapon> {
         &self.weapons
+    }
+    pub fn equipped_ammo(&self) -> &Option<WearAmmo> {
+        &self.ammo
     }
 
     pub fn takeoff_weapon(&mut self, inventory_index: usize) {
@@ -67,10 +73,18 @@ impl Status {
         self.equipments.push(wear_weapon);
     }
 
+    pub fn takeoff_ammo(&mut self) {
+        self.ammo = None;
+    }
+    pub fn wear_ammo(&mut self, wear_ammo: WearAmmo) {
+        self.ammo = Some(wear_ammo);
+    }
+
     pub fn all_equipped_items(&self) -> Vec<&dyn Wearable> {
         let mut equipments = self.equipped_gears().iter().map(|e| e as &dyn Wearable).collect::<Vec<&dyn Wearable>>();
         let weapons = self.equipped_weapons().iter().map(|e| e as &dyn Wearable).collect::<Vec<&dyn Wearable>>();
         equipments.extend(weapons);
+        self.equipped_ammo().as_ref().map(|ammo| equipments.push(ammo as &dyn Wearable));
         equipments
     }
 }

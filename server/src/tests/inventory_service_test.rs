@@ -346,6 +346,8 @@ mod tests {
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, item.location as i32);
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, EquipmentLocation::Ammo.as_flag() as i32);
+        assert!(character.status.all_equipped_items().iter().any(|item| item.item_id() as u32 == GlobalConfigService::instance().get_item_id_from_name("Arrow")));
+        assert_eq!(character.status.equipped_ammo().unwrap().item_id as u32, GlobalConfigService::instance().get_item_id_from_name("Arrow"));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcEquipArrow::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
     }
@@ -494,6 +496,20 @@ mod tests {
         assert_eq!(character.status.all_equipped_items().len(), 1);
         // When
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
+        // Then
+        assert_eq!(character.status.all_equipped_items().len(), 0);
+    }
+
+    #[test]
+    fn test_takeoff_ammo_should_unequip_item() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        let _char_id = character.char_id;
+        let arrow_index = equip_item(&mut character, "Arrow");
+        assert_eq!(character.status.all_equipped_items().len(), 1);
+        // When
+        context.inventory_service.takeoff_equip_item(&mut character, arrow_index);
         // Then
         assert_eq!(character.status.all_equipped_items().len(), 0);
     }

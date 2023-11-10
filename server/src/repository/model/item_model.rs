@@ -10,7 +10,7 @@ use enums::class::EquipClassFlag;
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
 use enums::weapon::{AmmoType, WeaponType};
-use models::item::{WearGear, WearWeapon};
+use models::item::{WearAmmo, WearGear, WearWeapon};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ItemModels {
@@ -287,6 +287,14 @@ impl ItemModel {
             card0: inventory_model.card0,
             def: self.defense.unwrap_or(0),
             inventory_index,
+        }
+    }
+
+    pub fn to_wear_ammo(&self, inventory_index: usize) -> WearAmmo {
+        WearAmmo {
+            item_id: self.id,
+            inventory_index,
+            ammo_type: self.ammo_type.unwrap().clone()
         }
     }
 
