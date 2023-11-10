@@ -48,6 +48,7 @@ impl StatusFromDb {
             job_exp: char_model.job_exp as u32,
             weapons: vec![],
             equipments: vec![],
+            ammo: None,
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
@@ -82,6 +83,7 @@ impl StatusFromDb {
             job_exp: 0,
             weapons: vec![],
             equipments: vec![],
+            ammo: None,
         }
     }
 }

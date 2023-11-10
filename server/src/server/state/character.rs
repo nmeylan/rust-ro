@@ -1,7 +1,6 @@
 use std::collections::HashSet;
 
 
-
 use std::sync::{Mutex};
 use accessor::Setters;
 
@@ -318,6 +317,8 @@ impl Character {
         if let Some(item) = item {
             if matches!(item.item_type, ItemType::Weapon) {
                 self.status.takeoff_weapon(index);
+            } else if matches!(item.item_type, ItemType::Ammo) {
+                self.status.takeoff_ammo();
             } else {
                 self.status.takeoff_equipment(index);
             }
@@ -336,6 +337,8 @@ impl Character {
         if let Some(item) = item {
             if matches!(item.item_type, ItemType::Weapon) {
                 self.status.wear_weapon(item_to_equip_model.to_wear_weapon(index, location, item));
+            } else if matches!(item.item_type, ItemType::Ammo) {
+                self.status.wear_ammo(item_to_equip_model.to_wear_ammo(index));
             } else {
                 self.status.wear_equipment(item_to_equip_model.to_wear_gear(index, location, item));
             }

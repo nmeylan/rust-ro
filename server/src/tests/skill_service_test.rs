@@ -151,6 +151,7 @@ mod tests {
     //     context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
     //     assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcActionFailure::packet_id(packetver), 1)]));
     // }
+
     #[test]
     fn start_use_skill_should_validate_skill_level_requirement() {
 
