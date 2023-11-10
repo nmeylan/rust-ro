@@ -1,8 +1,6 @@
-use std::ptr::eq;
 use accessor::SettersAll;
 use enums::EnumWithMaskValueU64;
 use enums::item::EquipmentLocation;
-use enums::weapon::AmmoType;
 use crate::item::{Wearable, WearAmmo, WearGear, WearWeapon};
 
 

@@ -17,7 +17,7 @@ pub fn setters(input: TokenStream) -> TokenStream {
                      }) => &fields.named,
         _ => panic!("expected a struct with named fields"),
     };
-    let generated_setters = fields.iter().filter(|field| field.attrs.iter().any(|attr| attr.path.is_ident("set")))
+    let generated_setters = fields.iter().filter(|field| field.attrs.iter().any(|attr| attr.path().is_ident("set")))
         .map(|field| {
             let field_name = field.ident.as_ref().unwrap();
             let function_name = Ident::new(format!("set_{field_name}").as_str(), Span::call_site());

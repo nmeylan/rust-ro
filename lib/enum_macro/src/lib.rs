@@ -1,4 +1,5 @@
 extern crate proc_macro;
+
 use proc_macro::{TokenStream};
 use quote::quote;
 use syn::{parse_macro_input, DeriveInput, Variant};
@@ -173,19 +174,24 @@ with_mask!(with_mask_value_u8, EnumWithMaskValueU8, WithMaskValueU8, u8, 7);
 
 
 fn get_number_value<T>(variant: &Variant, ident: &str) -> Option<T>
-    where T: std::str::FromStr, <T as std::str::FromStr>::Err: std::fmt::Debug {
-    let maybe_value = variant.attrs.iter().find(|attr| attr.path.is_ident(ident)).map(|attr| match attr.parse_meta().unwrap() {
-        syn::Meta::NameValue(syn::MetaNameValue {
-                                 lit: syn::Lit::Int(s),
-                                 ..
-                             }) => s.to_string().parse::<T>().unwrap(),
-        _ => panic!("malformed attribute syntax"),
+    where T: std::str::FromStr, <T as std::str::FromStr>::Err: std::fmt::Display {
+    let maybe_value = variant.attrs.iter().find(|attr| attr.path().is_ident(ident)).and_then(|attr| {
+        let meta = &attr.meta;
+        if let syn::Meta::NameValue(syn::MetaNameValue { path: _, eq_token: _, value }) = meta {
+            if let syn::Expr::Lit(syn::ExprLit { lit: syn::Lit::Int(s), .. }) = value {
+                s.base10_parse::<T>().ok()
+            } else {
+                None
+            }
+        } else {
+            None
+        }
     });
     maybe_value
 }
 
 fn is_all_value(variant: &Variant, ident: &str) -> bool {
-    variant.attrs.iter().any(|attr| attr.path.is_ident(ident))
+    variant.attrs.iter().any(|attr| attr.path().is_ident(ident))
 }
 
 
@@ -196,10 +202,10 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
     let mut uppercase = false;
     let mut lowercase = false;
     input.attrs.iter().for_each(|attr| {
-        if attr.path.is_ident("with_string_value_uppercase") {
+        if attr.path().is_ident("with_string_value_uppercase") {
             uppercase = true;
         }
-        if attr.path.is_ident("with_string_value_lowercase") {
+        if attr.path().is_ident("with_string_value_lowercase") {
             lowercase = true;
         }
     });
@@ -304,12 +310,17 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
 }
 
 fn get_string_value(variant: &Variant) -> Option<String> {
-    let maybe_value = variant.attrs.iter().find(|attr| attr.path.is_ident("value_string")).map(|attr| match attr.parse_meta().unwrap() {
-        syn::Meta::NameValue(syn::MetaNameValue {
-                                 lit: syn::Lit::Str(s),
-                                 ..
-                             }) => s.value(),
-        _ => panic!("malformed attribute syntax"),
+    let maybe_value = variant.attrs.iter().find(|attr| attr.path().is_ident("value_string")).and_then(|attr| {
+        let meta = &attr.meta;
+        if let syn::Meta::NameValue(syn::MetaNameValue { path: _, eq_token: _, value }) = meta {
+            if let syn::Expr::Lit(syn::ExprLit { lit: syn::Lit::Str(s), .. }) = value {
+                Some(s.value())
+            } else {
+                None
+            }
+        } else {
+            None
+        }
     });
     maybe_value
 }

@@ -9,7 +9,6 @@ use regex::Regex;
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::skill::SkillFlags;
-use enums::skill::SkillType::Weapon;
 use enums::weapon::WeaponType;
 
 lazy_static! {
