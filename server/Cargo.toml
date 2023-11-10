@@ -22,7 +22,7 @@ eframe = { version = "0.20.1", default-features = false, features = ["glow", "de
 sprintf = "0.1.4"
 async-trait = "0.1.74"
 
-rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "ae0775a9413df3f86b728a5f0bb15d8519614787"}
+rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "22b6a21"}
 
 configuration = { path = "../lib/configuration" }
 accessor = { path = "../lib/accessor" }

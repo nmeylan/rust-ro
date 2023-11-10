@@ -53,7 +53,7 @@ mod tests {
     use tokio::runtime::Runtime;
     use enums::class::JobName;
     use enums::item::EquipmentLocation;
-    use packets::packets::{PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2, PacketZcItemThrowAck};
+    use packets::packets::{PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2, PacketZcItemThrowAck, PacketZcEquipArrow};
     use packets::packets::PacketZcReqWearEquipAck2;
     use crate::enums::EnumWithNumberValue;
     use crate::enums::EnumWithMaskValueU64;
@@ -328,6 +328,25 @@ mod tests {
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
+        assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
+    }
+
+    #[test]
+    fn test_equip_ammo_should_equip_item_if_class_requirements_is_met() {
+        // Given
+        let context = before_each_with_latch(mocked_repository(), 2);
+        let mut character = create_character();
+        let item = GlobalConfigService::instance().get_item_by_name("Arrow");
+        character.status.job = JobName::Archer.value() as u32;
+        let inventory_index = add_item_in_inventory(&mut character, "Arrow");
+        let char_id = character.char_id;
+        // When
+        context.inventory_service.equip_item(&mut character, CharacterEquipItem { char_id, index: inventory_index });
+        // Then
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, item.location as i32);
+        assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, EquipmentLocation::Ammo.as_flag() as i32);
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcEquipArrow::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
     }
 
