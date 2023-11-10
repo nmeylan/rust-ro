@@ -1,7 +1,6 @@
 use proc_macro::TokenStream;
-use quote::{quote, ToTokens};
-use syn::{Block, ItemFn, parse_macro_input};
-use syn::AttributeArgs;
+use quote::{quote};
+use syn::{ItemFn};
 
 #[proc_macro_attribute]
 pub fn elapsed(_args: TokenStream, function_def: TokenStream) -> TokenStream {
@@ -33,32 +32,4 @@ pub fn elapsed(_args: TokenStream, function_def: TokenStream) -> TokenStream {
         }
     };
     TokenStream::from(new_function_def)
-}
-
-#[proc_macro_attribute]
-pub fn elapsed_block(args: TokenStream, block_def: TokenStream) -> TokenStream {
-    let mut block_name = "unnamed block".to_string();
-    let attrs = parse_macro_input!(args as AttributeArgs);
-    if !attrs.is_empty() {
-        block_name = attrs.get(0).unwrap().to_token_stream().to_string();
-    }
-    let item = syn::parse::<Block>(block_def).unwrap();
-    let log_ns = format!("{block_name} tooks {{}}ns");
-    let log_us = format!("{block_name} tooks {{}}µs");
-    let log_ms = format!("{block_name} tooks {{}}ms");
-    let new_block_def = quote! {
-        {
-            let start_for_elapsed_macro = std::time::Instant::now();
-            #item
-            let elapsed = start_for_elapsed_macro.elapsed().as_nanos();
-            if elapsed < 1000 {
-                info!(#log_ns, elapsed);
-            } else if elapsed < 1000 * 1000 {
-                info!(#log_us, elapsed as f64 / 1000.0);
-            } else {
-                info!(#log_ms, elapsed as f64 / 1000.0 / 1000.0);
-            }
-        }
-    };
-    TokenStream::from(new_block_def)
 }
