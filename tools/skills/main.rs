@@ -9,6 +9,8 @@ use regex::Regex;
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::skill::SkillFlags;
+use enums::skill::SkillType::Weapon;
+use enums::weapon::WeaponType;
 
 lazy_static! {
     pub static ref SHORT_CLASS_NAME: HashMap<&'static str, &'static str> = HashMap::from([
@@ -186,7 +188,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
 
     generate_validate_weapon(job_skills_file, skill_config);
 
-    job_skills_file.write_all(b"    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {\n").unwrap();
+    job_skills_file.write_all(b"    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {\n").unwrap();
     job_skills_file.write_all(b"         Ok(())\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 
@@ -241,13 +243,18 @@ fn generate_hit_count(job_skills_file: &mut File, skill_config: &SkillConfig) {
 }
 
 fn generate_validate_weapon(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {\n").unwrap();
+    job_skills_file.write_all(b"    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {\n").unwrap();
     if let Some(requirements) = skill_config.requires() {
         if let Some(weapon) = requirements.weapon_flags() {
             job_skills_file.write_all(b"        if let Some(character_weapon) = character_weapon {\n").unwrap();
             job_skills_file.write_all(format!("            if {} & character_weapon.weapon_type.as_flag() > 0 {{ Ok(()) }} else {{ Err(()) }}\n", weapon).as_bytes()).unwrap();
             job_skills_file.write_all(b"        } else {\n").unwrap();
-            job_skills_file.write_all(b"            Err(())\n").unwrap();
+            if weapon & WeaponType::Fist.as_flag() > 0 {
+                job_skills_file.write_all(b"            // Allow to use Fist\n").unwrap();
+                job_skills_file.write_all(b"            Ok(())\n").unwrap();
+            } else {
+                job_skills_file.write_all(b"            Err(())\n").unwrap();
+            }
             job_skills_file.write_all(b"        }\n").unwrap();
         } else {
             job_skills_file.write_all(b"        Ok(())\n").unwrap();

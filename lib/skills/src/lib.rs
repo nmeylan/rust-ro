@@ -22,8 +22,8 @@ pub trait Skill {
     fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>>;
 
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()>;
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()>;
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()>;
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()>;
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()>;
 
     fn validate_delegate(&self) -> SkillRequirementResult<()> {
         if self.delegate().is_none() {
