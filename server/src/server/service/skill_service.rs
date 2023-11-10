@@ -58,7 +58,12 @@ impl SkillService {
             let mut packet_zc_action_failure = PacketZcActionFailure::new(self.configuration_service.packetver());
             packet_zc_action_failure.fill_raw();
             self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_action_failure.raw_mut())))).unwrap();
-           // self.send_skill_fail_packet(character, UseSkillFailure::HpInsufficient);
+            return;
+        }
+
+        let validate_weapon = skill.validate_weapon(character.status.right_hand_weapon());
+        if validate_weapon.is_err() {
+            self.send_skill_fail_packet(character, UseSkillFailure::ThisWeapon);
             return;
         }
 

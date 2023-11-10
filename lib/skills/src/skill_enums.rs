@@ -3,41 +3,41 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use crate::skills::creator::{*};
-use crate::skills::acolyte::{*};
-use crate::skills::stalker::{*};
-use crate::skills::dancer::{*};
-use crate::skills::professor::{*};
-use crate::skills::merchant::{*};
-use crate::skills::highpriest::{*};
-use crate::skills::taekwon::{*};
-use crate::skills::thief::{*};
-use crate::skills::highwizard::{*};
-use crate::skills::lordknight::{*};
-use crate::skills::alchemist::{*};
-use crate::skills::wizard::{*};
-use crate::skills::clown::{*};
-use crate::skills::novice::{*};
-use crate::skills::rogue::{*};
-use crate::skills::assassin::{*};
-use crate::skills::gunslinger::{*};
-use crate::skills::knight::{*};
-use crate::skills::crusader::{*};
-use crate::skills::bard::{*};
-use crate::skills::hunter::{*};
-use crate::skills::paladin::{*};
-use crate::skills::mage::{*};
-use crate::skills::sniper::{*};
-use crate::skills::champion::{*};
-use crate::skills::monk::{*};
-use crate::skills::sage::{*};
-use crate::skills::assassincross::{*};
-use crate::skills::priest::{*};
+use crate::skills::ninja::{*};
 use crate::skills::archer::{*};
 use crate::skills::whitesmith::{*};
-use crate::skills::ninja::{*};
-use crate::skills::blacksmith::{*};
+use crate::skills::rogue::{*};
+use crate::skills::highpriest::{*};
+use crate::skills::sage::{*};
+use crate::skills::assassincross::{*};
+use crate::skills::monk::{*};
+use crate::skills::clown::{*};
+use crate::skills::hunter::{*};
+use crate::skills::dancer::{*};
+use crate::skills::alchemist::{*};
+use crate::skills::priest::{*};
+use crate::skills::champion::{*};
+use crate::skills::acolyte::{*};
+use crate::skills::mage::{*};
+use crate::skills::sniper::{*};
+use crate::skills::crusader::{*};
+use crate::skills::knight::{*};
+use crate::skills::wizard::{*};
+use crate::skills::professor::{*};
+use crate::skills::stalker::{*};
 use crate::skills::swordsman::{*};
+use crate::skills::creator::{*};
+use crate::skills::blacksmith::{*};
+use crate::skills::paladin::{*};
+use crate::skills::highwizard::{*};
+use crate::skills::novice::{*};
+use crate::skills::assassin::{*};
+use crate::skills::taekwon::{*};
+use crate::skills::merchant::{*};
+use crate::skills::lordknight::{*};
+use crate::skills::bard::{*};
+use crate::skills::gunslinger::{*};
+use crate::skills::thief::{*};
 use crate::Skill;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
@@ -58,31 +58,31 @@ pub enum SkillEnum {
     SmMagnum,
     // Super_Baby Endure
     SmEndure,
-    // Super_Baby Increase SP Recovery
+    // Mage Increase SP Recovery
     MgSrecovery,
-    // Super_Baby Sight
+    // Mage Sight
     MgSight,
-    // Super_Baby Napalm Beat
+    // Mage Napalm Beat
     MgNapalmbeat,
-    // Super_Baby Safety Wall
+    // Mage Safety Wall
     MgSafetywall,
-    // Super_Baby Soul Strike
+    // Mage Soul Strike
     MgSoulstrike,
-    // Super_Baby Cold Bolt
+    // Mage Cold Bolt
     MgColdbolt,
-    // Super_Baby Frost Diver
+    // Mage Frost Diver
     MgFrostdiver,
-    // Super_Baby Stone Curse
+    // Mage Stone Curse
     MgStonecurse,
-    // Super_Baby Fire Ball
+    // Mage Fire Ball
     MgFireball,
-    // Super_Baby Fire Wall
+    // Mage Fire Wall
     MgFirewall,
-    // Super_Baby Fire Bolt
+    // Mage Fire Bolt
     MgFirebolt,
-    // Super_Baby Lightning Bolt
+    // Mage Lightning Bolt
     MgLightningbolt,
-    // Super_Baby Thunderstorm
+    // Mage Thunderstorm
     MgThunderstorm,
     // Super_Baby Divine Protection
     AlDp,
@@ -182,7 +182,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // HighPriest Slow Poison
+    // Priest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -218,13 +218,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Sage Earth Spike
+    // Wizard Earth Spike
     WzEarthspike,
-    // Sage Heaven's Drive
+    // Wizard Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Sage Sense
+    // Wizard Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,

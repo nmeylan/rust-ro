@@ -23,7 +23,7 @@ pub struct RighthandMastery {
 }
 impl Skill for RighthandMastery {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if !(1..=5).contains(&level) { return None }
+        if level < 1 || level > 5 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -77,10 +77,10 @@ impl Skill for RighthandMastery {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -109,7 +109,7 @@ pub struct LefthandMastery {
 }
 impl Skill for LefthandMastery {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if !(1..=5).contains(&level) { return None }
+        if level < 1 || level > 5 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -163,10 +163,10 @@ impl Skill for LefthandMastery {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -195,7 +195,7 @@ pub struct KatarMastery {
 }
 impl Skill for KatarMastery {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if !(1..=10).contains(&level) { return None }
+        if level < 1 || level > 10 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -249,10 +249,10 @@ impl Skill for KatarMastery {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -281,7 +281,7 @@ pub struct Cloaking {
 }
 impl Skill for Cloaking {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if !(1..=10).contains(&level) { return None }
+        if level < 1 || level > 10 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -335,10 +335,10 @@ impl Skill for Cloaking {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -367,7 +367,7 @@ pub struct SonicBlow {
 }
 impl Skill for SonicBlow {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if !(1..=10).contains(&level) { return None }
+        if level < 1 || level > 10 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -451,14 +451,14 @@ impl Skill for SonicBlow {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = character_weapon {
             if 65536 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -487,7 +487,7 @@ pub struct Grimtooth {
 }
 impl Skill for Grimtooth {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if !(1..=5).contains(&level) { return None }
+        if level < 1 || level > 5 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -546,14 +546,14 @@ impl Skill for Grimtooth {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = character_weapon {
             if 65536 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -582,7 +582,7 @@ pub struct EnchantPoison {
 }
 impl Skill for EnchantPoison {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if !(1..=10).contains(&level) { return None }
+        if level < 1 || level > 10 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -636,10 +636,10 @@ impl Skill for EnchantPoison {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -668,7 +668,7 @@ pub struct PoisonReact {
 }
 impl Skill for PoisonReact {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if !(1..=10).contains(&level) { return None }
+        if level < 1 || level > 10 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -752,10 +752,10 @@ impl Skill for PoisonReact {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -784,7 +784,7 @@ pub struct VenomDust {
 }
 impl Skill for VenomDust {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if !(1..=10).contains(&level) { return None }
+        if level < 1 || level > 10 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -838,10 +838,10 @@ impl Skill for VenomDust {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -870,7 +870,7 @@ pub struct VenomSplasher {
 }
 impl Skill for VenomSplasher {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if !(1..=10).contains(&level) { return None }
+        if level < 1 || level > 10 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -954,10 +954,10 @@ impl Skill for VenomSplasher {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -986,7 +986,7 @@ pub struct SonicAcceleration {
 }
 impl Skill for SonicAcceleration {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level != 1 { return None }
+        if level < 1 || level > 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1040,10 +1040,10 @@ impl Skill for SonicAcceleration {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {
@@ -1072,7 +1072,7 @@ pub struct ThrowVenomKnife {
 }
 impl Skill for ThrowVenomKnife {
     fn new(level: u8) -> Option<Self> where Self : Sized {
-        if level != 1 { return None }
+        if level < 1 || level > 1 { return None }
         Some(Self { level, delegate: None, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
     fn level(&self) -> u8 {
@@ -1130,10 +1130,10 @@ impl Skill for ThrowVenomKnife {
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_weapon(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn validate_range(&self, character_weapon: Option<WearWeapon>) -> SkillRequirementResult<()> {
+    fn validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
          Ok(())
     }
     fn skip_item_validation(&self, state: Option<u64>) -> bool {

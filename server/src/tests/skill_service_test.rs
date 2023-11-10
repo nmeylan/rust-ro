@@ -56,12 +56,12 @@ mod tests {
         let packetver = GlobalConfigService::instance().packetver();
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
-        let map_item_snapshot = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
+        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
         let known_skill = KnownSkill { value: SkillEnum::SmBash, level: 10 };
         character.known_skills.push(known_skill);
         character.status.sp = 50;
         // When
-        context.skill_service.start_use_skill(&mut character, Some(map_item_snapshot), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(PacketZcUseskillAck2::packet_id(packetver), 1)]));
@@ -76,7 +76,7 @@ mod tests {
         context.test_context.reset_increment_latch();
         context.test_context.clear_sent_packet();
         // When
-        context.skill_service.start_use_skill(&mut character, Some(map_item_snapshot), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcAckTouseskill::packet_id(packetver), 1)]));
@@ -130,7 +130,10 @@ mod tests {
         character.known_skills.push(known_skill);
         character.status.sp = 50;
         let item_inventory = equip_item(&mut character, "Arrow");
-        let target = character.to_map_item_snapshot();
+        equip_item(&mut character, "Bow");
+        let mob_item_id = 82322;
+        let mob = create_mob(mob_item_id, "PORING");
+        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
         // When
         context.skill_service.start_use_skill(&mut character, Some(target), known_skill.value.id(), known_skill.level, 0);
         // Then
@@ -140,7 +143,7 @@ mod tests {
         let packet = cast!(packets[0], PacketZcUseskillAck2);
         assert_eq!(packet.skid as u32, known_skill.value.id());
         assert_eq!(packet.aid, character.char_id);
-        assert_eq!(packet.target_id, character.char_id);
+        assert_eq!(packet.target_id, mob_item_id);
 
         // Given
         context.test_context.reset_increment_latch();
@@ -175,7 +178,41 @@ mod tests {
     }
     #[test]
     fn start_use_skill_should_validate_weapon_requirement() {
+        // Given
+        let mut context = before_each();
+        let mut character = create_character();
+        let packetver = GlobalConfigService::instance().packetver();
+        let known_skill = KnownSkill { value: SkillEnum::AcDouble, level: 1 };
+        character.known_skills.push(known_skill);
+        character.status.sp = 50;
+        let arrow_inventory_item_index = equip_item(&mut character, "Arrow");
+        let bow_inventory_item_index = equip_item(&mut character, "Bow");
+        let mob_item_id = 82322;
+        let mob = create_mob(mob_item_id, "PORING");
+        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
+        // When
+        context.skill_service.start_use_skill(&mut character, Some(target), known_skill.value.id(), known_skill.level, 0);
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(PacketZcUseskillAck2::packet_id(packetver), 1)]));
+        let packets = context.test_context.get_sent_packet(vec![PacketZcUseskillAck2::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcUseskillAck2);
+        assert_eq!(packet.skid as u32, known_skill.value.id());
+        assert_eq!(packet.aid, character.char_id);
+        assert_eq!(packet.target_id, mob_item_id);
 
+        // Given
+        context.test_context.reset_increment_latch();
+        context.test_context.clear_sent_packet();
+        character.takeoff_equip_item(bow_inventory_item_index);
+        // When
+        context.skill_service.start_use_skill(&mut character, Some(target), known_skill.value.id(), known_skill.level, 0);
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcAckTouseskill::packet_id(packetver), 1)]));
+        let packets = context.test_context.get_sent_packet(vec![PacketZcAckTouseskill::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcAckTouseskill);
+        assert_eq!(packet.cause, UseSkillFailure::ThisWeapon.value() as u8);
     }
     #[test]
     fn start_use_skill_should_validate_range_requirement() {
