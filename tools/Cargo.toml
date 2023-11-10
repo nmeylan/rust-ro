@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 byteorder = "1.4.3"
 lazy_static  = "1.4.0"
-regex = "1.5"
+regex = { version = "1.10.2", features = ["default"] }
 tokio = { version = "1.12", features = ["full"] }
 serde_json = "1.0.91"
 serde = { version = "1.0.152", features = ["derive"] }
