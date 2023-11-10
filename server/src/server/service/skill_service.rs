@@ -3,7 +3,7 @@ use std::sync::mpsc::SyncSender;
 use std::sync::Once;
 use enums::EnumWithNumberValue;
 use enums::skill::{UseSkillFailure, UseSkillFailureClientSideType};
-use packets::packets::{PacketZcAckTouseskill, PacketZcNotifySkill2, PacketZcUseskillAck2};
+use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseskillAck2};
 use skills::skill_enums::SkillEnum;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
@@ -51,11 +51,16 @@ impl SkillService {
             self.send_skill_fail_packet(character, UseSkillFailure::HpInsufficient);
             return;
         }
-        // let validate_hp = skill.validate_ammo(character.status.hp);
-        // if validate_hp.is_err() {
-        //     self.send_skill_fail_packet(character, UseSkillFailure::HpInsufficient);
-        //     return;
-        // }
+        let maybe_ammo = character.status.ammo.map(|ammo|
+            (ammo.ammo_type, character.get_item_from_inventory(ammo.inventory_index).map(|ammo_in_inventory| ammo_in_inventory.amount as u32).unwrap_or(0)));
+        let validate_ammo = skill.validate_ammo(maybe_ammo);
+        if validate_ammo.is_err() {
+            let mut packet_zc_action_failure = PacketZcActionFailure::new(self.configuration_service.packetver());
+            packet_zc_action_failure.fill_raw();
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_action_failure.raw_mut())))).unwrap();
+           // self.send_skill_fail_packet(character, UseSkillFailure::HpInsufficient);
+            return;
+        }
 
         // TODO use char stats
         skill.update_cast_time(skill.base_cast_time());
