@@ -353,11 +353,13 @@ impl InventoryService {
             if matches!(item_to_equip_model.item_type, ItemType::Ammo) {
                 packet_zc_equip_arrow.fill_raw();
                 packets_raws_by_value.extend(packet_zc_equip_arrow.raw);
-
             } else {
                 packet_zc_req_wear_equip_ack.fill_raw();
                 packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
             }
+        } else {
+            packet_zc_req_wear_equip_ack.fill_raw();
+            packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
         }
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
             .expect("Fail to send client notification");

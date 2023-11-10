@@ -52,6 +52,7 @@ impl SkillService {
             return;
         }
 
+
         // TODO use char stats
         skill.update_cast_time(skill.base_cast_time());
         skill.update_after_cast_act_delay(skill.base_after_cast_act_delay());
