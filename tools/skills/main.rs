@@ -6,6 +6,7 @@ use convert_case::{Case, Casing};
 use lazy_static::lazy_static;
 use std::collections::{HashMap, HashSet};
 use regex::Regex;
+use serde::{Deserialize, Serialize};
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::skill::SkillFlags;
@@ -55,6 +56,27 @@ lazy_static! {
      static ref NON_ALPHA_REGEX: Regex = Regex::new(r"[^A-Za-z0-9]*").unwrap();
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct ItemModels {
+    items: Vec<ItemModel>
+}
+#[derive(Debug, Serialize, Deserialize, Clone)]
+struct ItemModel {
+    pub id: i32,
+    pub name_aegis: String,
+}
+impl From<Vec<ItemModel>> for ItemModels {
+    fn from(items: Vec<ItemModel>) -> Self {
+        ItemModels {
+            items
+        }
+    }
+}
+impl From<ItemModels> for Vec<ItemModel> {
+    fn from(item_models: ItemModels) -> Self {
+        item_models.items
+    }
+}
 
 pub fn main() {
     let path = Path::new("./config/skill.json");
@@ -84,13 +106,21 @@ pub fn main() {
     vec.sort_by_key(|&(k, _)| k);
     let skills: Vec<SkillConfig> = vec.into_iter().map(|(_, v)| v).collect();
 
+    let item_models = serde_json::from_str::<ItemModels>(&fs::read_to_string("./config/items.json").unwrap());
+    let items: Vec<ItemModel> = item_models.unwrap().into();
+    let mut items_name_id: HashMap<String, u32> = Default::default();
+    items.iter().for_each(|item| {
+        items_name_id.insert(item.name_aegis.clone(), item.id as u32);
+    });
+
     let mut skills_already_generated: HashSet<String> = HashSet::with_capacity(1000);
     let mut jobs_with_skills: HashSet<String> = HashSet::with_capacity(100);
-    generate_skills_impl(output_path, &skills, &skill_tree, &mut skills_already_generated, &mut jobs_with_skills);
+
+    generate_skills_impl(output_path, &skills, &skill_tree, &mut skills_already_generated, &mut jobs_with_skills, &items_name_id);
     generate_skills_enum(output_path, &skills, &skill_tree, &skills_already_generated, &jobs_with_skills);
 }
 
-fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, skills_already_generated: &mut HashSet<String>, jobs_with_skills: &mut HashSet<String>) {
+fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, skills_already_generated: &mut HashSet<String>, jobs_with_skills: &mut HashSet<String>, item_name_ids: &HashMap<String, u32>) {
     let file_path = output_path.join("skills").join("mod.rs");
     let mut file = File::create(file_path.clone()).unwrap();
 
@@ -122,7 +152,7 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
                     continue;
                 }
                 let skill_config = get_skill_config(skill.name(), skills).unwrap();
-                write_skills(&mut job_skills_file, skill_config);
+                write_skills(&mut job_skills_file, skill_config, item_name_ids);
                 skills_already_generated.insert(skill.name().clone());
                 jobs_with_skills.insert(file_name.clone());
             }
@@ -158,7 +188,7 @@ fn write_file_header_comments(file: &mut File) {
     file.write_all("#![allow(dead_code, unused_must_use, unused_imports, unused_variables)]\n\n".to_string().as_bytes()).unwrap();
 }
 
-fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
+fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_name_ids: &HashMap<String, u32>) {
     job_skills_file.write_all(format!("// {}\n", skill_config.name).as_bytes()).unwrap();
 
     generate_struct(job_skills_file, skill_config);
@@ -176,9 +206,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"        Ok(0)\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 
-    job_skills_file.write_all(b"    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {\n").unwrap();
-    job_skills_file.write_all(b"        Ok(None)\n").unwrap();
-    job_skills_file.write_all(b"    }\n").unwrap();
+    generate_validate_item(job_skills_file, skill_config, item_name_ids);
 
 
     job_skills_file.write_all(b"    fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {\n").unwrap();
@@ -199,6 +227,36 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig) {
     generate_base_after_cast_act_delay(job_skills_file, skill_config);
     generate_base_after_cast_walk_delay(job_skills_file, skill_config);
     job_skills_file.write_all(b"}\n").unwrap();
+}
+
+fn generate_validate_item(job_skills_file: &mut File, skill_config: &SkillConfig, item_name_ids: &HashMap<String, u32>) {
+    job_skills_file.write_all(b"    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {\n").unwrap();
+
+    if let Some(requirements) = skill_config.requires() {
+        if requirements.item_cost().len() > 0 {
+            job_skills_file.write_all(format!("        let required_items = vec![{}]; \n", requirements.item_cost().iter()
+                .map(|item| format!("(NormalInventoryItem {{item_id: {}, name_english: \"{}\".to_string(), amount: {}}})", item_name_ids.get(item.item()).unwrap(), item.item(), item.amount())).collect::<Vec<String>>().join(",")).as_bytes()).unwrap();
+            for item in requirements.item_cost().iter() {
+                job_skills_file.write_all(format!("        if inventory.iter().find(|item| item.item_id == {} && item.amount >= {}).is_none() {{\n", item_name_ids.get(item.item()).unwrap(), item.amount()).as_bytes()).unwrap();
+                if item.item().eq("Red_Gemstone") {
+                    job_skills_file.write_all(b"            return Err(UseSkillFailure::RedGemstone);\n").unwrap();
+                } else if item.item().eq("Blue_Gemstone") {
+                    job_skills_file.write_all(b"            return Err(UseSkillFailure::BlueGemstone);\n").unwrap();
+                } else if item.item().eq("Holy_Water") {
+                    job_skills_file.write_all(b"            return Err(UseSkillFailure::Holywater);\n").unwrap();
+                } else {
+                    job_skills_file.write_all(b"            return Err(UseSkillFailure::NeedItem);\n").unwrap();
+                }
+                job_skills_file.write_all(b"        }\n").unwrap();
+            }
+            job_skills_file.write_all(b"        Ok(Some(required_items))\n").unwrap();
+        } else {
+            job_skills_file.write_all(b"        Ok(None)\n").unwrap();
+        }
+    } else {
+        job_skills_file.write_all(b"        Ok(None)\n").unwrap();
+    }
+    job_skills_file.write_all(b"    }\n").unwrap();
 }
 
 fn generate_base_cast_time(job_skills_file: &mut File, skill_config: &SkillConfig) {

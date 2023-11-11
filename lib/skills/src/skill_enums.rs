@@ -3,150 +3,150 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
+use crate::skills::stalker::{*};
+use crate::skills::assassincross::{*};
+use crate::skills::acolyte::{*};
+use crate::skills::novice::{*};
+use crate::skills::creator::{*};
+use crate::skills::lordknight::{*};
+use crate::skills::gunslinger::{*};
+use crate::skills::paladin::{*};
+use crate::skills::rogue::{*};
+use crate::skills::hunter::{*};
+use crate::skills::sniper::{*};
+use crate::skills::champion::{*};
+use crate::skills::bard::{*};
+use crate::skills::professor::{*};
+use crate::skills::assassin::{*};
+use crate::skills::alchemist::{*};
+use crate::skills::knight::{*};
+use crate::skills::thief::{*};
+use crate::skills::crusader::{*};
+use crate::skills::taekwon::{*};
+use crate::skills::highwizard::{*};
+use crate::skills::wizard::{*};
+use crate::skills::dancer::{*};
+use crate::skills::highpriest::{*};
+use crate::skills::priest::{*};
+use crate::skills::whitesmith::{*};
+use crate::skills::swordsman::{*};
+use crate::skills::mage::{*};
+use crate::skills::blacksmith::{*};
+use crate::skills::monk::{*};
+use crate::skills::merchant::{*};
+use crate::skills::sage::{*};
+use crate::skills::clown::{*};
 use crate::skills::ninja::{*};
 use crate::skills::archer::{*};
-use crate::skills::whitesmith::{*};
-use crate::skills::rogue::{*};
-use crate::skills::highpriest::{*};
-use crate::skills::sage::{*};
-use crate::skills::assassincross::{*};
-use crate::skills::monk::{*};
-use crate::skills::clown::{*};
-use crate::skills::hunter::{*};
-use crate::skills::dancer::{*};
-use crate::skills::alchemist::{*};
-use crate::skills::priest::{*};
-use crate::skills::champion::{*};
-use crate::skills::acolyte::{*};
-use crate::skills::mage::{*};
-use crate::skills::sniper::{*};
-use crate::skills::crusader::{*};
-use crate::skills::knight::{*};
-use crate::skills::wizard::{*};
-use crate::skills::professor::{*};
-use crate::skills::stalker::{*};
-use crate::skills::swordsman::{*};
-use crate::skills::creator::{*};
-use crate::skills::blacksmith::{*};
-use crate::skills::paladin::{*};
-use crate::skills::highwizard::{*};
-use crate::skills::novice::{*};
-use crate::skills::assassin::{*};
-use crate::skills::taekwon::{*};
-use crate::skills::merchant::{*};
-use crate::skills::lordknight::{*};
-use crate::skills::bard::{*};
-use crate::skills::gunslinger::{*};
-use crate::skills::thief::{*};
 use crate::Skill;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super_Baby Sword Mastery
+    // Swordsman Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super_Baby Increase HP Recovery
+    // Swordsman Increase HP Recovery
     SmRecovery,
-    // Super_Baby Bash
+    // Swordsman Bash
     SmBash,
-    // Super_Baby Provoke
+    // Swordsman Provoke
     SmProvoke,
-    // Super_Baby Magnum Break
+    // Swordsman Magnum Break
     SmMagnum,
-    // Super_Baby Endure
+    // Swordsman Endure
     SmEndure,
-    // Mage Increase SP Recovery
+    // Super Novice Increase SP Recovery
     MgSrecovery,
-    // Mage Sight
+    // Super Novice Sight
     MgSight,
-    // Mage Napalm Beat
+    // Super Novice Napalm Beat
     MgNapalmbeat,
-    // Mage Safety Wall
+    // Super Novice Safety Wall
     MgSafetywall,
-    // Mage Soul Strike
+    // Super Novice Soul Strike
     MgSoulstrike,
-    // Mage Cold Bolt
+    // Super Novice Cold Bolt
     MgColdbolt,
-    // Mage Frost Diver
+    // Super Novice Frost Diver
     MgFrostdiver,
-    // Mage Stone Curse
+    // Super Novice Stone Curse
     MgStonecurse,
-    // Mage Fire Ball
+    // Super Novice Fire Ball
     MgFireball,
-    // Mage Fire Wall
+    // Super Novice Fire Wall
     MgFirewall,
-    // Mage Fire Bolt
+    // Super Novice Fire Bolt
     MgFirebolt,
-    // Mage Lightning Bolt
+    // Super Novice Lightning Bolt
     MgLightningbolt,
-    // Mage Thunderstorm
+    // Super Novice Thunderstorm
     MgThunderstorm,
-    // Super_Baby Divine Protection
+    // Super Novice Divine Protection
     AlDp,
-    // Super_Baby Demon Bane
+    // Super Novice Demon Bane
     AlDemonbane,
-    // Super_Baby Ruwach
+    // Super Novice Ruwach
     AlRuwach,
-    // Super_Baby Pneuma
+    // Super Novice Pneuma
     AlPneuma,
-    // Super_Baby Teleport
+    // Super Novice Teleport
     AlTeleport,
-    // Super_Baby Warp Portal
+    // Super Novice Warp Portal
     AlWarp,
-    // Super_Baby Heal
+    // Super Novice Heal
     AlHeal,
-    // Super_Baby Increase AGI
+    // Super Novice Increase AGI
     AlIncagi,
-    // Super_Baby Decrease AGI
+    // Super Novice Decrease AGI
     AlDecagi,
-    // Super_Baby Aqua Benedicta
+    // Super Novice Aqua Benedicta
     AlHolywater,
-    // Super_Baby Signum Crucis
+    // Super Novice Signum Crucis
     AlCrucis,
-    // Super_Baby Angelus
+    // Super Novice Angelus
     AlAngelus,
-    // Super_Baby Blessing
+    // Super Novice Blessing
     AlBlessing,
-    // Super_Baby Cure
+    // Super Novice Cure
     AlCure,
-    // Super_Baby Enlarge Weight Limit
+    // Merchant Enlarge Weight Limit
     McInccarry,
-    // Super_Baby Discount
+    // Merchant Discount
     McDiscount,
-    // Super_Baby Overcharge
+    // Merchant Overcharge
     McOvercharge,
-    // Super_Baby Pushcart
+    // Merchant Pushcart
     McPushcart,
-    // Super_Baby Item Appraisal
+    // Merchant Item Appraisal
     McIdentify,
-    // Super_Baby Vending
+    // Merchant Vending
     McVending,
-    // Super_Baby Mammonite
+    // Merchant Mammonite
     McMammonite,
-    // Super_Baby Owl's Eye
+    // Super Novice Owl's Eye
     AcOwl,
-    // Super_Baby Vulture's Eye
+    // Super Novice Vulture's Eye
     AcVulture,
-    // Super_Baby Improve Concentration
+    // Super Novice Improve Concentration
     AcConcentration,
     // Rogue Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Super_Baby Double Attack
+    // Super Novice Double Attack
     TfDouble,
-    // Super_Baby Improve Dodge
+    // Super Novice Improve Dodge
     TfMiss,
-    // Super_Baby Steal
+    // Super Novice Steal
     TfSteal,
-    // Super_Baby Hiding
+    // Super Novice Hiding
     TfHiding,
-    // Super_Baby Envenom
+    // Super Novice Envenom
     TfPoison,
-    // Super_Baby Detoxify
+    // Super Novice Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
@@ -218,13 +218,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Wizard Earth Spike
+    // Sage Earth Spike
     WzEarthspike,
-    // Wizard Heaven's Drive
+    // Sage Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Wizard Sense
+    // Sage Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -324,7 +324,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice Play Dead
+    // Novice High Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,
@@ -1858,13 +1858,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Super_Baby Open Buying Store
+    // Merchant Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Super_Baby Decorate Cart
+    // Merchant Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,

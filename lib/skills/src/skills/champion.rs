@@ -91,7 +91,7 @@ impl Skill for RagingPalmStrike {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -192,7 +192,7 @@ impl Skill for GlacierFist {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -308,7 +308,7 @@ impl Skill for ChainCrushCombo {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -424,7 +424,7 @@ impl Skill for Zen {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {

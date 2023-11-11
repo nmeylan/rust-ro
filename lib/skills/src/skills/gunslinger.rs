@@ -71,7 +71,7 @@ impl Skill for FliptheCoin {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -157,7 +157,7 @@ impl Skill for Fling {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -247,7 +247,7 @@ impl Skill for TripleAction {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -337,7 +337,7 @@ impl Skill for BullsEye {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -423,7 +423,7 @@ impl Skill for MadnessCanceller {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -509,7 +509,7 @@ impl Skill for AdJustment {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -595,7 +595,7 @@ impl Skill for IncreasingAccuracy {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -681,7 +681,7 @@ impl Skill for MagicalBullet {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -771,7 +771,7 @@ impl Skill for Cracker {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -857,7 +857,7 @@ impl Skill for SingleAction {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -943,7 +943,7 @@ impl Skill for SnakeEye {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1029,7 +1029,7 @@ impl Skill for ChainAction {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1149,7 +1149,7 @@ impl Skill for Tracking {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1288,7 +1288,7 @@ impl Skill for Disarm {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1397,7 +1397,7 @@ impl Skill for PiercingShot {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1521,7 +1521,7 @@ impl Skill for RapidShower {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1645,7 +1645,7 @@ impl Skill for Desperado {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1765,7 +1765,7 @@ impl Skill for GatlingFever {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1889,7 +1889,7 @@ impl Skill for Dust {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -2009,7 +2009,7 @@ impl Skill for FullBuster {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -2193,7 +2193,7 @@ impl Skill for SpreadAttack {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -2317,7 +2317,7 @@ impl Skill for GroundDrift {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {

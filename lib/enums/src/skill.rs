@@ -233,7 +233,7 @@ pub enum UseSkillFailure {
     Money,
     ThisWeapon,
     RedGemstone,
-    BlueGemmstone,
+    BlueGemstone,
     Weightover,
     Fail,
     Totarget,

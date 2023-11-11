@@ -71,7 +71,7 @@ impl Skill for AxeMastery {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -157,7 +157,7 @@ impl Skill for PotionResearch {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -243,8 +243,12 @@ impl Skill for PreparePotion {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 7134 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -329,8 +333,12 @@ impl Skill for Bomb {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7135, name_english: "Fire_Bottle".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 7135 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -415,8 +423,12 @@ impl Skill for AcidTerror {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7136, name_english: "Acid_Bottle".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 7136 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -501,8 +513,39 @@ impl Skill for AidPotion {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 501, name_english: "Red_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 502, name_english: "Orange_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 503, name_english: "Yellow_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 504, name_english: "White_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 505, name_english: "Blue_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 522, name_english: "Fruit_Of_Mastela".to_string(), amount: 1}),(NormalInventoryItem {item_id: 526, name_english: "Royal_Jelly".to_string(), amount: 1}),(NormalInventoryItem {item_id: 608, name_english: "Seed_Of_Yggdrasil".to_string(), amount: 1}),(NormalInventoryItem {item_id: 607, name_english: "Yggdrasilberry".to_string(), amount: 1}),(NormalInventoryItem {item_id: 657, name_english: "Berserk_Potion".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 501 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        if inventory.iter().find(|item| item.item_id == 502 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        if inventory.iter().find(|item| item.item_id == 503 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        if inventory.iter().find(|item| item.item_id == 504 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        if inventory.iter().find(|item| item.item_id == 505 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        if inventory.iter().find(|item| item.item_id == 522 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        if inventory.iter().find(|item| item.item_id == 526 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        if inventory.iter().find(|item| item.item_id == 608 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        if inventory.iter().find(|item| item.item_id == 607 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        if inventory.iter().find(|item| item.item_id == 657 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -587,8 +630,12 @@ impl Skill for SummonFlora {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7137, name_english: "MenEater_Plant_Bottle".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 7137 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -673,8 +720,12 @@ impl Skill for SummonMarineSphere {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7138, name_english: "Mini_Bottle".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 7138 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -759,8 +810,12 @@ impl Skill for AlchemicalWeapon {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 7139 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -845,8 +900,12 @@ impl Skill for SynthesizedShield {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 7139 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -931,8 +990,12 @@ impl Skill for SyntheticArmor {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 7139 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -1017,8 +1080,12 @@ impl Skill for BiochemicalHelm {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 7139 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -1103,7 +1170,7 @@ impl Skill for Bioethics {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1189,8 +1256,12 @@ impl Skill for CallHomunculus {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7142, name_english: "Germination_Breed".to_string(), amount: 1})]; 
+        if inventory.iter().find(|item| item.item_id == 7142 && item.amount >= 1).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -1275,7 +1346,7 @@ impl Skill for Vaporize {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1376,7 +1447,7 @@ impl Skill for HomunculusResurrection {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         Ok(None)
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
@@ -1462,8 +1533,12 @@ impl Skill for AidBerserkPotion {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 657, name_english: "Berserk_Potion".to_string(), amount: 2})]; 
+        if inventory.iter().find(|item| item.item_id == 657 && item.amount >= 2).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -1548,8 +1623,12 @@ impl Skill for TwilightAlchemy1 {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 200})]; 
+        if inventory.iter().find(|item| item.item_id == 7134 && item.amount >= 200).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -1634,8 +1713,12 @@ impl Skill for TwilightAlchemy2 {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 200})]; 
+        if inventory.iter().find(|item| item.item_id == 7134 && item.amount >= 200).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
@@ -1720,8 +1803,12 @@ impl Skill for TwilightAlchemy3 {
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>> {
-        Ok(None)
+    fn validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
+        let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 200})]; 
+        if inventory.iter().find(|item| item.item_id == 7134 && item.amount >= 200).is_none() {
+            return Err(UseSkillFailure::NeedItem);
+        }
+        Ok(Some(required_items))
     }
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
