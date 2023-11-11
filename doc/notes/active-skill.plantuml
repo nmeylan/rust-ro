@@ -1,0 +1,90 @@
+@startuml
+start;
+floating note left: start_use_skill()
+
+:instantiate skill based on packet;
+
+:validate skill is known;
+:validate sp;
+:validate hp;
+:validate ammo;
+:validate weapon;
+:validate zeny;
+:validate items;
+:validate target;
+:validate range;
+
+if (validation error) then (yes)
+    if (missing ammo?) then (yes)
+        :**PacketZcActionFailure**;
+
+    else (no)
+        :**PacketZcAckTouseskill**;
+    endif
+    end
+endif
+
+:calculate cast time;
+:calculate after cast act delay (acad);
+:calculate after cast walk delay (acwd);
+:update skill with cast time, acad, acwd;
+:**PacketZcUseskillAck2**;
+:add to character state
+**"skill in use"**
+SkillInUse {{ target, start_skill_tick, skill }}
+;
+
+if (cast time) then (0)
+    :call do_use_skill();
+else(>0)
+endif
+
+end
+
+
+start;
+floating note left: do_use_skill()
+:validate sp;
+:validate hp;
+:validate ammo;
+:validate zeny;
+:validate items;
+:validate target;
+
+if (validation error?) then (yes)
+    if (missing ammo?) then (yes)
+        :**PacketZcActionFailure**;
+    else (no)
+        :**PacketZcAckTouseskill**;
+    endif
+    end
+    else(no)
+endif
+
+switch (target type)
+case (attack)
+  if (should_hit) then (yes)
+          :get element;
+          :apply damage bonus (wear items, skill, cards);
+          :calculate damage;
+          :apply damage to target;
+          else (no)
+      endif
+case (support)
+:apply bonus to target;
+case (ground & noDamageFlag)
+case (ground)
+case (self & noDamageFlag)
+case (self)
+endswitch
+
+:consume requirements (sp, hp, ammo, zeny, items);
+:update character status to apply after cast act delay;
+:update character status to apply after cast walk delay;
+
+:**PacketZcNotifySkill2**;
+end
+
+
+@enduml
+

@@ -100,6 +100,10 @@ impl SkillService {
         if no_delay {
             self.do_use_skill(character, target, tick);
         }
+
+        if validate_sp.unwrap() > 0 {
+
+        }
     }
 
     fn send_skill_fail_packet(&self, character: &mut Character, cause: UseSkillFailure) {
