@@ -1,4 +1,4 @@
-use enums::skill::{SkillTargetType};
+use enums::skill::{SkillTargetType, UseSkillFailure};
 use enums::weapon::{AmmoType};
 use models::item::{NormalInventoryItem, WearWeapon};
 
@@ -19,7 +19,7 @@ pub trait Skill {
     fn validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()>;
     fn validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32>;
     fn validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32>;
-    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> SkillRequirementResult<Option<NormalInventoryItem>>;
+    fn validate_item(&self, item: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure>;
 
     fn validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()>;
     fn validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()>;

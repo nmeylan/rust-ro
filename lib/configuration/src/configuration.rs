@@ -425,7 +425,7 @@ pub struct InternalSkillElement {
     element: Option<Element>,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone, GettersAll)]
 #[allow(dead_code)]
 pub struct InternalSkillItemCost {
     item: String,
