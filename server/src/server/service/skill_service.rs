@@ -66,6 +66,11 @@ impl SkillService {
             self.send_skill_fail_packet(character, UseSkillFailure::ThisWeapon);
             return;
         }
+        let validate_zeny = skill.validate_zeny(character.status.zeny);
+        if validate_zeny.is_err() {
+            self.send_skill_fail_packet(character, UseSkillFailure::Money);
+            return;
+        }
 
         // TODO use char stats
         skill.update_cast_time(skill.base_cast_time());
