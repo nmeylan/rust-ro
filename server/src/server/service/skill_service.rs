@@ -3,6 +3,7 @@ use std::sync::mpsc::SyncSender;
 use std::sync::Once;
 use enums::EnumWithNumberValue;
 use enums::skill::{UseSkillFailure, UseSkillFailureClientSideType};
+use models::item::NormalInventoryItem;
 use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseskillAck2};
 use skills::skill_enums::SkillEnum;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
@@ -69,6 +70,12 @@ impl SkillService {
         let validate_zeny = skill.validate_zeny(character.status.zeny);
         if validate_zeny.is_err() {
             self.send_skill_fail_packet(character, UseSkillFailure::Money);
+            return;
+        }
+
+        let validate_items = skill.validate_item(&character.inventory_normal().iter().map(|(_, i)| i.to_normal_item()).collect::<Vec<NormalInventoryItem>>());
+        if validate_items.is_err() {
+            self.send_skill_fail_packet(character, validate_items.err().unwrap());
             return;
         }
 
