@@ -13,7 +13,7 @@ use enums::class::EquipClassFlag;
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
 use enums::weapon::{AmmoType, WeaponType};
-use models::item::{WearAmmo, WearGear, WearWeapon};
+use models::item::{NormalInventoryItem, WearAmmo, WearGear, WearWeapon};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ItemModels {
@@ -401,6 +401,14 @@ impl InventoryItemModel {
 
     pub fn item_type(&self) -> ItemType {
         self.item_type.item_type
+    }
+
+    pub fn to_normal_item(&self) -> NormalInventoryItem {
+        NormalInventoryItem {
+            item_id: self.item_id,
+            amount: self.amount,
+            name_english: self.name_english.to_string(),
+        }
     }
 }
 
