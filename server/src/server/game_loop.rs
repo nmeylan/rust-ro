@@ -1,4 +1,5 @@
 use std::borrow::Borrow;
+use std::fmt::format;
 use std::sync::{Arc};
 use std::sync::mpsc::SyncSender;
 use std::thread::{sleep};
@@ -31,10 +32,10 @@ use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::server::service::server_service::ServerService;
+use crate::util::debug::debug_in_game_chat;
 
 
-
-const MOVEMENT_TICK_RATE: u128 = 20;
+const MOVEMENT_TICK_RATE: u128 = 16;
 pub const GAME_TICK_RATE: u128 = 40;
 
 impl Server {
@@ -181,7 +182,6 @@ impl Server {
                         GameEvent::CharacterSellItems(character_remove_items) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_remove_items.char_id).unwrap();
                             InventoryService::instance().character_sell_items(&runtime, character, character_remove_items);
-
                         }
                         GameEvent::CharacterResetSkills(char_id) => {
                             let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
@@ -233,21 +233,33 @@ impl Server {
                             character.clear_attack();
                         }
                         let speed = character.status.speed;
-                        let maybe_previous_movement = character.pop_movement();
-                        character.set_movement(character_movement.path);
+                        let new_movement = character_movement.path.last().unwrap();
                         let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new(GlobalConfigService::instance().packetver());
-                        if let Some(movement) = character.peek_mut_movement() {
-                            if let Some(previous_movement) = maybe_previous_movement {
-                                debug!("change path! was {} will {}, move at {}",previous_movement.position(), movement.position(), previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
-                                // movement.set_move_at(previous_movement.move_at() + Movement::delay(speed, movement.is_diagonal()));
-                                movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()) + MOVEMENT_TICK_RATE / 2);
-                            } else {
-                                movement.set_move_at(tick + Movement::delay(speed, movement.is_diagonal()));
-                                debug!("will move at {}", movement.move_at());
-                            }
-                            packet_zc_notify_playermove.set_move_start_time(movement.move_at() as u32); // todo: time conversion check on client side ???
-                        }
 
+                        let move_at = tick + Movement::delay(speed, new_movement.is_diagonal());
+                        if let Some(previous_movement) = character.peek_movement() {
+                            #[cfg(feature = "debug_movement")]
+                            {
+                                if tick >= previous_movement.move_at() {
+                                    info!("change path! was {} will {}, move at {}",previous_movement.position(), new_movement.position(), move_at );
+                                    debug_in_game_chat(client_notification_sender_clone.clone(), &character, format!("change path! was {} will {}, move at {}", previous_movement.position(), new_movement.position(), move_at));
+                                } else {
+                                    server_ref.add_to_next_movement_tick(GameEvent::CharacterMove(character_movement));
+                                    continue;
+                                }
+                            }
+                            #[cfg(not(feature = "debug_movement"))]
+                            {
+                                if tick < previous_movement.move_at() {
+                                    server_ref.add_to_next_movement_tick(GameEvent::CharacterMove(character_movement));
+                                    continue;
+                                }
+                            }
+                        }
+                        character.set_movement(character_movement.path);
+                        let movement = character.peek_mut_movement().unwrap();
+                        movement.set_move_at(move_at);
+                        packet_zc_notify_playermove.set_move_start_time(movement.move_at() as u32); // todo: time conversion check on client side ???
                         packet_zc_notify_playermove.set_move_data(character_movement.current_position.to_move_data(&character_movement.destination));
                         packet_zc_notify_playermove.fill_raw();
                         client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_notify_playermove.raw_mut()))))
@@ -264,8 +276,14 @@ impl Server {
                 let speed = character.status.speed;
                 if let Some(movement) = character.peek_movement() {
                     if tick >= movement.move_at() {
-                        info!("move {} at {}", movement.position(), movement.move_at());
                         let movement = character.pop_movement().unwrap();
+                        let last_move_at = character.last_moved_at;
+                        #[cfg(feature = "debug_movement")]
+                        {
+                            info!("move {} at {} after {}ms since last move", movement.position(), tick, tick - last_move_at);
+                            debug_in_game_chat(client_notification_sender_clone.clone(), &character, format!("move {} at {} after {}ms since last move", movement.position(), tick, tick - last_move_at));
+                        }
+                        character.set_last_moved_at(tick);
                         character.update_position(movement.position().x, movement.position().y);
                         let map_ref = server_ref.state().get_map_instance_from_character(character);
                         if let Some(map_ref) = map_ref {
@@ -276,10 +294,29 @@ impl Server {
                                 continue;
                             }
                         }
-                        if let Some(next_movement) = character.peek_mut_movement() {
-                            next_movement.set_move_at(tick + Movement::delay(speed, next_movement.is_diagonal()))
-                        } else {
-                            character_finished_to_move.push(character);
+                        #[cfg(feature = "debug_movement")]
+                        {
+                            if let Some(next_movement) = character.peek_movement() {
+                                let next_move_at = tick + Movement::delay(speed, next_movement.is_diagonal());
+                                #[cfg(feature = "debug_movement")]
+                                {
+                                    info!("move {} at {} after {}ms since last move, next move will be {} at {}", movement.position(), tick, tick - last_move_at, next_movement.position(), next_move_at);
+                                    debug_in_game_chat(client_notification_sender_clone.clone(), &character, format!("move {} at {} after {}ms since last move, next move will be {} at {}", movement.position(), tick, tick - last_move_at, next_movement.position(), next_move_at));
+                                }
+                                let next_movement = character.peek_mut_movement().unwrap();
+                                next_movement.set_move_at(next_move_at);
+                            } else {
+                                character_finished_to_move.push(character);
+                            }
+                        }
+                        #[cfg(not(feature = "debug_movement"))]
+                        {
+                            if let Some(next_movement) = character.peek_mut_movement() {
+                                let next_move_at = tick + Movement::delay(speed, next_movement.is_diagonal());
+                                next_movement.set_move_at(next_move_at);
+                            } else {
+                                character_finished_to_move.push(character);
+                            }
                         }
                     }
                 }

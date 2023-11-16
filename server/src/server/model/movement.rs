@@ -45,7 +45,7 @@ impl Movement {
 
     pub fn delay(speed: u16, is_diagonal: bool) -> u128 {
         if is_diagonal {
-            (speed as f64 / 0.6) as u128
+            (speed as f64 / 0.7) as u128
         } else {
             speed as u128
         }
@@ -66,6 +66,12 @@ pub trait Movable {
     }
     fn peek_mut_movement(&mut self) -> Option<&mut Movement> {
         self.movements_mut().last_mut()
+    }
+    fn shift_movement(&mut self, movement: Movement) {
+        self.movements_mut().insert(0, movement);
+    }
+    fn push_movement(&mut self, movement: Movement) {
+        self.movements_mut().push(movement);
     }
 
     fn set_movement(&mut self, movements: Vec<Movement>);
