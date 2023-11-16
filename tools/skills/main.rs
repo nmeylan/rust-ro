@@ -201,6 +201,7 @@ fn write_file_header(file: &mut File) {
     file.write_all(b"use enums::skill::*;\n").unwrap();
     file.write_all(b"use enums::weapon::AmmoType;\n").unwrap();
     file.write_all(b"\nuse models::item::WearWeapon;\n").unwrap();
+    file.write_all(b"\nuse models::status::Status;\n").unwrap();
     file.write_all(b"use models::item::NormalInventoryItem;\n").unwrap();
     file.write_all(b"\nuse crate::{SkillBase, Skill, SkillRequirementResult};\n\n").unwrap();
     file.write_all(b"use crate::base::*;\n").unwrap();
@@ -226,7 +227,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
     generate_validate_state(job_skills_file, skill_config);
     generate_validate_zeny(job_skills_file, skill_config);
 
-    job_skills_file.write_all(b"    fn _validate_spirit_sphere(&self, spirit_sphere: u32) -> SkillRequirementResult<u32> {\n").unwrap();
+    job_skills_file.write_all(b"    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {\n").unwrap();
     job_skills_file.write_all(b"        Ok(0)\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 
@@ -239,7 +240,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
 
     generate_validate_weapon(job_skills_file, skill_config);
 
-    job_skills_file.write_all(b"    fn _validate_range(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {\n").unwrap();
+    job_skills_file.write_all(b"    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {\n").unwrap();
     job_skills_file.write_all(b"         Ok(())\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 
@@ -320,10 +321,10 @@ fn generate_hit_count(job_skills_file: &mut File, skill_config: &SkillConfig) {
 }
 
 fn generate_validate_weapon(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn _validate_weapon(&self, character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {\n").unwrap();
+    job_skills_file.write_all(b"    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {\n").unwrap();
     if let Some(requirements) = skill_config.requires() {
         if let Some(weapon) = requirements.weapon_flags() {
-            job_skills_file.write_all(b"        if let Some(character_weapon) = character_weapon {\n").unwrap();
+            job_skills_file.write_all(b"        if let Some(character_weapon) = status.right_hand_weapon() {\n").unwrap();
             job_skills_file.write_all(format!("            if {} & character_weapon.weapon_type.as_flag() > 0 {{ Ok(()) }} else {{ Err(()) }}\n", weapon).as_bytes()).unwrap();
             job_skills_file.write_all(b"        } else {\n").unwrap();
             if weapon & WeaponType::Fist.as_flag() > 0 {
@@ -343,18 +344,18 @@ fn generate_validate_weapon(job_skills_file: &mut File, skill_config: &SkillConf
 }
 
 fn generate_validate_zeny(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn _validate_zeny(&self, zeny: u32) -> SkillRequirementResult<u32> {\n").unwrap();
+    job_skills_file.write_all(b"    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {\n").unwrap();
     let requirements = skill_config.requires().as_ref();
-    generate_validate_per_level(job_skills_file, "zeny", requirements.map(|c| c.zeny_cost()).unwrap_or(&None), requirements.map(|c| c.zeny_cost_per_level()).unwrap_or(&None));
+    generate_validate_per_level(job_skills_file, "status.zeny", requirements.map(|c| c.zeny_cost()).unwrap_or(&None), requirements.map(|c| c.zeny_cost_per_level()).unwrap_or(&None));
 }
 
 fn generate_validate_state(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn _validate_state(&self, state: Option<u64>) -> SkillRequirementResult<()> {\n").unwrap();
+    job_skills_file.write_all(b"    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {\n").unwrap();
     if let Some(requirements) = skill_config.requires() {
         if let Some(state) = requirements.state() {
-            job_skills_file.write_all(b"        if let Some(state) = state {\n").unwrap();
+            job_skills_file.write_all(b"        if status.state > 0 {\n").unwrap();
             job_skills_file.write_all(format!("            // {}\n", state.as_str()).as_bytes()).unwrap();
-            job_skills_file.write_all(format!("            if state & {} > 0 {{ Ok(()) }} else {{ Err(()) }}\n", state.as_flag()).as_bytes()).unwrap();
+            job_skills_file.write_all(format!("            if status.state & {} > 0 {{ Ok(()) }} else {{ Err(()) }}\n", state.as_flag()).as_bytes()).unwrap();
             job_skills_file.write_all(b"        } else {\n").unwrap();
             job_skills_file.write_all(b"            Err(())\n").unwrap();
             job_skills_file.write_all(b"        }\n").unwrap();
@@ -390,15 +391,15 @@ fn generate_validate_ammo(job_skills_file: &mut File, skill_config: &SkillConfig
 }
 
 fn generate_validate_sp(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn _validate_sp(&self, character_sp: u32) -> SkillRequirementResult<u32> {\n").unwrap();
+    job_skills_file.write_all(b"    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {\n").unwrap();
     let requirements = skill_config.requires().as_ref();
-    generate_validate_per_level(job_skills_file, "character_sp", requirements.map(|c| c.sp_cost()).unwrap_or(&None), requirements.map(|c| c.sp_cost_per_level()).unwrap_or(&None));
+    generate_validate_per_level(job_skills_file, "status.sp", requirements.map(|c| c.sp_cost()).unwrap_or(&None), requirements.map(|c| c.sp_cost_per_level()).unwrap_or(&None));
 }
 
 fn generate_validate_hp(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn _validate_hp(&self, character_hp: u32) -> SkillRequirementResult<u32> {\n").unwrap();
+    job_skills_file.write_all(b"    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {\n").unwrap();
     let requirements = skill_config.requires().as_ref();
-    generate_validate_per_level(job_skills_file, "character_hp", requirements.map(|c| c.hp_cost()).unwrap_or(&None), requirements.map(|c| c.hp_cost_per_level()).unwrap_or(&None));
+    generate_validate_per_level(job_skills_file, "status.hp", requirements.map(|c| c.hp_cost()).unwrap_or(&None), requirements.map(|c| c.hp_cost_per_level()).unwrap_or(&None));
 }
 
 

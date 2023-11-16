@@ -1,6 +1,7 @@
 use enums::skill::{SkillTargetType, UseSkillFailure};
 use enums::weapon::{AmmoType};
-use models::item::{NormalInventoryItem, WearWeapon};
+use models::item::{NormalInventoryItem};
+use models::status::Status;
 
 pub mod skill_enums;
 pub mod base;
@@ -11,22 +12,22 @@ type SkillRequirementResult<T> = std::result::Result<T, ()>;
 pub trait SkillBase {
     fn _level(&self) -> u8;
     fn _id(&self) -> u32;
-    fn _validate_sp(&self, _character_sp: u32) -> SkillRequirementResult<u32> {
+    fn _validate_sp(&self, _status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_hp(&self, _character_hp: u32) -> SkillRequirementResult<u32> {
+    fn _validate_hp(&self, _status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
     fn _validate_ammo(&self, _character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_state(&self, _state: Option<u64>) -> SkillRequirementResult<()> {
+    fn _validate_state(&self, _status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn _validate_zeny(&self, _zeny: u32) -> SkillRequirementResult<u32> {
+    fn _validate_zeny(&self, _status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_spirit_sphere(&self, _spirit_sphere: u32) -> SkillRequirementResult<u32> {
+    fn _validate_spirit_sphere(&self, _status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
     fn _validate_item(&self, _item: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -36,10 +37,10 @@ pub trait SkillBase {
     fn _validate_target(&self, _target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn _validate_weapon(&self, _character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
+    fn _validate_weapon(&self, _status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn _validate_range(&self, _character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
+    fn _validate_range(&self, _status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
 
@@ -91,23 +92,23 @@ pub trait Skill: SkillBase {
         self._id()
     }
 
-    fn validate_sp(&self, _character_sp: u32) -> SkillRequirementResult<u32> {
-        self._validate_sp(_character_sp)
+    fn validate_sp(&self, _status: &Status) -> SkillRequirementResult<u32> {
+        self._validate_sp(_status)
     }
-    fn validate_hp(&self, _character_hp: u32) -> SkillRequirementResult<u32> {
-        self._validate_hp(_character_hp)
+    fn validate_hp(&self, _status: &Status) -> SkillRequirementResult<u32> {
+        self._validate_hp(_status)
     }
     fn validate_ammo(&self, _character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
         self._validate_ammo(_character_ammo)
     }
-    fn validate_state(&self, _state: Option<u64>) -> SkillRequirementResult<()>  {
-        self._validate_state(_state)
+    fn validate_state(&self, _status: &Status) -> SkillRequirementResult<()>  {
+        self._validate_state(_status)
     }
-    fn validate_zeny(&self, _zeny: u32) -> SkillRequirementResult<u32>  {
-        self._validate_zeny(_zeny)
+    fn validate_zeny(&self, _status: &Status) -> SkillRequirementResult<u32>  {
+        self._validate_zeny(_status)
     }
-    fn validate_spirit_sphere(&self, _spirit_sphere: u32) -> SkillRequirementResult<u32> {
-        self._validate_spirit_sphere(_spirit_sphere)
+    fn validate_spirit_sphere(&self, _status: &Status) -> SkillRequirementResult<u32> {
+        self._validate_spirit_sphere(_status)
     }
     fn validate_item(&self, _item: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         self._validate_item(_item)
@@ -116,11 +117,11 @@ pub trait Skill: SkillBase {
     fn validate_target(&self, _target_type: SkillTargetType) -> SkillRequirementResult<()> {
         self._validate_target(_target_type)
     }
-    fn validate_weapon(&self, _character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
-        self._validate_weapon(_character_weapon)
+    fn validate_weapon(&self, _status: &Status) -> SkillRequirementResult<()> {
+        self._validate_weapon(_status)
     }
-    fn validate_range(&self, _character_weapon: Option<&WearWeapon>) -> SkillRequirementResult<()> {
-        self._validate_range(_character_weapon)
+    fn validate_range(&self, _status: &Status) -> SkillRequirementResult<()> {
+        self._validate_range(_status)
     }
 
     fn skip_item_validation(&self, _state: Option<u64>) -> bool  {

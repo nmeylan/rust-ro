@@ -42,12 +42,12 @@ impl SkillService {
         let skill = SkillEnum::from_id(skill_id);
         let mut skill = skill.to_object(skill_level).unwrap();
 
-        let validate_sp = skill.validate_sp(character.status.sp);
+        let validate_sp = skill.validate_sp(&character.status);
         if validate_sp.is_err() {
             self.send_skill_fail_packet(character, UseSkillFailure::SpInsufficient);
             return;
         }
-        let validate_hp = skill.validate_hp(character.status.hp);
+        let validate_hp = skill.validate_hp(&character.status);
         if validate_hp.is_err() {
             self.send_skill_fail_packet(character, UseSkillFailure::HpInsufficient);
             return;
@@ -62,12 +62,12 @@ impl SkillService {
             return;
         }
 
-        let validate_weapon = skill.validate_weapon(character.status.right_hand_weapon());
+        let validate_weapon = skill.validate_weapon(&character.status);
         if validate_weapon.is_err() {
             self.send_skill_fail_packet(character, UseSkillFailure::ThisWeapon);
             return;
         }
-        let validate_zeny = skill.validate_zeny(character.status.zeny);
+        let validate_zeny = skill.validate_zeny(&character.status);
         if validate_zeny.is_err() {
             self.send_skill_fail_packet(character, UseSkillFailure::Money);
             return;

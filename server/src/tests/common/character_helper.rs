@@ -42,6 +42,7 @@ pub fn create_character() -> Character {
             skill_point: 0,
             base_exp: 0,
             job_exp: 0,
+            state: 0,
             weapons: vec![],
             equipments: vec![],
             ammo: None,
