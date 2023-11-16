@@ -68,6 +68,7 @@ case (attack)
           :apply damage bonus (wear items, skill, cards);
           :calculate damage;
           :apply damage to target;
+          :apply debuff to target;
           else (no)
       endif
 case (support)
