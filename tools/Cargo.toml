@@ -30,3 +30,7 @@ path = "map-cache/main.rs"
 [[bin]]
 name = "skills-enum-generator"
 path = "skills/main.rs"
+
+
+[features]
+generate_override_stub = []
