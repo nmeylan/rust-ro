@@ -106,15 +106,6 @@ impl SkillService {
         }
     }
 
-    fn send_skill_fail_packet(&self, character: &mut Character, cause: UseSkillFailure) {
-        let mut packet_zc_ack_touseskill = PacketZcAckTouseskill::new(self.configuration_service.packetver());
-        packet_zc_ack_touseskill.set_cause(cause.value() as u8);
-        packet_zc_ack_touseskill.set_num(UseSkillFailureClientSideType::SkillFailed.value() as u32);
-        packet_zc_ack_touseskill.set_result(false);
-        packet_zc_ack_touseskill.fill_raw();
-        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_ack_touseskill.raw_mut())))).unwrap();
-    }
-
     pub fn do_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, tick: u128) {
         if tick < character.skill_in_use().start_skill_tick + character.skill_in_use().skill.cast_time() as u128 {
             return;
@@ -146,5 +137,14 @@ impl SkillService {
             return;
         }
         character.clear_skill_in_use();
+    }
+
+    fn send_skill_fail_packet(&self, character: &mut Character, cause: UseSkillFailure) {
+        let mut packet_zc_ack_touseskill = PacketZcAckTouseskill::new(self.configuration_service.packetver());
+        packet_zc_ack_touseskill.set_cause(cause.value() as u8);
+        packet_zc_ack_touseskill.set_num(UseSkillFailureClientSideType::SkillFailed.value() as u32);
+        packet_zc_ack_touseskill.set_result(false);
+        packet_zc_ack_touseskill.fill_raw();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_ack_touseskill.raw_mut())))).unwrap();
     }
 }
