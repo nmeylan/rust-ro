@@ -267,6 +267,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
         script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
         account_id: session_id,
         map_instance_key: MapInstanceKey::new(last_map, 0),
+        last_moved_at: 0,
     };
     let char_id = character.char_id;
     let session = Arc::new(context.session().recreate_with_character(char_id));

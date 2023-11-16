@@ -44,3 +44,4 @@ path = "../tools/map-cache/main.rs"
 [features]
 visual_debugger = ["eframe"]
 static_db_update = []
+debug_movement = []

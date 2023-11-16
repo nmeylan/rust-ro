@@ -2,6 +2,7 @@ use std::collections::HashSet;
 
 
 use std::sync::{Mutex};
+use fastrand::u128;
 use accessor::Setters;
 
 use enums::item::{ItemType};
@@ -59,6 +60,8 @@ pub struct Character {
     /// Some script can store global variable for the character
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
     pub known_skills: Vec<KnownSkill>,
+
+    pub last_moved_at: u128,
 }
 
 type InventoryIter<'a> = Box<dyn Iterator<Item=(usize, &'a InventoryItemModel)> + 'a>;
@@ -141,6 +144,10 @@ impl Character {
     pub fn update_position(&mut self, x: u16, y: u16) {
         self.x = x;
         self.y = y;
+    }
+
+    pub fn set_last_moved_at(&mut self, tick: u128) {
+        self.last_moved_at = tick;
     }
 
     pub fn set_current_map(&mut self, map_name: String, id: u8) {
