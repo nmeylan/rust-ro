@@ -48,3 +48,44 @@ Chain of command:
   - self
   - target
   - area
+
+# to add to skill config
+- dmgAtk
+- dmgAtk per level
+- dmgMatk
+- dmgMatk per level
+- heal
+- heal per level
+- accuracy per level
+- knockback
+- knockback per level
+- aoe size
+- aoe size per level
+- aoe splash
+- aoe splash per level
+- blind chance
+- blind chance per level
+- freeze chance
+- freeze chance per level
+- item break change chance
+- item break change  per level
+- stun chance
+- stun chance per level
+- poison chance
+- poison chance per level
+- snare chance
+- snare chance per level
+- block chance
+- block chance per level
+- reflect chance
+- reflect chance per level
+- divest chance
+- divest chance per level
+- hp loss percentage
+- hp loss percentage per level
+- consume item on failure
+- acd on failure
+
+# to add in rust trait
+- dmg formula
+
