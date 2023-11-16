@@ -34,6 +34,7 @@ pub struct Status {
     pub skill_point: u32,
     pub base_exp: u32,
     pub job_exp: u32,
+    pub state: u64,
     pub weapons: Vec<WearWeapon>,
     pub equipments: Vec<WearGear>,
     pub ammo: Option<WearAmmo>

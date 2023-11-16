@@ -29,3 +29,5 @@ opt-level = 0
 opt-level = 0
 [profile.dev.package."models"]
 opt-level = 0
+[profile.dev.package."server"]
+opt-level = 0
