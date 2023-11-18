@@ -74,6 +74,14 @@ pub trait SkillBase {
     fn _after_cast_walk_delay(&self) -> u32 {
         0
     }
+
+    fn _dmg_atk_formula(&self, _status: &Status, _target_status: &Status) -> u32 {
+        0
+    }
+
+    fn _dmg_matk_formula(&self, _status: &Status, _target_status: &Status) -> u32 {
+        0
+    }
 }
 
 pub trait Skill: SkillBase {

@@ -54,6 +54,10 @@ Chain of command:
 - dmgAtk per level
 - dmgMatk
 - dmgMatk per level
+- dmgInt
+- dmgInt per level
+- chance
+- chance per level
 - heal
 - heal per level
 - accuracy per level
