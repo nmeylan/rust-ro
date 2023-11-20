@@ -5,6 +5,7 @@ use enums::EnumWithNumberValue;
 use enums::skill::{UseSkillFailure, UseSkillFailureClientSideType};
 use models::item::NormalInventoryItem;
 use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseskillAck2};
+use skills::OffensiveSkill;
 use skills::skill_enums::SkillEnum;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
@@ -110,7 +111,11 @@ impl SkillService {
         if tick < character.skill_in_use().start_skill_tick + character.skill_in_use().skill.cast_time() as u128 {
             return;
         }
-        let skill = &character.skill_in_use().skill;
+        let mut skill = &character.skill_in_use().skill;
+        if !skill.is_offensive_skill() {
+            return
+        }
+        let skill = skill.as_offensive_skill().unwrap();
         let target_snapshot = target.unwrap();
         let mut packet_zc_notify_skill2 = PacketZcNotifySkill2::new(self.configuration_service.packetver());
         packet_zc_notify_skill2.set_skid(skill.id() as u16);
@@ -120,6 +125,7 @@ impl SkillService {
         packet_zc_notify_skill2.set_start_time(0);
         packet_zc_notify_skill2.set_attacked_mt(480); // TODO
         packet_zc_notify_skill2.set_level(skill.level() as i16);
+
         packet_zc_notify_skill2.set_count(skill.hit_count().abs() as i16);
         packet_zc_notify_skill2.set_aid(character.char_id);
         packet_zc_notify_skill2.set_action(6); // TODO

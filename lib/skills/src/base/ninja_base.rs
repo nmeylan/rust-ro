@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // NJ_TOBIDOUGU
 pub struct ShurikenTraining {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct ShurikenTraining {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ShurikenTraining {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         522
     }
@@ -54,9 +59,15 @@ impl SkillBase for ShurikenTraining {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_passive_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for ShurikenTraining {
 }
 // NJ_SYURIKEN
 pub struct ThrowShuriken {
@@ -66,6 +77,10 @@ pub struct ThrowShuriken {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ThrowShuriken {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         523
     }
@@ -109,6 +124,16 @@ impl SkillBase for ThrowShuriken {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ThrowShuriken {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -125,6 +150,10 @@ pub struct ThrowKunai {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ThrowKunai {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         524
     }
@@ -183,16 +212,26 @@ impl SkillBase for ThrowKunai {
         }
     }
     #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ThrowKunai {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        3
     }
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(3.000)
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
     }
 }
 // NJ_HUUMA
@@ -203,6 +242,10 @@ pub struct ThrowHuumaShuriken {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ThrowHuumaShuriken {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         525
     }
@@ -261,6 +304,24 @@ impl SkillBase for ThrowHuumaShuriken {
         }
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       3000
+    }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ThrowHuumaShuriken {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
             return -3
@@ -298,14 +359,6 @@ impl SkillBase for ThrowHuumaShuriken {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       3000
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       2000
-    }
 }
 // NJ_ZENYNAGE
 pub struct ThrowZeny {
@@ -315,6 +368,10 @@ pub struct ThrowZeny {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ThrowZeny {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         526
     }
@@ -384,12 +441,22 @@ impl SkillBase for ThrowZeny {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        5000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ThrowZeny {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // NJ_TATAMIGAESHI
@@ -400,6 +467,10 @@ pub struct ImprovisedDefense {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ImprovisedDefense {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         527
     }
@@ -435,6 +506,28 @@ impl SkillBase for ImprovisedDefense {
         if status.sp > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       3000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ImprovisedDefense {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -457,10 +550,8 @@ impl SkillBase for ImprovisedDefense {
         }
         None
     }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       3000
-    }
+}
+impl SelfSkillBase for ImprovisedDefense {
 }
 // NJ_KASUMIKIRI
 pub struct VanishingSlash {
@@ -470,6 +561,10 @@ pub struct VanishingSlash {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for VanishingSlash {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         528
     }
@@ -535,6 +630,20 @@ impl SkillBase for VanishingSlash {
         Err(())
     }
     #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for VanishingSlash {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -572,10 +681,6 @@ impl SkillBase for VanishingSlash {
         }
         None
     }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
-    }
 }
 // NJ_SHADOWJUMP
 pub struct ShadowLeap {
@@ -585,6 +690,10 @@ pub struct ShadowLeap {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ShadowLeap {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         529
     }
@@ -629,13 +738,19 @@ impl SkillBase for ShadowLeap {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for ShadowLeap {
 }
 // NJ_KIRIKAGE
 pub struct ShadowSlash {
@@ -645,6 +760,10 @@ pub struct ShadowSlash {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ShadowSlash {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         530
     }
@@ -704,6 +823,16 @@ impl SkillBase for ShadowSlash {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ShadowSlash {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -735,6 +864,10 @@ pub struct CicadaSkinSheeding {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CicadaSkinSheeding {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         531
     }
@@ -785,13 +918,19 @@ impl SkillBase for CicadaSkinSheeding {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for CicadaSkinSheeding {
 }
 // NJ_BUNSINJYUTSU
 pub struct MirrorImage {
@@ -801,6 +940,10 @@ pub struct MirrorImage {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MirrorImage {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         532
     }
@@ -874,10 +1017,6 @@ impl SkillBase for MirrorImage {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 4000
@@ -915,6 +1054,16 @@ impl SkillBase for MirrorImage {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for MirrorImage {
 }
 // NJ_NINPOU
 pub struct SpiritoftheBlade {
@@ -924,6 +1073,10 @@ pub struct SpiritoftheBlade {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SpiritoftheBlade {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         533
     }
@@ -958,6 +1111,16 @@ impl SkillBase for SpiritoftheBlade {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for SpiritoftheBlade {
 }
 // NJ_KOUENKA
 pub struct CrimsonFirePetal {
@@ -967,6 +1130,10 @@ pub struct CrimsonFirePetal {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CrimsonFirePetal {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         534
     }
@@ -1032,40 +1199,6 @@ impl SkillBase for CrimsonFirePetal {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 3
-        }
-        if self.level == 4 {
-            return 4
-        }
-        if self.level == 5 {
-            return 5
-        }
-        if self.level == 6 {
-            return 6
-        }
-        if self.level == 7 {
-            return 7
-        }
-        if self.level == 8 {
-            return 8
-        }
-        if self.level == 9 {
-            return 9
-        }
-        if self.level == 10 {
-            return 10
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 700
@@ -1099,6 +1232,50 @@ impl SkillBase for CrimsonFirePetal {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for CrimsonFirePetal {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
+    }
 }
 // NJ_KAENSIN
 pub struct CrimsonFireFormation {
@@ -1108,6 +1285,10 @@ pub struct CrimsonFireFormation {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CrimsonFireFormation {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         535
     }
@@ -1151,10 +1332,6 @@ impl SkillBase for CrimsonFireFormation {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 6000
@@ -1192,6 +1369,16 @@ impl SkillBase for CrimsonFireFormation {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for CrimsonFireFormation {
 }
 // NJ_BAKUENRYU
 pub struct RagingFireDragon {
@@ -1201,6 +1388,10 @@ pub struct RagingFireDragon {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for RagingFireDragon {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         536
     }
@@ -1259,16 +1450,26 @@ impl SkillBase for RagingFireDragon {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       -3
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for RagingFireDragon {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       -3
     }
 }
 // NJ_HYOUSENSOU
@@ -1279,6 +1480,10 @@ pub struct SpearofIce {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SpearofIce {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         537
     }
@@ -1344,40 +1549,6 @@ impl SkillBase for SpearofIce {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 3
-        }
-        if self.level == 2 {
-            return 4
-        }
-        if self.level == 3 {
-            return 5
-        }
-        if self.level == 4 {
-            return 6
-        }
-        if self.level == 5 {
-            return 7
-        }
-        if self.level == 6 {
-            return 8
-        }
-        if self.level == 7 {
-            return 9
-        }
-        if self.level == 8 {
-            return 10
-        }
-        if self.level == 9 {
-            return 11
-        }
-        if self.level == 10 {
-            return 12
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 700
@@ -1411,6 +1582,50 @@ impl SkillBase for SpearofIce {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for SpearofIce {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 3
+        }
+        if self.level == 2 {
+            return 4
+        }
+        if self.level == 3 {
+            return 5
+        }
+        if self.level == 4 {
+            return 6
+        }
+        if self.level == 5 {
+            return 7
+        }
+        if self.level == 6 {
+            return 8
+        }
+        if self.level == 7 {
+            return 9
+        }
+        if self.level == 8 {
+            return 10
+        }
+        if self.level == 9 {
+            return 11
+        }
+        if self.level == 10 {
+            return 12
+        }
+        0
+    }
 }
 // NJ_SUITON
 pub struct HiddenWater {
@@ -1420,6 +1635,10 @@ pub struct HiddenWater {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for HiddenWater {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         538
     }
@@ -1493,13 +1712,19 @@ impl SkillBase for HiddenWater {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for HiddenWater {
 }
 // NJ_HYOUSYOURAKU
 pub struct IceMeteor {
@@ -1509,6 +1734,10 @@ pub struct IceMeteor {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for IceMeteor {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         539
     }
@@ -1567,10 +1796,6 @@ impl SkillBase for IceMeteor {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 2000
@@ -1593,6 +1818,16 @@ impl SkillBase for IceMeteor {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for IceMeteor {
 }
 // NJ_HUUJIN
 pub struct WindBlade {
@@ -1602,6 +1837,10 @@ pub struct WindBlade {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for WindBlade {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         540
     }
@@ -1667,40 +1906,6 @@ impl SkillBase for WindBlade {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 2
-        }
-        if self.level == 4 {
-            return 3
-        }
-        if self.level == 5 {
-            return 3
-        }
-        if self.level == 6 {
-            return 4
-        }
-        if self.level == 7 {
-            return 4
-        }
-        if self.level == 8 {
-            return 5
-        }
-        if self.level == 9 {
-            return 5
-        }
-        if self.level == 10 {
-            return 6
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 1000
@@ -1738,6 +1943,50 @@ impl SkillBase for WindBlade {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for WindBlade {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 2
+        }
+        if self.level == 4 {
+            return 3
+        }
+        if self.level == 5 {
+            return 3
+        }
+        if self.level == 6 {
+            return 4
+        }
+        if self.level == 7 {
+            return 4
+        }
+        if self.level == 8 {
+            return 5
+        }
+        if self.level == 9 {
+            return 5
+        }
+        if self.level == 10 {
+            return 6
+        }
+        0
+    }
 }
 // NJ_RAIGEKISAI
 pub struct LightningStrikeofDestruction {
@@ -1747,6 +1996,10 @@ pub struct LightningStrikeofDestruction {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for LightningStrikeofDestruction {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         541
     }
@@ -1805,13 +2058,19 @@ impl SkillBase for LightningStrikeofDestruction {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        4000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for LightningStrikeofDestruction {
 }
 // NJ_KAMAITACHI
 pub struct Kamaitachi {
@@ -1821,6 +2080,10 @@ pub struct Kamaitachi {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Kamaitachi {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         542
     }
@@ -1879,12 +2142,22 @@ impl SkillBase for Kamaitachi {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        4000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Kamaitachi {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // NJ_NEN
@@ -1895,6 +2168,10 @@ pub struct Soul {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Soul {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         543
     }
@@ -1945,10 +2222,6 @@ impl SkillBase for Soul {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 5000
@@ -1967,6 +2240,16 @@ impl SkillBase for Soul {
         }
         0
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Soul {
 }
 // NJ_ISSEN
 pub struct FinalStrike {
@@ -1976,6 +2259,10 @@ pub struct FinalStrike {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FinalStrike {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         544
     }
@@ -2040,6 +2327,16 @@ impl SkillBase for FinalStrike {
         }
         Err(())
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for FinalStrike {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1

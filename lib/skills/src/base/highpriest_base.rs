@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // HP_ASSUMPTIO
 pub struct Assumptio {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct Assumptio {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Assumptio {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         361
     }
@@ -71,10 +76,6 @@ impl SkillBase for Assumptio {
             if status.sp >= 60 { return Ok(60) } else {return Err(())}
         }
         Err(())
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -133,6 +134,16 @@ impl SkillBase for Assumptio {
         }
         0
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for Assumptio {
 }
 // HP_BASILICA
 pub struct Basilica {
@@ -142,6 +153,10 @@ pub struct Basilica {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Basilica {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         362
     }
@@ -209,10 +224,6 @@ impl SkillBase for Basilica {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 5000
@@ -269,6 +280,16 @@ impl SkillBase for Basilica {
         }
         0
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Basilica {
 }
 // HP_MEDITATIO
 pub struct Meditatio {
@@ -278,6 +299,10 @@ pub struct Meditatio {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Meditatio {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         363
     }
@@ -308,6 +333,16 @@ impl SkillBase for Meditatio {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Meditatio {
 }
 // HP_MANARECHARGE
 pub struct ManaRecharge {
@@ -317,6 +352,10 @@ pub struct ManaRecharge {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ManaRecharge {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         481
     }
@@ -347,4 +386,14 @@ impl SkillBase for ManaRecharge {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for ManaRecharge {
 }

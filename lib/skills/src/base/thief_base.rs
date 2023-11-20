@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // TF_DOUBLE
 pub struct DoubleAttack {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct DoubleAttack {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DoubleAttack {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         48
     }
@@ -54,9 +59,15 @@ impl SkillBase for DoubleAttack {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       2
+    fn is_passive_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for DoubleAttack {
 }
 // TF_MISS
 pub struct ImproveDodge {
@@ -66,6 +77,10 @@ pub struct ImproveDodge {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ImproveDodge {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         49
     }
@@ -96,6 +111,16 @@ impl SkillBase for ImproveDodge {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for ImproveDodge {
 }
 // TF_STEAL
 pub struct Steal {
@@ -105,6 +130,10 @@ pub struct Steal {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Steal {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         50
     }
@@ -140,6 +169,16 @@ impl SkillBase for Steal {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Steal {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -152,6 +191,10 @@ pub struct Hiding {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Hiding {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         51
     }
@@ -187,9 +230,15 @@ impl SkillBase for Hiding {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Hiding {
 }
 // TF_POISON
 pub struct Envenom {
@@ -199,6 +248,10 @@ pub struct Envenom {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Envenom {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         52
     }
@@ -234,6 +287,16 @@ impl SkillBase for Envenom {
         if status.sp > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Envenom {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -250,6 +313,10 @@ pub struct Detoxify {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Detoxify {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         53
     }
@@ -285,9 +352,15 @@ impl SkillBase for Detoxify {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_supportive_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for Detoxify {
 }
 // TF_SPRINKLESAND
 pub struct SandAttack {
@@ -297,6 +370,10 @@ pub struct SandAttack {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SandAttack {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         149
     }
@@ -332,6 +409,16 @@ impl SkillBase for SandAttack {
         if status.sp > 9 { Ok(9) } else {Err(())}
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for SandAttack {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -348,6 +435,10 @@ pub struct BackSlide {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BackSlide {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         150
     }
@@ -383,9 +474,15 @@ impl SkillBase for BackSlide {
         if status.sp > 7 { Ok(7) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for BackSlide {
 }
 // TF_PICKSTONE
 pub struct FindStone {
@@ -395,6 +492,10 @@ pub struct FindStone {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FindStone {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         151
     }
@@ -439,13 +540,19 @@ impl SkillBase for FindStone {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        500
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for FindStone {
 }
 // TF_THROWSTONE
 pub struct StoneFling {
@@ -455,6 +562,10 @@ pub struct StoneFling {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for StoneFling {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         152
     }
@@ -497,6 +608,16 @@ impl SkillBase for StoneFling {
         }
         Ok(Some(required_items))
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for StoneFling {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1

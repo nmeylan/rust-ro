@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // MO_IRONHAND
 pub struct IronFists {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct IronFists {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for IronFists {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         259
     }
@@ -53,6 +58,16 @@ impl SkillBase for IronFists {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for IronFists {
 }
 // MO_SPIRITSRECOVERY
 pub struct SpiritualCadence {
@@ -62,6 +77,10 @@ pub struct SpiritualCadence {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SpiritualCadence {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         260
     }
@@ -92,6 +111,16 @@ impl SkillBase for SpiritualCadence {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for SpiritualCadence {
 }
 // MO_CALLSPIRITS
 pub struct SummonSpiritSphere {
@@ -101,6 +130,10 @@ pub struct SummonSpiritSphere {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SummonSpiritSphere {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         261
     }
@@ -136,13 +169,19 @@ impl SkillBase for SummonSpiritSphere {
         if status.sp > 8 { Ok(8) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for SummonSpiritSphere {
 }
 // MO_ABSORBSPIRITS
 pub struct AbsorbSpiritSphere {
@@ -152,6 +191,10 @@ pub struct AbsorbSpiritSphere {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AbsorbSpiritSphere {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         262
     }
@@ -187,13 +230,19 @@ impl SkillBase for AbsorbSpiritSphere {
         if status.sp > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for AbsorbSpiritSphere {
 }
 // MO_TRIPLEATTACK
 pub struct RagingTrifectaBlow {
@@ -203,6 +252,10 @@ pub struct RagingTrifectaBlow {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for RagingTrifectaBlow {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         263
     }
@@ -233,6 +286,24 @@ impl SkillBase for RagingTrifectaBlow {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for RagingTrifectaBlow {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
@@ -272,6 +343,8 @@ impl SkillBase for RagingTrifectaBlow {
         None
     }
 }
+impl PassiveSkillBase for RagingTrifectaBlow {
+}
 // MO_BODYRELOCATION
 pub struct Snap {
     pub(crate) level: u8,
@@ -280,6 +353,10 @@ pub struct Snap {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Snap {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         264
     }
@@ -315,9 +392,15 @@ impl SkillBase for Snap {
         if status.sp > 14 { Ok(14) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Snap {
 }
 // MO_DODGE
 pub struct Dodge {
@@ -327,6 +410,10 @@ pub struct Dodge {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Dodge {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         265
     }
@@ -357,6 +444,16 @@ impl SkillBase for Dodge {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Dodge {
 }
 // MO_INVESTIGATE
 pub struct OccultImpaction {
@@ -366,6 +463,10 @@ pub struct OccultImpaction {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for OccultImpaction {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         266
     }
@@ -416,6 +517,24 @@ impl SkillBase for OccultImpaction {
         Err(())
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for OccultImpaction {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -438,14 +557,6 @@ impl SkillBase for OccultImpaction {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1000
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       500
-    }
 }
 // MO_FINGEROFFENSIVE
 pub struct ThrowSpiritSphere {
@@ -455,6 +566,10 @@ pub struct ThrowSpiritSphere {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ThrowSpiritSphere {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         267
     }
@@ -489,6 +604,24 @@ impl SkillBase for ThrowSpiritSphere {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
+    #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ThrowSpiritSphere {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
@@ -527,14 +660,6 @@ impl SkillBase for ThrowSpiritSphere {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1000
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       500
-    }
 }
 // MO_STEELBODY
 pub struct MentalStrength {
@@ -544,6 +669,10 @@ pub struct MentalStrength {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MentalStrength {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         268
     }
@@ -579,13 +708,19 @@ impl SkillBase for MentalStrength {
         if status.sp > 200 { Ok(200) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        5000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for MentalStrength {
 }
 // MO_BLADESTOP
 pub struct Root {
@@ -595,6 +730,10 @@ pub struct Root {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Root {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         269
     }
@@ -639,9 +778,15 @@ impl SkillBase for Root {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Root {
 }
 // MO_EXPLOSIONSPIRITS
 pub struct Fury {
@@ -651,6 +796,10 @@ pub struct Fury {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Fury {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         270
     }
@@ -685,6 +834,16 @@ impl SkillBase for Fury {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 15 { Ok(15) } else {Err(())}
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Fury {
 }
 // MO_EXTREMITYFIST
 pub struct AsuraStrike {
@@ -694,6 +853,10 @@ pub struct AsuraStrike {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AsuraStrike {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         271
     }
@@ -745,10 +908,6 @@ impl SkillBase for AsuraStrike {
             // Allow to use Fist
             Ok(())
         }
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -807,6 +966,20 @@ impl SkillBase for AsuraStrike {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for AsuraStrike {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
 }
 // MO_CHAINCOMBO
 pub struct RagingQuadrupleBlow {
@@ -816,6 +989,10 @@ pub struct RagingQuadrupleBlow {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for RagingQuadrupleBlow {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         272
     }
@@ -875,6 +1052,24 @@ impl SkillBase for RagingQuadrupleBlow {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for RagingQuadrupleBlow {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -4
     }
@@ -898,6 +1093,8 @@ impl SkillBase for RagingQuadrupleBlow {
         None
     }
 }
+impl SelfSkillBase for RagingQuadrupleBlow {
+}
 // MO_COMBOFINISH
 pub struct RagingThrust {
     pub(crate) level: u8,
@@ -906,6 +1103,10 @@ pub struct RagingThrust {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for RagingThrust {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         273
     }
@@ -965,6 +1166,24 @@ impl SkillBase for RagingThrust {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for RagingThrust {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -988,6 +1207,8 @@ impl SkillBase for RagingThrust {
         None
     }
 }
+impl SelfSkillBase for RagingThrust {
+}
 // MO_KITRANSLATION
 pub struct KiTranslation {
     pub(crate) level: u8,
@@ -996,6 +1217,10 @@ pub struct KiTranslation {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for KiTranslation {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1015
     }
@@ -1031,10 +1256,6 @@ impl SkillBase for KiTranslation {
         if status.sp > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
@@ -1042,6 +1263,16 @@ impl SkillBase for KiTranslation {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for KiTranslation {
 }
 // MO_BALKYOUNG
 pub struct KiExplosion {
@@ -1051,6 +1282,10 @@ pub struct KiExplosion {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for KiExplosion {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1016
     }
@@ -1090,11 +1325,21 @@ impl SkillBase for KiExplosion {
         if status.hp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for KiExplosion {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }

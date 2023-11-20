@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // NV_BASIC
 pub struct BasicSkill {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct BasicSkill {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BasicSkill {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1
     }
@@ -53,6 +58,16 @@ impl SkillBase for BasicSkill {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for BasicSkill {
 }
 // NV_FIRSTAID
 pub struct FirstAid {
@@ -62,6 +77,10 @@ pub struct FirstAid {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FirstAid {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         142
     }
@@ -97,9 +116,15 @@ impl SkillBase for FirstAid {
         if status.sp > 3 { Ok(3) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for FirstAid {
 }
 // NV_TRICKDEAD
 pub struct PlayDead {
@@ -109,6 +134,10 @@ pub struct PlayDead {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for PlayDead {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         143
     }
@@ -144,7 +173,13 @@ impl SkillBase for PlayDead {
         if status.sp > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for PlayDead {
 }

@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // ASC_KATAR
 pub struct AdvancedKatarMastery {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct AdvancedKatarMastery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AdvancedKatarMastery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         376
     }
@@ -54,9 +59,15 @@ impl SkillBase for AdvancedKatarMastery {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_passive_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for AdvancedKatarMastery {
 }
 // ASC_EDP
 pub struct EnchantDeadlyPoison {
@@ -66,6 +77,10 @@ pub struct EnchantDeadlyPoison {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for EnchantDeadlyPoison {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         378
     }
@@ -124,13 +139,19 @@ impl SkillBase for EnchantDeadlyPoison {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for EnchantDeadlyPoison {
 }
 // ASC_BREAKER
 pub struct SoulDestroyer {
@@ -140,6 +161,10 @@ pub struct SoulDestroyer {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SoulDestroyer {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         379
     }
@@ -203,44 +228,6 @@ impl SkillBase for SoulDestroyer {
             if status.sp >= 30 { return Ok(30) } else {return Err(())}
         }
         Err(())
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
-    fn _dmg_atk(&self) -> Option<f32> {
-        if self.level == 1 {
-            return Some(1.000)
-        }
-        if self.level == 2 {
-            return Some(2.000)
-        }
-        if self.level == 3 {
-            return Some(3.000)
-        }
-        if self.level == 4 {
-            return Some(4.000)
-        }
-        if self.level == 5 {
-            return Some(5.000)
-        }
-        if self.level == 6 {
-            return Some(6.000)
-        }
-        if self.level == 7 {
-            return Some(7.000)
-        }
-        if self.level == 8 {
-            return Some(8.000)
-        }
-        if self.level == 9 {
-            return Some(9.000)
-        }
-        if self.level == 10 {
-            return Some(10.000)
-        }
-        None
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -314,6 +301,54 @@ impl SkillBase for SoulDestroyer {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for SoulDestroyer {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(3.000)
+        }
+        if self.level == 4 {
+            return Some(4.000)
+        }
+        if self.level == 5 {
+            return Some(5.000)
+        }
+        if self.level == 6 {
+            return Some(6.000)
+        }
+        if self.level == 7 {
+            return Some(7.000)
+        }
+        if self.level == 8 {
+            return Some(8.000)
+        }
+        if self.level == 9 {
+            return Some(9.000)
+        }
+        if self.level == 10 {
+            return Some(10.000)
+        }
+        None
+    }
 }
 // ASC_METEORASSAULT
 pub struct MeteorAssault {
@@ -323,6 +358,10 @@ pub struct MeteorAssault {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MeteorAssault {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         406
     }
@@ -388,6 +427,32 @@ impl SkillBase for MeteorAssault {
         Err(())
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       500
+    }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for MeteorAssault {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -425,14 +490,8 @@ impl SkillBase for MeteorAssault {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       500
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       500
-    }
+}
+impl SelfSkillBase for MeteorAssault {
 }
 // ASC_CDP
 pub struct CreateDeadlyPoison {
@@ -442,6 +501,10 @@ pub struct CreateDeadlyPoison {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CreateDeadlyPoison {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         407
     }
@@ -480,4 +543,14 @@ impl SkillBase for CreateDeadlyPoison {
     fn _base_after_cast_act_delay(&self) -> u32 {
        500
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for CreateDeadlyPoison {
 }

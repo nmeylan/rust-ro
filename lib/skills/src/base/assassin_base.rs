@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // AS_RIGHT
 pub struct RighthandMastery {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct RighthandMastery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for RighthandMastery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         132
     }
@@ -53,6 +58,16 @@ impl SkillBase for RighthandMastery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for RighthandMastery {
 }
 // AS_LEFT
 pub struct LefthandMastery {
@@ -62,6 +77,10 @@ pub struct LefthandMastery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for LefthandMastery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         133
     }
@@ -92,6 +111,16 @@ impl SkillBase for LefthandMastery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for LefthandMastery {
 }
 // AS_KATAR
 pub struct KatarMastery {
@@ -101,6 +130,10 @@ pub struct KatarMastery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for KatarMastery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         134
     }
@@ -131,6 +164,16 @@ impl SkillBase for KatarMastery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for KatarMastery {
 }
 // AS_CLOAKING
 pub struct Cloaking {
@@ -140,6 +183,10 @@ pub struct Cloaking {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Cloaking {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         135
     }
@@ -175,9 +222,15 @@ impl SkillBase for Cloaking {
         if status.sp > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Cloaking {
 }
 // AS_SONICBLOW
 pub struct SonicBlow {
@@ -187,6 +240,10 @@ pub struct SonicBlow {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SonicBlow {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         136
     }
@@ -260,46 +317,56 @@ impl SkillBase for SonicBlow {
         }
     }
     #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for SonicBlow {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -8
     }
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
         if self.level == 1 {
-            return Some(5.500)
+            return Some(4.400)
         }
         if self.level == 2 {
-            return Some(6.000)
+            return Some(4.800)
         }
         if self.level == 3 {
-            return Some(6.500)
+            return Some(5.200)
         }
         if self.level == 4 {
-            return Some(7.000)
+            return Some(5.600)
         }
         if self.level == 5 {
-            return Some(7.500)
+            return Some(6.000)
         }
         if self.level == 6 {
-            return Some(8.000)
+            return Some(6.400)
         }
         if self.level == 7 {
-            return Some(8.500)
+            return Some(6.800)
         }
         if self.level == 8 {
-            return Some(9.000)
+            return Some(7.200)
         }
         if self.level == 9 {
-            return Some(9.500)
+            return Some(7.600)
         }
         if self.level == 10 {
-            return Some(10.000)
+            return Some(8.000)
         }
         None
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       2000
     }
 }
 // AS_GRIMTOOTH
@@ -310,6 +377,10 @@ pub struct Grimtooth {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Grimtooth {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         137
     }
@@ -362,6 +433,16 @@ impl SkillBase for Grimtooth {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Grimtooth {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -393,6 +474,10 @@ pub struct EnchantPoison {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for EnchantPoison {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         138
     }
@@ -428,9 +513,15 @@ impl SkillBase for EnchantPoison {
         if status.sp > 20 { Ok(20) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_supportive_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for EnchantPoison {
 }
 // AS_POISONREACT
 pub struct PoisonReact {
@@ -440,6 +531,10 @@ pub struct PoisonReact {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for PoisonReact {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         139
     }
@@ -505,6 +600,24 @@ impl SkillBase for PoisonReact {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for PoisonReact {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -543,6 +656,8 @@ impl SkillBase for PoisonReact {
         None
     }
 }
+impl SelfSkillBase for PoisonReact {
+}
 // AS_VENOMDUST
 pub struct VenomDust {
     pub(crate) level: u8,
@@ -551,6 +666,10 @@ pub struct VenomDust {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for VenomDust {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         140
     }
@@ -594,9 +713,15 @@ impl SkillBase for VenomDust {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for VenomDust {
 }
 // AS_SPLASHER
 pub struct VenomSplasher {
@@ -606,6 +731,10 @@ pub struct VenomSplasher {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for VenomSplasher {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         141
     }
@@ -679,6 +808,20 @@ impl SkillBase for VenomSplasher {
         Ok(Some(required_items))
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for VenomSplasher {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -716,10 +859,6 @@ impl SkillBase for VenomSplasher {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1000
-    }
 }
 // AS_SONICACCEL
 pub struct SonicAcceleration {
@@ -729,6 +868,10 @@ pub struct SonicAcceleration {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SonicAcceleration {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1003
     }
@@ -759,6 +902,16 @@ impl SkillBase for SonicAcceleration {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for SonicAcceleration {
 }
 // AS_VENOMKNIFE
 pub struct ThrowVenomKnife {
@@ -768,6 +921,10 @@ pub struct ThrowVenomKnife {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ThrowVenomKnife {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1004
     }
@@ -810,6 +967,16 @@ impl SkillBase for ThrowVenomKnife {
             Err(())
         }
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ThrowVenomKnife {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1

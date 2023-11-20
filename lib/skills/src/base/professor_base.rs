@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // PF_HPCONVERSION
 pub struct Indulge {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct Indulge {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Indulge {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         373
     }
@@ -73,10 +78,6 @@ impl SkillBase for Indulge {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
         if self.level == 1 {
             return 1000
@@ -114,6 +115,16 @@ impl SkillBase for Indulge {
         }
         0
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Indulge {
 }
 // PF_SOULCHANGE
 pub struct SoulExhale {
@@ -123,6 +134,10 @@ pub struct SoulExhale {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SoulExhale {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         374
     }
@@ -158,16 +173,26 @@ impl SkillBase for SoulExhale {
         if status.sp > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        5000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for SoulExhale {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // PF_SOULBURN
@@ -178,6 +203,10 @@ pub struct SoulSiphon {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SoulSiphon {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         375
     }
@@ -228,6 +257,16 @@ impl SkillBase for SoulSiphon {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for SoulSiphon {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -240,6 +279,10 @@ pub struct MindBreaker {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MindBreaker {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         402
     }
@@ -290,10 +333,6 @@ impl SkillBase for MindBreaker {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
         if self.level == 1 {
             return 800
@@ -331,6 +370,20 @@ impl SkillBase for MindBreaker {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for MindBreaker {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
 }
 // PF_MEMORIZE
 pub struct Foresight {
@@ -340,6 +393,10 @@ pub struct Foresight {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Foresight {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         403
     }
@@ -375,13 +432,19 @@ impl SkillBase for Foresight {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        5000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Foresight {
 }
 // PF_FOGWALL
 pub struct BlindingMist {
@@ -391,6 +454,10 @@ pub struct BlindingMist {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BlindingMist {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         404
     }
@@ -426,9 +493,15 @@ impl SkillBase for BlindingMist {
         if status.sp > 25 { Ok(25) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for BlindingMist {
 }
 // PF_SPIDERWEB
 pub struct FiberLock {
@@ -438,6 +511,10 @@ pub struct FiberLock {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FiberLock {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         405
     }
@@ -481,6 +558,16 @@ impl SkillBase for FiberLock {
         Ok(Some(required_items))
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for FiberLock {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -493,6 +580,10 @@ pub struct DoubleCasting {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DoubleCasting {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         482
     }
@@ -543,11 +634,17 @@ impl SkillBase for DoubleCasting {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for DoubleCasting {
 }

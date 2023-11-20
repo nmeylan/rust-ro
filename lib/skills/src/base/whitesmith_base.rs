@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // WS_MELTDOWN
 pub struct ShatteringStrike {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct ShatteringStrike {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ShatteringStrike {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         384
     }
@@ -88,10 +93,6 @@ impl SkillBase for ShatteringStrike {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 500
@@ -125,6 +126,16 @@ impl SkillBase for ShatteringStrike {
         }
         0
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for ShatteringStrike {
 }
 // WS_CARTBOOST
 pub struct CartBoost {
@@ -134,6 +145,10 @@ pub struct CartBoost {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CartBoost {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         387
     }
@@ -178,9 +193,15 @@ impl SkillBase for CartBoost {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for CartBoost {
 }
 // WS_WEAPONREFINE
 pub struct UpgradeWeapon {
@@ -190,6 +211,10 @@ pub struct UpgradeWeapon {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for UpgradeWeapon {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         477
     }
@@ -225,9 +250,15 @@ impl SkillBase for UpgradeWeapon {
         if status.sp > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for UpgradeWeapon {
 }
 // WS_CARTTERMINATION
 pub struct CartTermination {
@@ -237,6 +268,10 @@ pub struct CartTermination {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CartTermination {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         485
     }
@@ -324,6 +359,16 @@ impl SkillBase for CartTermination {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for CartTermination {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -370,6 +415,10 @@ pub struct MaximumPowerThrust {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MaximumPowerThrust {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         486
     }
@@ -433,7 +482,13 @@ impl SkillBase for MaximumPowerThrust {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for MaximumPowerThrust {
 }

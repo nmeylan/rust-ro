@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // SN_SIGHT
 pub struct FalconEyes {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct FalconEyes {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FalconEyes {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         380
     }
@@ -88,9 +93,15 @@ impl SkillBase for FalconEyes {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for FalconEyes {
 }
 // SN_FALCONASSAULT
 pub struct FalconAssault {
@@ -100,6 +111,10 @@ pub struct FalconAssault {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FalconAssault {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         381
     }
@@ -159,16 +174,26 @@ impl SkillBase for FalconAssault {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        3000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for FalconAssault {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // SN_SHARPSHOOTING
@@ -179,6 +204,10 @@ pub struct FocusedArrowStrike {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FocusedArrowStrike {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         382
     }
@@ -245,6 +274,24 @@ impl SkillBase for FocusedArrowStrike {
         }
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       2000
+    }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       1500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for FocusedArrowStrike {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -267,14 +314,6 @@ impl SkillBase for FocusedArrowStrike {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       2000
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       1500
-    }
 }
 // SN_WINDWALK
 pub struct WindWalker {
@@ -284,6 +323,10 @@ pub struct WindWalker {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for WindWalker {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         383
     }
@@ -349,10 +392,6 @@ impl SkillBase for WindWalker {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 2000
@@ -390,4 +429,14 @@ impl SkillBase for WindWalker {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for WindWalker {
 }

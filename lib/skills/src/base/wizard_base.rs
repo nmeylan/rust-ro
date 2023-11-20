@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // WZ_FIREPILLAR
 pub struct FirePillar {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct FirePillar {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FirePillar {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         80
     }
@@ -78,40 +83,6 @@ impl SkillBase for FirePillar {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 3
-        }
-        if self.level == 2 {
-            return 4
-        }
-        if self.level == 3 {
-            return 5
-        }
-        if self.level == 4 {
-            return 6
-        }
-        if self.level == 5 {
-            return 7
-        }
-        if self.level == 6 {
-            return 8
-        }
-        if self.level == 7 {
-            return 9
-        }
-        if self.level == 8 {
-            return 10
-        }
-        if self.level == 9 {
-            return 11
-        }
-        if self.level == 10 {
-            return 12
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 3000
@@ -149,6 +120,16 @@ impl SkillBase for FirePillar {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for FirePillar {
 }
 // WZ_SIGHTRASHER
 pub struct Sightrasher {
@@ -158,6 +139,10 @@ pub struct Sightrasher {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Sightrasher {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         81
     }
@@ -232,10 +217,6 @@ impl SkillBase for Sightrasher {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        500
     }
@@ -243,6 +224,16 @@ impl SkillBase for Sightrasher {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Sightrasher {
 }
 // WZ_METEOR
 pub struct MeteorStorm {
@@ -252,6 +243,10 @@ pub struct MeteorStorm {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MeteorStorm {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         83
     }
@@ -315,43 +310,6 @@ impl SkillBase for MeteorStorm {
             if status.sp >= 64 { return Ok(64) } else {return Err(())}
         }
         Err(())
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 1
-        }
-        if self.level == 3 {
-            return 2
-        }
-        if self.level == 4 {
-            return 2
-        }
-        if self.level == 5 {
-            return 3
-        }
-        if self.level == 6 {
-            return 3
-        }
-        if self.level == 7 {
-            return 4
-        }
-        if self.level == 8 {
-            return 4
-        }
-        if self.level == 9 {
-            return 5
-        }
-        if self.level == 10 {
-            return 5
-        }
-        if self.level == 11 {
-            return 15
-        }
-        0
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -425,6 +383,16 @@ impl SkillBase for MeteorStorm {
         }
         0
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for MeteorStorm {
 }
 // WZ_JUPITEL
 pub struct JupitelThunder {
@@ -434,6 +402,10 @@ pub struct JupitelThunder {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for JupitelThunder {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         84
     }
@@ -499,40 +471,6 @@ impl SkillBase for JupitelThunder {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 3
-        }
-        if self.level == 2 {
-            return 4
-        }
-        if self.level == 3 {
-            return 5
-        }
-        if self.level == 4 {
-            return 6
-        }
-        if self.level == 5 {
-            return 7
-        }
-        if self.level == 6 {
-            return 8
-        }
-        if self.level == 7 {
-            return 9
-        }
-        if self.level == 8 {
-            return 10
-        }
-        if self.level == 9 {
-            return 11
-        }
-        if self.level == 10 {
-            return 12
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 2500
@@ -566,6 +504,50 @@ impl SkillBase for JupitelThunder {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for JupitelThunder {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 3
+        }
+        if self.level == 2 {
+            return 4
+        }
+        if self.level == 3 {
+            return 5
+        }
+        if self.level == 4 {
+            return 6
+        }
+        if self.level == 5 {
+            return 7
+        }
+        if self.level == 6 {
+            return 8
+        }
+        if self.level == 7 {
+            return 9
+        }
+        if self.level == 8 {
+            return 10
+        }
+        if self.level == 9 {
+            return 11
+        }
+        if self.level == 10 {
+            return 12
+        }
+        0
+    }
 }
 // WZ_VERMILION
 pub struct LordofVermilion {
@@ -575,6 +557,10 @@ pub struct LordofVermilion {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for LordofVermilion {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         85
     }
@@ -640,10 +626,6 @@ impl SkillBase for LordofVermilion {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       -10
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 15000
@@ -681,6 +663,16 @@ impl SkillBase for LordofVermilion {
     fn _base_after_cast_act_delay(&self) -> u32 {
        5000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for LordofVermilion {
 }
 // WZ_WATERBALL
 pub struct WaterBall {
@@ -690,6 +682,10 @@ pub struct WaterBall {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for WaterBall {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         86
     }
@@ -764,10 +760,6 @@ impl SkillBase for WaterBall {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 1000
@@ -801,6 +793,20 @@ impl SkillBase for WaterBall {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for WaterBall {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
 }
 // WZ_ICEWALL
 pub struct IceWall {
@@ -810,6 +816,10 @@ pub struct IceWall {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for IceWall {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         87
     }
@@ -845,9 +855,15 @@ impl SkillBase for IceWall {
         if status.sp > 20 { Ok(20) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for IceWall {
 }
 // WZ_FROSTNOVA
 pub struct FrostNova {
@@ -857,6 +873,10 @@ pub struct FrostNova {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FrostNova {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         88
     }
@@ -922,10 +942,6 @@ impl SkillBase for FrostNova {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 6000
@@ -963,6 +979,16 @@ impl SkillBase for FrostNova {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for FrostNova {
 }
 // WZ_STORMGUST
 pub struct StormGust {
@@ -972,6 +998,10 @@ pub struct StormGust {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for StormGust {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         89
     }
@@ -1005,10 +1035,6 @@ impl SkillBase for StormGust {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 78 { Ok(78) } else {Err(())}
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -1048,6 +1074,16 @@ impl SkillBase for StormGust {
     fn _base_after_cast_act_delay(&self) -> u32 {
        5000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for StormGust {
 }
 // WZ_EARTHSPIKE
 pub struct EarthSpike {
@@ -1057,6 +1093,10 @@ pub struct EarthSpike {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for EarthSpike {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         90
     }
@@ -1107,25 +1147,6 @@ impl SkillBase for EarthSpike {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 3
-        }
-        if self.level == 4 {
-            return 4
-        }
-        if self.level == 5 {
-            return 5
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 1000
@@ -1148,6 +1169,35 @@ impl SkillBase for EarthSpike {
     fn _base_after_cast_act_delay(&self) -> u32 {
        700
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for EarthSpike {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        0
+    }
 }
 // WZ_HEAVENDRIVE
 pub struct HeavensDrive {
@@ -1157,6 +1207,10 @@ pub struct HeavensDrive {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for HeavensDrive {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         91
     }
@@ -1207,25 +1261,6 @@ impl SkillBase for HeavensDrive {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 3
-        }
-        if self.level == 4 {
-            return 4
-        }
-        if self.level == 5 {
-            return 5
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 1000
@@ -1248,6 +1283,16 @@ impl SkillBase for HeavensDrive {
     fn _base_after_cast_act_delay(&self) -> u32 {
        700
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for HeavensDrive {
 }
 // WZ_QUAGMIRE
 pub struct Quagmire {
@@ -1257,6 +1302,10 @@ pub struct Quagmire {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Quagmire {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         92
     }
@@ -1307,13 +1356,19 @@ impl SkillBase for Quagmire {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Quagmire {
 }
 // WZ_ESTIMATION
 pub struct Sense {
@@ -1323,6 +1378,10 @@ pub struct Sense {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Sense {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         93
     }
@@ -1358,6 +1417,16 @@ impl SkillBase for Sense {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Sense {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -1370,6 +1439,10 @@ pub struct SightBlaster {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SightBlaster {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1006
     }
@@ -1405,11 +1478,17 @@ impl SkillBase for SightBlaster {
         if status.sp > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for SightBlaster {
 }

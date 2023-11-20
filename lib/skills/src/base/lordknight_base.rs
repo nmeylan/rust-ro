@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // LK_AURABLADE
 pub struct AuraBlade {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct AuraBlade {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AuraBlade {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         355
     }
@@ -81,9 +86,15 @@ impl SkillBase for AuraBlade {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for AuraBlade {
 }
 // LK_PARRYING
 pub struct Parrying {
@@ -93,6 +104,10 @@ pub struct Parrying {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Parrying {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         356
     }
@@ -136,9 +151,15 @@ impl SkillBase for Parrying {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Parrying {
 }
 // LK_CONCENTRATION
 pub struct Concentration {
@@ -148,6 +169,10 @@ pub struct Concentration {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Concentration {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         357
     }
@@ -198,9 +223,15 @@ impl SkillBase for Concentration {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Concentration {
 }
 // LK_TENSIONRELAX
 pub struct Relax {
@@ -210,6 +241,10 @@ pub struct Relax {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Relax {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         358
     }
@@ -245,9 +280,15 @@ impl SkillBase for Relax {
         if status.sp > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Relax {
 }
 // LK_BERSERK
 pub struct Frenzy {
@@ -257,6 +298,10 @@ pub struct Frenzy {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Frenzy {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         359
     }
@@ -292,9 +337,15 @@ impl SkillBase for Frenzy {
         if status.sp > 200 { Ok(200) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Frenzy {
 }
 // LK_SPIRALPIERCE
 pub struct SpiralPierce {
@@ -304,6 +355,10 @@ pub struct SpiralPierce {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SpiralPierce {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         397
     }
@@ -362,10 +417,6 @@ impl SkillBase for SpiralPierce {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       5
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 300
@@ -422,6 +473,20 @@ impl SkillBase for SpiralPierce {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for SpiralPierce {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       5
+    }
 }
 // LK_HEADCRUSH
 pub struct TraumaticBlow {
@@ -431,6 +496,10 @@ pub struct TraumaticBlow {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TraumaticBlow {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         398
     }
@@ -466,6 +535,20 @@ impl SkillBase for TraumaticBlow {
         if status.sp > 23 { Ok(23) } else {Err(())}
     }
     #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for TraumaticBlow {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -488,10 +571,6 @@ impl SkillBase for TraumaticBlow {
         }
         None
     }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       500
-    }
 }
 // LK_JOINTBEAT
 pub struct VitalStrike {
@@ -501,6 +580,10 @@ pub struct VitalStrike {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for VitalStrike {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         399
     }
@@ -574,44 +657,6 @@ impl SkillBase for VitalStrike {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
-    fn _dmg_atk(&self) -> Option<f32> {
-        if self.level == 1 {
-            return Some(0.600)
-        }
-        if self.level == 2 {
-            return Some(0.700)
-        }
-        if self.level == 3 {
-            return Some(0.800)
-        }
-        if self.level == 4 {
-            return Some(0.900)
-        }
-        if self.level == 5 {
-            return Some(1.000)
-        }
-        if self.level == 6 {
-            return Some(1.100)
-        }
-        if self.level == 7 {
-            return Some(1.200)
-        }
-        if self.level == 8 {
-            return Some(1.300)
-        }
-        if self.level == 9 {
-            return Some(1.400)
-        }
-        if self.level == 10 {
-            return Some(1.500)
-        }
-        None
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
         if self.level == 1 {
             return 800
@@ -678,5 +723,53 @@ impl SkillBase for VitalStrike {
             return 1000
         }
         0
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for VitalStrike {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(0.600)
+        }
+        if self.level == 2 {
+            return Some(0.700)
+        }
+        if self.level == 3 {
+            return Some(0.800)
+        }
+        if self.level == 4 {
+            return Some(0.900)
+        }
+        if self.level == 5 {
+            return Some(1.000)
+        }
+        if self.level == 6 {
+            return Some(1.100)
+        }
+        if self.level == 7 {
+            return Some(1.200)
+        }
+        if self.level == 8 {
+            return Some(1.300)
+        }
+        if self.level == 9 {
+            return Some(1.400)
+        }
+        if self.level == 10 {
+            return Some(1.500)
+        }
+        None
     }
 }

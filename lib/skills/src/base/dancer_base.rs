@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // DC_DANCINGLESSON
 pub struct DanceLessons {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct DanceLessons {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DanceLessons {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         323
     }
@@ -53,6 +58,16 @@ impl SkillBase for DanceLessons {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for DanceLessons {
 }
 // DC_THROWARROW
 pub struct SlingingArrow {
@@ -62,6 +77,10 @@ pub struct SlingingArrow {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SlingingArrow {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         324
     }
@@ -128,6 +147,20 @@ impl SkillBase for SlingingArrow {
         }
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for SlingingArrow {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -150,10 +183,6 @@ impl SkillBase for SlingingArrow {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1500
-    }
 }
 // DC_UGLYDANCE
 pub struct HipShaker {
@@ -163,6 +192,10 @@ pub struct HipShaker {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for HipShaker {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         325
     }
@@ -221,9 +254,25 @@ impl SkillBase for HipShaker {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for HipShaker {
+}
+impl PerformanceSkillBase for HipShaker {
 }
 // DC_SCREAM
 pub struct Dazzler {
@@ -233,6 +282,10 @@ pub struct Dazzler {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Dazzler {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         326
     }
@@ -283,13 +336,19 @@ impl SkillBase for Dazzler {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        4000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Dazzler {
 }
 // DC_HUMMING
 pub struct FocusBallet {
@@ -299,6 +358,10 @@ pub struct FocusBallet {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FocusBallet {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         327
     }
@@ -372,9 +435,25 @@ impl SkillBase for FocusBallet {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for FocusBallet {
+}
+impl PerformanceSkillBase for FocusBallet {
 }
 // DC_DONTFORGETME
 pub struct SlowGrace {
@@ -384,6 +463,10 @@ pub struct SlowGrace {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SlowGrace {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         328
     }
@@ -457,9 +540,25 @@ impl SkillBase for SlowGrace {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for SlowGrace {
+}
+impl PerformanceSkillBase for SlowGrace {
 }
 // DC_FORTUNEKISS
 pub struct LadyLuck {
@@ -469,6 +568,10 @@ pub struct LadyLuck {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for LadyLuck {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         329
     }
@@ -542,9 +645,25 @@ impl SkillBase for LadyLuck {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for LadyLuck {
+}
+impl PerformanceSkillBase for LadyLuck {
 }
 // DC_SERVICEFORYOU
 pub struct GypsysKiss {
@@ -554,6 +673,10 @@ pub struct GypsysKiss {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for GypsysKiss {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         330
     }
@@ -627,9 +750,25 @@ impl SkillBase for GypsysKiss {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for GypsysKiss {
+}
+impl PerformanceSkillBase for GypsysKiss {
 }
 // DC_WINKCHARM
 pub struct WinkofCharm {
@@ -639,6 +778,10 @@ pub struct WinkofCharm {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for WinkofCharm {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1011
     }
@@ -681,4 +824,14 @@ impl SkillBase for WinkofCharm {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for WinkofCharm {
 }

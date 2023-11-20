@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // CH_PALMSTRIKE
 pub struct RagingPalmStrike {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct RagingPalmStrike {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for RagingPalmStrike {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         370
     }
@@ -82,6 +87,20 @@ impl SkillBase for RagingPalmStrike {
         }
     }
     #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       300
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for RagingPalmStrike {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -104,10 +123,6 @@ impl SkillBase for RagingPalmStrike {
         }
         None
     }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       300
-    }
 }
 // CH_TIGERFIST
 pub struct GlacierFist {
@@ -117,6 +132,10 @@ pub struct GlacierFist {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for GlacierFist {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         371
     }
@@ -167,9 +186,15 @@ impl SkillBase for GlacierFist {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for GlacierFist {
 }
 // CH_CHAINCRUSH
 pub struct ChainCrushCombo {
@@ -179,6 +204,10 @@ pub struct ChainCrushCombo {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ChainCrushCombo {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         372
     }
@@ -243,6 +272,24 @@ impl SkillBase for ChainCrushCombo {
         }
         Err(())
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ChainCrushCombo {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
@@ -312,6 +359,8 @@ impl SkillBase for ChainCrushCombo {
         None
     }
 }
+impl SelfSkillBase for ChainCrushCombo {
+}
 // CH_SOULCOLLECT
 pub struct Zen {
     pub(crate) level: u8,
@@ -320,6 +369,10 @@ pub struct Zen {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Zen {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         401
     }
@@ -355,11 +408,17 @@ impl SkillBase for Zen {
         if status.sp > 20 { Ok(20) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Zen {
 }

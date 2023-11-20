@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // BA_MUSICALLESSON
 pub struct MusicLessons {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct MusicLessons {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MusicLessons {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         315
     }
@@ -53,6 +58,16 @@ impl SkillBase for MusicLessons {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for MusicLessons {
 }
 // BA_MUSICALSTRIKE
 pub struct MelodyStrike {
@@ -62,6 +77,10 @@ pub struct MelodyStrike {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MelodyStrike {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         316
     }
@@ -128,6 +147,20 @@ impl SkillBase for MelodyStrike {
         }
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for MelodyStrike {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -150,10 +183,6 @@ impl SkillBase for MelodyStrike {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1500
-    }
 }
 // BA_DISSONANCE
 pub struct UnchainedSerenade {
@@ -163,6 +192,10 @@ pub struct UnchainedSerenade {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for UnchainedSerenade {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         317
     }
@@ -221,9 +254,25 @@ impl SkillBase for UnchainedSerenade {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for UnchainedSerenade {
+}
+impl PerformanceSkillBase for UnchainedSerenade {
 }
 // BA_FROSTJOKER
 pub struct UnbarringOctave {
@@ -233,6 +282,10 @@ pub struct UnbarringOctave {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for UnbarringOctave {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         318
     }
@@ -283,13 +336,19 @@ impl SkillBase for UnbarringOctave {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        4000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for UnbarringOctave {
 }
 // BA_WHISTLE
 pub struct PerfectTablature {
@@ -299,6 +358,10 @@ pub struct PerfectTablature {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for PerfectTablature {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         319
     }
@@ -372,9 +435,25 @@ impl SkillBase for PerfectTablature {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for PerfectTablature {
+}
+impl PerformanceSkillBase for PerfectTablature {
 }
 // BA_ASSASSINCROSS
 pub struct ImpressiveRiff {
@@ -384,6 +463,10 @@ pub struct ImpressiveRiff {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ImpressiveRiff {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         320
     }
@@ -457,9 +540,25 @@ impl SkillBase for ImpressiveRiff {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for ImpressiveRiff {
+}
+impl PerformanceSkillBase for ImpressiveRiff {
 }
 // BA_POEMBRAGI
 pub struct MagicStrings {
@@ -469,6 +568,10 @@ pub struct MagicStrings {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MagicStrings {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         321
     }
@@ -542,9 +645,25 @@ impl SkillBase for MagicStrings {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for MagicStrings {
+}
+impl PerformanceSkillBase for MagicStrings {
 }
 // BA_APPLEIDUN
 pub struct SongofLutie {
@@ -554,6 +673,10 @@ pub struct SongofLutie {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SongofLutie {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         322
     }
@@ -627,9 +750,25 @@ impl SkillBase for SongofLutie {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for SongofLutie {
+}
+impl PerformanceSkillBase for SongofLutie {
 }
 // BD_ADAPTATION
 pub struct Amp {
@@ -639,6 +778,10 @@ pub struct Amp {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Amp {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         304
     }
@@ -674,9 +817,15 @@ impl SkillBase for Amp {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Amp {
 }
 // BD_ENCORE
 pub struct Encore {
@@ -686,6 +835,10 @@ pub struct Encore {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Encore {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         305
     }
@@ -729,9 +882,15 @@ impl SkillBase for Encore {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Encore {
 }
 // BD_LULLABY
 pub struct Lullaby {
@@ -741,6 +900,10 @@ pub struct Lullaby {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Lullaby {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         306
     }
@@ -784,9 +947,15 @@ impl SkillBase for Lullaby {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Lullaby {
 }
 // BD_RICHMANKIM
 pub struct MentalSensing {
@@ -796,6 +965,10 @@ pub struct MentalSensing {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MentalSensing {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         307
     }
@@ -839,9 +1012,15 @@ impl SkillBase for MentalSensing {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for MentalSensing {
 }
 // BD_ETERNALCHAOS
 pub struct DownTempo {
@@ -851,6 +1030,10 @@ pub struct DownTempo {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DownTempo {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         308
     }
@@ -894,9 +1077,15 @@ impl SkillBase for DownTempo {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for DownTempo {
 }
 // BD_DRUMBATTLEFIELD
 pub struct BattleTheme {
@@ -906,6 +1095,10 @@ pub struct BattleTheme {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BattleTheme {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         309
     }
@@ -964,9 +1157,15 @@ impl SkillBase for BattleTheme {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for BattleTheme {
 }
 // BD_RINGNIBELUNGEN
 pub struct HarmonicLick {
@@ -976,6 +1175,10 @@ pub struct HarmonicLick {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for HarmonicLick {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         310
     }
@@ -1034,9 +1237,15 @@ impl SkillBase for HarmonicLick {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for HarmonicLick {
 }
 // BD_ROKISWEIL
 pub struct ClassicalPluck {
@@ -1046,6 +1255,10 @@ pub struct ClassicalPluck {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ClassicalPluck {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         311
     }
@@ -1089,9 +1302,15 @@ impl SkillBase for ClassicalPluck {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for ClassicalPluck {
 }
 // BD_INTOABYSS
 pub struct PowerChord {
@@ -1101,6 +1320,10 @@ pub struct PowerChord {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for PowerChord {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         312
     }
@@ -1144,9 +1367,15 @@ impl SkillBase for PowerChord {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for PowerChord {
 }
 // BD_SIEGFRIED
 pub struct AcousticRhythm {
@@ -1156,6 +1385,10 @@ pub struct AcousticRhythm {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AcousticRhythm {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         313
     }
@@ -1199,9 +1432,15 @@ impl SkillBase for AcousticRhythm {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for AcousticRhythm {
 }
 // BA_PANGVOICE
 pub struct PangVoice {
@@ -1211,6 +1450,10 @@ pub struct PangVoice {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for PangVoice {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1010
     }
@@ -1253,4 +1496,14 @@ impl SkillBase for PangVoice {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for PangVoice {
 }

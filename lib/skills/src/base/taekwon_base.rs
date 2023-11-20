@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // TK_RUN
 pub struct Running {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct Running {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Running {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         411
     }
@@ -97,10 +102,6 @@ impl SkillBase for Running {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 6000
@@ -122,6 +123,16 @@ impl SkillBase for Running {
         }
         0
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Running {
 }
 // TK_READYSTORM
 pub struct TornadoStance {
@@ -131,6 +142,10 @@ pub struct TornadoStance {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TornadoStance {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         412
     }
@@ -166,9 +181,15 @@ impl SkillBase for TornadoStance {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for TornadoStance {
 }
 // TK_STORMKICK
 pub struct TornadoKick {
@@ -178,6 +199,10 @@ pub struct TornadoKick {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TornadoKick {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         413
     }
@@ -234,6 +259,24 @@ impl SkillBase for TornadoKick {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for TornadoKick {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
     }
@@ -263,6 +306,8 @@ impl SkillBase for TornadoKick {
         None
     }
 }
+impl SelfSkillBase for TornadoKick {
+}
 // TK_READYDOWN
 pub struct HeelDropStance {
     pub(crate) level: u8,
@@ -271,6 +316,10 @@ pub struct HeelDropStance {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for HeelDropStance {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         414
     }
@@ -306,9 +355,15 @@ impl SkillBase for HeelDropStance {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for HeelDropStance {
 }
 // TK_DOWNKICK
 pub struct HeelDrop {
@@ -318,6 +373,10 @@ pub struct HeelDrop {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for HeelDrop {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         415
     }
@@ -374,6 +433,24 @@ impl SkillBase for HeelDrop {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for HeelDrop {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
     }
@@ -403,6 +480,8 @@ impl SkillBase for HeelDrop {
         None
     }
 }
+impl SelfSkillBase for HeelDrop {
+}
 // TK_READYTURN
 pub struct RoundhouseStance {
     pub(crate) level: u8,
@@ -411,6 +490,10 @@ pub struct RoundhouseStance {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for RoundhouseStance {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         416
     }
@@ -446,9 +529,15 @@ impl SkillBase for RoundhouseStance {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for RoundhouseStance {
 }
 // TK_TURNKICK
 pub struct RoundhouseKick {
@@ -458,6 +547,10 @@ pub struct RoundhouseKick {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for RoundhouseKick {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         417
     }
@@ -514,6 +607,24 @@ impl SkillBase for RoundhouseKick {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for RoundhouseKick {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
     }
@@ -543,6 +654,8 @@ impl SkillBase for RoundhouseKick {
         None
     }
 }
+impl SelfSkillBase for RoundhouseKick {
+}
 // TK_READYCOUNTER
 pub struct CounterKickStance {
     pub(crate) level: u8,
@@ -551,6 +664,10 @@ pub struct CounterKickStance {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CounterKickStance {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         418
     }
@@ -586,9 +703,15 @@ impl SkillBase for CounterKickStance {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for CounterKickStance {
 }
 // TK_COUNTER
 pub struct CounterKick {
@@ -598,6 +721,10 @@ pub struct CounterKick {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CounterKick {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         419
     }
@@ -654,6 +781,24 @@ impl SkillBase for CounterKick {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for CounterKick {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
     }
@@ -683,6 +828,8 @@ impl SkillBase for CounterKick {
         None
     }
 }
+impl SelfSkillBase for CounterKick {
+}
 // TK_DODGE
 pub struct Tumbling {
     pub(crate) level: u8,
@@ -691,6 +838,10 @@ pub struct Tumbling {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Tumbling {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         420
     }
@@ -726,9 +877,15 @@ impl SkillBase for Tumbling {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Tumbling {
 }
 // TK_JUMPKICK
 pub struct FlyingKick {
@@ -738,6 +895,10 @@ pub struct FlyingKick {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FlyingKick {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         421
     }
@@ -794,6 +955,24 @@ impl SkillBase for FlyingKick {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for FlyingKick {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
     }
@@ -823,6 +1002,8 @@ impl SkillBase for FlyingKick {
         None
     }
 }
+impl SupportiveSkillBase for FlyingKick {
+}
 // TK_HPTIME
 pub struct PeacefulBreak {
     pub(crate) level: u8,
@@ -831,6 +1012,10 @@ pub struct PeacefulBreak {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for PeacefulBreak {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         422
     }
@@ -861,6 +1046,16 @@ impl SkillBase for PeacefulBreak {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for PeacefulBreak {
 }
 // TK_SPTIME
 pub struct HappyBreak {
@@ -870,6 +1065,10 @@ pub struct HappyBreak {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for HappyBreak {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         423
     }
@@ -900,6 +1099,16 @@ impl SkillBase for HappyBreak {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for HappyBreak {
 }
 // TK_POWER
 pub struct Kihop {
@@ -909,6 +1118,10 @@ pub struct Kihop {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Kihop {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         424
     }
@@ -939,6 +1152,16 @@ impl SkillBase for Kihop {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Kihop {
 }
 // TK_SEVENWIND
 pub struct MildWind {
@@ -948,6 +1171,10 @@ pub struct MildWind {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MildWind {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         425
     }
@@ -1004,9 +1231,15 @@ impl SkillBase for MildWind {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for MildWind {
 }
 // TK_HIGHJUMP
 pub struct TaekwonJump {
@@ -1016,6 +1249,10 @@ pub struct TaekwonJump {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TaekwonJump {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         426
     }
@@ -1051,10 +1288,6 @@ impl SkillBase for TaekwonJump {
         if status.sp > 50 { Ok(50) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 5000
@@ -1073,6 +1306,16 @@ impl SkillBase for TaekwonJump {
         }
         0
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for TaekwonJump {
 }
 // TK_MISSION
 pub struct TaekwonMission {
@@ -1082,6 +1325,10 @@ pub struct TaekwonMission {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TaekwonMission {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         493
     }
@@ -1117,11 +1364,17 @@ impl SkillBase for TaekwonMission {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for TaekwonMission {
 }

@@ -1,3 +1,4 @@
+use std::any::Any;
 use enums::skill::{SkillTargetType, UseSkillFailure};
 use enums::weapon::{AmmoType};
 use models::item::{NormalInventoryItem};
@@ -12,6 +13,34 @@ type SkillRequirementResult<T> = std::result::Result<T, ()>;
 pub trait SkillBase {
     fn _level(&self) -> u8;
     fn _id(&self) -> u32;
+
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any;
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool { false }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> { None }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool { false }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> { None }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool { false }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> { None }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool { false }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> { None }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool { false }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> { None }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool { false }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> { None }
+
     #[inline(always)]
     fn _validate_sp(&self, _status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
@@ -60,10 +89,6 @@ pub trait SkillBase {
     }
 
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         0
     }
@@ -96,10 +121,6 @@ pub trait SkillBase {
         0
     }
 
-    #[inline(always)]
-    fn _dmg_atk(&self) -> Option<f32> {
-        None
-    }
 }
 
 pub trait Skill: SkillBase {
@@ -166,10 +187,6 @@ pub trait Skill: SkillBase {
     }
 
     #[inline(always)]
-    fn hit_count(&self) -> i8 {
-        self._hit_count()
-    }
-    #[inline(always)]
     fn base_cast_time(&self) -> u32 {
         self._base_cast_time()
     }
@@ -208,8 +225,51 @@ pub trait Skill: SkillBase {
         self._after_cast_walk_delay()
     }
 
+}
+
+pub trait OffensiveSkillBase: Skill {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        None
+    }
+
+}
+pub trait OffensiveSkill: OffensiveSkillBase {
+    #[inline(always)]
+    fn hit_count(&self) -> i8 {
+        self._hit_count()
+    }
     #[inline(always)]
     fn dmg_atk(&self) -> Option<f32> {
         self._dmg_atk()
     }
+}
+
+pub trait SupportiveSkillBase: Skill {
+}
+pub trait SupportiveSkill: SupportiveSkillBase {
+}
+
+pub trait PerformanceSkillBase: Skill {
+}
+pub trait PerformanceSkill: PerformanceSkillBase {
+}
+
+pub trait PassiveSkillBase: Skill {
+}
+pub trait PassiveSkill: PassiveSkillBase {
+}
+
+pub trait GroundSkillBase: Skill {
+}
+pub trait GroundSkill: GroundSkillBase {
+}
+
+pub trait SelfSkillBase: Skill {
+}
+pub trait SelfSkill: SelfSkillBase {
 }

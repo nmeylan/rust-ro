@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // MC_INCCARRY
 pub struct EnlargeWeightLimit {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct EnlargeWeightLimit {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for EnlargeWeightLimit {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         36
     }
@@ -53,6 +58,16 @@ impl SkillBase for EnlargeWeightLimit {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for EnlargeWeightLimit {
 }
 // MC_DISCOUNT
 pub struct Discount {
@@ -62,6 +77,10 @@ pub struct Discount {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Discount {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         37
     }
@@ -92,6 +111,16 @@ impl SkillBase for Discount {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Discount {
 }
 // MC_OVERCHARGE
 pub struct Overcharge {
@@ -101,6 +130,10 @@ pub struct Overcharge {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Overcharge {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         38
     }
@@ -131,6 +164,16 @@ impl SkillBase for Overcharge {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Overcharge {
 }
 // MC_PUSHCART
 pub struct Pushcart {
@@ -140,6 +183,10 @@ pub struct Pushcart {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Pushcart {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         39
     }
@@ -170,6 +217,16 @@ impl SkillBase for Pushcart {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Pushcart {
 }
 // MC_IDENTIFY
 pub struct ItemAppraisal {
@@ -179,6 +236,10 @@ pub struct ItemAppraisal {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ItemAppraisal {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         40
     }
@@ -214,9 +275,15 @@ impl SkillBase for ItemAppraisal {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for ItemAppraisal {
 }
 // MC_VENDING
 pub struct Vending {
@@ -226,6 +293,10 @@ pub struct Vending {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Vending {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         41
     }
@@ -270,9 +341,15 @@ impl SkillBase for Vending {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Vending {
 }
 // MC_MAMMONITE
 pub struct Mammonite {
@@ -282,6 +359,10 @@ pub struct Mammonite {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Mammonite {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         42
     }
@@ -351,6 +432,16 @@ impl SkillBase for Mammonite {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Mammonite {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -397,6 +488,10 @@ pub struct CartRevolution {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CartRevolution {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         153
     }
@@ -441,6 +536,16 @@ impl SkillBase for CartRevolution {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for CartRevolution {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -457,6 +562,10 @@ pub struct ChangeCart {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ChangeCart {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         154
     }
@@ -501,9 +610,15 @@ impl SkillBase for ChangeCart {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for ChangeCart {
 }
 // MC_LOUD
 pub struct CrazyUproar {
@@ -513,6 +628,10 @@ pub struct CrazyUproar {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CrazyUproar {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         155
     }
@@ -548,9 +667,15 @@ impl SkillBase for CrazyUproar {
         if status.sp > 8 { Ok(8) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for CrazyUproar {
 }
 // MC_CARTDECORATE
 pub struct DecorateCart {
@@ -560,6 +685,10 @@ pub struct DecorateCart {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DecorateCart {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         2544
     }
@@ -604,7 +733,13 @@ impl SkillBase for DecorateCart {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for DecorateCart {
 }

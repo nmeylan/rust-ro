@@ -206,7 +206,7 @@ pub struct SkillConfig {
     #[serde(rename = "rangePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     range_per_level: Option<Vec<i32>>,
     #[serde(deserialize_with = "deserialize_optional_string_enum", default)]
-    damageType: Option<SkillDamageType>,
+    damage_type: Option<SkillDamageType>,
     #[serde(rename = "hitCount", default)]
     hit_count: Option<i32>,
     #[serde(rename = "hitCountPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
@@ -299,7 +299,7 @@ pub struct SkillConfig {
     stun_chance_per_level: Option<Vec<i32>>,
     #[serde(rename = "trapHpPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     trap_hp_per_level: Option<Vec<i32>>,
-    #[serde(rename = "aoeactPerLevel", deserialize_with = "deserialize_tuples_String", default)]
+    #[serde(rename = "aoeactPerLevel", deserialize_with = "deserialize_tuples_string", default)]
     aoeact_per_level: Option<Vec<String>>,
     #[serde(rename = "accuracyPercentagePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     accuracy_percentage_per_level: Option<Vec<i32>>,
@@ -309,7 +309,7 @@ pub struct SkillConfig {
     dmg_waves_per_level: Option<Vec<i32>>,
     #[serde(rename = "dmgLvPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     dmg_lv_per_level: Option<Vec<i32>>,
-    #[serde(rename = "aoesizePerLevel", deserialize_with = "deserialize_tuples_String", default)]
+    #[serde(rename = "aoesizePerLevel", deserialize_with = "deserialize_tuples_string", default)]
     aoesize_per_level: Option<Vec<String>>,
     #[serde(rename = "craftPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     craft_per_level: Option<Vec<i32>>,
@@ -409,7 +409,7 @@ pub struct SkillConfig {
     break_chance_per_level: Option<Vec<i32>>,
     #[serde(rename = "plantHpPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     plant_hp_per_level: Option<Vec<i32>>,
-    #[serde(rename = "plantTypePerLevel", deserialize_with = "deserialize_tuples_String", default)]
+    #[serde(rename = "plantTypePerLevel", deserialize_with = "deserialize_tuples_string", default)]
     plant_type_per_level: Option<Vec<String>>,
     #[serde(rename = "blockChancePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     block_chance_per_level: Option<Vec<i32>>,
@@ -625,7 +625,7 @@ pub struct SkillConfig {
     sp_regen_bonus_percentage: Option<f32>,
     #[serde(rename = "distancePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     distance_per_level: Option<Vec<i32>>,
-    #[serde(rename = "mapPerLevel", deserialize_with = "deserialize_tuples_String", default)]
+    #[serde(rename = "mapPerLevel", deserialize_with = "deserialize_tuples_string", default)]
     map_per_level: Option<Vec<String>>,
     #[serde(rename = "sdefPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     sdef_per_level: Option<Vec<i32>>,
@@ -795,7 +795,7 @@ fn deserialize_tuples_range_f32<'de, D>(deserializer: D) -> Result<Option<Vec<(f
 #[derive(Deserialize, Debug, Clone, GettersAll)]
 struct StringTuple {level: usize, value: String}
 
-fn deserialize_tuples_String<'de, D>(deserializer: D) -> Result<Option<Vec<String>>, D::Error>
+fn deserialize_tuples_string<'de, D>(deserializer: D) -> Result<Option<Vec<String>>, D::Error>
 where D: Deserializer<'de> {
     let s: Vec<StringTuple> = Deserialize::deserialize(deserializer)?;
     let mut res: Vec<String> = vec![String::new(); s.len() + 1];
