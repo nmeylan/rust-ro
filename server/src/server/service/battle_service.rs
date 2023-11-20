@@ -43,14 +43,13 @@ impl BattleService {
     /// (([((({(base_atk +
     /// + rnd(min(DEX,ATK), ATK)*SizeModifier) * SkillModifiers * (1 - DEF/100) - VitDEF + BaneSkill + UpgradeDamage}
     /// + MasterySkill + WeaponryResearchSkill + EnvenomSkill) * ElementalModifier) + Enhancements) * DamageBonusModifiers * DamageReductionModifiers] * NumberOfMultiHits) - KyrieEleisonEffect) / NumberOfMultiHits
-    pub fn damage_character_attack_monster_melee(&self, source: &Character, target: &MobModel) -> u32 {
+    pub fn damage_character_attack_monster(&self, source: &Character, target: &MobModel, skill_modifier: f32) -> u32 {
         let _rng = fastrand::Rng::new();
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let imposito_magnus: f32 = 0.0;
         let base_atk = self.status_service.fist_atk(&source.status) as f32 + upgrade_bonus + imposito_magnus + self.status_service.atk_cards(&source.status) as f32;
 
         let size_modifier: f32 = 1.0; // TODO
-        let skill_modifier: f32 = 1.0; // TODO
         let def: f32 = target.def as f32 / 100.0;
         let vitdef: f32 = self.status_service.mob_vit_def(target.vit as u32) as f32; // TODO set to 0 if critical hit
         let bane_skill: f32 = 0.0; // TODO Beast Bane, Daemon Bane, Draconology
@@ -114,7 +113,7 @@ impl BattleService {
         rng.u32(((source.status.dex as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32).min(weapon_attack)..=weapon_attack)
     }
 
-    pub fn attack(&self, character: &mut Character, target: MapItem, tick: u128) -> Option<Damage> {
+    pub fn basic_attack(&self, character: &mut Character, target: MapItem, tick: u128) -> Option<Damage> {
         character.attack?;
         let attack = character.attack();
 
@@ -138,7 +137,7 @@ impl BattleService {
         let damage = if matches!(target.object_type(), MapItemType::Mob) {
             let mob = self.configuration_service.get_mob(target.client_item_class() as i32);
             packet_zc_notify_act3.set_attacked_mt(mob.damage_motion);
-            self.damage_character_attack_monster_melee(character, mob)
+            self.damage_character_attack_monster(character, mob, 1.0)
         } else {
             0
         };

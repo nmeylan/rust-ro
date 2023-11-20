@@ -140,7 +140,7 @@ impl ServerService {
                 }));
             } else if is_in_range {
                 character.clear_movement();
-                let maybe_damage = self.battle_service.attack(character, map_item, tick);
+                let maybe_damage = self.battle_service.basic_attack(character, map_item, tick);
                 if let Some(damage) = maybe_damage {
                     if matches!(*map_item.object_type(), MapItemType::Mob) {
                         map_instance.add_to_next_tick(MapEvent::MobDamage(damage));
