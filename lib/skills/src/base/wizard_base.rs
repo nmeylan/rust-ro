@@ -29,42 +29,38 @@ impl SkillBase for FirePillar {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 75 { Ok(75) } else {Err(())}
-    }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
     }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
+    #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1})]; 
         if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
@@ -87,15 +83,10 @@ impl SkillBase for FirePillar {
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
         Ok(())
     }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 3000
@@ -129,6 +120,7 @@ impl SkillBase for FirePillar {
         }
         0
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
             return 3
@@ -162,11 +154,9 @@ impl SkillBase for FirePillar {
         }
         0
     }
+    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_SIGHTRASHER
@@ -183,24 +173,31 @@ impl SkillBase for Sightrasher {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if status.sp >= 35 { return Ok(35) } else {return Err(())}
@@ -234,12 +231,7 @@ impl SkillBase for Sightrasher {
         }
         Err(())
     }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
+    #[inline(always)]
     fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
         if status.state > 0 {
             // Sight
@@ -248,38 +240,26 @@ impl SkillBase for Sightrasher {
             Err(())
         }
     }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        500
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_METEOR
@@ -296,24 +276,31 @@ impl SkillBase for MeteorStorm {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if status.sp >= 20 { return Ok(20) } else {return Err(())}
@@ -347,39 +334,20 @@ impl SkillBase for MeteorStorm {
         }
         Err(())
     }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        15000
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
             return 1
@@ -416,6 +384,7 @@ impl SkillBase for MeteorStorm {
         }
         0
     }
+    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
         if self.level == 1 {
             return 2000
@@ -449,6 +418,7 @@ impl SkillBase for MeteorStorm {
         }
         0
     }
+    #[inline(always)]
     fn _base_after_cast_walk_delay(&self) -> u32 {
         if self.level == 1 {
             return 2000
@@ -497,24 +467,31 @@ impl SkillBase for JupitelThunder {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if status.sp >= 20 { return Ok(20) } else {return Err(())}
@@ -548,36 +525,16 @@ impl SkillBase for JupitelThunder {
         }
         Err(())
     }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 2500
@@ -611,6 +568,7 @@ impl SkillBase for JupitelThunder {
         }
         0
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
             return 3
@@ -644,12 +602,6 @@ impl SkillBase for JupitelThunder {
         }
         0
     }
-    fn _base_after_cast_act_delay(&self) -> u32 {
-        0
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
-    }
 }
 // WZ_VERMILION
 pub struct LordofVermilion {
@@ -665,24 +617,31 @@ impl SkillBase for LordofVermilion {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if status.sp >= 60 { return Ok(60) } else {return Err(())}
@@ -716,36 +675,16 @@ impl SkillBase for LordofVermilion {
         }
         Err(())
     }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 15000
@@ -779,14 +718,13 @@ impl SkillBase for LordofVermilion {
         }
         0
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -10
     }
+    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        5000
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_WATERBALL
@@ -803,24 +741,31 @@ impl SkillBase for WaterBall {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if status.sp >= 15 { return Ok(15) } else {return Err(())}
@@ -854,12 +799,7 @@ impl SkillBase for WaterBall {
         }
         Err(())
     }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
+    #[inline(always)]
     fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
         if status.state > 0 {
             // Water
@@ -868,27 +808,16 @@ impl SkillBase for WaterBall {
             Err(())
         }
     }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 1000
@@ -922,14 +851,9 @@ impl SkillBase for WaterBall {
         }
         0
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
-    }
-    fn _base_after_cast_act_delay(&self) -> u32 {
-        0
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_ICEWALL
@@ -946,68 +870,46 @@ impl SkillBase for IceWall {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 20 { Ok(20) } else {Err(())}
-    }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
     }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
-    fn _base_cast_time(&self) -> u32 {
-        0
-    }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
-    }
-    fn _base_after_cast_act_delay(&self) -> u32 {
-        0
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_FROSTNOVA
@@ -1024,24 +926,31 @@ impl SkillBase for FrostNova {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if status.sp >= 45 { return Ok(45) } else {return Err(())}
@@ -1075,36 +984,16 @@ impl SkillBase for FrostNova {
         }
         Err(())
     }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 6000
@@ -1138,14 +1027,13 @@ impl SkillBase for FrostNova {
         }
         0
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_STORMGUST
@@ -1162,57 +1050,44 @@ impl SkillBase for StormGust {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 78 { Ok(78) } else {Err(())}
-    }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
     }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 6000
@@ -1246,14 +1121,13 @@ impl SkillBase for StormGust {
         }
         0
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        5000
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_EARTHSPIKE
@@ -1270,24 +1144,31 @@ impl SkillBase for EarthSpike {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if status.sp >= 12 { return Ok(12) } else {return Err(())}
@@ -1306,36 +1187,16 @@ impl SkillBase for EarthSpike {
         }
         Err(())
     }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 1000
@@ -1354,6 +1215,7 @@ impl SkillBase for EarthSpike {
         }
         0
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
             return 1
@@ -1372,11 +1234,9 @@ impl SkillBase for EarthSpike {
         }
         0
     }
+    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        700
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_HEAVENDRIVE
@@ -1393,24 +1253,31 @@ impl SkillBase for HeavensDrive {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if status.sp >= 28 { return Ok(28) } else {return Err(())}
@@ -1429,36 +1296,16 @@ impl SkillBase for HeavensDrive {
         }
         Err(())
     }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 1000
@@ -1477,6 +1324,7 @@ impl SkillBase for HeavensDrive {
         }
         0
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
             return 1
@@ -1495,11 +1343,9 @@ impl SkillBase for HeavensDrive {
         }
         0
     }
+    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        700
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_QUAGMIRE
@@ -1516,24 +1362,31 @@ impl SkillBase for Quagmire {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if status.sp >= 5 { return Ok(5) } else {return Err(())}
@@ -1552,47 +1405,22 @@ impl SkillBase for Quagmire {
         }
         Err(())
     }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
-    fn _base_cast_time(&self) -> u32 {
-        0
-    }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_ESTIMATION
@@ -1609,68 +1437,46 @@ impl SkillBase for Sense {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
-    }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
     }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
-    fn _base_cast_time(&self) -> u32 {
-        0
-    }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
-    }
-    fn _base_after_cast_act_delay(&self) -> u32 {
-        0
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }
 // WZ_SIGHTBLASTER
@@ -1687,67 +1493,49 @@ impl SkillBase for SightBlaster {
     fn _level(&self) -> u8 {
         self.level
     }
+    #[inline(always)]
     fn _cast_time(&self) -> u32 {
         self.cast_time
     }
+    #[inline(always)]
     fn _after_cast_act_delay(&self) -> u32 {
         self.after_cast_act_delay
     }
+    #[inline(always)]
     fn _after_cast_walk_delay(&self) -> u32 {
         self.after_cast_walk_delay
     }
+    #[inline(always)]
     fn _update_cast_time(&mut self, new_value: u32) {
         self.cast_time = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_act_delay(&mut self, new_value: u32) {
         self.after_cast_act_delay = new_value;
     }
+    #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 40 { Ok(40) } else {Err(())}
-    }
-    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
     }
     fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
         Ok(0)
     }
-    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
-        Ok(None)
-    }
     fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         Ok(())
     }
     fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
          Ok(())
     }
-    fn _skip_item_validation(&self, state: Option<u64>) -> bool {
-        false
-    }
+    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
-    }
-    fn _base_after_cast_act_delay(&self) -> u32 {
-        0
-    }
-    fn _base_after_cast_walk_delay(&self) -> u32 {
-        0
     }
 }

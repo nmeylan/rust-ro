@@ -256,10 +256,11 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
 }
 
 fn generate_validate_item(job_skills_file: &mut File, skill_config: &SkillConfig, item_name_ids: &HashMap<String, u32>) {
-    job_skills_file.write_all(b"    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {\n").unwrap();
 
     if let Some(requirements) = skill_config.requires() {
         if requirements.item_cost().len() > 0 {
+            job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+            job_skills_file.write_all(b"    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {\n").unwrap();
             job_skills_file.write_all(format!("        let required_items = vec![{}]; \n", requirements.item_cost().iter()
                 .map(|item| format!("(NormalInventoryItem {{item_id: {}, name_english: \"{}\".to_string(), amount: {}}})", item_name_ids.get(item.item()).unwrap(), item.item(), item.amount())).collect::<Vec<String>>().join(",")).as_bytes()).unwrap();
             for item in requirements.item_cost().iter() {
@@ -276,54 +277,77 @@ fn generate_validate_item(job_skills_file: &mut File, skill_config: &SkillConfig
                 job_skills_file.write_all(b"        }\n").unwrap();
             }
             job_skills_file.write_all(b"        Ok(Some(required_items))\n").unwrap();
-        } else {
-            job_skills_file.write_all(b"        Ok(None)\n").unwrap();
+            job_skills_file.write_all(b"    }\n").unwrap();
         }
-    } else {
-        job_skills_file.write_all(b"        Ok(None)\n").unwrap();
     }
-    job_skills_file.write_all(b"    }\n").unwrap();
 }
 
 fn generate_base_cast_time(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    if skill_config.cast_time().is_none() && skill_config.cast_time_per_level().is_none() {
+        return;
+    }
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _base_cast_time(&self) -> u32 {\n").unwrap();
     generate_return_per_level_u32(job_skills_file, skill_config.cast_time(), skill_config.cast_time_per_level());
 }
 
 
 fn generate_skip_validation_item(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn _skip_item_validation(&self, state: Option<u64>) -> bool {\n").unwrap();
     if let Some(skip_requirement) = skill_config.skip_requires() {
         if let Some(item_cost) = skip_requirement.item_cost() {
+            job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+            job_skills_file.write_all(b"    fn _skip_item_validation(&self, state: Option<u64>) -> bool {\n").unwrap();
             if let Some(state) = item_cost.state() {
                 job_skills_file.write_all(format!("        // {}\n", state.as_str()).as_bytes()).unwrap();
                 job_skills_file.write_all(format!("        if state.unwrap_or(0) & {} > 0 {{ return true; }}\n", state.as_flag()).as_bytes()).unwrap();
             }
+            job_skills_file.write_all(b"        false\n").unwrap();
+            job_skills_file.write_all(b"    }\n").unwrap();
         }
     }
-    job_skills_file.write_all(b"        false\n").unwrap();
-    job_skills_file.write_all(b"    }\n").unwrap();
 }
 
 fn generate_base_after_cast_walk_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    if skill_config.after_cast_walk_delay().is_none() && skill_config.after_cast_act_delay_per_level().is_none() {
+        return;
+    }
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _base_after_cast_walk_delay(&self) -> u32 {\n").unwrap();
     generate_return_per_level_u32(job_skills_file, skill_config.after_cast_walk_delay(), skill_config.after_cast_act_delay_per_level());
 }
 
 fn generate_base_after_cast_act_delay(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    if skill_config.after_cast_act_delay().is_none() && skill_config.after_cast_act_delay_per_level().is_none() {
+        return;
+    }
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _base_after_cast_act_delay(&self) -> u32 {\n").unwrap();
     generate_return_per_level_u32(job_skills_file, skill_config.after_cast_act_delay(), skill_config.after_cast_act_delay_per_level());
 }
 
 fn generate_hit_count(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    if skill_config.hit_count().is_none() && skill_config.hit_count_per_level().is_none() {
+        return;
+    }
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _hit_count(&self) -> i8 {\n").unwrap();
     generate_return_per_level_i32(job_skills_file, skill_config.hit_count(), skill_config.hit_count_per_level());
 }
 
+fn generate_dmg_atk(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    if skill_config.cast_time().is_none() && skill_config.cast_time_per_level().is_none() {
+        return;
+    }
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+    job_skills_file.write_all(b"    fn _dmg_atk(&self) -> Option<i32> {\n").unwrap();
+    generate_return_per_level_u32(job_skills_file, skill_config.cast_time(), skill_config.cast_time_per_level());
+}
+
 fn generate_validate_weapon(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {\n").unwrap();
     if let Some(requirements) = skill_config.requires() {
         if let Some(weapon) = requirements.weapon_flags() {
+            job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+            job_skills_file.write_all(b"    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {\n").unwrap();
             job_skills_file.write_all(b"        if let Some(character_weapon) = status.right_hand_weapon() {\n").unwrap();
             job_skills_file.write_all(format!("            if {} & character_weapon.weapon_type.as_flag() > 0 {{ Ok(()) }} else {{ Err(()) }}\n", weapon).as_bytes()).unwrap();
             job_skills_file.write_all(b"        } else {\n").unwrap();
@@ -334,69 +358,73 @@ fn generate_validate_weapon(job_skills_file: &mut File, skill_config: &SkillConf
                 job_skills_file.write_all(b"            Err(())\n").unwrap();
             }
             job_skills_file.write_all(b"        }\n").unwrap();
-        } else {
-            job_skills_file.write_all(b"        Ok(())\n").unwrap();
+            job_skills_file.write_all(b"    }\n").unwrap();
         }
-    } else {
-        job_skills_file.write_all(b"        Ok(())\n").unwrap();
     }
-    job_skills_file.write_all(b"    }\n").unwrap();
 }
 
 fn generate_validate_zeny(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {\n").unwrap();
     let requirements = skill_config.requires().as_ref();
+    if requirements.is_none() || (requirements.unwrap().zeny_cost().is_none() && requirements.unwrap().zeny_cost_per_level().is_none()) {
+        return;
+    }
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+    job_skills_file.write_all(b"    fn _validate_zeny(&self, status: &Status) -> SkillRequirementResult<u32> {\n").unwrap();
     generate_validate_per_level(job_skills_file, "status.zeny", requirements.map(|c| c.zeny_cost()).unwrap_or(&None), requirements.map(|c| c.zeny_cost_per_level()).unwrap_or(&None));
 }
 
 fn generate_validate_state(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {\n").unwrap();
     if let Some(requirements) = skill_config.requires() {
         if let Some(state) = requirements.state() {
+            job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+            job_skills_file.write_all(b"    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {\n").unwrap();
             job_skills_file.write_all(b"        if status.state > 0 {\n").unwrap();
             job_skills_file.write_all(format!("            // {}\n", state.as_str()).as_bytes()).unwrap();
             job_skills_file.write_all(format!("            if status.state & {} > 0 {{ Ok(()) }} else {{ Err(()) }}\n", state.as_flag()).as_bytes()).unwrap();
             job_skills_file.write_all(b"        } else {\n").unwrap();
             job_skills_file.write_all(b"            Err(())\n").unwrap();
             job_skills_file.write_all(b"        }\n").unwrap();
-        } else {
-            job_skills_file.write_all(b"        Ok(())\n").unwrap();
+            job_skills_file.write_all(b"    }\n").unwrap();
         }
-    } else {
-        job_skills_file.write_all(b"        Ok(())\n").unwrap();
     }
-    job_skills_file.write_all(b"    }\n").unwrap();
 }
 
 fn generate_validate_ammo(job_skills_file: &mut File, skill_config: &SkillConfig) {
-    job_skills_file.write_all(b"    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {\n").unwrap();
     if let Some(requirements) = skill_config.requires() {
         if let Some(ammo_amount) = requirements.ammo_amount() {
             if let Some(ammo_flags) = requirements.ammo_flags() {
+                job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+                job_skills_file.write_all(b"    fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {\n").unwrap();
                 job_skills_file.write_all(b"        if let Some(ammo_and_amount) = character_ammo {\n").unwrap();
                 job_skills_file.write_all(format!("            if ammo_and_amount.1 >= {} && ({} & ammo_and_amount.0.as_flag()) > 0 {{ Ok({}) }} else {{ Err(()) }}\n", ammo_amount, ammo_flags, ammo_amount).as_bytes()).unwrap();
                 job_skills_file.write_all(b"        } else {\n").unwrap();
                 job_skills_file.write_all(b"            Err(())\n").unwrap();
                 job_skills_file.write_all(b"        }\n").unwrap();
+                job_skills_file.write_all(b"    }\n").unwrap();
             } else {
                 panic!("Skill ({}) configuration has ammo amount requirement but no ammo flags", skill_config.name);
             }
-        } else {
-            job_skills_file.write_all(b"        Ok(0)\n").unwrap();
         }
-    } else {
-        job_skills_file.write_all(b"        Ok(0)\n").unwrap();
     }
-    job_skills_file.write_all(b"    }\n").unwrap();
 }
 
 fn generate_validate_sp(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    let requirements = skill_config.requires().as_ref();
+    if requirements.is_none() || (requirements.unwrap().sp_cost().is_none() && requirements.unwrap().sp_cost_per_level().is_none()) {
+        return;
+    }
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {\n").unwrap();
     let requirements = skill_config.requires().as_ref();
     generate_validate_per_level(job_skills_file, "status.sp", requirements.map(|c| c.sp_cost()).unwrap_or(&None), requirements.map(|c| c.sp_cost_per_level()).unwrap_or(&None));
 }
 
 fn generate_validate_hp(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    let requirements = skill_config.requires().as_ref();
+    if requirements.is_none() || (requirements.unwrap().hp_cost().is_none() && requirements.unwrap().hp_cost_per_level().is_none()) {
+        return;
+    }
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {\n").unwrap();
     let requirements = skill_config.requires().as_ref();
     generate_validate_per_level(job_skills_file, "status.hp", requirements.map(|c| c.hp_cost()).unwrap_or(&None), requirements.map(|c| c.hp_cost_per_level()).unwrap_or(&None));
@@ -426,23 +454,29 @@ fn generate_getters(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn _level(&self) -> u8 {\n").unwrap();
     job_skills_file.write_all(b"        self.level\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _cast_time(&self) -> u32 {\n").unwrap();
     job_skills_file.write_all(b"        self.cast_time\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _after_cast_act_delay(&self) -> u32 {\n").unwrap();
     job_skills_file.write_all(b"        self.after_cast_act_delay\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _after_cast_walk_delay(&self) -> u32 {\n").unwrap();
     job_skills_file.write_all(b"        self.after_cast_walk_delay\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 
 
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _update_cast_time(&mut self, new_value: u32) {\n").unwrap();
     job_skills_file.write_all(b"        self.cast_time = new_value;\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _update_after_cast_act_delay(&mut self, new_value: u32) {\n").unwrap();
     job_skills_file.write_all(b"        self.after_cast_act_delay = new_value;\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _update_after_cast_walk_delay(&mut self, new_value: u32) {\n").unwrap();
     job_skills_file.write_all(b"        self.after_cast_walk_delay = new_value;\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
@@ -461,6 +495,26 @@ macro_rules! generate_return_per_level {
                     job_skills_file.write_all(b"        }\n").unwrap();
                 }
                 job_skills_file.write_all(b"        0\n").unwrap();
+            } else {
+                job_skills_file.write_all(b"        0\n").unwrap();
+            }
+            job_skills_file.write_all(b"    }\n").unwrap();
+        }
+    }
+}
+macro_rules! generate_return_option_per_level {
+    ($function:ident, $type:ty) => {
+        fn $function(job_skills_file: &mut File, value: &Option<$type>, value_per_level: &Option<Vec<Option<$type>>>) {
+            if let Some(value) = value{
+                job_skills_file.write_all(format!("       {}\n", value).as_bytes()).unwrap();
+            } else if let Some(value_per_level) = value_per_level {
+                for (level, value_per_level) in value_per_level.iter().enumerate() {
+                    if level == 0 { continue; }
+                    job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
+                    job_skills_file.write_all(format!("            return Some({})\n", value_per_level).as_bytes()).unwrap();
+                    job_skills_file.write_all(b"        }\n").unwrap();
+                }
+                job_skills_file.write_all(b"        None\n").unwrap();
             } else {
                 job_skills_file.write_all(b"        0\n").unwrap();
             }
