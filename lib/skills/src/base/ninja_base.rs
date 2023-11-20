@@ -53,15 +53,6 @@ impl SkillBase for ShurikenTraining {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -117,18 +108,13 @@ impl SkillBase for ThrowShuriken {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+       Some(1.000)
     }
 }
 // NJ_KUNAI
@@ -196,18 +182,13 @@ impl SkillBase for ThrowKunai {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        3
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+       Some(3.000)
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -271,12 +252,6 @@ impl SkillBase for ThrowHuumaShuriken {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -284,13 +259,6 @@ impl SkillBase for ThrowHuumaShuriken {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       3000
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -310,6 +278,29 @@ impl SkillBase for ThrowHuumaShuriken {
             return -5
         }
         0
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(3.000)
+        }
+        if self.level == 2 {
+            return Some(4.500)
+        }
+        if self.level == 3 {
+            return Some(6.000)
+        }
+        if self.level == 4 {
+            return Some(7.500)
+        }
+        if self.level == 5 {
+            return Some(9.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       3000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -392,15 +383,6 @@ impl SkillBase for ThrowZeny {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -452,18 +434,28 @@ impl SkillBase for ImprovisedDefense {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 15 { Ok(15) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.100)
+        }
+        if self.level == 2 {
+            return Some(1.200)
+        }
+        if self.level == 3 {
+            return Some(1.300)
+        }
+        if self.level == 4 {
+            return Some(1.400)
+        }
+        if self.level == 5 {
+            return Some(1.500)
+        }
+        None
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -542,18 +534,43 @@ impl SkillBase for VanishingSlash {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.100)
+        }
+        if self.level == 2 {
+            return Some(1.200)
+        }
+        if self.level == 3 {
+            return Some(1.300)
+        }
+        if self.level == 4 {
+            return Some(1.400)
+        }
+        if self.level == 5 {
+            return Some(1.500)
+        }
+        if self.level == 6 {
+            return Some(1.600)
+        }
+        if self.level == 7 {
+            return Some(1.700)
+        }
+        if self.level == 8 {
+            return Some(1.800)
+        }
+        if self.level == 9 {
+            return Some(1.900)
+        }
+        if self.level == 10 {
+            return Some(2.000)
+        }
+        None
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -610,15 +627,6 @@ impl SkillBase for ShadowLeap {
         } else {
             Err(())
         }
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -695,18 +703,28 @@ impl SkillBase for ShadowSlash {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(3.000)
+        }
+        if self.level == 4 {
+            return Some(4.000)
+        }
+        if self.level == 5 {
+            return Some(5.000)
+        }
+        None
     }
 }
 // NJ_UTSUSEMI
@@ -765,15 +783,6 @@ impl SkillBase for CicadaSkinSheeding {
             if status.sp >= 24 { return Ok(24) } else {return Err(())}
         }
         Err(())
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -856,9 +865,6 @@ impl SkillBase for MirrorImage {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7524, name_english: "Shadow_Orb".to_string(), amount: 1})]; 
@@ -867,11 +873,9 @@ impl SkillBase for MirrorImage {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -906,10 +910,6 @@ impl SkillBase for MirrorImage {
             return 1000
         }
         0
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -957,15 +957,6 @@ impl SkillBase for SpiritoftheBlade {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
 }
 // NJ_KOUENKA
@@ -1040,14 +1031,39 @@ impl SkillBase for CrimsonFirePetal {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -1080,40 +1096,6 @@ impl SkillBase for CrimsonFirePetal {
         }
         if self.level == 10 {
             return 7000
-        }
-        0
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 3
-        }
-        if self.level == 4 {
-            return 4
-        }
-        if self.level == 5 {
-            return 5
-        }
-        if self.level == 6 {
-            return 6
-        }
-        if self.level == 7 {
-            return 7
-        }
-        if self.level == 8 {
-            return 8
-        }
-        if self.level == 9 {
-            return 9
-        }
-        if self.level == 10 {
-            return 10
         }
         0
     }
@@ -1160,9 +1142,6 @@ impl SkillBase for CrimsonFireFormation {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 25 { Ok(25) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7521, name_english: "Flame_Stone".to_string(), amount: 1})]; 
@@ -1171,11 +1150,9 @@ impl SkillBase for CrimsonFireFormation {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -1210,10 +1187,6 @@ impl SkillBase for CrimsonFireFormation {
             return 1500
         }
         0
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -1277,9 +1250,6 @@ impl SkillBase for RagingFireDragon {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7521, name_english: "Flame_Stone".to_string(), amount: 1})]; 
@@ -1288,19 +1258,13 @@ impl SkillBase for RagingFireDragon {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       -3
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       -3
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -1379,14 +1343,39 @@ impl SkillBase for SpearofIce {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 3
+        }
+        if self.level == 2 {
+            return 4
+        }
+        if self.level == 3 {
+            return 5
+        }
+        if self.level == 4 {
+            return 6
+        }
+        if self.level == 5 {
+            return 7
+        }
+        if self.level == 6 {
+            return 8
+        }
+        if self.level == 7 {
+            return 9
+        }
+        if self.level == 8 {
+            return 10
+        }
+        if self.level == 9 {
+            return 11
+        }
+        if self.level == 10 {
+            return 12
+        }
+        0
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -1419,40 +1408,6 @@ impl SkillBase for SpearofIce {
         }
         if self.level == 10 {
             return 7000
-        }
-        0
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 3
-        }
-        if self.level == 2 {
-            return 4
-        }
-        if self.level == 3 {
-            return 5
-        }
-        if self.level == 4 {
-            return 6
-        }
-        if self.level == 5 {
-            return 7
-        }
-        if self.level == 6 {
-            return 8
-        }
-        if self.level == 7 {
-            return 9
-        }
-        if self.level == 8 {
-            return 10
-        }
-        if self.level == 9 {
-            return 11
-        }
-        if self.level == 10 {
-            return 12
         }
         0
     }
@@ -1529,9 +1484,6 @@ impl SkillBase for HiddenWater {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7522, name_english: "Ice_Stone".to_string(), amount: 1})]; 
@@ -1540,19 +1492,13 @@ impl SkillBase for HiddenWater {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // NJ_HYOUSYOURAKU
@@ -1612,9 +1558,6 @@ impl SkillBase for IceMeteor {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7522, name_english: "Ice_Stone".to_string(), amount: 1})]; 
@@ -1623,11 +1566,9 @@ impl SkillBase for IceMeteor {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -1647,10 +1588,6 @@ impl SkillBase for IceMeteor {
             return 4000
         }
         0
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -1729,14 +1666,39 @@ impl SkillBase for WindBlade {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 2
+        }
+        if self.level == 4 {
+            return 3
+        }
+        if self.level == 5 {
+            return 3
+        }
+        if self.level == 6 {
+            return 4
+        }
+        if self.level == 7 {
+            return 4
+        }
+        if self.level == 8 {
+            return 5
+        }
+        if self.level == 9 {
+            return 5
+        }
+        if self.level == 10 {
+            return 6
+        }
+        0
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -1769,40 +1731,6 @@ impl SkillBase for WindBlade {
         }
         if self.level == 10 {
             return 5500
-        }
-        0
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 2
-        }
-        if self.level == 4 {
-            return 3
-        }
-        if self.level == 5 {
-            return 3
-        }
-        if self.level == 6 {
-            return 4
-        }
-        if self.level == 7 {
-            return 4
-        }
-        if self.level == 8 {
-            return 5
-        }
-        if self.level == 9 {
-            return 5
-        }
-        if self.level == 10 {
-            return 6
         }
         0
     }
@@ -1868,9 +1796,6 @@ impl SkillBase for LightningStrikeofDestruction {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7523, name_english: "Wind_Stone".to_string(), amount: 1})]; 
@@ -1879,19 +1804,13 @@ impl SkillBase for LightningStrikeofDestruction {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        4000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // NJ_KAMAITACHI
@@ -1951,9 +1870,6 @@ impl SkillBase for Kamaitachi {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7523, name_english: "Wind_Stone".to_string(), amount: 1})]; 
@@ -1962,19 +1878,13 @@ impl SkillBase for Kamaitachi {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        4000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // NJ_NEN
@@ -2034,14 +1944,9 @@ impl SkillBase for Soul {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -2061,10 +1966,6 @@ impl SkillBase for Soul {
             return 1000
         }
         0
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // NJ_ISSEN
@@ -2138,15 +2039,6 @@ impl SkillBase for FinalStrike {
             if status.sp >= 100 { return Ok(100) } else {return Err(())}
         }
         Err(())
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {

@@ -97,7 +97,7 @@ pub trait SkillBase {
     }
 
     #[inline(always)]
-    fn _dmg_atk(&self, _status: &Status, _target_status: &Status) -> Option<u32> {
+    fn _dmg_atk(&self) -> Option<f32> {
         None
     }
 }
@@ -209,7 +209,7 @@ pub trait Skill: SkillBase {
     }
 
     #[inline(always)]
-    fn dmg_atk(&self, _status: &Status, _target_status: &Status) -> Option<u32> {
-        self._dmg_atk(_status, _target_status)
+    fn dmg_atk(&self) -> Option<f32> {
+        self._dmg_atk()
     }
 }

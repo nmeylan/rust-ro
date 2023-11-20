@@ -3,95 +3,95 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use crate::skills::swordsman::{*};
-use crate::base::swordsman_base::{*};
-use crate::skills::merchant::{*};
-use crate::base::merchant_base::{*};
-use crate::skills::whitesmith::{*};
-use crate::base::whitesmith_base::{*};
 use crate::skills::novice::{*};
 use crate::base::novice_base::{*};
-use crate::skills::lordknight::{*};
-use crate::base::lordknight_base::{*};
-use crate::skills::gunslinger::{*};
-use crate::base::gunslinger_base::{*};
-use crate::skills::champion::{*};
-use crate::base::champion_base::{*};
-use crate::skills::wizard::{*};
-use crate::base::wizard_base::{*};
-use crate::skills::sniper::{*};
-use crate::base::sniper_base::{*};
-use crate::skills::creator::{*};
-use crate::base::creator_base::{*};
 use crate::skills::priest::{*};
 use crate::base::priest_base::{*};
-use crate::skills::thief::{*};
-use crate::base::thief_base::{*};
-use crate::skills::assassincross::{*};
-use crate::base::assassincross_base::{*};
-use crate::skills::paladin::{*};
-use crate::base::paladin_base::{*};
-use crate::skills::clown::{*};
-use crate::base::clown_base::{*};
-use crate::skills::rogue::{*};
-use crate::base::rogue_base::{*};
-use crate::skills::bard::{*};
-use crate::base::bard_base::{*};
-use crate::skills::blacksmith::{*};
-use crate::base::blacksmith_base::{*};
-use crate::skills::stalker::{*};
-use crate::base::stalker_base::{*};
-use crate::skills::knight::{*};
-use crate::base::knight_base::{*};
-use crate::skills::highwizard::{*};
-use crate::base::highwizard_base::{*};
-use crate::skills::taekwon::{*};
-use crate::base::taekwon_base::{*};
-use crate::skills::professor::{*};
-use crate::base::professor_base::{*};
-use crate::skills::assassin::{*};
-use crate::base::assassin_base::{*};
-use crate::skills::crusader::{*};
-use crate::base::crusader_base::{*};
-use crate::skills::highpriest::{*};
-use crate::base::highpriest_base::{*};
-use crate::skills::alchemist::{*};
-use crate::base::alchemist_base::{*};
+use crate::skills::sniper::{*};
+use crate::base::sniper_base::{*};
+use crate::skills::lordknight::{*};
+use crate::base::lordknight_base::{*};
 use crate::skills::acolyte::{*};
 use crate::base::acolyte_base::{*};
-use crate::skills::archer::{*};
-use crate::base::archer_base::{*};
-use crate::skills::monk::{*};
-use crate::base::monk_base::{*};
-use crate::skills::mage::{*};
-use crate::base::mage_base::{*};
-use crate::skills::hunter::{*};
-use crate::base::hunter_base::{*};
-use crate::skills::sage::{*};
-use crate::base::sage_base::{*};
-use crate::skills::ninja::{*};
-use crate::base::ninja_base::{*};
+use crate::skills::alchemist::{*};
+use crate::base::alchemist_base::{*};
 use crate::skills::dancer::{*};
 use crate::base::dancer_base::{*};
+use crate::skills::crusader::{*};
+use crate::base::crusader_base::{*};
+use crate::skills::ninja::{*};
+use crate::base::ninja_base::{*};
+use crate::skills::sage::{*};
+use crate::base::sage_base::{*};
+use crate::skills::archer::{*};
+use crate::base::archer_base::{*};
+use crate::skills::merchant::{*};
+use crate::base::merchant_base::{*};
+use crate::skills::stalker::{*};
+use crate::base::stalker_base::{*};
+use crate::skills::champion::{*};
+use crate::base::champion_base::{*};
+use crate::skills::professor::{*};
+use crate::base::professor_base::{*};
+use crate::skills::hunter::{*};
+use crate::base::hunter_base::{*};
+use crate::skills::wizard::{*};
+use crate::base::wizard_base::{*};
+use crate::skills::mage::{*};
+use crate::base::mage_base::{*};
+use crate::skills::bard::{*};
+use crate::base::bard_base::{*};
+use crate::skills::paladin::{*};
+use crate::base::paladin_base::{*};
+use crate::skills::creator::{*};
+use crate::base::creator_base::{*};
+use crate::skills::assassin::{*};
+use crate::base::assassin_base::{*};
+use crate::skills::rogue::{*};
+use crate::base::rogue_base::{*};
+use crate::skills::knight::{*};
+use crate::base::knight_base::{*};
+use crate::skills::thief::{*};
+use crate::base::thief_base::{*};
+use crate::skills::swordsman::{*};
+use crate::base::swordsman_base::{*};
+use crate::skills::blacksmith::{*};
+use crate::base::blacksmith_base::{*};
+use crate::skills::assassincross::{*};
+use crate::base::assassincross_base::{*};
+use crate::skills::highpriest::{*};
+use crate::base::highpriest_base::{*};
+use crate::skills::clown::{*};
+use crate::base::clown_base::{*};
+use crate::skills::gunslinger::{*};
+use crate::base::gunslinger_base::{*};
+use crate::skills::taekwon::{*};
+use crate::base::taekwon_base::{*};
+use crate::skills::whitesmith::{*};
+use crate::base::whitesmith_base::{*};
+use crate::skills::monk::{*};
+use crate::base::monk_base::{*};
+use crate::skills::highwizard::{*};
+use crate::base::highwizard_base::{*};
 use crate::Skill;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super Novice Sword Mastery
+    // Super_Baby Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super Novice Increase HP Recovery
+    // Super_Baby Increase HP Recovery
     SmRecovery,
-    // Super Novice Bash
+    // Super_Baby Bash
     SmBash,
-    // Super Novice Provoke
+    // Super_Baby Provoke
     SmProvoke,
-    // Super Novice Magnum Break
+    // Super_Baby Magnum Break
     SmMagnum,
-    // Super Novice Endure
+    // Super_Baby Endure
     SmEndure,
     // Mage Increase SP Recovery
     MgSrecovery,
@@ -119,69 +119,69 @@ pub enum SkillEnum {
     MgLightningbolt,
     // Mage Thunderstorm
     MgThunderstorm,
-    // Super Novice Divine Protection
+    // Acolyte Divine Protection
     AlDp,
-    // Super Novice Demon Bane
+    // Acolyte Demon Bane
     AlDemonbane,
-    // Super Novice Ruwach
+    // Acolyte Ruwach
     AlRuwach,
-    // Super Novice Pneuma
+    // Acolyte Pneuma
     AlPneuma,
-    // Super Novice Teleport
+    // Acolyte Teleport
     AlTeleport,
-    // Super Novice Warp Portal
+    // Acolyte Warp Portal
     AlWarp,
-    // Super Novice Heal
+    // Acolyte Heal
     AlHeal,
-    // Super Novice Increase AGI
+    // Acolyte Increase AGI
     AlIncagi,
-    // Super Novice Decrease AGI
+    // Acolyte Decrease AGI
     AlDecagi,
-    // Super Novice Aqua Benedicta
+    // Acolyte Aqua Benedicta
     AlHolywater,
-    // Super Novice Signum Crucis
+    // Acolyte Signum Crucis
     AlCrucis,
-    // Super Novice Angelus
+    // Acolyte Angelus
     AlAngelus,
-    // Super Novice Blessing
+    // Acolyte Blessing
     AlBlessing,
-    // Super Novice Cure
+    // Acolyte Cure
     AlCure,
-    // Super Novice Enlarge Weight Limit
+    // Merchant Enlarge Weight Limit
     McInccarry,
-    // Super Novice Discount
+    // Merchant Discount
     McDiscount,
-    // Super Novice Overcharge
+    // Merchant Overcharge
     McOvercharge,
-    // Super Novice Pushcart
+    // Merchant Pushcart
     McPushcart,
-    // Super Novice Item Appraisal
+    // Merchant Item Appraisal
     McIdentify,
-    // Super Novice Vending
+    // Merchant Vending
     McVending,
-    // Super Novice Mammonite
+    // Merchant Mammonite
     McMammonite,
-    // Super Novice Owl's Eye
+    // Super_Baby Owl's Eye
     AcOwl,
-    // Super Novice Vulture's Eye
+    // Super_Baby Vulture's Eye
     AcVulture,
-    // Super Novice Improve Concentration
+    // Super_Baby Improve Concentration
     AcConcentration,
     // Archer Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Super Novice Double Attack
+    // Thief Double Attack
     TfDouble,
-    // Super Novice Improve Dodge
+    // Thief Improve Dodge
     TfMiss,
-    // Super Novice Steal
+    // Thief Steal
     TfSteal,
-    // Super Novice Hiding
+    // Thief Hiding
     TfHiding,
-    // Super Novice Envenom
+    // Thief Envenom
     TfPoison,
-    // Super Novice Detoxify
+    // Thief Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
@@ -321,7 +321,7 @@ pub enum SkillEnum {
     HtBlastmine,
     // Hunter Claymore Trap
     HtClaymoretrap,
-    // Rogue Remove Trap
+    // Hunter Remove Trap
     HtRemovetrap,
     // Hunter Talkie Box
     HtTalkiebox,
@@ -1893,13 +1893,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Super Novice Open Buying Store
+    // Merchant Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Super Novice Decorate Cart
+    // Merchant Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,
