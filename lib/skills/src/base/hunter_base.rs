@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // HT_SKIDTRAP
 pub struct SkidTrap {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct SkidTrap {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SkidTrap {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         115
     }
@@ -66,9 +71,15 @@ impl SkillBase for SkidTrap {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for SkidTrap {
 }
 // HT_LANDMINE
 pub struct LandMine {
@@ -78,6 +89,10 @@ pub struct LandMine {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for LandMine {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         116
     }
@@ -121,9 +136,15 @@ impl SkillBase for LandMine {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for LandMine {
 }
 // HT_ANKLESNARE
 pub struct AnkleSnare {
@@ -133,6 +154,10 @@ pub struct AnkleSnare {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AnkleSnare {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         117
     }
@@ -176,9 +201,15 @@ impl SkillBase for AnkleSnare {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for AnkleSnare {
 }
 // HT_SHOCKWAVE
 pub struct ShockwaveTrap {
@@ -188,6 +219,10 @@ pub struct ShockwaveTrap {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ShockwaveTrap {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         118
     }
@@ -231,9 +266,15 @@ impl SkillBase for ShockwaveTrap {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for ShockwaveTrap {
 }
 // HT_SANDMAN
 pub struct Sandman {
@@ -243,6 +284,10 @@ pub struct Sandman {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Sandman {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         119
     }
@@ -286,9 +331,15 @@ impl SkillBase for Sandman {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Sandman {
 }
 // HT_FLASHER
 pub struct Flasher {
@@ -298,6 +349,10 @@ pub struct Flasher {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Flasher {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         120
     }
@@ -341,9 +396,15 @@ impl SkillBase for Flasher {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Flasher {
 }
 // HT_FREEZINGTRAP
 pub struct FreezingTrap {
@@ -353,6 +414,10 @@ pub struct FreezingTrap {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FreezingTrap {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         121
     }
@@ -396,6 +461,24 @@ impl SkillBase for FreezingTrap {
         Ok(Some(required_items))
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for FreezingTrap {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -403,6 +486,8 @@ impl SkillBase for FreezingTrap {
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.000)
     }
+}
+impl GroundSkillBase for FreezingTrap {
 }
 // HT_BLASTMINE
 pub struct BlastMine {
@@ -412,6 +497,10 @@ pub struct BlastMine {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BlastMine {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         122
     }
@@ -455,9 +544,15 @@ impl SkillBase for BlastMine {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for BlastMine {
 }
 // HT_CLAYMORETRAP
 pub struct ClaymoreTrap {
@@ -467,6 +562,10 @@ pub struct ClaymoreTrap {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ClaymoreTrap {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         123
     }
@@ -510,9 +609,15 @@ impl SkillBase for ClaymoreTrap {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for ClaymoreTrap {
 }
 // HT_REMOVETRAP
 pub struct RemoveTrap {
@@ -522,6 +627,10 @@ pub struct RemoveTrap {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for RemoveTrap {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         124
     }
@@ -556,10 +665,6 @@ impl SkillBase for RemoveTrap {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 5 { Ok(5) } else {Err(())}
     }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
 }
 // HT_TALKIEBOX
 pub struct TalkieBox {
@@ -569,6 +674,10 @@ pub struct TalkieBox {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TalkieBox {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         125
     }
@@ -612,9 +721,15 @@ impl SkillBase for TalkieBox {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for TalkieBox {
 }
 // HT_BEASTBANE
 pub struct BeastBane {
@@ -624,6 +739,10 @@ pub struct BeastBane {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BeastBane {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         126
     }
@@ -654,6 +773,16 @@ impl SkillBase for BeastBane {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for BeastBane {
 }
 // HT_FALCON
 pub struct FalconryMastery {
@@ -663,6 +792,10 @@ pub struct FalconryMastery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FalconryMastery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         127
     }
@@ -693,6 +826,16 @@ impl SkillBase for FalconryMastery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for FalconryMastery {
 }
 // HT_STEELCROW
 pub struct SteelCrow {
@@ -702,6 +845,10 @@ pub struct SteelCrow {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SteelCrow {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         128
     }
@@ -732,6 +879,16 @@ impl SkillBase for SteelCrow {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for SteelCrow {
 }
 // HT_BLITZBEAT
 pub struct BlitzBeat {
@@ -741,6 +898,10 @@ pub struct BlitzBeat {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BlitzBeat {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         129
     }
@@ -800,6 +961,24 @@ impl SkillBase for BlitzBeat {
         }
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1500
+    }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for BlitzBeat {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
             return 1
@@ -818,14 +997,6 @@ impl SkillBase for BlitzBeat {
         }
         0
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1500
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
-    }
 }
 // HT_DETECTING
 pub struct Detect {
@@ -835,6 +1006,10 @@ pub struct Detect {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Detect {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         130
     }
@@ -879,9 +1054,15 @@ impl SkillBase for Detect {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Detect {
 }
 // HT_SPRINGTRAP
 pub struct SpringTrap {
@@ -891,6 +1072,10 @@ pub struct SpringTrap {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SpringTrap {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         131
     }
@@ -934,10 +1119,6 @@ impl SkillBase for SpringTrap {
             Err(())
         }
     }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
 }
 // HT_PHANTASMIC
 pub struct PhantasmicArrow {
@@ -947,6 +1128,10 @@ pub struct PhantasmicArrow {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for PhantasmicArrow {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1009
     }
@@ -990,6 +1175,16 @@ impl SkillBase for PhantasmicArrow {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for PhantasmicArrow {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -1002,6 +1197,10 @@ pub struct BeastStrafing {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BeastStrafing {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         499
     }
@@ -1052,6 +1251,16 @@ impl SkillBase for BeastStrafing {
             Err(())
         }
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for BeastStrafing {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        2

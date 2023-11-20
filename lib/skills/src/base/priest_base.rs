@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // PR_MACEMASTERY
 pub struct MaceMastery {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct MaceMastery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MaceMastery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         65
     }
@@ -53,6 +58,16 @@ impl SkillBase for MaceMastery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for MaceMastery {
 }
 // PR_IMPOSITIO
 pub struct ImpositioManus {
@@ -62,6 +77,10 @@ pub struct ImpositioManus {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ImpositioManus {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         66
     }
@@ -112,13 +131,19 @@ impl SkillBase for ImpositioManus {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        3000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for ImpositioManus {
 }
 // PR_SUFFRAGIUM
 pub struct Suffragium {
@@ -128,6 +153,10 @@ pub struct Suffragium {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Suffragium {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         67
     }
@@ -163,13 +192,19 @@ impl SkillBase for Suffragium {
         if status.sp > 8 { Ok(8) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for Suffragium {
 }
 // PR_ASPERSIO
 pub struct Aspersio {
@@ -179,6 +214,10 @@ pub struct Aspersio {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Aspersio {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         68
     }
@@ -237,13 +276,19 @@ impl SkillBase for Aspersio {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for Aspersio {
 }
 // PR_BENEDICTIO
 pub struct BsSacramenti {
@@ -253,6 +298,10 @@ pub struct BsSacramenti {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BsSacramenti {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         69
     }
@@ -288,9 +337,15 @@ impl SkillBase for BsSacramenti {
         if status.sp > 20 { Ok(20) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for BsSacramenti {
 }
 // PR_SANCTUARY
 pub struct Sanctuary {
@@ -300,6 +355,10 @@ pub struct Sanctuary {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Sanctuary {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         70
     }
@@ -373,13 +432,19 @@ impl SkillBase for Sanctuary {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        5000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Sanctuary {
 }
 // PR_SLOWPOISON
 pub struct SlowPoison {
@@ -389,6 +454,10 @@ pub struct SlowPoison {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SlowPoison {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         71
     }
@@ -436,9 +505,15 @@ impl SkillBase for SlowPoison {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_supportive_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for SlowPoison {
 }
 // PR_STRECOVERY
 pub struct StatusRecovery {
@@ -448,6 +523,10 @@ pub struct StatusRecovery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for StatusRecovery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         72
     }
@@ -483,13 +562,19 @@ impl SkillBase for StatusRecovery {
         if status.sp > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for StatusRecovery {
 }
 // PR_KYRIE
 pub struct KyrieEleison {
@@ -499,6 +584,10 @@ pub struct KyrieEleison {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for KyrieEleison {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         73
     }
@@ -564,10 +653,6 @@ impl SkillBase for KyrieEleison {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
@@ -575,6 +660,16 @@ impl SkillBase for KyrieEleison {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for KyrieEleison {
 }
 // PR_MAGNIFICAT
 pub struct Magnificat {
@@ -584,6 +679,10 @@ pub struct Magnificat {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Magnificat {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         74
     }
@@ -619,10 +718,6 @@ impl SkillBase for Magnificat {
         if status.sp > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        4000
     }
@@ -630,6 +725,16 @@ impl SkillBase for Magnificat {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Magnificat {
 }
 // PR_GLORIA
 pub struct Gloria {
@@ -639,6 +744,10 @@ pub struct Gloria {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Gloria {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         75
     }
@@ -674,13 +783,19 @@ impl SkillBase for Gloria {
         if status.sp > 20 { Ok(20) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Gloria {
 }
 // PR_LEXDIVINA
 pub struct LexDivina {
@@ -690,6 +805,10 @@ pub struct LexDivina {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for LexDivina {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         76
     }
@@ -758,6 +877,16 @@ impl SkillBase for LexDivina {
     fn _base_after_cast_act_delay(&self) -> u32 {
        3000
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for LexDivina {
 }
 // PR_TURNUNDEAD
 pub struct TurnUndead {
@@ -767,6 +896,10 @@ pub struct TurnUndead {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TurnUndead {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         77
     }
@@ -802,16 +935,26 @@ impl SkillBase for TurnUndead {
         if status.sp > 20 { Ok(20) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        3000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for TurnUndead {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // PR_LEXAETERNA
@@ -822,6 +965,10 @@ pub struct LexAeterna {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for LexAeterna {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         78
     }
@@ -860,6 +1007,16 @@ impl SkillBase for LexAeterna {
     fn _base_after_cast_act_delay(&self) -> u32 {
        3000
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for LexAeterna {
 }
 // PR_MAGNUS
 pub struct MagnusExorcismus {
@@ -869,6 +1026,10 @@ pub struct MagnusExorcismus {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MagnusExorcismus {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         79
     }
@@ -942,40 +1103,6 @@ impl SkillBase for MagnusExorcismus {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 3
-        }
-        if self.level == 4 {
-            return 4
-        }
-        if self.level == 5 {
-            return 5
-        }
-        if self.level == 6 {
-            return 6
-        }
-        if self.level == 7 {
-            return 7
-        }
-        if self.level == 8 {
-            return 8
-        }
-        if self.level == 9 {
-            return 9
-        }
-        if self.level == 10 {
-            return 10
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        15000
     }
@@ -983,6 +1110,16 @@ impl SkillBase for MagnusExorcismus {
     fn _base_after_cast_act_delay(&self) -> u32 {
        4000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for MagnusExorcismus {
 }
 // PR_REDEMPTIO
 pub struct Redemptio {
@@ -992,6 +1129,10 @@ pub struct Redemptio {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Redemptio {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1014
     }
@@ -1030,4 +1171,14 @@ impl SkillBase for Redemptio {
     fn _base_cast_time(&self) -> u32 {
        4000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Redemptio {
 }

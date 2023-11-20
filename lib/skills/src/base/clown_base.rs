@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // CG_ARROWVULCAN
 pub struct VulcanArrow {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct VulcanArrow {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for VulcanArrow {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         394
     }
@@ -102,44 +107,6 @@ impl SkillBase for VulcanArrow {
         } else {
             Err(())
         }
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       -9
-    }
-    #[inline(always)]
-    fn _dmg_atk(&self) -> Option<f32> {
-        if self.level == 1 {
-            return Some(3.000)
-        }
-        if self.level == 2 {
-            return Some(4.000)
-        }
-        if self.level == 3 {
-            return Some(5.000)
-        }
-        if self.level == 4 {
-            return Some(6.000)
-        }
-        if self.level == 5 {
-            return Some(7.000)
-        }
-        if self.level == 6 {
-            return Some(8.000)
-        }
-        if self.level == 7 {
-            return Some(9.000)
-        }
-        if self.level == 8 {
-            return Some(10.000)
-        }
-        if self.level == 9 {
-            return Some(11.000)
-        }
-        if self.level == 10 {
-            return Some(12.000)
-        }
-        None
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -243,6 +210,54 @@ impl SkillBase for VulcanArrow {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for VulcanArrow {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       -9
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(3.000)
+        }
+        if self.level == 2 {
+            return Some(4.000)
+        }
+        if self.level == 3 {
+            return Some(5.000)
+        }
+        if self.level == 4 {
+            return Some(6.000)
+        }
+        if self.level == 5 {
+            return Some(7.000)
+        }
+        if self.level == 6 {
+            return Some(8.000)
+        }
+        if self.level == 7 {
+            return Some(9.000)
+        }
+        if self.level == 8 {
+            return Some(10.000)
+        }
+        if self.level == 9 {
+            return Some(11.000)
+        }
+        if self.level == 10 {
+            return Some(12.000)
+        }
+        None
+    }
 }
 // CG_MOONLIT
 pub struct ShelteringBliss {
@@ -252,6 +267,10 @@ pub struct ShelteringBliss {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ShelteringBliss {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         395
     }
@@ -310,9 +329,15 @@ impl SkillBase for ShelteringBliss {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for ShelteringBliss {
 }
 // CG_MARIONETTE
 pub struct MarionetteControl {
@@ -322,6 +347,10 @@ pub struct MarionetteControl {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MarionetteControl {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         396
     }
@@ -357,9 +386,15 @@ impl SkillBase for MarionetteControl {
         if status.sp > 100 { Ok(100) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_supportive_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for MarionetteControl {
 }
 // CG_LONGINGFREEDOM
 pub struct LongingforFreedom {
@@ -369,6 +404,10 @@ pub struct LongingforFreedom {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for LongingforFreedom {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         487
     }
@@ -404,9 +443,15 @@ impl SkillBase for LongingforFreedom {
         if status.sp > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for LongingforFreedom {
 }
 // CG_HERMODE
 pub struct WandofHermode {
@@ -416,6 +461,10 @@ pub struct WandofHermode {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for WandofHermode {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         488
     }
@@ -474,9 +523,25 @@ impl SkillBase for WandofHermode {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_performance_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for WandofHermode {
+}
+impl PerformanceSkillBase for WandofHermode {
 }
 // CG_TAROTCARD
 pub struct TarotCardofFate {
@@ -486,6 +551,10 @@ pub struct TarotCardofFate {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TarotCardofFate {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         489
     }
@@ -521,15 +590,25 @@ impl SkillBase for TarotCardofFate {
         if status.sp > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        3000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for TarotCardofFate {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }

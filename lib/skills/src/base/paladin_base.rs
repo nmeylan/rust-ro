@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // PA_PRESSURE
 pub struct GloriaDomini {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct GloriaDomini {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for GloriaDomini {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         367
     }
@@ -71,10 +76,6 @@ impl SkillBase for GloriaDomini {
             if status.sp >= 50 { return Ok(50) } else {return Err(())}
         }
         Err(())
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -133,6 +134,20 @@ impl SkillBase for GloriaDomini {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for GloriaDomini {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
 }
 // PA_SACRIFICE
 pub struct MartyrsReckoning {
@@ -142,6 +157,10 @@ pub struct MartyrsReckoning {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MartyrsReckoning {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         368
     }
@@ -177,13 +196,19 @@ impl SkillBase for MartyrsReckoning {
         if status.sp > 100 { Ok(100) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for MartyrsReckoning {
 }
 // PA_GOSPEL
 pub struct BattleChant {
@@ -193,6 +218,10 @@ pub struct BattleChant {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BattleChant {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         369
     }
@@ -258,9 +287,15 @@ impl SkillBase for BattleChant {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for BattleChant {
 }
 // PA_SHIELDCHAIN
 pub struct ShieldChain {
@@ -270,6 +305,10 @@ pub struct ShieldChain {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ShieldChain {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         480
     }
@@ -329,6 +368,24 @@ impl SkillBase for ShieldChain {
         }
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ShieldChain {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        5
     }
@@ -350,13 +407,5 @@ impl SkillBase for ShieldChain {
             return Some(12.500)
         }
         None
-    }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1000
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
     }
 }

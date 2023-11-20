@@ -3,95 +3,95 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use crate::skills::novice::{*};
-use crate::base::novice_base::{*};
-use crate::skills::priest::{*};
-use crate::base::priest_base::{*};
 use crate::skills::sniper::{*};
 use crate::base::sniper_base::{*};
-use crate::skills::lordknight::{*};
-use crate::base::lordknight_base::{*};
-use crate::skills::acolyte::{*};
-use crate::base::acolyte_base::{*};
-use crate::skills::alchemist::{*};
-use crate::base::alchemist_base::{*};
-use crate::skills::dancer::{*};
-use crate::base::dancer_base::{*};
+use crate::skills::priest::{*};
+use crate::base::priest_base::{*};
 use crate::skills::crusader::{*};
 use crate::base::crusader_base::{*};
-use crate::skills::ninja::{*};
-use crate::base::ninja_base::{*};
-use crate::skills::sage::{*};
-use crate::base::sage_base::{*};
-use crate::skills::archer::{*};
-use crate::base::archer_base::{*};
 use crate::skills::merchant::{*};
 use crate::base::merchant_base::{*};
-use crate::skills::stalker::{*};
-use crate::base::stalker_base::{*};
+use crate::skills::archer::{*};
+use crate::base::archer_base::{*};
+use crate::skills::novice::{*};
+use crate::base::novice_base::{*};
 use crate::skills::champion::{*};
 use crate::base::champion_base::{*};
-use crate::skills::professor::{*};
-use crate::base::professor_base::{*};
-use crate::skills::hunter::{*};
-use crate::base::hunter_base::{*};
-use crate::skills::wizard::{*};
-use crate::base::wizard_base::{*};
-use crate::skills::mage::{*};
-use crate::base::mage_base::{*};
-use crate::skills::bard::{*};
-use crate::base::bard_base::{*};
+use crate::skills::acolyte::{*};
+use crate::base::acolyte_base::{*};
 use crate::skills::paladin::{*};
 use crate::base::paladin_base::{*};
-use crate::skills::creator::{*};
-use crate::base::creator_base::{*};
-use crate::skills::assassin::{*};
-use crate::base::assassin_base::{*};
-use crate::skills::rogue::{*};
-use crate::base::rogue_base::{*};
-use crate::skills::knight::{*};
-use crate::base::knight_base::{*};
-use crate::skills::thief::{*};
-use crate::base::thief_base::{*};
-use crate::skills::swordsman::{*};
-use crate::base::swordsman_base::{*};
-use crate::skills::blacksmith::{*};
-use crate::base::blacksmith_base::{*};
-use crate::skills::assassincross::{*};
-use crate::base::assassincross_base::{*};
-use crate::skills::highpriest::{*};
-use crate::base::highpriest_base::{*};
-use crate::skills::clown::{*};
-use crate::base::clown_base::{*};
+use crate::skills::wizard::{*};
+use crate::base::wizard_base::{*};
 use crate::skills::gunslinger::{*};
 use crate::base::gunslinger_base::{*};
-use crate::skills::taekwon::{*};
-use crate::base::taekwon_base::{*};
-use crate::skills::whitesmith::{*};
-use crate::base::whitesmith_base::{*};
-use crate::skills::monk::{*};
-use crate::base::monk_base::{*};
+use crate::skills::hunter::{*};
+use crate::base::hunter_base::{*};
 use crate::skills::highwizard::{*};
 use crate::base::highwizard_base::{*};
+use crate::skills::mage::{*};
+use crate::base::mage_base::{*};
+use crate::skills::assassincross::{*};
+use crate::base::assassincross_base::{*};
+use crate::skills::alchemist::{*};
+use crate::base::alchemist_base::{*};
+use crate::skills::taekwon::{*};
+use crate::base::taekwon_base::{*};
+use crate::skills::clown::{*};
+use crate::base::clown_base::{*};
+use crate::skills::rogue::{*};
+use crate::base::rogue_base::{*};
+use crate::skills::swordsman::{*};
+use crate::base::swordsman_base::{*};
+use crate::skills::monk::{*};
+use crate::base::monk_base::{*};
+use crate::skills::ninja::{*};
+use crate::base::ninja_base::{*};
+use crate::skills::blacksmith::{*};
+use crate::base::blacksmith_base::{*};
+use crate::skills::bard::{*};
+use crate::base::bard_base::{*};
+use crate::skills::lordknight::{*};
+use crate::base::lordknight_base::{*};
+use crate::skills::highpriest::{*};
+use crate::base::highpriest_base::{*};
+use crate::skills::creator::{*};
+use crate::base::creator_base::{*};
+use crate::skills::knight::{*};
+use crate::base::knight_base::{*};
+use crate::skills::stalker::{*};
+use crate::base::stalker_base::{*};
+use crate::skills::professor::{*};
+use crate::base::professor_base::{*};
+use crate::skills::sage::{*};
+use crate::base::sage_base::{*};
+use crate::skills::whitesmith::{*};
+use crate::base::whitesmith_base::{*};
+use crate::skills::thief::{*};
+use crate::base::thief_base::{*};
+use crate::skills::dancer::{*};
+use crate::base::dancer_base::{*};
+use crate::skills::assassin::{*};
+use crate::base::assassin_base::{*};
 use crate::Skill;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super_Baby Sword Mastery
+    // Super Novice Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super_Baby Increase HP Recovery
+    // Super Novice Increase HP Recovery
     SmRecovery,
-    // Super_Baby Bash
+    // Super Novice Bash
     SmBash,
-    // Super_Baby Provoke
+    // Super Novice Provoke
     SmProvoke,
-    // Super_Baby Magnum Break
+    // Super Novice Magnum Break
     SmMagnum,
-    // Super_Baby Endure
+    // Super Novice Endure
     SmEndure,
     // Mage Increase SP Recovery
     MgSrecovery,
@@ -147,45 +147,45 @@ pub enum SkillEnum {
     AlBlessing,
     // Acolyte Cure
     AlCure,
-    // Merchant Enlarge Weight Limit
+    // Super Novice Enlarge Weight Limit
     McInccarry,
-    // Merchant Discount
+    // Super Novice Discount
     McDiscount,
-    // Merchant Overcharge
+    // Super Novice Overcharge
     McOvercharge,
-    // Merchant Pushcart
+    // Super Novice Pushcart
     McPushcart,
-    // Merchant Item Appraisal
+    // Super Novice Item Appraisal
     McIdentify,
-    // Merchant Vending
+    // Super Novice Vending
     McVending,
-    // Merchant Mammonite
+    // Super Novice Mammonite
     McMammonite,
-    // Super_Baby Owl's Eye
+    // Super Novice Owl's Eye
     AcOwl,
-    // Super_Baby Vulture's Eye
+    // Super Novice Vulture's Eye
     AcVulture,
-    // Super_Baby Improve Concentration
+    // Super Novice Improve Concentration
     AcConcentration,
-    // Archer Double Strafe
+    // Rogue Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Thief Double Attack
+    // Super Novice Double Attack
     TfDouble,
-    // Thief Improve Dodge
+    // Super Novice Improve Dodge
     TfMiss,
-    // Thief Steal
+    // Super Novice Steal
     TfSteal,
-    // Thief Hiding
+    // Super Novice Hiding
     TfHiding,
-    // Thief Envenom
+    // Super Novice Envenom
     TfPoison,
-    // Thief Detoxify
+    // Super Novice Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Knight Spear Mastery
+    // Crusader Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -201,9 +201,9 @@ pub enum SkillEnum {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Knight Peco Peco Riding
+    // Crusader Peco Peco Riding
     KnRiding,
-    // Knight Cavalier Mastery
+    // Crusader Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -217,7 +217,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -253,13 +253,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Wizard Earth Spike
+    // Sage Earth Spike
     WzEarthspike,
-    // Wizard Heaven's Drive
+    // Sage Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Wizard Sense
+    // Sage Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -1893,13 +1893,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Merchant Open Buying Store
+    // Super Novice Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Merchant Decorate Cart
+    // Super Novice Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,

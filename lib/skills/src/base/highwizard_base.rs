@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // HW_SOULDRAIN
 pub struct SoulDrain {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct SoulDrain {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SoulDrain {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         364
     }
@@ -54,9 +59,15 @@ impl SkillBase for SoulDrain {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_passive_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for SoulDrain {
 }
 // HW_MAGICCRASHER
 pub struct StaveCrasher {
@@ -66,6 +77,10 @@ pub struct StaveCrasher {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for StaveCrasher {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         365
     }
@@ -101,16 +116,26 @@ impl SkillBase for StaveCrasher {
         if status.sp > 8 { Ok(8) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        300
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        300
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for StaveCrasher {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // HW_MAGICPOWER
@@ -121,6 +146,10 @@ pub struct MysticalAmplification {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MysticalAmplification {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         366
     }
@@ -186,13 +215,19 @@ impl SkillBase for MysticalAmplification {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        700
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for MysticalAmplification {
 }
 // HW_NAPALMVULCAN
 pub struct NapalmVulcan {
@@ -202,6 +237,10 @@ pub struct NapalmVulcan {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for NapalmVulcan {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         400
     }
@@ -252,6 +291,24 @@ impl SkillBase for NapalmVulcan {
         Err(())
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for NapalmVulcan {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
             return 1
@@ -270,14 +327,6 @@ impl SkillBase for NapalmVulcan {
         }
         0
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1000
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
-    }
 }
 // HW_GANBANTEIN
 pub struct Ganbantein {
@@ -287,6 +336,10 @@ pub struct Ganbantein {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Ganbantein {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         483
     }
@@ -333,10 +386,6 @@ impl SkillBase for Ganbantein {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
     }
@@ -344,6 +393,16 @@ impl SkillBase for Ganbantein {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Ganbantein {
 }
 // HW_GRAVITATION
 pub struct GravitationField {
@@ -353,6 +412,10 @@ pub struct GravitationField {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for GravitationField {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         484
     }
@@ -411,10 +474,6 @@ impl SkillBase for GravitationField {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        5000
     }
@@ -422,4 +481,14 @@ impl SkillBase for GravitationField {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for GravitationField {
 }

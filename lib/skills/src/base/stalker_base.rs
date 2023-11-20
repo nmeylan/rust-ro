@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // ST_CHASEWALK
 pub struct Stealth {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct Stealth {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Stealth {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         389
     }
@@ -58,13 +63,19 @@ impl SkillBase for Stealth {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1200
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Stealth {
 }
 // ST_REJECTSWORD
 pub struct CounterInstinct {
@@ -74,6 +85,10 @@ pub struct CounterInstinct {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CounterInstinct {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         390
     }
@@ -124,9 +139,15 @@ impl SkillBase for CounterInstinct {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for CounterInstinct {
 }
 // ST_PRESERVE
 pub struct Preserve {
@@ -136,6 +157,10 @@ pub struct Preserve {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Preserve {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         475
     }
@@ -171,13 +196,19 @@ impl SkillBase for Preserve {
         if status.sp > 30 { Ok(30) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Preserve {
 }
 // ST_FULLSTRIP
 pub struct DivestAll {
@@ -187,6 +218,10 @@ pub struct DivestAll {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DivestAll {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         476
     }
@@ -237,11 +272,21 @@ impl SkillBase for DivestAll {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for DivestAll {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }

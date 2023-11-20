@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // CR_TRUST
 pub struct Faith {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct Faith {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Faith {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         248
     }
@@ -53,6 +58,16 @@ impl SkillBase for Faith {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Faith {
 }
 // CR_AUTOGUARD
 pub struct Guard {
@@ -62,6 +77,10 @@ pub struct Guard {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Guard {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         249
     }
@@ -136,9 +155,15 @@ impl SkillBase for Guard {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Guard {
 }
 // CR_SHIELDCHARGE
 pub struct Smite {
@@ -148,6 +173,10 @@ pub struct Smite {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Smite {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         250
     }
@@ -192,6 +221,16 @@ impl SkillBase for Smite {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Smite {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -223,6 +262,10 @@ pub struct ShieldBoomerang {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ShieldBoomerang {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         251
     }
@@ -267,6 +310,20 @@ impl SkillBase for ShieldBoomerang {
         }
     }
     #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       700
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ShieldBoomerang {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -289,10 +346,6 @@ impl SkillBase for ShieldBoomerang {
         }
         None
     }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       700
-    }
 }
 // CR_REFLECTSHIELD
 pub struct ShieldReflect {
@@ -302,6 +355,10 @@ pub struct ShieldReflect {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ShieldReflect {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         252
     }
@@ -376,9 +433,15 @@ impl SkillBase for ShieldReflect {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for ShieldReflect {
 }
 // CR_HOLYCROSS
 pub struct HolyCross {
@@ -388,6 +451,10 @@ pub struct HolyCross {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for HolyCross {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         253
     }
@@ -453,6 +520,16 @@ impl SkillBase for HolyCross {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for HolyCross {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -2
     }
@@ -499,6 +576,10 @@ pub struct GrandCross {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for GrandCross {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         254
     }
@@ -564,6 +645,32 @@ impl SkillBase for GrandCross {
         Err(())
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       3000
+    }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       1500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for GrandCross {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -601,14 +708,8 @@ impl SkillBase for GrandCross {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       3000
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       1500
-    }
+}
+impl SelfSkillBase for GrandCross {
 }
 // CR_DEVOTION
 pub struct Sacrifice {
@@ -618,6 +719,10 @@ pub struct Sacrifice {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Sacrifice {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         255
     }
@@ -653,13 +758,19 @@ impl SkillBase for Sacrifice {
         if status.sp > 25 { Ok(25) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for Sacrifice {
 }
 // CR_PROVIDENCE
 pub struct ResistantSouls {
@@ -669,6 +780,10 @@ pub struct ResistantSouls {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ResistantSouls {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         256
     }
@@ -704,13 +819,19 @@ impl SkillBase for ResistantSouls {
         if status.sp > 30 { Ok(30) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for ResistantSouls {
 }
 // CR_DEFENDER
 pub struct DefendingAura {
@@ -720,6 +841,10 @@ pub struct DefendingAura {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DefendingAura {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         257
     }
@@ -764,13 +889,19 @@ impl SkillBase for DefendingAura {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        800
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for DefendingAura {
 }
 // CR_SPEARQUICKEN
 pub struct SpearQuicken {
@@ -780,6 +911,10 @@ pub struct SpearQuicken {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SpearQuicken {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         258
     }
@@ -853,9 +988,15 @@ impl SkillBase for SpearQuicken {
         }
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for SpearQuicken {
 }
 // CR_SHRINK
 pub struct Shrink {
@@ -865,6 +1006,10 @@ pub struct Shrink {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Shrink {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1002
     }
@@ -908,4 +1053,14 @@ impl SkillBase for Shrink {
             Err(())
         }
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Shrink {
 }

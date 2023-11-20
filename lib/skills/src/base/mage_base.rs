@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // MG_SRECOVERY
 pub struct IncreaseSpRecovery {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct IncreaseSpRecovery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for IncreaseSpRecovery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         9
     }
@@ -53,6 +58,16 @@ impl SkillBase for IncreaseSpRecovery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for IncreaseSpRecovery {
 }
 // MG_SIGHT
 pub struct Sight {
@@ -62,6 +77,10 @@ pub struct Sight {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Sight {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         10
     }
@@ -97,9 +116,15 @@ impl SkillBase for Sight {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Sight {
 }
 // MG_NAPALMBEAT
 pub struct NapalmBeat {
@@ -109,6 +134,10 @@ pub struct NapalmBeat {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for NapalmBeat {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         11
     }
@@ -172,10 +201,6 @@ impl SkillBase for NapalmBeat {
             if status.sp >= 18 { return Ok(18) } else {return Err(())}
         }
         Err(())
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -249,6 +274,20 @@ impl SkillBase for NapalmBeat {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for NapalmBeat {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
 }
 // MG_SAFETYWALL
 pub struct SafetyWall {
@@ -258,6 +297,10 @@ pub struct SafetyWall {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SafetyWall {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         12
     }
@@ -331,10 +374,6 @@ impl SkillBase for SafetyWall {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 4000
@@ -368,6 +407,16 @@ impl SkillBase for SafetyWall {
         }
         0
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for SafetyWall {
 }
 // MG_SOULSTRIKE
 pub struct SoulStrike {
@@ -377,6 +426,10 @@ pub struct SoulStrike {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SoulStrike {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         13
     }
@@ -440,40 +493,6 @@ impl SkillBase for SoulStrike {
             if status.sp >= 38 { return Ok(38) } else {return Err(())}
         }
         Err(())
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 1
-        }
-        if self.level == 3 {
-            return 2
-        }
-        if self.level == 4 {
-            return 2
-        }
-        if self.level == 5 {
-            return 3
-        }
-        if self.level == 6 {
-            return 3
-        }
-        if self.level == 7 {
-            return 4
-        }
-        if self.level == 8 {
-            return 4
-        }
-        if self.level == 9 {
-            return 5
-        }
-        if self.level == 10 {
-            return 5
-        }
-        0
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -547,6 +566,50 @@ impl SkillBase for SoulStrike {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for SoulStrike {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 1
+        }
+        if self.level == 3 {
+            return 2
+        }
+        if self.level == 4 {
+            return 2
+        }
+        if self.level == 5 {
+            return 3
+        }
+        if self.level == 6 {
+            return 3
+        }
+        if self.level == 7 {
+            return 4
+        }
+        if self.level == 8 {
+            return 4
+        }
+        if self.level == 9 {
+            return 5
+        }
+        if self.level == 10 {
+            return 5
+        }
+        0
+    }
 }
 // MG_COLDBOLT
 pub struct ColdBolt {
@@ -556,6 +619,10 @@ pub struct ColdBolt {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ColdBolt {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         14
     }
@@ -619,40 +686,6 @@ impl SkillBase for ColdBolt {
             if status.sp >= 30 { return Ok(30) } else {return Err(())}
         }
         Err(())
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 3
-        }
-        if self.level == 4 {
-            return 4
-        }
-        if self.level == 5 {
-            return 5
-        }
-        if self.level == 6 {
-            return 6
-        }
-        if self.level == 7 {
-            return 7
-        }
-        if self.level == 8 {
-            return 8
-        }
-        if self.level == 9 {
-            return 9
-        }
-        if self.level == 10 {
-            return 10
-        }
-        0
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -756,6 +789,50 @@ impl SkillBase for ColdBolt {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ColdBolt {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
+    }
 }
 // MG_FROSTDIVER
 pub struct FrostDiver {
@@ -765,6 +842,10 @@ pub struct FrostDiver {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FrostDiver {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         15
     }
@@ -830,16 +911,26 @@ impl SkillBase for FrostDiver {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        800
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for FrostDiver {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // MG_STONECURSE
@@ -850,6 +941,10 @@ pub struct StoneCurse {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for StoneCurse {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         16
     }
@@ -929,12 +1024,22 @@ impl SkillBase for StoneCurse {
         false
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for StoneCurse {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // MG_FIREBALL
@@ -945,6 +1050,10 @@ pub struct FireBall {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FireBall {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         17
     }
@@ -978,10 +1087,6 @@ impl SkillBase for FireBall {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 25 { Ok(25) } else {Err(())}
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -1085,6 +1190,20 @@ impl SkillBase for FireBall {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for FireBall {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
 }
 // MG_FIREWALL
 pub struct FireWall {
@@ -1094,6 +1213,10 @@ pub struct FireWall {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FireWall {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         18
     }
@@ -1129,10 +1252,6 @@ impl SkillBase for FireWall {
         if status.sp > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 2000
@@ -1166,6 +1285,16 @@ impl SkillBase for FireWall {
         }
         0
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for FireWall {
 }
 // MG_FIREBOLT
 pub struct FireBolt {
@@ -1175,6 +1304,10 @@ pub struct FireBolt {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FireBolt {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         19
     }
@@ -1240,40 +1373,6 @@ impl SkillBase for FireBolt {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 3
-        }
-        if self.level == 4 {
-            return 4
-        }
-        if self.level == 5 {
-            return 5
-        }
-        if self.level == 6 {
-            return 6
-        }
-        if self.level == 7 {
-            return 7
-        }
-        if self.level == 8 {
-            return 8
-        }
-        if self.level == 9 {
-            return 9
-        }
-        if self.level == 10 {
-            return 10
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 700
@@ -1375,6 +1474,50 @@ impl SkillBase for FireBolt {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for FireBolt {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
+    }
 }
 // MG_LIGHTNINGBOLT
 pub struct LightningBolt {
@@ -1384,6 +1527,10 @@ pub struct LightningBolt {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for LightningBolt {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         20
     }
@@ -1449,40 +1596,6 @@ impl SkillBase for LightningBolt {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 3
-        }
-        if self.level == 4 {
-            return 4
-        }
-        if self.level == 5 {
-            return 5
-        }
-        if self.level == 6 {
-            return 6
-        }
-        if self.level == 7 {
-            return 7
-        }
-        if self.level == 8 {
-            return 8
-        }
-        if self.level == 9 {
-            return 9
-        }
-        if self.level == 10 {
-            return 10
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 700
@@ -1584,6 +1697,50 @@ impl SkillBase for LightningBolt {
         }
         0
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for LightningBolt {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
+    }
 }
 // MG_THUNDERSTORM
 pub struct Thunderstorm {
@@ -1593,6 +1750,10 @@ pub struct Thunderstorm {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Thunderstorm {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         21
     }
@@ -1658,40 +1819,6 @@ impl SkillBase for Thunderstorm {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 3
-        }
-        if self.level == 4 {
-            return 4
-        }
-        if self.level == 5 {
-            return 5
-        }
-        if self.level == 6 {
-            return 6
-        }
-        if self.level == 7 {
-            return 7
-        }
-        if self.level == 8 {
-            return 8
-        }
-        if self.level == 9 {
-            return 9
-        }
-        if self.level == 10 {
-            return 10
-        }
-        0
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
         if self.level == 1 {
             return 1000
@@ -1729,6 +1856,16 @@ impl SkillBase for Thunderstorm {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Thunderstorm {
 }
 // MG_ENERGYCOAT
 pub struct EnergyCoat {
@@ -1738,6 +1875,10 @@ pub struct EnergyCoat {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for EnergyCoat {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         157
     }
@@ -1773,11 +1914,17 @@ impl SkillBase for EnergyCoat {
         if status.sp > 30 { Ok(30) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        5000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for EnergyCoat {
 }

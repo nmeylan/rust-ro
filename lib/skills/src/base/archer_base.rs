@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // AC_OWL
 pub struct OwlsEye {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct OwlsEye {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for OwlsEye {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         43
     }
@@ -53,6 +58,16 @@ impl SkillBase for OwlsEye {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for OwlsEye {
 }
 // AC_VULTURE
 pub struct VulturesEye {
@@ -62,6 +77,10 @@ pub struct VulturesEye {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for VulturesEye {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         44
     }
@@ -92,6 +111,16 @@ impl SkillBase for VulturesEye {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for VulturesEye {
 }
 // AC_CONCENTRATION
 pub struct ImproveConcentration {
@@ -101,6 +130,10 @@ pub struct ImproveConcentration {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ImproveConcentration {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         45
     }
@@ -166,9 +199,15 @@ impl SkillBase for ImproveConcentration {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for ImproveConcentration {
 }
 // AC_DOUBLE
 pub struct DoubleStrafe {
@@ -178,6 +217,10 @@ pub struct DoubleStrafe {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DoubleStrafe {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         46
     }
@@ -229,6 +272,16 @@ impl SkillBase for DoubleStrafe {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for DoubleStrafe {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        2
     }
@@ -275,6 +328,10 @@ pub struct ArrowShower {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ArrowShower {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         47
     }
@@ -326,6 +383,24 @@ impl SkillBase for ArrowShower {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ArrowShower {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -364,6 +439,8 @@ impl SkillBase for ArrowShower {
         None
     }
 }
+impl GroundSkillBase for ArrowShower {
+}
 // AC_MAKINGARROW
 pub struct ArrowCrafting {
     pub(crate) level: u8,
@@ -372,6 +449,10 @@ pub struct ArrowCrafting {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ArrowCrafting {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         147
     }
@@ -415,6 +496,16 @@ impl SkillBase for ArrowCrafting {
             Err(())
         }
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for ArrowCrafting {
 }
 // AC_CHARGEARROW
 pub struct ArrowRepel {
@@ -424,6 +515,10 @@ pub struct ArrowRepel {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for ArrowRepel {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         148
     }
@@ -475,15 +570,25 @@ impl SkillBase for ArrowRepel {
         }
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ArrowRepel {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.500)
-    }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1500
     }
 }

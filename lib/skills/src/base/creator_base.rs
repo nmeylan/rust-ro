@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // CR_SLIMPITCHER
 pub struct AidCondensedPotion {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct AidCondensedPotion {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AidCondensedPotion {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         478
     }
@@ -93,10 +98,6 @@ impl SkillBase for AidCondensedPotion {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
@@ -104,6 +105,16 @@ impl SkillBase for AidCondensedPotion {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for AidCondensedPotion {
 }
 // CR_FULLPROTECTION
 pub struct FullProtection {
@@ -113,6 +124,10 @@ pub struct FullProtection {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FullProtection {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         479
     }
@@ -156,13 +171,19 @@ impl SkillBase for FullProtection {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for FullProtection {
 }
 // CR_ACIDDEMONSTRATION
 pub struct AcidDemonstration {
@@ -172,6 +193,10 @@ pub struct AcidDemonstration {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AcidDemonstration {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         490
     }
@@ -218,6 +243,24 @@ impl SkillBase for AcidDemonstration {
         Ok(Some(required_items))
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for AcidDemonstration {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
             return 1
@@ -251,14 +294,6 @@ impl SkillBase for AcidDemonstration {
         }
         0
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1000
-    }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       1000
-    }
 }
 // CR_CULTIVATION
 pub struct PlantCultivation {
@@ -268,6 +303,10 @@ pub struct PlantCultivation {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for PlantCultivation {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         491
     }
@@ -314,7 +353,13 @@ impl SkillBase for PlantCultivation {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for PlantCultivation {
 }

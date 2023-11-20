@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // SM_SWORD
 pub struct SwordMastery {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct SwordMastery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SwordMastery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         2
     }
@@ -53,6 +58,16 @@ impl SkillBase for SwordMastery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for SwordMastery {
 }
 // SM_TWOHAND
 pub struct TwoHandedSwordMastery {
@@ -62,6 +77,10 @@ pub struct TwoHandedSwordMastery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TwoHandedSwordMastery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         3
     }
@@ -92,6 +111,16 @@ impl SkillBase for TwoHandedSwordMastery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for TwoHandedSwordMastery {
 }
 // SM_RECOVERY
 pub struct IncreaseHpRecovery {
@@ -101,6 +130,10 @@ pub struct IncreaseHpRecovery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for IncreaseHpRecovery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         4
     }
@@ -131,6 +164,16 @@ impl SkillBase for IncreaseHpRecovery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for IncreaseHpRecovery {
 }
 // SM_BASH
 pub struct Bash {
@@ -140,6 +183,10 @@ pub struct Bash {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Bash {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         5
     }
@@ -214,6 +261,16 @@ impl SkillBase for Bash {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Bash {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -260,6 +317,10 @@ pub struct Provoke {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Provoke {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         6
     }
@@ -325,6 +386,16 @@ impl SkillBase for Provoke {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Provoke {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -337,6 +408,10 @@ pub struct MagnumBreak {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MagnumBreak {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         7
     }
@@ -406,6 +481,28 @@ impl SkillBase for MagnumBreak {
         Err(())
     }
     #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       2000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for MagnumBreak {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -443,10 +540,8 @@ impl SkillBase for MagnumBreak {
         }
         None
     }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       2000
-    }
+}
+impl SelfSkillBase for MagnumBreak {
 }
 // SM_ENDURE
 pub struct Endure {
@@ -456,6 +551,10 @@ pub struct Endure {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Endure {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         8
     }
@@ -491,9 +590,15 @@ impl SkillBase for Endure {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Endure {
 }
 // SM_MOVINGRECOVERY
 pub struct MovingHpRecovery {
@@ -503,6 +608,10 @@ pub struct MovingHpRecovery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for MovingHpRecovery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         144
     }
@@ -533,6 +642,16 @@ impl SkillBase for MovingHpRecovery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for MovingHpRecovery {
 }
 // SM_FATALBLOW
 pub struct FatalBlow {
@@ -542,6 +661,10 @@ pub struct FatalBlow {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for FatalBlow {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         145
     }
@@ -572,6 +695,16 @@ impl SkillBase for FatalBlow {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for FatalBlow {
 }
 // SM_AUTOBERSERK
 pub struct AutoBerserk {
@@ -581,6 +714,10 @@ pub struct AutoBerserk {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AutoBerserk {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         146
     }
@@ -616,7 +753,13 @@ impl SkillBase for AutoBerserk {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_self_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for AutoBerserk {
 }

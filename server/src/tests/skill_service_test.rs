@@ -39,6 +39,8 @@ mod tests {
     use models::position::Position;
     use skills::skill_enums::SkillEnum;
     use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseskillAck2};
+    use skills::base::archer_base::DoubleStrafe;
+    use skills::{OffensiveSkill, OffensiveSkillBase, Skill, SkillBase};
     use crate::{assert_sent_packet_in_current_packetver};
     use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};

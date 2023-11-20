@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // AM_AXEMASTERY
 pub struct AxeMastery {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct AxeMastery {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AxeMastery {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         226
     }
@@ -53,6 +58,16 @@ impl SkillBase for AxeMastery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for AxeMastery {
 }
 // AM_LEARNINGPOTION
 pub struct PotionResearch {
@@ -62,6 +77,10 @@ pub struct PotionResearch {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for PotionResearch {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         227
     }
@@ -92,6 +111,16 @@ impl SkillBase for PotionResearch {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for PotionResearch {
 }
 // AM_PHARMACY
 pub struct PreparePotion {
@@ -101,6 +130,10 @@ pub struct PreparePotion {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for PreparePotion {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         228
     }
@@ -143,6 +176,16 @@ impl SkillBase for PreparePotion {
         }
         Ok(Some(required_items))
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for PreparePotion {
 }
 // AM_DEMONSTRATION
 pub struct Bomb {
@@ -152,6 +195,10 @@ pub struct Bomb {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Bomb {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         229
     }
@@ -195,6 +242,28 @@ impl SkillBase for Bomb {
         Ok(Some(required_items))
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Bomb {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -217,10 +286,8 @@ impl SkillBase for Bomb {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1000
-    }
+}
+impl GroundSkillBase for Bomb {
 }
 // AM_ACIDTERROR
 pub struct AcidTerror {
@@ -230,6 +297,10 @@ pub struct AcidTerror {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AcidTerror {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         230
     }
@@ -273,6 +344,20 @@ impl SkillBase for AcidTerror {
         Ok(Some(required_items))
     }
     #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for AcidTerror {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -295,10 +380,6 @@ impl SkillBase for AcidTerror {
         }
         None
     }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1000
-    }
 }
 // AM_POTIONPITCHER
 pub struct AidPotion {
@@ -308,6 +389,10 @@ pub struct AidPotion {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AidPotion {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         231
     }
@@ -378,13 +463,19 @@ impl SkillBase for AidPotion {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        500
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for AidPotion {
 }
 // AM_CANNIBALIZE
 pub struct SummonFlora {
@@ -394,6 +485,10 @@ pub struct SummonFlora {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SummonFlora {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         232
     }
@@ -437,10 +532,6 @@ impl SkillBase for SummonFlora {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
@@ -448,6 +539,16 @@ impl SkillBase for SummonFlora {
     fn _base_after_cast_act_delay(&self) -> u32 {
        500
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for SummonFlora {
 }
 // AM_SPHEREMINE
 pub struct SummonMarineSphere {
@@ -457,6 +558,10 @@ pub struct SummonMarineSphere {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SummonMarineSphere {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         233
     }
@@ -500,10 +605,6 @@ impl SkillBase for SummonMarineSphere {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
@@ -511,6 +612,16 @@ impl SkillBase for SummonMarineSphere {
     fn _base_after_cast_act_delay(&self) -> u32 {
        500
     }
+    #[inline(always)]
+    fn is_ground_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for SummonMarineSphere {
 }
 // AM_CP_WEAPON
 pub struct AlchemicalWeapon {
@@ -520,6 +631,10 @@ pub struct AlchemicalWeapon {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AlchemicalWeapon {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         234
     }
@@ -563,13 +678,19 @@ impl SkillBase for AlchemicalWeapon {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for AlchemicalWeapon {
 }
 // AM_CP_SHIELD
 pub struct SynthesizedShield {
@@ -579,6 +700,10 @@ pub struct SynthesizedShield {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SynthesizedShield {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         235
     }
@@ -622,13 +747,19 @@ impl SkillBase for SynthesizedShield {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for SynthesizedShield {
 }
 // AM_CP_ARMOR
 pub struct SyntheticArmor {
@@ -638,6 +769,10 @@ pub struct SyntheticArmor {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SyntheticArmor {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         236
     }
@@ -681,13 +816,19 @@ impl SkillBase for SyntheticArmor {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for SyntheticArmor {
 }
 // AM_CP_HELM
 pub struct BiochemicalHelm {
@@ -697,6 +838,10 @@ pub struct BiochemicalHelm {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BiochemicalHelm {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         237
     }
@@ -740,13 +885,19 @@ impl SkillBase for BiochemicalHelm {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for BiochemicalHelm {
 }
 // AM_BIOETHICS
 pub struct Bioethics {
@@ -756,6 +907,10 @@ pub struct Bioethics {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Bioethics {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         238
     }
@@ -786,6 +941,16 @@ impl SkillBase for Bioethics {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Bioethics {
 }
 // AM_CALLHOMUN
 pub struct CallHomunculus {
@@ -795,6 +960,10 @@ pub struct CallHomunculus {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CallHomunculus {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         243
     }
@@ -837,6 +1006,16 @@ impl SkillBase for CallHomunculus {
         }
         Ok(Some(required_items))
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for CallHomunculus {
 }
 // AM_REST
 pub struct Vaporize {
@@ -846,6 +1025,10 @@ pub struct Vaporize {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Vaporize {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         244
     }
@@ -880,6 +1063,16 @@ impl SkillBase for Vaporize {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 50 { Ok(50) } else {Err(())}
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for Vaporize {
 }
 // AM_RESURRECTHOMUN
 pub struct HomunculusResurrection {
@@ -889,6 +1082,10 @@ pub struct HomunculusResurrection {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for HomunculusResurrection {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         247
     }
@@ -942,6 +1139,16 @@ impl SkillBase for HomunculusResurrection {
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for HomunculusResurrection {
 }
 // AM_BERSERKPITCHER
 pub struct AidBerserkPotion {
@@ -951,6 +1158,10 @@ pub struct AidBerserkPotion {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for AidBerserkPotion {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         446
     }
@@ -994,13 +1205,19 @@ impl SkillBase for AidBerserkPotion {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        500
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+}
+impl SupportiveSkillBase for AidBerserkPotion {
 }
 // AM_TWILIGHT1
 pub struct TwilightAlchemy1 {
@@ -1010,6 +1227,10 @@ pub struct TwilightAlchemy1 {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TwilightAlchemy1 {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         496
     }
@@ -1060,6 +1281,16 @@ impl SkillBase for TwilightAlchemy1 {
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for TwilightAlchemy1 {
 }
 // AM_TWILIGHT2
 pub struct TwilightAlchemy2 {
@@ -1069,6 +1300,10 @@ pub struct TwilightAlchemy2 {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TwilightAlchemy2 {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         497
     }
@@ -1119,6 +1354,16 @@ impl SkillBase for TwilightAlchemy2 {
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for TwilightAlchemy2 {
 }
 // AM_TWILIGHT3
 pub struct TwilightAlchemy3 {
@@ -1128,6 +1373,10 @@ pub struct TwilightAlchemy3 {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for TwilightAlchemy3 {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         498
     }
@@ -1178,4 +1427,14 @@ impl SkillBase for TwilightAlchemy3 {
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
     }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl SelfSkillBase for TwilightAlchemy3 {
 }

@@ -12,9 +12,10 @@ use models::item::WearWeapon;
 use models::status::Status;
 use models::item::NormalInventoryItem;
 
-use crate::{SkillBase, Skill, SkillRequirementResult};
+use crate::{*};
 
 use crate::base::*;
+use std::any::Any;
 // RG_SNATCHER
 pub struct Gank {
     pub(crate) level: u8,
@@ -23,6 +24,10 @@ pub struct Gank {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Gank {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         210
     }
@@ -53,6 +58,16 @@ impl SkillBase for Gank {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Gank {
 }
 // RG_STEALCOIN
 pub struct Mug {
@@ -62,6 +77,10 @@ pub struct Mug {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Mug {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         211
     }
@@ -97,6 +116,16 @@ impl SkillBase for Mug {
         if status.sp > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Mug {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -109,6 +138,10 @@ pub struct BackStab {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for BackStab {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         212
     }
@@ -143,6 +176,20 @@ impl SkillBase for BackStab {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 16 { Ok(16) } else {Err(())}
     }
+    #[inline(always)]
+    fn _base_after_cast_act_delay(&self) -> u32 {
+       500
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for BackStab {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -181,10 +228,6 @@ impl SkillBase for BackStab {
         }
         None
     }
-    #[inline(always)]
-    fn _base_after_cast_act_delay(&self) -> u32 {
-       500
-    }
 }
 // RG_TUNNELDRIVE
 pub struct Stalk {
@@ -194,6 +237,10 @@ pub struct Stalk {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Stalk {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         213
     }
@@ -224,6 +271,16 @@ impl SkillBase for Stalk {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Stalk {
 }
 // RG_RAID
 pub struct SightlessMind {
@@ -233,6 +290,10 @@ pub struct SightlessMind {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for SightlessMind {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         214
     }
@@ -277,6 +338,24 @@ impl SkillBase for SightlessMind {
         }
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn is_self_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for SightlessMind {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -300,6 +379,8 @@ impl SkillBase for SightlessMind {
         None
     }
 }
+impl SelfSkillBase for SightlessMind {
+}
 // RG_STRIPWEAPON
 pub struct DivestWeapon {
     pub(crate) level: u8,
@@ -308,6 +389,10 @@ pub struct DivestWeapon {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DivestWeapon {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         215
     }
@@ -358,16 +443,26 @@ impl SkillBase for DivestWeapon {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for DivestWeapon {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // RG_STRIPSHIELD
@@ -378,6 +473,10 @@ pub struct DivestShield {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DivestShield {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         216
     }
@@ -428,16 +527,26 @@ impl SkillBase for DivestShield {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for DivestShield {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // RG_STRIPARMOR
@@ -448,6 +557,10 @@ pub struct DivestArmor {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DivestArmor {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         217
     }
@@ -498,16 +611,26 @@ impl SkillBase for DivestArmor {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for DivestArmor {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // RG_STRIPHELM
@@ -518,6 +641,10 @@ pub struct DivestHelm {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for DivestHelm {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         218
     }
@@ -568,16 +695,26 @@ impl SkillBase for DivestHelm {
         Err(())
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for DivestHelm {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
 }
 // RG_INTIMIDATE
@@ -588,6 +725,10 @@ pub struct Snatch {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Snatch {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         219
     }
@@ -638,6 +779,16 @@ impl SkillBase for Snatch {
         Err(())
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for Snatch {
+    #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
     }
@@ -684,6 +835,10 @@ pub struct Scribble {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Scribble {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         220
     }
@@ -727,9 +882,15 @@ impl SkillBase for Scribble {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Scribble {
 }
 // RG_FLAGGRAFFITI
 pub struct Piece {
@@ -739,6 +900,10 @@ pub struct Piece {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Piece {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         221
     }
@@ -774,9 +939,15 @@ impl SkillBase for Piece {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Piece {
 }
 // RG_CLEANER
 pub struct Remover {
@@ -786,6 +957,10 @@ pub struct Remover {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Remover {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         222
     }
@@ -821,9 +996,15 @@ impl SkillBase for Remover {
         if status.sp > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn is_ground_skill(&self) -> bool {
+        true
     }
+    #[inline(always)]
+    fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
+        Some(self)
+    }
+}
+impl GroundSkillBase for Remover {
 }
 // RG_GANGSTER
 pub struct Slyness {
@@ -833,6 +1014,10 @@ pub struct Slyness {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Slyness {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         223
     }
@@ -863,6 +1048,16 @@ impl SkillBase for Slyness {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Slyness {
 }
 // RG_COMPULSION
 pub struct Haggle {
@@ -872,6 +1067,10 @@ pub struct Haggle {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Haggle {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         224
     }
@@ -902,6 +1101,16 @@ impl SkillBase for Haggle {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Haggle {
 }
 // RG_PLAGIARISM
 pub struct Intimidate {
@@ -911,6 +1120,10 @@ pub struct Intimidate {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for Intimidate {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         225
     }
@@ -941,6 +1154,16 @@ impl SkillBase for Intimidate {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Intimidate {
 }
 // RG_CLOSECONFINE
 pub struct CloseConfine {
@@ -950,6 +1173,10 @@ pub struct CloseConfine {
     pub(crate) after_cast_walk_delay: u32,
 }
 impl SkillBase for CloseConfine {
+    #[inline(always)]
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
     fn _id(&self) -> u32 {
         1005
     }
@@ -984,6 +1211,16 @@ impl SkillBase for CloseConfine {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 25 { Ok(25) } else {Err(())}
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for CloseConfine {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
