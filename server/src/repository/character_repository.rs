@@ -48,7 +48,7 @@ impl CharacterRepository for Repository {
         sqlx::query("SELECT id, lv FROM skill WHERE char_id = $1")
             .bind(char_id as i32)
             .fetch_all(&self.pool).await
-            .map(|rows| rows.iter().map(|row| KnownSkill { value: skills::skill_enums::SkillEnum::from_id(row.get::<i32, _>(0) as u32), level: row.get::<i16, _>(1) as u8 }).collect::<Vec<KnownSkill>>())
+            .map(|rows| rows.iter().map(|row| KnownSkill { value: enums::skill_enums::SkillEnum::from_id(row.get::<i32, _>(0) as u32), level: row.get::<i16, _>(1) as u8 }).collect::<Vec<KnownSkill>>())
     }
 
 
