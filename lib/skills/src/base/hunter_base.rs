@@ -57,9 +57,6 @@ impl SkillBase for SkidTrap {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
@@ -67,12 +64,6 @@ impl SkillBase for SkidTrap {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -121,9 +112,6 @@ impl SkillBase for LandMine {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
@@ -131,12 +119,6 @@ impl SkillBase for LandMine {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -185,9 +167,6 @@ impl SkillBase for AnkleSnare {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 12 { Ok(12) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
@@ -195,12 +174,6 @@ impl SkillBase for AnkleSnare {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -249,9 +222,6 @@ impl SkillBase for ShockwaveTrap {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 45 { Ok(45) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 2})]; 
@@ -259,12 +229,6 @@ impl SkillBase for ShockwaveTrap {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -313,9 +277,6 @@ impl SkillBase for Sandman {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 12 { Ok(12) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
@@ -323,12 +284,6 @@ impl SkillBase for Sandman {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -377,9 +332,6 @@ impl SkillBase for Flasher {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 12 { Ok(12) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 2})]; 
@@ -387,12 +339,6 @@ impl SkillBase for Flasher {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -441,9 +387,6 @@ impl SkillBase for FreezingTrap {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 2})]; 
@@ -452,15 +395,13 @@ impl SkillBase for FreezingTrap {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+       Some(1.000)
     }
 }
 // HT_BLASTMINE
@@ -505,9 +446,6 @@ impl SkillBase for BlastMine {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
@@ -515,12 +453,6 @@ impl SkillBase for BlastMine {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -569,9 +501,6 @@ impl SkillBase for ClaymoreTrap {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 15 { Ok(15) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 2})]; 
@@ -579,12 +508,6 @@ impl SkillBase for ClaymoreTrap {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -633,15 +556,6 @@ impl SkillBase for RemoveTrap {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 5 { Ok(5) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -689,9 +603,6 @@ impl SkillBase for TalkieBox {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
@@ -699,12 +610,6 @@ impl SkillBase for TalkieBox {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -749,15 +654,6 @@ impl SkillBase for BeastBane {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
 }
 // HT_FALCON
 pub struct FalconryMastery {
@@ -797,15 +693,6 @@ impl SkillBase for FalconryMastery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
 }
 // HT_STEELCROW
 pub struct SteelCrow {
@@ -844,15 +731,6 @@ impl SkillBase for SteelCrow {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
 }
 // HT_BLITZBEAT
@@ -921,19 +799,6 @@ impl SkillBase for BlitzBeat {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1500
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
@@ -952,6 +817,10 @@ impl SkillBase for BlitzBeat {
             return 5
         }
         0
+    }
+    #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1500
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -1009,15 +878,6 @@ impl SkillBase for Detect {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -1074,15 +934,6 @@ impl SkillBase for SpringTrap {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -1130,12 +981,6 @@ impl SkillBase for PhantasmicArrow {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -1143,9 +988,6 @@ impl SkillBase for PhantasmicArrow {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -1202,12 +1044,6 @@ impl SkillBase for BeastStrafing {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -1216,11 +1052,12 @@ impl SkillBase for BeastStrafing {
             Err(())
         }
     }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        2
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+       Some(1.000)
     }
 }

@@ -53,15 +53,6 @@ impl SkillBase for AdvancedKatarMastery {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -124,9 +115,6 @@ impl SkillBase for EnchantDeadlyPoison {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 678, name_english: "Poison_Bottle".to_string(), amount: 1})]; 
@@ -134,12 +122,6 @@ impl SkillBase for EnchantDeadlyPoison {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -222,22 +204,47 @@ impl SkillBase for SoulDestroyer {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(3.000)
+        }
+        if self.level == 4 {
+            return Some(4.000)
+        }
+        if self.level == 5 {
+            return Some(5.000)
+        }
+        if self.level == 6 {
+            return Some(6.000)
+        }
+        if self.level == 7 {
+            return Some(7.000)
+        }
+        if self.level == 8 {
+            return Some(8.000)
+        }
+        if self.level == 9 {
+            return Some(9.000)
+        }
+        if self.level == 10 {
+            return Some(10.000)
+        }
+        None
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        700
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -380,22 +387,47 @@ impl SkillBase for MeteorAssault {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(0.800)
+        }
+        if self.level == 2 {
+            return Some(1.200)
+        }
+        if self.level == 3 {
+            return Some(1.600)
+        }
+        if self.level == 4 {
+            return Some(2.000)
+        }
+        if self.level == 5 {
+            return Some(2.400)
+        }
+        if self.level == 6 {
+            return Some(2.800)
+        }
+        if self.level == 7 {
+            return Some(3.200)
+        }
+        if self.level == 8 {
+            return Some(3.600)
+        }
+        if self.level == 9 {
+            return Some(4.000)
+        }
+        if self.level == 10 {
+            return Some(4.400)
+        }
+        None
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        500
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -443,15 +475,6 @@ impl SkillBase for CreateDeadlyPoison {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 50 { Ok(50) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {

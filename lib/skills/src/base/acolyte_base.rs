@@ -53,15 +53,6 @@ impl SkillBase for DivineProtection {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
 }
 // AL_DEMONBANE
 pub struct DemonBane {
@@ -100,15 +91,6 @@ impl SkillBase for DemonBane {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
 }
 // AL_RUWACH
@@ -152,15 +134,6 @@ impl SkillBase for Ruwach {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -208,15 +181,6 @@ impl SkillBase for Pneuma {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -270,15 +234,6 @@ impl SkillBase for Teleport {
             if status.sp >= 9 { return Ok(9) } else {return Err(())}
         }
         Err(())
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -339,9 +294,6 @@ impl SkillBase for WarpPortal {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1})]; 
@@ -350,19 +302,13 @@ impl SkillBase for WarpPortal {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // AL_HEAL
@@ -436,15 +382,6 @@ impl SkillBase for Heal {
             if status.sp >= 40 { return Ok(40) } else {return Err(())}
         }
         Err(())
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -531,22 +468,13 @@ impl SkillBase for IncreaseAgi {
     fn _validate_hp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.hp > 15 { Ok(15) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -625,22 +553,13 @@ impl SkillBase for DecreaseAgi {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -698,22 +617,13 @@ impl SkillBase for AquaBenedicta {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -762,22 +672,13 @@ impl SkillBase for SignumCrucis {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 35 { Ok(35) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        500
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -856,22 +757,13 @@ impl SkillBase for Angelus {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        500
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -950,15 +842,6 @@ impl SkillBase for Blessing {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -1005,15 +888,6 @@ impl SkillBase for Cure {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 15 { Ok(15) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -1066,21 +940,12 @@ impl SkillBase for HolyLight {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 15 { Ok(15) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }

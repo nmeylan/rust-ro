@@ -53,15 +53,6 @@ impl SkillBase for MusicLessons {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
 }
 // BA_MUSICALSTRIKE
 pub struct MelodyStrike {
@@ -128,12 +119,6 @@ impl SkillBase for MelodyStrike {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -142,16 +127,32 @@ impl SkillBase for MelodyStrike {
             Err(())
         }
     }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(1.400)
+        }
+        if self.level == 3 {
+            return Some(1.800)
+        }
+        if self.level == 4 {
+            return Some(2.200)
+        }
+        if self.level == 5 {
+            return Some(2.600)
+        }
+        None
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1500
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // BA_DISSONANCE
@@ -211,12 +212,6 @@ impl SkillBase for UnchainedSerenade {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -224,9 +219,6 @@ impl SkillBase for UnchainedSerenade {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -289,15 +281,6 @@ impl SkillBase for UnbarringOctave {
             if status.sp >= 20 { return Ok(20) } else {return Err(())}
         }
         Err(())
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -380,12 +363,6 @@ impl SkillBase for PerfectTablature {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -393,9 +370,6 @@ impl SkillBase for PerfectTablature {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -474,12 +448,6 @@ impl SkillBase for ImpressiveRiff {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -487,9 +455,6 @@ impl SkillBase for ImpressiveRiff {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -568,12 +533,6 @@ impl SkillBase for MagicStrings {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -581,9 +540,6 @@ impl SkillBase for MagicStrings {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -662,12 +618,6 @@ impl SkillBase for SongofLutie {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -675,9 +625,6 @@ impl SkillBase for SongofLutie {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -726,15 +673,6 @@ impl SkillBase for Amp {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -782,12 +720,6 @@ impl SkillBase for Encore {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 1 { Ok(1) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -795,9 +727,6 @@ impl SkillBase for Encore {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -846,12 +775,6 @@ impl SkillBase for Lullaby {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 20 { Ok(20) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -859,9 +782,6 @@ impl SkillBase for Lullaby {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -910,12 +830,6 @@ impl SkillBase for MentalSensing {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 20 { Ok(20) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -923,9 +837,6 @@ impl SkillBase for MentalSensing {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -974,12 +885,6 @@ impl SkillBase for DownTempo {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 30 { Ok(30) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -987,9 +892,6 @@ impl SkillBase for DownTempo {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -1053,12 +955,6 @@ impl SkillBase for BattleTheme {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -1066,9 +962,6 @@ impl SkillBase for BattleTheme {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -1132,12 +1025,6 @@ impl SkillBase for HarmonicLick {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -1145,9 +1032,6 @@ impl SkillBase for HarmonicLick {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -1196,12 +1080,6 @@ impl SkillBase for ClassicalPluck {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 15 { Ok(15) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -1209,9 +1087,6 @@ impl SkillBase for ClassicalPluck {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -1260,12 +1135,6 @@ impl SkillBase for PowerChord {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -1273,9 +1142,6 @@ impl SkillBase for PowerChord {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -1324,12 +1190,6 @@ impl SkillBase for AcousticRhythm {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 20 { Ok(20) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -1337,9 +1197,6 @@ impl SkillBase for AcousticRhythm {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -1387,15 +1244,6 @@ impl SkillBase for PangVoice {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 20 { Ok(20) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {

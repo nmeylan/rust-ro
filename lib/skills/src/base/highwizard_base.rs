@@ -53,15 +53,6 @@ impl SkillBase for SoulDrain {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -109,22 +100,13 @@ impl SkillBase for StaveCrasher {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 8 { Ok(8) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        300
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -203,22 +185,13 @@ impl SkillBase for MysticalAmplification {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        700
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // HW_NAPALMVULCAN
@@ -278,19 +251,6 @@ impl SkillBase for NapalmVulcan {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
-    #[inline(always)]
-    fn _base_cast_time(&self) -> u32 {
-       1000
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
         if self.level == 1 {
@@ -309,6 +269,10 @@ impl SkillBase for NapalmVulcan {
             return 5
         }
         0
+    }
+    #[inline(always)]
+    fn _base_cast_time(&self) -> u32 {
+       1000
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -357,9 +321,6 @@ impl SkillBase for Ganbantein {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 40 { Ok(40) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 715, name_english: "Yellow_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1})]; 
@@ -371,19 +332,13 @@ impl SkillBase for Ganbantein {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -447,9 +402,6 @@ impl SkillBase for GravitationField {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1})]; 
@@ -458,19 +410,13 @@ impl SkillBase for GravitationField {
         }
         Ok(Some(required_items))
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        5000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {

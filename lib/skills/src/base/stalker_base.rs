@@ -57,22 +57,13 @@ impl SkillBase for Stealth {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1200
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // ST_REJECTSWORD
@@ -132,15 +123,6 @@ impl SkillBase for CounterInstinct {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -188,22 +170,13 @@ impl SkillBase for Preserve {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 30 { Ok(30) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // ST_FULLSTRIP
@@ -262,15 +235,6 @@ impl SkillBase for DivestAll {
             if status.sp >= 30 { return Ok(30) } else {return Err(())}
         }
         Err(())
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {

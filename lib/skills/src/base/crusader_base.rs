@@ -53,15 +53,6 @@ impl SkillBase for Faith {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
 }
 // CR_AUTOGUARD
 pub struct Guard {
@@ -144,15 +135,6 @@ impl SkillBase for Guard {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -209,18 +191,28 @@ impl SkillBase for Smite {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.200)
+        }
+        if self.level == 2 {
+            return Some(1.400)
+        }
+        if self.level == 3 {
+            return Some(1.600)
+        }
+        if self.level == 4 {
+            return Some(1.800)
+        }
+        if self.level == 5 {
+            return Some(2.000)
+        }
+        None
     }
 }
 // CR_SHIELDBOOMERANG
@@ -274,18 +266,28 @@ impl SkillBase for ShieldBoomerang {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(2.600)
+        }
+        if self.level == 2 {
+            return Some(3.200)
+        }
+        if self.level == 3 {
+            return Some(3.800)
+        }
+        if self.level == 4 {
+            return Some(4.400)
+        }
+        if self.level == 5 {
+            return Some(5.000)
+        }
+        None
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -373,15 +375,6 @@ impl SkillBase for ShieldReflect {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -459,18 +452,43 @@ impl SkillBase for HolyCross {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -2
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.350)
+        }
+        if self.level == 2 {
+            return Some(1.700)
+        }
+        if self.level == 3 {
+            return Some(2.050)
+        }
+        if self.level == 4 {
+            return Some(2.400)
+        }
+        if self.level == 5 {
+            return Some(2.750)
+        }
+        if self.level == 6 {
+            return Some(3.100)
+        }
+        if self.level == 7 {
+            return Some(3.450)
+        }
+        if self.level == 8 {
+            return Some(3.800)
+        }
+        if self.level == 9 {
+            return Some(4.150)
+        }
+        if self.level == 10 {
+            return Some(4.500)
+        }
+        None
     }
 }
 // CR_GRANDCROSS
@@ -545,22 +563,47 @@ impl SkillBase for GrandCross {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.400)
+        }
+        if self.level == 2 {
+            return Some(1.800)
+        }
+        if self.level == 3 {
+            return Some(2.200)
+        }
+        if self.level == 4 {
+            return Some(2.600)
+        }
+        if self.level == 5 {
+            return Some(3.000)
+        }
+        if self.level == 6 {
+            return Some(3.400)
+        }
+        if self.level == 7 {
+            return Some(3.800)
+        }
+        if self.level == 8 {
+            return Some(4.200)
+        }
+        if self.level == 9 {
+            return Some(4.600)
+        }
+        if self.level == 10 {
+            return Some(5.000)
+        }
+        None
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -609,22 +652,13 @@ impl SkillBase for Sacrifice {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 25 { Ok(25) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // CR_PROVIDENCE
@@ -669,22 +703,13 @@ impl SkillBase for ResistantSouls {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 30 { Ok(30) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // CR_DEFENDER
@@ -737,15 +762,6 @@ impl SkillBase for DefendingAura {
         } else {
             Err(())
         }
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -828,12 +844,6 @@ impl SkillBase for SpearQuicken {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
     #[inline(always)]
     fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
@@ -841,9 +851,6 @@ impl SkillBase for SpearQuicken {
         } else {
             Err(())
         }
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -900,14 +907,5 @@ impl SkillBase for Shrink {
         } else {
             Err(())
         }
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
 }

@@ -96,14 +96,9 @@ impl SkillBase for Running {
             Err(())
         }
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -126,10 +121,6 @@ impl SkillBase for Running {
             return 1000
         }
         0
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // TK_READYSTORM
@@ -173,15 +164,6 @@ impl SkillBase for TornadoStance {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 1 { Ok(1) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -251,18 +233,34 @@ impl SkillBase for TornadoKick {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.800)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(2.200)
+        }
+        if self.level == 4 {
+            return Some(2.400)
+        }
+        if self.level == 5 {
+            return Some(2.600)
+        }
+        if self.level == 6 {
+            return Some(2.800)
+        }
+        if self.level == 7 {
+            return Some(3.000)
+        }
+        None
     }
 }
 // TK_READYDOWN
@@ -306,15 +304,6 @@ impl SkillBase for HeelDropStance {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 1 { Ok(1) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -384,18 +373,34 @@ impl SkillBase for HeelDrop {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.800)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(2.200)
+        }
+        if self.level == 4 {
+            return Some(2.400)
+        }
+        if self.level == 5 {
+            return Some(2.600)
+        }
+        if self.level == 6 {
+            return Some(2.800)
+        }
+        if self.level == 7 {
+            return Some(3.000)
+        }
+        None
     }
 }
 // TK_READYTURN
@@ -439,15 +444,6 @@ impl SkillBase for RoundhouseStance {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 1 { Ok(1) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -517,18 +513,34 @@ impl SkillBase for RoundhouseKick {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(2.200)
+        }
+        if self.level == 2 {
+            return Some(2.500)
+        }
+        if self.level == 3 {
+            return Some(2.800)
+        }
+        if self.level == 4 {
+            return Some(3.100)
+        }
+        if self.level == 5 {
+            return Some(3.400)
+        }
+        if self.level == 6 {
+            return Some(3.700)
+        }
+        if self.level == 7 {
+            return Some(4.000)
+        }
+        None
     }
 }
 // TK_READYCOUNTER
@@ -572,15 +584,6 @@ impl SkillBase for CounterKickStance {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 1 { Ok(1) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -650,18 +653,34 @@ impl SkillBase for CounterKick {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(2.200)
+        }
+        if self.level == 2 {
+            return Some(2.500)
+        }
+        if self.level == 3 {
+            return Some(2.800)
+        }
+        if self.level == 4 {
+            return Some(3.100)
+        }
+        if self.level == 5 {
+            return Some(3.400)
+        }
+        if self.level == 6 {
+            return Some(3.700)
+        }
+        if self.level == 7 {
+            return Some(4.000)
+        }
+        None
     }
 }
 // TK_DODGE
@@ -705,15 +724,6 @@ impl SkillBase for Tumbling {
     #[inline(always)]
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 1 { Ok(1) } else {Err(())}
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
@@ -783,18 +793,34 @@ impl SkillBase for FlyingKick {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        -3
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(0.400)
+        }
+        if self.level == 2 {
+            return Some(0.500)
+        }
+        if self.level == 3 {
+            return Some(0.600)
+        }
+        if self.level == 4 {
+            return Some(0.700)
+        }
+        if self.level == 5 {
+            return Some(0.800)
+        }
+        if self.level == 6 {
+            return Some(0.900)
+        }
+        if self.level == 7 {
+            return Some(1.000)
+        }
+        None
     }
 }
 // TK_HPTIME
@@ -835,15 +861,6 @@ impl SkillBase for PeacefulBreak {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
 }
 // TK_SPTIME
 pub struct HappyBreak {
@@ -883,15 +900,6 @@ impl SkillBase for HappyBreak {
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
 }
 // TK_POWER
 pub struct Kihop {
@@ -930,15 +938,6 @@ impl SkillBase for Kihop {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
-    }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
     }
 }
 // TK_SEVENWIND
@@ -1004,15 +1003,6 @@ impl SkillBase for MildWind {
         }
         Err(())
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
-    }
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
@@ -1060,14 +1050,9 @@ impl SkillBase for TaekwonJump {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 50 { Ok(50) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -1087,10 +1072,6 @@ impl SkillBase for TaekwonJump {
             return 1000
         }
         0
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }
 // TK_MISSION
@@ -1135,21 +1116,12 @@ impl SkillBase for TaekwonMission {
     fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
         if status.sp > 10 { Ok(10) } else {Err(())}
     }
-    fn _validate_spirit_sphere(&self,status: &Status) -> SkillRequirementResult<u32> {
-        Ok(0)
-    }
-    fn _validate_target(&self, target_type: SkillTargetType) -> SkillRequirementResult<()> {
-        Ok(())
-    }
-    fn _validate_range(&self, status: &Status) -> SkillRequirementResult<()> {
-         Ok(())
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
-    }
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
     }
 }

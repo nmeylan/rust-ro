@@ -90,6 +90,9 @@ Chain of command:
 - consume item on failure
 - acd on failure
 
+- damage bonus (soul link, skill known e.g: sonic acceleration)
+- damage malus (if woe,)
+
 # to add in rust trait
 - dmg formula
 
