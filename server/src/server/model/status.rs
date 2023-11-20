@@ -50,7 +50,7 @@ impl StatusFromDb {
             weapons: vec![],
             equipments: vec![],
             ammo: None,
-            known_skills
+            known_skills,
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
@@ -87,7 +87,7 @@ impl StatusFromDb {
             weapons: vec![],
             equipments: vec![],
             ammo: None,
-            known_skills: vec![]
+            known_skills: vec![],
         }
     }
 }

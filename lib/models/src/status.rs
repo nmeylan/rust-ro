@@ -17,15 +17,15 @@ pub struct Status {
     pub int: u16,
     pub dex: u16,
     pub luk: u16,
-    pub base_atk: u32,
-    pub matk_min: u32,
-    pub matk_max: u32,
+    pub base_atk: u32,  // used for mob, calculated for player
+    pub matk_min: u32,  // used for mob, calculated for player
+    pub matk_max: u32,  // used for mob, calculated for player
     pub speed: u16,
-    pub hit: u32,
-    pub flee: u32,
-    pub crit: u32,
-    pub def: u32,
-    pub mdef: u32,
+    pub hit: u32,       // used for mob, calculated for player
+    pub flee: u32,      // used for mob, calculated for player
+    pub crit: u32,      // used for mob, calculated for player
+    pub def: u32,       // used for mob, calculated for player
+    pub mdef: u32,      // used for mob, calculated for player
     pub look: Option<Look>,
     pub zeny: u32,
     pub base_level: u32,
@@ -46,6 +46,7 @@ pub struct KnownSkill {
     pub value: enums::skill_enums::SkillEnum,
     pub level: u8,
 }
+
 
 impl Status {
     pub fn right_hand_weapon(&self) -> Option<&WearWeapon> {
