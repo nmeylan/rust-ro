@@ -40,13 +40,13 @@ impl SkillTreeService {
         let skilltree = self.configuration_service.get_job_skilltree(JobName::from_value(character.status.job as usize));
         let mut skills = vec![];
 
-        let maybe_novice_basic = character.known_skills.iter().find(|s| s.value == skills::skill_enums::SkillEnum::NvBasic);
+        let maybe_novice_basic = character.known_skills.iter().find(|s| s.value == enums::skill_enums::SkillEnum::NvBasic);
         let mut platinium_novice_skills = character.known_skills.iter().filter(|s| s.value.to_name().starts_with("NV") && s.value.is_platinium()).cloned().collect::<Vec<KnownSkill>>();
         if maybe_novice_basic.is_none() {
-            platinium_novice_skills.extend(vec![KnownSkill { value: skills::skill_enums::SkillEnum::NvBasic, level: 0 }]);
+            platinium_novice_skills.extend(vec![KnownSkill { value: enums::skill_enums::SkillEnum::NvBasic, level: 0 }]);
             return platinium_novice_skills;
         } else if maybe_novice_basic.unwrap().level < 9 {
-            platinium_novice_skills.extend(vec![KnownSkill { value: skills::skill_enums::SkillEnum::NvBasic, level: maybe_novice_basic.unwrap().level }]);
+            platinium_novice_skills.extend(vec![KnownSkill { value: enums::skill_enums::SkillEnum::NvBasic, level: maybe_novice_basic.unwrap().level }]);
             return platinium_novice_skills;
         }
         Self::available_skills_in_tree(character, skilltree.tree(), &mut skills);
@@ -102,11 +102,11 @@ impl SkillTreeService {
 
     fn available_skills_in_tree(character: &Character, skilltree: &Vec<SkillInTree>, skills: &mut Vec<KnownSkill>) {
         for skill_in_tree in skilltree.iter() {
-            let skill = skills::skill_enums::SkillEnum::from_name(skill_in_tree.name());
+            let skill = enums::skill_enums::SkillEnum::from_name(skill_in_tree.name());
             let level = character.known_skills.iter().find(|s| s.value.id() == skill.id()).map_or(0, |s| s.level);
             if let Some(requirements) = skill_in_tree.requires() {
                 let fulfill_requirements = requirements.iter().all(|requirement| {
-                    let requirement_skill = skills::skill_enums::SkillEnum::from_name(requirement.name());
+                    let requirement_skill = enums::skill_enums::SkillEnum::from_name(requirement.name());
                     character.known_skills.iter().any(|s| { s.value.id() == requirement_skill.id() && s.level >= *requirement.level() })
                 });
                 if fulfill_requirements {

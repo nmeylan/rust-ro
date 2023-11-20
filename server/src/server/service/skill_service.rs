@@ -6,7 +6,7 @@ use enums::skill::{UseSkillFailure, UseSkillFailureClientSideType};
 use models::item::NormalInventoryItem;
 use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseskillAck2};
 use skills::OffensiveSkill;
-use skills::skill_enums::SkillEnum;
+use enums::skill_enums::SkillEnum;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map_item::MapItemSnapshot;
@@ -41,7 +41,7 @@ impl SkillService {
     pub fn start_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, skill_id: u32, skill_level: u8, tick: u128) {
         let item_snapshot = target.unwrap();
         let skill = SkillEnum::from_id(skill_id);
-        let mut skill = skill.to_object(skill_level).unwrap();
+        let mut skill = skills::skill_enums::to_object(skill, skill_level).unwrap();
 
         let validate_sp = skill.validate_sp(&character.status);
         if validate_sp.is_err() {

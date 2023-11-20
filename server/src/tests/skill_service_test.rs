@@ -37,7 +37,7 @@ mod tests {
     use enums::skill::UseSkillFailure;
     use crate::tests::common::assert_helper::*;
     use models::position::Position;
-    use skills::skill_enums::SkillEnum;
+    use enums::skill_enums::SkillEnum;
     use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseskillAck2};
     use skills::base::archer_base::DoubleStrafe;
     use skills::{OffensiveSkill, OffensiveSkillBase, Skill, SkillBase};

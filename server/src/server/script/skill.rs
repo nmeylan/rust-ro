@@ -1,6 +1,6 @@
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
-use skills::skill_enums::SkillEnum;
+use enums::skill_enums::SkillEnum;
 use enums::vanish::VanishType;
 use crate::enums::EnumWithNumberValue;
 use packets::packets::PacketZcNotifyVanish;

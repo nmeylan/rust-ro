@@ -14,7 +14,6 @@ pub trait SkillBase {
     fn _level(&self) -> u8;
     fn _id(&self) -> u32;
 
-    #[inline(always)]
     fn as_any(&self) -> &dyn Any;
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool { false }
