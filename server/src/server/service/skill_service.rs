@@ -7,12 +7,14 @@ use models::item::NormalInventoryItem;
 use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseskillAck2};
 use skills::OffensiveSkill;
 use enums::skill_enums::SkillEnum;
+use models::status::Status;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map_item::MapItemSnapshot;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::packets::packets::Packet;
+use crate::server::service::battle_service::BattleService;
 
 static mut SERVICE_INSTANCE: Option<SkillService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -22,19 +24,20 @@ pub struct SkillService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
     configuration_service: &'static GlobalConfigService,
+    battle_service: BattleService
 }
 
 impl SkillService {
-    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, configuration_service: &'static GlobalConfigService) -> SkillService {
-        SkillService { client_notification_sender, persistence_event_sender, configuration_service }
+    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, configuration_service: &'static GlobalConfigService) -> SkillService {
+        SkillService { client_notification_sender, persistence_event_sender, configuration_service, battle_service }
     }
     pub fn instance() -> &'static SkillService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, configuration_service: &'static GlobalConfigService) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(SkillService::new(client_notification_sender, persistence_event_sender, configuration_service));
+            SERVICE_INSTANCE = Some(SkillService::new(client_notification_sender, persistence_event_sender, battle_service, configuration_service));
         });
     }
 
@@ -102,9 +105,7 @@ impl SkillService {
             self.do_use_skill(character, target, tick);
         }
 
-        if validate_sp.unwrap() > 0 {
-
-        }
+        if validate_sp.unwrap() > 0 {}
     }
 
     pub fn do_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, tick: u128) {
@@ -113,7 +114,7 @@ impl SkillService {
         }
         let mut skill = &character.skill_in_use().skill;
         if !skill.is_offensive_skill() {
-            return
+            return;
         }
         let skill = skill.as_offensive_skill().unwrap();
         let target_snapshot = target.unwrap();
@@ -153,4 +154,8 @@ impl SkillService {
         packet_zc_ack_touseskill.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_ack_touseskill.raw_mut())))).unwrap();
     }
+
+    // pub fn calculate_damage(&self, source_status: &Status, target_status: &Status, skill: &dyn OffensiveSkill) -> u32 {
+    //     self.battle_service.damage_character_attack_monster(source_status, target_status)
+    // }
 }

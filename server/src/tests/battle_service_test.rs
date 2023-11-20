@@ -53,7 +53,7 @@ mod tests {
         ];
         for stat in stats {
             let mut character = create_character();
-            let mob =  GlobalConfigService::instance().get_mob_by_name(stat.mob);
+            let mob =  create_mob(1, stat.mob);
             character.status.str = stat.str;
             character.status.dex = stat.dex;
             character.status.luk = stat.luk;
@@ -65,7 +65,7 @@ mod tests {
             let mut min = u32::MAX;
             let mut max = u32::MIN;
             for _ in 0..1000 {
-                let damage = context.battle_service.damage_character_attack_monster(&character, mob, 1.0);
+                let damage = context.battle_service.damage_character_attack_monster(&character.status, &mob.status, 1.0);
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);
@@ -95,7 +95,7 @@ mod tests {
             let mut min = u32::MAX;
             let mut max = u32::MIN;
             for _ in 0..1000 {
-                let damage = context.battle_service.weapon_atk(&character, Some(GlobalConfigService::instance().get_item_by_name(stat.weapon)));
+                let damage = context.battle_service.weapon_atk(&character.status, Some(GlobalConfigService::instance().get_item_by_name(stat.weapon)));
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);
@@ -105,7 +105,7 @@ mod tests {
             assert_eq_with_variance!(1, average, stat.average_damage, "Expected average damage to be {} but was {} with stats {:?}", stat.average_damage, average, stat);
         }
     }
-    
+
     #[test]
     fn test_attack_when_repeat_attack_is_true_should_not_clear_attack() {
         // Given

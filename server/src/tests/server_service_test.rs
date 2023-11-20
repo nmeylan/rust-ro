@@ -51,7 +51,7 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
                                                                  SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue.clone()),
                                            MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue),
                                            BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance()),
-                                           SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()),
+                                           SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance()),GlobalConfigService::instance()),
         ),
     }
 }

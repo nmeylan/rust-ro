@@ -3,8 +3,10 @@
 
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
+use crate::server::service::battle_service::BattleService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::skill_service::SkillService;
+use crate::server::service::status_service::StatusService;
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
 use crate::tests::common::sync_helper::CountDownLatch;
@@ -25,7 +27,7 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
     let count_down_latch = CountDownLatch::new(latch_size);
     SkillServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
-        skill_service: SkillService::new(client_notification_sender, persistence_event_sender, GlobalConfigService::instance()),
+        skill_service: SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance()), GlobalConfigService::instance()), GlobalConfigService::instance()),
     }
 }
 
@@ -38,7 +40,7 @@ mod tests {
     use crate::tests::common::assert_helper::*;
     use models::position::Position;
     use enums::skill_enums::SkillEnum;
-    use models::status::KnownSkill;
+    use models::status::{KnownSkill, Status};
     use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseskillAck2};
     use skills::base::archer_base::DoubleStrafe;
     use skills::{OffensiveSkill, OffensiveSkillBase, Skill, SkillBase};
@@ -295,5 +297,65 @@ mod tests {
     #[test]
     fn start_use_skill_should_consume_item_on_success() {
         // freezing trap, acid demonstration, stone curse
+    }
+
+    #[test]
+    fn offensive_skill_calculate_damage() {
+        // Given
+        let mut context = before_each();
+        let mut character = create_character();
+        let packetver = GlobalConfigService::instance().packetver();
+        let poring = create_mob(1, "PORING");
+        struct Scenarii<'a> {
+            skill_to_use: KnownSkill,
+            character_base_level: u32,
+            character_job_level: u32,
+            character_str: u16,
+            character_agi: u16,
+            character_vit: u16,
+            character_dex: u16,
+            character_int: u16,
+            character_luk: u16,
+            character_weapon: &'a str,
+            target_status: Status,
+            expected_min_damage: u32,
+            expected_avg_damage: u32,
+            expected_max_damage: u32,
+        }
+        let scenario = vec![
+            Scenarii {
+                skill_to_use: KnownSkill { value: SkillEnum::SmBash, level: 10 },
+                character_base_level: 10,
+                character_job_level: 10,
+                character_str: 10,
+                character_agi: 0,
+                character_vit: 0,
+                character_dex: 0,
+                character_int: 0,
+                character_luk: 0,
+                character_weapon: "Sword",
+                target_status: poring.status,
+                expected_min_damage: 59,
+                expected_avg_damage: 103,
+                expected_max_damage: 147,
+            }
+        ];
+        // When
+        // for scenarii in scenario.iter() {
+        //     let mut average = Vec::with_capacity(1001);
+        //     let mut min = u32::MAX;
+        //     let mut max = u32::MIN;
+        //     for _ in 0..1000 {
+        //         let damage = context.battle_service.damage_character_attack_monster(&character, mob, 1.0);
+        //         average.push(damage);
+        //         min = min.min(damage);
+        //         max = max.max(damage);
+        //     }
+        //     let average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
+        //     // Then
+        //     assert!(stat.average_damage - 1 <= average && average <= stat.average_damage + 1, "Expected average damage to be {} but was {} with stats {:?}", stat.average_damage, average, stat);
+        //     assert!(stat.min_damage - 1 <= min && min <= stat.min_damage + 1, "Expected min damage to be {} but was {} with stats {:?}", stat.min_damage, min, stat);
+        //     assert!(stat.max_damage - 1 <= max && max <= stat.max_damage + 1, "Expected max damage to be {} but was {} with stats {:?}", stat.max_damage, max, stat);
+        // }
     }
 }
