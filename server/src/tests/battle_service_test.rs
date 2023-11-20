@@ -65,7 +65,7 @@ mod tests {
             let mut min = u32::MAX;
             let mut max = u32::MIN;
             for _ in 0..1000 {
-                let damage = context.battle_service.damage_character_attack_monster_melee(&character, mob);
+                let damage = context.battle_service.damage_character_attack_monster(&character, mob, 1.0);
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);
@@ -116,8 +116,8 @@ mod tests {
         character.set_attack(mob_item_id, true, 0);
         let second_attack_tick = get_tick() + 2000;
         // When
-        let attack_1 = context.battle_service.attack(&mut character, mob.to_map_item(), get_tick());
-        let attack_2 = context.battle_service.attack(&mut character, mob.to_map_item(), second_attack_tick);
+        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), get_tick());
+        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), second_attack_tick);
         // Then
         assert!(attack_1.is_some());
         assert!(attack_2.is_some());
@@ -134,8 +134,8 @@ mod tests {
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, false, 0);
         // When
-        let attack_1 = context.battle_service.attack(&mut character, mob.to_map_item(), get_tick());
-        let attack_2 = context.battle_service.attack(&mut character, mob.to_map_item(), get_tick() + 2000);
+        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), get_tick());
+        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), get_tick() + 2000);
         // Then
         assert!(attack_1.is_some());
         assert!(attack_2.is_none());
@@ -151,8 +151,8 @@ mod tests {
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, true, 0);
         // When
-        let attack_1 = context.battle_service.attack(&mut character, mob.to_map_item(), get_tick());
-        let attack_2 = context.battle_service.attack(&mut character, mob.to_map_item(), get_tick());
+        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), get_tick());
+        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), get_tick());
         // Then
         assert!(attack_1.is_some());
         assert!(attack_2.is_none());
