@@ -1,11 +1,11 @@
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
 use configuration::configuration::GameConfig;
-use models::status::{Look, Status};
+use models::status::{KnownSkill, Look, Status};
 
 pub struct StatusFromDb;
 impl StatusFromDb {
-    pub fn from_char_model(char_model: &CharSelectModel, configuration: &GameConfig) -> Status {
+    pub fn from_char_model(char_model: &CharSelectModel, configuration: &GameConfig, known_skills: Vec<KnownSkill>) -> Status {
         Status {
             job: char_model.class as u32,
             hp: char_model.hp as u32,
@@ -50,6 +50,7 @@ impl StatusFromDb {
             weapons: vec![],
             equipments: vec![],
             ammo: None,
+            known_skills
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> Status {
@@ -86,6 +87,7 @@ impl StatusFromDb {
             weapons: vec![],
             equipments: vec![],
             ammo: None,
+            known_skills: vec![]
         }
     }
 }

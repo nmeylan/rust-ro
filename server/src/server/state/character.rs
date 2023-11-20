@@ -18,7 +18,6 @@ use models::status::Status;
 use skills::Skill;
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
-use crate::server::state::skill::KnownSkill;
 
 
 /// Character state
@@ -59,7 +58,6 @@ pub struct Character {
     pub map_view: HashSet<MapItem>,
     /// Some script can store global variable for the character
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
-    pub known_skills: Vec<KnownSkill>,
 
     pub last_moved_at: u128,
 }

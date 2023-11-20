@@ -1,8 +1,8 @@
 use sqlx::{Error, Row};
 use crate::Repository;
 use async_trait::async_trait;
+use models::status::KnownSkill;
 use crate::repository::CharacterRepository;
-use crate::server::state::skill::KnownSkill;
 
 #[async_trait]
 impl CharacterRepository for Repository {
