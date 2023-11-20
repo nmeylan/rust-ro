@@ -38,13 +38,13 @@ mod tests {
     use crate::tests::common::assert_helper::*;
     use models::position::Position;
     use enums::skill_enums::SkillEnum;
+    use models::status::KnownSkill;
     use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseskillAck2};
     use skills::base::archer_base::DoubleStrafe;
     use skills::{OffensiveSkill, OffensiveSkillBase, Skill, SkillBase};
     use crate::{assert_sent_packet_in_current_packetver};
     use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
-    use crate::server::state::skill::KnownSkill;
     use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item};
     use crate::tests::common::mob_helper::create_mob;
     use crate::tests::skill_service_test::before_each;
@@ -59,7 +59,7 @@ mod tests {
         let mob = create_mob(mob_item_id, "PORING");
         let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
         let known_skill = KnownSkill { value: SkillEnum::SmBash, level: 10 };
-        character.known_skills.push(known_skill);
+        character.status.known_skills.push(known_skill);
         character.status.sp = 50;
         // When
         context.skill_service.start_use_skill(&mut character, Some(target), known_skill.value.id(), known_skill.level, 0);
@@ -93,7 +93,7 @@ mod tests {
         let mut character = create_character();
         let packetver = GlobalConfigService::instance().packetver();
         let known_skill = KnownSkill { value: SkillEnum::MoBalkyoung, level: 1 };
-        character.known_skills.push(known_skill);
+        character.status.known_skills.push(known_skill);
         character.status.hp = 50;
         character.status.sp = 50;
         let target = character.to_map_item_snapshot();
@@ -129,7 +129,7 @@ mod tests {
         let mut character = create_character();
         let packetver = GlobalConfigService::instance().packetver();
         let known_skill = KnownSkill { value: SkillEnum::AcDouble, level: 1 };
-        character.known_skills.push(known_skill);
+        character.status.known_skills.push(known_skill);
         character.status.sp = 50;
         let item_inventory = equip_item(&mut character, "Arrow");
         equip_item(&mut character, "Bow");
@@ -171,7 +171,7 @@ mod tests {
         let mut character = create_character();
         let packetver = GlobalConfigService::instance().packetver();
         let known_skill = KnownSkill { value: SkillEnum::McMammonite, level: 10 };
-        character.known_skills.push(known_skill);
+        character.status.known_skills.push(known_skill);
         character.status.sp = 50;
         character.status.zeny = 5000;
         equip_item(&mut character, "Axe");
@@ -210,7 +210,7 @@ mod tests {
         let mut character = create_character();
         let packetver = GlobalConfigService::instance().packetver();
         let known_skill = KnownSkill { value: SkillEnum::MgStonecurse, level: 1 };
-        character.known_skills.push(known_skill);
+        character.status.known_skills.push(known_skill);
         character.status.sp = 500;
         let item_in_inventory_index = add_item_in_inventory(&mut character, "Red_Gemstone");
         let mob_item_id = 82322;
@@ -251,7 +251,7 @@ mod tests {
         let mut character = create_character();
         let packetver = GlobalConfigService::instance().packetver();
         let known_skill = KnownSkill { value: SkillEnum::AcDouble, level: 1 };
-        character.known_skills.push(known_skill);
+        character.status.known_skills.push(known_skill);
         character.status.sp = 50;
         let arrow_inventory_item_index = equip_item(&mut character, "Arrow");
         let bow_inventory_item_index = equip_item(&mut character, "Bow");

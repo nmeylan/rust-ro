@@ -30,9 +30,9 @@ fn before_each_with_latch(latch_size: usize) -> SkillTreeServiceTestContext {
 #[cfg(test)]
 mod tests {
     use enums::class::JobName;
+    use models::status::KnownSkill;
     use crate::enums::EnumWithNumberValue;
     use crate::enums::EnumWithStringValue;
-    use crate::server::state::skill::KnownSkill;
     use crate::tests::common::character_helper::create_character;
     use crate::tests::skill_tree_service_test::before_each;
 
@@ -215,7 +215,7 @@ mod tests {
             let mut character = create_character();
             character.status.job_level = scenarii.job_level;
             character.status.job = scenarii.job as u32;
-            character.known_skills = scenarii.skills;
+            character.status.known_skills = scenarii.skills;
             // When
             let skills = context.skill_tree_service.skill_tree(&character);
             // Then

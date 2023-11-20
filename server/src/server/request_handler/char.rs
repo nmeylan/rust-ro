@@ -5,6 +5,7 @@ use std::sync::{Arc, Mutex};
 use byteorder::{LittleEndian, WriteBytesExt};
 use sqlx::Postgres;
 use models::position::Position;
+use models::status::KnownSkill;
 
 
 use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcOverweightPercent, PacketZcReqDisconnectAck2, PacketZcRestartAck, ZserverAddr};
@@ -24,7 +25,6 @@ use crate::server::service::server_service::ServerService;
 
 use crate::server::state::character::Character;
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::state::skill::KnownSkill;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick_client;
@@ -253,7 +253,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
     let character = Character {
         name: char_model.name.clone(),
         char_id,
-        status: StatusFromDb::from_char_model(&char_model, &server.configuration.game),
+        status: StatusFromDb::from_char_model(&char_model, &server.configuration.game, skills),
         loaded_from_client_side: false,
         x: last_x,
         y: last_y,
@@ -263,7 +263,6 @@ pub fn handle_select_char(server: &Server, context: Request) {
         skill_in_use: None,
         inventory: vec![], // todo load from db
         map_view: HashSet::new(),
-        known_skills: skills,
         script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
         account_id: session_id,
         map_instance_key: MapInstanceKey::new(last_map, 0),

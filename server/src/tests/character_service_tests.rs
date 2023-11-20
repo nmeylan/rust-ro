@@ -68,11 +68,11 @@ mod tests {
     use crate::server::model::map_instance::MapInstanceKey;
     use crate::server::model::movement::Movement;
     use models::position::Position;
+    use models::status::KnownSkill;
     use crate::server::model::tasks_queue::TasksQueue;
 
 
     use crate::server::service::global_config_service::GlobalConfigService;
-    use crate::server::state::skill::KnownSkill;
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
 
     use crate::util::tick::get_tick;
@@ -509,7 +509,7 @@ mod tests {
         for scenarii in scenario {
             // Given
             let mut character = create_character();
-            character.known_skills = scenarii.skills;
+            character.status.known_skills = scenarii.skills;
             // When
             let actual = context.character_service.get_allocated_skills_point(&character);
             // Then
@@ -544,7 +544,7 @@ mod tests {
             character.status.job = scenarii.job as u32;
             character.status.job_level = scenarii.source_level;
             character.status.skill_point = scenarii.current_skill_point;
-            character.known_skills = scenarii.skills;
+            character.status.known_skills = scenarii.skills;
             // When
             context.character_service.update_job_level(&mut character, Some(scenarii.target_level), None);
             // Then
@@ -976,7 +976,7 @@ mod tests {
             let mut character = create_character();
             character.status.job = scenarii.job as u32;
             character.status.job_level = scenarii.job_level;
-            character.known_skills = scenarii.skills;
+            character.status.known_skills = scenarii.skills;
             character.status.skill_point = scenarii.skill_points as u32;
             // When
             let result = context.character_service.should_reset_skills(&mut character);
@@ -1023,7 +1023,7 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        character.known_skills = vec![KnownSkill { value: enums::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
+        character.status.known_skills = vec![KnownSkill { value: enums::skill_enums::SkillEnum::from_name("NV_BASIC"), level: 9 },
                                       KnownSkill { value: enums::skill_enums::SkillEnum::from_name("SM_SWORD"), level: 10 },
                                       KnownSkill { value: enums::skill_enums::SkillEnum::from_name("SM_FATALBLOW"), level: 1 }, // Platinium
                                       KnownSkill { value: enums::skill_enums::SkillEnum::from_name("SM_TWOHAND"), level: 10 },
@@ -1038,7 +1038,7 @@ mod tests {
                                       KnownSkill { value: enums::skill_enums::SkillEnum::from_name("KN_AUTOCOUNTER"), level: 5 },
                                       KnownSkill { value: enums::skill_enums::SkillEnum::from_name("KN_RIDING"), level: 1 },
                                       KnownSkill { value: enums::skill_enums::SkillEnum::from_name("KN_CAVALIERMASTERY"), level: 5 }, ];
-        let skills_to_reset: Vec<i32> = character.known_skills.iter().filter(|s| s.value != enums::skill_enums::SkillEnum::from_name("SM_FATALBLOW")).map(|s| s.value.id() as i32).collect();
+        let skills_to_reset: Vec<i32> = character.status.known_skills.iter().filter(|s| s.value != enums::skill_enums::SkillEnum::from_name("SM_FATALBLOW")).map(|s| s.value.id() as i32).collect();
         // When
         context.character_service.reset_skills(&mut character, true);
         // Then
@@ -1192,7 +1192,7 @@ mod tests {
         // When
         context.character_service.allocate_skill_point(&mut character, enums::skill_enums::SkillEnum::NvBasic);
         // Then
-        assert_eq!(character.known_skills.iter().find(|s| matches!(s.value, enums::skill_enums::SkillEnum::NvBasic)).unwrap().level, 1);
+        assert_eq!(character.status.known_skills.iter().find(|s| matches!(s.value, enums::skill_enums::SkillEnum::NvBasic)).unwrap().level, 1);
         assert_eq!(character.status.skill_point, 0);
         context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::IncreaseSkillLevel(IncreaseSkillLevel { char_id: character.char_id as i32, skill: enums::skill_enums::SkillEnum::NvBasic, increment: 1, }));

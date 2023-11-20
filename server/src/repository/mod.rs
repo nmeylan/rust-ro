@@ -13,10 +13,10 @@ use sqlx::postgres::{PgPoolOptions, PgQueryResult};
 use tokio::runtime::Runtime;
 use crate::repository::model::item_model::{GetItemModel, InventoryItemModel, ItemBuySellModel, ItemModel};
 use configuration::configuration::DatabaseConfig;
+use models::status::KnownSkill;
 use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 use crate::server::script::Value;
-use crate::server::state::skill::KnownSkill;
 
 pub struct Repository {
     pub pool: PgPool,

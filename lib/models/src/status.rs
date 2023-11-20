@@ -37,7 +37,14 @@ pub struct Status {
     pub state: u64,
     pub weapons: Vec<WearWeapon>,
     pub equipments: Vec<WearGear>,
-    pub ammo: Option<WearAmmo>
+    pub ammo: Option<WearAmmo>,
+    pub known_skills: Vec<KnownSkill>,
+}
+
+#[derive(Clone, Copy, PartialEq, Debug)]
+pub struct KnownSkill {
+    pub value: enums::skill_enums::SkillEnum,
+    pub level: u8,
 }
 
 impl Status {

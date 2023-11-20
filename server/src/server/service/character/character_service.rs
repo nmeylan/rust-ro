@@ -29,7 +29,7 @@ use crate::server::{PLAYER_FOV, Server};
 use crate::server::model::events::map_event::{MapEvent, MobDropItems};
 use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
 use models::position::Position;
-use models::status::Status;
+use models::status::{KnownSkill, Status};
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::character::skill_tree_service::SkillTreeService;
 
@@ -40,7 +40,6 @@ use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::server::ServerState;
-use crate::server::state::skill::KnownSkill;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 
@@ -268,7 +267,7 @@ impl CharacterService {
 
     pub fn get_allocated_skills_point(&self, character: &Character) -> u8 {
         let mut count = 0;
-        character.known_skills.iter().for_each(|skill| {
+        character.status.known_skills.iter().for_each(|skill| {
             if !skill.value.is_platinium() {
                 count += skill.level;
             }
@@ -433,12 +432,12 @@ impl CharacterService {
         }
         character.status.skill_point -= 1;
         let increased_skill;
-        if let Some(skill) = character.known_skills.iter_mut().find(|s| s.value == skill) {
+        if let Some(skill) = character.status.known_skills.iter_mut().find(|s| s.value == skill) {
             skill.level += 1;
             increased_skill = *skill;
         } else {
             increased_skill = KnownSkill { value: skill, level: 1 };
-            character.known_skills.push(increased_skill)
+            character.status.known_skills.push(increased_skill)
         }
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Skillpoint, character.status.skill_point);
         self.persistence_event_sender.send(PersistenceEvent::IncreaseSkillLevel(IncreaseSkillLevel { char_id: character.char_id as i32, skill: increased_skill.value, increment: 1, })).expect("Fail to send persistence notification");
@@ -549,8 +548,8 @@ impl CharacterService {
 
     pub fn reset_skills(&self, character: &mut Character, should_persist_skill_points: bool) {
         let skill_points = self.get_allocated_skills_point(character);
-        let skills_to_reset: Vec<i32> = character.known_skills.iter().filter(|skill| !skill.value.is_platinium()).map(|skill| skill.value.id() as i32).collect();
-        character.known_skills.retain(|skill| skill.value.is_platinium());
+        let skills_to_reset: Vec<i32> = character.status.known_skills.iter().filter(|skill| !skill.value.is_platinium()).map(|skill| skill.value.id() as i32).collect();
+        character.status.known_skills.retain(|skill| skill.value.is_platinium());
 
         self.update_skill_point(character, skill_points as u32, should_persist_skill_points);
         self.persistence_event_sender.send(PersistenceEvent::ResetSkills(ResetSkills { char_id: character.char_id as i32, skills: skills_to_reset })).expect("Fail to send persistence notification");
