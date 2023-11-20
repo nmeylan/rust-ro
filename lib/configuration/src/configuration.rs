@@ -265,23 +265,28 @@ pub struct SkillConfig {
     skip_requires: Option<SkillSkipRequirements>,
     unit: Option<SkillUnit>,
     #[serde(rename = "dmgWaves", default)]
-    dmg_waves: Option<i32>,
+    dmg_waves: Option<u32>,
+
     #[serde(rename = "aoesize", default)]
     aoesize: Option<String>,
     #[serde(rename = "dmgAtkPerLevel", deserialize_with = "deserialize_tuples_f32", default)]
     dmg_atk_per_level: Option<Vec<f32>>,
+    #[serde(rename = "dmgAtk", default)]
+    dmg_atk: Option<f32>,
     #[serde(rename = "dmgMatkPerLevel", deserialize_with = "deserialize_tuples_f32", default)]
     dmg_matk_per_level: Option<Vec<f32>>,
     #[serde(rename = "spLossPerSecondPerLevel", deserialize_with = "deserialize_tuples_f32", default)]
     sp_loss_per_second_per_level: Option<Vec<f32>>,
     #[serde(rename = "aoesplash", default)]
-    aoesplash: Option<i32>,
-    #[serde(rename = "knockbackPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
-    knockback_per_level: Option<Vec<i32>>,
+    aoesplash: Option<u32>,
+    #[serde(rename = "knockbackPerLevel", deserialize_with = "deserialize_tuples_u32", default)]
+    knockback_per_level: Option<Vec<u32>>,
+    #[serde(rename = "knockback", default)]
+    knockback: Option<u32>,
+    #[serde(rename = "knockbackRangePerLevel", deserialize_with = "deserialize_tuples_range_u32", default)]
+    knockback_range_per_level: Option<Vec<(u32,u32)>>,
     #[serde(rename = "mspdPercentagePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     mspd_percentage_per_level: Option<Vec<i32>>,
-    #[serde(rename = "dmgAtk", default)]
-    dmg_atk: Option<f32>,
     #[serde(rename = "masteryAtkPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     mastery_atk_per_level: Option<Vec<i32>>,
     #[serde(rename = "aspdPercentagePerLevel", deserialize_with = "deserialize_tuples_f32", default)]
@@ -328,10 +333,6 @@ pub struct SkillConfig {
     def_percentage_per_level: Option<Vec<i32>>,
     #[serde(rename = "agiPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     agi_per_level: Option<Vec<i32>>,
-    #[serde(rename = "blindChancePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
-    blind_chance_per_level: Option<Vec<i32>>,
-    #[serde(rename = "knockback", default)]
-    knockback: Option<i32>,
     #[serde(rename = "bleedChancePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     bleed_chance_per_level: Option<Vec<i32>>,
     #[serde(rename = "dmgPerLevel", deserialize_with = "deserialize_tuples_f32", default)]
@@ -356,8 +357,8 @@ pub struct SkillConfig {
     dex_per_level: Option<Vec<i32>>,
     #[serde(rename = "intPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     int_per_level: Option<Vec<i32>>,
-    #[serde(rename = "zenyPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
-    zeny_per_level: Option<Vec<i32>>,
+    #[serde(rename = "blindChancePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
+    blind_chance_per_level: Option<Vec<i32>>,
     #[serde(rename = "blindChance", default)]
     blind_chance: Option<i32>,
     #[serde(rename = "recoveryPercentagePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
@@ -368,8 +369,6 @@ pub struct SkillConfig {
     healsp_percentage_per_level: Option<Vec<f32>>,
     #[serde(rename = "spPercentagePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     sp_percentage_per_level: Option<Vec<i32>>,
-    #[serde(rename = "knockbackRangePerLevel", deserialize_with = "deserialize_tuples_range_u32", default)]
-    knockback_range_per_level: Option<Vec<(u32,u32)>>,
     #[serde(rename = "spWavePerLevel", deserialize_with = "deserialize_tuples_i32", default)]
     sp_wave_per_level: Option<Vec<i32>>,
     #[serde(rename = "hpRegenBonusFlatPerLevel", deserialize_with = "deserialize_tuples_i32", default)]
