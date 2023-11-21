@@ -559,7 +559,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		}
 		if(201 <= CBI && CBI <= 204){
 			myInnerHtml("nm080",cardOBJ[CBI][2],0);
-			myInnerHtml("B_SETUMEI","���킪 "+ ZokuseiOBJ[CBI-200] +"���� �ɂȂ�B",0);
+			myInnerHtml("B_SETUMEI","���킪 "+ elementOBJ[CBI-200] +"���� �ɂȂ�B",0);
 			return;
 		}
 		myInnerHtml("nm080",cardOBJ[CBI][2] +" Card",0);

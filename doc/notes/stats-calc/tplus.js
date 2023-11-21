@@ -14,14 +14,14 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
         if(wBTw1==0){
             if(n_B_IJYOU[6] && wLAch==0)//LA
                 wPDC *= 2;
-            if(n_B_IJYOU[17] && n_A_Weapon_zokusei == 3)//ƒXƒpƒCƒ_ƒEƒFƒu
+            if(n_B_IJYOU[17] && n_A_Weapon_element == 3)//ƒXƒpƒCƒ_ƒEƒFƒu
                 wPDC *= 2;
             baizok = [110,114,117,119,120];
-            if(n_A_PassSkill6[0] == 0 && n_A_PassSkill6[1] >= 1 && n_A_Weapon_zokusei == 3)//‰Î
+            if(n_A_PassSkill6[0] == 0 && n_A_PassSkill6[1] >= 1 && n_A_Weapon_element == 3)//‰Î
                 wPDC = Math.floor(wPDC * baizok[n_A_PassSkill6[1]-1] /100);
-            if(n_A_PassSkill6[0] == 1 && n_A_PassSkill6[1] >= 1 && n_A_Weapon_zokusei == 1)//…
+            if(n_A_PassSkill6[0] == 1 && n_A_PassSkill6[1] >= 1 && n_A_Weapon_element == 1)//…
                 wPDC = Math.floor(wPDC * baizok[n_A_PassSkill6[1]-1] /100);
-            if(n_A_PassSkill6[0] == 2 && n_A_PassSkill6[1] >= 1 && n_A_Weapon_zokusei == 4)//•—
+            if(n_A_PassSkill6[0] == 2 && n_A_PassSkill6[1] >= 1 && n_A_Weapon_element == 4)//•—
                 wPDC = Math.floor(wPDC * baizok[n_A_PassSkill6[1]-1] /100);
         }
 

@@ -878,7 +878,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		if(17 <= num[CBI2] && num[CBI2] <=19)
 			CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2+1] +"<BR>";
 		if(20 == num[CBI2])
-			CBIstr += ZokuseiOBJ[num[CBI2+1]] +" Element Weapon.<BR>";
+			CBIstr += elementOBJ[num[CBI2+1]] +" Element Weapon.<BR>";
 		if(22 == num[CBI2]){
 			if(num[CBI2+1] != 99)
 				CBIstr += "Bypasses defence on " + SyuzokuOBJ[num[CBI2+1]] + " monsters.<BR>";
@@ -898,7 +898,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		if(30 <= num[CBI2] && num[CBI2] <=39)
 			CBIstr += "Increases damage against " + SyuzokuOBJ[num[CBI2]-30] +" type monsters by "+ num[CBI2+1] +"%.<BR>";
 		if(40 <= num[CBI2] && num[CBI2] <=49)
-			CBIstr += "Increases damage against " + ZokuseiOBJ[num[CBI2]-40] +" element monsters by "+ num[CBI2+1] +"%.<BR>";
+			CBIstr += "Increases damage against " + elementOBJ[num[CBI2]-40] +" element monsters by "+ num[CBI2+1] +"%.<BR>";
 		if(50 <= num[CBI2] && num[CBI2] <=59){
 			if(num[CBI2+1] > 0)
 				CBIstr += "Decreases damage from " + SyuzokuOBJ[num[CBI2]-50] +" type monsters by "+ num[CBI2+1] +"%.<BR>";
@@ -907,9 +907,9 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		}
 		if(60 <= num[CBI2] && num[CBI2] <=69){
 			if(num[CBI2+1] < 0)
-				CBIstr += "Decreases resistance to " + ZokuseiOBJ[num[CBI2]-60] +" element attacks by "+ wIS + num[CBI2+1] +"%.<BR>";
+				CBIstr += "Decreases resistance to " + elementOBJ[num[CBI2]-60] +" element attacks by "+ wIS + num[CBI2+1] +"%.<BR>";
 			else
-				CBIstr += "Increases resistance to " + ZokuseiOBJ[num[CBI2]-60] +" element attacks by "+ wIS + num[CBI2+1] +"%.<BR>";
+				CBIstr += "Increases resistance to " + elementOBJ[num[CBI2]-60] +" element attacks by "+ wIS + num[CBI2+1] +"%.<BR>";
 		}
 		if(70 == num[CBI2])
 			CBIstr += "Critical Damage + "+ num[CBI2+1] +"%<BR>";
@@ -964,7 +964,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		if(195 == num[CBI2])
 			CBIstr += "Two-Handed Staff.<BR>";
 		if(198 == num[CBI2])
-			CBIstr += "Armor becomes "+ ZokuseiOBJ[num[CBI2+1]] +" element.<BR>";
+			CBIstr += "Armor becomes "+ elementOBJ[num[CBI2+1]] +" element.<BR>";
 		if(212 <= num[CBI2] && num[CBI2] <= 215)
 			CBIstr += wNAME1[num[CBI2] -210] + wIS + num[CBI2+1] +"<BR>";
 		if(220 == num[CBI2] || 230 == num[CBI2])
