@@ -45,7 +45,7 @@ mod tests {
     use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseskillAck2};
     use skills::base::archer_base::DoubleStrafe;
     use skills::{OffensiveSkill, OffensiveSkillBase, Skill, SkillBase};
-    use crate::{assert_sent_packet_in_current_packetver};
+    use crate::{assert_eq_with_variance, assert_sent_packet_in_current_packetver};
     use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
     use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item};
@@ -370,7 +370,7 @@ mod tests {
             let average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
             // Then
             // avg at 2%~ approximatively
-            assert!(scenarii.expected_avg_damage - (scenarii.expected_avg_damage * 2 / 100) <= average && average <= scenarii.expected_avg_damage + (scenarii.expected_avg_damage * 2 / 100), "Expected average damage to be {} but was {} with stats {:?}", scenarii.expected_avg_damage, average, scenarii);
+            assert_eq_with_variance!(2, average, scenarii.expected_avg_damage, "Expected average damage to be {} but was {} with stats {:?}", scenarii.expected_avg_damage, average, scenarii);
             assert!(scenarii.expected_min_damage - 1 <= min && min <= scenarii.expected_min_damage + 1, "Expected min damage to be {} but was {} with stats {:?}", scenarii.expected_min_damage, min, scenarii);
             assert!(scenarii.expected_max_damage - 1 <= max && max <= scenarii.expected_max_damage + 1, "Expected max damage to be {} but was {} with stats {:?}", scenarii.expected_max_damage, max, scenarii);
         }

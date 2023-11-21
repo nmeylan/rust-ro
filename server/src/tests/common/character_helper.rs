@@ -43,6 +43,7 @@ pub fn create_character() -> Character {
             base_exp: 0,
             job_exp: 0,
             state: 0,
+            size: Default::default(),
             weapons: vec![],
             equipments: vec![],
             ammo: None,

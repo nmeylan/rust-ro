@@ -2,6 +2,10 @@ use std::mem;
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
 use enums::action::ActionType;
+use enums::EnumWithMaskValueU64;
+use enums::size::Size;
+use enums::skill::SkillState;
+use enums::weapon::WeaponType;
 use models::status::Status;
 use packets::packets::PacketZcNotifyAct;
 use crate::repository::model::item_model::ItemModel;
@@ -51,7 +55,7 @@ impl BattleService {
         let imposito_magnus: u32 = 0;
         let base_atk = self.status_service.fist_atk(&source_status) as f32 + upgrade_bonus + self.status_service.atk_cards(&source_status) as f32;
 
-        let size_modifier: f32 = 1.0; // TODO
+        let size_modifier: f32 = self.size_modifier(source_status, target_status);
         let def: f32 = target_status.def as f32 / 100.0;
         let vitdef: f32 = self.status_service.mob_vit_def(target_status.vit as u32) as f32; // TODO set to 0 if critical hit
         let bane_skill: f32 = 0.0; // TODO Beast Bane, Daemon Bane, Draconology
@@ -64,7 +68,6 @@ impl BattleService {
         let damage_reduction_modifier: f32 = 1.0;
         let number_of_hits: f32 = 1.0;
         let kyrie_eleison_effect: f32 = 0.0;
-        let weapon = source_status.right_hand_weapon().map(|weapon| self.configuration_service.get_item(weapon.item_id));
 
         (
             (
@@ -75,7 +78,7 @@ impl BattleService {
                                 (
                                     (
                                         (
-                                            (base_atk + self.weapon_atk(source_status, weapon, imposito_magnus, size_modifier) as f32) * skill_modifier * (1.0 - def)
+                                            (base_atk + self.weapon_atk(source_status, &target_status) as f32) * skill_modifier * (1.0 - def)
                                         )
                                             - vitdef + bane_skill + self.status_service.weapon_upgrade_damage(&source_status) as f32
                                     )
@@ -93,8 +96,10 @@ impl BattleService {
     }
 
     //  rnd(min(DEX*(0.8+0.2*WeaponLevel),ATK), ATK)
-    pub fn weapon_atk(&self, source_status: &Status, weapon: Option<&ItemModel>, imposito_magnus: u32, size_modifier: f32) -> u32 {
+    pub fn weapon_atk(&self, source_status: &Status, target_status: &Status) -> u32 {
         let mut rng = fastrand::Rng::new();
+        let weapon = source_status.right_hand_weapon().map(|weapon| self.configuration_service.get_item(weapon.item_id));
+        let imposito_magnus: u32 = 0; // TODO get from status
         let mut weapon_level = 0;
         let mut weapon_attack = 0;
         if let Some(weapon) = weapon {
@@ -112,53 +117,12 @@ impl BattleService {
             };
         };
 
-        /**
-        if(n_A_workDEX>=n_A_Weapon_ATK || SkillSearch(155))
-            n_A_DMG[2] = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK + wImp)* wCSize);
-        else
-        	n_A_DMG[2] = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK-1 + wImp)* wCSize);
-
-        if(n_A_WeaponType==10||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21) // ranged weapon
-        	n_A_DMG[2] += Math.floor((ArrowOBJ[n_A_Arrow][0]-1) * wCSize);
-
-
-        if(n_A_WeaponType==10||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21) // ranged weapon
-        {
-        	w1 = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * n_A_Weapon_ATK / 100 * wCSize) + Math.floor(wImp * wCSize);
-        	w2 = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * n_A_workDEX / 100 * wCSize) + Math.floor(wImp * wCSize);
-
-        	w = Math.floor((ArrowOBJ[n_A_Arrow][0]-1) * wCSize);
-        	w1 += w;
-        	w2 += w;
-        	if(w1 > w2)w1 = w2;
-        	if(n_A_DMG[2] < w1)n_A_DMG[2] = w1;
-        }
-
-
-
-
-        if(n_A_WeaponType==10||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21) // ranged weapon
-        {
-        	n_A_DMG[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK * n_A_Weapon_ATK / 100 +wImp) * wCSize);
-        	w = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK * n_A_workDEX / 100 + wImp) * wCSize);
-        	if(n_A_DMG[0] > w)n_A_DMG[0] = w;
-        }
-        else{
-        	if(n_A_workDEX >= n_A_Weapon_ATK)
-        		n_A_DMG[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK + wImp) * wCSize);
-        	else{
-
-        		if(SkillSearch(155))
-        			n_A_workDEX = n_A_Weapon_ATK;
-        		n_A_DMG[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_workDEX + wImp) * wCSize);
-        	}
-        }
-         */
         let work_dex = ((source_status.dex as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32);
         let mut weapon_max_attack: u32 = 0;
         let mut weapon_over_upgrade_max: u32 = 0;
         let mut weapon_over_upgrade_min: u32 = 0;
         let mut weapon_min_attack: u32 = 0;
+        let size_modifier = self.size_modifier(source_status, target_status);
         if work_dex >= weapon_attack { // || maximize power skill
             weapon_max_attack = weapon_over_upgrade_max + ((weapon_attack + imposito_magnus) as f32 * size_modifier).floor() as u32;
             weapon_min_attack = weapon_over_upgrade_min + ((weapon_attack + imposito_magnus) as f32 * size_modifier).floor() as u32;
@@ -173,6 +137,139 @@ impl BattleService {
         //     }
         // }
         rng.u32(weapon_min_attack..=weapon_max_attack)
+    }
+
+    #[inline]
+    pub fn size_modifier(&self, source_status: &Status, target_status: &Status) -> f32 {
+        // Size Modifiers for Weapons
+        // Size 	Fist 	Dagger 	1H Sword 	2H Sword 	Spear 	Spear+Peco 	Axe 	Mace 	Rod 	Bow 	Katar 	Book 	Claw 	Instrument 	Whip 	Gun 	Huuma Shuriken
+        // Small 	100 	100 	75       	75       	75  	75 	        50  	75  	100 	100 	75  	100 	100 	75 	        75 	    100 	100
+        // Medium 	100 	75  	100      	75       	75  	100 	    75  	100 	100 	100 	100 	100 	75 	    100 	    100 	100 	100
+        // Large 	100 	50  	75      	100     	100 	100 	    100 	100 	100 	75  	75 	    50 	    50 	    75 	        50 	    100 	100
+        let weapon_type = self.status_service.right_hand_weapon_type(source_status);
+        match weapon_type {
+            WeaponType::Fist => {
+                match target_status.size {
+                    Size::Small => 1.0,
+                    Size::Medium => 1.0,
+                    Size::Large => 1.0
+                }
+            }
+            WeaponType::Dagger => {
+                match target_status.size {
+                    Size::Small => 1.0,
+                    Size::Medium => 0.75,
+                    Size::Large => 0.5
+                }
+            }
+            WeaponType::Sword1H => {
+                match target_status.size {
+                    Size::Small => 0.75,
+                    Size::Medium => 1.0,
+                    Size::Large =>  0.75,
+                }
+            }
+            WeaponType::Sword2H => {
+                match target_status.size {
+                    Size::Small => 0.75,
+                    Size::Medium => 0.75,
+                    Size::Large => 1.0
+                }
+            }
+            WeaponType::Spear1H | WeaponType::Spear2H => {
+                if source_status.state & SkillState::Riding.as_flag() > 0 {
+                    match target_status.size {
+                        Size::Small => 0.75,
+                        Size::Medium => 1.0,
+                        Size::Large => 1.0
+                    }
+                } else {
+                    match target_status.size {
+                        Size::Small => 0.75,
+                        Size::Medium => 0.75,
+                        Size::Large => 1.0
+                    }
+                }
+            }
+            WeaponType::Axe1H | WeaponType::Axe2H => {
+                match target_status.size {
+                    Size::Small => 0.5,
+                    Size::Medium => 0.75,
+                    Size::Large => 1.0
+                }
+            }
+            WeaponType::Mace | WeaponType::Mace2H => {
+                match target_status.size {
+                    Size::Small => 0.75,
+                    Size::Medium => 1.0,
+                    Size::Large => 1.0
+                }
+            }
+            WeaponType::Staff | WeaponType::Staff2H => {
+                match target_status.size {
+                    Size::Small => 1.0,
+                    Size::Medium => 1.0,
+                    Size::Large => 1.0
+                }
+            }
+            WeaponType::Bow => {
+                match target_status.size {
+                    Size::Small => 1.0,
+                    Size::Medium => 1.0,
+                    Size::Large => 0.75
+                }
+            }
+            WeaponType::Knuckle => {
+                match target_status.size {
+                    Size::Small => 1.0,
+                    Size::Medium => 0.75,
+                    Size::Large => 0.5
+                }
+            }
+            WeaponType::Musical => {
+                match target_status.size {
+                    Size::Small => 0.75,
+                    Size::Medium => 1.0,
+                    Size::Large => 0.75
+                }
+            }
+            WeaponType::Whip => {
+                match target_status.size {
+                    Size::Small => 0.75,
+                    Size::Medium => 1.0,
+                    Size::Large => 0.5
+                }
+            }
+            WeaponType::Book => {
+                match target_status.size {
+                    Size::Small => 1.0,
+                    Size::Medium => 1.0,
+                    Size::Large => 0.5
+                }
+            }
+            WeaponType::Katar => {
+                match target_status.size {
+                    Size::Small => 0.75,
+                    Size::Medium => 1.0,
+                    Size::Large => 0.75
+                }
+            }
+            WeaponType::Revolver | WeaponType::Rifle | WeaponType::Gatling | WeaponType::Shotgun | WeaponType::Grenade => {
+                match target_status.size {
+                    Size::Small => 1.0,
+                    Size::Medium => 1.0,
+                    Size::Large => 1.0
+                }
+            }
+            WeaponType::Huuma | WeaponType::Shuriken => {
+                match target_status.size {
+                    Size::Small => 1.0,
+                    Size::Medium => 1.0,
+                    Size::Large => 1.0
+                }
+            }
+            _ => 1.0
+        }
     }
 
     pub fn basic_attack(&self, character: &mut Character, target: MapItem, tick: u128) -> Option<Damage> {

@@ -64,6 +64,7 @@ pub struct MobModel {
     pub drops: Vec<Drop>,
     #[serde(default)]
     pub mvp_drops: Vec<Drop>,
+    pub size: String,
 }
 
 impl Default for MobModel {
@@ -101,6 +102,7 @@ impl Default for MobModel {
             job_exp: 0,
             drops: Default::default(),
             mvp_drops: Default::default(),
+            size: "Medium".to_string(),
         }
     }
 }
@@ -137,6 +139,7 @@ impl<'r> FromRow<'r, PgRow> for MobModel {
         model.set_atk_delay(row.try_get::<i32, _>("attack_delay").unwrap_or(0));
         model.set_atk_motion(row.try_get::<i32, _>("attack_motion").unwrap_or(0));
         model.set_damage_motion(row.try_get::<i32, _>("damage_motion").unwrap_or(0));
+        model.set_size(row.get("size"));
         let mut drops = vec![];
         let mut mvp_drops = vec![];
         let _card: Option<Drop> = None;
