@@ -1,5 +1,10 @@
 var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
 if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+
+function isRangedWeapon() {
+	return n_A_WeaponType == 10 || n_A_WeaponType == 17 || n_A_WeaponType == 18 || n_A_WeaponType == 19 || n_A_WeaponType == 20 || n_A_WeaponType == 21;
+}
+
 {
 	let window = _____WB$wombat$assign$function_____("window");
 	let self = _____WB$wombat$assign$function_____("self");
@@ -172,7 +177,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 	function BattleCalc999()
 	{
-		wbairitu = 1;
+		skillModifier = 1;
 		wCast = 0;
 
 		wHITsuu = 1;
@@ -258,11 +263,11 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 					n_A_workDEX = Math.floor(n_A_DEX * (1 + (n_A_Weapon2LV - 1) * 0.2));
 
 					if(n_A_workDEX>=n_A_Weapon2_ATK)
-						w_left_Maxatk = n_A_ATK + n_A_Weapon2LV_Maxplus + Math.floor((n_A_Weapon2_ATK + impositioMagnus)* wCSize);
+						w_left_Maxatk = baseATK + n_A_Weapon2LV_Maxplus + Math.floor((n_A_Weapon2_ATK + impositioMagnus)* sizeModifier);
 					else
-						w_left_Maxatk = n_A_ATK + n_A_Weapon2LV_Maxplus + Math.floor((n_A_Weapon2_ATK-1 + impositioMagnus)* wCSize);
+						w_left_Maxatk = baseATK + n_A_Weapon2LV_Maxplus + Math.floor((n_A_Weapon2_ATK-1 + impositioMagnus)* sizeModifier);
 
-					w_left_Maxatk = BattleCalc4(w_left_Maxatk * wbairitu,2,1);
+					w_left_Maxatk = BattleCalc4(w_left_Maxatk * skillModifier,2,1);
 
 					if(w_left_Maxatk<1)w_left_Maxatk=1;
 					w_left_Maxatk = Math.floor(w_left_Maxatk * zokusei[n_B[3]][n_A_Weapon2_zokusei]);
@@ -286,8 +291,8 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 					if(n_A_workDEX > n_A_Weapon2_ATK)
 						n_A_workDEX = n_A_Weapon2_ATK;
-					w_left_Minatk = n_A_ATK + n_A_Weapon2LV_Minplus + Math.floor((n_A_workDEX + impositioMagnus) * wCSize);
-					w_left_Minatk = BattleCalc4(w_left_Minatk * wbairitu,0,1);
+					w_left_Minatk = baseATK + n_A_Weapon2LV_Minplus + Math.floor((n_A_workDEX + impositioMagnus) * sizeModifier);
+					w_left_Minatk = BattleCalc4(w_left_Minatk * skillModifier,0,1);
 
 					if(w_left_Minatk<1)w_left_Minatk=1;
 					w_left_Minatk = Math.floor(w_left_Minatk * zokusei[n_B[3]][n_A_Weapon2_zokusei]);
@@ -303,7 +308,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 					w_left_Aveatk = 1;
 				}
 
-				ATKbai02(wbairitu,0);
+				ATKbai02(skillModifier,0);
 
 
 				w_DMG[2] = BattleCalc(n_A_DMG[2],2);
@@ -332,7 +337,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			}
 
 			else if(n_A_WeaponType == 11){
-				ATKbai02(wbairitu,0);
+				ATKbai02(skillModifier,0);
 				w_DMG[2] = BattleCalc(n_A_DMG[2],2);
 				wk = Math.floor(w_DMG[2] * (0.01 + SkillSearch(13) * 0.02));
 				wk2 = Math.floor((w_DMG[2] + n_A_EDP_DMG[2]) * (0.01 + SkillSearch(13) * 0.02));
@@ -372,16 +377,16 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 					wBC3_3danAtkBairitu = SkillSearch(187) * 0.2;
 
 					myInnerHtml("bSUBname","Trifecta Damage",0);
-					san1 = Math.floor(BattleCalc(n_A_DMG[0] * (wbairitu + wBC3_3danAtkBairitu),0) /3) *3;
-					san2 = Math.floor(BattleCalc(n_A_DMG[1] * (wbairitu + wBC3_3danAtkBairitu),1) /3) *3;
-					san3 = Math.floor(BattleCalc(n_A_DMG[2] * (wbairitu + wBC3_3danAtkBairitu),2) /3) *3;
+					san1 = Math.floor(BattleCalc(n_A_DMG[0] * (skillModifier + wBC3_3danAtkBairitu),0) /3) *3;
+					san2 = Math.floor(BattleCalc(n_A_DMG[1] * (skillModifier + wBC3_3danAtkBairitu),1) /3) *3;
+					san3 = Math.floor(BattleCalc(n_A_DMG[2] * (skillModifier + wBC3_3danAtkBairitu),2) /3) *3;
 					myInnerHtml("bSUB",san1+" ~ "+san3,0);
 					myInnerHtml("bSUB2name","Trifecta Rate",0);
 					myInnerHtml("bSUB2",30 - SkillSearch(187)+"%",0);
 					TyouEnkakuSousa3dan = 0;
 				}
 
-				ATKbai02(wbairitu,0);
+				ATKbai02(skillModifier,0);
 
 				w_DMG[2] = BattleCalc(n_A_DMG[2],2);
 				if(SkillSearch(187))
@@ -422,7 +427,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			myInnerHtml("CRIATKname","Defence Bypassing Damage",0);
 			myInnerHtml("CRInumname","Chance to Bypass Defence",0);
 
-			wbairitu += (1 + 0.5 * n_A_ActiveSkillLV);
+			skillModifier += (1 + 0.5 * n_A_ActiveSkillLV);
 			wCast = 2 * n_A_CAST;
 			wDelay = 1.5;
 			swDelay = 1;
@@ -432,7 +437,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			n_A_CriATK[0] = n_A_DMG[0];
 			n_A_CriATK[2] = n_A_DMG[2];
 
-			ATKbai02(wbairitu,1);
+			ATKbai02(skillModifier,1);
 
 			wCriTyuu=1;
 			n_A_CriATK[1] = BattleCalc(n_A_CriATK[1],10);
@@ -452,7 +457,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			n_A_CriATK[0] += HitEDPplus(n_A_EDP_DMG[0]);
 			n_A_CriATK[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
-			ATKbai02(wbairitu,0);
+			ATKbai02(skillModifier,0);
 
 			w_DMG[2] = BattleCalc(n_A_DMG[2],2);
 			myInnerHtml("ATK_02",(w_DMG[2] + n_A_EDP_DMG[2]),0);
@@ -483,7 +488,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		if(n_A_ActiveSkill==w_ActS[iw]){
 			wActiveHitNum = 1;
 			if(n_A_ActiveSkill==6)
-				wbairitu += n_A_ActiveSkillLV *0.3;
+				skillModifier += n_A_ActiveSkillLV *0.3;
 			else if(n_A_ActiveSkill==348 || n_A_ActiveSkill==349 || n_A_ActiveSkill==350)
 			{
 				//Heat
@@ -492,84 +497,84 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 			}
 			else if(n_A_ActiveSkill==7){
-				wbairitu += n_A_ActiveSkillLV *0.2;
+				skillModifier += n_A_ActiveSkillLV *0.2;
 				n_A_Weapon_zokusei = 3;
 				wDelay = 2;
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==19){
 				not_use_card = 1;
-				wbairitu += 0.3;
+				skillModifier += 0.3;
 				n_A_Weapon_zokusei = 2;
 			}else if(n_A_ActiveSkill==41){
 				n_Enekyori=1;
-				wbairitu += n_A_ActiveSkillLV *0.05 - 0.25;
+				skillModifier += n_A_ActiveSkillLV *0.05 - 0.25;
 				wDelay = 1;
 				swDelay = 1;
 			}
 			else if(n_A_ActiveSkill==44){
 				n_Enekyori=1;
 				wCast = 1.5;
-				wbairitu += 0.5;
+				skillModifier += 0.5;
 			}else if(n_A_ActiveSkill==65)
-				wbairitu += n_A_ActiveSkillLV *0.5;
+				skillModifier += n_A_ActiveSkillLV *0.5;
 			else if(n_A_ActiveSkill==71){
-				wbairitu += n_A_ActiveSkillLV *0.2;
+				skillModifier += n_A_ActiveSkillLV *0.2;
 				n_Enekyori=1;
 			}else if(n_A_ActiveSkill==84){
 				if(n_A_ActiveSkillLV >= 3)
 					n_Enekyori=1;
-				wbairitu += 0.2 * n_A_ActiveSkillLV;
+				skillModifier += 0.2 * n_A_ActiveSkillLV;
 
 
 
 
 			}else if(n_A_ActiveSkill==158){
-				wbairitu += n_A_ActiveSkillLV *0.2;
+				skillModifier += n_A_ActiveSkillLV *0.2;
 
 			}
 			else if(n_A_ActiveSkill==161){
-				wbairitu += n_A_ActiveSkillLV *0.35;
+				skillModifier += n_A_ActiveSkillLV *0.35;
 				n_A_Weapon_zokusei = 6;
 			}
 			else if(n_A_ActiveSkill==171)
-				wbairitu += n_A_ActiveSkillLV *0.4;
+				skillModifier += n_A_ActiveSkillLV *0.4;
 			else if(n_A_ActiveSkill==72){
-				wbairitu += n_A_ActiveSkillLV *0.5;
+				skillModifier += n_A_ActiveSkillLV *0.5;
 				wDelay = 1;
 				swDelay = 1;
 				n_Enekyori=1;
 			}else if(n_A_ActiveSkill==73){
 				w = (1+n_A_ActiveSkillLV*0.2);
-				if(n_A_ActiveSkillLV == 10)wbairitu += 4.625;
-				else if(n_A_ActiveSkillLV >= 7)wbairitu += w+w/2+w/4-1;
-				else if(n_A_ActiveSkillLV >= 4)wbairitu += w+w/2-1;
-				else wbairitu += w-1;
+				if(n_A_ActiveSkillLV == 10)skillModifier += 4.625;
+				else if(n_A_ActiveSkillLV >= 7)skillModifier += w+w/2+w/4-1;
+				else if(n_A_ActiveSkillLV >= 4)skillModifier += w+w/2-1;
+				else skillModifier += w-1;
 				wCast = 0.7;
 			}else if(n_A_ActiveSkill==83 || n_A_ActiveSkill==388){
 				wActiveHitNum = 8;
-				wbairitu += n_A_ActiveSkillLV *0.5 + 2;
+				skillModifier += n_A_ActiveSkillLV *0.5 + 2;
 				if(n_A_ActiveSkill==388 && Taijin==0)
-					wbairitu *= 2;
+					skillModifier *= 2;
 				if(n_A_ActiveSkill==388 && Taijin==1)
-					wbairitu *= 1.25;
+					skillModifier *= 1.25;
 				wDelay = 2;
 				swDelay = 2;
 			}else if(n_A_ActiveSkill==169){
-				wbairitu += n_A_ActiveSkillLV *0.4 + 2;
+				skillModifier += n_A_ActiveSkillLV *0.4 + 2;
 				wDelay = 0.5;
 				swDelay = 1;
 				w_HIT = 100;
 				myInnerHtml("BattleHIT",100,0);
 			}else if(n_A_ActiveSkill==188){
 				wActiveHitNum = 4;
-				wbairitu += 0.5+n_A_ActiveSkillLV *0.5;
+				skillModifier += 0.5+n_A_ActiveSkillLV *0.5;
 				n_SpSkill=1;
 			}else if(n_A_ActiveSkill==189){
-				wbairitu += 1.4+n_A_ActiveSkillLV *0.6;
+				skillModifier += 1.4+n_A_ActiveSkillLV *0.6;
 				n_SpSkill=1;
 			}else if(n_A_ActiveSkill==199||n_A_ActiveSkill==207){
 				wCast = 1.5;
-				wbairitu += (n_A_ActiveSkillLV * 0.4 - 0.4);
+				skillModifier += (n_A_ActiveSkillLV * 0.4 - 0.4);
 				n_A_Weapon_zokusei = ArrowOBJ[n_A_Arrow][1];
 				if(eval(document.calcForm.A_Weapon_zokusei.value) != 0)
 					n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
@@ -579,17 +584,17 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				n_A_Weapon_zokusei = 3;
 				n_SpSkill=1;
 				wCast = 1;
-				wbairitu += n_A_ActiveSkillLV *0.2;
+				skillModifier += n_A_ActiveSkillLV *0.2;
 				w_HIT = 100;
 				myInnerHtml("BattleHIT",100,0);
 			}else if(n_A_ActiveSkill==260){
 				n_Enekyori=1;
-				wbairitu += n_A_ActiveSkillLV *0.4;
+				skillModifier += n_A_ActiveSkillLV *0.4;
 				wDelay = 0.5;
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==261){
 				n_Enekyori=1;
-				wbairitu += (n_A_ActiveSkillLV *0.1 -0.5);
+				skillModifier += (n_A_ActiveSkillLV *0.1 -0.5);
 				if(n_A_ActiveSkillLV > 5)
 					wDelay = 1;
 				else
@@ -597,28 +602,28 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==264){
 				not_use_card = 1;
-				wbairitu += (n_A_ActiveSkillLV *0.4 -0.6);
+				skillModifier += (n_A_ActiveSkillLV *0.4 -0.6);
 				wCast = 0.5;
 				wDelay = 0.5;
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==288){
-				wbairitu += (1 + n_A_ActiveSkillLV);
+				skillModifier += (1 + n_A_ActiveSkillLV);
 				wDelay = 0.3;
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==289){
 				n_SpSkill=1;
-				wbairitu += n_A_ActiveSkillLV -0.6;
+				skillModifier += n_A_ActiveSkillLV -0.6;
 
 
 			}else if(n_A_ActiveSkill==290){
 				n_SpSkill=1;
-				wbairitu += (3 + n_A_ActiveSkillLV);
+				skillModifier += (3 + n_A_ActiveSkillLV);
 				if(n_A_ActiveSkillLV>6) wDelay=1;
 				else wDelay=0.8;
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==292){
 				wActiveHitNum = 9;
-				wbairitu += 1 + n_A_ActiveSkillLV;
+				skillModifier += 1 + n_A_ActiveSkillLV;
 				n_A_Weapon_zokusei = ArrowOBJ[n_A_Arrow][1];
 				if(eval(document.calcForm.A_Weapon_zokusei.value) != 0)
 					n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
@@ -633,33 +638,33 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				not_use_card = 1;
 				n_A_Weapon_zokusei = 4;
 			}else if(n_A_ActiveSkill==303){
-				wbairitu += (n_A_ActiveSkillLV -1) * 1;
+				skillModifier += (n_A_ActiveSkillLV -1) * 1;
 			}else if(n_A_ActiveSkill==326){
 				not_use_card = 1;
-				wbairitu += Math.floor((eval(document.calcForm.SkillSubNum.value) / (16 - n_A_ActiveSkillLV) / 100 -1) * 100) /100;
+				skillModifier += Math.floor((eval(document.calcForm.SkillSubNum.value) / (16 - n_A_ActiveSkillLV) / 100 -1) * 100) /100;
 			}else if(n_A_ActiveSkill==382){
 				not_use_card = 1;
-				wbairitu += 2;
+				skillModifier += 2;
 
 
 			}else if(n_A_ActiveSkill==331 || n_A_ActiveSkill==333){
 				n_SpSkill=1;
-				wbairitu += (0.6 + n_A_ActiveSkillLV * 0.2);
+				skillModifier += (0.6 + n_A_ActiveSkillLV * 0.2);
 			}else if(n_A_ActiveSkill==335 || n_A_ActiveSkill==337){
 				n_SpSkill=1;
-				wbairitu += (0.9 + n_A_ActiveSkillLV * 0.3);
+				skillModifier += (0.9 + n_A_ActiveSkillLV * 0.3);
 				if(n_A_ActiveSkill==337)
 					wActiveHitNum = 3;
 			}else if(n_A_ActiveSkill==339){
 				n_SpSkill=1;
-				wbairitu += (-0.7 + n_A_ActiveSkillLV * 0.1);
+				skillModifier += (-0.7 + n_A_ActiveSkillLV * 0.1);
 			}else if(n_A_ActiveSkill==419){
 				not_use_card = 1;
 				wCast = 0.5;
 				n_Enekyori=1;
 				wActiveHitNum = 5;
 				if(n_B[2] == 2 || n_B[2] == 7)
-					wbairitu += 4;
+					skillModifier += 4;
 			}else if(n_A_ActiveSkill==423){
 				n_Enekyori=1;
 				n_A_Weapon_zokusei = 8;
@@ -667,19 +672,19 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			}else if(n_A_ActiveSkill==428){
 				n_Enekyori=1;
 				wActiveHitNum = 5;
-				wbairitu += n_A_ActiveSkillLV *0.5 + 4;
+				skillModifier += n_A_ActiveSkillLV *0.5 + 4;
 				wDelay = 1.7;
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==429){
 				n_Enekyori=0;
-				wbairitu += n_A_ActiveSkillLV *0.5 - 0.5;
+				skillModifier += n_A_ActiveSkillLV *0.5 - 0.5;
 				wDelay = 1;
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==430){
 				wCast = 1 + 0.2 * n_A_ActiveSkillLV;
 				cast_kotei = 1;
 				n_Enekyori=1;
-				wbairitu += n_A_ActiveSkillLV *1 +1;
+				skillModifier += n_A_ActiveSkillLV *1 +1;
 				wDelay = 1;
 				swDelay = 1;
 				w_HIT = w_HIT * 5 +5;
@@ -691,7 +696,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			}else if(n_A_ActiveSkill==432){
 				wCast = 1.5;
 				n_Enekyori=1;
-				wbairitu += n_A_ActiveSkillLV *0.2;
+				skillModifier += n_A_ActiveSkillLV *0.2;
 				wDelay = 0;
 				swDelay = 1;
 				w_HIT = 100;
@@ -699,18 +704,18 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				cast_kotei = 1;
 				wCast = 1;
 				n_Enekyori=0;
-				wbairitu += n_A_ActiveSkillLV *0.5;
+				skillModifier += n_A_ActiveSkillLV *0.5;
 				wDelay = 1;
 				swDelay = 2
 				w_HIT = 100;
 			}else if(n_A_ActiveSkill==435){
 				n_Enekyori=1;
-				wbairitu += n_A_ActiveSkillLV * 1 + 2;
+				skillModifier += n_A_ActiveSkillLV * 1 + 2;
 				wDelay = 1 + n_A_ActiveSkillLV *0.2;
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==436){
 				n_Enekyori=1;
-				wbairitu += n_A_ActiveSkillLV * 0.2 - 0.2;
+				skillModifier += n_A_ActiveSkillLV * 0.2 - 0.2;
 				wDelay = "(Unknown)";
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==437){
@@ -723,7 +728,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			}
 
 
-			ATKbai02(wbairitu,0);
+			ATKbai02(skillModifier,0);
 
 
 			n_A_EDP_DMG[0] = BattleCalcEDP(n_A_DMG[0],0);
@@ -774,13 +779,13 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		else if(n_A_ActiveSkill==40||n_A_ActiveSkill==70||n_A_ActiveSkill==192||n_A_ActiveSkill==76||n_A_ActiveSkill==418||n_A_ActiveSkill==391){
 			if(n_A_ActiveSkill==40){
 				n_Enekyori=1;
-				wbairitu += n_A_ActiveSkillLV *0.1 -0.1;
+				skillModifier += n_A_ActiveSkillLV *0.1 -0.1;
 				wHITsuu = 2;
 			}else if(n_A_ActiveSkill==70){
-				wbairitu += n_A_ActiveSkillLV *0.1;
+				skillModifier += n_A_ActiveSkillLV *0.1;
 				wHITsuu = n_B[4]+1;
 			}else if(n_A_ActiveSkill==76){
-				wbairitu += n_A_ActiveSkillLV *0.4;
+				skillModifier += n_A_ActiveSkillLV *0.4;
 				wCast = 0.7 * n_A_CAST;
 				wHITsuu = 2;
 				if(n_A_ActiveSkillLV == 1)
@@ -792,7 +797,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 						wHITsuu = 2;
 				}
 			}else if(n_A_ActiveSkill==192){
-				wbairitu += n_A_ActiveSkillLV *0.5;
+				skillModifier += n_A_ActiveSkillLV *0.5;
 				if(n_A_JOB==15||n_A_JOB==29)
 					w = SkillSearch(185);
 				else
@@ -807,17 +812,17 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				n_Enekyori=1;
 			}else if(n_A_ActiveSkill==418){
 				n_Enekyori=1;
-				wbairitu += 0.5;
+				skillModifier += 0.5;
 				wHITsuu = 3;
 			}else if(n_A_ActiveSkill==391){
 				n_SpSkill=1;
 				n_Enekyori=1;
-				wbairitu += n_A_STR *0.08 - 0.5;
+				skillModifier += n_A_STR *0.08 - 0.5;
 				wHITsuu = 2;
 			}
 
 
-			ATKbai02(wbairitu,0);
+			ATKbai02(skillModifier,0);
 
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
@@ -867,7 +872,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		}
 
 		else if(n_A_ActiveSkill==17 || (n_A_ActiveSkill==86 && (n_B[3] < 50 ||  60 <= n_B[3]))){
-			ATKbai02(wbairitu,0);
+			ATKbai02(skillModifier,0);
 			n_A_Weapon_zokusei = 5;
 
 
@@ -902,16 +907,16 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			swDelay = 1;
 			wSBr = n_A_LEFT_DEF_PLUS *4;
 
-			wbairitu2 = (1 + n_A_ActiveSkillLV *0.3);
+			skillModifier2 = (1 + n_A_ActiveSkillLV *0.3);
 			if(n_A_ActiveSkill==384)
-				wbairitu2 *= 2;
+				skillModifier2 *= 2;
 
-			n_A_ATK_w = Math.round(Math.floor(n_A_STR/10) * Math.floor(n_A_STR/10));
-			n_A_ATK   = n_A_STR + n_A_ATK_w + Math.floor(n_A_DEX / 5) + Math.floor(n_A_LUK / 5);
+			baseATK_w = Math.round(Math.floor(n_A_STR/10) * Math.floor(n_A_STR/10));
+			baseATK   = n_A_STR + baseATK_w + Math.floor(n_A_DEX / 5) + Math.floor(n_A_LUK / 5);
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = n_A_ATK * wbairitu + ItemOBJ[n_A_Equip[5]][6] + wSBr;
-				w_DMG[b] = Math.floor(Math.floor(w_DMG[b] * (100 - n_B[14]) /100 - n_B_DEF2[b]) * wbairitu2);
+				w_DMG[b] = baseATK * skillModifier + ItemOBJ[n_A_Equip[5]][6] + wSBr;
+				w_DMG[b] = Math.floor(Math.floor(w_DMG[b] * (100 - n_B[14]) /100 - n_B_DEF2[b]) * skillModifier2);
 				w_DMG[b] = BaiCI(w_DMG[b]);
 				if(w_DMG[b] < 1)w_DMG[b] = 1;
 				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
@@ -933,11 +938,11 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			wSBr = n_A_LEFT_DEF_PLUS;
 			wSC  = ItemOBJ[n_A_Equip[5]][6];
 
-			wbairitu2 = (1 + n_A_ActiveSkillLV *0.3);
+			skillModifier2 = (1 + n_A_ActiveSkillLV *0.3);
 
-			n_A_ATK_w = Math.round(Math.floor(n_A_STR/10) * Math.floor(n_A_STR/10));
-			n_A_ATK   = n_A_STR + n_A_ATK_w + Math.floor(n_A_DEX / 5) + Math.floor(n_A_LUK / 5);
-			n_A_ATK   = n_A_ATK * wbairitu + wSC + wSBr * 4;
+			baseATK_w = Math.round(Math.floor(n_A_STR/10) * Math.floor(n_A_STR/10));
+			baseATK   = n_A_STR + baseATK_w + Math.floor(n_A_DEX / 5) + Math.floor(n_A_LUK / 5);
+			baseATK   = baseATK * skillModifier + wSC + wSBr * 4;
 
 			wSC -= 100;
 			if(wSC < 0)
@@ -948,7 +953,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			wSC2[0] = 100
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = (n_A_ATK * (100 - n_B[14]) /100 - n_B_DEF2[b]) * wbairitu2;
+				w_DMG[b] = (baseATK * (100 - n_B[14]) /100 - n_B_DEF2[b]) * skillModifier2;
 				w_DMG[b] += wSC2[b];
 				w_DMG[b] = BaiCI(w_DMG[b]);
 				if(w_DMG[b] < 1)w_DMG[b] = 1;
@@ -1002,8 +1007,8 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 			if(n_B[19] == 0){
 
-				wbairitu += (400 + 50 * n_A_ActiveSkillLV + 20 * eval(document.calcForm.SkillSubNum.value)) /100;
-				ATKbai02(wbairitu,0);
+				skillModifier += (400 + 50 * n_A_ActiveSkillLV + 20 * eval(document.calcForm.SkillSubNum.value)) /100;
+				ATKbai02(skillModifier,0);
 
 
 				for(b=0;b<=2;b++){
@@ -1073,7 +1078,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BK_n_A_DMG[b] * (100 - n_A_DEF) /100 - work_A_VITDEF[b] + n_A_WeaponLV_seirenATK;
-				w_DMG[b] = Math.floor(w_DMG[b] * (wbairitu + n_A_ActiveSkillLV * 0.4));
+				w_DMG[b] = Math.floor(w_DMG[b] * (skillModifier + n_A_ActiveSkillLV * 0.4));
 
 				w = n_A_MATK[b] *(100 - n_A_MDEF)/100 - n_A_INTMDEF;
 				w = Math.floor(w * (n_A_ActiveSkillLV * 0.4 +1));
@@ -1105,7 +1110,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BK_n_A_DMG[b] * (100 - n_B[14]) /100 - n_B_DEF2[b] + n_A_WeaponLV_seirenATK;
-				w_DMG[b] *= wbairitu + n_A_ActiveSkillLV * 0.4;
+				w_DMG[b] *= skillModifier + n_A_ActiveSkillLV * 0.4;
 				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][6]);
 				w = n_A_MATK[b] *(100 - n_B[15])/100 -n_B_MDEF2;
 				w *= (n_A_ActiveSkillLV * 0.4 +1);
@@ -1153,8 +1158,8 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			for(b=0;b<=2;b++)
 				CR_n_A_DMG[b] = Math.floor(n_A_DMG[b] * wCR / 100);
 
-			wbairitu += 0.5;
-			ATKbai02(wbairitu,0);
+			skillModifier += 0.5;
+			ATKbai02(skillModifier,0);
 
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
@@ -1210,8 +1215,8 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		else if(n_A_ActiveSkill==193)
 		{
 			n_A_Weapon_zokusei = 0;
-			ATKbai02(wbairitu,0);
-			wbairitu += n_A_ActiveSkillLV *0.75;
+			ATKbai02(skillModifier,0);
+			skillModifier += n_A_ActiveSkillLV *0.75;
 
 
 			work_B_DEF2 = [0,0,0];
@@ -1220,7 +1225,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			work_B_DEF2[2] = n_B_DEF2[0];
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = Math.floor(Math.floor(BK_n_A_DMG[b] * wbairitu) * (work_B_DEF2[b]+n_B[14]) /50);
+				w_DMG[b] = Math.floor(Math.floor(BK_n_A_DMG[b] * skillModifier) * (work_B_DEF2[b]+n_B[14]) /50);
 				w_DMG[b] = BaiCI(w_DMG[b]);
 				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
 				myInnerHtml("ATK_0"+b,w_DMG[b],0);
@@ -1237,15 +1242,15 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		else if(n_A_ActiveSkill==197 || n_A_ActiveSkill==321)
 		{
 			n_A_Weapon_zokusei = 0;
-			ATKbai02(wbairitu,0);
+			ATKbai02(skillModifier,0);
 			if(n_A_ActiveSkill==197)
-				wbairitu += 7 + eval(document.calcForm.SkillSubNum.value) /10;
+				skillModifier += 7 + eval(document.calcForm.SkillSubNum.value) /10;
 			else
-				wbairitu += 7 + (n_A_MaxSP-1) /10;
+				skillModifier += 7 + (n_A_MaxSP-1) /10;
 			wASYU = 250 + n_A_ActiveSkillLV * 150;
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = Math.floor(BK_n_A_DMG[b] * wbairitu) + wASYU;
+				w_DMG[b] = Math.floor(BK_n_A_DMG[b] * skillModifier) + wASYU;
 				w_DMG[b] = BaiCI(w_DMG[b]);
 				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
 				myInnerHtml("ATK_0"+b,w_DMG[b],0);
@@ -1263,7 +1268,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		else if(n_A_ActiveSkill==394){
 			n_Enekyori=1;
 			not_use_card = 1;
-			ATKbai02(wbairitu,0);
+			ATKbai02(skillModifier,0);
 
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
@@ -1280,7 +1285,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		else if(n_A_ActiveSkill==395){
 			n_Enekyori=1;
 			not_use_card = 1;
-			ATKbai02(wbairitu,0);
+			ATKbai02(skillModifier,0);
 
 
 			if(eval(document.calcForm.A_Weapon_zokusei.value) == 0 && n_A_WeaponType != 0 && StPlusCard(20) == 0)
@@ -1299,9 +1304,9 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		}
 
 		else if(n_A_ActiveSkill==396){
-			wbairitu += (n_A_ActiveSkillLV * 1.5 +0.5);
+			skillModifier += (n_A_ActiveSkillLV * 1.5 +0.5);
 			n_Enekyori=1;
-			ATKbai02(wbairitu,0);
+			ATKbai02(skillModifier,0);
 			wCast = 3 * n_A_CAST;
 			wDelay=3;
 			swDelay = 1;
@@ -1325,7 +1330,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		{
 			n_A_Weapon_zokusei = 0;
 			n_Enekyori=1;
-			ATKbai02(wbairitu,0);
+			ATKbai02(skillModifier,0);
 			if(n_A_ActiveSkill==405)
 				w_1senHP = eval(document.calcForm.SkillSubNum.value);
 			else
@@ -1350,10 +1355,10 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		{
 			n_Enekyori=1;
 			n_A_Weapon_zokusei = 0;
-			wbairitu = (50 + n_A_ActiveSkillLV * 50) /100;
+			skillModifier = (50 + n_A_ActiveSkillLV * 50) /100;
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = Math.floor((BK_n_A_DMG[b] - n_B_DEF2[b]) * wbairitu);
+				w_DMG[b] = Math.floor((BK_n_A_DMG[b] - n_B_DEF2[b]) * skillModifier);
 				w_DMG[b] = tPlusDamCut(Math.floor(w_DMG[b] * zokusei[n_B[3]][0]));
 				myInnerHtml("ATK_0"+b,w_DMG[b],0);
 			}
@@ -1541,7 +1546,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		{
 			n_Enekyori=2;
 			swDelay = 1;
-			wbairitu = 1;
+			skillModifier = 1;
 			if(n_A_ActiveSkill==51){
 				n_A_Weapon_zokusei = 3;
 				wHITsuu = n_A_ActiveSkillLV;
@@ -1569,27 +1574,27 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 					wCast = 1;
 					wDelay= 1;
 				}
-				wbairitu = 0.7 + n_A_ActiveSkillLV * 0.1;
+				skillModifier = 0.7 + n_A_ActiveSkillLV * 0.1;
 			}
 			else if(n_A_ActiveSkill==53){
 				n_A_Weapon_zokusei = 3;
 				wHITsuu = 4 + n_A_ActiveSkillLV;
 				wCast = 2.15 - (n_A_ActiveSkillLV * 0.15);
 				wDelay= 0.1;
-				wbairitu = 0.5;
+				skillModifier = 0.5;
 			}
 			else if(n_A_ActiveSkill==55){
 				n_A_Weapon_zokusei = 1;
 				wCast = 0.8;
 				wDelay= 1.5;
-				wbairitu = 1 + n_A_ActiveSkillLV * 0.1;
+				skillModifier = 1 + n_A_ActiveSkillLV * 0.1;
 			}
 			else if(n_A_ActiveSkill==57){
 				n_A_Weapon_zokusei = 4;
 				wHITsuu = n_A_ActiveSkillLV;
 				wCast = 1 * n_A_ActiveSkillLV;
 				wDelay= 2;
-				wbairitu = 0.8;
+				skillModifier = 0.8;
 			}
 			else if(n_A_ActiveSkill==46){
 				n_A_Weapon_zokusei = 8;
@@ -1606,7 +1611,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 					wDelay= 0.9;
 				else
 					wDelay= 1;
-				wbairitu = 0.7 + n_A_ActiveSkillLV * 0.1;
+				skillModifier = 0.7 + n_A_ActiveSkillLV * 0.1;
 			}
 			else if(n_A_ActiveSkill==47){
 				n_A_Weapon_zokusei = 8;
@@ -1622,13 +1627,13 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				wHITsuu = n_A_ActiveSkillLV +2;
 				wCast = 3.3 - (0.3 * n_A_ActiveSkillLV);
 				wDelay= 1;
-				wbairitu = 0.2;
+				skillModifier = 0.2;
 			}
 			else if(n_A_ActiveSkill==124){
 				n_A_Weapon_zokusei = 3;
 				wCast = 0.7;
 				wDelay= 2;
-				wbairitu = 1 + n_A_ActiveSkillLV * 0.2;
+				skillModifier = 1 + n_A_ActiveSkillLV * 0.2;
 			}
 			else if(n_A_ActiveSkill==125){
 				n_A_Weapon_zokusei = 3;
@@ -1647,7 +1652,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				wHITsuu = 4;
 				wCast = 15.5 - n_A_ActiveSkillLV * 0.5;
 				wDelay= 5;
-				wbairitu = 0.8 + n_A_ActiveSkillLV * 0.2;
+				skillModifier = 0.8 + n_A_ActiveSkillLV * 0.2;
 			}
 			else if(n_A_ActiveSkill==128 || n_A_ActiveSkill==320){
 				swDelay = 2;
@@ -1657,11 +1662,11 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				else if(n_A_ActiveSkillLV >= 2)
 					wHITsuu = 9;
 				wCast = n_A_ActiveSkillLV;
-				wbairitu = 1 + n_A_ActiveSkillLV * 0.3;
+				skillModifier = 1 + n_A_ActiveSkillLV * 0.3;
 				wDelay= 0.1 * wHITsuu;
 			}
 			else if(n_A_ActiveSkill==130){
-				wbairitu = 0.66 + n_A_ActiveSkillLV * 0.066;
+				skillModifier = 0.66 + n_A_ActiveSkillLV * 0.066;
 				n_A_Weapon_zokusei = 1;
 				wCast = 6 - Math.floor((n_A_ActiveSkillLV-1) /2) * 0.5;
 				wDelay= 1;
@@ -1671,7 +1676,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				wHITsuu = eval(document.calcForm.SkillSubNum.value);
 				wCast = 5 + n_A_ActiveSkillLV;
 				wDelay= 5;
-				wbairitu = 1 + n_A_ActiveSkillLV * 0.4;
+				skillModifier = 1 + n_A_ActiveSkillLV * 0.4;
 			}
 			else if(n_A_ActiveSkill==132 || n_A_ActiveSkill==133){
 				n_A_Weapon_zokusei = 2;
@@ -1690,14 +1695,14 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				n_A_Weapon_zokusei = 8;
 				wCast = 1;
 				wDelay= 1;
-				wbairitu = 0.7 + n_A_ActiveSkillLV * 0.1;
+				skillModifier = 0.7 + n_A_ActiveSkillLV * 0.1;
 			}
 			else if(n_A_ActiveSkill==37 || n_A_ActiveSkill==387){
 				n_A_Weapon_zokusei = 6;
 				wCast = 2;
-				wbairitu = 1.25;
+				skillModifier = 1.25;
 				if(n_A_ActiveSkill==387)
-					wbairitu *= 5;
+					skillModifier *= 5;
 				wDelay= 0.01;
 			}
 			else if(n_A_ActiveSkill==104){
@@ -1714,22 +1719,22 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				wCast = 0.1;
 				wDelay= 0.5;
 				if(n_B[4] == 0)
-					wbairitu = n_A_ActiveSkillLV * 0.1;
+					skillModifier = n_A_ActiveSkillLV * 0.1;
 				else
-					wbairitu = 0.01;
+					skillModifier = 0.01;
 				if(Taijin==1)
-					wbairitu = 0;
+					skillModifier = 0;
 			}
 			else if(n_A_ActiveSkill==374){
 				n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
 				wCast = 0.1;
 				wDelay= 0.5;
 
-				wbairitu = n_A_ActiveSkillLV * 0.05;
+				skillModifier = n_A_ActiveSkillLV * 0.05;
 
 
 				if(Taijin==1)
-					wbairitu = 0;
+					skillModifier = 0;
 			}
 			else if(n_A_ActiveSkill==375){
 				n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
@@ -1737,20 +1742,20 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				wHITsuu = n_A_ActiveSkillLV;
 				wCast = 2;
 				wDelay= 0.5;
-				wbairitu = 0.4 + n_A_BaseLV / 100;
+				skillModifier = 0.4 + n_A_BaseLV / 100;
 				if(Taijin==1)
-					wbairitu = 0;
+					skillModifier = 0;
 			}
 			else if(n_A_ActiveSkill==407){
 				n_A_Weapon_zokusei = 3;
-				wbairitu = 0.9;
+				skillModifier = 0.9;
 				wHITsuu = n_A_ActiveSkillLV;
 				wCast = 0.7 * n_A_ActiveSkillLV;
 				wDelay= 0.01;
 			}
 			else if(n_A_ActiveSkill==408){
 				n_A_Weapon_zokusei = 3;
-				wbairitu = 0.5;
+				skillModifier = 0.5;
 				wHITsuu = Math.round(n_A_ActiveSkillLV / 2) +4 ;
 				wCast = 6.5 - 0.5 * n_A_ActiveSkillLV;
 				wDelay= 1;
@@ -1758,35 +1763,35 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			}
 			else if(n_A_ActiveSkill==409){
 				n_A_Weapon_zokusei = 3;
-				wbairitu = 1.5 + n_A_ActiveSkillLV * 1.5;
+				skillModifier = 1.5 + n_A_ActiveSkillLV * 1.5;
 				wHITsuu = 1;
 				wCast = 3;
 				wDelay= 3;
 			}
 			else if(n_A_ActiveSkill==410){
 				n_A_Weapon_zokusei = 1;
-				wbairitu = 1;
+				skillModifier = 1;
 				wHITsuu = n_A_ActiveSkillLV + 2;
 				wCast = n_A_ActiveSkillLV * 0.7;
 				wDelay= 0.01;
 			}
 			else if(n_A_ActiveSkill==412){
 				n_A_Weapon_zokusei = 1;
-				wbairitu = 1.0 + n_A_ActiveSkillLV * 0.5;
+				skillModifier = 1.0 + n_A_ActiveSkillLV * 0.5;
 				wHITsuu = 1;
 				wCast = 3;
 				wDelay= 3;
 			}
 			else if(n_A_ActiveSkill==413){
 				n_A_Weapon_zokusei = 4;
-				wbairitu = 1.0;
+				skillModifier = 1.0;
 				wHITsuu = Math.floor(n_A_ActiveSkillLV / 2) +1;
 				wCast = Math.floor(n_A_ActiveSkillLV / 2) + 1;
 				wDelay= 1;
 			}
 			else if(n_A_ActiveSkill==414){
 				n_A_Weapon_zokusei = 4;
-				wbairitu = 1.6 + 0.4 * n_A_ActiveSkillLV;
+				skillModifier = 1.6 + 0.4 * n_A_ActiveSkillLV;
 				wHITsuu = 1;
 				wCast = 4;
 				wDelay= 0.01;
@@ -1794,7 +1799,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			}
 			else if(n_A_ActiveSkill==415){
 				n_A_Weapon_zokusei = 4;
-				wbairitu = 1.0 + n_A_ActiveSkillLV * 1.0;
+				skillModifier = 1.0 + n_A_ActiveSkillLV * 1.0;
 				wHITsuu = 1;
 				wCast = 4;
 				wDelay= 0.01;
@@ -1803,7 +1808,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			wCast *= n_A_CAST;
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleMagicCalc(n_A_MATK[b] * wbairitu);
+				w_DMG[b] = BattleMagicCalc(n_A_MATK[b] * skillModifier);
 				myInnerHtml("ATK_0"+b,w_DMG[b] * wHITsuu + "("+w_DMG[b]+ SubName[8] +wHITsuu+"hit)",0);
 				w_DMG[b] *= wHITsuu;
 			}
@@ -3653,16 +3658,16 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 
 
-		wCSize = weaponsize[n_A_WeaponType][n_B[4]];
+		sizeModifier = weaponsize[n_A_WeaponType][n_B[4]];
 		if(SkillSearch(78)){
 			if((n_A_WeaponType==4 || n_A_WeaponType==5) && n_B[4]==1)
-				wCSize = 1;
+				sizeModifier = 1;
 		}
 		if(SkillSearch(153) || n_A_PassSkill2[7])
-			wCSize = 1;
+			sizeModifier = 1;
 
 		if(cardOBJ[n_A_card[0]][0]==32||cardOBJ[n_A_card[1]][0]==32||cardOBJ[n_A_card[2]][0]==32||cardOBJ[n_A_card[3]][0]==32||cardOBJ[n_A_card[4]][0]==32||cardOBJ[n_A_card[5]][0]==32||cardOBJ[n_A_card[6]][0]==32||cardOBJ[n_A_card[7]][0]==32)
-			wCSize = 1;
+			sizeModifier = 1;
 
 
 		impositioMagnus = n_A_PassSkill2[2] *5;
@@ -3779,66 +3784,73 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		n_A_workDEX = Math.floor(n_A_DEX * (1 + (n_A_WeaponLV - 1) * 0.2));
 
 		n_A_DMG = [0,0,0];
+		weaponAttack = [0,0,0];
 
 
 		if(n_A_workDEX>=n_A_Weapon_ATK || SkillSearch(155)) // 155 = power maximize
-			n_A_DMG[2] = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK + impositioMagnus)* wCSize);
+			weaponAttack[2] = n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
 		else
-			n_A_DMG[2] = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK-1 + impositioMagnus)* wCSize);
+			weaponAttack[2] = n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK-1 + impositioMagnus)* sizeModifier);
 
-		if(n_A_WeaponType==10||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21)
-			n_A_DMG[2] += Math.floor((ArrowOBJ[n_A_Arrow][0]-1) * wCSize);
+		if(isRangedWeapon())
+			weaponAttack[2] += Math.floor((ArrowOBJ[n_A_Arrow][0]-1) * sizeModifier);
 
 
-		if(n_A_WeaponType==10||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21)
+		if(isRangedWeapon())
 		{
-			w1 = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * n_A_Weapon_ATK / 100 * wCSize) + Math.floor(impositioMagnus * wCSize);
-			w2 = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * n_A_workDEX / 100 * wCSize) + Math.floor(impositioMagnus * wCSize);
+			w1 = n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * n_A_Weapon_ATK / 100 * sizeModifier) + Math.floor(impositioMagnus * sizeModifier);
+			w2 = n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * n_A_workDEX / 100 * sizeModifier) + Math.floor(impositioMagnus * sizeModifier);
 
-			w = Math.floor((ArrowOBJ[n_A_Arrow][0]-1) * wCSize);
+			w = Math.floor((ArrowOBJ[n_A_Arrow][0]-1) * sizeModifier);
 			w1 += w;
 			w2 += w;
 			if(w1 > w2)w1 = w2;
-			if(n_A_DMG[2] < w1)n_A_DMG[2] = w1;
+			if(weaponAttack[2] < w1)weaponAttack[2] = w1;
 		}
 
 
 
 
-		if(n_A_WeaponType==10||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21)
+		if(isRangedWeapon())
 		{
-			n_A_DMG[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK * n_A_Weapon_ATK / 100 +impositioMagnus) * wCSize);
-			w = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK * n_A_workDEX / 100 + impositioMagnus) * wCSize);
-			if(n_A_DMG[0] > w)n_A_DMG[0] = w;
+			weaponAttack[0] = n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK * n_A_Weapon_ATK / 100 +impositioMagnus) * sizeModifier);
+			w = n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK * n_A_workDEX / 100 + impositioMagnus) * sizeModifier);
+			if(weaponAttack[0] > w)weaponAttack[0] = w;
 		}
 		else{
 			if(n_A_workDEX >= n_A_Weapon_ATK)
-				n_A_DMG[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK + impositioMagnus) * wCSize);
+				weaponAttack[0] = n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK + impositioMagnus) * sizeModifier);
 			else{
 
 				if(SkillSearch(155))
 					n_A_workDEX = n_A_Weapon_ATK;
-				n_A_DMG[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_workDEX + impositioMagnus) * wCSize);
+				weaponAttack[0] = n_A_WeaponLV_Minplus + Math.floor((n_A_workDEX + impositioMagnus) * sizeModifier);
 			}
 		}
 
 
-		n_A_DMG[1] = (n_A_DMG[0] + n_A_DMG[2]) / 2;
-
+		weaponAttack[1] = (weaponAttack[0] + weaponAttack[2]) / 2;
+		n_A_DMG[0]= baseATK + weaponAttack[0];
+		n_A_DMG[1]= baseATK + weaponAttack[1];
+		n_A_DMG[2]= baseATK + weaponAttack[2];
+		myInnerHtml("BaseAttackCalc", baseATK, 0);
+		myInnerHtml("MinWeaponAttackCalc", weaponAttack[0], 0);
+		myInnerHtml("AvgWeaponAttackCalc", weaponAttack[1], 0);
+		myInnerHtml("MaxWeaponAttackCalc", weaponAttack[2], 0);
 
 		n_Enekyori=0;
 		n_A_CriATK = [0,0,0];
-		n_A_CriATK[1] = n_A_ATK + (n_A_WeaponLV_Minplus + n_A_WeaponLV_Maxplus) /2 + Math.floor((n_A_Weapon_ATK + impositioMagnus)* wCSize);
-		n_A_CriATK[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK + impositioMagnus)* wCSize);
-		n_A_CriATK[2] = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK + impositioMagnus)* wCSize);
+		n_A_CriATK[1] = baseATK + (n_A_WeaponLV_Minplus + n_A_WeaponLV_Maxplus) /2 + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
+		n_A_CriATK[0] = baseATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
+		n_A_CriATK[2] = baseATK + n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
 
 
 		if(n_A_WeaponType==10)
 		{
 			n_Enekyori=1;
-			n_A_CriATK[1] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * wCSize);
-			n_A_CriATK[0] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * wCSize);
-			n_A_CriATK[2] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * wCSize);
+			n_A_CriATK[1] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * sizeModifier);
+			n_A_CriATK[0] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * sizeModifier);
+			n_A_CriATK[2] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * sizeModifier);
 		}
 
 
