@@ -95,7 +95,7 @@ mod tests {
             let mut min = u32::MAX;
             let mut max = u32::MIN;
             for _ in 0..1000 {
-                let damage = context.battle_service.weapon_atk(&character.status, Some(GlobalConfigService::instance().get_item_by_name(stat.weapon)));
+                let damage = context.battle_service.weapon_atk(&character.status, Some(GlobalConfigService::instance().get_item_by_name(stat.weapon)), 0, 1.0);
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);
