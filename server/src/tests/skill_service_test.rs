@@ -35,6 +35,7 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
 #[cfg(test)]
 mod tests {
     use std::time::Duration;
+    use fastrand::char;
     use enums::EnumWithNumberValue;
     use enums::skill::UseSkillFailure;
     use crate::tests::common::assert_helper::*;
@@ -306,6 +307,7 @@ mod tests {
         let mut character = create_character();
         let packetver = GlobalConfigService::instance().packetver();
         let poring = create_mob(1, "PORING");
+        #[derive(Debug)]
         struct Scenarii<'a> {
             skill_to_use: KnownSkill,
             character_base_level: u32,
@@ -326,36 +328,51 @@ mod tests {
             Scenarii {
                 skill_to_use: KnownSkill { value: SkillEnum::SmBash, level: 10 },
                 character_base_level: 10,
-                character_job_level: 10,
+                character_job_level: 0,
                 character_str: 10,
-                character_agi: 0,
-                character_vit: 0,
-                character_dex: 0,
-                character_int: 0,
-                character_luk: 0,
+                character_agi: 1,
+                character_vit: 1,
+                character_dex: 1,
+                character_int: 1,
+                character_luk: 1,
                 character_weapon: "Sword",
                 target_status: poring.status,
-                expected_min_damage: 59,
-                expected_avg_damage: 103,
-                expected_max_damage: 147,
+                expected_min_damage: 47,
+                expected_avg_damage: 93,
+                expected_max_damage: 139,
             }
         ];
         // When
-        // for scenarii in scenario.iter() {
-        //     let mut average = Vec::with_capacity(1001);
-        //     let mut min = u32::MAX;
-        //     let mut max = u32::MIN;
-        //     for _ in 0..1000 {
-        //         let damage = context.battle_service.damage_character_attack_monster(&character, mob, 1.0);
-        //         average.push(damage);
-        //         min = min.min(damage);
-        //         max = max.max(damage);
-        //     }
-        //     let average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
-        //     // Then
-        //     assert!(stat.average_damage - 1 <= average && average <= stat.average_damage + 1, "Expected average damage to be {} but was {} with stats {:?}", stat.average_damage, average, stat);
-        //     assert!(stat.min_damage - 1 <= min && min <= stat.min_damage + 1, "Expected min damage to be {} but was {} with stats {:?}", stat.min_damage, min, stat);
-        //     assert!(stat.max_damage - 1 <= max && max <= stat.max_damage + 1, "Expected max damage to be {} but was {} with stats {:?}", stat.max_damage, max, stat);
-        // }
+        for scenarii in scenario.iter() {
+            let mut average = Vec::with_capacity(1001);
+            let mut min = u32::MAX;
+            let mut max = u32::MIN;
+            let mut character_status = Status::default();
+            character_status.str = scenarii.character_str;
+            character_status.agi = scenarii.character_agi;
+            character_status.vit = scenarii.character_vit;
+            character_status.dex = scenarii.character_dex;
+            character_status.int = scenarii.character_int;
+            character_status.luk = scenarii.character_luk;
+            character_status.base_level = scenarii.character_base_level;
+            character_status.job_level = scenarii.character_job_level;
+            character_status.hp = 10000;
+            character_status.sp = 10000;
+            character.status = character_status;
+            equip_item(&mut character, scenarii.character_weapon);
+            let skill = skills::skill_enums::to_object(scenarii.skill_to_use.value, scenarii.skill_to_use.level).unwrap();
+            for _ in 0..1000 {
+                let damage = context.skill_service.calculate_damage(&character.status, &scenarii.target_status, skill.as_offensive_skill().unwrap());
+                average.push(damage);
+                min = min.min(damage);
+                max = max.max(damage);
+            }
+            let average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
+            // Then
+            // avg at 2%~ approximatively
+            assert!(scenarii.expected_avg_damage - (scenarii.expected_avg_damage * 2 / 100) <= average && average <= scenarii.expected_avg_damage + (scenarii.expected_avg_damage * 2 / 100), "Expected average damage to be {} but was {} with stats {:?}", scenarii.expected_avg_damage, average, scenarii);
+            assert!(scenarii.expected_min_damage - 1 <= min && min <= scenarii.expected_min_damage + 1, "Expected min damage to be {} but was {} with stats {:?}", scenarii.expected_min_damage, min, scenarii);
+            assert!(scenarii.expected_max_damage - 1 <= max && max <= scenarii.expected_max_damage + 1, "Expected max damage to be {} but was {} with stats {:?}", scenarii.expected_max_damage, max, scenarii);
+        }
     }
 }

@@ -155,7 +155,7 @@ impl SkillService {
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_ack_touseskill.raw_mut())))).unwrap();
     }
 
-    // pub fn calculate_damage(&self, source_status: &Status, target_status: &Status, skill: &dyn OffensiveSkill) -> u32 {
-    //     self.battle_service.damage_character_attack_monster(source_status, target_status)
-    // }
+    pub fn calculate_damage(&self, source_status: &Status, target_status: &Status, skill: &dyn OffensiveSkill) -> u32 {
+        self.battle_service.damage_character_attack_monster(source_status, target_status, skill.dmg_atk().unwrap_or(1.0))
+    }
 }
