@@ -1,7 +1,10 @@
+use std::fs;
+use std::path::Path;
 use serde::{Deserialize, Serialize};
+use models::status::KnownSkill;
 
-#[derive(Serialize, Deserialize)]
-struct BattleFixture {
+#[derive(Deserialize, GettersAll)]
+pub struct BattleFixture {
     job: u32,
     base_level: u32,
     job_level: u32,
@@ -44,19 +47,48 @@ struct BattleFixture {
     shield_refinement: u32,
     shoulder_refinement: u32,
     shoes_refinement: u32,
+    // skill_to_use: KnownSkill
 }
 
-#[derive(Serialize, Deserialize)]
-struct PassiveSkill {
+impl BattleFixture {
+    pub fn load(path: &str) -> Vec<Self> {
+        let path = Path::new(path);
+        if !path.exists() {
+            panic!("fixture file does not exists at {}", path.to_str().unwrap());
+        }
+        let fixtures: Vec<BattleFixture> = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
+        fixtures
+    }
+}
+
+#[derive(Deserialize, GettersAll)]
+pub struct PassiveSkill {
     level: u32,
     skid: u32,
 }
 
-#[derive(Serialize, Deserialize)]
-struct SupportiveSkill {
+#[derive(Deserialize, GettersAll)]
+pub struct SupportiveSkill {
     #[serde(rename = "skid", skip_serializing_if = "Option::is_none")]
     skid: Option<u32>,
     #[serde(rename = "state", skip_serializing_if = "Option::is_none")]
     state: Option<String>,
     value: u32,
+}
+
+
+#[derive(Deserialize, GettersAll)]
+pub struct Expected {
+    weapon_min_atk: u32,
+    weapon_avg_atk: u32,
+    weapon_max_atk: u32,
+    base_atk: u32,
+    hit_ratio: f32,
+    critical_rate: f32,
+    critical_damage_min: u32,
+    critical_damage_max: u32,
+    min_dmg: u32,
+    avg_dmg: f32,
+    max_dmg: u32,
+    dps: f32,
 }
