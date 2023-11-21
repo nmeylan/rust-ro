@@ -2146,129 +2146,150 @@ function isNonRangeWeapon() {
         }
     }
 
-    SaveStr2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88];
-    SaveStr1 = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 3, 1, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    function serializeFormToJSON() {
+        var form = document.calcForm;
+        var formData = new FormData(form);
+        var formObject = {};
+
+        formData.forEach(function (value, key) {
+            // Check if property already exists for multi-select or checkboxes
+            if (formObject.hasOwnProperty(key)) {
+                // If it's an array, push the value
+                if (Array.isArray(formObject[key])) {
+                    formObject[key].push(value);
+                } else { // Convert to array if second occurrence of the key
+                    formObject[key] = [formObject[key], value];
+                }
+            } else {
+                formObject[key] = value;
+            }
+        });
+
+        return JSON.stringify(formObject);
+    }
+
+    function repopulateFormFromJSON(jsonData) {
+        var form = document.calcForm;
+        var formData = jsonData;
+
+        Object.keys(formData).forEach(function (key) {
+            var element = form.elements[key];
+            if (!element) return; // Skip if element not found
+
+            var value = formData[key];
+
+            // Handle different form element types separately
+            switch (element.type) {
+                case 'checkbox':
+                    if (Array.isArray(value)) {
+                        // For array values (multiple checkboxes with same name)
+                        value.forEach(val => {
+                            if (element.value === val) {
+                                element.checked = true;
+                            }
+                        });
+                    } else {
+                        element.checked = element.value === value;
+                    }
+                    break;
+                case 'radio':
+                    element.checked = element.value === value;
+                    break;
+                case 'select-multiple':
+                    Array.from(element.options).forEach(option => {
+                        option.selected = value.includes(option.value);
+                    });
+                    break;
+                default:
+                    element.value = value;
+            }
+        });
+    }
 
     function GenerateTestCase() {
-        SaveCookie(true);
+        let savedDataAsJson = SaveCookie(true);
+        let crit_damages = document.querySelector("#CRIATK").textContent.split("~");
+        let crit_rate = Number.parseFloat(document.querySelector("#CRInum").textContent);
+        let min_dmg = Number.parseFloat(document.querySelector("#ATK_00").textContent);
+        let max_dmg = Number.parseFloat(document.querySelector("#ATK_02").textContent);
+        let avg_dmg = Number.parseFloat(document.querySelector("#ATK_01").textContent);
+        let dps = Number.parseFloat(document.querySelector("#AveSecondATK").textContent);
+        savedDataAsJson.expected = {
+            weapon_min_atk: weaponAttack[0],
+            weapon_avg_atk: weaponAttack[1],
+            weapon_max_atk: weaponAttack[2],
+            base_atk: baseATK,
+            hit_ratio: w_HIT / 100.0,
+            critical_rate: crit_rate,
+            critical_damage_min: Number.parseFloat(crit_damages[0]),
+            critical_damage_max: crit_damages.length > 1 ? Number.parseFloat(crit_damages[1]) : Number.parseFloat(crit_damages[0]),
+            min_dmg: min_dmg,
+            avg_dmg: avg_dmg,
+            max_dmg: max_dmg,
+            dps: dps,
+        };
+        console.log(savedDataAsJson);
+        navigator.clipboard.writeText(savedDataAsJson);
     }
 
     function SaveCookie(skipSave) {
-        const saveJson = {};
-        SaveData = new Array();
+        const testCaseData = {};
 
-        for (i = 0; i <= 88; i++)
-            SaveData[i] = 0;
+        testCaseData.job = eval(document.calcForm.A_JOB.value);
+        testCaseData.base_level = eval(document.calcForm.A_BaseLV.value);
+        testCaseData.job_level = eval(document.calcForm.A_JobLV.value);
+        testCaseData.str = eval(document.calcForm.A_STR.value);
+        testCaseData.agi = eval(document.calcForm.A_AGI.value);
+        testCaseData.vit = eval(document.calcForm.A_VIT.value);
+        testCaseData.dex = eval(document.calcForm.A_DEX.value);
+        testCaseData.int = eval(document.calcForm.A_INT.value);
+        testCaseData.luk = eval(document.calcForm.A_LUK.value);
 
-        SaveData[0] = eval(document.calcForm.A_JOB.value);
-        SaveData[1] = eval(document.calcForm.A_BaseLV.value);
-        SaveData[2] = eval(document.calcForm.A_JobLV.value);
-        SaveData[3] = eval(document.calcForm.A_STR.value);
-        SaveData[4] = eval(document.calcForm.A_AGI.value);
-        SaveData[5] = eval(document.calcForm.A_VIT.value);
-        SaveData[6] = eval(document.calcForm.A_DEX.value);
-        SaveData[7] = eval(document.calcForm.A_INT.value);
-        SaveData[8] = eval(document.calcForm.A_LUK.value);
-
-        saveJson.job = eval(document.calcForm.A_JOB.value);
-        saveJson.base_level = eval(document.calcForm.A_BaseLV.value);
-        saveJson.job_level = eval(document.calcForm.A_JobLV.value);
-        saveJson.str = eval(document.calcForm.A_STR.value);
-        saveJson.agi = eval(document.calcForm.A_AGI.value);
-        saveJson.vit = eval(document.calcForm.A_VIT.value);
-        saveJson.dex = eval(document.calcForm.A_DEX.value);
-        saveJson.int = eval(document.calcForm.A_INT.value);
-        saveJson.luk = eval(document.calcForm.A_LUK.value);
-
-        SaveData[9] = 0;
-
-        SaveData[10] = eval(document.calcForm.A_WeaponType.value);
-        saveJson.weapon_type = eval(document.calcForm.A_WeaponType.value);
+        testCaseData.weapon_type = eval(document.calcForm.A_WeaponType.value);
         if (hasLeftHand) {
-            SaveData[11] = eval(document.calcForm.A_Weapon2Type.value);
-            saveJson.weapon_type_left = eval(document.calcForm.A_Weapon2Type.value);
+            testCaseData.weapon_type_left = eval(document.calcForm.A_Weapon2Type.value);
         }
 
         if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && n_A_WeaponType != 0)) {
-            SaveData[12] = eval(document.calcForm.A_Arrow.value);
-            saveJson.ammo = eval(document.calcForm.A_Arrow.value);
+            testCaseData.ammo = eval(document.calcForm.A_Arrow.value);
         }
 
-        SaveData[13] = eval(document.calcForm.A_SpeedPOT.value);
-        SaveData[14] = 4;
-        SaveData[15] = eval(document.calcForm.A_weapon1.value);
-        SaveData[16] = eval(document.calcForm.A_Weapon_ATKplus.value);
-        SaveData[17] = eval(document.calcForm.A_weapon1_card1.value);
-        SaveData[18] = eval(document.calcForm.A_weapon1_card2.value);
-        SaveData[19] = eval(document.calcForm.A_weapon1_card3.value);
-        SaveData[20] = eval(document.calcForm.A_weapon1_card4.value);
+        testCaseData.speed_potion = eval(document.calcForm.A_SpeedPOT.value);
+        testCaseData.weapon = eval(document.calcForm.A_weapon1.value);
+        testCaseData.weapon_refinement = eval(document.calcForm.A_Weapon_ATKplus.value);
+        testCaseData.weapon_card1 = eval(document.calcForm.A_weapon1_card1.value);
+        testCaseData.weapon_card2 = eval(document.calcForm.A_weapon1_card2.value);
+        testCaseData.weapon_card3 = eval(document.calcForm.A_weapon1_card3.value);
+        testCaseData.weapon_card4 = eval(document.calcForm.A_weapon1_card4.value);
 
-        saveJson.speed_potion = eval(document.calcForm.A_SpeedPOT.value);
-        saveJson.weapon = eval(document.calcForm.A_weapon1.value);
-        saveJson.weapon_refinement = eval(document.calcForm.A_Weapon_ATKplus.value);
-        saveJson.weapon_card1 = eval(document.calcForm.A_weapon1_card1.value);
-        saveJson.weapon_card2 = eval(document.calcForm.A_weapon1_card2.value);
-        saveJson.weapon_card3 = eval(document.calcForm.A_weapon1_card3.value);
-        saveJson.weapon_card4 = eval(document.calcForm.A_weapon1_card4.value);
-        if (hasLeftHand) {
-            SaveData[21] = eval(document.calcForm.A_weapon2.value);
-            SaveData[22] = eval(document.calcForm.A_Weapon2_ATKplus.value);
-            SaveData[23] = eval(document.calcForm.A_weapon2_card1.value);
-            SaveData[24] = eval(document.calcForm.A_weapon2_card2.value);
-            SaveData[25] = eval(document.calcForm.A_weapon2_card3.value);
-            SaveData[26] = eval(document.calcForm.A_weapon2_card4.value);
-
-            saveJson.weapon_left = eval(document.calcForm.A_weapon2.value);
-            saveJson.weapon_left_refinement = eval(document.calcForm.A_Weapon2_ATKplus.value);
-            saveJson.weapon_left_card1 = eval(document.calcForm.A_weapon2_card1.value);
-            saveJson.weapon_left_card2 = eval(document.calcForm.A_weapon2_card2.value);
-            saveJson.weapon_left_card3 = eval(document.calcForm.A_weapon2_card3.value);
-            saveJson.weapon_left_card4 = eval(document.calcForm.A_weapon2_card4.value);
-        } else {
-            SaveData[21] = 0;
-            SaveData[22] = 0;
-            SaveData[23] = 0;
-            SaveData[24] = 0;
-            SaveData[25] = 0;
-            SaveData[26] = 0;
+        if (document.calcForm.A_weapon2) {
+            testCaseData.weapon_left = eval(document.calcForm.A_weapon2.value);
+            testCaseData.weapon_left_refinement = eval(document.calcForm.A_Weapon2_ATKplus.value);
+            testCaseData.weapon_left_card1 = eval(document.calcForm.A_weapon2_card1.value);
+            testCaseData.weapon_left_card2 = eval(document.calcForm.A_weapon2_card2.value);
+            testCaseData.weapon_left_card3 = eval(document.calcForm.A_weapon2_card3.value);
+            testCaseData.weapon_left_card4 = eval(document.calcForm.A_weapon2_card4.value);
         }
-        SaveData[27] = eval(document.calcForm.A_head1.value);
-        SaveData[28] = eval(document.calcForm.A_head1_card.value);
-        SaveData[29] = eval(document.calcForm.A_head2.value);
-        SaveData[30] = eval(document.calcForm.A_head2_card.value);
-        SaveData[31] = eval(document.calcForm.A_head3.value);
-        SaveData[32] = 0;
-        SaveData[33] = eval(document.calcForm.A_left.value);
-        SaveData[34] = eval(document.calcForm.A_left_card.value);
-        SaveData[35] = eval(document.calcForm.A_body.value);
-        SaveData[36] = eval(document.calcForm.A_body_card.value);
-        SaveData[37] = eval(document.calcForm.A_shoulder.value);
-        SaveData[38] = eval(document.calcForm.A_shoulder_card.value);
-        SaveData[39] = eval(document.calcForm.A_shoes.value);
-        SaveData[40] = eval(document.calcForm.A_shoes_card.value);
-        SaveData[41] = eval(document.calcForm.A_acces1.value);
-        SaveData[42] = eval(document.calcForm.A_acces1_card.value);
-        SaveData[43] = eval(document.calcForm.A_acces2.value);
-        SaveData[44] = eval(document.calcForm.A_acces2_card.value);
 
-        saveJson.headgear_upper = eval(document.calcForm.A_head1.value);
-        saveJson.headgear_upper_card = eval(document.calcForm.A_head1_card.value);
-        saveJson.headgear_middle = eval(document.calcForm.A_head2.value);
-        saveJson.headgear_middle_card = eval(document.calcForm.A_head2_card.value);
-        saveJson.headgear_lower = eval(document.calcForm.A_head3.value)
 
-        saveJson.shield = eval(document.calcForm.A_left.value);
-        saveJson.shield_card = eval(document.calcForm.A_left_card.value);
-        saveJson.body = eval(document.calcForm.A_body.value);
-        saveJson.body_card = eval(document.calcForm.A_body_card.value);
-        saveJson.shoulder = eval(document.calcForm.A_shoulder.value);
-        saveJson.shoulder_card = eval(document.calcForm.A_shoulder_card.value);
-        saveJson.shoes = eval(document.calcForm.A_shoes.value);
-        saveJson.shoes_card = eval(document.calcForm.A_shoes_card.value);
-        saveJson.accessory_left = eval(document.calcForm.A_acces1.value);
-        saveJson.accessory_left_card = eval(document.calcForm.A_acces1_card.value);
-        saveJson.accessory_right = eval(document.calcForm.A_acces2.value);
-        saveJson.accessory_right_card = eval(document.calcForm.A_acces2_card.value);
+        testCaseData.headgear_upper = eval(document.calcForm.A_head1.value);
+        testCaseData.headgear_upper_card = eval(document.calcForm.A_head1_card.value);
+        testCaseData.headgear_middle = eval(document.calcForm.A_head2.value);
+        testCaseData.headgear_middle_card = eval(document.calcForm.A_head2_card.value);
+        testCaseData.headgear_lower = eval(document.calcForm.A_head3.value)
+
+        testCaseData.shield = eval(document.calcForm.A_left.value);
+        testCaseData.shield_card = eval(document.calcForm.A_left_card.value);
+        testCaseData.body = eval(document.calcForm.A_body.value);
+        testCaseData.body_card = eval(document.calcForm.A_body_card.value);
+        testCaseData.shoulder = eval(document.calcForm.A_shoulder.value);
+        testCaseData.shoulder_card = eval(document.calcForm.A_shoulder_card.value);
+        testCaseData.shoes = eval(document.calcForm.A_shoes.value);
+        testCaseData.shoes_card = eval(document.calcForm.A_shoes_card.value);
+        testCaseData.accessory_left = eval(document.calcForm.A_acces1.value);
+        testCaseData.accessory_left_card = eval(document.calcForm.A_acces1_card.value);
+        testCaseData.accessory_right = eval(document.calcForm.A_acces2.value);
+        testCaseData.accessory_right_card = eval(document.calcForm.A_acces2_card.value);
 
         n_A_JobSet();
         w = n_A_JOB;
@@ -2280,16 +2301,8 @@ function isNonRangeWeapon() {
             SaveData[saveDataIndex + i] = skill_level;
             passiveSkills.push({skid: SkillOBJ[JobSkillPassOBJ[w][i]][3], level: skill_level})
         }
-        saveJson.passiveSkills = passiveSkills;
-
-
-        SaveData[63] = eval(document.calcForm.isAdopted.checked);
-        if (SaveData[63] == true)
-            SaveData[63] = 1;
-        else if (SaveData[63] == false)
-            SaveData[63] = 0;
-        SaveData[64] = eval(document.calcForm.A_Weapon_element.value);
-        saveJson.weapon_element = eval(document.calcForm.A_Weapon_element.value);
+        testCaseData.passiveSkills = passiveSkills;
+        testCaseData.weapon_element = eval(document.calcForm.A_Weapon_element.value);
 
         const supportiveSkillsIds = [
             {skid: 34}, {skid: 29}, {skid: 66}, {skid: 75}, {skid: 33}, {skid: 361}, {skid: 111}, {skid: 112},
@@ -2304,64 +2317,28 @@ function isNonRangeWeapon() {
                 value = 1;
             else if (value == false)
                 value = 0;
-            SaveData[65 + i] = value;
             supportiveSkills.push({...supportiveSkillsIds[i], value})
         }
-        saveJson.supportiveSkills = supportiveSkills;
-        SaveData[78] = 0;
-        SaveData[79] = 0;
-        SaveData[80] = 0;
-        SaveData[81] = 0;
-        SaveData[82] = 0;
-        SaveData[83] = 0;
-        SaveData[84] = eval(document.calcForm.A_HEAD_DEF_PLUS.value);
-        SaveData[85] = eval(document.calcForm.A_BODY_DEF_PLUS.value);
-        SaveData[86] = eval(document.calcForm.A_LEFT_DEF_PLUS.value);
-        SaveData[87] = eval(document.calcForm.A_SHOULDER_DEF_PLUS.value);
-        SaveData[88] = eval(document.calcForm.A_SHOES_DEF_PLUS.value);
+        testCaseData.supportiveSkills = supportiveSkills;
 
-        saveJson.headgear_upper_refinement = eval(document.calcForm.A_HEAD_DEF_PLUS.value);
-        saveJson.body_refinement = eval(document.calcForm.A_BODY_DEF_PLUS.value);
-        saveJson.shield_refinement = eval(document.calcForm.A_LEFT_DEF_PLUS.value);
-        saveJson.shoulder_refinement = eval(document.calcForm.A_SHOULDER_DEF_PLUS.value);
-        saveJson.shoes_refinement = eval(document.calcForm.A_SHOES_DEF_PLUS.value);
-
-        for (i = 0; i <= 88; i++) {
-            if (SaveData[i] == 10 && SaveStr1[i] == 1)
-                SaveData[i] = "A";
-            if (SaveData[i] == 11 && SaveStr1[i] == 1)
-                SaveData[i] = "B";
-            if (SaveData[i] < 10 && SaveStr1[i] == 2)
-                SaveData[i] = "0" + SaveData[i];
-            if (SaveData[i] < 10 && SaveStr1[i] == 3)
-                SaveData[i] = "00" + SaveData[i];
-            else if (SaveData[i] < 100 && SaveStr1[i] == 3)
-                SaveData[i] = "0" + SaveData[i];
-        }
+        testCaseData.headgear_upper_refinement = eval(document.calcForm.A_HEAD_DEF_PLUS.value);
+        testCaseData.body_refinement = eval(document.calcForm.A_BODY_DEF_PLUS.value);
+        testCaseData.shield_refinement = eval(document.calcForm.A_LEFT_DEF_PLUS.value);
+        testCaseData.shoulder_refinement = eval(document.calcForm.A_SHOULDER_DEF_PLUS.value);
+        testCaseData.shoes_refinement = eval(document.calcForm.A_SHOES_DEF_PLUS.value);
+        testCaseData.skill_to_use = {skid: SkillOBJ[eval(document.calcForm.A_ActiveSkill.value)][3], level: eval(document.calcForm.A_ActiveSkillLV.value)};
+        testCaseData.target = MonsterOBJ[eval(document.calcForm.B_Enemy.value)][1];
 
         if (!skipSave) {
             cookieNum = document.calcForm.A_SaveSlot.value;
 
-            wDay = 360;
-
-            wCookie = new Date();
-            wCookie.setTime(wCookie.getTime() + (wDay * 3000 * 60 * 60 * 24));
-            expDay = wCookie.toGMTString();
-
-            wStr = "" + SaveData[0];
-            console.log(SaveData);
-            for (i = 1; i <= 88; i++) {
-                wStr += "" + SaveData[i];
-            }
-            document.cookie = cookieNum + "=" + wStr + "; expires=" + expDay;
-
             bkcN = cookieNum;
-            LoadCookie3();
+            LoadSave();
             document.calcForm.A_SaveSlot.value = bkcN;
+            localStorage.setItem(bkcN, serializeFormToJSON())
+            console.log(serializeFormToJSON())
         } else {
-            let savedDataAsJson = JSON.stringify(saveJson);
-            console.log(savedDataAsJson);
-            navigator.clipboard.writeText(savedDataAsJson);
+            return testCaseData;
         }
     }
 
@@ -2372,209 +2349,22 @@ function isNonRangeWeapon() {
         cookieNum = document.calcForm.A_SaveSlot.value;
         SaveData = document.cookie.split("; ");
         wStr = "";
-
-        for (i = 0; SaveData[i]; i++) {
-            if (SaveData[i].substr(0, 6) == cookieNum + "=") {
-                wStr = SaveData[i].substr(6, SaveData[i].length);
-                break;
-            }
+        let json = JSON.parse(localStorage.getItem(cookieNum));
+        document.calcForm.A_JOB.value = json.A_JOB;
+        ClickJob(json.A_JOB);
+        if (json.A2_SKILLSW === "on") {
+            document.calcForm.A2_SKILLSW.checked = true;
+            Click_SkillSW();
         }
-        for (i = 0; i <= 88; i++)
-            SaveData[i] = 0;
-
-        j = 0;
-        for (i = 0; i <= 88; i++) {
-            if (SaveStr1[i] == 1) {
-                SaveData[i] = wStr.substr(j, 1);
-                j++;
-            } else if (SaveStr1[i] == 2) {
-                SaveData[i] = wStr.substr(j, 2)
-                j += 2;
-            } else {
-                SaveData[i] = wStr.substr(j, 3);
-                j += 3;
-            }
-        }
-        for (i = 0; i <= 88; i++) {
-            if (SaveData[i] == "A" && SaveStr1[i] == 1)
-                SaveData[i] = 10;
-            if (SaveData[i] == "B" && SaveStr1[i] == 1)
-                SaveData[i] = 11;
-        }
-        for (i = 0; i <= 88; i++) {
-            if (SaveStr1[i] == 3 && SaveData[i].substr(0, 2) == "00")
-                SaveData[i] = SaveData[i].substr(2, 1);
-            else if (SaveStr1[i] == 3 && SaveData[i].substr(0, 1) == "0")
-                SaveData[i] = SaveData[i].substr(1, 2);
-            else if (SaveStr1[i] == 2 && SaveData[i].substr(0, 1) == "0")
-                SaveData[i] = SaveData[i].substr(1, 1);
-        }
-        if (SaveData[88] == "u" || SaveData[88] == "und")
-            SaveData[88] = 0;
-        for (i = 0; i <= 88; i++)
-            SaveData[i] = eval(SaveData[i]);
-
-        if (eval(SaveData[0]) == 20 && eval(SaveData[54]) == 1)
-            SuperNoviceFullWeaponCHECK = 1;
-        else
-            SuperNoviceFullWeaponCHECK = 0;
-
-        document.calcForm.A_JOB.value = SaveData[0];
-        ClickJob(SaveData[0]);
-        document.calcForm.A_BaseLV.value = SaveData[1];
-        document.calcForm.A_JobLV.value = SaveData[2];
-        document.calcForm.A_STR.value = SaveData[3];
-        document.calcForm.A_AGI.value = SaveData[4];
-        document.calcForm.A_VIT.value = SaveData[5];
-        document.calcForm.A_DEX.value = SaveData[6];
-        document.calcForm.A_INT.value = SaveData[7];
-        document.calcForm.A_LUK.value = SaveData[8];
-
-
-        document.calcForm.A_WeaponType.value = SaveData[10];
-        ClickWeaponType(SaveData[10]);
-        if ((SaveData[0] == 8 || SaveData[0] == 22) && SaveData[10] != 11) {
-            document.calcForm.A_Weapon2Type.value = SaveData[11];
-            ClickWeaponType2(SaveData[11]);
+        repopulateFormFromJSON(json);
+        ClickWeaponType(json.A_WeaponType);
+        if (json.A_Weapon2Type) {
+            document.calcForm.A_Weapon2Type.value = json.A_Weapon2Type
+            ClickWeaponType2(json.A_Weapon2Type);
         }
         n_A_JobSet();
+        ClickActiveSkill(json.A_ActiveSkill);
 
-        if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && SaveData[10] != 0))
-            document.calcForm.A_Arrow.value = SaveData[12];
-
-        document.calcForm.A_SpeedPOT.value = SaveData[13];
-
-        document.calcForm.A_weapon1.value = SaveData[15];
-        document.calcForm.A_Weapon_ATKplus.value = SaveData[16];
-        document.calcForm.A_weapon1_card1.value = SaveData[17];
-        document.calcForm.A_weapon1_card2.value = SaveData[18];
-        document.calcForm.A_weapon1_card3.value = SaveData[19];
-        document.calcForm.A_weapon1_card4.value = SaveData[20];
-        if (hasLeftHand) {
-            document.calcForm.A_weapon2.value = SaveData[21];
-            document.calcForm.A_Weapon2_ATKplus.value = SaveData[22];
-            document.calcForm.A_weapon2_card1.value = SaveData[23];
-            document.calcForm.A_weapon2_card2.value = SaveData[24];
-            document.calcForm.A_weapon2_card3.value = SaveData[25];
-            document.calcForm.A_weapon2_card4.value = SaveData[26];
-        } else {
-
-
-        }
-
-        if (SaveData[14] < 4) {
-            if (SaveData[28] == 299) SaveData[28] = 298;
-            if (SaveData[28] == 400) SaveData[28] = 298;
-            if (SaveData[30] == 299) SaveData[30] = 298;
-            if (SaveData[30] == 400) SaveData[30] = 298;
-            if (SaveData[34] == 311) SaveData[34] = 310;
-            if (SaveData[36] == 226) SaveData[36] = 225;
-            if (SaveData[38] == 272) SaveData[38] = 271;
-            if (SaveData[40] == 305) SaveData[40] = 304;
-            if (SaveData[40] == 363) SaveData[40] = 362;
-        }
-
-        document.calcForm.A_head1.value = SaveData[27];
-        document.calcForm.A_head1_card.value = SaveData[28];
-        document.calcForm.A_head2.value = SaveData[29];
-        document.calcForm.A_head2_card.value = SaveData[30];
-        document.calcForm.A_head3.value = SaveData[31];
-
-        document.calcForm.A_left.value = SaveData[33];
-        document.calcForm.A_left_card.value = SaveData[34];
-        document.calcForm.A_body.value = SaveData[35];
-        document.calcForm.A_body_card.value = SaveData[36];
-        document.calcForm.A_shoulder.value = SaveData[37];
-        document.calcForm.A_shoulder_card.value = SaveData[38];
-        document.calcForm.A_shoes.value = SaveData[39];
-        document.calcForm.A_shoes_card.value = SaveData[40];
-        document.calcForm.A_acces1.value = SaveData[41];
-        document.calcForm.A_acces1_card.value = SaveData[42];
-        document.calcForm.A_acces2.value = SaveData[43];
-        document.calcForm.A_acces2_card.value = SaveData[44];
-
-        w = n_A_JOB;
-
-        if (JobSkillPassOBJ[w][0] != 999) {
-            document.calcForm.A_skill0.value = SaveData[45];
-            if (JobSkillPassOBJ[w][1] != 999) {
-                document.calcForm.A_skill1.value = SaveData[46];
-                if (JobSkillPassOBJ[w][2] != 999) {
-                    document.calcForm.A_skill2.value = SaveData[47];
-                    if (JobSkillPassOBJ[w][3] != 999) {
-                        document.calcForm.A_skill3.value = SaveData[48];
-                        if (JobSkillPassOBJ[w][4] != 999) {
-                            document.calcForm.A_skill4.value = SaveData[49];
-                            if (JobSkillPassOBJ[w][5] != 999) {
-                                document.calcForm.A_skill5.value = SaveData[50];
-                                if (JobSkillPassOBJ[w][6] != 999) {
-                                    document.calcForm.A_skill6.value = SaveData[51];
-                                    if (JobSkillPassOBJ[w][7] != 999) {
-                                        document.calcForm.A_skill7.value = SaveData[52];
-                                        if (JobSkillPassOBJ[w][8] != 999) {
-                                            document.calcForm.A_skill8.value = SaveData[53];
-                                            if (JobSkillPassOBJ[w][9] != 999) {
-                                                document.calcForm.A_skill9.value = SaveData[54];
-                                                if (JobSkillPassOBJ[w][10] != 999) {
-                                                    document.calcForm.A_skill10.value = SaveData[55];
-                                                    if (JobSkillPassOBJ[w][11] != 999) {
-                                                        document.calcForm.A_skill11.value = SaveData[56];
-                                                        if (JobSkillPassOBJ[w][12] != 999) {
-                                                            document.calcForm.A_skill12.value = SaveData[57];
-                                                            if (JobSkillPassOBJ[w][13] != 999) {
-                                                                document.calcForm.A_skill13.value = SaveData[58];
-                                                                if (JobSkillPassOBJ[w][14] != 999) {
-                                                                    document.calcForm.A_skill14.value = SaveData[59];
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        document.calcForm.isAdopted.checked = SaveData[63];
-        document.calcForm.A_Weapon_element.value = SaveData[64];
-        for (i = 0; i <= 12; i++)
-            n_A_PassSkill2[i] = SaveData[65 + i];
-        for (i = 0; i <= 12; i++)
-            n_A_PassSkill2[i] = eval(n_A_PassSkill2[i]);
-        if (n_SkillSW) {
-            document.calcForm.A2_Skill0.value = n_A_PassSkill2[0];
-            document.calcForm.A2_Skill1.value = n_A_PassSkill2[1];
-            document.calcForm.A2_Skill2.value = n_A_PassSkill2[2];
-            document.calcForm.A2_Skill3.checked = n_A_PassSkill2[3];
-            document.calcForm.A2_Skill4.value = n_A_PassSkill2[4];
-            document.calcForm.A2_Skill5.checked = n_A_PassSkill2[5];
-            document.calcForm.A2_Skill6.checked = n_A_PassSkill2[6];
-            document.calcForm.A2_Skill7.checked = n_A_PassSkill2[7];
-            document.calcForm.A2_Skill8.value = n_A_PassSkill2[8];
-            document.calcForm.A2_Skill9.value = n_A_PassSkill2[9];
-            document.calcForm.A2_Skill10.value = n_A_PassSkill2[10];
-            document.calcForm.A2_Skill11.checked = n_A_PassSkill2[11];
-            document.calcForm.A2_Skill12.checked = n_A_PassSkill2[12];
-        }
-        if (SaveData[14] >= 3) {
-            document.calcForm.A_HEAD_DEF_PLUS.value = SaveData[84];
-            document.calcForm.A_BODY_DEF_PLUS.value = SaveData[85];
-            document.calcForm.A_LEFT_DEF_PLUS.value = SaveData[86];
-            document.calcForm.A_SHOULDER_DEF_PLUS.value = SaveData[87];
-            document.calcForm.A_SHOES_DEF_PLUS.value = SaveData[88];
-        } else {
-            document.calcForm.A_HEAD_DEF_PLUS.value = 0;
-            document.calcForm.A_BODY_DEF_PLUS.value = 0;
-            document.calcForm.A_LEFT_DEF_PLUS.value = 0;
-            document.calcForm.A_SHOULDER_DEF_PLUS.value = 0;
-            document.calcForm.A_SHOES_DEF_PLUS.value = 0;
-        }
 
         StCalc(1);
         StAllCalc();
@@ -2582,7 +2372,7 @@ function isNonRangeWeapon() {
     }
 
 
-    function LoadCookie3() {
+    function LoadSave() {
 
         SaveData = new Array();
         for (k = 1; k <= 19; k++) {
@@ -2591,72 +2381,12 @@ function isNonRangeWeapon() {
                 cookieNum = "num0" + k;
             if (k >= 10)
                 cookieNum = "num" + k;
-            SaveData = document.cookie.split("; ");
-            wStr = "";
+            let json = JSON.parse(localStorage.getItem(cookieNum));
 
-            for (i = 0; SaveData[i]; i++) {
-                if (SaveData[i].substr(0, 6) == cookieNum + "=") {
-                    wStr = SaveData[i].substr(6, SaveData[i].length);
-                    break;
-                }
-            }
-
-            if (wStr.substr(27, 1) >= 1) {
-                SaveData[0] = wStr.substr(0, 2);
-                SaveData[0] = eval(SaveData[0]);
-            } else {
-                SaveData[0] = 998;
-            }
-            SaveData[63] = wStr.substr(132, 1);
-
-            if (1 <= SaveData[0] && SaveData[0] <= 45) {
-                if (SaveData[63] == 0)
-                    document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": " + JobName[SaveData[0]], cookieNum);
-                else
-                    document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": Baby " + JobName[SaveData[0]], cookieNum);
-            } else if (SaveData[0] == 999 || SaveData[0] == 0) {
-                document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": Novice", cookieNum);
+            if (json) {
+                document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": " + JobName[json.A_JOB], cookieNum);
             } else
                 document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": no Save Data", cookieNum);
-        }
-    }
-
-
-    function SaveCookieConf() {
-        SaveData = new Array();
-
-        wDay = 2000;
-
-        wCookie = new Date();
-        wCookie.setTime(wCookie.getTime() + (wDay * 1000 * 60 * 60 * 24));
-        expDay = wCookie.toGMTString();
-
-
-        wStr = "0" + eval(document.calcForm.Conf01.value) + "00000";
-
-        document.cookie = "ConfData" + "=" + wStr + "; expires=" + expDay;
-    }
-
-
-    function LoadCookieConf() {
-
-        SaveData = new Array();
-        SaveData = document.cookie.split("; ");
-        wStr = "";
-
-        wLCF = 0;
-        for (i = 0; SaveData[i]; i++) {
-            if (SaveData[i].substr(0, 9) == "ConfData" + "=") {
-                wStr = SaveData[i].substr(9, SaveData[i].length);
-                wLCF = 1;
-                break;
-            }
-        }
-
-        if (wLCF == 1) {
-            document.calcForm.Conf01.value = wStr.substr(1, 2);
-        } else {
-            document.calcForm.Conf01.value = 33;
         }
     }
 
@@ -2794,8 +2524,7 @@ function isNonRangeWeapon() {
     EnemySort();
     StCalc();
     calc();
-    LoadCookie3();
-    LoadCookieConf();
+    LoadSave();
 
 
 }
