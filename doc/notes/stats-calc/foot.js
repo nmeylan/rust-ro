@@ -1,5 +1,10 @@
 var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
 if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+
+function isNonRangeWeapon() {
+	return n_A_WeaponType != 10 && n_A_WeaponType != 14 && n_A_WeaponType != 15 && n_A_WeaponType != 17 && n_A_WeaponType != 18 && n_A_WeaponType != 19 && n_A_WeaponType != 20 && n_A_WeaponType != 21;
+}
+
 {
 	let window = _____WB$wombat$assign$function_____("window");
 	let self = _____WB$wombat$assign$function_____("self");
@@ -414,15 +419,15 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 
 
-		if(n_A_WeaponType != 10 && n_A_WeaponType !=14 && n_A_WeaponType !=15 && n_A_WeaponType !=17 && n_A_WeaponType !=18 && n_A_WeaponType !=19 && n_A_WeaponType !=20 && n_A_WeaponType !=21)
+		if(isNonRangeWeapon())
 		{
-			n_A_ATK_w = Math.round(Math.floor(n_A_STR/10) * Math.floor(n_A_STR/10));
-			n_A_ATK   = n_A_STR + n_A_ATK_w + Math.floor(n_A_DEX / 5) + Math.floor(n_A_LUK / 5);
+			baseATK_w = Math.round(Math.floor(n_A_STR/10) * Math.floor(n_A_STR/10));
+			baseATK   = n_A_STR + baseATK_w + Math.floor(n_A_DEX / 5) + Math.floor(n_A_LUK / 5);
 		}
 		else
 		{
-			n_A_ATK_w = Math.round(Math.floor(n_A_DEX/10) * Math.floor(n_A_DEX/10));
-			n_A_ATK   = n_A_DEX + n_A_ATK_w + Math.floor(n_A_STR / 5) + Math.floor(n_A_LUK / 5);
+			baseATK_w = Math.round(Math.floor(n_A_DEX/10) * Math.floor(n_A_DEX/10));
+			baseATK   = n_A_DEX + baseATK_w + Math.floor(n_A_STR / 5) + Math.floor(n_A_LUK / 5);
 		}
 
 
@@ -455,7 +460,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			w += 25 + 25 * n_A_PassSkill3[9];
 
 
-		n_A_ATK += w;
+		baseATK += w;
 
 
 		JobHP_A = new Array(0,70,50,40,50,30,40,150,110,75,85,55,90,110,85,90,75,75,75,90,0,150,110,75,85,55,90,110,85,90,75,75,75,90, 0, 0, 0, 0, 0, 0, 0,70,90,75, 75,84);
