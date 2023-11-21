@@ -18,7 +18,7 @@
     <script language="JavaScript" src="skill.js"></script>
     <script language="JavaScript" src="jobaspd.js"></script>
     <script language="JavaScript" src="weaponsize.js"></script>
-    <script language="JavaScript" src="zokusei.js"></script>
+    <script language="JavaScript" src="element.js"></script>
 
 </head>
 
@@ -68,6 +68,7 @@
                                 <td>
                                     <br>
 
+                                    <input type="button" value="Generate TestCase" onclick="GenerateTestCase()">
                                     <input type="button" value="Save" onclick="SaveCookie()">
                                     <input type="button" value="Load" onclick="LoadCookie()">
                                     <select name="A_SaveSlot">
@@ -102,7 +103,7 @@
                                                             <div style="float: left; padding: 3px;"><span
                                                                     id="nm01"></span></div>
                                                             <div style="float: right; padding-right: 3px;"><input
-                                                                    type="checkbox" name="A_youshi"
+                                                                    type="checkbox" name="isAdopted"
                                                                     onclick="calc()"><span id="nm078"></span> / <input
                                                                     type="checkbox" name="BLVauto" checked="1"><span
                                                                     id="nm02"></span></div>
@@ -279,7 +280,7 @@
                                                 <option value="10">10
                                             </select></td>
                                             <td class="calc"><span id="nm030"></span><select
-                                                    name="A_Weapon_zokusei"></select></td>
+                                                    name="A_Weapon_element"></select></td>
                                             <td class="calc"><select name="A_cardshort"
                                                                      onchange="SetCardShort()|StAllCalc()|ActiveSkillSetPlus()"></select>
                                             </td>

@@ -15,7 +15,7 @@ function isRangedWeapon() {
 	let frames = _____WB$wombat$assign$function_____("frames");
 	let opener = _____WB$wombat$assign$function_____("opener");
 
-	n_Nitou=0;
+	hasLeftHand=0;
 	n_Tensei=0;
 	n_SpSkill=0;
 	n_Ses=0;
@@ -169,7 +169,7 @@ function isRangedWeapon() {
 	];
 
 	SyuzokuOBJ = ["Formless","Undead","Brute","Plant","Insect","Fish","Demon","Demi-Human","Angel","Dragon"];
-	ZokuseiOBJ = ["Neutral","Water","Earth","Fire","Wind","Poison","Holy","Dark","Ghost","Undead"];
+	elementOBJ = ["Neutral","Water","Earth","Fire","Wind","Poison","Holy","Dark","Ghost","Undead"];
 	SizeOBJ = ["Small","Medium","Large"];
 	IjyouOBJ = ["Poison","Stun","Freeze","Curse","Blind","Sleep","Silence","Chaos","Bleeding","Stone","Weapon Break","Armor Break"];
 
@@ -220,7 +220,7 @@ function isRangedWeapon() {
 					myInnerHtml("bSUB",'<Font size="2"><B>Damage Shown with 2x right hand damage.</B></Font>',0);
 			}
 
-			if(n_Nitou){
+			if(hasLeftHand){
 
 				if(n_B[19] != 5){
 					TyouEnkakuSousa3dan = 0;
@@ -270,7 +270,7 @@ function isRangedWeapon() {
 					w_left_Maxatk = BattleCalc4(w_left_Maxatk * skillModifier,2,1);
 
 					if(w_left_Maxatk<1)w_left_Maxatk=1;
-					w_left_Maxatk = Math.floor(w_left_Maxatk * zokusei[n_B[3]][n_A_Weapon2_zokusei]);
+					w_left_Maxatk = Math.floor(w_left_Maxatk * element[n_B[3]][n_A_Weapon2_element]);
 
 
 					w_left_star = 0;
@@ -295,7 +295,7 @@ function isRangedWeapon() {
 					w_left_Minatk = BattleCalc4(w_left_Minatk * skillModifier,0,1);
 
 					if(w_left_Minatk<1)w_left_Minatk=1;
-					w_left_Minatk = Math.floor(w_left_Minatk * zokusei[n_B[3]][n_A_Weapon2_zokusei]);
+					w_left_Minatk = Math.floor(w_left_Minatk * element[n_B[3]][n_A_Weapon2_element]);
 					w_left_Minatk  += w_left_star;
 					w_left_Minatk *= (0.3 + SkillSearch(80) /10);
 					w_left_Minatk = Math.floor(w_left_Minatk);
@@ -498,13 +498,13 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==7){
 				skillModifier += n_A_ActiveSkillLV *0.2;
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				wDelay = 2;
 				swDelay = 1;
 			}else if(n_A_ActiveSkill==19){
 				not_use_card = 1;
 				skillModifier += 0.3;
-				n_A_Weapon_zokusei = 2;
+				n_A_Weapon_element = 2;
 			}else if(n_A_ActiveSkill==41){
 				n_Enekyori=1;
 				skillModifier += n_A_ActiveSkillLV *0.05 - 0.25;
@@ -534,7 +534,7 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==161){
 				skillModifier += n_A_ActiveSkillLV *0.35;
-				n_A_Weapon_zokusei = 6;
+				n_A_Weapon_element = 6;
 			}
 			else if(n_A_ActiveSkill==171)
 				skillModifier += n_A_ActiveSkillLV *0.4;
@@ -575,13 +575,13 @@ function isRangedWeapon() {
 			}else if(n_A_ActiveSkill==199||n_A_ActiveSkill==207){
 				wCast = 1.5;
 				skillModifier += (n_A_ActiveSkillLV * 0.4 - 0.4);
-				n_A_Weapon_zokusei = ArrowOBJ[n_A_Arrow][1];
-				if(eval(document.calcForm.A_Weapon_zokusei.value) != 0)
-					n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
+				n_A_Weapon_element = ArrowOBJ[n_A_Arrow][1];
+				if(eval(document.calcForm.A_Weapon_element.value) != 0)
+					n_A_Weapon_element = eval(document.calcForm.A_Weapon_element.value);
 				n_Enekyori=1;
 			}else if(n_A_ActiveSkill==248){
 				not_use_card = 1;
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				n_SpSkill=1;
 				wCast = 1;
 				skillModifier += n_A_ActiveSkillLV *0.2;
@@ -624,9 +624,9 @@ function isRangedWeapon() {
 			}else if(n_A_ActiveSkill==292){
 				wActiveHitNum = 9;
 				skillModifier += 1 + n_A_ActiveSkillLV;
-				n_A_Weapon_zokusei = ArrowOBJ[n_A_Arrow][1];
-				if(eval(document.calcForm.A_Weapon_zokusei.value) != 0)
-					n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
+				n_A_Weapon_element = ArrowOBJ[n_A_Arrow][1];
+				if(eval(document.calcForm.A_Weapon_element.value) != 0)
+					n_A_Weapon_element = eval(document.calcForm.A_Weapon_element.value);
 				n_Enekyori=1;
 				wCast = 1.8 + n_A_ActiveSkillLV *0.2;
 				if(n_A_ActiveSkillLV>=6) wDelay=1;
@@ -636,7 +636,7 @@ function isRangedWeapon() {
 			}else if(n_A_ActiveSkill==302){
 				n_Enekyori=1;
 				not_use_card = 1;
-				n_A_Weapon_zokusei = 4;
+				n_A_Weapon_element = 4;
 			}else if(n_A_ActiveSkill==303){
 				skillModifier += (n_A_ActiveSkillLV -1) * 1;
 			}else if(n_A_ActiveSkill==326){
@@ -667,7 +667,7 @@ function isRangedWeapon() {
 					skillModifier += 4;
 			}else if(n_A_ActiveSkill==423){
 				n_Enekyori=1;
-				n_A_Weapon_zokusei = 8;
+				n_A_Weapon_element = 8;
 				not_use_card = 1;
 			}else if(n_A_ActiveSkill==428){
 				n_Enekyori=1;
@@ -844,18 +844,18 @@ function isRangedWeapon() {
 		}
 
 		else if(n_A_ActiveSkill==118 || n_A_ActiveSkill==271){
-			n_A_Weapon_zokusei = 0;
+			n_A_Weapon_element = 0;
 			n_Enekyori=1;
 			wBT = 80 + Math.floor(n_A_DEX /10)*2 + Math.floor(n_A_INT/2)*2 + SkillSearch(119) *6;
 			if(n_A_ActiveSkill==271){
 				wBT = Math.floor(wBT * (150 + 70 * n_A_ActiveSkillLV) /100);
-				wBT = Math.floor(wBT * zokusei[n_B[3]][0]);
+				wBT = Math.floor(wBT * element[n_B[3]][0]);
 				wBT = tPlusDamCut(wBT);
 				wBT *= 5;
 				wCast = 1 * n_A_CAST;
 				wDelay = 3;
 			}else{
-				wBT = Math.floor(wBT * zokusei[n_B[3]][0]);
+				wBT = Math.floor(wBT * element[n_B[3]][0]);
 				wBT = tPlusDamCut(wBT);
 				wBT *= n_A_ActiveSkillLV;
 				wCast = 1.5 * n_A_CAST;
@@ -873,18 +873,18 @@ function isRangedWeapon() {
 
 		else if(n_A_ActiveSkill==17 || (n_A_ActiveSkill==86 && (n_B[3] < 50 ||  60 <= n_B[3]))){
 			ATKbai02(skillModifier,0);
-			n_A_Weapon_zokusei = 5;
+			n_A_Weapon_element = 5;
 
 
 			n_A_EDP_DMG[2] = BattleCalcEDP(n_A_DMG[2],2);
 			n_A_EDP_DMG[0] = BattleCalcEDP(n_A_DMG[0],0);
 			n_A_EDP_DMG[1] = BattleCalcEDP(n_A_DMG[1],1);
 
-			wINV = Math.floor(BattleCalc2(0) * zokusei[n_B[3]][5]);
+			wINV = Math.floor(BattleCalc2(0) * element[n_B[3]][5]);
 
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][5]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][5]);
 				myInnerHtml("ATK_0"+b,w_DMG[b] + n_A_EDP_DMG[b],0);
 				w_DMG[b] = (w_DMG[b] * w_HIT + wINV *(100-w_HIT))/100;
 				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
@@ -900,7 +900,7 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==159 || n_A_ActiveSkill==384)
 		{
 			n_Enekyori=1;
-			n_A_Weapon_zokusei = 0;
+			n_A_Weapon_element = 0;
 			wDelay = 0.7;
 			if(n_A_ActiveSkill==384)
 				wDelay = 0.35;
@@ -919,7 +919,7 @@ function isRangedWeapon() {
 				w_DMG[b] = Math.floor(Math.floor(w_DMG[b] * (100 - n_B[14]) /100 - n_B_DEF2[b]) * skillModifier2);
 				w_DMG[b] = BaiCI(w_DMG[b]);
 				if(w_DMG[b] < 1)w_DMG[b] = 1;
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
 				myInnerHtml("ATK_0"+b,w_DMG[b],0);
 				w_DMG[b] = (w_DMG[b] * w_HIT)/100;
 			}
@@ -931,7 +931,7 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==324)
 		{
 			n_Enekyori=1;
-			n_A_Weapon_zokusei = 0;
+			n_A_Weapon_element = 0;
 			wCast = 1 * n_A_CAST;
 			wDelay = 1;
 			swDelay = 1;
@@ -957,7 +957,7 @@ function isRangedWeapon() {
 				w_DMG[b] += wSC2[b];
 				w_DMG[b] = BaiCI(w_DMG[b]);
 				if(w_DMG[b] < 1)w_DMG[b] = 1;
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
 				myInnerHtml("ATK_0"+b,w_DMG[b] * 5 +"("+w_DMG[b]+ SubName[8] +"5hit)",0);
 				w_DMG[b] *= 5;
 				w_DMG[b] = (w_DMG[b] * w_HIT)/100;
@@ -981,13 +981,13 @@ function isRangedWeapon() {
 			w_DMG[2] = wSPP * wSPP + ItemOBJ[n_A_Equip[0]][6] * 0.8 * (1 + 0.5 * n_A_ActiveSkillLV);
 			wSPP = 1.25 -(n_B[4] * 0.25);
 			w_DMG[2] = Math.floor(w_DMG[2] * wSPP + n_A_WeaponLV_seirenATK);
-			w_DMG[2] = w_DMG[2] * zokusei[n_B[3]][n_A_Weapon_zokusei];
+			w_DMG[2] = w_DMG[2] * element[n_B[3]][n_A_Weapon_element];
 			w_DMG[2] = BaiCI(w_DMG[2]);
 			myInnerHtml("ATK_00",w_DMG[2] * 5 + "("+w_DMG[2]+ SubName[8] +5+"hit)",0);
 			myInnerHtml("ATK_01",w_DMG[2] * 5 + "("+w_DMG[2]+ SubName[8] +5+"hit)",0);
 			myInnerHtml("ATK_02",w_DMG[2] * 5 + "("+w_DMG[2]+ SubName[8] +5+"hit)",0);
 			w_DMG[2] *= 5;
-			wSPP2 = n_A_WeaponLV_seirenATK * zokusei[n_B[3]][n_A_Weapon_zokusei];
+			wSPP2 = n_A_WeaponLV_seirenATK * element[n_B[3]][n_A_Weapon_element];
 			wSPP2 = BaiCI(wSPP2);
 			wSPP2 = tPlusDamCut(wSPP2);
 			w_DMG[2] = w_DMG[2] * w_HIT /100 + wSPP2 * 5 * (100- w_HIT)/100;
@@ -1102,7 +1102,7 @@ function isRangedWeapon() {
 
 
 			n_Enekyori=2;
-			n_A_Weapon_zokusei = 6;
+			n_A_Weapon_element = 6;
 			wCast = 3 * n_A_CAST;
 			wDelay=1.5;
 			swDelay = 1;
@@ -1111,11 +1111,11 @@ function isRangedWeapon() {
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BK_n_A_DMG[b] * (100 - n_B[14]) /100 - n_B_DEF2[b] + n_A_WeaponLV_seirenATK;
 				w_DMG[b] *= skillModifier + n_A_ActiveSkillLV * 0.4;
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][6]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][6]);
 				w = n_A_MATK[b] *(100 - n_B[15])/100 -n_B_MDEF2;
 				w *= (n_A_ActiveSkillLV * 0.4 +1);
-				w = Math.floor(w * zokusei[n_B[3]][6]);
-				w_DMG[b] = tPlusDamCut(Math.floor((w+w_DMG[b])*zokusei[n_B[3]][6]));
+				w = Math.floor(w * element[n_B[3]][6]);
+				w_DMG[b] = tPlusDamCut(Math.floor((w+w_DMG[b])*element[n_B[3]][6]));
 				if(w_DMG[b] < 1)w_DMG[b]=1;
 				if(60<=n_B[3]&&n_B[3]<=69)w_DMG[b]=0;
 			}
@@ -1164,11 +1164,11 @@ function isRangedWeapon() {
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
 				w_DMG[b] += Math.floor(BattleCalc(CR_n_A_DMG[b],b) * CRbai);
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
 				myInnerHtml("ATK_0"+b,w_DMG[b],0);
 
 				w_DMG[b] = (w_DMG[b] * w_HIT + BattleCalc2(0) * 2 *(100-w_HIT))/100;
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
 			}
 
 			CastAndDelay();
@@ -1196,10 +1196,10 @@ function isRangedWeapon() {
 
 		else if(n_A_ActiveSkill==284)
 		{
-			n_A_Weapon_zokusei = 0;
+			n_A_Weapon_element = 0;
 			w_DMG[2] = Math.floor(n_A_MaxHP * 0.09 * (0.9 + 0.1 * n_A_ActiveSkillLV));
 			w_DMG[2] = BaiCI(w_DMG[2]);
-			w_DMG[2] = Math.floor(w_DMG[2] * zokusei[n_B[3]][0]);
+			w_DMG[2] = Math.floor(w_DMG[2] * element[n_B[3]][0]);
 			myInnerHtml("ATK_02",w_DMG[2],0);
 			myInnerHtml("ATK_00",w_DMG[2],0);
 			myInnerHtml("ATK_01",w_DMG[2],0);
@@ -1214,7 +1214,7 @@ function isRangedWeapon() {
 
 		else if(n_A_ActiveSkill==193)
 		{
-			n_A_Weapon_zokusei = 0;
+			n_A_Weapon_element = 0;
 			ATKbai02(skillModifier,0);
 			skillModifier += n_A_ActiveSkillLV *0.75;
 
@@ -1227,7 +1227,7 @@ function isRangedWeapon() {
 			for(b=0;b<=2;b++){
 				w_DMG[b] = Math.floor(Math.floor(BK_n_A_DMG[b] * skillModifier) * (work_B_DEF2[b]+n_B[14]) /50);
 				w_DMG[b] = BaiCI(w_DMG[b]);
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
 				myInnerHtml("ATK_0"+b,w_DMG[b],0);
 			}
 
@@ -1241,7 +1241,7 @@ function isRangedWeapon() {
 
 		else if(n_A_ActiveSkill==197 || n_A_ActiveSkill==321)
 		{
-			n_A_Weapon_zokusei = 0;
+			n_A_Weapon_element = 0;
 			ATKbai02(skillModifier,0);
 			if(n_A_ActiveSkill==197)
 				skillModifier += 7 + eval(document.calcForm.SkillSubNum.value) /10;
@@ -1252,7 +1252,7 @@ function isRangedWeapon() {
 			for(b=0;b<=2;b++){
 				w_DMG[b] = Math.floor(BK_n_A_DMG[b] * skillModifier) + wASYU;
 				w_DMG[b] = BaiCI(w_DMG[b]);
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
 				myInnerHtml("ATK_0"+b,w_DMG[b],0);
 			}
 
@@ -1272,9 +1272,9 @@ function isRangedWeapon() {
 
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
 				myInnerHtml("ATK_0"+b,w_DMG[b] + n_A_EDP_DMG[b],0);
-				w_DMG[b] = (w_DMG[b] * w_HIT + BattleCalc2(0) * zokusei[n_B[3]][0] *(100-w_HIT))/100;
+				w_DMG[b] = (w_DMG[b] * w_HIT + BattleCalc2(0) * element[n_B[3]][0] *(100-w_HIT))/100;
 				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
 			}
 
@@ -1288,14 +1288,14 @@ function isRangedWeapon() {
 			ATKbai02(skillModifier,0);
 
 
-			if(eval(document.calcForm.A_Weapon_zokusei.value) == 0 && n_A_WeaponType != 0 && StPlusCard(20) == 0)
-				n_A_Weapon_zokusei = KunaiOBJ[eval(document.calcForm.SkillSubNum.value)][1];
+			if(eval(document.calcForm.A_Weapon_element.value) == 0 && n_A_WeaponType != 0 && StPlusCard(20) == 0)
+				n_A_Weapon_element = KunaiOBJ[eval(document.calcForm.SkillSubNum.value)][1];
 
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
 				myInnerHtml("ATK_0"+b,w_DMG[b] * 3 + "("+ w_DMG[b] + SubName[8] +"3hit)",0);
-				w_DMG[b] = (w_DMG[b] * 3 * w_HIT + BattleCalc2(0) * zokusei[n_B[3]][0] *(100-w_HIT))/100;
+				w_DMG[b] = (w_DMG[b] * 3 * w_HIT + BattleCalc2(0) * element[n_B[3]][0] *(100-w_HIT))/100;
 				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
 			}
 
@@ -1314,11 +1314,11 @@ function isRangedWeapon() {
 
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
+				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
 				if(wActiveHitNum > 1)
 					w_DMG[b] = Math.floor(w_DMG[b] / wActiveHitNum) * wActiveHitNum;
 				myInnerHtml("ATK_0"+b,w_DMG[b] + n_A_EDP_DMG[b],0);
-				w_DMG[b] = (w_DMG[b] * w_HIT + BattleCalc2(0)* zokusei[n_B[3]][0] *(100-w_HIT))/100;
+				w_DMG[b] = (w_DMG[b] * w_HIT + BattleCalc2(0)* element[n_B[3]][0] *(100-w_HIT))/100;
 				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
 			}
 
@@ -1328,7 +1328,7 @@ function isRangedWeapon() {
 
 		else if(n_A_ActiveSkill==405 || n_A_ActiveSkill==438)
 		{
-			n_A_Weapon_zokusei = 0;
+			n_A_Weapon_element = 0;
 			n_Enekyori=1;
 			ATKbai02(skillModifier,0);
 			if(n_A_ActiveSkill==405)
@@ -1339,7 +1339,7 @@ function isRangedWeapon() {
 			w_DMG[0] = (n_A_STR + n_A_ActiveSkillLV) * 40 + w_1senHP * (n_A_BaseLV / 100) * n_A_ActiveSkillLV / 10;
 			w_DMG[0] = w_DMG[0] * (100 - n_B[14]) / 100;
 			w_DMG[0] = BaiCI(w_DMG[0]);
-			w_DMG[0] = Math.floor(w_DMG[0] * zokusei[n_B[3]][0]);
+			w_DMG[0] = Math.floor(w_DMG[0] * element[n_B[3]][0]);
 
 			w_DMG[2] = w_DMG[1] = w_DMG[0];
 			for(b=0;b<=2;b++)
@@ -1354,12 +1354,12 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==244)
 		{
 			n_Enekyori=1;
-			n_A_Weapon_zokusei = 0;
+			n_A_Weapon_element = 0;
 			skillModifier = (50 + n_A_ActiveSkillLV * 50) /100;
 
 			for(b=0;b<=2;b++){
 				w_DMG[b] = Math.floor((BK_n_A_DMG[b] - n_B_DEF2[b]) * skillModifier);
-				w_DMG[b] = tPlusDamCut(Math.floor(w_DMG[b] * zokusei[n_B[3]][0]));
+				w_DMG[b] = tPlusDamCut(Math.floor(w_DMG[b] * element[n_B[3]][0]));
 				myInnerHtml("ATK_0"+b,w_DMG[b],0);
 			}
 
@@ -1372,12 +1372,12 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==328)
 		{
 			n_Enekyori=1;
-			n_A_Weapon_zokusei = 0;
+			n_A_Weapon_element = 0;
 			wHITsuu = n_A_ActiveSkillLV;
 
 			wAD = 0.7 * n_A_INT * n_A_INT * n_B[7] / (n_A_INT + n_B[7]);
 			w_DMG[2] = Math.floor(wAD);
-			w_DMG[2] = tPlusDamCut(Math.floor(w_DMG[2] * zokusei[n_B[3]][0]));
+			w_DMG[2] = tPlusDamCut(Math.floor(w_DMG[2] * element[n_B[3]][0]));
 			if(Taijin==1)
 				w_DMG[2] = Math.floor(w_DMG[2] /2);
 			myInnerHtml("ATK_02",w_DMG[2] * wHITsuu + "("+ w_DMG[2] + SubName[8] +wHITsuu+"hit)",0);
@@ -1398,16 +1398,16 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==106 || n_A_ActiveSkill==112 || n_A_ActiveSkill==113){
 			n_SpSkill=1;
 			if(n_A_ActiveSkill==106){
-				n_A_Weapon_zokusei = 2;
-				w_DMG[2] = Math.floor((75 + n_A_DEX) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * zokusei[n_B[3]][2]);
+				n_A_Weapon_element = 2;
+				w_DMG[2] = Math.floor((75 + n_A_DEX) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * element[n_B[3]][2]);
 			}
 			else if(n_A_ActiveSkill==112){
-				n_A_Weapon_zokusei = 4;
-				w_DMG[2] = Math.floor((50 + n_A_DEX/2) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * zokusei[n_B[3]][4]) * eval(document.calcForm.SkillSubNum.value);
+				n_A_Weapon_element = 4;
+				w_DMG[2] = Math.floor((50 + n_A_DEX/2) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * element[n_B[3]][4]) * eval(document.calcForm.SkillSubNum.value);
 			}
 			else if(n_A_ActiveSkill==113){
-				n_A_Weapon_zokusei = 3;
-				w_DMG[2] = Math.floor((75 + n_A_DEX/2) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * zokusei[n_B[3]][3]) * eval(document.calcForm.SkillSubNum.value);
+				n_A_Weapon_element = 3;
+				w_DMG[2] = Math.floor((75 + n_A_DEX/2) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * element[n_B[3]][3]) * eval(document.calcForm.SkillSubNum.value);
 			}
 
 			w_DMG[2] = tPlusDamCut(w_DMG[2]);
@@ -1424,12 +1424,12 @@ function isRangedWeapon() {
 		}
 
 		else if(n_A_ActiveSkill==25){
-			n_A_Weapon_zokusei = 6;
+			n_A_Weapon_element = 6;
 			wDelay=1;
 			swDelay = 1;
 			n_Enekyori=2;
 			w_DMG[2] = HealCalc(n_A_ActiveSkillLV,0);
-			w_DMG[2] = Math.floor(Math.floor(w_DMG[2] / 2) * zokusei[n_B[3]][6]);
+			w_DMG[2] = Math.floor(Math.floor(w_DMG[2] / 2) * element[n_B[3]][6]);
 			if(n_B[3] < 90){
 				w_DMG[2]=0;
 			}
@@ -1448,14 +1448,14 @@ function isRangedWeapon() {
 		}
 
 		else if(n_A_ActiveSkill==94){
-			n_A_Weapon_zokusei = 6;
+			n_A_Weapon_element = 6;
 			n_SpSkill=1;
 			n_Enekyori=2;
 			if(n_A_ActiveSkillLV <= 6)
 				w_DMG[2] = 100 * n_A_ActiveSkillLV;
 			else
 				w_DMG[2] = 777;
-			w_DMG[2] = Math.floor(Math.floor(w_DMG[2] / 2) * zokusei[n_B[3]][6]);
+			w_DMG[2] = Math.floor(Math.floor(w_DMG[2] / 2) * element[n_B[3]][6]);
 			if(n_B[3] < 90 && n_B[2] != 6)
 				w_DMG[2]=0;
 			if(n_B[2] != 6 && n_B[2] != 1)
@@ -1482,7 +1482,7 @@ function isRangedWeapon() {
 		}
 
 		else if(n_A_ActiveSkill==102){
-			n_A_Weapon_zokusei = 6;
+			n_A_Weapon_element = 6;
 			n_Enekyori=2;
 			if(n_B[3] < 90){
 				w = 0;
@@ -1499,10 +1499,10 @@ function isRangedWeapon() {
 					w_DMG[2] = 0;
 				}
 				w_DMG[0] = n_A_BaseLV + n_A_INT + n_A_ActiveSkillLV *10;
-				w_DMG[0] = Math.floor(w_DMG[0] * zokusei[n_B[3]][6]);
+				w_DMG[0] = Math.floor(w_DMG[0] * element[n_B[3]][6]);
 				w_DMG[1] = Math.round((n_B[6] * w + w_DMG[0] * (100-w)/100));
 			}
-			myInnerHtml("ATK_02",Math.floor(w_DMG[2] * zokusei[n_B[3]][6]) +"(Success Rate " +Math.round(w *10000)/100 +"%)",0);
+			myInnerHtml("ATK_02",Math.floor(w_DMG[2] * element[n_B[3]][6]) +"(Success Rate " +Math.round(w *10000)/100 +"%)",0);
 			myInnerHtml("ATK_00",w_DMG[0] +"(Failure Damage)",0);
 			myInnerHtml("ATK_01",w_DMG[1] +"(Certain One Hit Kill HP)",0);
 
@@ -1516,7 +1516,7 @@ function isRangedWeapon() {
 		}
 
 		else if(n_A_ActiveSkill==325){
-			n_A_Weapon_zokusei = 0;
+			n_A_Weapon_element = 0;
 			n_SpSkill=1;
 			n_Enekyori=2;
 			wHITsuu = 4 + n_A_ActiveSkillLV;
@@ -1548,25 +1548,25 @@ function isRangedWeapon() {
 			swDelay = 1;
 			skillModifier = 1;
 			if(n_A_ActiveSkill==51){
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				wHITsuu = n_A_ActiveSkillLV;
 				wCast = 0.7 * n_A_ActiveSkillLV;
 				wDelay= 0.8 + n_A_ActiveSkillLV * 0.2;
 			}
 			else if(n_A_ActiveSkill==54){
-				n_A_Weapon_zokusei = 1;
+				n_A_Weapon_element = 1;
 				wHITsuu = n_A_ActiveSkillLV;
 				wCast = 0.7 * n_A_ActiveSkillLV;
 				wDelay= 0.8 + n_A_ActiveSkillLV * 0.2;
 			}
 			else if(n_A_ActiveSkill==56){
-				n_A_Weapon_zokusei = 4;
+				n_A_Weapon_element = 4;
 				wHITsuu = n_A_ActiveSkillLV;
 				wCast = 0.7 * n_A_ActiveSkillLV;
 				wDelay= 0.8 + n_A_ActiveSkillLV * 0.2;
 			}
 			else if(n_A_ActiveSkill==52){
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				if(n_A_ActiveSkillLV <=5){
 					wCast = 1.5;
 					wDelay= 1.5;
@@ -1577,27 +1577,27 @@ function isRangedWeapon() {
 				skillModifier = 0.7 + n_A_ActiveSkillLV * 0.1;
 			}
 			else if(n_A_ActiveSkill==53){
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				wHITsuu = 4 + n_A_ActiveSkillLV;
 				wCast = 2.15 - (n_A_ActiveSkillLV * 0.15);
 				wDelay= 0.1;
 				skillModifier = 0.5;
 			}
 			else if(n_A_ActiveSkill==55){
-				n_A_Weapon_zokusei = 1;
+				n_A_Weapon_element = 1;
 				wCast = 0.8;
 				wDelay= 1.5;
 				skillModifier = 1 + n_A_ActiveSkillLV * 0.1;
 			}
 			else if(n_A_ActiveSkill==57){
-				n_A_Weapon_zokusei = 4;
+				n_A_Weapon_element = 4;
 				wHITsuu = n_A_ActiveSkillLV;
 				wCast = 1 * n_A_ActiveSkillLV;
 				wDelay= 2;
 				skillModifier = 0.8;
 			}
 			else if(n_A_ActiveSkill==46){
-				n_A_Weapon_zokusei = 8;
+				n_A_Weapon_element = 8;
 				wCast = 0.5;
 				if(n_A_ActiveSkillLV==10)
 					wDelay= 0.5;
@@ -1614,7 +1614,7 @@ function isRangedWeapon() {
 				skillModifier = 0.7 + n_A_ActiveSkillLV * 0.1;
 			}
 			else if(n_A_ActiveSkill==47){
-				n_A_Weapon_zokusei = 8;
+				n_A_Weapon_element = 8;
 				wHITsuu = Math.round(n_A_ActiveSkillLV / 2);
 				wCast = 0.5;
 				if(n_A_ActiveSkillLV % 2 == 0)
@@ -1623,32 +1623,32 @@ function isRangedWeapon() {
 					wDelay= 1 + (n_A_ActiveSkillLV+1) / 2 *0.2;
 			}
 			else if(n_A_ActiveSkill==122){
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				wHITsuu = n_A_ActiveSkillLV +2;
 				wCast = 3.3 - (0.3 * n_A_ActiveSkillLV);
 				wDelay= 1;
 				skillModifier = 0.2;
 			}
 			else if(n_A_ActiveSkill==124){
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				wCast = 0.7;
 				wDelay= 2;
 				skillModifier = 1 + n_A_ActiveSkillLV * 0.2;
 			}
 			else if(n_A_ActiveSkill==125){
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				wHITsuu = Math.round(n_A_ActiveSkillLV / 2) * (Math.floor(n_A_ActiveSkillLV / 2) + 2);
 				wCast = 15;
 				wDelay= Math.floor(n_A_ActiveSkillLV / 2) * 1 +2;
 			}
 			else if(n_A_ActiveSkill==126){
-				n_A_Weapon_zokusei = 4;
+				n_A_Weapon_element = 4;
 				wHITsuu = n_A_ActiveSkillLV + 2;
 				wCast = 2 + n_A_ActiveSkillLV * 0.5;
 				wDelay= 0.01;
 			}
 			else if(n_A_ActiveSkill==127){
-				n_A_Weapon_zokusei = 4;
+				n_A_Weapon_element = 4;
 				wHITsuu = 4;
 				wCast = 15.5 - n_A_ActiveSkillLV * 0.5;
 				wDelay= 5;
@@ -1656,7 +1656,7 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==128 || n_A_ActiveSkill==320){
 				swDelay = 2;
-				n_A_Weapon_zokusei = 1;
+				n_A_Weapon_element = 1;
 				if(n_A_ActiveSkillLV >= 4)
 					wHITsuu = 25
 				else if(n_A_ActiveSkillLV >= 2)
@@ -1667,19 +1667,19 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==130){
 				skillModifier = 0.66 + n_A_ActiveSkillLV * 0.066;
-				n_A_Weapon_zokusei = 1;
+				n_A_Weapon_element = 1;
 				wCast = 6 - Math.floor((n_A_ActiveSkillLV-1) /2) * 0.5;
 				wDelay= 1;
 			}
 			else if(n_A_ActiveSkill==131){
-				n_A_Weapon_zokusei = 1;
+				n_A_Weapon_element = 1;
 				wHITsuu = eval(document.calcForm.SkillSubNum.value);
 				wCast = 5 + n_A_ActiveSkillLV;
 				wDelay= 5;
 				skillModifier = 1 + n_A_ActiveSkillLV * 0.4;
 			}
 			else if(n_A_ActiveSkill==132 || n_A_ActiveSkill==133){
-				n_A_Weapon_zokusei = 2;
+				n_A_Weapon_element = 2;
 				wHITsuu = n_A_ActiveSkillLV;
 				if(n_A_ActiveSkill==132){
 					wCast = n_A_ActiveSkillLV *0.7;
@@ -1692,13 +1692,13 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==277){
 				wHITsuu = n_A_ActiveSkillLV;
-				n_A_Weapon_zokusei = 8;
+				n_A_Weapon_element = 8;
 				wCast = 1;
 				wDelay= 1;
 				skillModifier = 0.7 + n_A_ActiveSkillLV * 0.1;
 			}
 			else if(n_A_ActiveSkill==37 || n_A_ActiveSkill==387){
-				n_A_Weapon_zokusei = 6;
+				n_A_Weapon_element = 6;
 				wCast = 2;
 				skillModifier = 1.25;
 				if(n_A_ActiveSkill==387)
@@ -1707,7 +1707,7 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==104){
 				n_SpSkill=1;
-				n_A_Weapon_zokusei = 6;
+				n_A_Weapon_element = 6;
 				wHITsuu = n_A_ActiveSkillLV;
 				wCast = 15;
 				wDelay= 4;
@@ -1715,7 +1715,7 @@ function isRangedWeapon() {
 					n_A_MATK[2]=0;n_A_MATK[0]=0;n_A_MATK[1]=0;
 				}
 			}else if(n_A_ActiveSkill==373){
-				n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
+				n_A_Weapon_element = eval(document.calcForm.A_Weapon_element.value);
 				wCast = 0.1;
 				wDelay= 0.5;
 				if(n_B[4] == 0)
@@ -1726,7 +1726,7 @@ function isRangedWeapon() {
 					skillModifier = 0;
 			}
 			else if(n_A_ActiveSkill==374){
-				n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
+				n_A_Weapon_element = eval(document.calcForm.A_Weapon_element.value);
 				wCast = 0.1;
 				wDelay= 0.5;
 
@@ -1737,7 +1737,7 @@ function isRangedWeapon() {
 					skillModifier = 0;
 			}
 			else if(n_A_ActiveSkill==375){
-				n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
+				n_A_Weapon_element = eval(document.calcForm.A_Weapon_element.value);
 				n_SpSkill=1;
 				wHITsuu = n_A_ActiveSkillLV;
 				wCast = 2;
@@ -1747,14 +1747,14 @@ function isRangedWeapon() {
 					skillModifier = 0;
 			}
 			else if(n_A_ActiveSkill==407){
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				skillModifier = 0.9;
 				wHITsuu = n_A_ActiveSkillLV;
 				wCast = 0.7 * n_A_ActiveSkillLV;
 				wDelay= 0.01;
 			}
 			else if(n_A_ActiveSkill==408){
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				skillModifier = 0.5;
 				wHITsuu = Math.round(n_A_ActiveSkillLV / 2) +4 ;
 				wCast = 6.5 - 0.5 * n_A_ActiveSkillLV;
@@ -1762,35 +1762,35 @@ function isRangedWeapon() {
 				n_SpSkill=1;
 			}
 			else if(n_A_ActiveSkill==409){
-				n_A_Weapon_zokusei = 3;
+				n_A_Weapon_element = 3;
 				skillModifier = 1.5 + n_A_ActiveSkillLV * 1.5;
 				wHITsuu = 1;
 				wCast = 3;
 				wDelay= 3;
 			}
 			else if(n_A_ActiveSkill==410){
-				n_A_Weapon_zokusei = 1;
+				n_A_Weapon_element = 1;
 				skillModifier = 1;
 				wHITsuu = n_A_ActiveSkillLV + 2;
 				wCast = n_A_ActiveSkillLV * 0.7;
 				wDelay= 0.01;
 			}
 			else if(n_A_ActiveSkill==412){
-				n_A_Weapon_zokusei = 1;
+				n_A_Weapon_element = 1;
 				skillModifier = 1.0 + n_A_ActiveSkillLV * 0.5;
 				wHITsuu = 1;
 				wCast = 3;
 				wDelay= 3;
 			}
 			else if(n_A_ActiveSkill==413){
-				n_A_Weapon_zokusei = 4;
+				n_A_Weapon_element = 4;
 				skillModifier = 1.0;
 				wHITsuu = Math.floor(n_A_ActiveSkillLV / 2) +1;
 				wCast = Math.floor(n_A_ActiveSkillLV / 2) + 1;
 				wDelay= 1;
 			}
 			else if(n_A_ActiveSkill==414){
-				n_A_Weapon_zokusei = 4;
+				n_A_Weapon_element = 4;
 				skillModifier = 1.6 + 0.4 * n_A_ActiveSkillLV;
 				wHITsuu = 1;
 				wCast = 4;
@@ -1798,7 +1798,7 @@ function isRangedWeapon() {
 
 			}
 			else if(n_A_ActiveSkill==415){
-				n_A_Weapon_zokusei = 4;
+				n_A_Weapon_element = 4;
 				skillModifier = 1.0 + n_A_ActiveSkillLV * 1.0;
 				wHITsuu = 1;
 				wCast = 4;
@@ -1889,7 +1889,7 @@ function isRangedWeapon() {
 			if(wBTw2 < wBTw1)
 				wBTw1 = wBTw2;
 			wBT = 80 + Math.floor(n_A_DEX /10)*2 + Math.floor(n_A_INT/2)*2 + SkillSearch(119) *6;
-			wBT = Math.floor(wBT * zokusei[n_B[3]][0]);
+			wBT = Math.floor(wBT * element[n_B[3]][0]);
 			wBT = tPlusDamCut(wBT);
 			wBTw3 = Math.round((1 + n_A_LUK * 0.3)*100)/100;
 			if(n_B[0] == 44)
@@ -2209,7 +2209,7 @@ function isRangedWeapon() {
 			}
 		}
 
-		wBMC2 = Math.floor(wBMC2 * zokusei[n_B[3]][n_A_Weapon_zokusei]);
+		wBMC2 = Math.floor(wBMC2 * element[n_B[3]][n_A_Weapon_element]);
 		if(90 <= n_B[3] && (n_A_ActiveSkill==47 || n_A_ActiveSkill==313))
 			wBMC2 = Math.floor(wBMC2 * (1 + 0.05 * n_A_ActiveSkillLV));
 
@@ -2508,7 +2508,7 @@ function isRangedWeapon() {
 
 		n_A_JobSet();
 		if((n_A_JOB == 8 || n_A_JOB == 22) && n != 11){
-			if(n_Nitou == 0)
+			if(hasLeftHand == 0)
 				myInnerHtml("A_SobWeaponName"," Left Hand: "+'<select name="A_Weapon2Type" onChange = "ClickWeaponType2(this[this.selectedIndex].value) | StAllCalc()"> <option value="0">Unarmed (or Shield)<option value="1">Dagger<option value="2">One-Hand Sword<option value="6">One-Hand Axe</select>',0);
 		}
 		else{
@@ -2520,7 +2520,7 @@ function isRangedWeapon() {
 			myInnerHtml("nA_weapon2_c2","",0);
 			myInnerHtml("nA_weapon2_c3","",0);
 			myInnerHtml("nA_weapon2_c4","",0);
-			n_Nitou = 0;
+			hasLeftHand = 0;
 		}
 		n_A_Equip[0] = eval(document.calcForm.A_weapon1.value);
 		ActiveSkillSetPlus();
@@ -2532,7 +2532,7 @@ function isRangedWeapon() {
 
 		n_A_JobSet();
 		if(n != 0){
-			if(n_Nitou == 0){
+			if(hasLeftHand == 0){
 				myInnerHtml("spanA_weapon2",'<select name="A_weapon2"onChange="StAllCalc()|ClickB_Item(this[this.selectedIndex].value)"></select>',0);
 				myInnerHtml("spanA_weapon2seiren","Refine(Left):"+'<select name="A_Weapon2_ATKplus"></select>',0);
 				for(i=0;i<=10;i++){
@@ -2557,7 +2557,7 @@ function isRangedWeapon() {
 			document.calcForm.A_cardshortLeft.options[0] = new Option("Card Shortcuts (Left)",0);
 			for(i=1;i<=32;i++)
 				document.calcForm.A_cardshortLeft.options[i] = new Option(CardShort[i][0],i);
-			n_Nitou = 1;
+			hasLeftHand = 1;
 			WeaponSetLeft();
 		}
 		else{
@@ -2568,9 +2568,9 @@ function isRangedWeapon() {
 			myInnerHtml("nA_weapon2_c2","",0);
 			myInnerHtml("nA_weapon2_c3","",0);
 			myInnerHtml("nA_weapon2_c4","",0);
-			n_Nitou = 0;
+			hasLeftHand = 0;
 		}
-		if(n_Nitou){
+		if(hasLeftHand){
 			n_A_Equip[1] = eval(document.calcForm.A_weapon2.value);
 			ActiveSkillSetPlus();
 		}
@@ -3342,7 +3342,7 @@ function isRangedWeapon() {
 		}
 
 		if(Taijin){
-			n_B[3] = eval(document.calcForm.B_ZOKUSEI.value);
+			n_B[3] = eval(document.calcForm.B_element.value);
 			n_B[5] = eval(document.calcForm.B_LV.value);
 			n_B[7] = eval(document.calcForm.B_VIT.value);
 			n_B[8] = eval(document.calcForm.B_AGI.value);
@@ -3629,9 +3629,9 @@ function isRangedWeapon() {
 			myInnerHtml("B_2",SyuzokuOBJ[n_B[2]],0);
 			w = Math.floor(n_B[3] / 10);
 			if(n_B[3] != n_B2[3])
-				myInnerHtml("B_3",wFront2 +(ZokuseiOBJ[w] + n_B[3] % 10)+ wBack,0);
+				myInnerHtml("B_3",wFront2 +(elementOBJ[w] + n_B[3] % 10)+ wBack,0);
 			else
-				myInnerHtml("B_3",(ZokuseiOBJ[w] + n_B[3] % 10),0);
+				myInnerHtml("B_3",(elementOBJ[w] + n_B[3] % 10),0);
 			myInnerHtml("B_4",SizeOBJ[n_B[4]],0);
 		}
 		else{
@@ -3965,7 +3965,7 @@ function isRangedWeapon() {
 
 
 		if(wBCEDPch==0)
-			w999 = w999 * zokusei[n_B[3]][n_A_Weapon_zokusei];
+			w999 = w999 * element[n_B[3]][n_A_Weapon_element];
 
 
 		if(n_A_WeaponType == 0 && SkillSearch(329))
@@ -4026,7 +4026,7 @@ function isRangedWeapon() {
 			w999 = Math.floor(w999 / 2);
 
 
-		if(n_Nitou && n_A_ActiveSkill==0){
+		if(hasLeftHand && n_A_ActiveSkill==0){
 
 			if(n_A_WeaponType != 0)
 				w999 = Math.floor(w999 * (50 + SkillSearch(79) *10) /100);
@@ -4037,9 +4037,9 @@ function isRangedWeapon() {
 			return 1;
 
 		if(n_A_ActiveSkill==423)
-			w999 = w999 * zokusei[n_B[3]][8];
+			w999 = w999 * element[n_B[3]][8];
 		if(n_A_ActiveSkill==437)
-			w999 = w999 * zokusei[n_B[3]][0];
+			w999 = w999 * element[n_B[3]][0];
 
 		return w999;
 	}
@@ -4273,7 +4273,7 @@ function isRangedWeapon() {
 	function BattleCalcEDP(wBCEDP,wBCEDP2){
 		if(wBCEDP <= 0)
 			return 0;
-		if(zokusei[n_B[3]][n_A_Weapon_zokusei] <= 0 && BattleCalc2(0) == 0)
+		if(element[n_B[3]][n_A_Weapon_element] <= 0 && BattleCalc2(0) == 0)
 			return 0;
 
 		if(n_A_ActiveSkill == 19 || n_A_ActiveSkill == 263 || n_A_ActiveSkill == 88 || n_A_ActiveSkill == 264 || n_A_ActiveSkill == 248)
@@ -4283,11 +4283,11 @@ function isRangedWeapon() {
 		wBCEDPy=0;
 		if(SkillSearch(266)){
 			wBCEDPx = BattleCalc(wBCEDP,wBCEDP2);
-			wBCEDPx = Math.floor((wBCEDPx * zokusei[n_B[3]][5])/4);
+			wBCEDPx = Math.floor((wBCEDPx * element[n_B[3]][5])/4);
 		}
 		if(n_A_PassSkill2[11]){
 			wBCEDPy = BattleCalc(wBCEDP,wBCEDP2);
-			wBCEDPy = Math.floor((wBCEDPy * zokusei[n_B[3]][3]) /5);
+			wBCEDPy = Math.floor((wBCEDPy * element[n_B[3]][3]) /5);
 		}
 		wBCEDPch=0;
 		return wBCEDPx + wBCEDPy;
@@ -4297,7 +4297,7 @@ function isRangedWeapon() {
 	function HitEDPplus(wBCEDPp){
 		if(wBCEDPp <= 0)
 			return 0;
-		if(zokusei[n_B[3]][n_A_Weapon_zokusei] <= 0)
+		if(element[n_B[3]][n_A_Weapon_element] <= 0)
 			return 0;
 		wBCEDPpDA = 1;
 		if(n_A_ActiveSkill==0)
@@ -4310,9 +4310,9 @@ function isRangedWeapon() {
 			www = w_HIT;
 
 			if(SkillSearch(266))
-				wBCEDPpHOSI = Math.floor((wBCEDPpHOSI * zokusei[n_B[3]][5])/4);
+				wBCEDPpHOSI = Math.floor((wBCEDPpHOSI * element[n_B[3]][5])/4);
 			if(n_A_PassSkill2[11])
-				wBCEDPpHOSI = Math.floor((wBCEDPpHOSI * zokusei[n_B[3]][3])/5);
+				wBCEDPpHOSI = Math.floor((wBCEDPpHOSI * element[n_B[3]][3])/5);
 		}
 		else
 			www = w998K * w_HIT /100;
