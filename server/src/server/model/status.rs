@@ -1,6 +1,8 @@
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
 use configuration::configuration::GameConfig;
+use enums::size::Size;
+use enums::EnumWithStringValue;
 use models::status::{KnownSkill, Look, Status};
 
 pub struct StatusFromDb;
@@ -47,6 +49,7 @@ impl StatusFromDb {
             base_exp: char_model.base_exp as u32,
             job_exp: char_model.job_exp as u32,
             state: 0,
+            size: Default::default(),
             weapons: vec![],
             equipments: vec![],
             ammo: None,
@@ -84,6 +87,7 @@ impl StatusFromDb {
             base_exp: 0,
             job_exp: 0,
             state: 0,
+            size: Size::from_string(&mob_model.size),
             weapons: vec![],
             equipments: vec![],
             ammo: None,

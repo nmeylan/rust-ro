@@ -1,6 +1,7 @@
 use accessor::SettersAll;
 use enums::EnumWithMaskValueU64;
 use enums::item::EquipmentLocation;
+use enums::size::Size;
 use crate::item::{Wearable, WearAmmo, WearGear, WearWeapon};
 
 
@@ -35,6 +36,7 @@ pub struct Status {
     pub base_exp: u32,
     pub job_exp: u32,
     pub state: u64,
+    pub size: Size,
     pub weapons: Vec<WearWeapon>,
     pub equipments: Vec<WearGear>,
     pub ammo: Option<WearAmmo>,

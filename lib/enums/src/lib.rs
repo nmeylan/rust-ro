@@ -15,6 +15,7 @@ pub mod map;
 pub mod cell;
 pub mod effect;
 pub mod skill_enums;
+pub mod size;
 
 pub trait EnumWithStringValue {
     fn try_from_string(value: &str) -> Result<Self, String> where Self: Sized;
