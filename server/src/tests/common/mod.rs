@@ -9,6 +9,7 @@ pub mod mocked_repository;
 pub mod server_helper;
 pub mod item_helper;
 pub mod sync_helper;
+mod fixtures;
 
 
 use std::{fs, thread};

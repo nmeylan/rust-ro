@@ -2251,11 +2251,11 @@ function isNonRangeWeapon() {
         SaveData[43] = eval(document.calcForm.A_acces2.value);
         SaveData[44] = eval(document.calcForm.A_acces2_card.value);
 
-        saveJson.headger_upper = eval(document.calcForm.A_head1.value);
-        saveJson.headger_upper_card = eval(document.calcForm.A_head1_card.value);
-        saveJson.headger_middle = eval(document.calcForm.A_head2.value);
-        saveJson.headger_middle_card = eval(document.calcForm.A_head2_card.value);
-        saveJson.headger_lower = eval(document.calcForm.A_head3.value)
+        saveJson.headgear_upper = eval(document.calcForm.A_head1.value);
+        saveJson.headgear_upper_card = eval(document.calcForm.A_head1_card.value);
+        saveJson.headgear_middle = eval(document.calcForm.A_head2.value);
+        saveJson.headgear_middle_card = eval(document.calcForm.A_head2_card.value);
+        saveJson.headgear_lower = eval(document.calcForm.A_head3.value)
 
         saveJson.shield = eval(document.calcForm.A_left.value);
         saveJson.shield_card = eval(document.calcForm.A_left_card.value);
@@ -2296,7 +2296,7 @@ function isNonRangeWeapon() {
             {skid: 486}, {skid: 383}, {state: 'Spirit Sphere'}, {skid: 7}, {state: 'Aloevera'}, {skid: 67}, {skid: 256}];
         var supportiveSkills = [];
         for (i = 0; i <= 12; i++) {
-            if (n_A_PassSkill2[i] === undefined) {
+            if (n_A_PassSkill2[i] === undefined || n_A_PassSkill2[i] === 0) {
                 continue;
             }
             var value = n_A_PassSkill2[i];
@@ -2320,7 +2320,7 @@ function isNonRangeWeapon() {
         SaveData[87] = eval(document.calcForm.A_SHOULDER_DEF_PLUS.value);
         SaveData[88] = eval(document.calcForm.A_SHOES_DEF_PLUS.value);
 
-        saveJson.headger_upper_refinement = eval(document.calcForm.A_HEAD_DEF_PLUS.value);
+        saveJson.headgear_upper_refinement = eval(document.calcForm.A_HEAD_DEF_PLUS.value);
         saveJson.body_refinement = eval(document.calcForm.A_BODY_DEF_PLUS.value);
         saveJson.shield_refinement = eval(document.calcForm.A_LEFT_DEF_PLUS.value);
         saveJson.shoulder_refinement = eval(document.calcForm.A_SHOULDER_DEF_PLUS.value);
@@ -2359,7 +2359,7 @@ function isNonRangeWeapon() {
             LoadCookie3();
             document.calcForm.A_SaveSlot.value = bkcN;
         } else {
-            let savedDataAsJson = JSON.stringify(saveJson, null, 2);
+            let savedDataAsJson = JSON.stringify(saveJson);
             console.log(savedDataAsJson);
             navigator.clipboard.writeText(savedDataAsJson);
         }
