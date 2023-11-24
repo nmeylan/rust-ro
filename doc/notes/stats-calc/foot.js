@@ -2228,8 +2228,19 @@ function isNonRangeWeapon() {
             max_dmg: max_dmg,
             dps: dps,
         };
-        console.log(savedDataAsJson);
-        navigator.clipboard.writeText(savedDataAsJson);
+        console.log(JSON.stringify(savedDataAsJson));
+        navigator.clipboard.writeText(JSON.stringify(savedDataAsJson));
+    }
+
+    function aegis_item(value) {
+        return ItemIds[value][2]
+    }
+
+    function card(value) {
+        if (!value) {
+            return null;
+        }
+        return CardIds[value][2]
     }
 
     function SaveCookie(skipSave) {
@@ -2255,41 +2266,41 @@ function isNonRangeWeapon() {
         }
 
         testCaseData.speed_potion = eval(document.calcForm.A_SpeedPOT.value);
-        testCaseData.weapon = eval(document.calcForm.A_weapon1.value);
+        testCaseData.weapon = aegis_item(eval(document.calcForm.A_weapon1.value));
         testCaseData.weapon_refinement = eval(document.calcForm.A_Weapon_ATKplus.value);
-        testCaseData.weapon_card1 = eval(document.calcForm.A_weapon1_card1.value);
-        testCaseData.weapon_card2 = eval(document.calcForm.A_weapon1_card2.value);
-        testCaseData.weapon_card3 = eval(document.calcForm.A_weapon1_card3.value);
-        testCaseData.weapon_card4 = eval(document.calcForm.A_weapon1_card4.value);
+        testCaseData.weapon_card1 = card(eval(document.calcForm.A_weapon1_card1.value));
+        testCaseData.weapon_card2 = card(eval(document.calcForm.A_weapon1_card2.value));
+        testCaseData.weapon_card3 = card(eval(document.calcForm.A_weapon1_card3.value));
+        testCaseData.weapon_card4 = card(eval(document.calcForm.A_weapon1_card4.value));
 
         if (document.calcForm.A_weapon2) {
-            testCaseData.weapon_left = eval(document.calcForm.A_weapon2.value);
+            testCaseData.weapon_left = aegis_item(eval(document.calcForm.A_weapon2.value));
             testCaseData.weapon_left_refinement = eval(document.calcForm.A_Weapon2_ATKplus.value);
-            testCaseData.weapon_left_card1 = eval(document.calcForm.A_weapon2_card1.value);
-            testCaseData.weapon_left_card2 = eval(document.calcForm.A_weapon2_card2.value);
-            testCaseData.weapon_left_card3 = eval(document.calcForm.A_weapon2_card3.value);
-            testCaseData.weapon_left_card4 = eval(document.calcForm.A_weapon2_card4.value);
+            testCaseData.weapon_left_card1 = card(eval(document.calcForm.A_weapon2_card1.value));
+            testCaseData.weapon_left_card2 = card(eval(document.calcForm.A_weapon2_card2.value));
+            testCaseData.weapon_left_card3 = card(eval(document.calcForm.A_weapon2_card3.value));
+            testCaseData.weapon_left_card4 = card(eval(document.calcForm.A_weapon2_card4.value));
         }
 
 
-        testCaseData.headgear_upper = eval(document.calcForm.A_head1.value);
-        testCaseData.headgear_upper_card = eval(document.calcForm.A_head1_card.value);
-        testCaseData.headgear_middle = eval(document.calcForm.A_head2.value);
-        testCaseData.headgear_middle_card = eval(document.calcForm.A_head2_card.value);
-        testCaseData.headgear_lower = eval(document.calcForm.A_head3.value)
+        testCaseData.headgear_upper = aegis_item(eval(document.calcForm.A_head1.value));
+        testCaseData.headgear_upper_card = card(eval(document.calcForm.A_head1_card.value));
+        testCaseData.headgear_middle = aegis_item(eval(document.calcForm.A_head2.value));
+        testCaseData.headgear_middle_card = card(eval(document.calcForm.A_head2_card.value));
+        testCaseData.headgear_lower = aegis_item(eval(document.calcForm.A_head3.value))
 
-        testCaseData.shield = eval(document.calcForm.A_left.value);
-        testCaseData.shield_card = eval(document.calcForm.A_left_card.value);
-        testCaseData.body = eval(document.calcForm.A_body.value);
-        testCaseData.body_card = eval(document.calcForm.A_body_card.value);
-        testCaseData.shoulder = eval(document.calcForm.A_shoulder.value);
-        testCaseData.shoulder_card = eval(document.calcForm.A_shoulder_card.value);
-        testCaseData.shoes = eval(document.calcForm.A_shoes.value);
-        testCaseData.shoes_card = eval(document.calcForm.A_shoes_card.value);
-        testCaseData.accessory_left = eval(document.calcForm.A_acces1.value);
-        testCaseData.accessory_left_card = eval(document.calcForm.A_acces1_card.value);
-        testCaseData.accessory_right = eval(document.calcForm.A_acces2.value);
-        testCaseData.accessory_right_card = eval(document.calcForm.A_acces2_card.value);
+        testCaseData.shield = aegis_item(eval(document.calcForm.A_left.value));
+        testCaseData.shield_card = card(eval(document.calcForm.A_left_card.value));
+        testCaseData.body = aegis_item(eval(document.calcForm.A_body.value));
+        testCaseData.body_card = card(eval(document.calcForm.A_body_card.value));
+        testCaseData.shoulder = aegis_item(eval(document.calcForm.A_shoulder.value));
+        testCaseData.shoulder_card = card(eval(document.calcForm.A_shoulder_card.value));
+        testCaseData.shoes = aegis_item(eval(document.calcForm.A_shoes.value));
+        testCaseData.shoes_card = card(eval(document.calcForm.A_shoes_card.value));
+        testCaseData.accessory_left = aegis_item(eval(document.calcForm.A_acces1.value));
+        testCaseData.accessory_left_card = card(eval(document.calcForm.A_acces1_card.value));
+        testCaseData.accessory_right = aegis_item(eval(document.calcForm.A_acces2.value));
+        testCaseData.accessory_right_card = card(eval(document.calcForm.A_acces2_card.value));
 
         n_A_JobSet();
         w = n_A_JOB;
@@ -2326,8 +2337,11 @@ function isNonRangeWeapon() {
         testCaseData.shield_refinement = eval(document.calcForm.A_LEFT_DEF_PLUS.value);
         testCaseData.shoulder_refinement = eval(document.calcForm.A_SHOULDER_DEF_PLUS.value);
         testCaseData.shoes_refinement = eval(document.calcForm.A_SHOES_DEF_PLUS.value);
-        testCaseData.skill_to_use = {skid: SkillOBJ[eval(document.calcForm.A_ActiveSkill.value)][3], level: eval(document.calcForm.A_ActiveSkillLV.value)};
-        testCaseData.target = MonsterOBJ[eval(document.calcForm.B_Enemy.value)][1];
+        testCaseData.skill_to_use = {
+            skid: SkillOBJ[eval(document.calcForm.A_ActiveSkill.value)][3],
+            level: eval(document.calcForm.A_ActiveSkillLV.value)
+        };
+        testCaseData.target = MonsterIds[eval(document.calcForm.B_Enemy.value)][2];
 
         if (!skipSave) {
             cookieNum = document.calcForm.A_SaveSlot.value;
@@ -2362,6 +2376,8 @@ function isNonRangeWeapon() {
             document.calcForm.A_Weapon2Type.value = json.A_Weapon2Type
             ClickWeaponType2(json.A_Weapon2Type);
         }
+        document.calcForm.A_weapon1.value = json.A_weapon1;
+        ClickB_Item(json.A_weapon1);
         n_A_JobSet();
         ClickActiveSkill(json.A_ActiveSkill);
 
