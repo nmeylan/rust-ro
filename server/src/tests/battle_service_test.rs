@@ -39,7 +39,7 @@ mod tests {
     use crate::assert_eq_with_variance;
     use crate::server::model::map_item::ToMapItem;
     use crate::tests::battle_service_test::before_each;
-    use crate::tests::common::character_helper::{create_character, equip_item};
+    use crate::tests::common::character_helper::{create_character, equip_item_from_name};
     use crate::tests::common::mob_helper::create_mob;
     use crate::util::tick::get_tick;
 
@@ -69,7 +69,7 @@ mod tests {
             character.status.dex = stat.dex;
             character.status.luk = stat.luk;
             if !stat.weapon.is_empty() {
-                equip_item(&mut character, stat.weapon);
+                equip_item_from_name(&mut character, stat.weapon);
             }
             // When
             let mut average = Vec::with_capacity(1001);
@@ -113,7 +113,7 @@ mod tests {
             let mut average = Vec::with_capacity(1001);
             let mut min = u32::MAX;
             let mut max = u32::MIN;
-            equip_item(&mut character, stat.weapon);
+            equip_item_from_name(&mut character, stat.weapon);
             for _ in 0..1000 {
                 let damage = context.battle_service.weapon_atk(&character.status, &target_status);
                 average.push(damage);
@@ -239,7 +239,7 @@ mod tests {
         for scenarii in scenario {
             let mut character = create_character();
             if let Some(weapon) = scenarii.weapon {
-                equip_item(&mut character, weapon);
+                equip_item_from_name(&mut character, weapon);
             };
             target_status.size = scenarii.target_size;
             let size_modifier = context.battle_service.size_modifier(&character.status, &target_status);

@@ -72,7 +72,7 @@ mod tests {
     use crate::server::service::global_config_service::GlobalConfigService;
     
     use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, NotificationExpectation, task_queue_contains_event_at_tick, SentPacket};
-    use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character, equip_item};
+    use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character, equip_item_from_name};
     use crate::tests::common::item_helper::create_inventory_item;
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
     use crate::tests::common::mocked_repository;
@@ -207,8 +207,8 @@ mod tests {
         // Given
         let context = before_each_with_latch(mocked_repository(), 1);
         let mut character = create_character();
-        equip_item(&mut character, "Guard");
-        equip_item(&mut character, "Knife");
+        equip_item_from_name(&mut character, "Guard");
+        equip_item_from_name(&mut character, "Knife");
         // When
         context.inventory_service.reload_equipped_item_sprites(&character);
         // Then
@@ -492,7 +492,7 @@ mod tests {
         let context = before_each(mocked_repository());
         let mut character = create_character();
         let _char_id = character.char_id;
-        let knife_index = equip_item(&mut character, "Knife");
+        let knife_index = equip_item_from_name(&mut character, "Knife");
         assert_eq!(character.status.all_equipped_items().len(), 1);
         // When
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
@@ -506,7 +506,7 @@ mod tests {
         let context = before_each(mocked_repository());
         let mut character = create_character();
         let _char_id = character.char_id;
-        let arrow_index = equip_item(&mut character, "Arrow");
+        let arrow_index = equip_item_from_name(&mut character, "Arrow");
         assert_eq!(character.status.all_equipped_items().len(), 1);
         // When
         context.inventory_service.takeoff_equip_item(&mut character, arrow_index);
@@ -520,7 +520,7 @@ mod tests {
         let context = before_each(mocked_repository());
         let mut character = create_character();
         let char_id = character.char_id;
-        let knife_index = equip_item(&mut character, "Knife");
+        let knife_index = equip_item_from_name(&mut character, "Knife");
         // When
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
         // Then

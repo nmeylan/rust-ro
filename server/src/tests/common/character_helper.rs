@@ -4,7 +4,7 @@ use enums::class::JobName;
 
 
 use models::status::{Look, Status};
-use crate::repository::model::item_model::{DBItemType, InventoryItemModel};
+use crate::repository::model::item_model::{DBItemType, InventoryItemModel, ItemModel};
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
@@ -67,12 +67,20 @@ pub fn create_character() -> Character {
 }
 
 
+pub fn equip_item_from_name(character: &mut Character, aegis_name: &str) -> usize {
+    let item = GlobalConfigService::instance().get_item_by_name(aegis_name);
+    equip_item(character, item)
+}
+pub fn equip_item_from_id(character: &mut Character, id: u32) -> usize {
+    let item = GlobalConfigService::instance().get_item(id as i32);
+    equip_item(character, item)
+}
+
 //
 // Warning: this method is not safe, if an item is already equipped at the given item location, character will have more than 1 item equipped to this location.
 // Character equip given item.
-pub fn equip_item(character: &mut Character, aegis_name: &str) -> usize {
+pub fn equip_item(character: &mut Character, item: &ItemModel) -> usize {
     let mut rng = rand::thread_rng();
-    let item = GlobalConfigService::instance().get_item_by_name(aegis_name);
     let inventory_item = InventoryItemModel {
         id: rng.next_u32() as i32,
         unique_id: rng.next_u32() as i64,
