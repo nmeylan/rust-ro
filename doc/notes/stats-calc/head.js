@@ -16,7 +16,7 @@ function isRangedWeapon() {
 	let opener = _____WB$wombat$assign$function_____("opener");
 
 	hasLeftHand=0;
-	n_Tensei=0;
+	isRebirth=0;
 	n_SpSkill=0;
 	n_Ses=0;
 	n_Enekyori=0;
@@ -228,44 +228,44 @@ function isRangedWeapon() {
 					n_A_Weapon2 = eval(document.calcForm.A_weapon2.value);
 					n_A_Weapon2LV = ItemOBJ[n_A_Weapon2][4];
 					n_A_Weapon2_ATK = ItemOBJ[n_A_Weapon2][3];
-					n_A_Weapon2_ATKplus = eval(document.calcForm.A_Weapon2_ATKplus.value);
+					n_A_Weapon2_RefinementLevel = eval(document.calcForm.A_Weapon2_ATKplus.value);
 
 
-					n_A_Weapon2LV_seirenATK = 0;
+					n_A_Weapon2LV_upgradeBonusATK = 0;
 					n_A_Weapon2LV_Minplus = 0;
-					n_A_Weapon2LV_Maxplus = 0;
+					n_A_Weapon2LV_overUpgradeBonusATK = 0;
 					if(n_A_Weapon2LV == 1){
-						n_A_Weapon2LV_seirenATK = n_A_Weapon2_ATKplus * 2;
-						if(n_A_Weapon2_ATKplus >= 8){
+						n_A_Weapon2LV_upgradeBonusATK = n_A_Weapon2_RefinementLevel * 2;
+						if(n_A_Weapon2_RefinementLevel >= 8){
 							n_A_Weapon2LV_Minplus = 1;
-							n_A_Weapon2LV_Maxplus = 3 * (n_A_Weapon2_ATKplus - 7);
+							n_A_Weapon2LV_overUpgradeBonusATK = 3 * (n_A_Weapon2_RefinementLevel - 7);
 						}
 					}else if(n_A_Weapon2LV == 2){
-						n_A_Weapon2LV_seirenATK = n_A_Weapon2_ATKplus * 3;
-						if(n_A_Weapon2_ATKplus >= 7){
+						n_A_Weapon2LV_upgradeBonusATK = n_A_Weapon2_RefinementLevel * 3;
+						if(n_A_Weapon2_RefinementLevel >= 7){
 							n_A_Weapon2LV_Minplus = 1;
-							n_A_Weapon2LV_Maxplus = 5 * (n_A_Weapon2_ATKplus - 6);
+							n_A_Weapon2LV_overUpgradeBonusATK = 5 * (n_A_Weapon2_RefinementLevel - 6);
 						}
 					}else if(n_A_Weapon2LV == 3){
-						n_A_Weapon2LV_seirenATK = n_A_Weapon2_ATKplus * 5;
-						if(n_A_Weapon2_ATKplus >= 6){
+						n_A_Weapon2LV_upgradeBonusATK = n_A_Weapon2_RefinementLevel * 5;
+						if(n_A_Weapon2_RefinementLevel >= 6){
 							n_A_Weapon2LV_Minplus = 1;
-							n_A_Weapon2LV_Maxplus = 8 * (n_A_Weapon2_ATKplus - 5);
+							n_A_Weapon2LV_overUpgradeBonusATK = 8 * (n_A_Weapon2_RefinementLevel - 5);
 						}
 					}else if(n_A_Weapon2LV == 4){
-						n_A_Weapon2LV_seirenATK = n_A_Weapon2_ATKplus * 7;
-						if(n_A_Weapon2_ATKplus >= 5){
+						n_A_Weapon2LV_upgradeBonusATK = n_A_Weapon2_RefinementLevel * 7;
+						if(n_A_Weapon2_RefinementLevel >= 5){
 							n_A_Weapon2LV_Minplus = 1;
-							n_A_Weapon2LV_Maxplus = 14 * (n_A_Weapon2_ATKplus - 4);
+							n_A_Weapon2LV_overUpgradeBonusATK = 14 * (n_A_Weapon2_RefinementLevel - 4);
 						}
 					}
 
 					n_A_workDEX = Math.floor(n_A_DEX * (1 + (n_A_Weapon2LV - 1) * 0.2));
 
 					if(n_A_workDEX>=n_A_Weapon2_ATK)
-						w_left_Maxatk = baseATK + n_A_Weapon2LV_Maxplus + Math.floor((n_A_Weapon2_ATK + impositioMagnus)* sizeModifier);
+						w_left_Maxatk = baseATK + n_A_Weapon2LV_overUpgradeBonusATK + Math.floor((n_A_Weapon2_ATK + impositioMagnus)* sizeModifier);
 					else
-						w_left_Maxatk = baseATK + n_A_Weapon2LV_Maxplus + Math.floor((n_A_Weapon2_ATK-1 + impositioMagnus)* sizeModifier);
+						w_left_Maxatk = baseATK + n_A_Weapon2LV_overUpgradeBonusATK + Math.floor((n_A_Weapon2_ATK-1 + impositioMagnus)* sizeModifier);
 
 					w_left_Maxatk = BattleCalc4(w_left_Maxatk * skillModifier,2,1);
 
@@ -313,6 +313,8 @@ function isRangedWeapon() {
 
 				w_DMG[2] = BattleCalc(n_A_DMG[2],2);
 				myInnerHtml("ATK_02",w_DMG[2] + n_A_EDP_DMG[2] +"("+ w_left_Maxatk +")",0);
+
+
 
 
 				w_DMG[2] = BattleCalc3(w_DMG[2]);
@@ -768,7 +770,7 @@ function isRangedWeapon() {
 			for(b=0;b<=2;b++){
 				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
 				myInnerHtml("ATK_0"+b,w_DMG[b] + n_A_EDP_DMG[b],0);
-				w_DMG[b] = (w_DMG[b] * w_HIT + (BattleCalc2(0)+n_A_WeaponLV_seirenATK) *(100-w_HIT))/100;
+				w_DMG[b] = (w_DMG[b] * w_HIT + (BattleCalc2(0)+n_A_WeaponLV_upgradeBonusATK) *(100-w_HIT))/100;
 				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
 			}
 
@@ -980,14 +982,14 @@ function isRangedWeapon() {
 			wSPP = Math.floor(n_A_STR / 10);
 			w_DMG[2] = wSPP * wSPP + ItemOBJ[n_A_Equip[0]][6] * 0.8 * (1 + 0.5 * n_A_ActiveSkillLV);
 			wSPP = 1.25 -(n_B[4] * 0.25);
-			w_DMG[2] = Math.floor(w_DMG[2] * wSPP + n_A_WeaponLV_seirenATK);
+			w_DMG[2] = Math.floor(w_DMG[2] * wSPP + n_A_WeaponLV_upgradeBonusATK);
 			w_DMG[2] = w_DMG[2] * element[n_B[3]][n_A_Weapon_element];
 			w_DMG[2] = BaiCI(w_DMG[2]);
 			myInnerHtml("ATK_00",w_DMG[2] * 5 + "("+w_DMG[2]+ SubName[8] +5+"hit)",0);
 			myInnerHtml("ATK_01",w_DMG[2] * 5 + "("+w_DMG[2]+ SubName[8] +5+"hit)",0);
 			myInnerHtml("ATK_02",w_DMG[2] * 5 + "("+w_DMG[2]+ SubName[8] +5+"hit)",0);
 			w_DMG[2] *= 5;
-			wSPP2 = n_A_WeaponLV_seirenATK * element[n_B[3]][n_A_Weapon_element];
+			wSPP2 = n_A_WeaponLV_upgradeBonusATK * element[n_B[3]][n_A_Weapon_element];
 			wSPP2 = BaiCI(wSPP2);
 			wSPP2 = tPlusDamCut(wSPP2);
 			w_DMG[2] = w_DMG[2] * w_HIT /100 + wSPP2 * 5 * (100- w_HIT)/100;
@@ -1077,7 +1079,7 @@ function isRangedWeapon() {
 			n_A_INTMDEF = n_A_INT + Math.floor(n_A_VIT /2);
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BK_n_A_DMG[b] * (100 - n_A_DEF) /100 - work_A_VITDEF[b] + n_A_WeaponLV_seirenATK;
+				w_DMG[b] = BK_n_A_DMG[b] * (100 - n_A_DEF) /100 - work_A_VITDEF[b] + n_A_WeaponLV_upgradeBonusATK;
 				w_DMG[b] = Math.floor(w_DMG[b] * (skillModifier + n_A_ActiveSkillLV * 0.4));
 
 				w = n_A_MATK[b] *(100 - n_A_MDEF)/100 - n_A_INTMDEF;
@@ -1109,7 +1111,7 @@ function isRangedWeapon() {
 			wLAch=1;
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BK_n_A_DMG[b] * (100 - n_B[14]) /100 - n_B_DEF2[b] + n_A_WeaponLV_seirenATK;
+				w_DMG[b] = BK_n_A_DMG[b] * (100 - n_B[14]) /100 - n_B_DEF2[b] + n_A_WeaponLV_upgradeBonusATK;
 				w_DMG[b] *= skillModifier + n_A_ActiveSkillLV * 0.4;
 				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][6]);
 				w = n_A_MATK[b] *(100 - n_B[15])/100 -n_B_MDEF2;
@@ -3788,9 +3790,9 @@ function isRangedWeapon() {
 
 
 		if(n_A_workDEX>=n_A_Weapon_ATK || SkillSearch(155)) // 155 = power maximize
-			weaponAttack[2] = n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
+			weaponAttack[2] = n_A_WeaponLV_overUpgradeBonusATK + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
 		else
-			weaponAttack[2] = n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK-1 + impositioMagnus)* sizeModifier);
+			weaponAttack[2] = n_A_WeaponLV_overUpgradeBonusATK + Math.floor((n_A_Weapon_ATK-1 + impositioMagnus)* sizeModifier);
 
 		if(isRangedWeapon())
 			weaponAttack[2] += Math.floor((ArrowOBJ[n_A_Arrow][0]-1) * sizeModifier);
@@ -3798,8 +3800,8 @@ function isRangedWeapon() {
 
 		if(isRangedWeapon())
 		{
-			w1 = n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * n_A_Weapon_ATK / 100 * sizeModifier) + Math.floor(impositioMagnus * sizeModifier);
-			w2 = n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * n_A_workDEX / 100 * sizeModifier) + Math.floor(impositioMagnus * sizeModifier);
+			w1 = n_A_WeaponLV_overUpgradeBonusATK + Math.floor(n_A_Weapon_ATK * n_A_Weapon_ATK / 100 * sizeModifier) + Math.floor(impositioMagnus * sizeModifier);
+			w2 = n_A_WeaponLV_overUpgradeBonusATK + Math.floor(n_A_Weapon_ATK * n_A_workDEX / 100 * sizeModifier) + Math.floor(impositioMagnus * sizeModifier);
 
 			w = Math.floor((ArrowOBJ[n_A_Arrow][0]-1) * sizeModifier);
 			w1 += w;
@@ -3840,9 +3842,9 @@ function isRangedWeapon() {
 
 		n_Enekyori=0;
 		n_A_CriATK = [0,0,0];
-		n_A_CriATK[1] = baseATK + (n_A_WeaponLV_Minplus + n_A_WeaponLV_Maxplus) /2 + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
+		n_A_CriATK[1] = baseATK + (n_A_WeaponLV_Minplus + n_A_WeaponLV_overUpgradeBonusATK) /2 + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
 		n_A_CriATK[0] = baseATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
-		n_A_CriATK[2] = baseATK + n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
+		n_A_CriATK[2] = baseATK + n_A_WeaponLV_overUpgradeBonusATK + Math.floor((n_A_Weapon_ATK + impositioMagnus)* sizeModifier);
 
 
 		if(n_A_WeaponType==10)
@@ -3877,7 +3879,7 @@ function isRangedWeapon() {
 		if(n_A_WeaponType == 11){
 			wk = Math.floor(n_A_CriATK[1] * (0.01 + SkillSearch(13) * 0.02));
 			wk2 = Math.floor((n_A_CriATK[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch(13) * 0.02));
-			if(n_A_WeaponLV_Minplus == n_A_WeaponLV_Maxplus && n_A_EDP_DMG[0] == n_A_EDP_DMG[2]){
+			if(n_A_WeaponLV_Minplus == n_A_WeaponLV_overUpgradeBonusATK && n_A_EDP_DMG[0] == n_A_EDP_DMG[2]){
 				myInnerHtml("CRIATK",(n_A_CriATK[1] + wk2 + n_A_EDP_DMG[1]) +"("+ (n_A_CriATK[1] + n_A_EDP_DMG[1]) +"+"+ wk2 +")",0);
 			}else{
 				w1 = Math.floor((n_A_CriATK[0] + n_A_EDP_DMG[0]) * (0.01 + SkillSearch(13) * 0.02));
@@ -3886,7 +3888,7 @@ function isRangedWeapon() {
 			}
 			n_A_CriATK[1] += wk;
 		}else{
-			if(n_A_WeaponLV_Minplus == n_A_WeaponLV_Maxplus && n_A_EDP_DMG[0] == n_A_EDP_DMG[2])
+			if(n_A_WeaponLV_Minplus == n_A_WeaponLV_overUpgradeBonusATK && n_A_EDP_DMG[0] == n_A_EDP_DMG[2])
 				myInnerHtml("CRIATK",n_A_CriATK[1] + n_A_EDP_DMG[1],0);
 			else
 				myInnerHtml("CRIATK",(n_A_CriATK[0] + n_A_EDP_DMG[0]) +" ~ "+ (n_A_CriATK[2] + n_A_EDP_DMG[2]),0);
@@ -3905,7 +3907,7 @@ function isRangedWeapon() {
 	{
 
 		if(w_2==10)
-			w_atk += n_A_WeaponLV_seirenATK;
+			w_atk += n_A_WeaponLV_upgradeBonusATK;
 		else
 			w_atk=BattleCalc4(w_atk,w_2,0);
 
@@ -4240,9 +4242,9 @@ function isRangedWeapon() {
 
 	function BattleCalc4(wBC4,wBC4_2,wBC4_3){
 		if(wBC4_3==0)
-			wBC4_3=n_A_WeaponLV_seirenATK;
+			wBC4_3=n_A_WeaponLV_upgradeBonusATK;
 		else
-			wBC4_3=n_A_Weapon2LV_seirenATK;
+			wBC4_3=n_A_Weapon2LV_upgradeBonusATK;
 		if((StPlusCalc2(23) + StPlusCard(23)) == 0 || n_A_ActiveSkill==275)
 		{
 			if(n_A_ActiveSkill==432)
