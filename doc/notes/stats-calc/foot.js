@@ -2337,11 +2337,6 @@ function isNonRangeWeapon() {
         testCaseData.int = eval(document.calcForm.A_INT.value);
         testCaseData.luk = eval(document.calcForm.A_LUK.value);
 
-        testCaseData.weapon_type = eval(document.calcForm.A_WeaponType.value);
-        if (hasLeftHand) {
-            testCaseData.weapon_type_left = eval(document.calcForm.A_Weapon2Type.value);
-        }
-
         if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && n_A_WeaponType != 0)) {
             testCaseData.ammo = eval(document.calcForm.A_Arrow.value);
         }
