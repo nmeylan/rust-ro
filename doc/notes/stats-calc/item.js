@@ -1587,6 +1587,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 	function ClickB_Item(CBI)
 	{
+		const start = Date.now();
 		ActiveSkillSetPlus();
 
 		if(CBI == "SW"){
@@ -1648,6 +1649,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 	function Item_Setumei(num,CBI2)
 	{
+		const start = Date.now();
 		wNAME1 = ["0","STR","AGI","VIT","INT","DEX","LUK","All Stats","HIT","FLEE","CRIT","Perfect Dodge","ASPD","MHP","MSP","MHP","MSP","ATK","DEF","MDEF"];
 		wIS = " + ";
 		if(num[CBI2+1] < 0)
@@ -1821,6 +1823,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 	}
 
 	function SetEquipName(SENw){
+		const start = Date.now();
 		SENstr = "";
 		for(SENi=0;SENi<=SE_MAXnum;SENi++){
 			if(w_SE[SENi][0] == SENw){
@@ -1832,11 +1835,14 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				return SENstr;
 			}
 		}
+		console.log("SetEquipName end. Took", Date.now() - start, "ms")
 	}
 
 
 	function SetEquip()
 	{
+		const start = Date.now();
+
 		for(SEi=11;SEi<=20;SEi++)
 			n_A_Equip[SEi] = 736;
 
@@ -1855,6 +1861,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				w_SE_num++;
 			}
 		}
+		console.log("SetEquip end. Took", Date.now() - start, "ms")
 	}
 
 

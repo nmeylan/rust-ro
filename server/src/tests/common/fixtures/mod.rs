@@ -1,1 +1,1 @@
-mod battle_fixture;
+pub mod battle_fixture;

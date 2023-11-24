@@ -48,7 +48,8 @@ mod tests {
     use crate::{assert_eq_with_variance, assert_sent_packet_in_current_packetver};
     use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
-    use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item};
+    use crate::tests::common;
+    use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item_from_id, equip_item_from_name};
     use crate::tests::common::mob_helper::create_mob;
     use crate::tests::skill_service_test::before_each;
 
@@ -134,8 +135,8 @@ mod tests {
         let known_skill = KnownSkill { value: SkillEnum::AcDouble, level: 1 };
         character.status.known_skills.push(known_skill);
         character.status.sp = 50;
-        let item_inventory = equip_item(&mut character, "Arrow");
-        equip_item(&mut character, "Bow");
+        let item_inventory = equip_item_from_name(&mut character, "Arrow");
+        equip_item_from_name(&mut character, "Bow");
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
         let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
@@ -177,7 +178,7 @@ mod tests {
         character.status.known_skills.push(known_skill);
         character.status.sp = 50;
         character.status.zeny = 5000;
-        equip_item(&mut character, "Axe");
+        equip_item_from_name(&mut character, "Axe");
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
         let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
@@ -256,8 +257,8 @@ mod tests {
         let known_skill = KnownSkill { value: SkillEnum::AcDouble, level: 1 };
         character.status.known_skills.push(known_skill);
         character.status.sp = 50;
-        let arrow_inventory_item_index = equip_item(&mut character, "Arrow");
-        let bow_inventory_item_index = equip_item(&mut character, "Bow");
+        let arrow_inventory_item_index = equip_item_from_name(&mut character, "Arrow");
+        let bow_inventory_item_index = equip_item_from_name(&mut character, "Bow");
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
         let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
@@ -306,73 +307,38 @@ mod tests {
         let mut context = before_each();
         let mut character = create_character();
         let packetver = GlobalConfigService::instance().packetver();
-        let poring = create_mob(1, "PORING");
-        #[derive(Debug)]
-        struct Scenarii<'a> {
-            skill_to_use: KnownSkill,
-            character_base_level: u32,
-            character_job_level: u32,
-            character_str: u16,
-            character_agi: u16,
-            character_vit: u16,
-            character_dex: u16,
-            character_int: u16,
-            character_luk: u16,
-            character_weapon: &'a str,
-            target_status: Status,
-            expected_min_damage: u32,
-            expected_avg_damage: u32,
-            expected_max_damage: u32,
-        }
-        let scenario = vec![
-            Scenarii {
-                skill_to_use: KnownSkill { value: SkillEnum::SmBash, level: 10 },
-                character_base_level: 10,
-                character_job_level: 0,
-                character_str: 10,
-                character_agi: 1,
-                character_vit: 1,
-                character_dex: 1,
-                character_int: 1,
-                character_luk: 1,
-                character_weapon: "Sword",
-                target_status: poring.status,
-                expected_min_damage: 47,
-                expected_avg_damage: 93,
-                expected_max_damage: 139,
-            }
-        ];
+        let scenario = common::fixtures::battle_fixture::BattleFixture::load("./src/tests/common/fixtures/data/battle_fixtures.json");
+
         // When
         for scenarii in scenario.iter() {
             let mut average = Vec::with_capacity(1001);
             let mut min = u32::MAX;
             let mut max = u32::MIN;
             let mut character_status = Status::default();
-            character_status.str = scenarii.character_str;
-            character_status.agi = scenarii.character_agi;
-            character_status.vit = scenarii.character_vit;
-            character_status.dex = scenarii.character_dex;
-            character_status.int = scenarii.character_int;
-            character_status.luk = scenarii.character_luk;
-            character_status.base_level = scenarii.character_base_level;
-            character_status.job_level = scenarii.character_job_level;
+            character_status.str = *scenarii.str();
+            character_status.agi = *scenarii.agi();
+            character_status.vit = *scenarii.vit();
+            character_status.dex = *scenarii.dex();
+            character_status.int = *scenarii.int();
+            character_status.luk = *scenarii.luk();
+            character_status.base_level = *scenarii.base_level();
+            character_status.job_level = *scenarii.job_level();
             character_status.hp = 10000;
             character_status.sp = 10000;
             character.status = character_status;
-            equip_item(&mut character, scenarii.character_weapon);
-            let skill = skills::skill_enums::to_object(scenarii.skill_to_use.value, scenarii.skill_to_use.level).unwrap();
+            equip_item_from_name(&mut character, scenarii.weapon().as_ref().unwrap().as_str());
+            let target = create_mob(1, scenarii.target());
+            let skill = skills::skill_enums::to_object(SkillEnum::from_id(*scenarii.skill_to_use().skid()), *scenarii.skill_to_use().level()).unwrap();
             for _ in 0..1000 {
-                let damage = context.skill_service.calculate_damage(&character.status, &scenarii.target_status, skill.as_offensive_skill().unwrap());
+                let damage = context.skill_service.calculate_damage(&character.status, &target.status, skill.as_offensive_skill().unwrap());
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);
             }
             let average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
             // Then
-            // avg at 2%~ approximatively
-            assert_eq_with_variance!(2, average, scenarii.expected_avg_damage, "Expected average damage to be {} but was {} with stats {:?}", scenarii.expected_avg_damage, average, scenarii);
-            assert!(scenarii.expected_min_damage - 1 <= min && min <= scenarii.expected_min_damage + 1, "Expected min damage to be {} but was {} with stats {:?}", scenarii.expected_min_damage, min, scenarii);
-            assert!(scenarii.expected_max_damage - 1 <= max && max <= scenarii.expected_max_damage + 1, "Expected max damage to be {} but was {} with stats {:?}", scenarii.expected_max_damage, max, scenarii);
+            assert!(*scenarii.expected().min_dmg() - 1 <= min && min <= *scenarii.expected().min_dmg() + 1, "Expected min damage to be {} but was {} with stats {:?}", scenarii.expected().min_dmg(), min, scenarii);
+            assert!(*scenarii.expected().max_dmg() - 1 <= max && max <= *scenarii.expected().max_dmg() + 1, "Expected max damage to be {} but was {} with stats {:?}", scenarii.expected().max_dmg(), max, scenarii);
         }
     }
 }

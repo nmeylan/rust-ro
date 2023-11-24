@@ -5114,7 +5114,49 @@
           "value": 6
         }
       ],
-      "dmgWaves": 1
+      "dmgWaves": 1,
+      "zenyPerLevel": [
+        {
+          "level": 1,
+          "value": 90
+        },
+        {
+          "level": 2,
+          "value": 180
+        },
+        {
+          "level": 3,
+          "value": 270
+        },
+        {
+          "level": 4,
+          "value": 360
+        },
+        {
+          "level": 5,
+          "value": 450
+        },
+        {
+          "level": 6,
+          "value": 540
+        },
+        {
+          "level": 7,
+          "value": 630
+        },
+        {
+          "level": 8,
+          "value": 720
+        },
+        {
+          "level": 9,
+          "value": 810
+        },
+        {
+          "level": 10,
+          "value": 900
+        }
+      ]
     },
     {
       "description": "Owl's Eye",
@@ -14039,43 +14081,43 @@
       "dmgAtkPerLevel": [
         {
           "level": 1,
-          "value": 4.4
+          "value": 5.5
         },
         {
           "level": 2,
-          "value": 4.8
-        },
-        {
-          "level": 3,
-          "value": 5.2
-        },
-        {
-          "level": 4,
-          "value": 5.6
-        },
-        {
-          "level": 5,
           "value": 6
         },
         {
+          "level": 3,
+          "value": 6.5
+        },
+        {
+          "level": 4,
+          "value": 7
+        },
+        {
+          "level": 5,
+          "value": 7.5
+        },
+        {
           "level": 6,
-          "value": 6.4
+          "value": 8
         },
         {
           "level": 7,
-          "value": 6.8
+          "value": 8.5
         },
         {
           "level": 8,
-          "value": 7.2
+          "value": 9
         },
         {
           "level": 9,
-          "value": 7.6
+          "value": 9.5
         },
         {
           "level": 10,
-          "value": 8
+          "value": 10
         }
       ],
       "dmgWaves": 1,
@@ -35448,6 +35490,48 @@
           "level": 10,
           "value": 50
         }
+      ],
+      "zenyPerLevel": [
+        {
+          "level": 1,
+          "value": 600
+        },
+        {
+          "level": 2,
+          "value": 700
+        },
+        {
+          "level": 3,
+          "value": 800
+        },
+        {
+          "level": 4,
+          "value": 900
+        },
+        {
+          "level": 5,
+          "value": 1000
+        },
+        {
+          "level": 6,
+          "value": 1100
+        },
+        {
+          "level": 7,
+          "value": 1200
+        },
+        {
+          "level": 8,
+          "value": 1300
+        },
+        {
+          "level": 9,
+          "value": 1400
+        },
+        {
+          "level": 10,
+          "value": 1500
+        }
       ]
     },
     {
@@ -35557,6 +35641,28 @@
         {
           "level": 5,
           "value": 0.1
+        }
+      ],
+      "zenyPerLevel": [
+        {
+          "level": 1,
+          "value": 3000
+        },
+        {
+          "level": 2,
+          "value": 3500
+        },
+        {
+          "level": 3,
+          "value": 4000
+        },
+        {
+          "level": 4,
+          "value": 4500
+        },
+        {
+          "level": 5,
+          "value": 5000
         }
       ]
     },

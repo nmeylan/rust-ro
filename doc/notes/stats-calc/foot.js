@@ -2233,7 +2233,10 @@ function isNonRangeWeapon() {
     }
 
     function aegis_item(value) {
-        return ItemIds[value][2]
+        if (ItemIds[value][2].startsWith("(No")) {
+            return null;
+        }
+        return ItemIds[value][2];
     }
 
     function card(value) {

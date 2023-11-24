@@ -1,73 +1,99 @@
-use std::fs;
+use std::{env, fs};
 use std::path::Path;
-use serde::{Deserialize, Serialize};
-use models::status::KnownSkill;
+use serde::{Deserialize};
 
-#[derive(Deserialize, GettersAll)]
+#[derive(Deserialize, GettersAll, Debug)]
 pub struct BattleFixture {
     job: u32,
     base_level: u32,
     job_level: u32,
-    str: u32,
-    agi: u32,
-    vit: u32,
-    dex: u32,
-    int: u32,
-    luk: u32,
+    str: u16,
+    agi: u16,
+    vit: u16,
+    dex: u16,
+    int: u16,
+    luk: u16,
     weapon_type: u32,
     speed_potion: u32,
-    weapon: u32,
+    #[serde(default)]
+    weapon: Option<String>,
+    #[serde(default)]
     weapon_refinement: u32,
-    weapon_card1: u32,
-    weapon_card2: u32,
-    weapon_card3: u32,
-    weapon_card4: u32,
-    headgear_upper: u32,
-    headgear_upper_card: u32,
-    headgear_middle: u32,
-    headgear_middle_card: u32,
-    headgear_lower: u32,
-    shield: u32,
-    shield_card: u32,
-    body: u32,
-    body_card: u32,
-    shoulder: u32,
-    shoulder_card: u32,
-    shoes: u32,
-    shoes_card: u32,
-    accessory_left: u32,
-    accessory_left_card: u32,
-    accessory_right: u32,
-    accessory_right_card: u32,
-    passive_skills: Vec<PassiveSkill>,
+    #[serde(default)]
+    weapon_card1: Option<String>,
+    #[serde(default)]
+    weapon_card2: Option<String>,
+    #[serde(default)]
+    weapon_card3: Option<String>,
+    #[serde(default)]
+    weapon_card4: Option<String>,
+    #[serde(default)]
+    headgear_upper:Option<String>,
+    #[serde(default)]
+    headgear_upper_card: Option<String>,
+    #[serde(default)]
+    headgear_middle: Option<String>,
+    #[serde(default)]
+    headgear_middle_card: Option<String>,
+    #[serde(default)]
+    headgear_lower: Option<String>,
+    #[serde(default)]
+    shield: Option<String>,
+    #[serde(default)]
+    shield_card: Option<String>,
+    #[serde(default)]
+    body: Option<String>,
+    #[serde(default)]
+    body_card: Option<String>,
+    #[serde(default)]
+    shoulder: Option<String>,
+    #[serde(default)]
+    shoulder_card: Option<String>,
+    #[serde(default)]
+    shoes: Option<String>,
+    #[serde(default)]
+    shoes_card: Option<String>,
+    #[serde(default)]
+    accessory_left: Option<String>,
+    #[serde(default)]
+    accessory_left_card: Option<String>,
+    #[serde(default)]
+    accessory_right: Option<String>,
+    #[serde(default)]
+    accessory_right_card: Option<String>,
+    #[serde(default)]
+    passive_skills: Vec<SkillLevel>,
     weapon_element: u32,
+    #[serde(default)]
     supportive_skills: Vec<SupportiveSkill>,
     headgear_upper_refinement: u32,
     body_refinement: u32,
     shield_refinement: u32,
     shoulder_refinement: u32,
     shoes_refinement: u32,
-    // skill_to_use: KnownSkill
+    skill_to_use: SkillLevel,
+    expected: Expected,
+    target: String
 }
 
 impl BattleFixture {
     pub fn load(path: &str) -> Vec<Self> {
         let path = Path::new(path);
         if !path.exists() {
-            panic!("fixture file does not exists at {}", path.to_str().unwrap());
+            panic!("fixture file does not exists at {}", env::current_dir().unwrap().join(path).to_str().unwrap());
         }
         let fixtures: Vec<BattleFixture> = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         fixtures
     }
 }
 
-#[derive(Deserialize, GettersAll)]
-pub struct PassiveSkill {
-    level: u32,
+#[derive(Deserialize, GettersAll, Debug)]
+pub struct SkillLevel {
+    level: u8,
     skid: u32,
 }
 
-#[derive(Deserialize, GettersAll)]
+#[derive(Deserialize, GettersAll, Debug)]
 pub struct SupportiveSkill {
     #[serde(rename = "skid", skip_serializing_if = "Option::is_none")]
     skid: Option<u32>,
@@ -77,16 +103,19 @@ pub struct SupportiveSkill {
 }
 
 
-#[derive(Deserialize, GettersAll)]
+#[derive(Deserialize, GettersAll, Debug)]
 pub struct Expected {
     weapon_min_atk: u32,
-    weapon_avg_atk: u32,
+    weapon_avg_atk: f32,
     weapon_max_atk: u32,
     base_atk: u32,
     hit_ratio: f32,
-    critical_rate: f32,
-    critical_damage_min: u32,
-    critical_damage_max: u32,
+    #[serde(default)]
+    critical_rate: Option<f32>,
+    #[serde(default)]
+    critical_damage_min: Option<u32>,
+    #[serde(default)]
+    critical_damage_max: Option<u32>,
     min_dmg: u32,
     avg_dmg: f32,
     max_dmg: u32,

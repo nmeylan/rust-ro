@@ -35,7 +35,7 @@ mod tests {
     use crate::enums::EnumWithStringValue;
     use crate::enums::EnumWithNumberValue;
     
-    use crate::tests::common::character_helper::{create_character, equip_item};
+    use crate::tests::common::character_helper::{create_character, equip_item_from_name};
     use super::*;
 
     #[test]
@@ -43,7 +43,7 @@ mod tests {
         // Given
         let context = before_each();
         let mut character = create_character();
-        let _inventory_index = equip_item(&mut character, "Knife");
+        let _inventory_index = equip_item_from_name(&mut character, "Knife");
         // When
         let weapon_type = context.status_service.right_hand_weapon_type(&character.status);
         // Then
@@ -71,7 +71,7 @@ mod tests {
             character.status.dex = stat.dex;
             character.status.job = JobName::from_string(stat.job).value() as u32;
             if !stat.weapon.is_empty() {
-                equip_item(&mut character, stat.weapon);
+                equip_item_from_name(&mut character, stat.weapon);
             }
             // When
             let aspd = context.status_service.aspd(&character.status).round() as u16;
@@ -85,7 +85,7 @@ mod tests {
         // Given
         let context = before_each();
         let mut character = create_character();
-        let _inventory_index = equip_item(&mut character, "Knife");
+        let _inventory_index = equip_item_from_name(&mut character, "Knife");
         // When
         let aspd = context.status_service.aspd(&character.status);
         let client_side_aspd = context.status_service.client_aspd(aspd);
@@ -98,7 +98,7 @@ mod tests {
         // Given
         let context = before_each();
         let mut character = create_character();
-        let _inventory_index = equip_item(&mut character, "Knife");
+        let _inventory_index = equip_item_from_name(&mut character, "Knife");
         // When
         let attack_motion = context.status_service.attack_motion(&character.status);
         // Then
@@ -127,7 +127,7 @@ mod tests {
             character.status.dex = stat.dex;
             character.status.luk = stat.luk;
             if !stat.weapon.is_empty() {
-                equip_item(&mut character, stat.weapon);
+                equip_item_from_name(&mut character, stat.weapon);
             }
             // When
             let status_atk = context.status_service.status_atk_left_side(&character.status);
