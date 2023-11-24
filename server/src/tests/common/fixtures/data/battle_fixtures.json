@@ -10,76 +10,10 @@
     "int": 1,
     "luk": 1,
     "weapon_type": 2,
-    "speed_potion": 0,
     "weapon": "Sword",
-    "weapon_refinement": 0,
-    "weapon_card1": null,
-    "weapon_card2": null,
-    "weapon_card3": null,
-    "weapon_card4": null,
-    "headgear_upper": null,
-    "headgear_upper_card": null,
-    "headgear_middle": null,
-    "headgear_middle_card": null,
-    "headgear_lower": null,
     "shield": "Novice_Shield",
-    "shield_card": null,
-    "body": null,
-    "body_card": null,
-    "shoulder": null,
-    "shoulder_card": null,
-    "shoes": null,
-    "shoes_card": null,
-    "accessory_left": null,
-    "accessory_left_card": null,
-    "accessory_right": null,
-    "accessory_right_card": null,
-    "passiveSkills": [
-      {
-        "skid": 2,
-        "level": 0
-      },
-      {
-        "skid": 0,
-        "level": 0
-      },
-      {
-        "skid": 146,
-        "level": 0
-      },
-      {
-        "skid": 8,
-        "level": 0
-      }
-    ],
-    "weapon_element": 0,
-    "supportiveSkills": [
-      {
-        "skid": 75,
-        "value": 0
-      },
-      {
-        "skid": 361,
-        "value": 0
-      },
-      {
-        "skid": 112,
-        "value": 0
-      },
-      {
-        "skid": 7,
-        "value": 0
-      },
-      {
-        "state": "Aloevera",
-        "value": 0
-      }
-    ],
-    "headgear_upper_refinement": 0,
-    "body_refinement": 0,
-    "shield_refinement": 0,
-    "shoulder_refinement": 0,
-    "shoes_refinement": 0,
+    "passiveSkills": [],
+    "supportiveSkills": [],
     "skill_to_use": {
       "skid": 5,
       "level": 10
@@ -91,13 +25,11 @@
       "weapon_max_atk": 24,
       "base_atk": 11,
       "hit_ratio": 1,
-      "critical_rate": null,
-      "critical_damage_min": null,
-      "critical_damage_max": null,
       "min_dmg": 47,
       "avg_dmg": 93,
       "max_dmg": 139,
-      "dps": 85.32
+      "dps": 85.32,
+      "stats_atk_left": 36
     }
   }
 ]

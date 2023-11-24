@@ -13,8 +13,8 @@ pub struct BattleFixture {
     dex: u16,
     int: u16,
     luk: u16,
-    weapon_type: u32,
-    speed_potion: u32,
+    #[serde(default)]
+    speed_potion: Option<u32>,
     #[serde(default)]
     weapon: Option<String>,
     #[serde(default)]
@@ -63,14 +63,20 @@ pub struct BattleFixture {
     accessory_right_card: Option<String>,
     #[serde(default)]
     passive_skills: Vec<SkillLevel>,
-    weapon_element: u32,
+    #[serde(default)]
+    weapon_element: Option<u32>,
     #[serde(default)]
     supportive_skills: Vec<SupportiveSkill>,
-    headgear_upper_refinement: u32,
-    body_refinement: u32,
-    shield_refinement: u32,
-    shoulder_refinement: u32,
-    shoes_refinement: u32,
+    #[serde(default)]
+    headgear_upper_refinement: Option<u32>,
+    #[serde(default)]
+    body_refinement: Option<u32>,
+    #[serde(default)]
+    shield_refinement: Option<u32>,
+    #[serde(default)]
+    shoulder_refinement: Option<u32>,
+    #[serde(default)]
+    shoes_refinement: Option<u32>,
     skill_to_use: SkillLevel,
     expected: Expected,
     target: String

@@ -205,6 +205,7 @@
                                             <td id="nm021" class="title" style="width: 10%"></td>
                                             <td id="nm022" class="title" style="width: 7%"></td>
                                             <td id="nm023" class="title" style="width: 7%"></td>
+                                            <td id="ATK" class="title" style="width: 7%">ATK</td>
                                             <td id="nm024" class="title" style="width: 8%"></td>
                                             <td id="nm025" class="title" style="width: 8%"></td>
                                         </tr>
@@ -219,6 +220,7 @@
                                             <td align="right" class="data" id="A_CRI"></td>
                                             <td align="right" class="data" id="A_MATK"></td>
                                             <td align="right" class="data" id="A_ASPD"></td>
+                                            <td align="right" class="data" id="A_ATK_2"></td>
                                             <td align="right" class="data" id="A_HPR"></td>
                                             <td align="right" class="data" id="A_SPR"></td>
                                         </tr>
@@ -266,7 +268,7 @@
                                                                                              onchange="StAllCalc()|ClickB_Item(this[this.selectedIndex].value)"></select>
                                             </td>
                                             <td class="calc"><span id="A_seirenchi_name"></span><select
-                                                    name="A_Weapon_ATKplus" style="visibility:hidden">
+                                                    name="A_Weapon_ATKplus" style="visibility:hidden" onchange="StAllCalc()">
                                                 <option value="0">0
                                                 <option value="1">1
                                                 <option value="2">2

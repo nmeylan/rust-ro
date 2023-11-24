@@ -75,21 +75,21 @@ function isNonRangeWeapon() {
         n_A_BaseLV = eval(document.calcForm.A_BaseLV.value);
 
         n_A_JobSet();
-        if (n_Tensei)
-            wStPoint = 100;
+        if (isRebirth)
+            statusPoint = 100;
         else
-            wStPoint = 48;
+            statusPoint = 48;
 
         if (nSC == 1 || document.calcForm.BLVauto.checked == 0) {
             for (i = 1; i < n_A_BaseLV; i++)
-                wStPoint += Math.floor((i) / 5) + 3;
+                statusPoint += Math.floor((i) / 5) + 3;
         } else {
-            for (i = 1; StPoint > wStPoint && i < 99; i++)
-                wStPoint += Math.floor((i) / 5) + 3;
+            for (i = 1; StPoint > statusPoint && i < 99; i++)
+                statusPoint += Math.floor((i) / 5) + 3;
         }
         if (i > 99) i = 99;
         document.calcForm.A_BaseLV.value = i;
-        myInnerHtml("A_STPOINT", wStPoint - StPoint, 0);
+        myInnerHtml("A_STPOINT", statusPoint - StPoint, 0);
     }
 
     function StCalc2(nSC2) {
@@ -148,36 +148,88 @@ function isNonRangeWeapon() {
 
         n_A_Arrow = eval(document.calcForm.A_Arrow.value);
         n_A_Weapon1 = eval(document.calcForm.A_weapon1.value);
+
         n_A_WeaponLV = ItemOBJ[n_A_Weapon1][4];
         n_A_Weapon_ATK = ItemOBJ[n_A_Weapon1][3];
+
+        n_A_Weapon2LV_upgradeBonusATK = 0;
+        n_A_Weapon2LV_Minplus = 0;
+        n_A_Weapon2LV_overUpgradeBonusATK = 0;
+        n_A_Weapon2LV = 0;
+        n_A_Weapon2_ATK = 0;
+        n_A_Weapon2_RefinementLevel = 0;
+        if(hasLeftHand){
+
+            if(n_B[19] != 5){
+
+                n_A_Weapon2 = eval(document.calcForm.A_weapon2.value);
+                n_A_Weapon2LV = ItemOBJ[n_A_Weapon2][4];
+                n_A_Weapon2_ATK = ItemOBJ[n_A_Weapon2][3];
+                n_A_Weapon2_RefinementLevel = eval(document.calcForm.A_Weapon2_ATKplus.value);
+
+
+                if(n_A_Weapon2LV == 1){
+                    n_A_Weapon2LV_upgradeBonusATK = n_A_Weapon2_RefinementLevel * 2;
+                    if(n_A_Weapon2_RefinementLevel >= 8){
+                        n_A_Weapon2LV_Minplus = 1;
+                        n_A_Weapon2LV_overUpgradeBonusATK = 3 * (n_A_Weapon2_RefinementLevel - 7);
+                    }
+                }else if(n_A_Weapon2LV == 2){
+                    n_A_Weapon2LV_upgradeBonusATK = n_A_Weapon2_RefinementLevel * 3;
+                    if(n_A_Weapon2_RefinementLevel >= 7){
+                        n_A_Weapon2LV_Minplus = 1;
+                        n_A_Weapon2LV_overUpgradeBonusATK = 5 * (n_A_Weapon2_RefinementLevel - 6);
+                    }
+                }else if(n_A_Weapon2LV == 3){
+                    n_A_Weapon2LV_upgradeBonusATK = n_A_Weapon2_RefinementLevel * 5;
+                    if(n_A_Weapon2_RefinementLevel >= 6){
+                        n_A_Weapon2LV_Minplus = 1;
+                        n_A_Weapon2LV_overUpgradeBonusATK = 8 * (n_A_Weapon2_RefinementLevel - 5);
+                    }
+                }else if(n_A_Weapon2LV == 4){
+                    n_A_Weapon2LV_upgradeBonusATK = n_A_Weapon2_RefinementLevel * 7;
+                    if(n_A_Weapon2_RefinementLevel >= 5){
+                        n_A_Weapon2LV_Minplus = 1;
+                        n_A_Weapon2LV_overUpgradeBonusATK = 14 * (n_A_Weapon2_RefinementLevel - 4);
+                    }
+                }
+            }
+        }
+
+        if (document.calcForm.A_weapon2) {
+            n_A_Weapon2 = eval(document.calcForm.A_weapon2.value);
+            n_A_Weapon2_ATK = ItemOBJ[n_A_Weapon2][3];
+        } else {
+            n_A_Weapon2_ATK = 0;
+        }
         weaponRefinementLevel = eval(document.calcForm.A_Weapon_ATKplus.value);
 
-        n_A_WeaponLV_seirenATK = 0;
+        n_A_WeaponLV_upgradeBonusATK = 0;
         n_A_WeaponLV_Minplus = 0;
-        n_A_WeaponLV_Maxplus = 0;
+        n_A_WeaponLV_overUpgradeBonusATK = 0;
         if (n_A_WeaponLV == 1) {
-            n_A_WeaponLV_seirenATK = weaponRefinementLevel * 2;
+            n_A_WeaponLV_upgradeBonusATK = weaponRefinementLevel * 2;
             if (weaponRefinementLevel >= 8) {
                 n_A_WeaponLV_Minplus = 1;
-                n_A_WeaponLV_Maxplus = 3 * (weaponRefinementLevel - 7);
+                n_A_WeaponLV_overUpgradeBonusATK = 3 * (weaponRefinementLevel - 7);
             }
         } else if (n_A_WeaponLV == 2) {
-            n_A_WeaponLV_seirenATK = weaponRefinementLevel * 3;
+            n_A_WeaponLV_upgradeBonusATK = weaponRefinementLevel * 3;
             if (weaponRefinementLevel >= 7) {
                 n_A_WeaponLV_Minplus = 1;
-                n_A_WeaponLV_Maxplus = 5 * (weaponRefinementLevel - 6);
+                n_A_WeaponLV_overUpgradeBonusATK = 5 * (weaponRefinementLevel - 6);
             }
         } else if (n_A_WeaponLV == 3) {
-            n_A_WeaponLV_seirenATK = weaponRefinementLevel * 5;
+            n_A_WeaponLV_upgradeBonusATK = weaponRefinementLevel * 5;
             if (weaponRefinementLevel >= 6) {
                 n_A_WeaponLV_Minplus = 1;
-                n_A_WeaponLV_Maxplus = 8 * (weaponRefinementLevel - 5);
+                n_A_WeaponLV_overUpgradeBonusATK = 8 * (weaponRefinementLevel - 5);
             }
         } else if (n_A_WeaponLV == 4) {
-            n_A_WeaponLV_seirenATK = weaponRefinementLevel * 7;
+            n_A_WeaponLV_upgradeBonusATK = weaponRefinementLevel * 7;
             if (weaponRefinementLevel >= 5) {
                 n_A_WeaponLV_Minplus = 1;
-                n_A_WeaponLV_Maxplus = 14 * (weaponRefinementLevel - 4);
+                n_A_WeaponLV_overUpgradeBonusATK = 14 * (weaponRefinementLevel - 4);
             }
         }
         n_A_HEAD_DEF_PLUS = eval(document.calcForm.A_HEAD_DEF_PLUS.value);
@@ -476,7 +528,7 @@ function isNonRangeWeapon() {
         if (n_A_JOB == 20 && n_A_BaseLV == 99)
             n_A_MaxHP += 2000;
 
-        if (n_Tensei)
+        if (isRebirth)
             n_A_MaxHP = Math.floor(n_A_MaxHP * 125 / 100);
         if (eval(document.calcForm.isAdopted.checked))
             n_A_MaxHP = Math.floor(n_A_MaxHP * 70 / 100);
@@ -616,7 +668,7 @@ function isNonRangeWeapon() {
             else n_A_MaxSP = 330 + (n_A_BaseLV - 78) * 6;
         }
 
-        if (n_Tensei)
+        if (isRebirth)
             n_A_MaxSP = Math.floor(n_A_MaxSP * 125 / 100);
         if (eval(document.calcForm.isAdopted.checked))
             n_A_MaxSP = Math.floor(n_A_MaxSP * 70 / 100);
@@ -1227,6 +1279,18 @@ function isNonRangeWeapon() {
 
         n_A_ASPD = (200 - n_A_ASPD) / 50;
 
+        if (isNonRangeWeapon()) {
+            n_A_ATK_w=Math.round(Math.floor(n_A_STR/10)*Math.floor(n_A_STR/10));
+            n_A_ATK=n_A_STR+n_A_ATK_w+Math.floor(n_A_DEX/5)+Math.floor(n_A_LUK/5);
+        } else {
+            n_A_ATK_w=Math.round(Math.floor(n_A_DEX/10)*Math.floor(n_A_DEX/10));
+            n_A_ATK=n_A_DEX+n_A_ATK_w+Math.floor(n_A_STR/5)+Math.floor(n_A_LUK/5)
+        }
+        impositioMagnus = n_A_PassSkill2[2] *5;
+        ATK_LEFT = Math.floor(impositioMagnus+n_A_Weapon_ATK+n_A_Weapon2_ATK+n_A_ATK);
+        ATK_RIGHT = Math.floor(n_A_WeaponLV_upgradeBonusATK+n_A_Weapon2LV_upgradeBonusATK);
+        myInnerHtml("A_ATK_2",ATK_LEFT+"+"+ATK_RIGHT,0),
+
 
         wDelay = 0;
         swDelay = 0;
@@ -1333,7 +1397,7 @@ function isNonRangeWeapon() {
         wSPC_DEX = JobBOBJ[n_A_JOB][n_A_JobLV - 1][4];
         wSPC_LUK = JobBOBJ[n_A_JOB][n_A_JobLV - 1][5];
 
-        if (n_A_JOB == 0 && n_Tensei) {
+        if (n_A_JOB == 0 && isRebirth) {
             TenNovSTR = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1];
             TenNovAGI = [0, 0, 0, 0, 1, 1, 1, 1, 1, 1];
             TenNovVIT = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1];
@@ -1752,7 +1816,7 @@ function isNonRangeWeapon() {
     }
 
     function JobEquipItemSearch(nJEIS) {
-        if (n_Tensei == 0) {
+        if (isRebirth == 0) {
             if (ItemOBJ[i][11] == 200)
                 return 0;
         }
@@ -1767,11 +1831,11 @@ function isNonRangeWeapon() {
     function n_A_JobSet() {
         n_A_JOB = eval(document.calcForm.A_JOB.value);
         if (21 <= n_A_JOB && n_A_JOB <= 40) {
-            n_Tensei = 1;
+            isRebirth = 1;
             if (34 <= n_A_JOB && n_A_JOB <= 40)
                 n_A_JOB -= 34;
         } else
-            n_Tensei = 0;
+            isRebirth = 0;
     }
 
 
@@ -2205,8 +2269,17 @@ function isNonRangeWeapon() {
             }
         });
     }
-
+    function removeNullValues(obj) {
+        for (let key in obj) {
+            if (obj[key] === null ||Number.isNaN(obj[key]) || obj[key] === 0) {
+                delete obj[key];
+            } else if (typeof obj[key] === 'object') {
+                removeNullValues(obj[key]);
+            }
+        }
+    }
     function GenerateTestCase() {
+        calc();
         let savedDataAsJson = SaveCookie(true);
         let crit_damages = document.querySelector("#CRIATK").textContent.split("~");
         let crit_rate = Number.parseFloat(document.querySelector("#CRInum").textContent);
@@ -2214,6 +2287,7 @@ function isNonRangeWeapon() {
         let max_dmg = Number.parseFloat(document.querySelector("#ATK_02").textContent);
         let avg_dmg = Number.parseFloat(document.querySelector("#ATK_01").textContent);
         let dps = Number.parseFloat(document.querySelector("#AveSecondATK").textContent);
+        let aspd = Number.parseFloat(document.querySelector("#nm023").textContent);
         savedDataAsJson.expected = {
             weapon_min_atk: weaponAttack[0],
             weapon_avg_atk: weaponAttack[1],
@@ -2227,7 +2301,11 @@ function isNonRangeWeapon() {
             avg_dmg: avg_dmg,
             max_dmg: max_dmg,
             dps: dps,
+            aspd: aspd,
+            stats_atk_left: ATK_LEFT,
+            stats_atk_right: ATK_RIGHT,
         };
+        removeNullValues(savedDataAsJson);
         console.log(JSON.stringify(savedDataAsJson));
         navigator.clipboard.writeText(JSON.stringify(savedDataAsJson));
     }
@@ -2313,7 +2391,9 @@ function isNonRangeWeapon() {
             if (JobSkillPassOBJ[w][i] == 999) break;
             let skill_level = eval(document.calcForm["A_skill" + i].value);
             SaveData[saveDataIndex + i] = skill_level;
-            passiveSkills.push({skid: SkillOBJ[JobSkillPassOBJ[w][i]][3], level: skill_level})
+            if (skill_level > 0) {
+                passiveSkills.push({skid: SkillOBJ[JobSkillPassOBJ[w][i]][3], level: skill_level})
+            }
         }
         testCaseData.passiveSkills = passiveSkills;
         testCaseData.weapon_element = eval(document.calcForm.A_Weapon_element.value);
@@ -2331,7 +2411,9 @@ function isNonRangeWeapon() {
                 value = 1;
             else if (value == false)
                 value = 0;
-            supportiveSkills.push({...supportiveSkillsIds[i], value})
+            if (value > 0){
+                supportiveSkills.push({...supportiveSkillsIds[i], value})
+            }
         }
         testCaseData.supportiveSkills = supportiveSkills;
 
