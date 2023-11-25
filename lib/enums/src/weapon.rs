@@ -55,7 +55,15 @@ pub enum WeaponType {
 
 impl WeaponType {
     pub fn is_ranged(&self) -> bool {
-        matches!(self, Self::Bow | Self::Rifle | Self::Shotgun | Self::Gatling | Self::Revolver | Self::Grenade)
+        matches!(
+            self,
+            Self::Bow
+                | Self::Rifle
+                | Self::Shotgun
+                | Self::Gatling
+                | Self::Revolver
+                | Self::Grenade
+        )
     }
 }
 

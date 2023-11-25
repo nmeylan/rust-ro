@@ -2427,7 +2427,7 @@ pub enum SkillEnum {
     GdItememergencycall,
 }
 impl SkillEnum {
-    pub fn id(&self) -> u32{
+    pub fn id(&self) -> u32 {
         match self {
             Self::NvBasic => 1,
             Self::SmSword => 2,
@@ -4853,7 +4853,7 @@ impl SkillEnum {
             10013 => Self::GdEmergencycall,
             10014 => Self::GdDevelopment,
             10015 => Self::GdItememergencycall,
-            _ => panic!("unknown skill with id {}", id)
+            _ => panic!("unknown skill with id {}", id),
         }
     }
     pub fn from_name(name: &str) -> Self {
@@ -6068,7 +6068,7 @@ impl SkillEnum {
             "GD_EMERGENCYCALL" => Self::GdEmergencycall,
             "GD_DEVELOPMENT" => Self::GdDevelopment,
             "GD_ITEMEMERGENCYCALL" => Self::GdItememergencycall,
-            _ => panic!("unknown skill with name {}", name)
+            _ => panic!("unknown skill with name {}", name),
         }
     }
     pub fn to_name(&self) -> &str {

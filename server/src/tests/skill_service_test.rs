@@ -61,7 +61,7 @@ mod tests {
         let packetver = GlobalConfigService::instance().packetver();
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
-        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
+        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 }, status: mob.status.to_snapshot() };
         let known_skill = KnownSkill { value: SkillEnum::SmBash, level: 10 };
         character.status.known_skills.push(known_skill);
         character.status.sp = 50;
@@ -139,7 +139,7 @@ mod tests {
         equip_item_from_name(&mut character, "Bow");
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
-        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
+        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0}, status: mob.status.to_snapshot()  };
         // When
         context.skill_service.start_use_skill(&mut character, Some(target), known_skill.value.id(), known_skill.level, 0);
         // Then
@@ -181,7 +181,7 @@ mod tests {
         equip_item_from_name(&mut character, "Axe");
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
-        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
+        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 }, status: mob.status.to_snapshot() };
         // When
         context.skill_service.start_use_skill(&mut character, Some(target), known_skill.value.id(), known_skill.level, 0);
         // Then
@@ -219,7 +219,7 @@ mod tests {
         let item_in_inventory_index = add_item_in_inventory(&mut character, "Red_Gemstone");
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
-        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
+        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 }, status: mob.status.to_snapshot() };
         // When
         context.skill_service.start_use_skill(&mut character, Some(target), known_skill.value.id(), known_skill.level, 0);
         // Then
@@ -261,7 +261,7 @@ mod tests {
         let bow_inventory_item_index = equip_item_from_name(&mut character, "Bow");
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
-        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
+        let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 }, status: mob.status.to_snapshot() };
         // When
         context.skill_service.start_use_skill(&mut character, Some(target), known_skill.value.id(), known_skill.level, 0);
         // Then
@@ -330,7 +330,7 @@ mod tests {
             let target = create_mob(1, scenarii.target());
             let skill = skills::skill_enums::to_object(SkillEnum::from_id(*scenarii.skill_to_use().skid()), *scenarii.skill_to_use().level()).unwrap();
             for _ in 0..1000 {
-                let damage = context.skill_service.calculate_damage(&character.status, &target.status, skill.as_offensive_skill().unwrap());
+                let damage = context.skill_service.calculate_damage(&character.status.to_snapshot(), &target.status.to_snapshot(), skill.as_offensive_skill().unwrap());
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);

@@ -26,22 +26,22 @@ pub enum UnitTargetType {
     All,
 
     #[mask_value = 4194304]
-// Except self
+    // Except self
     Wos,
     #[mask_value = 2621440]
-// SameGuild|GuildAlly
+    // SameGuild|GuildAlly
     Guild,
     #[mask_value = 1507328]
-// All&~Guild
+    // All&~Guild
     NoGuild,
     #[mask_value = 3866624]
-// All&~Party
+    // All&~Party
     NoParty,
     #[mask_value = 3997696]
-// All&~Enemy
+    // All&~Enemy
     NoEnemy,
     #[mask_value = 2883584]
-// Party|Guild
+    // Party|Guild
     Ally,
     #[mask_value = 3997696]
     // NoEnemy

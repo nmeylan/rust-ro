@@ -274,9 +274,7 @@ impl StatusTypes {
             StatusTypes::Jobexp => Some("job_exp"),
             StatusTypes::Statuspoint => Some("status_point"),
             StatusTypes::Skillpoint => Some("skill_point"),
-            _ => {
-                None
-            }
+            _ => None,
         }
     }
 }

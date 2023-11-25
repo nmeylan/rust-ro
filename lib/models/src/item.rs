@@ -1,8 +1,8 @@
-use enums::EnumWithMaskValueU64;
+use accessor::GettersAll;
+use crate::position::Position;
 use enums::item::EquipmentLocation;
 use enums::weapon::{AmmoType, WeaponType};
-use crate::position::Position;
-
+use enums::EnumWithMaskValueU64;
 
 pub struct EquippedItem {
     pub item_id: i32,
@@ -34,7 +34,6 @@ impl DroppedItem {
     }
 }
 
-
 #[derive(Debug, Clone)]
 pub struct NormalInventoryItem {
     pub item_id: i32,
@@ -57,6 +56,36 @@ pub struct WearWeapon {
     pub inventory_index: usize,
 }
 
+impl WearWeapon {
+    pub fn to_snapshot(&self) -> WearWeaponSnapshot {
+        WearWeaponSnapshot {
+            item_id: self.item_id,
+            attack: self.attack,
+            level: self.level,
+            weapon_type: self.weapon_type,
+            refine: self.refine,
+            card0: self.card0,
+            card1: self.card1,
+            card2: self.card2,
+            card3: self.card3,
+        }
+    }
+
+}
+
+#[derive(Clone, Copy, PartialEq, Debug, GettersAll)]
+pub struct WearWeaponSnapshot {
+    item_id: i32,
+    attack: u32,
+    level: u8,
+    weapon_type: WeaponType,
+    refine: i16,
+    card0: i16,
+    card1: i16,
+    card2: i16,
+    card3: i16,
+}
+
 #[derive(Debug, Clone, Copy)]
 pub struct WearGear {
     pub item_id: i32,
@@ -68,11 +97,47 @@ pub struct WearGear {
     pub inventory_index: usize,
 }
 
+impl WearGear {
+    pub fn to_snapshot(&self) -> WearGearSnapshot {
+        WearGearSnapshot {
+            item_id: self.item_id,
+            level: self.level,
+            refine: self.refine,
+            card0: self.card0,
+            def: self.def,
+        }
+    }
+}
+
+#[derive(Clone, Copy, PartialEq, Debug, GettersAll)]
+pub struct WearGearSnapshot {
+    item_id: i32,
+    level: u8,
+    refine: i16,
+    card0: i16,
+    def: i16,
+}
+
 #[derive(Debug, Clone, Copy)]
 pub struct WearAmmo {
     pub item_id: i32,
     pub inventory_index: usize,
     pub ammo_type: AmmoType,
+}
+
+impl WearAmmo {
+    pub fn to_snapshot(&self) -> WearAmmoSnapshot {
+        WearAmmoSnapshot {
+            item_id: self.item_id,
+            ammo_type: self.ammo_type,
+        }
+    }
+}
+
+#[derive(Clone, Copy, PartialEq, Debug, GettersAll)]
+pub struct WearAmmoSnapshot {
+    item_id: i32,
+    ammo_type: AmmoType,
 }
 
 pub trait Wearable {
@@ -89,6 +154,7 @@ impl Wearable for WearGear {
         self.item_id
     }
 }
+
 impl Wearable for WearWeapon {
     fn location(&self) -> u64 {
         self.location

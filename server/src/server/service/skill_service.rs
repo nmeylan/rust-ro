@@ -7,7 +7,7 @@ use models::item::NormalInventoryItem;
 use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseskillAck2};
 use skills::OffensiveSkill;
 use enums::skill_enums::SkillEnum;
-use models::status::Status;
+use models::status::{Status, StatusSnapshot};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map_item::MapItemSnapshot;
@@ -117,12 +117,12 @@ impl SkillService {
             return;
         }
         let skill = skill.as_offensive_skill().unwrap();
-        let target_snapshot = target.unwrap();
+        let damage = self.calculate_damage(&character.status.to_snapshot(), &target.unwrap().status, skill);
         let mut packet_zc_notify_skill2 = PacketZcNotifySkill2::new(self.configuration_service.packetver());
         packet_zc_notify_skill2.set_skid(skill.id() as u16);
         packet_zc_notify_skill2.set_attack_mt(305); // TODO
-        packet_zc_notify_skill2.set_target_id(target_snapshot.map_item().id());
-        packet_zc_notify_skill2.set_damage(30); // TODO
+        packet_zc_notify_skill2.set_target_id(target.as_ref().unwrap().map_item().id());
+        packet_zc_notify_skill2.set_damage(damage as i32);
         packet_zc_notify_skill2.set_start_time(0);
         packet_zc_notify_skill2.set_attacked_mt(480); // TODO
         packet_zc_notify_skill2.set_level(skill.level() as i16);
@@ -155,7 +155,7 @@ impl SkillService {
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_ack_touseskill.raw_mut())))).unwrap();
     }
 
-    pub fn calculate_damage(&self, source_status: &Status, target_status: &Status, skill: &dyn OffensiveSkill) -> u32 {
+    pub fn calculate_damage(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill: &dyn OffensiveSkill) -> u32 {
         self.battle_service.damage_character_attack_monster(source_status, target_status, skill.dmg_atk().unwrap_or(1.0))
     }
 }

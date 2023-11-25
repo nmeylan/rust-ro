@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
-use crate::{EnumWithNumberValue, EnumWithStringValue, EnumWithMaskValueU64};
-use crate::{WithNumberValue, WithStringValue, WithMaskValueU64};
+use crate::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
+use crate::{WithMaskValueU64, WithNumberValue, WithStringValue};
 
 #[derive(WithNumberValue, WithStringValue, WithMaskValueU64, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillState {
@@ -43,8 +43,7 @@ pub enum SkillType {
     Misc,
 }
 
-#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
-#[derive(Default)]
+#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq, Default)]
 pub enum SkillTargetType {
     #[value = 0]
     #[default]
@@ -58,7 +57,6 @@ pub enum SkillTargetType {
     #[value = 11]
     Trap,
 }
-
 
 #[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillDamageFlags {
@@ -227,7 +225,7 @@ pub enum UseSkillFailure {
     #[value = 0]
     Level,
     SpInsufficient,
-    HpInsufficient ,
+    HpInsufficient,
     StuffInsufficient,
     Skillinterval,
     Money,
@@ -334,5 +332,5 @@ pub enum UseSkillFailureClientSideType {
     NoParty,
     NoShout,
     NoPking,
-    NoAlligning
+    NoAlligning,
 }

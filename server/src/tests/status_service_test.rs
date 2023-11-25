@@ -130,7 +130,7 @@ mod tests {
                 equip_item_from_name(&mut character, stat.weapon);
             }
             // When
-            let status_atk = context.status_service.status_atk_left_side(&character.status);
+            let status_atk = context.status_service.status_atk_left_side(&character.status.to_snapshot());
             // Then
             assert_eq!(status_atk, stat.expected_status_atk, "Expected status atk1 to be {} but was {} with stats {:?}", stat.expected_status_atk, status_atk, stat);
         }

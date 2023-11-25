@@ -14,5 +14,5 @@ pub enum CellType {
     NoIceWall,
     NoSkill,
     Warp,
-    Mob
+    Mob,
 }
