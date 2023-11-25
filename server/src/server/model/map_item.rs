@@ -44,8 +44,7 @@ pub struct MapItem {
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct MapItemSnapshot {
     pub(crate) map_item: MapItem,
-    pub(crate) position: Position,
-    pub(crate) status: StatusSnapshot,
+    pub(crate) position: Position
 }
 
 impl MapItem {
@@ -78,11 +77,10 @@ impl MapItem {
 }
 
 impl MapItemSnapshot {
-    pub fn new(map_item: MapItem, position: Position, status: StatusSnapshot) -> Self {
+    pub fn new(map_item: MapItem, position: Position) -> Self {
         Self {
             map_item,
-            position,
-            status
+            position
         }
     }
 

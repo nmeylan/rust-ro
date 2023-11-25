@@ -23,12 +23,12 @@ fn before_each_with_latch(latch_size: usize) -> BattleServiceTestContext {
     common::before_all();
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
-    let status_service = StatusService::new(client_notification_sender.clone(), persistence_event_sender.clone(), GlobalConfigService::instance());
+    let status_service = StatusService::new(GlobalConfigService::instance());
     let count_down_latch = CountDownLatch::new(latch_size);
     BattleServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         battle_service: BattleService::new(client_notification_sender.clone(), status_service, GlobalConfigService::instance()),
-        status_service: StatusService::new(client_notification_sender, persistence_event_sender, GlobalConfigService::instance()),
+        status_service: StatusService::new(GlobalConfigService::instance()),
     }
 }
 
@@ -37,7 +37,7 @@ mod tests {
     use enums::size::Size;
     use models::status::Status;
     use crate::assert_eq_with_variance;
-    use crate::server::model::map_item::ToMapItem;
+    use crate::server::model::map_item::{ToMapItem, ToMapItemSnapshot};
     use crate::tests::battle_service_test::before_each;
     use crate::tests::common::character_helper::{create_character, equip_item_from_name};
     use crate::tests::common::mob_helper::create_mob;
@@ -76,7 +76,7 @@ mod tests {
             let mut min = u32::MAX;
             let mut max = u32::MIN;
             for _ in 0..1000 {
-                let damage = context.battle_service.damage_character_attack_monster(&character.status.to_snapshot(), &mob.status.to_snapshot(), 1.0);
+                let damage = context.battle_service.damage_character_attack_monster(&context.status_service.to_snapshot(&character.status), &context.status_service.to_snapshot(&mob.status), 1.0);
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);
@@ -115,7 +115,7 @@ mod tests {
             let mut max = u32::MIN;
             equip_item_from_name(&mut character, stat.weapon);
             for _ in 0..1000 {
-                let damage = context.battle_service.weapon_atk(&character.status.to_snapshot(), &target_status.to_snapshot());
+                let damage = context.battle_service.weapon_atk(&context.status_service.to_snapshot(&character.status), &context.status_service.to_snapshot(&target_status));
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);
@@ -138,8 +138,9 @@ mod tests {
         character.set_attack(mob_item_id, true, 0);
         let second_attack_tick = get_tick() + 2000;
         // When
-        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), get_tick());
-        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), second_attack_tick);
+        let character_status =&context.status_service.to_snapshot(&character.status);
+        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &context.status_service.to_snapshot(&mob.status), get_tick());
+        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &context.status_service.to_snapshot(&mob.status), second_attack_tick);
         // Then
         assert!(attack_1.is_some());
         assert!(attack_2.is_some());
@@ -156,8 +157,9 @@ mod tests {
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, false, 0);
         // When
-        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), get_tick());
-        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), get_tick() + 2000);
+        let character_status =&context.status_service.to_snapshot(&character.status);
+        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &context.status_service.to_snapshot(&mob.status), get_tick());
+        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &context.status_service.to_snapshot(&mob.status), get_tick() + 2000);
         // Then
         assert!(attack_1.is_some());
         assert!(attack_2.is_none());
@@ -173,8 +175,9 @@ mod tests {
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, true, 0);
         // When
-        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), get_tick());
-        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item(), get_tick());
+        let character_status =&context.status_service.to_snapshot(&character.status);
+        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &context.status_service.to_snapshot(&mob.status), get_tick());
+        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &context.status_service.to_snapshot(&mob.status), get_tick());
         // Then
         assert!(attack_1.is_some());
         assert!(attack_2.is_none());
@@ -242,7 +245,7 @@ mod tests {
                 equip_item_from_name(&mut character, weapon);
             };
             target_status.size = scenarii.target_size;
-            let size_modifier = context.battle_service.size_modifier(&character.status.to_snapshot(), &target_status.to_snapshot());
+            let size_modifier = context.battle_service.size_modifier(&context.status_service.to_snapshot(&character.status), &context.status_service.to_snapshot(&target_status));
             assert_eq!(size_modifier, scenarii.expected_modifier, "Expected size modifier to be {} but was {} when weapon is {:?} and target size {:?}", scenarii.expected_modifier, size_modifier, scenarii.weapon, target_status.size)
         }
     }

@@ -1,5 +1,7 @@
 use std::sync::{Once};
 use std::sync::mpsc::SyncSender;
+use enums::EnumWithMaskValueU64;
+use enums::item::EquipmentLocation;
 use enums::item::ItemType::Weapon;
 
 
@@ -24,23 +26,26 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 
 #[allow(dead_code)]
 pub struct StatusService {
-    client_notification_sender: SyncSender<Notification>,
-    persistence_event_sender: SyncSender<PersistenceEvent>,
     configuration_service: &'static GlobalConfigService,
 }
 
 impl StatusService {
-    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, configuration_service: &'static GlobalConfigService) -> StatusService {
-        StatusService { client_notification_sender, persistence_event_sender, configuration_service }
+    pub fn new(configuration_service: &'static GlobalConfigService) -> StatusService {
+        StatusService { configuration_service }
     }
     pub fn instance() -> &'static StatusService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, configuration_service: &'static GlobalConfigService) {
+    pub fn init(configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(StatusService::new(client_notification_sender, persistence_event_sender, configuration_service));
+            SERVICE_INSTANCE = Some(StatusService::new(configuration_service));
         });
+    }
+
+    pub fn to_snapshot(&self, status: &Status) -> StatusSnapshot {
+        let mut snapshot = StatusSnapshot::from(status);
+        snapshot
     }
 
     pub fn attack_per_seconds(&self, aspd: f32) -> f32 {

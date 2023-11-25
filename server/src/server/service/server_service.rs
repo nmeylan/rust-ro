@@ -14,7 +14,7 @@ use crate::server::model::map::{Map, RANDOM_CELL};
 use crate::server::model::map_instance::{MapInstance};
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType};
 use models::position::Position;
-use models::status::Status;
+use models::status::{Status, StatusSnapshot};
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, CharacterUseSkill, GameEvent};
@@ -30,6 +30,7 @@ use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::map_instance_service::MapInstanceService;
 use crate::server::service::skill_service::SkillService;
+use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
 
 
@@ -51,6 +52,7 @@ pub struct ServerService {
     map_instance_service: MapInstanceService,
     skill_service: SkillService,
     battle_service: BattleService,
+    status_service: StatusService,
 }
 
 impl ServerService {
@@ -59,14 +61,14 @@ impl ServerService {
     }
 
     pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>, movement_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>,
-                      inventory_service: InventoryService, character_service: CharacterService, map_instance_service: MapInstanceService, battle_service: BattleService, skill_service: SkillService) -> Self {
-        ServerService { client_notification_sender, configuration_service, server_task_queue, movement_task_queue, vm, inventory_service, character_service, map_instance_service, battle_service, skill_service }
+                      inventory_service: InventoryService, character_service: CharacterService, map_instance_service: MapInstanceService, battle_service: BattleService, skill_service: SkillService, status_service: StatusService) -> Self {
+        ServerService { client_notification_sender, configuration_service, server_task_queue, movement_task_queue, vm, inventory_service, character_service, map_instance_service, battle_service, skill_service, status_service }
     }
 
     pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>, movement_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>,
-                inventory_service: InventoryService, character_service: CharacterService, map_instance_service: MapInstanceService, battle_service: BattleService, skill_service: SkillService) {
+                inventory_service: InventoryService, character_service: CharacterService, map_instance_service: MapInstanceService, battle_service: BattleService, skill_service: SkillService, status_service: StatusService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(ServerService::new(client_notification_sender, configuration_service, server_task_queue, movement_task_queue, vm, inventory_service, character_service, map_instance_service, battle_service, skill_service));
+            SERVICE_INSTANCE = Some(ServerService::new(client_notification_sender, configuration_service, server_task_queue, movement_task_queue, vm, inventory_service, character_service, map_instance_service, battle_service, skill_service, status_service));
         });
     }
 
@@ -141,7 +143,12 @@ impl ServerService {
                 }));
             } else if is_in_range {
                 character.clear_movement();
-                let maybe_damage = self.battle_service.basic_attack(character, map_item, tick);
+                let snapshot = server_state.map_item_snapshot(map_item.id(), character.current_map_name(), character.current_map_instance()).unwrap();
+                let mut maybe_damage = None;
+                if matches!(*map_item.object_type(), MapItemType::Mob) {
+                    let mob_status = server_state.map_item_mob_status(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
+                    maybe_damage = self.battle_service.basic_attack(character, snapshot, &self.get_status_snapshot(&character.status, tick), &self.get_status_snapshot(&mob_status, tick), tick);
+                }
                 if let Some(damage) = maybe_damage {
                     if matches!(*map_item.object_type(), MapItemType::Mob) {
                         map_instance.add_to_next_tick(MapEvent::MobDamage(damage));
@@ -153,12 +160,16 @@ impl ServerService {
         }
     }
 
+    fn get_status_snapshot(&self, status: &Status, _tick: u128) -> StatusSnapshot {
+       self.status_service.to_snapshot(&status)
+    }
+
     pub fn character_start_use_skill(&self, server_state: &ServerState, character: &mut Character, character_use_skill: CharacterUseSkill, tick: u128) {
         if character.is_using_skill() {
             return;
         }
         let target = Self::get_target(server_state, character, Some(character_use_skill.target_id));
-        self.skill_service.start_use_skill(character, target, character_use_skill.skill_id, character_use_skill.skill_level, tick);
+        self.skill_service.start_use_skill(character, target,  &self.get_status_snapshot(&character.status, tick), self.get_target_status(server_state, character, character.skill_in_use().target, tick).as_ref(), character_use_skill.skill_id, character_use_skill.skill_level, tick);
     }
 
     pub fn character_use_skill(&self, server_state: &ServerState, tick: u128, character: &mut Character) {
@@ -169,13 +180,35 @@ impl ServerService {
             self.skill_service.after_skill_used(character, tick);
         } else {
             let target = Self::get_target(server_state, character, character.skill_in_use().target);
-            self.skill_service.do_use_skill(character, target, tick);
+            self.skill_service.do_use_skill(character, target, &self.get_status_snapshot(&character.status, tick), self.get_target_status(server_state, character, character.skill_in_use().target, tick).as_ref(), tick);
         }
     }
 
-    fn get_target(server_state: &ServerState, character: &mut Character, target_id: Option<u32>) -> Option<MapItemSnapshot> {
+    // TODO cache per tick
+    fn get_target(server_state: &ServerState, character: &Character, target_id: Option<u32>) -> Option<MapItemSnapshot> {
         if let Some(target_id) = target_id {
             server_state.map_item_snapshot(target_id, character.current_map_name(), character.current_map_instance())
+        } else {
+            None
+        }
+    }
+
+    // TODO cache per tick
+    fn get_target_status(&self, server_state: &ServerState, character: &Character, target_id: Option<u32>, tick: u128) -> Option<StatusSnapshot> {
+        if let Some(target_id) = target_id {
+            let map_item = server_state.map_item(target_id, character.current_map_name(), character.current_map_instance());
+            if let Some(map_item) = map_item {
+                match map_item.object_type() {
+                    MapItemType::Character => {
+                        return Some(self.get_status_snapshot(&server_state.get_character_unsafe(target_id).status, tick));
+                    }
+                    MapItemType::Mob => {
+                        return Some(self.get_status_snapshot(&server_state.map_item_mob_status(&map_item, character.current_map_name(),  character.current_map_instance()).as_ref().unwrap(), tick));
+                    }
+                    _ => { return None; }
+                }
+            }
+            None
         } else {
             None
         }

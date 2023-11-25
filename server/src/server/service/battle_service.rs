@@ -8,9 +8,7 @@ use enums::skill::SkillState;
 use enums::weapon::WeaponType;
 use models::status::{Status, StatusSnapshot};
 use packets::packets::PacketZcNotifyAct;
-use crate::repository::model::item_model::ItemModel;
-use crate::repository::model::mob_model::MobModel;
-use crate::server::model::map_item::{MapItem, MapItemType};
+use crate::server::model::map_item::{MapItemSnapshot, MapItemType};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 
 
@@ -20,7 +18,6 @@ use crate::server::state::character::Character;
 use crate::enums::EnumWithNumberValue;
 use crate::packets::packets::Packet;
 use crate::server::model::action::Damage;
-use crate::server::model::status::StatusFromDb;
 
 static mut SERVICE_INSTANCE: Option<BattleService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -272,7 +269,7 @@ impl BattleService {
         }
     }
 
-    pub fn basic_attack(&self, character: &mut Character, target: MapItem, tick: u128) -> Option<Damage> {
+    pub fn basic_attack(&self, character: &mut Character, target: MapItemSnapshot, source_status: &StatusSnapshot, target_status: &StatusSnapshot, tick: u128) -> Option<Damage> {
         character.attack?;
         let attack = character.attack();
 
@@ -293,10 +290,10 @@ impl BattleService {
         packet_zc_notify_act3.set_gid(character.char_id);
         packet_zc_notify_act3.set_attack_mt(attack_motion as i32);
         packet_zc_notify_act3.set_attacked_mt(attack_motion as i32);
-        let damage = if matches!(target.object_type(), MapItemType::Mob) {
-            let mob = self.configuration_service.get_mob(target.client_item_class() as i32);
+        let damage = if matches!(target.map_item.object_type(), MapItemType::Mob) {
+            let mob = self.configuration_service.get_mob(target.map_item.client_item_class() as i32);
             packet_zc_notify_act3.set_attacked_mt(mob.damage_motion);
-            self.damage_character_attack_monster(&character.status.to_snapshot(), &StatusFromDb::from_mob_model(&mob).to_snapshot(), 1.0)
+            self.damage_character_attack_monster(source_status, target_status, 1.0)
         } else {
             0
         };

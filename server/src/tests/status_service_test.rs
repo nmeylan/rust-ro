@@ -23,7 +23,7 @@ fn before_each_with_latch(latch_size: usize) -> StatusServiceTestContext {
     let count_down_latch = CountDownLatch::new(latch_size);
     StatusServiceTestContext {
         test_context:TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
-        status_service: StatusService::new(client_notification_sender, persistence_event_sender, GlobalConfigService::instance()),
+        status_service: StatusService::new(GlobalConfigService::instance()),
     }
 }
 
@@ -130,7 +130,7 @@ mod tests {
                 equip_item_from_name(&mut character, stat.weapon);
             }
             // When
-            let status_atk = context.status_service.status_atk_left_side(&character.status.to_snapshot());
+            let status_atk = context.status_service.status_atk_left_side(&context.status_service.to_snapshot(&character.status));
             // Then
             assert_eq!(status_atk, stat.expected_status_atk, "Expected status atk1 to be {} but was {} with stats {:?}", stat.expected_status_atk, status_atk, stat);
         }

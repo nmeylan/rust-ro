@@ -80,6 +80,77 @@ pub struct StatusSnapshot {
     ammo: Option<WearAmmoSnapshot>,
 }
 
+impl StatusSnapshot {
+    pub fn from(status: &Status) -> Self {
+        let mut snapshot = Self {
+            job: status.job,
+            hp: status.hp,
+            sp: status.sp,
+            str: status.str,
+            agi: status.agi,
+            vit: status.vit,
+            int: status.int,
+            dex: status.dex,
+            luk: status.luk,
+            base_atk: 0,
+            matk_min: 0,
+            matk_max: 0,
+            speed: status.speed,
+            hit: status.hit as u16,
+            flee: status.flee as u16,
+            crit: status.crit as u16,
+            def: status.def as u16,
+            mdef: status.mdef as u16,
+            size: status.size,
+            state: status.state,
+            right_hand_weapon: status.right_hand_weapon().map(|w| w.to_snapshot()),
+            right_hand_weapon_type: status.right_hand_weapon().map(|w| w.weapon_type).unwrap_or(WeaponType::Fist),
+            left_hand_weapon: None,
+            upper_headgear: None,
+            middle_headgear: None,
+            lower_headgear: None,
+            shield: None,
+            body: None,
+            shoes: None,
+            shoulder: None,
+            accessory_left: None,
+            accessory_right: None,
+            ammo: None,
+        };
+        for gear in status.equipped_gears() {
+            let gear_snapshot = Some(gear.to_snapshot());
+            if gear.location & EquipmentLocation::HeadTop.as_flag() > 0 {
+                snapshot.upper_headgear = gear_snapshot;
+            }
+            if gear.location & EquipmentLocation::HeadMid.as_flag() > 0 {
+                snapshot.middle_headgear = gear_snapshot;
+            }
+            if gear.location & EquipmentLocation::HeadLow.as_flag() > 0 {
+                snapshot.lower_headgear = gear_snapshot;
+            }
+            if gear.location & EquipmentLocation::Armor.as_flag() > 0 {
+                snapshot.body = gear_snapshot;
+            }
+            if gear.location & EquipmentLocation::Shoes.as_flag() > 0 {
+                snapshot.shoes = gear_snapshot;
+            }
+            if gear.location & EquipmentLocation::HandLeft.as_flag() > 0 {
+                snapshot.shield = gear_snapshot;
+            }
+            if gear.location & EquipmentLocation::Garment.as_flag() > 0 {
+                snapshot.shoulder = gear_snapshot;
+            }
+            if gear.location & EquipmentLocation::AccessoryLeft.as_flag() > 0 {
+                snapshot.accessory_left = gear_snapshot;
+            }
+            if gear.location & EquipmentLocation::AccessoryRight.as_flag() > 0 {
+                snapshot.accessory_right = gear_snapshot;
+            }
+        }
+        snapshot
+    }
+}
+
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct KnownSkill {
     pub value: enums::skill_enums::SkillEnum,
@@ -145,75 +216,6 @@ impl Status {
             .as_ref()
             .map(|ammo| equipments.push(ammo as &dyn Wearable));
         equipments
-    }
-
-    pub fn to_snapshot(&self) -> StatusSnapshot {
-        let mut snapshot = StatusSnapshot {
-            job: self.job,
-            hp: self.hp,
-            sp: self.sp,
-            str: self.str,
-            agi: self.agi,
-            vit: self.vit,
-            int: self.int,
-            dex: self.dex,
-            luk: self.luk,
-            base_atk: 0, // todo move from battle service
-            matk_min: 0, // todo move from battle service
-            matk_max: 0, // todo move from battle service
-            speed: self.speed,
-            hit: 0,  // todo move from battle service
-            flee: 0, // todo move from battle service
-            crit: 0, // todo move from battle service
-            def: 0,  // todo move from battle service
-            mdef: 0, // todo move from battle service
-            size: self.size,
-            state: self.state,
-            right_hand_weapon: self.right_hand_weapon().map(|w| w.to_snapshot()),
-            right_hand_weapon_type: self.right_hand_weapon().map(|w| w.weapon_type).unwrap_or(WeaponType::Fist),
-            left_hand_weapon: None,
-            upper_headgear: None,
-            middle_headgear: None,
-            lower_headgear: None,
-            shield: None,
-            body: None,
-            shoes: None,
-            shoulder: None,
-            accessory_left: None,
-            accessory_right: None,
-            ammo: self.equipped_ammo().map(|ammo| ammo.to_snapshot()),
-        };
-        for gear in self.equipped_gears() {
-            let gear_snapshot = Some(gear.to_snapshot());
-            if gear.location & EquipmentLocation::HeadTop.as_flag() > 0 {
-                snapshot.upper_headgear = gear_snapshot;
-            }
-            if gear.location & EquipmentLocation::HeadMid.as_flag() > 0 {
-                snapshot.middle_headgear = gear_snapshot;
-            }
-            if gear.location & EquipmentLocation::HeadLow.as_flag() > 0 {
-                snapshot.lower_headgear = gear_snapshot;
-            }
-            if gear.location & EquipmentLocation::Armor.as_flag() > 0 {
-                snapshot.body = gear_snapshot;
-            }
-            if gear.location & EquipmentLocation::Shoes.as_flag() > 0 {
-                snapshot.shoes = gear_snapshot;
-            }
-            if gear.location & EquipmentLocation::HandLeft.as_flag() > 0 {
-                snapshot.shield = gear_snapshot;
-            }
-            if gear.location & EquipmentLocation::Garment.as_flag() > 0 {
-                snapshot.shoulder = gear_snapshot;
-            }
-            if gear.location & EquipmentLocation::AccessoryLeft.as_flag() > 0 {
-                snapshot.accessory_left = gear_snapshot;
-            }
-            if gear.location & EquipmentLocation::AccessoryRight.as_flag() > 0 {
-                snapshot.accessory_right = gear_snapshot;
-            }
-        }
-        snapshot
     }
 }
 
