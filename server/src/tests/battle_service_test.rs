@@ -76,7 +76,7 @@ mod tests {
             let mut min = u32::MAX;
             let mut max = u32::MIN;
             for _ in 0..1000 {
-                let damage = context.battle_service.damage_character_attack_monster(&character.status, &mob.status, 1.0);
+                let damage = context.battle_service.damage_character_attack_monster(&character.status.to_snapshot(), &mob.status.to_snapshot(), 1.0);
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);
@@ -115,7 +115,7 @@ mod tests {
             let mut max = u32::MIN;
             equip_item_from_name(&mut character, stat.weapon);
             for _ in 0..1000 {
-                let damage = context.battle_service.weapon_atk(&character.status, &target_status);
+                let damage = context.battle_service.weapon_atk(&character.status.to_snapshot(), &target_status.to_snapshot());
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);
@@ -242,7 +242,7 @@ mod tests {
                 equip_item_from_name(&mut character, weapon);
             };
             target_status.size = scenarii.target_size;
-            let size_modifier = context.battle_service.size_modifier(&character.status, &target_status);
+            let size_modifier = context.battle_service.size_modifier(&character.status.to_snapshot(), &target_status.to_snapshot());
             assert_eq!(size_modifier, scenarii.expected_modifier, "Expected size modifier to be {} but was {} when weapon is {:?} and target size {:?}", scenarii.expected_modifier, size_modifier, scenarii.weapon, target_status.size)
         }
     }

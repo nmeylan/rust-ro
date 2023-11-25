@@ -1,15 +1,20 @@
 use proc_macro::TokenStream;
-use quote::{quote};
-use syn::{ItemFn};
+use quote::quote;
+use syn::ItemFn;
 
 #[proc_macro_attribute]
 pub fn elapsed(_args: TokenStream, function_def: TokenStream) -> TokenStream {
     let mut item = syn::parse(function_def).unwrap();
     let fn_item = match &mut item {
         syn::Item::Fn(fn_item) => fn_item,
-        _ => panic!("expected fn")
+        _ => panic!("expected fn"),
     };
-    let ItemFn { attrs, vis, sig, block } = fn_item;
+    let ItemFn {
+        attrs,
+        vis,
+        sig,
+        block,
+    } = fn_item;
     let function_body = block.clone();
     let fn_name = sig.ident.clone();
     let log_ns = format!("{fn_name} tooks {{}}ns");

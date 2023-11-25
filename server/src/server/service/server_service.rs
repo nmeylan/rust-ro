@@ -14,6 +14,7 @@ use crate::server::model::map::{Map, RANDOM_CELL};
 use crate::server::model::map_instance::{MapInstance};
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType};
 use models::position::Position;
+use models::status::Status;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, CharacterUseSkill, GameEvent};
@@ -174,14 +175,7 @@ impl ServerService {
 
     fn get_target(server_state: &ServerState, character: &mut Character, target_id: Option<u32>) -> Option<MapItemSnapshot> {
         if let Some(target_id) = target_id {
-            let map_item = server_state.map_item(target_id, character.current_map_name(), character.current_map_instance());
-            let target = if let Some(map_item) = map_item {
-                let target_position = server_state.map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
-                Some(MapItemSnapshot::new(map_item, target_position))
-            } else {
-                None
-            };
-            target
+            server_state.map_item_snapshot(target_id, character.current_map_name(), character.current_map_instance())
         } else {
             None
         }

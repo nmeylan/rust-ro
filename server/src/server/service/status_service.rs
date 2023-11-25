@@ -1,11 +1,10 @@
 use std::sync::{Once};
 use std::sync::mpsc::SyncSender;
-
-
+use enums::item::ItemType::Weapon;
 
 
 use enums::weapon::WeaponType;
-use models::status::Status;
+use models::status::{Status, StatusSnapshot};
 use crate::enums::EnumWithStringValue;
 
 
@@ -88,49 +87,49 @@ impl StatusService {
     ///For weapons, the true value is equal to: STR + [STR/10]^2 + [DEX/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
     ///For missile weapons, the true value is equal to: DEX + [DEX/10]^2 + [STR/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
     ///Not counting the value of WeaponAtk and AtkBonusCards, this true value is often referred to as the base damage. This base damage is basically the your Atk with bare fists.
-    pub fn status_atk_left_side(&self, status: &Status) -> i32 {
+    pub fn status_atk_left_side(&self, status: &StatusSnapshot) -> i32 {
         let imposito_magnus = 0;
         let _upgrade_damage = 0;
         let _atk_cards = 0;
         (self.fist_atk(status) + self.weapon_atk(status) + imposito_magnus + self.weapon_upgrade_damage(status) + self.atk_cards(status)) as i32
     }
 
-    pub fn fist_atk(&self, status: &Status) -> u32 {
+    pub fn fist_atk(&self, status: &StatusSnapshot) -> u32 {
         let mut str;
         let dex;
 
-        let weapon_type = self.right_hand_weapon_type(status);
+        let weapon_type = status.right_hand_weapon_type();
         let is_ranged_weapon = weapon_type.is_ranged();
         if is_ranged_weapon {
-            str = status.dex;
-            dex = status.str;
+            str = *status.dex();
+            dex = *status.str();
         } else {
-            str = status.str;
-            dex = status.dex;
+            str = *status.str();
+            dex = *status.dex();
         }
         // For homunculus
         // dstr = str / 10;
         // str += dstr*dstr;
         let dstr = str / 10;
         str += dstr * dstr;
-        str += dex / 5 + status.luk / 5;
+        str += dex / 5 + status.luk() / 5;
         str as u32
     }
 
-    pub fn atk_cards(&self, _status: &Status) -> u32 {
+    pub fn atk_cards(&self, _status: &StatusSnapshot) -> u32 {
         0
     }
 
-    pub fn weapon_upgrade_damage(&self, _status: &Status) -> u32 {
+    pub fn weapon_upgrade_damage(&self, _status: &StatusSnapshot) -> u32 {
         0
     }
 
-    pub fn weapon_atk(&self, status: &Status) -> u32 {
-        status.right_hand_weapon().map(|weapon| weapon.attack).unwrap_or(0)
+    pub fn weapon_atk(&self, status: &StatusSnapshot) -> u32 {
+        status.right_hand_weapon().map(|weapon| *weapon.attack()).unwrap_or(0)
     }
 
-    pub fn weapon_lvl(&self, status: &Status) -> Option<i16> {
-        status.right_hand_weapon().map(|right_hand_weapon| right_hand_weapon.level as i16)
+    pub fn weapon_lvl(&self, status: &StatusSnapshot) -> Option<i16> {
+        status.right_hand_weapon().map(|right_hand_weapon| *right_hand_weapon.level() as i16)
     }
 
     /// UI right side atk in status info panel

@@ -26,5 +26,5 @@ pub enum MapPropertyFlags {
     // SUNMOONSTAR_MIRACLE - Blocks Star Gladiator's Miracle from activating
     IsSummonstarMiracle,
     // Unused bits. 1 - 10 is 0x1 length and 11 is 0x15 length. May be used for future settings.
-    Unused
+    Unused,
 }

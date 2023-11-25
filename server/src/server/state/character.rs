@@ -410,10 +410,10 @@ impl ToMapItem for Character {
 
 impl ToMapItemSnapshot for Character {
     fn to_map_item_snapshot(&self) -> MapItemSnapshot {
-        let client_item_class = self.status.job as i16;
         MapItemSnapshot::new(
-            MapItem::new(self.char_id, client_item_class, MapItemType::Character),
+            self.to_map_item(),
             Position { x: self.x, y: self.y, dir: self.dir },
+            self.status.to_snapshot(),
         )
     }
 }

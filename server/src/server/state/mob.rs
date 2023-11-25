@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 
 
-use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
+use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::model::movement::{Movable, Movement};
 
 use models::position::Position;
@@ -123,5 +123,19 @@ impl Mob {
 impl ToMapItem for Mob {
     fn to_map_item(&self) -> MapItem {
         MapItem::new(self.id, self.mob_id, MapItemType::Mob)
+    }
+}
+
+impl ToMapItemSnapshot for Mob {
+    fn to_map_item_snapshot(&self) -> MapItemSnapshot {
+        MapItemSnapshot {
+            map_item: self.to_map_item(),
+            position: Position {
+                x: self.x,
+                y: self.y,
+                dir: 3, // TODO
+            },
+            status: self.status.to_snapshot(),
+        }
     }
 }

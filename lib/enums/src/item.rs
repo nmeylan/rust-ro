@@ -1,6 +1,6 @@
 #![allow(dead_code)]
-use crate::*;
 use crate::item::ItemType::{DelayConsume, Usable};
+use crate::*;
 
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum ItemType {
@@ -126,7 +126,7 @@ impl ItemType {
             "Shadowgear" => Self::ShadowGear,
             "Cash" => Self::Cash,
             "Max" => Self::Max,
-            &_ => Self::Unknown
+            &_ => Self::Unknown,
         }
     }
 
@@ -139,28 +139,56 @@ impl ItemType {
 
     pub fn is_stackable(&self) -> bool {
         match self {
-            ItemType::Healing | ItemType::Usable | ItemType::Etc | ItemType::Card | ItemType::Ammo | ItemType::DelayConsume => {
-                true
-            }
-            ItemType::Unknown | ItemType::Armor | ItemType::Weapon | ItemType::PetEgg | ItemType::PetArmor | ItemType::Unknown2 | ItemType::ShadowGear | ItemType::Cash | ItemType::Max => {
-                false
-            }
+            ItemType::Healing
+            | ItemType::Usable
+            | ItemType::Etc
+            | ItemType::Card
+            | ItemType::Ammo
+            | ItemType::DelayConsume => true,
+            ItemType::Unknown
+            | ItemType::Armor
+            | ItemType::Weapon
+            | ItemType::PetEgg
+            | ItemType::PetArmor
+            | ItemType::Unknown2
+            | ItemType::ShadowGear
+            | ItemType::Cash
+            | ItemType::Max => false,
         }
     }
 
     pub fn is_consumable(&self) -> bool {
-        matches!(self, ItemType::Healing | ItemType::Usable | ItemType::PetEgg | ItemType::DelayConsume | ItemType::Cash)
+        matches!(
+            self,
+            ItemType::Healing
+                | ItemType::Usable
+                | ItemType::PetEgg
+                | ItemType::DelayConsume
+                | ItemType::Cash
+        )
     }
     pub fn is_equipment(&self) -> bool {
-        matches!(self, ItemType::Armor | ItemType::Weapon | ItemType::PetArmor | ItemType::ShadowGear)
+        matches!(
+            self,
+            ItemType::Armor | ItemType::Weapon | ItemType::PetArmor | ItemType::ShadowGear
+        )
     }
     pub fn is_wearable(&self) -> bool {
-        matches!(self, ItemType::Armor | ItemType::Weapon | ItemType::Ammo | ItemType::ShadowGear)
+        matches!(
+            self,
+            ItemType::Armor | ItemType::Weapon | ItemType::Ammo | ItemType::ShadowGear
+        )
     }
     pub fn should_be_identified_when_dropped(&self) -> bool {
-        matches!(self, ItemType::Armor | ItemType::Weapon | ItemType::Ammo | ItemType::ShadowGear)
+        matches!(
+            self,
+            ItemType::Armor | ItemType::Weapon | ItemType::Ammo | ItemType::ShadowGear
+        )
     }
     pub fn is_etc(&self) -> bool {
-        matches!(self, ItemType::Etc | ItemType::Card | ItemType::Unknown2 | ItemType::Ammo | ItemType::Max)
+        matches!(
+            self,
+            ItemType::Etc | ItemType::Card | ItemType::Unknown2 | ItemType::Ammo | ItemType::Max
+        )
     }
 }

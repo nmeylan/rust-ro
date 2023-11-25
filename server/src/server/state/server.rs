@@ -6,8 +6,9 @@ use std::sync::atomic::AtomicI8;
 use crate::server::model::map::MAP_EXT;
 
 use crate::server::model::map_instance::MapInstance;
-use crate::server::model::map_item::{MapItem, MapItemType, ToMapItem};
+use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use models::position::Position;
+use models::status::{Status, StatusSnapshot};
 use crate::server::model::request::Request;
 use crate::server::model::script::Script;
 use crate::server::model::session::Session;
@@ -276,6 +277,25 @@ impl ServerState {
             }
             _ => None
         }
+    }
+
+    pub fn map_item_snapshot(&self, map_item_id: u32, map_name: &String, map_instance_id: u8) -> Option<MapItemSnapshot> {
+        let characters = self.characters();
+        if let Some(character) = characters.get(&map_item_id) {
+            return Some(character.to_map_item_snapshot());
+        }
+        if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
+            if let Some(mob) = map_instance.state().get_mob(map_item_id) {
+                return Some(mob.to_map_item_snapshot());
+            }
+            if let Some(warp) = map_instance.get_warp(map_item_id) {
+                return  None;
+            }
+            if let Some(script) = map_instance.get_script(map_item_id) {
+                return None;
+            }
+        }
+        None
     }
 
 }

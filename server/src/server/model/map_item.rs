@@ -1,6 +1,7 @@
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
 use models::position::Position;
+use models::status::{Status, StatusSnapshot};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum MapItemType {
@@ -44,6 +45,7 @@ pub struct MapItem {
 pub struct MapItemSnapshot {
     pub(crate) map_item: MapItem,
     pub(crate) position: Position,
+    pub(crate) status: StatusSnapshot,
 }
 
 impl MapItem {
@@ -76,10 +78,11 @@ impl MapItem {
 }
 
 impl MapItemSnapshot {
-    pub fn new(map_item: MapItem, position: Position) -> Self {
+    pub fn new(map_item: MapItem, position: Position, status: StatusSnapshot) -> Self {
         Self {
             map_item,
-            position
+            position,
+            status
         }
     }
 

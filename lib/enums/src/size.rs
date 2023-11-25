@@ -1,11 +1,11 @@
-use enum_macro::WithStringValue;
 use crate::EnumWithStringValue;
+use enum_macro::WithStringValue;
 
 #[derive(WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Size {
     Small,
     Medium,
-    Large
+    Large,
 }
 
 impl Default for Size {
