@@ -15,6 +15,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::packets::packets::Packet;
 use crate::server::service::battle_service::BattleService;
+use crate::server::service::status_service::StatusService;
 
 static mut SERVICE_INSTANCE: Option<SkillService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -24,24 +25,25 @@ pub struct SkillService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
     configuration_service: &'static GlobalConfigService,
-    battle_service: BattleService
+    battle_service: BattleService,
+    status_service: StatusService,
 }
 
 impl SkillService {
-    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, configuration_service: &'static GlobalConfigService) -> SkillService {
-        SkillService { client_notification_sender, persistence_event_sender, configuration_service, battle_service }
+    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: StatusService, configuration_service: &'static GlobalConfigService) -> SkillService {
+        SkillService { client_notification_sender, persistence_event_sender, configuration_service, battle_service, status_service }
     }
     pub fn instance() -> &'static SkillService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, configuration_service: &'static GlobalConfigService) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: StatusService, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(SkillService::new(client_notification_sender, persistence_event_sender, battle_service, configuration_service));
+            SERVICE_INSTANCE = Some(SkillService::new(client_notification_sender, persistence_event_sender, battle_service, status_service, configuration_service));
         });
     }
 
-    pub fn start_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, skill_id: u32, skill_level: u8, tick: u128) {
+    pub fn start_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, source_status: &StatusSnapshot, target_status: Option<&StatusSnapshot>, skill_id: u32, skill_level: u8, tick: u128) {
         let item_snapshot = target.unwrap();
         let skill = SkillEnum::from_id(skill_id);
         let mut skill = skills::skill_enums::to_object(skill, skill_level).unwrap();
@@ -102,13 +104,13 @@ impl SkillService {
         let no_delay = skill.cast_time() == 0;
         character.set_skill_in_use(target.map(|target| target.map_item().id()), tick, skill, no_delay);
         if no_delay {
-            self.do_use_skill(character, target, tick);
+            self.do_use_skill(character, target, source_status, target_status, tick);
         }
 
         if validate_sp.unwrap() > 0 {}
     }
 
-    pub fn do_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, tick: u128) {
+    pub fn do_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, source_status: &StatusSnapshot, target_status: Option<&StatusSnapshot>, tick: u128) {
         if tick < character.skill_in_use().start_skill_tick + character.skill_in_use().skill.cast_time() as u128 {
             return;
         }
@@ -117,7 +119,7 @@ impl SkillService {
             return;
         }
         let skill = skill.as_offensive_skill().unwrap();
-        let damage = self.calculate_damage(&character.status.to_snapshot(), &target.unwrap().status, skill);
+        let damage = self.calculate_damage(source_status, target_status.as_ref().unwrap(), skill);
         let mut packet_zc_notify_skill2 = PacketZcNotifySkill2::new(self.configuration_service.packetver());
         packet_zc_notify_skill2.set_skid(skill.id() as u16);
         packet_zc_notify_skill2.set_attack_mt(305); // TODO

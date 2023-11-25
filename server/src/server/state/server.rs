@@ -8,13 +8,13 @@ use crate::server::model::map::MAP_EXT;
 use crate::server::model::map_instance::MapInstance;
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use models::position::Position;
-use models::status::{Status, StatusSnapshot};
+use models::status::Status;
 use crate::server::model::request::Request;
 use crate::server::model::script::Script;
 use crate::server::model::session::Session;
 
 use crate::server::state::character::Character;
-
+use crate::server::state::mob::Mob;
 
 
 pub struct ServerState {
@@ -274,6 +274,20 @@ impl ServerState {
         match map_item.object_type() {
             MapItemType::Character => {
                 return Some(self.get_character_unsafe(map_item.id()))
+            }
+            _ => None
+        }
+    }
+
+    pub fn map_item_mob_status(&self, map_item: &MapItem, map_name: &String, map_instance_id: u8) -> Option<Status> {
+        match map_item.object_type() {
+            MapItemType::Mob => {
+                if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
+                    if let Some(mob) = map_instance.state().get_mob(map_item.id()) {
+                        return Some(mob.status.clone());
+                    }
+                }
+                None
             }
             _ => None
         }

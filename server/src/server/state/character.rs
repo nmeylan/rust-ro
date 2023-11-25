@@ -412,8 +412,7 @@ impl ToMapItemSnapshot for Character {
     fn to_map_item_snapshot(&self) -> MapItemSnapshot {
         MapItemSnapshot::new(
             self.to_map_item(),
-            Position { x: self.x, y: self.y, dir: self.dir },
-            self.status.to_snapshot(),
+            Position { x: self.x, y: self.y, dir: self.dir }
         )
     }
 }

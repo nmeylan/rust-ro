@@ -134,8 +134,7 @@ impl ToMapItemSnapshot for Mob {
                 x: self.x,
                 y: self.y,
                 dir: 3, // TODO
-            },
-            status: self.status.to_snapshot(),
+            }
         }
     }
 }
