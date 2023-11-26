@@ -204,6 +204,11 @@ impl Status {
         self.weapons.push(wear_weapon);
     }
 
+    pub fn takeoff_all_equipment(&mut self) {
+        self.weapons = vec![];
+        self.equipments = vec![];
+        self.takeoff_ammo();
+    }
     pub fn takeoff_equipment(&mut self, inventory_index: usize) {
         self.equipments
             .retain(|w| w.inventory_index != inventory_index);
