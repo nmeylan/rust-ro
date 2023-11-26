@@ -21,8 +21,12 @@ mod debugger;
 mod tests;
 
 use std::collections::HashMap;
+
+#[cfg(feature = "static_db_update")]
 use std::fs::File;
+#[cfg(feature = "static_db_update")]
 use std::io::Write;
+#[cfg(feature = "static_db_update")]
 use std::path::Path;
 
 

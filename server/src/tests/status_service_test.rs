@@ -34,7 +34,8 @@ mod tests {
     use enums::weapon::WeaponType;
     use crate::enums::EnumWithStringValue;
     use crate::enums::EnumWithNumberValue;
-    
+    use crate::status_snapshot;
+
     use crate::tests::common::character_helper::{create_character, equip_item_from_name};
     use super::*;
 
@@ -130,7 +131,7 @@ mod tests {
                 equip_item_from_name(&mut character, stat.weapon);
             }
             // When
-            let status_atk = context.status_service.status_atk_left_side(&context.status_service.to_snapshot(&character.status));
+            let status_atk = context.status_service.status_atk_left_side(status_snapshot!(context, character));
             // Then
             assert_eq!(status_atk, stat.expected_status_atk, "Expected status atk1 to be {} but was {} with stats {:?}", stat.expected_status_atk, status_atk, stat);
         }
