@@ -72,7 +72,7 @@ mod tests {
     use crate::server::service::global_config_service::GlobalConfigService;
     
     use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, NotificationExpectation, task_queue_contains_event_at_tick, SentPacket};
-    use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character, equip_item_from_name};
+    use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character, equip_item, equip_item_from_name};
     use crate::tests::common::item_helper::create_inventory_item;
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
     use crate::tests::common::mocked_repository;
@@ -174,7 +174,13 @@ mod tests {
 
             async fn character_inventory_fetch(&self, _char_id: i32) -> Result<Vec<InventoryItemModel>, Error> {
                 self.has_fetched_items.store(true, Ordering::Relaxed);
-                Ok(vec![])
+                let mut bow = create_inventory_item("Bow", 1);
+                bow.equip = (EquipmentLocation::HandLeft.as_flag() | EquipmentLocation::HandRight.as_flag()) as i32;
+                let mut arrow = create_inventory_item("Arrow", 100);
+                arrow.equip = EquipmentLocation::Ammo.as_flag() as i32;
+                let mut beret = create_inventory_item("Beret", 1);
+                beret.equip = EquipmentLocation::HeadTop.as_flag() as i32;
+                Ok(vec![bow, arrow, beret])
             }
         }
         let runtime = Runtime::new().unwrap();
@@ -183,10 +189,19 @@ mod tests {
         let mut character = create_character();
         let character_add_items = CharacterAddItems { char_id: character.char_id, should_perform_check: false, buy: false, items: vec![create_inventory_item("Red_Potion", 10)] };
         context.inventory_service.add_items_in_inventory(&runtime, character_add_items, &mut character);
+        equip_item_from_name(&mut character, "Knife");
+        equip_item_from_name(&mut character, "Hat");
+        assert_eq!(character.status.equipped_weapons()[0].item_id, create_inventory_item("Knife", 1).item_id);
+        assert_eq!(character.status.equipped_gears()[0].item_id, create_inventory_item("Hat", 1).item_id);
         // When
         context.inventory_service.reload_inventory(&runtime, character.char_id, &mut character);
         // Then
-        assert_eq!(character.inventory.len(), 0);
+        assert_eq!(character.inventory.len(), 3); // potion is not in inventory anymore
+        assert_eq!(character.status.equipped_gears().len(), 1);
+        assert_eq!(character.status.equipped_gears()[0].item_id, create_inventory_item("Beret", 1).item_id);
+        assert_eq!(character.status.equipped_weapons().len(), 1);
+        assert_eq!(character.status.equipped_weapons()[0].item_id, create_inventory_item("Bow", 1).item_id);
+        assert_eq!(character.status.equipped_ammo().unwrap().item_id, create_inventory_item("Arrow", 1).item_id);
         assert!(inventory_repository.has_fetched_items.load(Ordering::Relaxed));
     }
 

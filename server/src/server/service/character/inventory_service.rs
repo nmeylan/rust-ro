@@ -166,12 +166,13 @@ impl InventoryService {
         character.inventory = vec![];
         let _items = runtime.block_on(async {
             let items = self.repository.character_inventory_fetch(char_id as i32).await.unwrap();
-            character.add_items(items)
+            character.status.takeoff_all_equipment();
+            character.add_items(items);
         });
         //PacketZcNormalItemlist3
         let mut packet_zc_equipment_itemlist3 = PacketZcEquipmentItemlist3::new(self.configuration_service.packetver());
         let mut equipments = vec![];
-        character.inventory_equip().iter().for_each(|(index, item)| {
+        for (index, item) in character.inventory_equip().iter() {
             let item_info = self.configuration_service.get_item(item.item_id);
             let mut equipmentitem_extrainfo301 = EquipmentitemExtrainfo301::new(self.configuration_service.packetver());
             equipmentitem_extrainfo301.set_itid(item.item_id as u16);
@@ -190,7 +191,25 @@ impl InventoryService {
             equipmentitem_extrainfo301.set_slot(equipslotinfo);
             equipmentitem_extrainfo301.fill_raw();
             equipments.push(equipmentitem_extrainfo301);
-        });
+        }
+        let mut ammo: Option<(usize, &InventoryItemModel)> = None;
+        let mut packet_zc_equip_arrow = PacketZcEquipArrow::new(self.configuration_service.packetver());
+        for (index, item) in character.inventory_wearable().iter() {
+            if matches!(item.item_type(), ItemType::Ammo) {
+                ammo = Some((*index, item));
+                break;
+            }
+        }
+        if let Some((index, ammo)) = ammo {
+            let item_info = self.configuration_service.get_item(ammo.item_id);
+            character.wear_equip_item(index, item_info.location, item_info);
+            packet_zc_equip_arrow.set_index(index as i16);
+        }
+        packet_zc_equip_arrow.fill_raw();
+        for item in equipments.iter() {
+            let item_info = self.configuration_service.get_item(item.itid as i32);
+            character.wear_equip_item(item.index as usize, item.location as u64, item_info);
+        }
         packet_zc_equipment_itemlist3.set_packet_length((PacketZcEquipmentItemlist3::base_len(self.configuration_service.packetver()) + equipments.len() * EquipmentitemExtrainfo301::base_len(self.configuration_service.packetver())) as i16);
         packet_zc_equipment_itemlist3.set_item_info(equipments);
         packet_zc_equipment_itemlist3.fill_raw();
@@ -218,7 +237,7 @@ impl InventoryService {
         packet_zc_normal_itemlist3.fill_raw();
         self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
-                                                                                      chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3]))))
+                                                                                      chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3, &packet_zc_equip_arrow]))))
             .expect("Fail to send client notification");
     }
 
