@@ -66,6 +66,9 @@ pub struct StatusSnapshot {
     size: Size,
     state: u64,
     zeny: u32,
+    fist_atk: u16,
+    atk_given_by_cards: u16,
+    aspd: f32,
     right_hand_weapon: Option<WearWeaponSnapshot>,
     right_hand_weapon_type: WeaponType,
     left_hand_weapon: Option<WearWeaponSnapshot>,
@@ -105,6 +108,9 @@ impl StatusSnapshot {
             size: status.size,
             state: status.state,
             zeny: status.zeny,
+            fist_atk: 0,
+            atk_given_by_cards: 0,
+            aspd: 0.0,
             right_hand_weapon: status.right_hand_weapon().map(|w| w.to_snapshot()),
             right_hand_weapon_type: status.right_hand_weapon().map(|w| w.weapon_type).unwrap_or(WeaponType::Fist),
             left_hand_weapon: None,
@@ -150,6 +156,18 @@ impl StatusSnapshot {
             }
         }
         snapshot
+    }
+
+    pub fn weapon_upgrade_damage(&self) -> u16 {
+        0
+    }
+
+    pub fn weapon_atk(&self) -> u16 {
+        self.right_hand_weapon().map(|weapon| *weapon.attack() as u16).unwrap_or(0)
+    }
+
+    pub fn weapon_lvl(&self) -> Option<u16> {
+        self.right_hand_weapon().map(|right_hand_weapon| *right_hand_weapon.level() as u16)
     }
 }
 
