@@ -1,7 +1,7 @@
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
 use models::position::Position;
-use models::status::{Status, StatusSnapshot};
+
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum MapItemType {

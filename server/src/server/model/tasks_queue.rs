@@ -8,6 +8,14 @@ pub struct TasksQueue<T> {
 }
 
 
+impl<T> Default for TasksQueue<T>
+where T: Debug + Clone
+ {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl <T> TasksQueue<T> where T: Debug + Clone {
     pub fn new() -> Self {
         Self {

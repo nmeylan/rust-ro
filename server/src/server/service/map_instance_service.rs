@@ -54,7 +54,7 @@ impl MapInstanceService {
 
     pub fn spawn_mobs(&self, map: &Map, map_instance_state: &mut MapInstanceState) {
         for mob_spawn in map.mob_spawns().iter() {
-            let mob_spawn_track = map_instance_state.mob_spawns_tracks_mut().iter().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap().clone();
+            let mob_spawn_track = map_instance_state.mob_spawns_tracks_mut().iter().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
             if mob_spawn_track.spawned_amount >= mob_spawn.to_spawn_amount {
                 continue;
             }

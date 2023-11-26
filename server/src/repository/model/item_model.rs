@@ -297,7 +297,7 @@ impl ItemModel {
         WearAmmo {
             item_id: self.id,
             inventory_index,
-            ammo_type: self.ammo_type.unwrap().clone()
+            ammo_type: self.ammo_type.unwrap()
         }
     }
 

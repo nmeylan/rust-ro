@@ -82,7 +82,7 @@ impl ServerService {
         let map_instance = MapInstance::from_map(self.vm.clone(), map, instance_id, cells, self.client_notification_sender.clone(), map_items, Arc::new(TasksQueue::new()));
         server_state.map_instances_count().fetch_add(1, Relaxed);
         let map_instance_ref = Arc::new(map_instance);
-        let entry = server_state.map_instances_mut().entry(map.name().to_string()).or_insert(Default::default());
+        let entry = server_state.map_instances_mut().entry(map.name().to_string()).or_default();
         entry.push(map_instance_ref.clone());
         MapInstanceLoop::start_map_instance_thread(map_instance_ref.clone());
         map_instance_ref
@@ -161,7 +161,7 @@ impl ServerService {
     }
 
     fn get_status_snapshot(&self, status: &Status, _tick: u128) -> StatusSnapshot {
-       self.status_service.to_snapshot(&status)
+       self.status_service.to_snapshot(status)
     }
 
     pub fn character_start_use_skill(&self, server_state: &ServerState, character: &mut Character, character_use_skill: CharacterUseSkill, tick: u128) {
@@ -203,7 +203,7 @@ impl ServerService {
                         return Some(self.get_status_snapshot(&server_state.get_character_unsafe(target_id).status, tick));
                     }
                     MapItemType::Mob => {
-                        return Some(self.get_status_snapshot(&server_state.map_item_mob_status(&map_item, character.current_map_name(),  character.current_map_instance()).as_ref().unwrap(), tick));
+                        return Some(self.get_status_snapshot(server_state.map_item_mob_status(&map_item, character.current_map_name(),  character.current_map_instance()).as_ref().unwrap(), tick));
                     }
                     _ => { return None; }
                 }

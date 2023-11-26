@@ -156,7 +156,7 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
         mod_file_base.write_all(format!("pub mod {};\n", file_base_name).as_bytes()).unwrap();
         let mut job_skills_file_base = File::create(output_path.join("base").join(format!("{}.rs", file_base_name))).unwrap();
 
-        let file_name = format!("{}", job_tree.name().to_lowercase().replace(' ', ""));
+        let file_name = job_tree.name().to_lowercase().replace(' ', "").to_string();
         #[cfg(feature = "generate_override_stub")]
             let mut job_skills_file = {
             // // Override stub
@@ -460,7 +460,7 @@ fn generate_validate_zeny(job_skills_file: &mut File, skill_config: &SkillConfig
 
 fn generate_validate_item(job_skills_file: &mut File, skill_config: &SkillConfig, item_name_ids: &HashMap<String, u32>) {
     if let Some(requirements) = skill_config.requires() {
-        if requirements.item_cost().len() > 0 {
+        if !requirements.item_cost().is_empty() {
             job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
             job_skills_file.write_all(b"    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {\n").unwrap();
             job_skills_file.write_all(format!("        let required_items = vec![{}]; \n", requirements.item_cost().iter()
@@ -679,7 +679,7 @@ fn generate_as_passive_skill(job_skills_file: &mut File) {
 *   Skill Enum
 *
  */
-fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, skills_already_generated: &HashSet<String>, jobs_with_skills: &HashSet<String>) {
+fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, _skills_already_generated: &HashSet<String>, _jobs_with_skills: &HashSet<String>) {
     let file_path = output_path.join("skill_enums.rs");
     let mut file = File::create(file_path.clone()).unwrap();
     write_file_header_comments(&mut file);
@@ -751,7 +751,7 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     println!("Skills enum generated at {}", file_path.to_str().unwrap());
 }
 
-fn generate_skills_enum_to_object(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, skills_already_generated: &HashSet<String>, jobs_with_skills: &HashSet<String>) {
+fn generate_skills_enum_to_object(output_path: &Path, skills: &Vec<SkillConfig>, _skill_tree: &Vec<JobSkillTree>, skills_already_generated: &HashSet<String>, jobs_with_skills: &HashSet<String>) {
     let file_path = output_path.join("skill_enums.rs");
     let mut file = File::create(file_path.clone()).unwrap();
     write_file_header_comments(&mut file);

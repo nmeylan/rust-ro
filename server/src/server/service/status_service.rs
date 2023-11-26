@@ -1,8 +1,8 @@
 use std::sync::{Once};
-use std::sync::mpsc::SyncSender;
-use enums::EnumWithMaskValueU64;
-use enums::item::EquipmentLocation;
-use enums::item::ItemType::Weapon;
+
+
+
+
 
 
 use enums::weapon::WeaponType;
@@ -12,8 +12,8 @@ use crate::enums::EnumWithStringValue;
 
 
 
-use crate::server::model::events::client_notification::{Notification};
-use crate::server::model::events::persistence_event::PersistenceEvent;
+
+
 
 
 use crate::server::service::global_config_service::GlobalConfigService;
@@ -44,8 +44,8 @@ impl StatusService {
     }
 
     pub fn to_snapshot(&self, status: &Status) -> StatusSnapshot {
-        let mut snapshot = StatusSnapshot::from(status);
-        snapshot
+        
+        StatusSnapshot::from(status)
     }
 
     pub fn attack_per_seconds(&self, aspd: f32) -> f32 {

@@ -37,7 +37,7 @@ mod tests {
     use enums::size::Size;
     use models::status::Status;
     use crate::assert_eq_with_variance;
-    use crate::server::model::map_item::{ToMapItem, ToMapItemSnapshot};
+    use crate::server::model::map_item::{ToMapItemSnapshot};
     use crate::tests::battle_service_test::before_each;
     use crate::tests::common::character_helper::{create_character, equip_item_from_name};
     use crate::tests::common::mob_helper::create_mob;
@@ -137,8 +137,8 @@ mod tests {
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, true, 0);
         let second_attack_tick = get_tick() + 2000;
-        // When
         let character_status =&context.status_service.to_snapshot(&character.status);
+        // When
         let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &context.status_service.to_snapshot(&mob.status), get_tick());
         let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &context.status_service.to_snapshot(&mob.status), second_attack_tick);
         // Then
@@ -192,7 +192,7 @@ mod tests {
             target_size: Size,
             expected_modifier: f32,
         }
-        let mut source_status: Status = Default::default();
+        let _source_status: Status = Default::default();
         let mut target_status: Status = Default::default();
         let scenario = vec![
             Scenarii { weapon: None, target_size: Size::Small, expected_modifier: 1.0 },

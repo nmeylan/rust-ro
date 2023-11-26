@@ -253,7 +253,7 @@ impl CharacterService {
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "class".to_string(), value: character.status.job })).expect("Fail to send persistence notification");
         self.change_sprite(character, LookType::Job, character.status.job as u16, 0);
         if should_reset_skills {
-            let mut skill_point;
+            let skill_point;
             if job.is_first_class() {
                 skill_point = 9 + character.status.job_level - 1;
             } else if job.is_second_class() || job.is_rebirth() {

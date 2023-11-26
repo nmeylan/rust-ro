@@ -64,7 +64,7 @@ impl NpcLoader {
                 for npc in npcs {
                     let mut res_guard = res.lock().unwrap();
                     let map_name = npc.get_map_name();
-                    let entry = res_guard.entry(map_name).or_insert(Default::default());
+                    let entry = res_guard.entry(map_name).or_default();
                     entry.push(npc);
                 }
             }));
