@@ -2,7 +2,7 @@ use std::any::Any;
 use enums::skill::{SkillTargetType, UseSkillFailure};
 use enums::weapon::{AmmoType};
 use models::item::{NormalInventoryItem};
-use models::status::Status;
+use models::status::{StatusSnapshot};
 
 pub mod skill_enums;
 pub mod base;
@@ -41,11 +41,11 @@ pub trait SkillBase {
     fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> { None }
 
     #[inline(always)]
-    fn _validate_sp(&self, _status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_sp(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         Ok(0)
     }
     #[inline(always)]
-    fn _validate_hp(&self, _status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_hp(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         Ok(0)
     }
     #[inline(always)]
@@ -53,15 +53,15 @@ pub trait SkillBase {
         Ok(0)
     }
     #[inline(always)]
-    fn _validate_state(&self, _status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_state(&self, _status: &StatusSnapshot) -> SkillRequirementResult<()> {
         Ok(())
     }
     #[inline(always)]
-    fn _validate_zeny(&self, _status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_zeny(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         Ok(0)
     }
     #[inline(always)]
-    fn _validate_spirit_sphere(&self, _status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_spirit_sphere(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         Ok(0)
     }
     #[inline(always)]
@@ -74,11 +74,11 @@ pub trait SkillBase {
         Ok(())
     }
     #[inline(always)]
-    fn _validate_weapon(&self, _status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_weapon(&self, _status: &StatusSnapshot) -> SkillRequirementResult<()> {
         Ok(())
     }
     #[inline(always)]
-    fn _validate_range(&self, _status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_range(&self, _status: &StatusSnapshot) -> SkillRequirementResult<()> {
         Ok(())
     }
 
@@ -139,11 +139,11 @@ pub trait Skill: SkillBase {
     }
 
     #[inline(always)]
-    fn validate_sp(&self, _status: &Status) -> SkillRequirementResult<u32> {
+    fn validate_sp(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         self._validate_sp(_status)
     }
     #[inline(always)]
-    fn validate_hp(&self, _status: &Status) -> SkillRequirementResult<u32> {
+    fn validate_hp(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         self._validate_hp(_status)
     }
     #[inline(always)]
@@ -151,15 +151,15 @@ pub trait Skill: SkillBase {
         self._validate_ammo(_character_ammo)
     }
     #[inline(always)]
-    fn validate_state(&self, _status: &Status) -> SkillRequirementResult<()>  {
+    fn validate_state(&self, _status: &StatusSnapshot) -> SkillRequirementResult<()>  {
         self._validate_state(_status)
     }
     #[inline(always)]
-    fn validate_zeny(&self, _status: &Status) -> SkillRequirementResult<u32>  {
+    fn validate_zeny(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32>  {
         self._validate_zeny(_status)
     }
     #[inline(always)]
-    fn validate_spirit_sphere(&self, _status: &Status) -> SkillRequirementResult<u32> {
+    fn validate_spirit_sphere(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         self._validate_spirit_sphere(_status)
     }
     #[inline(always)]
@@ -172,11 +172,11 @@ pub trait Skill: SkillBase {
         self._validate_target(_target_type)
     }
     #[inline(always)]
-    fn validate_weapon(&self, _status: &Status) -> SkillRequirementResult<()> {
+    fn validate_weapon(&self, _status: &StatusSnapshot) -> SkillRequirementResult<()> {
         self._validate_weapon(_status)
     }
     #[inline(always)]
-    fn validate_range(&self, _status: &Status) -> SkillRequirementResult<()> {
+    fn validate_range(&self, _status: &StatusSnapshot) -> SkillRequirementResult<()> {
         self._validate_range(_status)
     }
 

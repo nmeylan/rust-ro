@@ -43,7 +43,7 @@ pub struct Status {
     pub known_skills: Vec<KnownSkill>,
 }
 
-#[derive(Clone, Copy, PartialEq, Debug, GettersAll)]
+#[derive(Clone, Copy, PartialEq, Debug, GettersAll, SettersAll)]
 pub struct StatusSnapshot {
     job: u32,
     hp: u32,
@@ -65,6 +65,7 @@ pub struct StatusSnapshot {
     mdef: u16,
     size: Size,
     state: u64,
+    zeny: u32,
     right_hand_weapon: Option<WearWeaponSnapshot>,
     right_hand_weapon_type: WeaponType,
     left_hand_weapon: Option<WearWeaponSnapshot>,
@@ -103,6 +104,7 @@ impl StatusSnapshot {
             mdef: status.mdef as u16,
             size: status.size,
             state: status.state,
+            zeny: status.zeny,
             right_hand_weapon: status.right_hand_weapon().map(|w| w.to_snapshot()),
             right_hand_weapon_type: status.right_hand_weapon().map(|w| w.weapon_type).unwrap_or(WeaponType::Fist),
             left_hand_weapon: None,
