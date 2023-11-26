@@ -99,7 +99,7 @@ impl Server {
                             let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
                             InventoryService::instance().reload_inventory(&runtime, char_id, character);
                             InventoryService::instance().reload_equipped_item_sprites(character);
-                            CharacterService::instance().calculate_status(&server_ref, character);
+                            CharacterService::instance().reload_client_side_status(&server_ref, character);
                         }
                         GameEvent::CharacterUpdateWeight(char_id) => {
                             let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
@@ -131,7 +131,7 @@ impl Server {
                         }
                         GameEvent::CharacterUpdateClientSideStats(char_id) => {
                             let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
-                            CharacterService::instance().calculate_status(&server_ref, character);
+                            CharacterService::instance().reload_client_side_status(&server_ref, character);
                         }
                         GameEvent::CharacterChangeLevel(character_change_level) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_change_level.char_id).unwrap();

@@ -47,7 +47,7 @@ mod tests {
     use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseskillAck2};
 
     use skills::{Skill, SkillBase};
-    use crate::{assert_sent_packet_in_current_packetver, status_snapshot};
+    use crate::{assert_sent_packet_in_current_packetver, status_snapshot, status_snapshot_mob};
     use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
     use crate::tests::common;
@@ -69,7 +69,7 @@ mod tests {
         character.status.sp = 50;
         let character_status = status_snapshot!(context, character);
         // When
-        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(&context.status_service.to_snapshot(&mob.status)), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(status_snapshot_mob!(context, mob)), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(PacketZcUseskillAck2::packet_id(packetver), 1)]));
@@ -85,7 +85,7 @@ mod tests {
         context.test_context.clear_sent_packet();
         let character_status = status_snapshot!(context, character);
         // When
-        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(&context.status_service.to_snapshot(&mob.status)), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(status_snapshot_mob!(context, mob)), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcAckTouseskill::packet_id(packetver), 1)]));
@@ -148,7 +148,7 @@ mod tests {
         let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
         let character_status = status_snapshot!(context, character);
         // When
-        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(&context.status_service.to_snapshot(&mob.status)), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(status_snapshot_mob!(context, mob)), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(PacketZcUseskillAck2::packet_id(packetver), 1)]));
@@ -164,7 +164,7 @@ mod tests {
         character.takeoff_equip_item(item_inventory);
         let character_status = status_snapshot!(context, character);
         // When
-        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(&context.status_service.to_snapshot(&mob.status)), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(status_snapshot_mob!(context, mob)), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcActionFailure::packet_id(packetver), 1)]));
@@ -192,7 +192,7 @@ mod tests {
         let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
         let character_status = status_snapshot!(context, character);
         // When
-        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(&context.status_service.to_snapshot(&mob.status)), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(status_snapshot_mob!(context, mob)), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(PacketZcUseskillAck2::packet_id(packetver), 1)]));
@@ -208,7 +208,7 @@ mod tests {
         character.status.zeny = 500;
         let character_status = status_snapshot!(context, character);
         // When
-        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(&context.status_service.to_snapshot(&mob.status)), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(status_snapshot_mob!(context, mob)), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcAckTouseskill::packet_id(packetver), 1)]));
@@ -232,7 +232,7 @@ mod tests {
         let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
         let character_status = status_snapshot!(context, character);
         // When
-        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(&context.status_service.to_snapshot(&mob.status)), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(status_snapshot_mob!(context, mob)), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(PacketZcUseskillAck2::packet_id(packetver), 1)]));
@@ -248,7 +248,7 @@ mod tests {
         character.del_item_from_inventory(item_in_inventory_index, 1);
         let character_status = status_snapshot!(context, character);
         // When
-        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(&context.status_service.to_snapshot(&mob.status)), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(status_snapshot_mob!(context, mob)), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcAckTouseskill::packet_id(packetver), 1)]));
@@ -276,7 +276,7 @@ mod tests {
         let target = MapItemSnapshot { map_item: mob.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
         let character_status = status_snapshot!(context, character);
         // When
-        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(&context.status_service.to_snapshot(&mob.status)), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(status_snapshot_mob!(context, mob)), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(PacketZcUseskillAck2::packet_id(packetver), 1)]));
@@ -292,7 +292,7 @@ mod tests {
         character.takeoff_equip_item(bow_inventory_item_index);
         let character_status = status_snapshot!(context, character);
         // When
-        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(&context.status_service.to_snapshot(&mob.status)), known_skill.value.id(), known_skill.level, 0);
+        context.skill_service.start_use_skill(&mut character, Some(target), character_status, Some(status_snapshot_mob!(context, mob)), known_skill.value.id(), known_skill.level, 0);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcAckTouseskill::packet_id(packetver), 1)]));
@@ -344,7 +344,7 @@ mod tests {
             let target = create_mob(1, scenarii.target());
             let skill = skills::skill_enums::to_object(SkillEnum::from_id(*scenarii.skill_to_use().skid()), *scenarii.skill_to_use().level()).unwrap();
             for _ in 0..1000 {
-                let damage = context.skill_service.calculate_damage(status_snapshot!(context, character), status_snapshot!(context, target), skill.as_offensive_skill().unwrap());
+                let damage = context.skill_service.calculate_damage(status_snapshot!(context, character), status_snapshot_mob!(context, target), skill.as_offensive_skill().unwrap());
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);

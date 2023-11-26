@@ -32,6 +32,7 @@ mod tests {
     
     use enums::class::JobName;
     use enums::weapon::WeaponType;
+    use models::status::StatusSnapshot;
     use crate::enums::EnumWithStringValue;
     use crate::enums::EnumWithNumberValue;
     use crate::status_snapshot;
@@ -45,10 +46,11 @@ mod tests {
         let context = before_each();
         let mut character = create_character();
         let _inventory_index = equip_item_from_name(&mut character, "Knife");
+        let status: &StatusSnapshot = status_snapshot!(context, character);
         // When
-        let weapon_type = context.status_service.right_hand_weapon_type(&character.status);
+        let weapon_type = status.right_hand_weapon_type();
         // Then
-        assert_eq!(weapon_type, WeaponType::Dagger);
+        assert_eq!(*weapon_type, WeaponType::Dagger);
     }
 
     #[test]
@@ -74,8 +76,9 @@ mod tests {
             if !stat.weapon.is_empty() {
                 equip_item_from_name(&mut character, stat.weapon);
             }
+            let status: &StatusSnapshot = status_snapshot!(context, character);
             // When
-            let aspd = context.status_service.aspd(&character.status).round() as u16;
+            let aspd = status.aspd().round() as u16;
             // Then
             assert_eq!(aspd, stat.expected_aspd, "Expected aspd to be {} but was {} with stats {:?}", stat.expected_aspd, aspd, stat);
         }
@@ -87,9 +90,10 @@ mod tests {
         let context = before_each();
         let mut character = create_character();
         let _inventory_index = equip_item_from_name(&mut character, "Knife");
+        let status: &StatusSnapshot = status_snapshot!(context, character);
         // When
-        let aspd = context.status_service.aspd(&character.status);
-        let client_side_aspd = context.status_service.client_aspd(aspd);
+        let aspd = status.aspd();
+        let client_side_aspd = context.status_service.client_aspd(*aspd);
         // Then
         assert_eq!(client_side_aspd, 648);
     }
@@ -100,8 +104,9 @@ mod tests {
         let context = before_each();
         let mut character = create_character();
         let _inventory_index = equip_item_from_name(&mut character, "Knife");
+        let status: &StatusSnapshot = status_snapshot!(context, character);
         // When
-        let attack_motion = context.status_service.attack_motion(&character.status);
+        let attack_motion = context.status_service.attack_motion(status);
         // Then
         assert_eq!(attack_motion, 1296);
     }

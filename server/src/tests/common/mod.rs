@@ -172,3 +172,9 @@ macro_rules! status_snapshot {
         &$context.status_service.to_snapshot(&$object.status)
     }
 }
+#[macro_export]
+macro_rules! status_snapshot_mob {
+    ($context:ident, $object:expr) => {
+        &$context.status_service.to_snapshot_mob(&$object.status)
+    }
+}

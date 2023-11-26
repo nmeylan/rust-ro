@@ -44,16 +44,25 @@ impl StatusService {
     }
 
     pub fn to_snapshot(&self, status: &Status) -> StatusSnapshot {
-        
-        StatusSnapshot::from(status)
+        let mut snapshot = StatusSnapshot::from(status);
+        snapshot.set_fist_atk( self.fist_atk(&snapshot));
+        snapshot.set_atk_given_by_cards(self.atk_cards(&snapshot));
+        snapshot.set_aspd(self.aspd(&snapshot));
+        snapshot
     }
 
+    pub fn to_snapshot_mob(&self, status: &Status) -> StatusSnapshot {
+        let mut snapshot = StatusSnapshot::from(status);
+        snapshot
+    }
+    #[inline]
     pub fn attack_per_seconds(&self, aspd: f32) -> f32 {
         50_f32 / (200_f32 - aspd.min(199.0))
     }
 
-    pub fn attack_motion(&self, status: &Status) -> u32 {
-        let aspd = self.aspd(status);
+    #[inline]
+    pub fn attack_motion(&self, status: &StatusSnapshot) -> u32 {
+        let aspd = *status.aspd();
         (1000.0 / self.attack_per_seconds(aspd)).round() as u32
     }
 
@@ -64,21 +73,15 @@ impl StatusService {
     ///  PRE-RE formula: 200-(WD-([WD*AGI/25]+[WD*DEX/100])/10)*(1-SM)  https://irowiki.org/classic/ASPD
     /// [] - Square brackets hold the same priority as normal brackets, but indicate that the value of the contents should be rounded down to the nearest whole number (integer) once calculated.
     /// http://calc.free-ro.com/
-    pub fn aspd(&self, status: &Status) -> f32 {
+    fn aspd(&self, status: &StatusSnapshot) -> f32 {
         let weapon_delay = self.weapon_delay(status) as f32 / 10.0;
         let speed_modifier = 0_f32;
-        200.0 - (weapon_delay - ((((weapon_delay * (status.agi as f32)) / 25.0).floor() + ((weapon_delay * (status.dex as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
+        200.0 - (weapon_delay - ((((weapon_delay * (*status.agi() as f32)) / 25.0).floor() + ((weapon_delay * (*status.dex() as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
     }
 
-    fn weapon_delay(&self, status: &Status) -> u32 {
-        let weapon = self.right_hand_weapon_type(status);
-        *self.configuration_service.get_job_config(status.job).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
-    }
-
-    pub fn right_hand_weapon_type(&self, status: &Status) -> WeaponType {
-        status.right_hand_weapon()
-            .map(|weapon| weapon.weapon_type)
-            .unwrap_or(WeaponType::Fist)
+    fn weapon_delay(&self, status: &StatusSnapshot) -> u32 {
+        let weapon =  status.right_hand_weapon_type();
+        *self.configuration_service.get_job_config(*status.job()).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
     }
 
     /// PRE-RE https://irowiki.org/classic/Attacks
@@ -96,10 +99,10 @@ impl StatusService {
         let imposito_magnus = 0;
         let _upgrade_damage = 0;
         let _atk_cards = 0;
-        (self.fist_atk(status) + self.weapon_atk(status) + imposito_magnus + self.weapon_upgrade_damage(status) + self.atk_cards(status)) as i32
+        (status.fist_atk() + status.weapon_atk() + imposito_magnus + status.weapon_upgrade_damage() + status.atk_given_by_cards()) as i32
     }
 
-    pub fn fist_atk(&self, status: &StatusSnapshot) -> u32 {
+    fn fist_atk(&self, status: &StatusSnapshot) -> u16 {
         let mut str;
         let dex;
 
@@ -118,29 +121,17 @@ impl StatusService {
         let dstr = str / 10;
         str += dstr * dstr;
         str += dex / 5 + status.luk() / 5;
-        str as u32
+        str
     }
 
-    pub fn atk_cards(&self, _status: &StatusSnapshot) -> u32 {
+    pub fn atk_cards(&self, _status: &StatusSnapshot) -> u16 {
         0
-    }
-
-    pub fn weapon_upgrade_damage(&self, _status: &StatusSnapshot) -> u32 {
-        0
-    }
-
-    pub fn weapon_atk(&self, status: &StatusSnapshot) -> u32 {
-        status.right_hand_weapon().map(|weapon| *weapon.attack()).unwrap_or(0)
-    }
-
-    pub fn weapon_lvl(&self, status: &StatusSnapshot) -> Option<i16> {
-        status.right_hand_weapon().map(|right_hand_weapon| *right_hand_weapon.level() as i16)
     }
 
     /// UI right side atk in status info panel
     /// https://web.archive.org/web/20060717223009/http://rodatazone.simgaming.net/mechanics/substats.php
     /// https://web.archive.org/web/20060717222819/http://rodatazone.simgaming.net/items/upgrading.php
-    pub fn status_atk_right_side(&self, _character: &Character) -> i32 {
+    pub fn status_atk_right_side(&self, status: &StatusSnapshot) -> i32 {
         // TODO: it is refinement damage. do not mix with refinement bonus which refers to random additional atk for over upgrade
         // refinement
         //    Weapon Lv. 1 - Every +1 upgrade gives +2 ATK (+1~3 ATK for every overupgrade).

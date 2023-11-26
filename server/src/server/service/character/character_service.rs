@@ -616,7 +616,8 @@ impl CharacterService {
         }
     }
 
-    pub fn calculate_status(&self, server_ref: &Server, character: &Character) {
+    pub fn reload_client_side_status(&self, server_ref: &Server, character: &Character) {
+        let character_status = self.status_service.to_snapshot(&character.status);
         let mut packet_str = PacketZcStatusValues::new(self.configuration_service.packetver());
         packet_str.set_status_type(StatusTypes::Str.value() as u32);
         packet_str.set_default_status(character.status.str as i32);
@@ -684,16 +685,16 @@ impl CharacterService {
         packet_flee.fill_raw();
         let mut packet_aspd = PacketZcParChange::new(self.configuration_service.packetver());
         packet_aspd.set_var_id(StatusTypes::Aspd.value() as u16);
-        let aspd = StatusService::instance().aspd(&character.status);
+        let aspd = *character_status.aspd();
         packet_aspd.set_count(StatusService::instance().client_aspd(aspd));
         packet_aspd.fill_raw();
         let mut packet_atk = PacketZcParChange::new(self.configuration_service.packetver());
         packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
-        packet_atk.set_count(StatusService::instance().status_atk_left_side(&self.status_service.to_snapshot(&character.status)));
+        packet_atk.set_count(StatusService::instance().status_atk_left_side(&character_status));
         packet_atk.fill_raw();
         let mut packet_atk2 = PacketZcParChange::new(self.configuration_service.packetver());
         packet_atk2.set_var_id(StatusTypes::Atk2.value() as u16);
-        packet_atk2.set_count(StatusService::instance().status_atk_right_side(character));
+        packet_atk2.set_count(StatusService::instance().status_atk_right_side(&character_status));
         packet_atk2.fill_raw();
         let mut packet_def = PacketZcParChange::new(self.configuration_service.packetver());
         packet_def.set_var_id(StatusTypes::Def1.value() as u16);
