@@ -9,7 +9,7 @@ use enums::weapon::AmmoType;
 
 use models::item::WearWeapon;
 
-use models::status::Status;
+use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
 
 use crate::{*};
@@ -59,8 +59,8 @@ impl SkillBase for SkidTrap {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 10 { Ok(10) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -124,8 +124,8 @@ impl SkillBase for LandMine {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 10 { Ok(10) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -189,8 +189,8 @@ impl SkillBase for AnkleSnare {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 12 { Ok(12) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -254,8 +254,8 @@ impl SkillBase for ShockwaveTrap {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 45 { Ok(45) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 45 { Ok(45) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -319,8 +319,8 @@ impl SkillBase for Sandman {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 12 { Ok(12) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -384,8 +384,8 @@ impl SkillBase for Flasher {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 12 { Ok(12) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -449,8 +449,8 @@ impl SkillBase for FreezingTrap {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 10 { Ok(10) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -532,8 +532,8 @@ impl SkillBase for BlastMine {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 10 { Ok(10) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -597,8 +597,8 @@ impl SkillBase for ClaymoreTrap {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 15 { Ok(15) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -662,8 +662,8 @@ impl SkillBase for RemoveTrap {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 5 { Ok(5) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 5 { Ok(5) } else {Err(())}
     }
 }
 // HT_TALKIEBOX
@@ -709,8 +709,8 @@ impl SkillBase for TalkieBox {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 1 { Ok(1) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -933,29 +933,29 @@ impl SkillBase for BlitzBeat {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp >= 10 { return Ok(10) } else {return Err(())}
+            if *status.sp() >= 10 { return Ok(10) } else {return Err(())}
         }
         if self.level == 2 {
-            if status.sp >= 13 { return Ok(13) } else {return Err(())}
+            if *status.sp() >= 13 { return Ok(13) } else {return Err(())}
         }
         if self.level == 3 {
-            if status.sp >= 16 { return Ok(16) } else {return Err(())}
+            if *status.sp() >= 16 { return Ok(16) } else {return Err(())}
         }
         if self.level == 4 {
-            if status.sp >= 19 { return Ok(19) } else {return Err(())}
+            if *status.sp() >= 19 { return Ok(19) } else {return Err(())}
         }
         if self.level == 5 {
-            if status.sp >= 22 { return Ok(22) } else {return Err(())}
+            if *status.sp() >= 22 { return Ok(22) } else {return Err(())}
         }
         Err(())
     }
     #[inline(always)]
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        if status.state > 0 {
+    fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
+        if *status.state() > 0 {
             // Falcon
-            if status.state & 8 > 0 { Ok(()) } else { Err(()) }
+            if *status.state() & 8 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -1041,14 +1041,14 @@ impl SkillBase for Detect {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 8 { Ok(8) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 8 { Ok(8) } else {Err(())}
     }
     #[inline(always)]
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        if status.state > 0 {
+    fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
+        if *status.state() > 0 {
             // Falcon
-            if status.state & 8 > 0 { Ok(()) } else { Err(()) }
+            if *status.state() & 8 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -1107,14 +1107,14 @@ impl SkillBase for SpringTrap {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 10 { Ok(10) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _validate_state(&self, status: &Status) -> SkillRequirementResult<()> {
-        if status.state > 0 {
+    fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
+        if *status.state() > 0 {
             // Falcon
-            if status.state & 8 > 0 { Ok(()) } else { Err(()) }
+            if *status.state() & 8 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -1163,13 +1163,13 @@ impl SkillBase for PhantasmicArrow {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 10 { Ok(10) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 2048 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 2048 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -1232,8 +1232,8 @@ impl SkillBase for BeastStrafing {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 12 { Ok(12) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {
@@ -1244,9 +1244,9 @@ impl SkillBase for BeastStrafing {
         }
     }
     #[inline(always)]
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 2048 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 2048 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }

@@ -9,7 +9,7 @@ use enums::weapon::AmmoType;
 
 use models::item::WearWeapon;
 
-use models::status::Status;
+use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
 
 use crate::{*};
@@ -112,21 +112,21 @@ impl SkillBase for SlingingArrow {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp >= 1 { return Ok(1) } else {return Err(())}
+            if *status.sp() >= 1 { return Ok(1) } else {return Err(())}
         }
         if self.level == 2 {
-            if status.sp >= 3 { return Ok(3) } else {return Err(())}
+            if *status.sp() >= 3 { return Ok(3) } else {return Err(())}
         }
         if self.level == 3 {
-            if status.sp >= 5 { return Ok(5) } else {return Err(())}
+            if *status.sp() >= 5 { return Ok(5) } else {return Err(())}
         }
         if self.level == 4 {
-            if status.sp >= 7 { return Ok(7) } else {return Err(())}
+            if *status.sp() >= 7 { return Ok(7) } else {return Err(())}
         }
         if self.level == 5 {
-            if status.sp >= 9 { return Ok(9) } else {return Err(())}
+            if *status.sp() >= 9 { return Ok(9) } else {return Err(())}
         }
         Err(())
     }
@@ -139,9 +139,9 @@ impl SkillBase for SlingingArrow {
         }
     }
     #[inline(always)]
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 16384 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 16384 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -227,28 +227,28 @@ impl SkillBase for HipShaker {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp >= 23 { return Ok(23) } else {return Err(())}
+            if *status.sp() >= 23 { return Ok(23) } else {return Err(())}
         }
         if self.level == 2 {
-            if status.sp >= 26 { return Ok(26) } else {return Err(())}
+            if *status.sp() >= 26 { return Ok(26) } else {return Err(())}
         }
         if self.level == 3 {
-            if status.sp >= 29 { return Ok(29) } else {return Err(())}
+            if *status.sp() >= 29 { return Ok(29) } else {return Err(())}
         }
         if self.level == 4 {
-            if status.sp >= 32 { return Ok(32) } else {return Err(())}
+            if *status.sp() >= 32 { return Ok(32) } else {return Err(())}
         }
         if self.level == 5 {
-            if status.sp >= 35 { return Ok(35) } else {return Err(())}
+            if *status.sp() >= 35 { return Ok(35) } else {return Err(())}
         }
         Err(())
     }
     #[inline(always)]
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 16384 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 16384 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -317,21 +317,21 @@ impl SkillBase for Dazzler {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp >= 12 { return Ok(12) } else {return Err(())}
+            if *status.sp() >= 12 { return Ok(12) } else {return Err(())}
         }
         if self.level == 2 {
-            if status.sp >= 14 { return Ok(14) } else {return Err(())}
+            if *status.sp() >= 14 { return Ok(14) } else {return Err(())}
         }
         if self.level == 3 {
-            if status.sp >= 16 { return Ok(16) } else {return Err(())}
+            if *status.sp() >= 16 { return Ok(16) } else {return Err(())}
         }
         if self.level == 4 {
-            if status.sp >= 18 { return Ok(18) } else {return Err(())}
+            if *status.sp() >= 18 { return Ok(18) } else {return Err(())}
         }
         if self.level == 5 {
-            if status.sp >= 20 { return Ok(20) } else {return Err(())}
+            if *status.sp() >= 20 { return Ok(20) } else {return Err(())}
         }
         Err(())
     }
@@ -393,43 +393,43 @@ impl SkillBase for FocusBallet {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp >= 22 { return Ok(22) } else {return Err(())}
+            if *status.sp() >= 22 { return Ok(22) } else {return Err(())}
         }
         if self.level == 2 {
-            if status.sp >= 24 { return Ok(24) } else {return Err(())}
+            if *status.sp() >= 24 { return Ok(24) } else {return Err(())}
         }
         if self.level == 3 {
-            if status.sp >= 26 { return Ok(26) } else {return Err(())}
+            if *status.sp() >= 26 { return Ok(26) } else {return Err(())}
         }
         if self.level == 4 {
-            if status.sp >= 28 { return Ok(28) } else {return Err(())}
+            if *status.sp() >= 28 { return Ok(28) } else {return Err(())}
         }
         if self.level == 5 {
-            if status.sp >= 30 { return Ok(30) } else {return Err(())}
+            if *status.sp() >= 30 { return Ok(30) } else {return Err(())}
         }
         if self.level == 6 {
-            if status.sp >= 32 { return Ok(32) } else {return Err(())}
+            if *status.sp() >= 32 { return Ok(32) } else {return Err(())}
         }
         if self.level == 7 {
-            if status.sp >= 34 { return Ok(34) } else {return Err(())}
+            if *status.sp() >= 34 { return Ok(34) } else {return Err(())}
         }
         if self.level == 8 {
-            if status.sp >= 36 { return Ok(36) } else {return Err(())}
+            if *status.sp() >= 36 { return Ok(36) } else {return Err(())}
         }
         if self.level == 9 {
-            if status.sp >= 38 { return Ok(38) } else {return Err(())}
+            if *status.sp() >= 38 { return Ok(38) } else {return Err(())}
         }
         if self.level == 10 {
-            if status.sp >= 40 { return Ok(40) } else {return Err(())}
+            if *status.sp() >= 40 { return Ok(40) } else {return Err(())}
         }
         Err(())
     }
     #[inline(always)]
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 24576 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 24576 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -498,43 +498,43 @@ impl SkillBase for SlowGrace {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp >= 28 { return Ok(28) } else {return Err(())}
+            if *status.sp() >= 28 { return Ok(28) } else {return Err(())}
         }
         if self.level == 2 {
-            if status.sp >= 31 { return Ok(31) } else {return Err(())}
+            if *status.sp() >= 31 { return Ok(31) } else {return Err(())}
         }
         if self.level == 3 {
-            if status.sp >= 34 { return Ok(34) } else {return Err(())}
+            if *status.sp() >= 34 { return Ok(34) } else {return Err(())}
         }
         if self.level == 4 {
-            if status.sp >= 37 { return Ok(37) } else {return Err(())}
+            if *status.sp() >= 37 { return Ok(37) } else {return Err(())}
         }
         if self.level == 5 {
-            if status.sp >= 40 { return Ok(40) } else {return Err(())}
+            if *status.sp() >= 40 { return Ok(40) } else {return Err(())}
         }
         if self.level == 6 {
-            if status.sp >= 43 { return Ok(43) } else {return Err(())}
+            if *status.sp() >= 43 { return Ok(43) } else {return Err(())}
         }
         if self.level == 7 {
-            if status.sp >= 46 { return Ok(46) } else {return Err(())}
+            if *status.sp() >= 46 { return Ok(46) } else {return Err(())}
         }
         if self.level == 8 {
-            if status.sp >= 49 { return Ok(49) } else {return Err(())}
+            if *status.sp() >= 49 { return Ok(49) } else {return Err(())}
         }
         if self.level == 9 {
-            if status.sp >= 52 { return Ok(52) } else {return Err(())}
+            if *status.sp() >= 52 { return Ok(52) } else {return Err(())}
         }
         if self.level == 10 {
-            if status.sp >= 55 { return Ok(55) } else {return Err(())}
+            if *status.sp() >= 55 { return Ok(55) } else {return Err(())}
         }
         Err(())
     }
     #[inline(always)]
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 24576 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 24576 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -603,43 +603,43 @@ impl SkillBase for LadyLuck {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp >= 43 { return Ok(43) } else {return Err(())}
+            if *status.sp() >= 43 { return Ok(43) } else {return Err(())}
         }
         if self.level == 2 {
-            if status.sp >= 46 { return Ok(46) } else {return Err(())}
+            if *status.sp() >= 46 { return Ok(46) } else {return Err(())}
         }
         if self.level == 3 {
-            if status.sp >= 49 { return Ok(49) } else {return Err(())}
+            if *status.sp() >= 49 { return Ok(49) } else {return Err(())}
         }
         if self.level == 4 {
-            if status.sp >= 52 { return Ok(52) } else {return Err(())}
+            if *status.sp() >= 52 { return Ok(52) } else {return Err(())}
         }
         if self.level == 5 {
-            if status.sp >= 55 { return Ok(55) } else {return Err(())}
+            if *status.sp() >= 55 { return Ok(55) } else {return Err(())}
         }
         if self.level == 6 {
-            if status.sp >= 58 { return Ok(58) } else {return Err(())}
+            if *status.sp() >= 58 { return Ok(58) } else {return Err(())}
         }
         if self.level == 7 {
-            if status.sp >= 61 { return Ok(61) } else {return Err(())}
+            if *status.sp() >= 61 { return Ok(61) } else {return Err(())}
         }
         if self.level == 8 {
-            if status.sp >= 64 { return Ok(64) } else {return Err(())}
+            if *status.sp() >= 64 { return Ok(64) } else {return Err(())}
         }
         if self.level == 9 {
-            if status.sp >= 67 { return Ok(67) } else {return Err(())}
+            if *status.sp() >= 67 { return Ok(67) } else {return Err(())}
         }
         if self.level == 10 {
-            if status.sp >= 70 { return Ok(70) } else {return Err(())}
+            if *status.sp() >= 70 { return Ok(70) } else {return Err(())}
         }
         Err(())
     }
     #[inline(always)]
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 24576 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 24576 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -708,43 +708,43 @@ impl SkillBase for GypsysKiss {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if status.sp >= 40 { return Ok(40) } else {return Err(())}
+            if *status.sp() >= 40 { return Ok(40) } else {return Err(())}
         }
         if self.level == 2 {
-            if status.sp >= 45 { return Ok(45) } else {return Err(())}
+            if *status.sp() >= 45 { return Ok(45) } else {return Err(())}
         }
         if self.level == 3 {
-            if status.sp >= 50 { return Ok(50) } else {return Err(())}
+            if *status.sp() >= 50 { return Ok(50) } else {return Err(())}
         }
         if self.level == 4 {
-            if status.sp >= 55 { return Ok(55) } else {return Err(())}
+            if *status.sp() >= 55 { return Ok(55) } else {return Err(())}
         }
         if self.level == 5 {
-            if status.sp >= 60 { return Ok(60) } else {return Err(())}
+            if *status.sp() >= 60 { return Ok(60) } else {return Err(())}
         }
         if self.level == 6 {
-            if status.sp >= 65 { return Ok(65) } else {return Err(())}
+            if *status.sp() >= 65 { return Ok(65) } else {return Err(())}
         }
         if self.level == 7 {
-            if status.sp >= 70 { return Ok(70) } else {return Err(())}
+            if *status.sp() >= 70 { return Ok(70) } else {return Err(())}
         }
         if self.level == 8 {
-            if status.sp >= 75 { return Ok(75) } else {return Err(())}
+            if *status.sp() >= 75 { return Ok(75) } else {return Err(())}
         }
         if self.level == 9 {
-            if status.sp >= 80 { return Ok(80) } else {return Err(())}
+            if *status.sp() >= 80 { return Ok(80) } else {return Err(())}
         }
         if self.level == 10 {
-            if status.sp >= 85 { return Ok(85) } else {return Err(())}
+            if *status.sp() >= 85 { return Ok(85) } else {return Err(())}
         }
         Err(())
     }
     #[inline(always)]
-    fn _validate_weapon(&self, status: &Status) -> SkillRequirementResult<()> {
+    fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
         if let Some(character_weapon) = status.right_hand_weapon() {
-            if 24576 & character_weapon.weapon_type.as_flag() > 0 { Ok(()) } else { Err(()) }
+            if 24576 & character_weapon.weapon_type().as_flag() > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -813,8 +813,8 @@ impl SkillBase for WinkofCharm {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
-    fn _validate_sp(&self, status: &Status) -> SkillRequirementResult<u32> {
-        if status.sp > 40 { Ok(40) } else {Err(())}
+    fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
+        if *status.sp() > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
