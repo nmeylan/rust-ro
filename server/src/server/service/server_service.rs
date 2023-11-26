@@ -147,7 +147,7 @@ impl ServerService {
                 let mut maybe_damage = None;
                 if matches!(*map_item.object_type(), MapItemType::Mob) {
                     let mob_status = server_state.map_item_mob_status(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
-                    maybe_damage = self.battle_service.basic_attack(character, snapshot, &self.get_status_snapshot(&character.status, tick), &self.get_status_snapshot(&mob_status, tick), tick);
+                    maybe_damage = self.battle_service.basic_attack(character, snapshot, &self.get_status_snapshot(&character.status, tick), &self.get_status_snapshot_mob(&mob_status, tick), tick);
                 }
                 if let Some(damage) = maybe_damage {
                     if matches!(*map_item.object_type(), MapItemType::Mob) {
@@ -164,12 +164,17 @@ impl ServerService {
        self.status_service.to_snapshot(status)
     }
 
+    fn get_status_snapshot_mob(&self, status: &Status, _tick: u128) -> StatusSnapshot {
+       self.status_service.to_snapshot_mob(status)
+    }
+
     pub fn character_start_use_skill(&self, server_state: &ServerState, character: &mut Character, character_use_skill: CharacterUseSkill, tick: u128) {
         if character.is_using_skill() {
             return;
         }
         let target = Self::get_target(server_state, character, Some(character_use_skill.target_id));
-        self.skill_service.start_use_skill(character, target,  &self.get_status_snapshot(&character.status, tick), self.get_target_status(server_state, character, character.skill_in_use().target, tick).as_ref(), character_use_skill.skill_id, character_use_skill.skill_level, tick);
+        self.skill_service.start_use_skill(character, target,  &self.get_status_snapshot(&character.status, tick),
+                                           self.get_target_status(server_state, character, Some(character_use_skill.target_id), tick).as_ref(), character_use_skill.skill_id, character_use_skill.skill_level, tick);
     }
 
     pub fn character_use_skill(&self, server_state: &ServerState, tick: u128, character: &mut Character) {
@@ -203,7 +208,7 @@ impl ServerService {
                         return Some(self.get_status_snapshot(&server_state.get_character_unsafe(target_id).status, tick));
                     }
                     MapItemType::Mob => {
-                        return Some(self.get_status_snapshot(server_state.map_item_mob_status(&map_item, character.current_map_name(),  character.current_map_instance()).as_ref().unwrap(), tick));
+                        return Some(self.get_status_snapshot_mob(server_state.map_item_mob_status(&map_item, character.current_map_name(),  character.current_map_instance()).as_ref().unwrap(), tick));
                     }
                     _ => { return None; }
                 }

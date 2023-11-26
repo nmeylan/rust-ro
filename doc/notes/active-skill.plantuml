@@ -65,7 +65,6 @@ switch (target type)
 case (attack)
   if (should_hit) then (yes)
           :get element;
-          :apply damage bonus (wear items, skill, cards);
           :calculate damage;
           :apply damage to target;
           :apply debuff to target;

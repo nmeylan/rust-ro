@@ -81,7 +81,7 @@ impl SkillTreeService {
                 }
             }
             skill_info.set_spcost(sp_cost);
-            skill_info.set_attack_range(range);
+            skill_info.set_attack_range(range.abs());
             let mut skill_name: [char; 24] = [0 as char; 24];
             skill.value.to_name().fill_char_array(&mut skill_name);
             skill_info.set_skill_name(skill_name);
