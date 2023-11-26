@@ -1,4 +1,4 @@
-use std::borrow::Borrow;
+
 use std::sync::Arc;
 use std::thread;
 use eframe::{CreationContext, egui, HardwareAcceleration, Theme};
@@ -29,7 +29,7 @@ impl eframe::App for VisualDebugger {
     fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         self.frame_history
             .on_new_frame(ctx.input().time, frame.info().cpu_usage);
-        frame.set_window_title(&*format!("{} {}", self.name, self.frame_history.info()));
+        frame.set_window_title(&format!("{} {}", self.name, self.frame_history.info()));
         if !self.init {
             ctx.set_visuals(Visuals::light());
             frame.set_window_size(Vec2 {
@@ -109,12 +109,12 @@ impl VisualDebugger {
     fn maps_combobox(&mut self, ui: &mut Ui) {
         let mut selected_text = "Select a map";
         if self.selected_map.is_some() {
-            selected_text = &*self.selected_map.as_ref().unwrap();
+            selected_text = self.selected_map.as_ref().unwrap();
         }
         ComboBox::from_id_source("Select map")
             .selected_text(selected_text)
             .show_ui(ui, |ui| {
-                self.server.state().map_instances().borrow()
+                self.server.state().map_instances()
                     .iter()
                     .map(|(map_name, _map)| map_name)
                     .for_each(|map_name| {
@@ -127,13 +127,13 @@ impl VisualDebugger {
         if self.selected_map.is_none() {
             return;
         }
-        let instances = self.server.state().map_instances().borrow();
-        let map_instances = instances.get(&*self.selected_map.as_ref().unwrap()).unwrap();
-        let map_instance = map_instances.get(0).unwrap();
+        let instances = self.server.state().map_instances();
+        let map_instances = instances.get(self.selected_map.as_ref().unwrap()).unwrap();
+        let map_instance = map_instances.first().unwrap();
         let map_name = map_instance.name().to_string();
         let map_instance_id = map_instance.id();
         let map_items_clone = map_instance.state().map_items().clone();
-        let server_characters = self.server.state().characters().borrow();
+        let server_characters = self.server.state().characters();
         let characters = map_items_clone.iter()
             .filter(|(_, item)| *item.object_type() == MapItemType::Character)
             .map(|(_, item)| { server_characters.get(&item.id()).unwrap() })
@@ -144,7 +144,7 @@ impl VisualDebugger {
             .show(ui.ctx(), |ui| {
                 ui.vertical_centered(|ui| {
                     ui.with_layout(Layout::top_down(Align::Min), |ui| {
-                        ui.heading(format!("{}", map_name));
+                        ui.heading(map_name.to_string());
                         ui.separator();
                         ui.label("Characters:");
                         characters.iter().for_each(|character| {
@@ -160,14 +160,14 @@ impl VisualDebugger {
                                 position.x() == i && position.y() == j
                             });
                             if map_item.is_some() {
-                                let (_, map_item) = map_item.unwrap().clone();
+                                let (_, map_item) = map_item.unwrap();
                                 // map_items_mut_clone.remove(&*map_item.clone());
                                 let item_name = self.server.state().map_item_name(map_item, &map_name, map_instance_id).unwrap();
                                 ui.label(format!("{}: {}", map_item.object_type(), item_name));
                                 if *map_item.object_type() == MapItemType::Mob {
                                     let state = map_instance.state();
                                     let mob_ref = state.get_mob(map_item.id()).unwrap();
-                                    let mob = mob_ref.borrow();
+                                    let mob = mob_ref;
                                     ui.label("Items in Field of view");
                                     mob.map_view.iter()
                                         .for_each(|item| {
@@ -179,7 +179,7 @@ impl VisualDebugger {
                                     let character = self.server.state().map_item_character(map_item).unwrap();
                                     ui.label("Items in Field of view");
                                     let mut character_map_view: Vec<MapItem> = character.map_view.clone().into_iter().collect::<Vec<MapItem>>();
-                                    character_map_view.sort_by(|a, b| a.id().cmp(&b.id()));
+                                    character_map_view.sort_by_key(|a| a.id());
                                     character_map_view.iter()
                                         .for_each(|item| {
                                             let item_name = self.server.state().map_item_name(item, &map_name, map_instance_id).unwrap();

@@ -6,7 +6,7 @@ use enums::EnumWithMaskValueU64;
 use enums::size::Size;
 use enums::skill::SkillState;
 use enums::weapon::WeaponType;
-use models::status::{Status, StatusSnapshot};
+use models::status::{StatusSnapshot};
 use packets::packets::PacketZcNotifyAct;
 use crate::server::model::map_item::{MapItemSnapshot, MapItemType};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
@@ -49,10 +49,10 @@ impl BattleService {
     pub fn damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32) -> u32 {
         let _rng = fastrand::Rng::new();
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
-        let imposito_magnus: u32 = 0;
-        let base_atk = self.status_service.fist_atk(&source_status) as f32 + upgrade_bonus + self.status_service.atk_cards(&source_status) as f32;
+        let _imposito_magnus: u32 = 0;
+        let base_atk = self.status_service.fist_atk(source_status) as f32 + upgrade_bonus + self.status_service.atk_cards(source_status) as f32;
 
-        let size_modifier: f32 = self.size_modifier(source_status, target_status);
+        let _size_modifier: f32 = self.size_modifier(source_status, target_status);
         let def: f32 = *target_status.def() as f32 / 100.0;
         let vitdef: f32 = self.status_service.mob_vit_def(*target_status.vit() as u32) as f32; // TODO set to 0 if critical hit
         let bane_skill: f32 = 0.0; // TODO Beast Bane, Daemon Bane, Draconology
@@ -75,9 +75,9 @@ impl BattleService {
                                 (
                                     (
                                         (
-                                            (base_atk + self.weapon_atk(source_status, &target_status) as f32) * skill_modifier * (1.0 - def)
+                                            (base_atk + self.weapon_atk(source_status, target_status) as f32) * skill_modifier * (1.0 - def)
                                         )
-                                            - vitdef + bane_skill + self.status_service.weapon_upgrade_damage(&source_status) as f32
+                                            - vitdef + bane_skill + self.status_service.weapon_upgrade_damage(source_status) as f32
                                     )
                                         + mastery_skill + weaponery_research_skill + evenom_skill
                                 )
@@ -114,10 +114,10 @@ impl BattleService {
             };
         };
 
-        let work_dex = ((*source_status.dex() as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32);
+        let work_dex = (*source_status.dex() as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32;
         let mut weapon_max_attack: u32 = 0;
-        let mut weapon_over_upgrade_max: u32 = 0;
-        let mut weapon_over_upgrade_min: u32 = 0;
+        let weapon_over_upgrade_max: u32 = 0;
+        let weapon_over_upgrade_min: u32 = 0;
         let mut weapon_min_attack: u32 = 0;
         let size_modifier = self.size_modifier(source_status, target_status);
         if work_dex >= weapon_attack { // || maximize power skill

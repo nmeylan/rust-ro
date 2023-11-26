@@ -70,7 +70,7 @@ impl ScriptLoader {
         }).collect::<Vec<Script>>();
         for script in scripts {
             let map_name = script.map_name.clone();
-            let entry = npcs_by_map.entry(map_name).or_insert(Default::default());
+            let entry = npcs_by_map.entry(map_name).or_default();
             entry.push(script);
         }
         (npcs_by_map, class_files, errors)

@@ -7,7 +7,7 @@ use models::item::NormalInventoryItem;
 use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseskillAck2};
 use skills::OffensiveSkill;
 use enums::skill_enums::SkillEnum;
-use models::status::{Status, StatusSnapshot};
+use models::status::{StatusSnapshot};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map_item::MapItemSnapshot;
@@ -114,7 +114,7 @@ impl SkillService {
         if tick < character.skill_in_use().start_skill_tick + character.skill_in_use().skill.cast_time() as u128 {
             return;
         }
-        let mut skill = &character.skill_in_use().skill;
+        let skill = &character.skill_in_use().skill;
         if !skill.is_offensive_skill() {
             return;
         }

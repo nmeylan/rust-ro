@@ -214,9 +214,8 @@ impl Status {
             .map(|e| e as &dyn Wearable)
             .collect::<Vec<&dyn Wearable>>();
         equipments.extend(weapons);
-        self.equipped_ammo()
-            .as_ref()
-            .map(|ammo| equipments.push(ammo as &dyn Wearable));
+        if let Some(ammo) = self.equipped_ammo()
+            .as_ref() { equipments.push(ammo as &dyn Wearable) }
         equipments
     }
 }

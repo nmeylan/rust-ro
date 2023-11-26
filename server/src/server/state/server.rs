@@ -14,7 +14,7 @@ use crate::server::model::script::Script;
 use crate::server::model::session::Session;
 
 use crate::server::state::character::Character;
-use crate::server::state::mob::Mob;
+
 
 
 pub struct ServerState {
@@ -302,10 +302,10 @@ impl ServerState {
             if let Some(mob) = map_instance.state().get_mob(map_item_id) {
                 return Some(mob.to_map_item_snapshot());
             }
-            if let Some(warp) = map_instance.get_warp(map_item_id) {
+            if let Some(_warp) = map_instance.get_warp(map_item_id) {
                 return  None;
             }
-            if let Some(script) = map_instance.get_script(map_item_id) {
+            if let Some(_script) = map_instance.get_script(map_item_id) {
                 return None;
             }
         }

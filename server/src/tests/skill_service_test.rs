@@ -37,7 +37,7 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
 #[cfg(test)]
 mod tests {
     use std::time::Duration;
-    use fastrand::char;
+    
     use enums::EnumWithNumberValue;
     use enums::skill::UseSkillFailure;
     use crate::tests::common::assert_helper::*;
@@ -45,13 +45,13 @@ mod tests {
     use enums::skill_enums::SkillEnum;
     use models::status::{KnownSkill, Status};
     use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseskillAck2};
-    use skills::base::archer_base::DoubleStrafe;
-    use skills::{OffensiveSkill, OffensiveSkillBase, Skill, SkillBase};
-    use crate::{assert_eq_with_variance, assert_sent_packet_in_current_packetver};
+    
+    use skills::{Skill, SkillBase};
+    use crate::{assert_sent_packet_in_current_packetver};
     use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
     use crate::tests::common;
-    use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item_from_id, equip_item_from_name};
+    use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item_from_name};
     use crate::tests::common::mob_helper::create_mob;
     use crate::tests::skill_service_test::before_each;
 
@@ -269,7 +269,7 @@ mod tests {
         let known_skill = KnownSkill { value: SkillEnum::AcDouble, level: 1 };
         character.status.known_skills.push(known_skill);
         character.status.sp = 50;
-        let arrow_inventory_item_index = equip_item_from_name(&mut character, "Arrow");
+        let _arrow_inventory_item_index = equip_item_from_name(&mut character, "Arrow");
         let bow_inventory_item_index = equip_item_from_name(&mut character, "Bow");
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
@@ -318,9 +318,9 @@ mod tests {
     #[test]
     fn offensive_skill_calculate_damage() {
         // Given
-        let mut context = before_each();
+        let context = before_each();
         let mut character = create_character();
-        let packetver = GlobalConfigService::instance().packetver();
+        let _packetver = GlobalConfigService::instance().packetver();
         let scenario = common::fixtures::battle_fixture::BattleFixture::load("./src/tests/common/fixtures/data/battle_fixtures.json");
 
         // When
@@ -349,7 +349,7 @@ mod tests {
                 min = min.min(damage);
                 max = max.max(damage);
             }
-            let average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
+            let _average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
             // Then
             assert!(*scenarii.expected().min_dmg() - 1 <= min && min <= *scenarii.expected().min_dmg() + 1, "Expected min damage to be {} but was {} with stats {:?}", scenarii.expected().min_dmg(), min, scenarii);
             assert!(*scenarii.expected().max_dmg() - 1 <= max && max <= *scenarii.expected().max_dmg() + 1, "Expected max damage to be {} but was {} with stats {:?}", scenarii.expected().max_dmg(), max, scenarii);

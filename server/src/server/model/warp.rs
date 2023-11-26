@@ -15,6 +15,12 @@ pub struct Warp {
     pub to_y: u16,
 }
 
+impl Default for Warp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Warp {
     pub fn new() -> Warp {
         Warp {

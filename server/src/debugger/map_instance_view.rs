@@ -38,7 +38,7 @@ impl MapInstanceView {
                 }
             };
             if self.zoom_draw_rect.max.x == 0.0 {
-                self.zoom_draw_rect = relative_draw_rect.clone();
+                self.zoom_draw_rect = relative_draw_rect;
             }
             let mut shapes = vec![];
             let margin = 0.0;
@@ -56,17 +56,17 @@ impl MapInstanceView {
                 if self.zoom <= 1.0 {
                     self.zoom = 1.0;
                     self.zoom_center = Pos2 { x: 0.0, y: 0.0 };
-                    self.zoom_draw_rect = relative_draw_rect.clone();
+                    self.zoom_draw_rect = relative_draw_rect;
                 }
             }
 
-            let mut shape_x_size = (relative_draw_rect.max.x - (margin * 2.0) as f32) / map_instance.x_size() as f32;
-            let mut shape_y_size = (relative_draw_rect.max.y - (margin * 2.0) as f32) / map_instance.y_size() as f32;
+            let mut shape_x_size = (relative_draw_rect.max.x - (margin * 2.0)) / map_instance.x_size() as f32;
+            let mut shape_y_size = (relative_draw_rect.max.y - (margin * 2.0)) / map_instance.y_size() as f32;
 
-            self.zoom_draw_rect.min.x = self.zoom_center.x + (relative_draw_rect.min.x - self.zoom_center.x) / (self.zoom as f32);
-            self.zoom_draw_rect.max.x = self.zoom_center.x + (relative_draw_rect.max.x - self.zoom_center.x) / (self.zoom as f32);
-            self.zoom_draw_rect.min.y = self.zoom_center.y - self.zoom_center.y / (self.zoom as f32);
-            self.zoom_draw_rect.max.y = self.zoom_center.y + (relative_draw_rect.max.y - self.zoom_center.y) / (self.zoom as f32);
+            self.zoom_draw_rect.min.x = self.zoom_center.x + (relative_draw_rect.min.x - self.zoom_center.x) / self.zoom;
+            self.zoom_draw_rect.max.x = self.zoom_center.x + (relative_draw_rect.max.x - self.zoom_center.x) / self.zoom;
+            self.zoom_draw_rect.min.y = self.zoom_center.y - self.zoom_center.y / self.zoom;
+            self.zoom_draw_rect.max.y = self.zoom_center.y + (relative_draw_rect.max.y - self.zoom_center.y) / self.zoom;
 
 
             let start_j = ((self.zoom_draw_rect.min.x) / shape_x_size) as u16;
@@ -80,8 +80,8 @@ impl MapInstanceView {
                 end_i = map_instance.y_size()
             }
 
-            shape_x_size = shape_x_size * self.zoom;
-            shape_y_size = shape_y_size * self.zoom;
+            shape_x_size *= self.zoom;
+            shape_y_size *= self.zoom;
 
             let mut previous_cell: Option<PreviousCell> = None;
 
@@ -187,8 +187,8 @@ impl MapInstanceView {
             shapes.push(epaint::Shape::Rect(RectShape {
                 rect: emath::Rect {
                     min: Pos2 {
-                        x: absolute_draw_rect.min.x + margin + (shape_x_size * previous_cell.as_ref().unwrap().pos.x as f32),
-                        y: absolute_draw_rect.max.y - margin - (shape_y_size * (previous_cell.as_ref().unwrap().pos.y as f32 + 1.0)),
+                        x: absolute_draw_rect.min.x + margin + (shape_x_size * previous_cell.as_ref().unwrap().pos.x),
+                        y: absolute_draw_rect.max.y - margin - (shape_y_size * (previous_cell.as_ref().unwrap().pos.y + 1.0)),
                     },
                     max: Pos2 {
                         x: absolute_draw_rect.min.x + margin + (shape_x_size * (j - start_j) as f32 + 1.0),

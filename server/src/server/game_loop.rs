@@ -1,5 +1,5 @@
 use std::borrow::Borrow;
-use std::fmt::format;
+
 use std::sync::{Arc};
 use std::sync::mpsc::SyncSender;
 use std::thread::{sleep};
@@ -206,7 +206,7 @@ impl Server {
                     ServerService::instance().character_use_skill(server_ref.state(), tick, character);
                 }
             }
-            for (_, map) in server_ref.state().map_instances().borrow().iter() {
+            for (_, map) in server_ref.state().map_instances().iter() {
                 for instance in map.iter() {
                     instance.add_to_next_tick(MapEvent::UpdateMobsFov(server_state_mut.characters_mut().iter().map(|(_, character)| character.to_map_item_snapshot()).collect()));
                 }
@@ -242,7 +242,7 @@ impl Server {
                             {
                                 if tick >= previous_movement.move_at() {
                                     info!("change path! was {} will {}, move at {}",previous_movement.position(), new_movement.position(), move_at );
-                                    debug_in_game_chat(client_notification_sender_clone.clone(), &character, format!("change path! was {} will {}, move at {}", previous_movement.position(), new_movement.position(), move_at));
+                                    debug_in_game_chat(client_notification_sender_clone.clone(), character, format!("change path! was {} will {}, move at {}", previous_movement.position(), new_movement.position(), move_at));
                                 } else {
                                     server_ref.add_to_next_movement_tick(GameEvent::CharacterMove(character_movement));
                                     continue;
@@ -281,7 +281,7 @@ impl Server {
                         #[cfg(feature = "debug_movement")]
                         {
                             info!("move {} at {} after {}ms since last move", movement.position(), tick, tick - last_move_at);
-                            debug_in_game_chat(client_notification_sender_clone.clone(), &character, format!("move {} at {} after {}ms since last move", movement.position(), tick, tick - last_move_at));
+                            debug_in_game_chat(client_notification_sender_clone.clone(), character, format!("move {} at {} after {}ms since last move", movement.position(), tick, tick - last_move_at));
                         }
                         character.set_last_moved_at(tick);
                         character.update_position(movement.position().x, movement.position().y);
@@ -301,7 +301,7 @@ impl Server {
                                 #[cfg(feature = "debug_movement")]
                                 {
                                     info!("move {} at {} after {}ms since last move, next move will be {} at {}", movement.position(), tick, tick - last_move_at, next_movement.position(), next_move_at);
-                                    debug_in_game_chat(client_notification_sender_clone.clone(), &character, format!("move {} at {} after {}ms since last move, next move will be {} at {}", movement.position(), tick, tick - last_move_at, next_movement.position(), next_move_at));
+                                    debug_in_game_chat(client_notification_sender_clone.clone(), character, format!("move {} at {} after {}ms since last move, next move will be {} at {}", movement.position(), tick, tick - last_move_at, next_movement.position(), next_move_at));
                                 }
                                 let next_movement = character.peek_mut_movement().unwrap();
                                 next_movement.set_move_at(next_move_at);

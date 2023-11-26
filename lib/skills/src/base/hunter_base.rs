@@ -65,7 +65,7 @@ impl SkillBase for SkidTrap {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 1065 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1065 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -130,7 +130,7 @@ impl SkillBase for LandMine {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 1065 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1065 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -195,7 +195,7 @@ impl SkillBase for AnkleSnare {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 1065 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1065 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -260,7 +260,7 @@ impl SkillBase for ShockwaveTrap {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 2})]; 
-        if inventory.iter().find(|item| item.item_id == 1065 && item.amount >= 2).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1065 && item.amount >= 2) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -325,7 +325,7 @@ impl SkillBase for Sandman {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 1065 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1065 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -390,7 +390,7 @@ impl SkillBase for Flasher {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 2})]; 
-        if inventory.iter().find(|item| item.item_id == 1065 && item.amount >= 2).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1065 && item.amount >= 2) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -455,7 +455,7 @@ impl SkillBase for FreezingTrap {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 2})]; 
-        if inventory.iter().find(|item| item.item_id == 1065 && item.amount >= 2).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1065 && item.amount >= 2) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -538,7 +538,7 @@ impl SkillBase for BlastMine {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 1065 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1065 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -603,7 +603,7 @@ impl SkillBase for ClaymoreTrap {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 2})]; 
-        if inventory.iter().find(|item| item.item_id == 1065 && item.amount >= 2).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1065 && item.amount >= 2) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -715,7 +715,7 @@ impl SkillBase for TalkieBox {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1065, name_english: "Booby_Trap".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 1065 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1065 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
