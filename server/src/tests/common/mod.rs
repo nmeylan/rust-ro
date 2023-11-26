@@ -164,3 +164,11 @@ pub fn before_all() {
 pub fn mocked_repository() -> Arc<MockedRepository> {
     Arc::new(MockedRepository)
 }
+
+
+#[macro_export]
+macro_rules! status_snapshot {
+    ($context:ident, $object:expr) => {
+        &$context.status_service.to_snapshot(&$object.status)
+    }
+}
