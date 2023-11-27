@@ -59,6 +59,21 @@ impl SkillBase for Stealth {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       10
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
@@ -118,6 +133,36 @@ impl SkillBase for CounterInstinct {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 10
+        }
+        if self.level == 2 {
+            return 15
+        }
+        if self.level == 3 {
+            return 20
+        }
+        if self.level == 4 {
+            return 25
+        }
+        if self.level == 5 {
+            return 30
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -192,6 +237,21 @@ impl SkillBase for Preserve {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       30
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 30 { Ok(30) } else {Err(())}
     }
@@ -251,6 +311,36 @@ impl SkillBase for DivestAll {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 22
+        }
+        if self.level == 2 {
+            return 24
+        }
+        if self.level == 3 {
+            return 26
+        }
+        if self.level == 4 {
+            return 28
+        }
+        if self.level == 5 {
+            return 30
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Attack
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {

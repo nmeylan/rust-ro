@@ -59,6 +59,21 @@ impl SkillBase for BasicSkill {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        9
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Passive
+    }
+    #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
@@ -110,6 +125,21 @@ impl SkillBase for FirstAid {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       3
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -167,6 +197,21 @@ impl SkillBase for PlayDead {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       5
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {

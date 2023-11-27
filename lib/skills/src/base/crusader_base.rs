@@ -59,6 +59,21 @@ impl SkillBase for Faith {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Passive
+    }
+    #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
@@ -110,6 +125,51 @@ impl SkillBase for Guard {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 12
+        }
+        if self.level == 2 {
+            return 14
+        }
+        if self.level == 3 {
+            return 16
+        }
+        if self.level == 4 {
+            return 18
+        }
+        if self.level == 5 {
+            return 20
+        }
+        if self.level == 6 {
+            return 22
+        }
+        if self.level == 7 {
+            return 24
+        }
+        if self.level == 8 {
+            return 26
+        }
+        if self.level == 9 {
+            return 28
+        }
+        if self.level == 10 {
+            return 30
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -208,6 +268,21 @@ impl SkillBase for Smite {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       3
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       10
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Attack
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
@@ -295,6 +370,21 @@ impl SkillBase for ShieldBoomerang {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       12
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Attack
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -388,6 +478,51 @@ impl SkillBase for ShieldReflect {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 35
+        }
+        if self.level == 2 {
+            return 40
+        }
+        if self.level == 3 {
+            return 45
+        }
+        if self.level == 4 {
+            return 50
+        }
+        if self.level == 5 {
+            return 55
+        }
+        if self.level == 6 {
+            return 60
+        }
+        if self.level == 7 {
+            return 65
+        }
+        if self.level == 8 {
+            return 70
+        }
+        if self.level == 9 {
+            return 75
+        }
+        if self.level == 10 {
+            return 80
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -484,6 +619,51 @@ impl SkillBase for HolyCross {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+       -2
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 11
+        }
+        if self.level == 2 {
+            return 12
+        }
+        if self.level == 3 {
+            return 13
+        }
+        if self.level == 4 {
+            return 14
+        }
+        if self.level == 5 {
+            return 15
+        }
+        if self.level == 6 {
+            return 16
+        }
+        if self.level == 7 {
+            return 17
+        }
+        if self.level == 8 {
+            return 18
+        }
+        if self.level == 9 {
+            return 19
+        }
+        if self.level == 10 {
+            return 20
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Attack
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -609,6 +789,51 @@ impl SkillBase for GrandCross {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+       5
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 37
+        }
+        if self.level == 2 {
+            return 44
+        }
+        if self.level == 3 {
+            return 51
+        }
+        if self.level == 4 {
+            return 58
+        }
+        if self.level == 5 {
+            return 65
+        }
+        if self.level == 6 {
+            return 72
+        }
+        if self.level == 7 {
+            return 79
+        }
+        if self.level == 8 {
+            return 86
+        }
+        if self.level == 9 {
+            return 93
+        }
+        if self.level == 10 {
+            return 100
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -754,6 +979,21 @@ impl SkillBase for Sacrifice {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       25
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Support
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 25 { Ok(25) } else {Err(())}
     }
@@ -815,6 +1055,21 @@ impl SkillBase for ResistantSouls {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       30
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Support
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 30 { Ok(30) } else {Err(())}
     }
@@ -874,6 +1129,21 @@ impl SkillBase for DefendingAura {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       30
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -944,6 +1214,51 @@ impl SkillBase for SpearQuicken {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 24
+        }
+        if self.level == 2 {
+            return 28
+        }
+        if self.level == 3 {
+            return 32
+        }
+        if self.level == 4 {
+            return 36
+        }
+        if self.level == 5 {
+            return 40
+        }
+        if self.level == 6 {
+            return 44
+        }
+        if self.level == 7 {
+            return 48
+        }
+        if self.level == 8 {
+            return 52
+        }
+        if self.level == 9 {
+            return 56
+        }
+        if self.level == 10 {
+            return 60
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1039,6 +1354,21 @@ impl SkillBase for Shrink {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       15
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {

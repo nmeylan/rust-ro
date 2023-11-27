@@ -9,6 +9,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::enums::EnumWithNumberValue;
 use configuration::configuration::{SkillInTree};
+use enums::skill_enums::SkillEnum;
 use models::status::KnownSkill;
 use crate::util::string::StringUtil;
 
@@ -59,35 +60,22 @@ impl SkillTreeService {
     pub fn send_skill_tree(&self, character: &Character) {
         let skills = self.skill_tree(character);
         let skills_info: Vec<SKILLINFO> = skills.iter().map(|skill| {
-            let skill_config = self.configuration_service.get_skill_config(skill.value.id());
+            let skill_enum = skill.value;
+            let know_level = skill.level;
+            let skill = skills::skill_enums::to_object(skill_enum, if know_level == 0 { 1 } else { know_level }).unwrap();
             let mut skill_info = SKILLINFO::new(self.configuration_service.packetver());
-            skill_info.set_skid(skill.value.id() as i16);
-            skill_info.set_atype(skill_config.target_type().value() as i32);
-            skill_info.set_level(skill.level as i16);
-            let mut sp_cost = 0_i16;
-            let mut range = 0_i16;
-            if skill.level > 0 {
-                if let Some(requirements) = skill_config.requires().as_ref() {
-                    if let Some(cost) = requirements.sp_cost() {
-                        sp_cost = *cost as i16;
-                    } else if let Some(sp_cost_per_level) = requirements.sp_cost_per_level() {
-                        sp_cost = sp_cost_per_level[skill.level as usize] as i16;
-                    }
-                    if let Some(r) = skill_config.range() {
-                        range = *r as i16;
-                    } else if let Some(range_per_level) = skill_config.range_per_level() {
-                        range = range_per_level[skill.level as usize] as i16;
-                    }
-                }
-            }
-            skill_info.set_spcost(sp_cost);
-            skill_info.set_attack_range(range.abs());
+            skill_info.set_skid(skill.id() as i16);
+            skill_info.set_atype(skill.target_type().value() as i32);
+            skill_info.set_level(skill.level() as i16);
+
+            skill_info.set_spcost(skill.sp_cost() as i16);
+            skill_info.set_attack_range(skill.range().abs() as i16);
             let mut skill_name: [char; 24] = [0 as char; 24];
-            skill.value.to_name().fill_char_array(&mut skill_name);
+            skill_enum.to_name().fill_char_array(&mut skill_name);
             skill_info.set_skill_name(skill_name);
             let mut is_upgradable = 0_i8;
-            if !skill.value.is_platinium() {
-                is_upgradable = if skill.level < *skill_config.max_level() as u8 { 1 } else { 0 };
+            if !skill_enum.is_platinium() {
+                is_upgradable = if skill.level() < skill.max_level() { 1 } else { 0 };
             }
             skill_info.set_upgradable(is_upgradable);
             skill_info

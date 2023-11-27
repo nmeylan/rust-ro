@@ -59,6 +59,21 @@ impl SkillBase for AxeMastery {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Passive
+    }
+    #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
@@ -110,6 +125,21 @@ impl SkillBase for PotionResearch {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Passive
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -165,13 +195,28 @@ impl SkillBase for PreparePotion {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       5
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 7134 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 7134 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -230,13 +275,28 @@ impl SkillBase for Bomb {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       10
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Ground
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7135, name_english: "Fire_Bottle".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 7135 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 7135 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -332,13 +392,28 @@ impl SkillBase for AcidTerror {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       15
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Attack
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7136, name_english: "Acid_Bottle".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 7136 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 7136 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -424,40 +499,55 @@ impl SkillBase for AidPotion {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       1
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Support
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 501, name_english: "Red_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 502, name_english: "Orange_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 503, name_english: "Yellow_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 504, name_english: "White_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 505, name_english: "Blue_Potion".to_string(), amount: 1}),(NormalInventoryItem {item_id: 522, name_english: "Fruit_Of_Mastela".to_string(), amount: 1}),(NormalInventoryItem {item_id: 526, name_english: "Royal_Jelly".to_string(), amount: 1}),(NormalInventoryItem {item_id: 608, name_english: "Seed_Of_Yggdrasil".to_string(), amount: 1}),(NormalInventoryItem {item_id: 607, name_english: "Yggdrasilberry".to_string(), amount: 1}),(NormalInventoryItem {item_id: 657, name_english: "Berserk_Potion".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 501 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 501 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 502 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 502 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 503 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 503 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 504 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 504 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 505 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 505 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 522 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 522 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 526 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 526 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 608 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 608 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 607 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 607 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 657 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 657 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -520,13 +610,28 @@ impl SkillBase for SummonFlora {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       4
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       20
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Ground
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 20 { Ok(20) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7137, name_english: "MenEater_Plant_Bottle".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 7137 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 7137 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -593,13 +698,28 @@ impl SkillBase for SummonMarineSphere {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       10
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Ground
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7138, name_english: "Mini_Bottle".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 7138 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 7138 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -666,13 +786,28 @@ impl SkillBase for AlchemicalWeapon {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       30
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Support
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 30 { Ok(30) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 7139 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 7139 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -735,13 +870,28 @@ impl SkillBase for SynthesizedShield {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       25
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Support
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 25 { Ok(25) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 7139 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 7139 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -804,13 +954,28 @@ impl SkillBase for SyntheticArmor {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       25
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Support
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 25 { Ok(25) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 7139 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 7139 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -873,13 +1038,28 @@ impl SkillBase for BiochemicalHelm {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       25
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Support
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 25 { Ok(25) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7139, name_english: "Coating_Bottle".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 7139 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 7139 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -942,6 +1122,21 @@ impl SkillBase for Bioethics {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Passive
+    }
+    #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
@@ -995,13 +1190,28 @@ impl SkillBase for CallHomunculus {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       10
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7142, name_english: "Germination_Breed".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 7142 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 7142 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -1060,6 +1270,21 @@ impl SkillBase for Vaporize {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       50
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 50 { Ok(50) } else {Err(())}
     }
@@ -1115,6 +1340,36 @@ impl SkillBase for HomunculusResurrection {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 74
+        }
+        if self.level == 2 {
+            return 68
+        }
+        if self.level == 3 {
+            return 62
+        }
+        if self.level == 4 {
+            return 56
+        }
+        if self.level == 5 {
+            return 50
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1193,13 +1448,28 @@ impl SkillBase for AidBerserkPotion {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       10
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Support
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 657, name_english: "Berserk_Potion".to_string(), amount: 2})]; 
-        if !inventory.iter().any(|item| item.item_id == 657 && item.amount >= 2) {
+        if inventory.iter().find(|item| item.item_id == 657 && item.amount >= 2).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -1262,13 +1532,28 @@ impl SkillBase for TwilightAlchemy1 {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       200
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 200 { Ok(200) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 200})]; 
-        if !inventory.iter().any(|item| item.item_id == 7134 && item.amount >= 200) {
+        if inventory.iter().find(|item| item.item_id == 7134 && item.amount >= 200).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -1335,13 +1620,28 @@ impl SkillBase for TwilightAlchemy2 {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       200
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 200 { Ok(200) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 200})]; 
-        if !inventory.iter().any(|item| item.item_id == 7134 && item.amount >= 200) {
+        if inventory.iter().find(|item| item.item_id == 7134 && item.amount >= 200).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -1408,13 +1708,28 @@ impl SkillBase for TwilightAlchemy3 {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       200
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 200 { Ok(200) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7134, name_english: "Medicine_Bowl".to_string(), amount: 200})]; 
-        if !inventory.iter().any(|item| item.item_id == 7134 && item.amount >= 200) {
+        if inventory.iter().find(|item| item.item_id == 7134 && item.amount >= 200).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))

@@ -381,6 +381,32 @@ fn generate_getters(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn _update_after_cast_walk_delay(&mut self, new_value: u32) {\n").unwrap();
     job_skills_file.write_all(b"        self.after_cast_walk_delay = new_value;\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
+
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+    job_skills_file.write_all(b"    fn _range(&self) -> i8 {\n").unwrap();
+    if skill_config.range().is_none() {
+        job_skills_file.write_all(b"        0\n").unwrap();
+    } else {
+        generate_return_per_level_i32(job_skills_file, skill_config.range(), skill_config.range_per_level());
+    }
+    job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+    job_skills_file.write_all(b"    fn _max_level(&self) -> u8 {\n").unwrap();
+    job_skills_file.write_all(format!("        {}\n", skill_config.max_level()).as_bytes()).unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+    job_skills_file.write_all(b"    fn _sp_cost(&self) -> u16 {\n").unwrap();
+    let requirements = skill_config.requires().as_ref();
+    if requirements.is_none() || (requirements.unwrap().sp_cost().is_none() && requirements.unwrap().sp_cost_per_level().is_none()) {
+        job_skills_file.write_all(b"        0\n").unwrap();
+    } else {
+        generate_return_per_level_u32(job_skills_file, requirements.map(|c| c.sp_cost()).unwrap_or(&None), requirements.map(|c| c.sp_cost_per_level()).unwrap_or(&None));
+    }
+
+    job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    fn _target_type(&self) -> SkillTargetType {\n").unwrap();
+    job_skills_file.write_all(format!("        SkillTargetType::{:?}\n", skill_config.target_type()).as_bytes()).unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
 }
 
 /*

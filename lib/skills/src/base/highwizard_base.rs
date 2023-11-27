@@ -59,6 +59,21 @@ impl SkillBase for SoulDrain {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Passive
+    }
+    #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
@@ -110,6 +125,21 @@ impl SkillBase for StaveCrasher {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       8
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Attack
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -179,6 +209,51 @@ impl SkillBase for MysticalAmplification {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 14
+        }
+        if self.level == 2 {
+            return 18
+        }
+        if self.level == 3 {
+            return 22
+        }
+        if self.level == 4 {
+            return 26
+        }
+        if self.level == 5 {
+            return 30
+        }
+        if self.level == 6 {
+            return 34
+        }
+        if self.level == 7 {
+            return 38
+        }
+        if self.level == 8 {
+            return 42
+        }
+        if self.level == 9 {
+            return 46
+        }
+        if self.level == 10 {
+            return 50
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -270,6 +345,36 @@ impl SkillBase for NapalmVulcan {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 10
+        }
+        if self.level == 2 {
+            return 25
+        }
+        if self.level == 3 {
+            return 40
+        }
+        if self.level == 4 {
+            return 55
+        }
+        if self.level == 5 {
+            return 70
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Attack
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -371,16 +476,31 @@ impl SkillBase for Ganbantein {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       18
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       40
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Ground
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if *status.sp() > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 715, name_english: "Yellow_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 715 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 715 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 717 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::BlueGemstone);
         }
         Ok(Some(required_items))
@@ -447,6 +567,36 @@ impl SkillBase for GravitationField {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       18
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 20
+        }
+        if self.level == 2 {
+            return 40
+        }
+        if self.level == 3 {
+            return 60
+        }
+        if self.level == 4 {
+            return 80
+        }
+        if self.level == 5 {
+            return 100
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Ground
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if *status.sp() >= 20 { return Ok(20) } else {return Err(())}
@@ -468,7 +618,7 @@ impl SkillBase for GravitationField {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 717 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::BlueGemstone);
         }
         Ok(Some(required_items))
