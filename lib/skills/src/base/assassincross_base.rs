@@ -59,6 +59,21 @@ impl SkillBase for AdvancedKatarMastery {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Passive
+    }
+    #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
@@ -112,6 +127,36 @@ impl SkillBase for EnchantDeadlyPoison {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 60
+        }
+        if self.level == 2 {
+            return 70
+        }
+        if self.level == 3 {
+            return 80
+        }
+        if self.level == 4 {
+            return 90
+        }
+        if self.level == 5 {
+            return 100
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if *status.sp() >= 60 { return Ok(60) } else {return Err(())}
@@ -133,7 +178,7 @@ impl SkillBase for EnchantDeadlyPoison {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 678, name_english: "Poison_Bottle".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 678 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 678 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -194,6 +239,51 @@ impl SkillBase for SoulDestroyer {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 20
+        }
+        if self.level == 2 {
+            return 20
+        }
+        if self.level == 3 {
+            return 20
+        }
+        if self.level == 4 {
+            return 20
+        }
+        if self.level == 5 {
+            return 20
+        }
+        if self.level == 6 {
+            return 30
+        }
+        if self.level == 7 {
+            return 30
+        }
+        if self.level == 8 {
+            return 30
+        }
+        if self.level == 9 {
+            return 30
+        }
+        if self.level == 10 {
+            return 30
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Attack
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -393,6 +483,51 @@ impl SkillBase for MeteorAssault {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 10
+        }
+        if self.level == 2 {
+            return 12
+        }
+        if self.level == 3 {
+            return 14
+        }
+        if self.level == 4 {
+            return 16
+        }
+        if self.level == 5 {
+            return 18
+        }
+        if self.level == 6 {
+            return 20
+        }
+        if self.level == 7 {
+            return 22
+        }
+        if self.level == 8 {
+            return 24
+        }
+        if self.level == 9 {
+            return 26
+        }
+        if self.level == 10 {
+            return 28
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if *status.sp() >= 10 { return Ok(10) } else {return Err(())}
@@ -534,6 +669,21 @@ impl SkillBase for CreateDeadlyPoison {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       50
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {

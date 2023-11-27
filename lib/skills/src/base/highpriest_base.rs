@@ -59,6 +59,36 @@ impl SkillBase for Assumptio {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 20
+        }
+        if self.level == 2 {
+            return 30
+        }
+        if self.level == 3 {
+            return 40
+        }
+        if self.level == 4 {
+            return 50
+        }
+        if self.level == 5 {
+            return 60
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Support
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if *status.sp() >= 20 { return Ok(20) } else {return Err(())}
@@ -188,6 +218,36 @@ impl SkillBase for Basilica {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+       4
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 80
+        }
+        if self.level == 2 {
+            return 90
+        }
+        if self.level == 3 {
+            return 100
+        }
+        if self.level == 4 {
+            return 110
+        }
+        if self.level == 5 {
+            return 120
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if *status.sp() >= 80 { return Ok(80) } else {return Err(())}
@@ -209,16 +269,16 @@ impl SkillBase for Basilica {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 715, name_english: "Yellow_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 716, name_english: "Red_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 523, name_english: "Holy_Water".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 715 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 715 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::NeedItem);
         }
-        if !inventory.iter().any(|item| item.item_id == 716 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 716 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::RedGemstone);
         }
-        if !inventory.iter().any(|item| item.item_id == 717 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::BlueGemstone);
         }
-        if !inventory.iter().any(|item| item.item_id == 523 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 523 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::Holywater);
         }
         Ok(Some(required_items))
@@ -334,6 +394,21 @@ impl SkillBase for Meditatio {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Passive
+    }
+    #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
@@ -385,6 +460,21 @@ impl SkillBase for ManaRecharge {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Passive
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {

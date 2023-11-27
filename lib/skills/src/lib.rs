@@ -120,6 +120,10 @@ pub trait SkillBase {
         0
     }
 
+    fn _range(&self) -> i8;
+    fn _max_level(&self) -> u8;
+    fn _sp_cost(&self) -> u16;
+    fn _target_type(&self) -> SkillTargetType;
 }
 
 pub trait Skill: SkillBase {
@@ -136,6 +140,25 @@ pub trait Skill: SkillBase {
     }
     fn id(&self) -> u32 {
         self._id()
+    }
+
+    #[inline(always)]
+    fn range(&self) -> i8 {
+        self._range()
+    }
+
+    #[inline(always)]
+    fn max_level(&self) -> u8 {
+        self._max_level()
+    }
+
+    #[inline(always)]
+    fn sp_cost(&self) -> u16{
+        self._sp_cost()
+    }
+    #[inline(always)]
+    fn target_type(&self) -> SkillTargetType {
+        self._target_type()
     }
 
     #[inline(always)]

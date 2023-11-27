@@ -7,113 +7,113 @@
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Rogue Sword Mastery
+    // Super Novice Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super_Baby Increase HP Recovery
+    // Super Novice Increase HP Recovery
     SmRecovery,
-    // Super_Baby Bash
+    // Super Novice Bash
     SmBash,
-    // Super_Baby Provoke
+    // Super Novice Provoke
     SmProvoke,
-    // Super_Baby Magnum Break
+    // Super Novice Magnum Break
     SmMagnum,
-    // Super_Baby Endure
+    // Super Novice Endure
     SmEndure,
-    // Priest Increase SP Recovery
+    // Super Novice Increase SP Recovery
     MgSrecovery,
-    // Super_Baby Sight
+    // Super Novice Sight
     MgSight,
-    // Super_Baby Napalm Beat
+    // Super Novice Napalm Beat
     MgNapalmbeat,
-    // Priest Safety Wall
+    // Super Novice Safety Wall
     MgSafetywall,
-    // Super_Baby Soul Strike
+    // Super Novice Soul Strike
     MgSoulstrike,
-    // Super_Baby Cold Bolt
+    // Super Novice Cold Bolt
     MgColdbolt,
-    // Super_Baby Frost Diver
+    // Super Novice Frost Diver
     MgFrostdiver,
-    // Super_Baby Stone Curse
+    // Super Novice Stone Curse
     MgStonecurse,
-    // Super_Baby Fire Ball
+    // Super Novice Fire Ball
     MgFireball,
-    // Super_Baby Fire Wall
+    // Super Novice Fire Wall
     MgFirewall,
-    // Super_Baby Fire Bolt
+    // Super Novice Fire Bolt
     MgFirebolt,
-    // Super_Baby Lightning Bolt
+    // Super Novice Lightning Bolt
     MgLightningbolt,
-    // Super_Baby Thunderstorm
+    // Super Novice Thunderstorm
     MgThunderstorm,
-    // Crusader Divine Protection
+    // Super Novice Divine Protection
     AlDp,
-    // Crusader Demon Bane
+    // Super Novice Demon Bane
     AlDemonbane,
-    // Super_Baby Ruwach
+    // Super Novice Ruwach
     AlRuwach,
-    // Super_Baby Pneuma
+    // Super Novice Pneuma
     AlPneuma,
-    // Super_Baby Teleport
+    // Super Novice Teleport
     AlTeleport,
-    // Super_Baby Warp Portal
+    // Super Novice Warp Portal
     AlWarp,
-    // Crusader Heal
+    // Super Novice Heal
     AlHeal,
-    // Super_Baby Increase AGI
+    // Super Novice Increase AGI
     AlIncagi,
-    // Super_Baby Decrease AGI
+    // Super Novice Decrease AGI
     AlDecagi,
-    // Super_Baby Aqua Benedicta
+    // Super Novice Aqua Benedicta
     AlHolywater,
-    // Super_Baby Signum Crucis
+    // Super Novice Signum Crucis
     AlCrucis,
-    // Super_Baby Angelus
+    // Super Novice Angelus
     AlAngelus,
-    // Super_Baby Blessing
+    // Super Novice Blessing
     AlBlessing,
-    // Crusader Cure
+    // Super Novice Cure
     AlCure,
-    // Super_Baby Enlarge Weight Limit
+    // Super Novice Enlarge Weight Limit
     McInccarry,
-    // Super_Baby Discount
+    // Super Novice Discount
     McDiscount,
-    // Super_Baby Overcharge
+    // Super Novice Overcharge
     McOvercharge,
-    // Super_Baby Pushcart
+    // Super Novice Pushcart
     McPushcart,
-    // Super_Baby Item Appraisal
+    // Super Novice Item Appraisal
     McIdentify,
-    // Super_Baby Vending
+    // Super Novice Vending
     McVending,
-    // Super_Baby Mammonite
+    // Super Novice Mammonite
     McMammonite,
-    // Super_Baby Owl's Eye
+    // Super Novice Owl's Eye
     AcOwl,
-    // Rogue Vulture's Eye
+    // Super Novice Vulture's Eye
     AcVulture,
-    // Super_Baby Improve Concentration
+    // Super Novice Improve Concentration
     AcConcentration,
     // Rogue Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Super_Baby Double Attack
+    // Super Novice Double Attack
     TfDouble,
-    // Super_Baby Improve Dodge
+    // Super Novice Improve Dodge
     TfMiss,
-    // Super_Baby Steal
+    // Super Novice Steal
     TfSteal,
-    // Super_Baby Hiding
+    // Super Novice Hiding
     TfHiding,
-    // Super_Baby Envenom
+    // Super Novice Envenom
     TfPoison,
-    // Super_Baby Detoxify
+    // Super Novice Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Crusader Spear Mastery
+    // Knight Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +129,9 @@ pub enum SkillEnum {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Crusader Peco Peco Riding
+    // Knight Peco Peco Riding
     KnRiding,
-    // Crusader Cavalier Mastery
+    // Knight Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -287,7 +287,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice High Play Dead
+    // Novice Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,
@@ -1821,13 +1821,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Super_Baby Open Buying Store
+    // Super Novice Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Super_Baby Decorate Cart
+    // Super Novice Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,

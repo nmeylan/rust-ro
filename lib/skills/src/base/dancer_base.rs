@@ -59,6 +59,21 @@ impl SkillBase for DanceLessons {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Passive
+    }
+    #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
@@ -110,6 +125,36 @@ impl SkillBase for SlingingArrow {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 3
+        }
+        if self.level == 3 {
+            return 5
+        }
+        if self.level == 4 {
+            return 7
+        }
+        if self.level == 5 {
+            return 9
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Attack
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -227,6 +272,36 @@ impl SkillBase for HipShaker {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 23
+        }
+        if self.level == 2 {
+            return 26
+        }
+        if self.level == 3 {
+            return 29
+        }
+        if self.level == 4 {
+            return 32
+        }
+        if self.level == 5 {
+            return 35
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if *status.sp() >= 23 { return Ok(23) } else {return Err(())}
@@ -317,6 +392,36 @@ impl SkillBase for Dazzler {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        5
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 12
+        }
+        if self.level == 2 {
+            return 14
+        }
+        if self.level == 3 {
+            return 16
+        }
+        if self.level == 4 {
+            return 18
+        }
+        if self.level == 5 {
+            return 20
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if *status.sp() >= 12 { return Ok(12) } else {return Err(())}
@@ -391,6 +496,51 @@ impl SkillBase for FocusBallet {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 22
+        }
+        if self.level == 2 {
+            return 24
+        }
+        if self.level == 3 {
+            return 26
+        }
+        if self.level == 4 {
+            return 28
+        }
+        if self.level == 5 {
+            return 30
+        }
+        if self.level == 6 {
+            return 32
+        }
+        if self.level == 7 {
+            return 34
+        }
+        if self.level == 8 {
+            return 36
+        }
+        if self.level == 9 {
+            return 38
+        }
+        if self.level == 10 {
+            return 40
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -498,6 +648,51 @@ impl SkillBase for SlowGrace {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 28
+        }
+        if self.level == 2 {
+            return 31
+        }
+        if self.level == 3 {
+            return 34
+        }
+        if self.level == 4 {
+            return 37
+        }
+        if self.level == 5 {
+            return 40
+        }
+        if self.level == 6 {
+            return 43
+        }
+        if self.level == 7 {
+            return 46
+        }
+        if self.level == 8 {
+            return 49
+        }
+        if self.level == 9 {
+            return 52
+        }
+        if self.level == 10 {
+            return 55
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if *status.sp() >= 28 { return Ok(28) } else {return Err(())}
@@ -601,6 +796,51 @@ impl SkillBase for LadyLuck {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 43
+        }
+        if self.level == 2 {
+            return 46
+        }
+        if self.level == 3 {
+            return 49
+        }
+        if self.level == 4 {
+            return 52
+        }
+        if self.level == 5 {
+            return 55
+        }
+        if self.level == 6 {
+            return 58
+        }
+        if self.level == 7 {
+            return 61
+        }
+        if self.level == 8 {
+            return 64
+        }
+        if self.level == 9 {
+            return 67
+        }
+        if self.level == 10 {
+            return 70
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -708,6 +948,51 @@ impl SkillBase for GypsysKiss {
         self.after_cast_walk_delay = new_value;
     }
     #[inline(always)]
+    fn _range(&self) -> i8 {
+        0
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        10
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+        if self.level == 1 {
+            return 40
+        }
+        if self.level == 2 {
+            return 45
+        }
+        if self.level == 3 {
+            return 50
+        }
+        if self.level == 4 {
+            return 55
+        }
+        if self.level == 5 {
+            return 60
+        }
+        if self.level == 6 {
+            return 65
+        }
+        if self.level == 7 {
+            return 70
+        }
+        if self.level == 8 {
+            return 75
+        }
+        if self.level == 9 {
+            return 80
+        }
+        if self.level == 10 {
+            return 85
+        }
+        0
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::MySelf
+    }
+    #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
             if *status.sp() >= 40 { return Ok(40) } else {return Err(())}
@@ -811,6 +1096,21 @@ impl SkillBase for WinkofCharm {
     #[inline(always)]
     fn _update_after_cast_walk_delay(&mut self, new_value: u32) {
         self.after_cast_walk_delay = new_value;
+    }
+    #[inline(always)]
+    fn _range(&self) -> i8 {
+       9
+    }
+    #[inline(always)]
+    fn _max_level(&self) -> u8 {
+        1
+    }
+    #[inline(always)]
+    fn _sp_cost(&self) -> u16 {
+       40
+    }
+    fn _target_type(&self) -> SkillTargetType {
+        SkillTargetType::Attack
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
