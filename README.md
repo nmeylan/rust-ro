@@ -42,7 +42,9 @@ Checkout [architectures notes](doc/Architecture.md)
   - `tools/skills`: generate skills structure from configuration file 
 
 # TODO
-See [Meta issue](https://github.com/nmeylan/rust-ro/issues/19)
+Focus is now on [Skills](https://github.com/nmeylan/rust-ro/issues/11)
+
+Also see [Meta issue](https://github.com/nmeylan/rust-ro/issues/19)
 
 # Usage
 *This section will be rewritten*
