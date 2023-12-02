@@ -10,7 +10,6 @@
     "int": 1,
     "luk": 1,
     "weapon": "Sword",
-    "shield": "Novice_Shield",
     "passiveSkills": [],
     "supportiveSkills": [],
     "skill_to_use": {
@@ -29,6 +28,38 @@
       "max_dmg": 139,
       "dps": 85.32,
       "stats_atk_left": 36
+    }
+  },
+  {
+    "job": 4,
+    "base_level": 1,
+    "job_level": 1,
+    "str": 1,
+    "agi": 1,
+    "vit": 1,
+    "dex": 10,
+    "int": 1,
+    "luk": 1,
+    "ammo": "Arrow",
+    "weapon": "Bow",
+    "passiveSkills": [],
+    "supportiveSkills": [],
+    "skill_to_use": {
+      "skid": 46,
+      "level": 10
+    },
+    "target": "PORING",
+    "expected": {
+      "weapon_min_atk": 1,
+      "weapon_avg_atk": 19.5,
+      "weapon_max_atk": 38,
+      "base_atk": 11,
+      "hit_ratio": 0.89,
+      "min_dmg": 42,
+      "avg_dmg": 112,
+      "max_dmg": 184,
+      "dps": 72.23,
+      "stats_atk_left": 26
     }
   }
 ]

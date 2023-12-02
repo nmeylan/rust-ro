@@ -75,7 +75,7 @@ impl BattleService {
                                 (
                                     (
                                         (
-                                            (base_atk + self.weapon_atk(source_status, target_status) as f32) * skill_modifier * (1.0 - def)
+                                            (base_atk + self.weapon_atk(source_status, target_status) as f32).floor() * skill_modifier * (1.0 - def)
                                         )
                                             - vitdef + bane_skill + source_status.weapon_upgrade_damage() as f32
                                     )
@@ -89,7 +89,7 @@ impl BattleService {
                     - kyrie_eleison_effect
             )
                 / number_of_hits
-        ).round() as u32
+        ).floor() as u32
     }
 
     //  rnd(min(DEX*(0.8+0.2*WeaponLevel),ATK), ATK)
@@ -127,12 +127,18 @@ impl BattleService {
             weapon_max_attack = weapon_over_upgrade_max + ((weapon_attack - 1 + imposito_magnus) as f32 * size_modifier).floor() as u32;
             weapon_min_attack = weapon_over_upgrade_min + ((work_dex + imposito_magnus) as f32 * size_modifier).floor() as u32;
         }
-        // if weapon.is_some() && weapon.as_ref().unwrap().weapon_type.unwrap().is_ranged() {
-        //     if let Some(ammo) = source_status.equipped_ammo() {
-        //         let ammo_atk = self.configuration_service.get_item(ammo.item_id).attack.unwrap_or(1);
-        //         weapon_max_attack += ((ammo_atk - 1) as f32 * size_modifier).floor();
-        //     }
-        // }
+        if source_status.right_hand_weapon_type().is_ranged() {
+            let ammo_dmg = (source_status.ammo().map_or_else(|| 1.0, |ammo| (*ammo.attack() - 1) as f32) * size_modifier).floor() as u32;
+            weapon_max_attack += ammo_dmg;
+            let mut w1 = weapon_over_upgrade_max + ((weapon_attack * weapon_attack) as f32 / 100.0 * size_modifier).floor() as u32 + (imposito_magnus as f32 * size_modifier).floor() as u32 + ammo_dmg;
+            let w2 = weapon_over_upgrade_max + ((weapon_attack * work_dex) as f32 / 100.0 * size_modifier).floor() as u32 + (imposito_magnus as f32 * size_modifier).floor() as u32 + ammo_dmg;
+            if w1 > w2 { w1 = w2 }
+            if weapon_max_attack < w1 { weapon_max_attack = w1 }
+            weapon_min_attack = weapon_over_upgrade_min + (((weapon_attack * weapon_attack) as f32 / 100.0 + imposito_magnus as f32) * size_modifier).floor() as u32;
+            let w = weapon_over_upgrade_min + (((weapon_attack * work_dex) as f32 / 100.0 + imposito_magnus as f32) * size_modifier).floor() as u32;
+            if weapon_min_attack > w { weapon_min_attack = w }
+        }
+
         rng.u32(weapon_min_attack..=weapon_max_attack)
     }
 
@@ -163,7 +169,7 @@ impl BattleService {
                 match target_status.size() {
                     Size::Small => 0.75,
                     Size::Medium => 1.0,
-                    Size::Large =>  0.75,
+                    Size::Large => 0.75,
                 }
             }
             WeaponType::Sword2H => {

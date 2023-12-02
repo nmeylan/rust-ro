@@ -123,6 +123,7 @@ pub struct WearAmmo {
     pub item_id: i32,
     pub inventory_index: usize,
     pub ammo_type: AmmoType,
+    pub attack: u8,
 }
 
 impl WearAmmo {
@@ -130,6 +131,7 @@ impl WearAmmo {
         WearAmmoSnapshot {
             item_id: self.item_id,
             ammo_type: self.ammo_type,
+            attack: self.attack,
         }
     }
 }
@@ -138,6 +140,7 @@ impl WearAmmo {
 pub struct WearAmmoSnapshot {
     item_id: i32,
     ammo_type: AmmoType,
+    attack: u8,
 }
 
 pub trait Wearable {

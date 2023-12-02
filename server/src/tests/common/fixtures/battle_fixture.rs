@@ -77,6 +77,8 @@ pub struct BattleFixture {
     shoulder_refinement: Option<u32>,
     #[serde(default)]
     shoes_refinement: Option<u32>,
+    #[serde(default)]
+    ammo: Option<String>,
     skill_to_use: SkillLevel,
     expected: Expected,
     target: String

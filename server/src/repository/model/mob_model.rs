@@ -81,12 +81,12 @@ impl Default for MobModel {
             atk2: 0,
             def: 0,
             mdef: 0,
-            str: 0,
-            agi: 0,
-            vit: 0,
-            int: 0,
-            dex: 0,
-            luk: 0,
+            str: 1,
+            agi: 1,
+            vit: 1,
+            int: 1,
+            dex: 1,
+            luk: 1,
             range1: 0,
             range2: 0,
             range3: 0,
@@ -125,12 +125,12 @@ impl<'r> FromRow<'r, PgRow> for MobModel {
         model.set_atk2(row.try_get::<i32, _>("attack2").unwrap_or(0));
         model.set_def(row.try_get::<i32, _>("defense").unwrap_or(0));
         model.set_mdef(row.try_get::<i32, _>("magic_defense").unwrap_or(0));
-        model.set_str(row.try_get::<i32, _>("str").unwrap_or(0));
-        model.set_agi(row.try_get::<i32, _>("agi").unwrap_or(0));
-        model.set_vit(row.try_get::<i32, _>("vit").unwrap_or(0));
-        model.set_int(row.try_get::<i32, _>("int").unwrap_or(0));
-        model.set_dex(row.try_get::<i32, _>("dex").unwrap_or(0));
-        model.set_luk(row.try_get::<i32, _>("luk").unwrap_or(0));
+        model.set_str(row.try_get::<i32, _>("str").unwrap_or(1));
+        model.set_agi(row.try_get::<i32, _>("agi").unwrap_or(1));
+        model.set_vit(row.try_get::<i32, _>("vit").unwrap_or(1));
+        model.set_int(row.try_get::<i32, _>("int").unwrap_or(1));
+        model.set_dex(row.try_get::<i32, _>("dex").unwrap_or(1));
+        model.set_luk(row.try_get::<i32, _>("luk").unwrap_or(1));
         model.set_scale(row.try_get::<i16, _>("size").unwrap_or(0));
         model.set_race(row.try_get::<i16, _>("race").unwrap_or(0));
         model.set_element(row.try_get::<i8, _>("element").unwrap_or(0));

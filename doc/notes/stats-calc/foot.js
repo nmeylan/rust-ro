@@ -2358,6 +2358,10 @@ function isNonRangeWeapon() {
             testCaseData.weapon_left_card4 = card(eval(document.calcForm.A_weapon2_card4.value));
         }
 
+        if (document.calcForm.A_Arrow && document.calcForm.A_Arrow.style["visibility"] !== "hidden") {
+            testCaseData.ammo = ArrowOBJ[document.calcForm.A_Arrow.value][2];
+        }
+
 
         testCaseData.headgear_upper = aegis_item(eval(document.calcForm.A_head1.value));
         testCaseData.headgear_upper_card = card(eval(document.calcForm.A_head1_card.value));
@@ -2365,7 +2369,9 @@ function isNonRangeWeapon() {
         testCaseData.headgear_middle_card = card(eval(document.calcForm.A_head2_card.value));
         testCaseData.headgear_lower = aegis_item(eval(document.calcForm.A_head3.value))
 
-        testCaseData.shield = aegis_item(eval(document.calcForm.A_left.value));
+        if (document.calcForm.A_left.value !== "305") {
+            testCaseData.shield = aegis_item(eval(document.calcForm.A_left.value));
+        }
         testCaseData.shield_card = card(eval(document.calcForm.A_left_card.value));
         testCaseData.body = aegis_item(eval(document.calcForm.A_body.value));
         testCaseData.body_card = card(eval(document.calcForm.A_body_card.value));
