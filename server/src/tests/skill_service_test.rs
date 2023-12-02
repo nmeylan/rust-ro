@@ -341,6 +341,9 @@ mod tests {
             character_status.sp = 10000;
             character.status = character_status;
             equip_item_from_name(&mut character, scenarii.weapon().as_ref().unwrap().as_str());
+            if let Some(ammo) = scenarii.ammo() {
+                equip_item_from_name(&mut character, ammo.as_str());
+            }
             let target = create_mob(1, scenarii.target());
             let skill = skills::skill_enums::to_object(SkillEnum::from_id(*scenarii.skill_to_use().skid()), *scenarii.skill_to_use().level()).unwrap();
             for _ in 0..1000 {
@@ -351,8 +354,8 @@ mod tests {
             }
             let _average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
             // Then
-            assert!(*scenarii.expected().min_dmg() - 1 <= min && min <= *scenarii.expected().min_dmg() + 1, "Expected min damage to be {} but was {} with stats {:?}", scenarii.expected().min_dmg(), min, scenarii);
-            assert!(*scenarii.expected().max_dmg() - 1 <= max && max <= *scenarii.expected().max_dmg() + 1, "Expected max damage to be {} but was {} with stats {:?}", scenarii.expected().max_dmg(), max, scenarii);
+            assert!(*scenarii.expected().min_dmg() - 1 <= min && min <= *scenarii.expected().min_dmg() + 1, "Expected min damage to be {} but was {} with skill {} and stats {:?}", scenarii.expected().min_dmg(), min, SkillEnum::from_id(*scenarii.skill_to_use().skid()).to_name(), scenarii);
+            assert!(*scenarii.expected().max_dmg() - 1 <= max && max <= *scenarii.expected().max_dmg() + 1, "Expected max damage to be {} but was {} with skill {} and stats {:?}", scenarii.expected().max_dmg(), max, SkillEnum::from_id(*scenarii.skill_to_use().skid()).to_name(), scenarii);
         }
     }
 }

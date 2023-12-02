@@ -158,6 +158,6 @@ impl SkillService {
     }
 
     pub fn calculate_damage(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill: &dyn OffensiveSkill) -> u32 {
-        self.battle_service.damage_character_attack_monster(source_status, target_status, skill.dmg_atk().unwrap_or(1.0))
+        (self.battle_service.damage_character_attack_monster(source_status, target_status, skill.dmg_atk().unwrap_or(1.0) / skill.hit_count() as f32) * skill.hit_count() as u32)
     }
 }

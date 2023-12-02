@@ -297,6 +297,7 @@ impl ItemModel {
         WearAmmo {
             item_id: self.id,
             inventory_index,
+            attack: self.attack.unwrap_or(0) as u8,
             ammo_type: self.ammo_type.unwrap()
         }
     }

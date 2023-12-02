@@ -123,7 +123,7 @@ impl StatusSnapshot {
             shoulder: None,
             accessory_left: None,
             accessory_right: None,
-            ammo: None,
+            ammo: status.equipped_ammo().map(|a| a.to_snapshot()),
         };
         for gear in status.equipped_gears() {
             let gear_snapshot = Some(gear.to_snapshot());

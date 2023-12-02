@@ -180,11 +180,11 @@ function isRangedWeapon() {
 		skillModifier = 1;
 		wCast = 0;
 
-		wHITsuu = 1;
+		hitCount = 1;
 		n_Enekyori=0;
 		wLAch=0;
 
-		w_DMG = [0,0,0];
+		finalDamages = [0,0,0];
 		not_use_card = 0;
 		cast_kotei = 0;
 
@@ -308,65 +308,65 @@ function isRangedWeapon() {
 					w_left_Aveatk = 1;
 				}
 
-				ATKbai02(skillModifier,0);
+				applySkillModifier(skillModifier,0);
 
 
-				w_DMG[2] = BattleCalc(n_A_DMG[2],2);
-				myInnerHtml("ATK_02",w_DMG[2] + n_A_EDP_DMG[2] +"("+ w_left_Maxatk +")",0);
+				finalDamages[2] = BattleCalc(n_A_DMG[2],2);
+				myInnerHtml("ATK_02",finalDamages[2] + n_A_EDP_DMG[2] +"("+ w_left_Maxatk +")",0);
 
 
 
 
-				w_DMG[2] = BattleCalc3(w_DMG[2]);
-				w_DMG[2] += BattleCalc3left(w_left_Maxatk);
-				w_DMG[2] += HitEDPplus(n_A_EDP_DMG[2]);
+				finalDamages[2] = BattleCalc3(finalDamages[2]);
+				finalDamages[2] += BattleCalc3left(w_left_Maxatk);
+				finalDamages[2] += HitEDPplus(n_A_EDP_DMG[2]);
 
-				w_DMG[0] = BattleCalc(n_A_DMG[0],0);
-				myInnerHtml("ATK_00",w_DMG[0] + n_A_EDP_DMG[0] +"("+ w_left_Minatk +")",0);
+				finalDamages[0] = BattleCalc(n_A_DMG[0],0);
+				myInnerHtml("ATK_00",finalDamages[0] + n_A_EDP_DMG[0] +"("+ w_left_Minatk +")",0);
 
-				w_DMG[0] = BattleCalc3(w_DMG[0]);
-				w_DMG[0] += BattleCalc3left(w_left_Minatk);
-				w_DMG[0] += HitEDPplus(n_A_EDP_DMG[0]);
+				finalDamages[0] = BattleCalc3(finalDamages[0]);
+				finalDamages[0] += BattleCalc3left(w_left_Minatk);
+				finalDamages[0] += HitEDPplus(n_A_EDP_DMG[0]);
 
-				w_DMG[1] = BattleCalc(n_A_DMG[1],1);
-				myInnerHtml("ATK_01",w_DMG[1] + n_A_EDP_DMG[1] +"("+ w_left_Aveatk +")",0);
+				finalDamages[1] = BattleCalc(n_A_DMG[1],1);
+				myInnerHtml("ATK_01",finalDamages[1] + n_A_EDP_DMG[1] +"("+ w_left_Aveatk +")",0);
 
-				w_DMG[1] = BattleCalc3(w_DMG[1]);
-				w_DMG[1] += BattleCalc3left(w_left_Aveatk);
-				w_DMG[1] += HitEDPplus(n_A_EDP_DMG[1]);
+				finalDamages[1] = BattleCalc3(finalDamages[1]);
+				finalDamages[1] += BattleCalc3left(w_left_Aveatk);
+				finalDamages[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
 				BattleCalc998(0,0);
 			}
 
 			else if(n_A_WeaponType == 11){
-				ATKbai02(skillModifier,0);
-				w_DMG[2] = BattleCalc(n_A_DMG[2],2);
-				wk = Math.floor(w_DMG[2] * (0.01 + SkillSearch(13) * 0.02));
-				wk2 = Math.floor((w_DMG[2] + n_A_EDP_DMG[2]) * (0.01 + SkillSearch(13) * 0.02));
-				myInnerHtml("ATK_02",(w_DMG[2]  + wk2 + n_A_EDP_DMG[2]) +"("+ (w_DMG[2] + n_A_EDP_DMG[2]) +"+"+ wk2 +")",0);
-				w_DMG[2] += wk;
+				applySkillModifier(skillModifier,0);
+				finalDamages[2] = BattleCalc(n_A_DMG[2],2);
+				wk = Math.floor(finalDamages[2] * (0.01 + SkillSearch(13) * 0.02));
+				wk2 = Math.floor((finalDamages[2] + n_A_EDP_DMG[2]) * (0.01 + SkillSearch(13) * 0.02));
+				myInnerHtml("ATK_02",(finalDamages[2]  + wk2 + n_A_EDP_DMG[2]) +"("+ (finalDamages[2] + n_A_EDP_DMG[2]) +"+"+ wk2 +")",0);
+				finalDamages[2] += wk;
 
 
-				w_DMG[2] = BattleCalc3(w_DMG[2]);
-				w_DMG[2] += HitEDPplus(n_A_EDP_DMG[2]);
+				finalDamages[2] = BattleCalc3(finalDamages[2]);
+				finalDamages[2] += HitEDPplus(n_A_EDP_DMG[2]);
 
-				w_DMG[0] = BattleCalc(n_A_DMG[0],0);
-				wk = Math.floor(w_DMG[0] * (0.01 + SkillSearch(13) * 0.02));
-				wk2 = Math.floor((w_DMG[0] + n_A_EDP_DMG[0]) * (0.01 + SkillSearch(13) * 0.02));
-				myInnerHtml("ATK_00",(w_DMG[0] + wk2 + n_A_EDP_DMG[0]) +"("+ (w_DMG[0] + n_A_EDP_DMG[0]) +"+"+ wk2 +")",0);
-				w_DMG[0] += wk;
+				finalDamages[0] = BattleCalc(n_A_DMG[0],0);
+				wk = Math.floor(finalDamages[0] * (0.01 + SkillSearch(13) * 0.02));
+				wk2 = Math.floor((finalDamages[0] + n_A_EDP_DMG[0]) * (0.01 + SkillSearch(13) * 0.02));
+				myInnerHtml("ATK_00",(finalDamages[0] + wk2 + n_A_EDP_DMG[0]) +"("+ (finalDamages[0] + n_A_EDP_DMG[0]) +"+"+ wk2 +")",0);
+				finalDamages[0] += wk;
 
-				w_DMG[0] = BattleCalc3(w_DMG[0]);
-				w_DMG[0] += HitEDPplus(n_A_EDP_DMG[0]);
+				finalDamages[0] = BattleCalc3(finalDamages[0]);
+				finalDamages[0] += HitEDPplus(n_A_EDP_DMG[0]);
 
-				w_DMG[1] = BattleCalc(n_A_DMG[1],1);
-				wk = Math.floor(w_DMG[1] * (0.01 + SkillSearch(13) * 0.02));
-				wk2 = Math.floor((w_DMG[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch(13) * 0.02));
-				myInnerHtml("ATK_01",(w_DMG[1] + wk2 + n_A_EDP_DMG[1]) +"("+ (w_DMG[1] + n_A_EDP_DMG[1]) +"+"+ wk2 +")",0);
-				w_DMG[1] += wk;
+				finalDamages[1] = BattleCalc(n_A_DMG[1],1);
+				wk = Math.floor(finalDamages[1] * (0.01 + SkillSearch(13) * 0.02));
+				wk2 = Math.floor((finalDamages[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch(13) * 0.02));
+				myInnerHtml("ATK_01",(finalDamages[1] + wk2 + n_A_EDP_DMG[1]) +"("+ (finalDamages[1] + n_A_EDP_DMG[1]) +"+"+ wk2 +")",0);
+				finalDamages[1] += wk;
 
-				w_DMG[1] = BattleCalc3(w_DMG[1]);
-				w_DMG[1] += HitEDPplus(n_A_EDP_DMG[1]);
+				finalDamages[1] = BattleCalc3(finalDamages[1]);
+				finalDamages[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
 				BattleCalc998(0,0);
 			}
@@ -388,35 +388,35 @@ function isRangedWeapon() {
 					TyouEnkakuSousa3dan = 0;
 				}
 
-				ATKbai02(skillModifier,0);
+				applySkillModifier(skillModifier,0);
 
-				w_DMG[2] = BattleCalc(n_A_DMG[2],2);
+				finalDamages[2] = BattleCalc(n_A_DMG[2],2);
 				if(SkillSearch(187))
 					TyouEnkakuSousa3dan = san3;
-				myInnerHtml("ATK_02",(w_DMG[2] + n_A_EDP_DMG[2]),0);
+				myInnerHtml("ATK_02",(finalDamages[2] + n_A_EDP_DMG[2]),0);
 
 
-				w_DMG[2] = BattleCalc3(w_DMG[2]);
-				w_DMG[2] += wTAKA;
-				w_DMG[2] += HitEDPplus(n_A_EDP_DMG[2]);
+				finalDamages[2] = BattleCalc3(finalDamages[2]);
+				finalDamages[2] += wTAKA;
+				finalDamages[2] += HitEDPplus(n_A_EDP_DMG[2]);
 
-				w_DMG[0] = BattleCalc(n_A_DMG[0],0);
-				myInnerHtml("ATK_00",w_DMG[0] + n_A_EDP_DMG[0],0);
+				finalDamages[0] = BattleCalc(n_A_DMG[0],0);
+				myInnerHtml("ATK_00",finalDamages[0] + n_A_EDP_DMG[0],0);
 				if(SkillSearch(187))
 					TyouEnkakuSousa3dan = san1;
 
-				w_DMG[0] = BattleCalc3(w_DMG[0]);
-				w_DMG[0] += wTAKA;
-				w_DMG[0] += HitEDPplus(n_A_EDP_DMG[0]);
+				finalDamages[0] = BattleCalc3(finalDamages[0]);
+				finalDamages[0] += wTAKA;
+				finalDamages[0] += HitEDPplus(n_A_EDP_DMG[0]);
 
-				w_DMG[1] = BattleCalc(n_A_DMG[1],1);
-				myInnerHtml("ATK_01",w_DMG[1] + n_A_EDP_DMG[1],0);
+				finalDamages[1] = BattleCalc(n_A_DMG[1],1);
+				myInnerHtml("ATK_01",finalDamages[1] + n_A_EDP_DMG[1],0);
 				if(SkillSearch(187))
 					TyouEnkakuSousa3dan = san2;
 
-				w_DMG[1] = BattleCalc3(w_DMG[1]);
-				w_DMG[1] += wTAKA;
-				w_DMG[1] += HitEDPplus(n_A_EDP_DMG[1]);
+				finalDamages[1] = BattleCalc3(finalDamages[1]);
+				finalDamages[1] += wTAKA;
+				finalDamages[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
 				CastAndDelay();
 				BattleCalc998(wCast,wDelay);
@@ -439,7 +439,7 @@ function isRangedWeapon() {
 			n_A_CriATK[0] = n_A_DMG[0];
 			n_A_CriATK[2] = n_A_DMG[2];
 
-			ATKbai02(skillModifier,1);
+			applySkillModifier(skillModifier,1);
 
 			wCriTyuu=1;
 			n_A_CriATK[1] = BattleCalc(n_A_CriATK[1],10);
@@ -459,26 +459,26 @@ function isRangedWeapon() {
 			n_A_CriATK[0] += HitEDPplus(n_A_EDP_DMG[0]);
 			n_A_CriATK[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 
-			w_DMG[2] = BattleCalc(n_A_DMG[2],2);
-			myInnerHtml("ATK_02",(w_DMG[2] + n_A_EDP_DMG[2]),0);
+			finalDamages[2] = BattleCalc(n_A_DMG[2],2);
+			myInnerHtml("ATK_02",(finalDamages[2] + n_A_EDP_DMG[2]),0);
 
 
-			w_DMG[2] = BattleCalc3(w_DMG[2]);
-			w_DMG[2] += HitEDPplus(n_A_EDP_DMG[2]);
+			finalDamages[2] = BattleCalc3(finalDamages[2]);
+			finalDamages[2] += HitEDPplus(n_A_EDP_DMG[2]);
 
-			w_DMG[0] = BattleCalc(n_A_DMG[0],0);
-			myInnerHtml("ATK_00",w_DMG[0] + n_A_EDP_DMG[0],0);
+			finalDamages[0] = BattleCalc(n_A_DMG[0],0);
+			myInnerHtml("ATK_00",finalDamages[0] + n_A_EDP_DMG[0],0);
 
-			w_DMG[0] = BattleCalc3(w_DMG[0]);
-			w_DMG[0] += HitEDPplus(n_A_EDP_DMG[0]);
+			finalDamages[0] = BattleCalc3(finalDamages[0]);
+			finalDamages[0] += HitEDPplus(n_A_EDP_DMG[0]);
 
-			w_DMG[1] = BattleCalc(n_A_DMG[1],1);
-			myInnerHtml("ATK_01",w_DMG[1] + n_A_EDP_DMG[1],0);
+			finalDamages[1] = BattleCalc(n_A_DMG[1],1);
+			myInnerHtml("ATK_01",finalDamages[1] + n_A_EDP_DMG[1],0);
 
-			w_DMG[1] = BattleCalc3(w_DMG[1]);
-			w_DMG[1] += HitEDPplus(n_A_EDP_DMG[1]);
+			finalDamages[1] = BattleCalc3(finalDamages[1]);
+			finalDamages[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
 			CastAndDelay();
 			BattleCalc998(wCast,wDelay);
@@ -730,7 +730,7 @@ function isRangedWeapon() {
 			}
 
 
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 
 
 			n_A_EDP_DMG[0] = BattleCalcEDP(n_A_DMG[0],0);
@@ -741,12 +741,12 @@ function isRangedWeapon() {
 				wCast = wCast * n_A_CAST;
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
+				finalDamages[b] = BattleCalc(n_A_DMG[b],b);
 				if(wActiveHitNum > 1)
-					w_DMG[b] = Math.floor(w_DMG[b] / wActiveHitNum) * wActiveHitNum;
-				myInnerHtml("ATK_0"+b,w_DMG[b] + n_A_EDP_DMG[b],0);
-				w_DMG[b] = (w_DMG[b] * w_HIT + BattleCalc2(0) *(100-w_HIT))/100;
-				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
+					finalDamages[b] = Math.floor(finalDamages[b] / wActiveHitNum) * wActiveHitNum;
+				myInnerHtml("ATK_0"+b,finalDamages[b] + n_A_EDP_DMG[b],0);
+				finalDamages[b] = (finalDamages[b] * w_HIT + BattleCalc2(0) *(100-w_HIT))/100;
+				finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
 			}
 
 			if(cast_kotei == 0)
@@ -768,10 +768,10 @@ function isRangedWeapon() {
 			wCast = wCast * n_A_CAST;
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				myInnerHtml("ATK_0"+b,w_DMG[b] + n_A_EDP_DMG[b],0);
-				w_DMG[b] = (w_DMG[b] * w_HIT + (BattleCalc2(0)+n_A_WeaponLV_upgradeBonusATK) *(100-w_HIT))/100;
-				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
+				finalDamages[b] = BattleCalc(n_A_DMG[b],b);
+				myInnerHtml("ATK_0"+b,finalDamages[b] + n_A_EDP_DMG[b],0);
+				finalDamages[b] = (finalDamages[b] * w_HIT + (BattleCalc2(0)+n_A_WeaponLV_upgradeBonusATK) *(100-w_HIT))/100;
+				finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
 			}
 
 			CastAndDelay();
@@ -779,24 +779,24 @@ function isRangedWeapon() {
 		}
 
 		else if(n_A_ActiveSkill==40||n_A_ActiveSkill==70||n_A_ActiveSkill==192||n_A_ActiveSkill==76||n_A_ActiveSkill==418||n_A_ActiveSkill==391){
-			if(n_A_ActiveSkill==40){
+			if(n_A_ActiveSkill==40){ // double strafe
 				n_Enekyori=1;
 				skillModifier += n_A_ActiveSkillLV *0.1 -0.1;
-				wHITsuu = 2;
+				hitCount = 2;
 			}else if(n_A_ActiveSkill==70){
 				skillModifier += n_A_ActiveSkillLV *0.1;
-				wHITsuu = n_B[4]+1;
+				hitCount = n_B[4]+1;
 			}else if(n_A_ActiveSkill==76){
 				skillModifier += n_A_ActiveSkillLV *0.4;
 				wCast = 0.7 * n_A_CAST;
-				wHITsuu = 2;
+				hitCount = 2;
 				if(n_A_ActiveSkillLV == 1)
-					wHITsuu = 1;
+					hitCount = 1;
 				wLAch=1;
 				if(n_B_IJYOU[6] == 1){
-					wHITsuu = 3;
+					hitCount = 3;
 					if(n_A_ActiveSkillLV == 1)
-						wHITsuu = 2;
+						hitCount = 2;
 				}
 			}else if(n_A_ActiveSkill==192){
 				skillModifier += n_A_ActiveSkillLV *0.5;
@@ -807,7 +807,7 @@ function isRangedWeapon() {
 				if(w > n_A_ActiveSkillLV){
 					w = n_A_ActiveSkillLV;
 				}
-				wHITsuu = w;
+				hitCount = w;
 				wCast = (1 + w) * n_A_CAST;
 				wDelay = 0.5;
 				swDelay = 1;
@@ -815,30 +815,30 @@ function isRangedWeapon() {
 			}else if(n_A_ActiveSkill==418){
 				n_Enekyori=1;
 				skillModifier += 0.5;
-				wHITsuu = 3;
+				hitCount = 3;
 			}else if(n_A_ActiveSkill==391){
 				n_SpSkill=1;
 				n_Enekyori=1;
 				skillModifier += n_A_STR *0.08 - 0.5;
-				wHITsuu = 2;
+				hitCount = 2;
 			}
 
 
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] += n_A_EDP_DMG[b];
+				finalDamages[b] = BattleCalc(n_A_DMG[b],b);
+				finalDamages[b] += n_A_EDP_DMG[b];
 				if(n_A_ActiveSkill==391 && n_B[2]!=2 && n_B[2]!=4)
-					w_DMG[b] = 0;
+					finalDamages[b] = 0;
 				if(n_B_IJYOU[6] == 0 || wLAch==0)
-					myInnerHtml("ATK_0"+b,w_DMG[b] * wHITsuu + "("+ w_DMG[b] + SubName[8] +wHITsuu+"hit)",0);
+					myInnerHtml("ATK_0"+b,finalDamages[b] * hitCount + "("+ finalDamages[b] + SubName[8] +hitCount+"hit)",0);
 				else
-					myInnerHtml("ATK_0"+b,w_DMG[b] * 3 + "("+w_DMG[b] *2 +" + "+ w_DMG[b] +")",0);
-				w_DMG[b] -= n_A_EDP_DMG[b];
-				w_DMG[b] *= wHITsuu;
-				w_DMG[b] = (w_DMG[b] * w_HIT + BattleCalc2(0) * wHITsuu *(100-w_HIT))/100;
-				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]) * wHITsuu;
+					myInnerHtml("ATK_0"+b,finalDamages[b] * 3 + "("+finalDamages[b] *2 +" + "+ finalDamages[b] +")",0);
+				finalDamages[b] -= n_A_EDP_DMG[b];
+				finalDamages[b] *= hitCount;
+				finalDamages[b] = (finalDamages[b] * w_HIT + BattleCalc2(0) * hitCount *(100-w_HIT))/100;
+				finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]) * hitCount;
 			}
 
 			CastAndDelay();
@@ -867,14 +867,14 @@ function isRangedWeapon() {
 			myInnerHtml("ATK_02",wBT,0);
 			myInnerHtml("ATK_00",wBT,0);
 			myInnerHtml("ATK_01",wBT,0);
-			w_DMG[0]=w_DMG[2]=w_DMG[1]=wBT;
+			finalDamages[0]=finalDamages[2]=finalDamages[1]=wBT;
 			CastAndDelay();
 			BattleCalc998(wCast,wDelay);
 			myInnerHtml("BattleHIT",100,0);
 		}
 
 		else if(n_A_ActiveSkill==17 || (n_A_ActiveSkill==86 && (n_B[3] < 50 ||  60 <= n_B[3]))){
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 			n_A_Weapon_element = 5;
 
 
@@ -885,11 +885,11 @@ function isRangedWeapon() {
 			wINV = Math.floor(BattleCalc2(0) * element[n_B[3]][5]);
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][5]);
-				myInnerHtml("ATK_0"+b,w_DMG[b] + n_A_EDP_DMG[b],0);
-				w_DMG[b] = (w_DMG[b] * w_HIT + wINV *(100-w_HIT))/100;
-				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
+				finalDamages[b] = BattleCalc(n_A_DMG[b],b);
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][5]);
+				myInnerHtml("ATK_0"+b,finalDamages[b] + n_A_EDP_DMG[b],0);
+				finalDamages[b] = (finalDamages[b] * w_HIT + wINV *(100-w_HIT))/100;
+				finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
 			}
 
 			myInnerHtml("bSUBname",'<Font color="#0000FF">Poison Damage</Font>',0);
@@ -917,13 +917,13 @@ function isRangedWeapon() {
 			baseATK   = n_A_STR + baseATK_w + Math.floor(n_A_DEX / 5) + Math.floor(n_A_LUK / 5);
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = baseATK * skillModifier + ItemOBJ[n_A_Equip[5]][6] + wSBr;
-				w_DMG[b] = Math.floor(Math.floor(w_DMG[b] * (100 - n_B[14]) /100 - n_B_DEF2[b]) * skillModifier2);
-				w_DMG[b] = BaiCI(w_DMG[b]);
-				if(w_DMG[b] < 1)w_DMG[b] = 1;
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
-				myInnerHtml("ATK_0"+b,w_DMG[b],0);
-				w_DMG[b] = (w_DMG[b] * w_HIT)/100;
+				finalDamages[b] = baseATK * skillModifier + ItemOBJ[n_A_Equip[5]][6] + wSBr;
+				finalDamages[b] = Math.floor(Math.floor(finalDamages[b] * (100 - n_B[14]) /100 - n_B_DEF2[b]) * skillModifier2);
+				finalDamages[b] = BaiCI(finalDamages[b]);
+				if(finalDamages[b] < 1)finalDamages[b] = 1;
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][0]);
+				myInnerHtml("ATK_0"+b,finalDamages[b],0);
+				finalDamages[b] = (finalDamages[b] * w_HIT)/100;
 			}
 
 			CastAndDelay();
@@ -955,14 +955,14 @@ function isRangedWeapon() {
 			wSC2[0] = 100
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = (baseATK * (100 - n_B[14]) /100 - n_B_DEF2[b]) * skillModifier2;
-				w_DMG[b] += wSC2[b];
-				w_DMG[b] = BaiCI(w_DMG[b]);
-				if(w_DMG[b] < 1)w_DMG[b] = 1;
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
-				myInnerHtml("ATK_0"+b,w_DMG[b] * 5 +"("+w_DMG[b]+ SubName[8] +"5hit)",0);
-				w_DMG[b] *= 5;
-				w_DMG[b] = (w_DMG[b] * w_HIT)/100;
+				finalDamages[b] = (baseATK * (100 - n_B[14]) /100 - n_B_DEF2[b]) * skillModifier2;
+				finalDamages[b] += wSC2[b];
+				finalDamages[b] = BaiCI(finalDamages[b]);
+				if(finalDamages[b] < 1)finalDamages[b] = 1;
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][0]);
+				myInnerHtml("ATK_0"+b,finalDamages[b] * 5 +"("+finalDamages[b]+ SubName[8] +"5hit)",0);
+				finalDamages[b] *= 5;
+				finalDamages[b] = (finalDamages[b] * w_HIT)/100;
 			}
 
 			CastAndDelay();
@@ -980,22 +980,22 @@ function isRangedWeapon() {
 			swDelay = 1;
 
 			wSPP = Math.floor(n_A_STR / 10);
-			w_DMG[2] = wSPP * wSPP + ItemOBJ[n_A_Equip[0]][6] * 0.8 * (1 + 0.5 * n_A_ActiveSkillLV);
+			finalDamages[2] = wSPP * wSPP + ItemOBJ[n_A_Equip[0]][6] * 0.8 * (1 + 0.5 * n_A_ActiveSkillLV);
 			wSPP = 1.25 -(n_B[4] * 0.25);
-			w_DMG[2] = Math.floor(w_DMG[2] * wSPP + n_A_WeaponLV_upgradeBonusATK);
-			w_DMG[2] = w_DMG[2] * element[n_B[3]][n_A_Weapon_element];
-			w_DMG[2] = BaiCI(w_DMG[2]);
-			myInnerHtml("ATK_00",w_DMG[2] * 5 + "("+w_DMG[2]+ SubName[8] +5+"hit)",0);
-			myInnerHtml("ATK_01",w_DMG[2] * 5 + "("+w_DMG[2]+ SubName[8] +5+"hit)",0);
-			myInnerHtml("ATK_02",w_DMG[2] * 5 + "("+w_DMG[2]+ SubName[8] +5+"hit)",0);
-			w_DMG[2] *= 5;
+			finalDamages[2] = Math.floor(finalDamages[2] * wSPP + n_A_WeaponLV_upgradeBonusATK);
+			finalDamages[2] = finalDamages[2] * element[n_B[3]][n_A_Weapon_element];
+			finalDamages[2] = BaiCI(finalDamages[2]);
+			myInnerHtml("ATK_00",finalDamages[2] * 5 + "("+finalDamages[2]+ SubName[8] +5+"hit)",0);
+			myInnerHtml("ATK_01",finalDamages[2] * 5 + "("+finalDamages[2]+ SubName[8] +5+"hit)",0);
+			myInnerHtml("ATK_02",finalDamages[2] * 5 + "("+finalDamages[2]+ SubName[8] +5+"hit)",0);
+			finalDamages[2] *= 5;
 			wSPP2 = n_A_WeaponLV_upgradeBonusATK * element[n_B[3]][n_A_Weapon_element];
 			wSPP2 = BaiCI(wSPP2);
 			wSPP2 = tPlusDamCut(wSPP2);
-			w_DMG[2] = w_DMG[2] * w_HIT /100 + wSPP2 * 5 * (100- w_HIT)/100;
+			finalDamages[2] = finalDamages[2] * w_HIT /100 + wSPP2 * 5 * (100- w_HIT)/100;
 
 
-			w_DMG[0] = w_DMG[1] = w_DMG[2];
+			finalDamages[0] = finalDamages[1] = finalDamages[2];
 
 			CastAndDelay();
 			BattleCalc998(wCast,wDelay);
@@ -1010,13 +1010,13 @@ function isRangedWeapon() {
 			if(n_B[19] == 0){
 
 				skillModifier += (400 + 50 * n_A_ActiveSkillLV + 20 * eval(document.calcForm.SkillSubNum.value)) /100;
-				ATKbai02(skillModifier,0);
+				applySkillModifier(skillModifier,0);
 
 
 				for(b=0;b<=2;b++){
-					w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-					w_DMG[b] = Math.floor(w_DMG[b]);
-					myInnerHtml("ATK_0"+b,w_DMG[b],0);
+					finalDamages[b] = BattleCalc(n_A_DMG[b],b);
+					finalDamages[b] = Math.floor(finalDamages[b]);
+					myInnerHtml("ATK_0"+b,finalDamages[b],0);
 				}
 			}
 			CastAndDelay();
@@ -1041,10 +1041,10 @@ function isRangedWeapon() {
 				w_SBr[i] = tPlusDamCut(w_SBr[i]);
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] *= n_A_ActiveSkillLV;
-				myInnerHtml("ATK_0"+b,w_DMG[b] + w_SBr[b] +"("+ w_DMG[b] +"+"+ w_SBr[b] +")",0);
-				w_DMG[b] = ((w_DMG[b] + w_SBr[b]) * w_HIT + (BattleCalc2(0) + w_SBr[b]) *(100-w_HIT))/100;
+				finalDamages[b] = BattleCalc(n_A_DMG[b],b);
+				finalDamages[b] *= n_A_ActiveSkillLV;
+				myInnerHtml("ATK_0"+b,finalDamages[b] + w_SBr[b] +"("+ finalDamages[b] +"+"+ w_SBr[b] +")",0);
+				finalDamages[b] = ((finalDamages[b] + w_SBr[b]) * w_HIT + (BattleCalc2(0) + w_SBr[b]) *(100-w_HIT))/100;
 			}
 
 			CastAndDelay();
@@ -1079,28 +1079,28 @@ function isRangedWeapon() {
 			n_A_INTMDEF = n_A_INT + Math.floor(n_A_VIT /2);
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BK_n_A_DMG[b] * (100 - n_A_DEF) /100 - work_A_VITDEF[b] + n_A_WeaponLV_upgradeBonusATK;
-				w_DMG[b] = Math.floor(w_DMG[b] * (skillModifier + n_A_ActiveSkillLV * 0.4));
+				finalDamages[b] = BK_n_A_DMG[b] * (100 - n_A_DEF) /100 - work_A_VITDEF[b] + n_A_WeaponLV_upgradeBonusATK;
+				finalDamages[b] = Math.floor(finalDamages[b] * (skillModifier + n_A_ActiveSkillLV * 0.4));
 
 				w = n_A_MATK[b] *(100 - n_A_MDEF)/100 - n_A_INTMDEF;
 				w = Math.floor(w * (n_A_ActiveSkillLV * 0.4 +1));
 
-				w_DMG[b] += w;
-				w_DMG[b] = Math.floor(w_DMG[b] * wGXhito /100);
-				w_DMG[b] = Math.floor(w_DMG[b] * wGXsei /100);
-				w_DMG[b] = Math.floor(w_DMG[b] * (100-wGXen) /100);
+				finalDamages[b] += w;
+				finalDamages[b] = Math.floor(finalDamages[b] * wGXhito /100);
+				finalDamages[b] = Math.floor(finalDamages[b] * wGXsei /100);
+				finalDamages[b] = Math.floor(finalDamages[b] * (100-wGXen) /100);
 
 				if(CardNumSearch(135))
-					w_DMG[b] = Math.floor(w_DMG[b] * 125 /100);
+					finalDamages[b] = Math.floor(finalDamages[b] * 125 /100);
 
 				if(CardNumSearch(75))
-					w_DMG[b] = Math.floor(w_DMG[b] * 150 /100);
+					finalDamages[b] = Math.floor(finalDamages[b] * 150 /100);
 
 				if(CardNumSearch(134) || CardNumSearch(456))
-					w_DMG[b] = Math.floor(w_DMG[b] * 0 /100);
-				w_DMG[b] = Math.floor(w_DMG[b] /2);
+					finalDamages[b] = Math.floor(finalDamages[b] * 0 /100);
+				finalDamages[b] = Math.floor(finalDamages[b] /2);
 			}
-			myInnerHtml("CRInum",'<Font color="#FF0000">'+ w_DMG[0] +"�~3hit ~ "+ w_DMG[1] +"�~3hit</Font>",0);
+			myInnerHtml("CRInum",'<Font color="#FF0000">'+ finalDamages[0] +"�~3hit ~ "+ finalDamages[1] +"�~3hit</Font>",0);
 
 
 			n_Enekyori=2;
@@ -1111,28 +1111,28 @@ function isRangedWeapon() {
 			wLAch=1;
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BK_n_A_DMG[b] * (100 - n_B[14]) /100 - n_B_DEF2[b] + n_A_WeaponLV_upgradeBonusATK;
-				w_DMG[b] *= skillModifier + n_A_ActiveSkillLV * 0.4;
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][6]);
+				finalDamages[b] = BK_n_A_DMG[b] * (100 - n_B[14]) /100 - n_B_DEF2[b] + n_A_WeaponLV_upgradeBonusATK;
+				finalDamages[b] *= skillModifier + n_A_ActiveSkillLV * 0.4;
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][6]);
 				w = n_A_MATK[b] *(100 - n_B[15])/100 -n_B_MDEF2;
 				w *= (n_A_ActiveSkillLV * 0.4 +1);
 				w = Math.floor(w * element[n_B[3]][6]);
-				w_DMG[b] = tPlusDamCut(Math.floor((w+w_DMG[b])*element[n_B[3]][6]));
-				if(w_DMG[b] < 1)w_DMG[b]=1;
-				if(60<=n_B[3]&&n_B[3]<=69)w_DMG[b]=0;
+				finalDamages[b] = tPlusDamCut(Math.floor((w+finalDamages[b])*element[n_B[3]][6]));
+				if(finalDamages[b] < 1)finalDamages[b]=1;
+				if(60<=n_B[3]&&n_B[3]<=69)finalDamages[b]=0;
 			}
 
 
 
 			if(n_B_IJYOU[6] == 0){
 				for(b=0;b<=2;b++){
-					myInnerHtml("ATK_0"+b,w_DMG[b] * 3 + "("+w_DMG[b]+ SubName[8] +"3hit)",0);
-					w_DMG[b] *= 3;
+					myInnerHtml("ATK_0"+b,finalDamages[b] * 3 + "("+finalDamages[b]+ SubName[8] +"3hit)",0);
+					finalDamages[b] *= 3;
 				}
 			}else{
 				for(b=0;b<=2;b++){
-					myInnerHtml("ATK_0"+b,w_DMG[b] * 4 + "("+ w_DMG[b] *2 +" + " +w_DMG[b]+ SubName[8] +"2hit)",0);
-					w_DMG[b] *= 4;
+					myInnerHtml("ATK_0"+b,finalDamages[b] * 4 + "("+ finalDamages[b] *2 +" + " +finalDamages[b]+ SubName[8] +"2hit)",0);
+					finalDamages[b] *= 4;
 				}
 			}
 			CastAndDelay();
@@ -1161,16 +1161,16 @@ function isRangedWeapon() {
 				CR_n_A_DMG[b] = Math.floor(n_A_DMG[b] * wCR / 100);
 
 			skillModifier += 0.5;
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] += Math.floor(BattleCalc(CR_n_A_DMG[b],b) * CRbai);
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
-				myInnerHtml("ATK_0"+b,w_DMG[b],0);
+				finalDamages[b] = BattleCalc(n_A_DMG[b],b);
+				finalDamages[b] += Math.floor(BattleCalc(CR_n_A_DMG[b],b) * CRbai);
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][0]);
+				myInnerHtml("ATK_0"+b,finalDamages[b],0);
 
-				w_DMG[b] = (w_DMG[b] * w_HIT + BattleCalc2(0) * 2 *(100-w_HIT))/100;
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
+				finalDamages[b] = (finalDamages[b] * w_HIT + BattleCalc2(0) * 2 *(100-w_HIT))/100;
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][0]);
 			}
 
 			CastAndDelay();
@@ -1179,14 +1179,14 @@ function isRangedWeapon() {
 
 		else if(n_A_ActiveSkill==283)
 		{
-			w_DMG[2] = 500 + 300 * n_A_ActiveSkillLV;
+			finalDamages[2] = 500 + 300 * n_A_ActiveSkillLV;
 			if(n_Ses)
-				w_DMG[2] = Math.floor(w_DMG[2] * 0.6);
-			w_DMG[0] = w_DMG[2];
-			w_DMG[1] = w_DMG[2];
-			myInnerHtml("ATK_02",w_DMG[2],0);
-			myInnerHtml("ATK_00",w_DMG[0],0);
-			myInnerHtml("ATK_01",w_DMG[1],0);
+				finalDamages[2] = Math.floor(finalDamages[2] * 0.6);
+			finalDamages[0] = finalDamages[2];
+			finalDamages[1] = finalDamages[2];
+			myInnerHtml("ATK_02",finalDamages[2],0);
+			myInnerHtml("ATK_00",finalDamages[0],0);
+			myInnerHtml("ATK_01",finalDamages[1],0);
 
 			wCast = (1.5+ 0.5 * n_A_ActiveSkillLV) * n_A_CAST;
 			wDelay=1.5 + n_A_ActiveSkillLV *0.5;
@@ -1199,14 +1199,14 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==284)
 		{
 			n_A_Weapon_element = 0;
-			w_DMG[2] = Math.floor(n_A_MaxHP * 0.09 * (0.9 + 0.1 * n_A_ActiveSkillLV));
-			w_DMG[2] = BaiCI(w_DMG[2]);
-			w_DMG[2] = Math.floor(w_DMG[2] * element[n_B[3]][0]);
-			myInnerHtml("ATK_02",w_DMG[2],0);
-			myInnerHtml("ATK_00",w_DMG[2],0);
-			myInnerHtml("ATK_01",w_DMG[2],0);
-			w_DMG[0] = w_DMG[2];
-			w_DMG[1] = w_DMG[2];
+			finalDamages[2] = Math.floor(n_A_MaxHP * 0.09 * (0.9 + 0.1 * n_A_ActiveSkillLV));
+			finalDamages[2] = BaiCI(finalDamages[2]);
+			finalDamages[2] = Math.floor(finalDamages[2] * element[n_B[3]][0]);
+			myInnerHtml("ATK_02",finalDamages[2],0);
+			myInnerHtml("ATK_00",finalDamages[2],0);
+			myInnerHtml("ATK_01",finalDamages[2],0);
+			finalDamages[0] = finalDamages[2];
+			finalDamages[1] = finalDamages[2];
 
 			CastAndDelay();
 			BattleCalc998(wCast,wDelay);
@@ -1217,7 +1217,7 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==193)
 		{
 			n_A_Weapon_element = 0;
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 			skillModifier += n_A_ActiveSkillLV *0.75;
 
 
@@ -1227,10 +1227,10 @@ function isRangedWeapon() {
 			work_B_DEF2[2] = n_B_DEF2[0];
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = Math.floor(Math.floor(BK_n_A_DMG[b] * skillModifier) * (work_B_DEF2[b]+n_B[14]) /50);
-				w_DMG[b] = BaiCI(w_DMG[b]);
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
-				myInnerHtml("ATK_0"+b,w_DMG[b],0);
+				finalDamages[b] = Math.floor(Math.floor(BK_n_A_DMG[b] * skillModifier) * (work_B_DEF2[b]+n_B[14]) /50);
+				finalDamages[b] = BaiCI(finalDamages[b]);
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][0]);
+				myInnerHtml("ATK_0"+b,finalDamages[b],0);
 			}
 
 			wCast = 1 * n_A_CAST;
@@ -1244,7 +1244,7 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==197 || n_A_ActiveSkill==321)
 		{
 			n_A_Weapon_element = 0;
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 			if(n_A_ActiveSkill==197)
 				skillModifier += 7 + eval(document.calcForm.SkillSubNum.value) /10;
 			else
@@ -1252,10 +1252,10 @@ function isRangedWeapon() {
 			wASYU = 250 + n_A_ActiveSkillLV * 150;
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = Math.floor(BK_n_A_DMG[b] * skillModifier) + wASYU;
-				w_DMG[b] = BaiCI(w_DMG[b]);
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
-				myInnerHtml("ATK_0"+b,w_DMG[b],0);
+				finalDamages[b] = Math.floor(BK_n_A_DMG[b] * skillModifier) + wASYU;
+				finalDamages[b] = BaiCI(finalDamages[b]);
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][0]);
+				myInnerHtml("ATK_0"+b,finalDamages[b],0);
 			}
 
 			wCast = (4.5 - 0.5 * n_A_ActiveSkillLV) * n_A_CAST;
@@ -1270,14 +1270,14 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==394){
 			n_Enekyori=1;
 			not_use_card = 1;
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
-				myInnerHtml("ATK_0"+b,w_DMG[b] + n_A_EDP_DMG[b],0);
-				w_DMG[b] = (w_DMG[b] * w_HIT + BattleCalc2(0) * element[n_B[3]][0] *(100-w_HIT))/100;
-				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
+				finalDamages[b] = BattleCalc(n_A_DMG[b],b);
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][0]);
+				myInnerHtml("ATK_0"+b,finalDamages[b] + n_A_EDP_DMG[b],0);
+				finalDamages[b] = (finalDamages[b] * w_HIT + BattleCalc2(0) * element[n_B[3]][0] *(100-w_HIT))/100;
+				finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
 			}
 
 			CastAndDelay();
@@ -1287,18 +1287,18 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==395){
 			n_Enekyori=1;
 			not_use_card = 1;
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 
 
 			if(eval(document.calcForm.A_Weapon_element.value) == 0 && n_A_WeaponType != 0 && StPlusCard(20) == 0)
 				n_A_Weapon_element = KunaiOBJ[eval(document.calcForm.SkillSubNum.value)][1];
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
-				myInnerHtml("ATK_0"+b,w_DMG[b] * 3 + "("+ w_DMG[b] + SubName[8] +"3hit)",0);
-				w_DMG[b] = (w_DMG[b] * 3 * w_HIT + BattleCalc2(0) * element[n_B[3]][0] *(100-w_HIT))/100;
-				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
+				finalDamages[b] = BattleCalc(n_A_DMG[b],b);
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][0]);
+				myInnerHtml("ATK_0"+b,finalDamages[b] * 3 + "("+ finalDamages[b] + SubName[8] +"3hit)",0);
+				finalDamages[b] = (finalDamages[b] * 3 * w_HIT + BattleCalc2(0) * element[n_B[3]][0] *(100-w_HIT))/100;
+				finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
 			}
 
 			CastAndDelay();
@@ -1308,20 +1308,20 @@ function isRangedWeapon() {
 		else if(n_A_ActiveSkill==396){
 			skillModifier += (n_A_ActiveSkillLV * 1.5 +0.5);
 			n_Enekyori=1;
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 			wCast = 3 * n_A_CAST;
 			wDelay=3;
 			swDelay = 1;
 			wActiveHitNum = 2 + Math.round(n_A_ActiveSkillLV / 2);
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleCalc(n_A_DMG[b],b);
-				w_DMG[b] = Math.floor(w_DMG[b] * element[n_B[3]][0]);
+				finalDamages[b] = BattleCalc(n_A_DMG[b],b);
+				finalDamages[b] = Math.floor(finalDamages[b] * element[n_B[3]][0]);
 				if(wActiveHitNum > 1)
-					w_DMG[b] = Math.floor(w_DMG[b] / wActiveHitNum) * wActiveHitNum;
-				myInnerHtml("ATK_0"+b,w_DMG[b] + n_A_EDP_DMG[b],0);
-				w_DMG[b] = (w_DMG[b] * w_HIT + BattleCalc2(0)* element[n_B[3]][0] *(100-w_HIT))/100;
-				w_DMG[b] += HitEDPplus(n_A_EDP_DMG[b]);
+					finalDamages[b] = Math.floor(finalDamages[b] / wActiveHitNum) * wActiveHitNum;
+				myInnerHtml("ATK_0"+b,finalDamages[b] + n_A_EDP_DMG[b],0);
+				finalDamages[b] = (finalDamages[b] * w_HIT + BattleCalc2(0)* element[n_B[3]][0] *(100-w_HIT))/100;
+				finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
 			}
 
 			CastAndDelay();
@@ -1332,20 +1332,20 @@ function isRangedWeapon() {
 		{
 			n_A_Weapon_element = 0;
 			n_Enekyori=1;
-			ATKbai02(skillModifier,0);
+			applySkillModifier(skillModifier,0);
 			if(n_A_ActiveSkill==405)
 				w_1senHP = eval(document.calcForm.SkillSubNum.value);
 			else
 				w_1senHP = n_A_MaxHP -1;
 
-			w_DMG[0] = (n_A_STR + n_A_ActiveSkillLV) * 40 + w_1senHP * (n_A_BaseLV / 100) * n_A_ActiveSkillLV / 10;
-			w_DMG[0] = w_DMG[0] * (100 - n_B[14]) / 100;
-			w_DMG[0] = BaiCI(w_DMG[0]);
-			w_DMG[0] = Math.floor(w_DMG[0] * element[n_B[3]][0]);
+			finalDamages[0] = (n_A_STR + n_A_ActiveSkillLV) * 40 + w_1senHP * (n_A_BaseLV / 100) * n_A_ActiveSkillLV / 10;
+			finalDamages[0] = finalDamages[0] * (100 - n_B[14]) / 100;
+			finalDamages[0] = BaiCI(finalDamages[0]);
+			finalDamages[0] = Math.floor(finalDamages[0] * element[n_B[3]][0]);
 
-			w_DMG[2] = w_DMG[1] = w_DMG[0];
+			finalDamages[2] = finalDamages[1] = finalDamages[0];
 			for(b=0;b<=2;b++)
-				myInnerHtml("ATK_0"+b,w_DMG[b],0);
+				myInnerHtml("ATK_0"+b,finalDamages[b],0);
 
 			CastAndDelay();
 
@@ -1360,9 +1360,9 @@ function isRangedWeapon() {
 			skillModifier = (50 + n_A_ActiveSkillLV * 50) /100;
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = Math.floor((BK_n_A_DMG[b] - n_B_DEF2[b]) * skillModifier);
-				w_DMG[b] = tPlusDamCut(Math.floor(w_DMG[b] * element[n_B[3]][0]));
-				myInnerHtml("ATK_0"+b,w_DMG[b],0);
+				finalDamages[b] = Math.floor((BK_n_A_DMG[b] - n_B_DEF2[b]) * skillModifier);
+				finalDamages[b] = tPlusDamCut(Math.floor(finalDamages[b] * element[n_B[3]][0]));
+				myInnerHtml("ATK_0"+b,finalDamages[b],0);
 			}
 
 			wCast = 1 * n_A_CAST;
@@ -1375,19 +1375,19 @@ function isRangedWeapon() {
 		{
 			n_Enekyori=1;
 			n_A_Weapon_element = 0;
-			wHITsuu = n_A_ActiveSkillLV;
+			hitCount = n_A_ActiveSkillLV;
 
 			wAD = 0.7 * n_A_INT * n_A_INT * n_B[7] / (n_A_INT + n_B[7]);
-			w_DMG[2] = Math.floor(wAD);
-			w_DMG[2] = tPlusDamCut(Math.floor(w_DMG[2] * element[n_B[3]][0]));
+			finalDamages[2] = Math.floor(wAD);
+			finalDamages[2] = tPlusDamCut(Math.floor(finalDamages[2] * element[n_B[3]][0]));
 			if(Taijin==1)
-				w_DMG[2] = Math.floor(w_DMG[2] /2);
-			myInnerHtml("ATK_02",w_DMG[2] * wHITsuu + "("+ w_DMG[2] + SubName[8] +wHITsuu+"hit)",0);
-			myInnerHtml("ATK_00",w_DMG[2] * wHITsuu + "("+ w_DMG[2] + SubName[8] +wHITsuu+"hit)",0);
-			myInnerHtml("ATK_01",w_DMG[2] * wHITsuu + "("+ w_DMG[2] + SubName[8] +wHITsuu+"hit)",0);
-			w_DMG[2] *= wHITsuu;
-			w_DMG[0] = w_DMG[2];
-			w_DMG[1] = w_DMG[2];
+				finalDamages[2] = Math.floor(finalDamages[2] /2);
+			myInnerHtml("ATK_02",finalDamages[2] * hitCount + "("+ finalDamages[2] + SubName[8] +hitCount+"hit)",0);
+			myInnerHtml("ATK_00",finalDamages[2] * hitCount + "("+ finalDamages[2] + SubName[8] +hitCount+"hit)",0);
+			myInnerHtml("ATK_01",finalDamages[2] * hitCount + "("+ finalDamages[2] + SubName[8] +hitCount+"hit)",0);
+			finalDamages[2] *= hitCount;
+			finalDamages[0] = finalDamages[2];
+			finalDamages[1] = finalDamages[2];
 
 			wCast = 1 * n_A_CAST;
 			wDelay= 1;
@@ -1401,23 +1401,23 @@ function isRangedWeapon() {
 			n_SpSkill=1;
 			if(n_A_ActiveSkill==106){
 				n_A_Weapon_element = 2;
-				w_DMG[2] = Math.floor((75 + n_A_DEX) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * element[n_B[3]][2]);
+				finalDamages[2] = Math.floor((75 + n_A_DEX) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * element[n_B[3]][2]);
 			}
 			else if(n_A_ActiveSkill==112){
 				n_A_Weapon_element = 4;
-				w_DMG[2] = Math.floor((50 + n_A_DEX/2) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * element[n_B[3]][4]) * eval(document.calcForm.SkillSubNum.value);
+				finalDamages[2] = Math.floor((50 + n_A_DEX/2) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * element[n_B[3]][4]) * eval(document.calcForm.SkillSubNum.value);
 			}
 			else if(n_A_ActiveSkill==113){
 				n_A_Weapon_element = 3;
-				w_DMG[2] = Math.floor((75 + n_A_DEX/2) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * element[n_B[3]][3]) * eval(document.calcForm.SkillSubNum.value);
+				finalDamages[2] = Math.floor((75 + n_A_DEX/2) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * element[n_B[3]][3]) * eval(document.calcForm.SkillSubNum.value);
 			}
 
-			w_DMG[2] = tPlusDamCut(w_DMG[2]);
-			w_DMG[0]=w_DMG[2];
-			w_DMG[1]=w_DMG[2];
-			myInnerHtml("ATK_02",w_DMG[2],0);
-			myInnerHtml("ATK_00",w_DMG[0],0);
-			myInnerHtml("ATK_01",w_DMG[1],0);
+			finalDamages[2] = tPlusDamCut(finalDamages[2]);
+			finalDamages[0]=finalDamages[2];
+			finalDamages[1]=finalDamages[2];
+			myInnerHtml("ATK_02",finalDamages[2],0);
+			myInnerHtml("ATK_00",finalDamages[0],0);
+			myInnerHtml("ATK_01",finalDamages[1],0);
 
 			CastAndDelay();
 
@@ -1430,18 +1430,18 @@ function isRangedWeapon() {
 			wDelay=1;
 			swDelay = 1;
 			n_Enekyori=2;
-			w_DMG[2] = HealCalc(n_A_ActiveSkillLV,0);
-			w_DMG[2] = Math.floor(Math.floor(w_DMG[2] / 2) * element[n_B[3]][6]);
+			finalDamages[2] = HealCalc(n_A_ActiveSkillLV,0);
+			finalDamages[2] = Math.floor(Math.floor(finalDamages[2] / 2) * element[n_B[3]][6]);
 			if(n_B[3] < 90){
-				w_DMG[2]=0;
+				finalDamages[2]=0;
 			}
 
-			w_DMG[2] = tPlusDamCut(w_DMG[2]);
-			w_DMG[0]=w_DMG[2];
-			w_DMG[1]=w_DMG[2];
-			myInnerHtml("ATK_02",w_DMG[2],0);
-			myInnerHtml("ATK_00",w_DMG[0],0);
-			myInnerHtml("ATK_01",w_DMG[1],0);
+			finalDamages[2] = tPlusDamCut(finalDamages[2]);
+			finalDamages[0]=finalDamages[2];
+			finalDamages[1]=finalDamages[2];
+			myInnerHtml("ATK_02",finalDamages[2],0);
+			myInnerHtml("ATK_00",finalDamages[0],0);
+			myInnerHtml("ATK_01",finalDamages[1],0);
 
 			CastAndDelay();
 
@@ -1454,28 +1454,28 @@ function isRangedWeapon() {
 			n_SpSkill=1;
 			n_Enekyori=2;
 			if(n_A_ActiveSkillLV <= 6)
-				w_DMG[2] = 100 * n_A_ActiveSkillLV;
+				finalDamages[2] = 100 * n_A_ActiveSkillLV;
 			else
-				w_DMG[2] = 777;
-			w_DMG[2] = Math.floor(Math.floor(w_DMG[2] / 2) * element[n_B[3]][6]);
+				finalDamages[2] = 777;
+			finalDamages[2] = Math.floor(Math.floor(finalDamages[2] / 2) * element[n_B[3]][6]);
 			if(n_B[3] < 90 && n_B[2] != 6)
-				w_DMG[2]=0;
+				finalDamages[2]=0;
 			if(n_B[2] != 6 && n_B[2] != 1)
-				w_DMG[2]=0;
+				finalDamages[2]=0;
 
 			w_HEAL_BAI = 100;
 			if(EquipNumSearch(644))
 				w_HEAL_BAI += Math.floor(weaponRefinementLevel *1.5)
 			if(CardNumSearch(332))
 				w_HEAL_BAI += 30 * CardNumSearch(332);
-			w_DMG[2] = Math.floor(w_DMG[2] * w_HEAL_BAI / 100);
+			finalDamages[2] = Math.floor(finalDamages[2] * w_HEAL_BAI / 100);
 
-			w_DMG[2] = tPlusDamCut(w_DMG[2]);
-			w_DMG[0]=w_DMG[2];
-			w_DMG[1]=w_DMG[2];
-			myInnerHtml("ATK_02",w_DMG[2],0);
-			myInnerHtml("ATK_00",w_DMG[0],0);
-			myInnerHtml("ATK_01",w_DMG[1],0);
+			finalDamages[2] = tPlusDamCut(finalDamages[2]);
+			finalDamages[0]=finalDamages[2];
+			finalDamages[1]=finalDamages[2];
+			myInnerHtml("ATK_02",finalDamages[2],0);
+			myInnerHtml("ATK_00",finalDamages[0],0);
+			myInnerHtml("ATK_01",finalDamages[1],0);
 
 			CastAndDelay();
 
@@ -1488,25 +1488,25 @@ function isRangedWeapon() {
 			n_Enekyori=2;
 			if(n_B[3] < 90){
 				w = 0;
-				w_DMG[2] = 0;
-				w_DMG[0] = 0;
-				w_DMG[1] = 0;
+				finalDamages[2] = 0;
+				finalDamages[0] = 0;
+				finalDamages[1] = 0;
 			}else{
 				if(n_B[19] != 1){
 					w = (20 * n_A_ActiveSkillLV + n_A_BaseLV + n_A_INT +n_A_LUK)/1000;
-					w_DMG[2] = n_B[6];
+					finalDamages[2] = n_B[6];
 				}
 				else{
 					w = 0;
-					w_DMG[2] = 0;
+					finalDamages[2] = 0;
 				}
-				w_DMG[0] = n_A_BaseLV + n_A_INT + n_A_ActiveSkillLV *10;
-				w_DMG[0] = Math.floor(w_DMG[0] * element[n_B[3]][6]);
-				w_DMG[1] = Math.round((n_B[6] * w + w_DMG[0] * (100-w)/100));
+				finalDamages[0] = n_A_BaseLV + n_A_INT + n_A_ActiveSkillLV *10;
+				finalDamages[0] = Math.floor(finalDamages[0] * element[n_B[3]][6]);
+				finalDamages[1] = Math.round((n_B[6] * w + finalDamages[0] * (100-w)/100));
 			}
-			myInnerHtml("ATK_02",Math.floor(w_DMG[2] * element[n_B[3]][6]) +"(Success Rate " +Math.round(w *10000)/100 +"%)",0);
-			myInnerHtml("ATK_00",w_DMG[0] +"(Failure Damage)",0);
-			myInnerHtml("ATK_01",w_DMG[1] +"(Certain One Hit Kill HP)",0);
+			myInnerHtml("ATK_02",Math.floor(finalDamages[2] * element[n_B[3]][6]) +"(Success Rate " +Math.round(w *10000)/100 +"%)",0);
+			myInnerHtml("ATK_00",finalDamages[0] +"(Failure Damage)",0);
+			myInnerHtml("ATK_01",finalDamages[1] +"(Certain One Hit Kill HP)",0);
 
 			wCast = 1 * n_A_CAST;
 			wDelay= 3;
@@ -1521,19 +1521,19 @@ function isRangedWeapon() {
 			n_A_Weapon_element = 0;
 			n_SpSkill=1;
 			n_Enekyori=2;
-			wHITsuu = 4 + n_A_ActiveSkillLV;
-			w_DMG[2] = 200 + 200 * n_A_ActiveSkillLV;
+			hitCount = 4 + n_A_ActiveSkillLV;
+			finalDamages[2] = 200 + 200 * n_A_ActiveSkillLV;
 
-			w_DMG[2] = Math.floor(w_DMG[2]);
+			finalDamages[2] = Math.floor(finalDamages[2]);
 
-			wStrG = w_DMG[2] * wHITsuu +"("+ w_DMG[2] +" x "+ wHITsuu +"hit)"
+			wStrG = finalDamages[2] * hitCount +"("+ finalDamages[2] +" x "+ hitCount +"hit)"
 			myInnerHtml("ATK_02",wStrG,0);
 			myInnerHtml("ATK_00",wStrG,0);
 			myInnerHtml("ATK_01",wStrG,0);
 
-			w_DMG[2]=w_DMG[2] * wHITsuu;
-			w_DMG[0]=w_DMG[2];
-			w_DMG[1]=w_DMG[2];
+			finalDamages[2]=finalDamages[2] * hitCount;
+			finalDamages[0]=finalDamages[2];
+			finalDamages[1]=finalDamages[2];
 
 			wCast = 5 * n_A_CAST;
 			swDelay = 1;
@@ -1551,19 +1551,19 @@ function isRangedWeapon() {
 			skillModifier = 1;
 			if(n_A_ActiveSkill==51){
 				n_A_Weapon_element = 3;
-				wHITsuu = n_A_ActiveSkillLV;
+				hitCount = n_A_ActiveSkillLV;
 				wCast = 0.7 * n_A_ActiveSkillLV;
 				wDelay= 0.8 + n_A_ActiveSkillLV * 0.2;
 			}
 			else if(n_A_ActiveSkill==54){
 				n_A_Weapon_element = 1;
-				wHITsuu = n_A_ActiveSkillLV;
+				hitCount = n_A_ActiveSkillLV;
 				wCast = 0.7 * n_A_ActiveSkillLV;
 				wDelay= 0.8 + n_A_ActiveSkillLV * 0.2;
 			}
 			else if(n_A_ActiveSkill==56){
 				n_A_Weapon_element = 4;
-				wHITsuu = n_A_ActiveSkillLV;
+				hitCount = n_A_ActiveSkillLV;
 				wCast = 0.7 * n_A_ActiveSkillLV;
 				wDelay= 0.8 + n_A_ActiveSkillLV * 0.2;
 			}
@@ -1580,7 +1580,7 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==53){
 				n_A_Weapon_element = 3;
-				wHITsuu = 4 + n_A_ActiveSkillLV;
+				hitCount = 4 + n_A_ActiveSkillLV;
 				wCast = 2.15 - (n_A_ActiveSkillLV * 0.15);
 				wDelay= 0.1;
 				skillModifier = 0.5;
@@ -1593,7 +1593,7 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==57){
 				n_A_Weapon_element = 4;
-				wHITsuu = n_A_ActiveSkillLV;
+				hitCount = n_A_ActiveSkillLV;
 				wCast = 1 * n_A_ActiveSkillLV;
 				wDelay= 2;
 				skillModifier = 0.8;
@@ -1617,7 +1617,7 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==47){
 				n_A_Weapon_element = 8;
-				wHITsuu = Math.round(n_A_ActiveSkillLV / 2);
+				hitCount = Math.round(n_A_ActiveSkillLV / 2);
 				wCast = 0.5;
 				if(n_A_ActiveSkillLV % 2 == 0)
 					wDelay= 0.8 + n_A_ActiveSkillLV / 2 *0.2;
@@ -1626,7 +1626,7 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==122){
 				n_A_Weapon_element = 3;
-				wHITsuu = n_A_ActiveSkillLV +2;
+				hitCount = n_A_ActiveSkillLV +2;
 				wCast = 3.3 - (0.3 * n_A_ActiveSkillLV);
 				wDelay= 1;
 				skillModifier = 0.2;
@@ -1639,19 +1639,19 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==125){
 				n_A_Weapon_element = 3;
-				wHITsuu = Math.round(n_A_ActiveSkillLV / 2) * (Math.floor(n_A_ActiveSkillLV / 2) + 2);
+				hitCount = Math.round(n_A_ActiveSkillLV / 2) * (Math.floor(n_A_ActiveSkillLV / 2) + 2);
 				wCast = 15;
 				wDelay= Math.floor(n_A_ActiveSkillLV / 2) * 1 +2;
 			}
 			else if(n_A_ActiveSkill==126){
 				n_A_Weapon_element = 4;
-				wHITsuu = n_A_ActiveSkillLV + 2;
+				hitCount = n_A_ActiveSkillLV + 2;
 				wCast = 2 + n_A_ActiveSkillLV * 0.5;
 				wDelay= 0.01;
 			}
 			else if(n_A_ActiveSkill==127){
 				n_A_Weapon_element = 4;
-				wHITsuu = 4;
+				hitCount = 4;
 				wCast = 15.5 - n_A_ActiveSkillLV * 0.5;
 				wDelay= 5;
 				skillModifier = 0.8 + n_A_ActiveSkillLV * 0.2;
@@ -1660,12 +1660,12 @@ function isRangedWeapon() {
 				swDelay = 2;
 				n_A_Weapon_element = 1;
 				if(n_A_ActiveSkillLV >= 4)
-					wHITsuu = 25
+					hitCount = 25
 				else if(n_A_ActiveSkillLV >= 2)
-					wHITsuu = 9;
+					hitCount = 9;
 				wCast = n_A_ActiveSkillLV;
 				skillModifier = 1 + n_A_ActiveSkillLV * 0.3;
-				wDelay= 0.1 * wHITsuu;
+				wDelay= 0.1 * hitCount;
 			}
 			else if(n_A_ActiveSkill==130){
 				skillModifier = 0.66 + n_A_ActiveSkillLV * 0.066;
@@ -1675,14 +1675,14 @@ function isRangedWeapon() {
 			}
 			else if(n_A_ActiveSkill==131){
 				n_A_Weapon_element = 1;
-				wHITsuu = eval(document.calcForm.SkillSubNum.value);
+				hitCount = eval(document.calcForm.SkillSubNum.value);
 				wCast = 5 + n_A_ActiveSkillLV;
 				wDelay= 5;
 				skillModifier = 1 + n_A_ActiveSkillLV * 0.4;
 			}
 			else if(n_A_ActiveSkill==132 || n_A_ActiveSkill==133){
 				n_A_Weapon_element = 2;
-				wHITsuu = n_A_ActiveSkillLV;
+				hitCount = n_A_ActiveSkillLV;
 				if(n_A_ActiveSkill==132){
 					wCast = n_A_ActiveSkillLV *0.7;
 					wDelay= 0.8 + n_A_ActiveSkillLV * 0.2;
@@ -1693,7 +1693,7 @@ function isRangedWeapon() {
 				}
 			}
 			else if(n_A_ActiveSkill==277){
-				wHITsuu = n_A_ActiveSkillLV;
+				hitCount = n_A_ActiveSkillLV;
 				n_A_Weapon_element = 8;
 				wCast = 1;
 				wDelay= 1;
@@ -1710,7 +1710,7 @@ function isRangedWeapon() {
 			else if(n_A_ActiveSkill==104){
 				n_SpSkill=1;
 				n_A_Weapon_element = 6;
-				wHITsuu = n_A_ActiveSkillLV;
+				hitCount = n_A_ActiveSkillLV;
 				wCast = 15;
 				wDelay= 4;
 				if(n_B[2] != 6 && n_B[3] < 90){
@@ -1741,7 +1741,7 @@ function isRangedWeapon() {
 			else if(n_A_ActiveSkill==375){
 				n_A_Weapon_element = eval(document.calcForm.A_Weapon_element.value);
 				n_SpSkill=1;
-				wHITsuu = n_A_ActiveSkillLV;
+				hitCount = n_A_ActiveSkillLV;
 				wCast = 2;
 				wDelay= 0.5;
 				skillModifier = 0.4 + n_A_BaseLV / 100;
@@ -1751,14 +1751,14 @@ function isRangedWeapon() {
 			else if(n_A_ActiveSkill==407){
 				n_A_Weapon_element = 3;
 				skillModifier = 0.9;
-				wHITsuu = n_A_ActiveSkillLV;
+				hitCount = n_A_ActiveSkillLV;
 				wCast = 0.7 * n_A_ActiveSkillLV;
 				wDelay= 0.01;
 			}
 			else if(n_A_ActiveSkill==408){
 				n_A_Weapon_element = 3;
 				skillModifier = 0.5;
-				wHITsuu = Math.round(n_A_ActiveSkillLV / 2) +4 ;
+				hitCount = Math.round(n_A_ActiveSkillLV / 2) +4 ;
 				wCast = 6.5 - 0.5 * n_A_ActiveSkillLV;
 				wDelay= 1;
 				n_SpSkill=1;
@@ -1766,35 +1766,35 @@ function isRangedWeapon() {
 			else if(n_A_ActiveSkill==409){
 				n_A_Weapon_element = 3;
 				skillModifier = 1.5 + n_A_ActiveSkillLV * 1.5;
-				wHITsuu = 1;
+				hitCount = 1;
 				wCast = 3;
 				wDelay= 3;
 			}
 			else if(n_A_ActiveSkill==410){
 				n_A_Weapon_element = 1;
 				skillModifier = 1;
-				wHITsuu = n_A_ActiveSkillLV + 2;
+				hitCount = n_A_ActiveSkillLV + 2;
 				wCast = n_A_ActiveSkillLV * 0.7;
 				wDelay= 0.01;
 			}
 			else if(n_A_ActiveSkill==412){
 				n_A_Weapon_element = 1;
 				skillModifier = 1.0 + n_A_ActiveSkillLV * 0.5;
-				wHITsuu = 1;
+				hitCount = 1;
 				wCast = 3;
 				wDelay= 3;
 			}
 			else if(n_A_ActiveSkill==413){
 				n_A_Weapon_element = 4;
 				skillModifier = 1.0;
-				wHITsuu = Math.floor(n_A_ActiveSkillLV / 2) +1;
+				hitCount = Math.floor(n_A_ActiveSkillLV / 2) +1;
 				wCast = Math.floor(n_A_ActiveSkillLV / 2) + 1;
 				wDelay= 1;
 			}
 			else if(n_A_ActiveSkill==414){
 				n_A_Weapon_element = 4;
 				skillModifier = 1.6 + 0.4 * n_A_ActiveSkillLV;
-				wHITsuu = 1;
+				hitCount = 1;
 				wCast = 4;
 				wDelay= 0.01;
 
@@ -1802,7 +1802,7 @@ function isRangedWeapon() {
 			else if(n_A_ActiveSkill==415){
 				n_A_Weapon_element = 4;
 				skillModifier = 1.0 + n_A_ActiveSkillLV * 1.0;
-				wHITsuu = 1;
+				hitCount = 1;
 				wCast = 4;
 				wDelay= 0.01;
 			}
@@ -1810,9 +1810,9 @@ function isRangedWeapon() {
 			wCast *= n_A_CAST;
 
 			for(b=0;b<=2;b++){
-				w_DMG[b] = BattleMagicCalc(n_A_MATK[b] * skillModifier);
-				myInnerHtml("ATK_0"+b,w_DMG[b] * wHITsuu + "("+w_DMG[b]+ SubName[8] +wHITsuu+"hit)",0);
-				w_DMG[b] *= wHITsuu;
+				finalDamages[b] = BattleMagicCalc(n_A_MATK[b] * skillModifier);
+				myInnerHtml("ATK_0"+b,finalDamages[b] * hitCount + "("+finalDamages[b]+ SubName[8] +hitCount+"hit)",0);
+				finalDamages[b] *= hitCount;
 			}
 
 			CastAndDelay();
@@ -1853,7 +1853,7 @@ function isRangedWeapon() {
 	}
 
 
-	function ATKbai02(wATKbai,ch_A02)
+	function applySkillModifier(wATKbai,ch_A02)
 	{
 		wA02 = wATKbai * 100;
 		if(SkillSearch(327)){
@@ -1926,7 +1926,7 @@ function isRangedWeapon() {
 	{
 		if(n_B[0]==44 && n_A_ActiveSkill !=0){
 			for(i=0;i<=2;i++){
-				w_DMG[i] = 0;
+				finalDamages[i] = 0;
 				myInnerHtml("ATK_0"+i,0,0);
 			}
 		}
@@ -1934,7 +1934,7 @@ function isRangedWeapon() {
 		tPlusAG();
 		w = n_B[6];
 		for(i=0;0<w && i<1000;i++){
-			w -= w_DMG[2];
+			w -= finalDamages[2];
 		}
 		if(i<1000)
 			myInnerHtml("MinATKnum",i,0);
@@ -1942,7 +1942,7 @@ function isRangedWeapon() {
 			myInnerHtml("MinATKnum",SubName[5],0);
 		w = n_B[6];
 		for(i=0;0<w && i<1000;i++){
-			w -= w_DMG[0];
+			w -= finalDamages[0];
 		}
 		if(i<1000)
 			myInnerHtml("MaxATKnum",i,0);
@@ -1950,7 +1950,7 @@ function isRangedWeapon() {
 			myInnerHtml("MaxATKnum",SubName[5],0);
 		w = n_B[6];
 		for(i=0;0<w && i<1000;i++){
-			w -= w_DMG[1];
+			w -= finalDamages[1];
 		}
 
 		if(Taijin==0){
@@ -1989,9 +1989,9 @@ function isRangedWeapon() {
 
 		if(BC998Delay == 0)
 
-			w = 1 / (BC998Cast + n_A_ASPD) * w_DMG[1];
+			w = 1 / (BC998Cast + n_A_ASPD) * finalDamages[1];
 		else
-			w = 1 / (BC998Cast + BC998Delay) * w_DMG[1];
+			w = 1 / (BC998Cast + BC998Delay) * finalDamages[1];
 		w *= 100;
 		w = Math.round(w);
 		w /= 100;
@@ -3862,7 +3862,7 @@ function isRangedWeapon() {
 		BK_n_A_DMG[1] = n_A_DMG[1];
 
 		ATKbai01();
-		ATKbai02(1,1);
+		applySkillModifier(1,1);
 
 		wCriTyuu=1;
 		n_A_CriATK[1] = BattleCalc(n_A_CriATK[1],10);
