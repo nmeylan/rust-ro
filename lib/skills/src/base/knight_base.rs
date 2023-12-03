@@ -62,6 +62,9 @@ impl SkillBase for SpearMastery {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -129,6 +132,9 @@ impl SkillBase for Pierce {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -247,6 +253,9 @@ impl SkillBase for BrandishSpear {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -379,6 +388,9 @@ impl SkillBase for SpearStab {
     fn _range(&self) -> i8 {
        -4
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -497,6 +509,9 @@ impl SkillBase for SpearBoomerang {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -603,6 +618,9 @@ impl SkillBase for TwohandQuicken {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -744,6 +762,9 @@ impl SkillBase for CounterAttack {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -824,6 +845,9 @@ impl SkillBase for BowlingBash {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -999,6 +1023,9 @@ impl SkillBase for PecoPecoRiding {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1067,6 +1094,9 @@ impl SkillBase for CavalierMastery {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1134,6 +1164,9 @@ impl SkillBase for ChargeAttack {
     #[inline(always)]
     fn _range(&self) -> i8 {
        14
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1214,6 +1247,9 @@ impl SkillBase for OnehandQuicken {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

@@ -390,6 +390,23 @@ fn generate_getters(job_skills_file: &mut File, skill_config: &SkillConfig) {
         generate_return_per_level_i32(job_skills_file, skill_config.range(), skill_config.range_per_level());
     }
     job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    fn _is_ranged(&self) -> bool {\n").unwrap();
+    if skill_config.range().is_none() {
+        job_skills_file.write_all(b"        false\n").unwrap();
+    } else {
+       if let Some(range) = skill_config.range() {
+           if *range < -1 || *range > 1 {
+               job_skills_file.write_all(b"        true\n").unwrap();
+           } else {
+               job_skills_file.write_all(b"        false\n").unwrap();
+           }
+       } else if skill_config.range_per_level().is_some() {
+           job_skills_file.write_all(b"        true\n").unwrap();
+       } else {
+           job_skills_file.write_all(b"        false\n").unwrap();
+       }
+    }
+    job_skills_file.write_all(b"    }\n").unwrap();
     job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _max_level(&self) -> u8 {\n").unwrap();
     job_skills_file.write_all(format!("        {}\n", skill_config.max_level()).as_bytes()).unwrap();

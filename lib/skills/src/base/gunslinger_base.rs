@@ -62,6 +62,9 @@ impl SkillBase for FliptheCoin {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -133,6 +136,9 @@ impl SkillBase for Fling {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -209,6 +215,9 @@ impl SkillBase for TripleAction {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -297,6 +306,9 @@ impl SkillBase for BullsEye {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -390,6 +402,9 @@ impl SkillBase for MadnessCanceller {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -469,6 +484,9 @@ impl SkillBase for AdJustment {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -550,6 +568,9 @@ impl SkillBase for IncreasingAccuracy {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -625,6 +646,9 @@ impl SkillBase for MagicalBullet {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -705,6 +729,9 @@ impl SkillBase for Cracker {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -794,6 +821,9 @@ impl SkillBase for SingleAction {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -861,6 +891,9 @@ impl SkillBase for SnakeEye {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -930,6 +963,9 @@ impl SkillBase for ChainAction {
     fn _range(&self) -> i8 {
        -9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -997,6 +1033,9 @@ impl SkillBase for Tracking {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1218,6 +1257,9 @@ impl SkillBase for Disarm {
     fn _range(&self) -> i8 {
        -9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1343,6 +1385,9 @@ impl SkillBase for PiercingShot {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1488,6 +1533,9 @@ impl SkillBase for RapidShower {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1678,6 +1726,9 @@ impl SkillBase for Desperado {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1879,6 +1930,9 @@ impl SkillBase for GatlingFever {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -2018,6 +2072,9 @@ impl SkillBase for Dust {
     #[inline(always)]
     fn _range(&self) -> i8 {
        2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -2212,6 +2269,9 @@ impl SkillBase for FullBuster {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -2459,6 +2519,9 @@ impl SkillBase for SpreadAttack {
     fn _range(&self) -> i8 {
        -9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -2644,6 +2707,9 @@ impl SkillBase for GroundDrift {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

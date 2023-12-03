@@ -62,6 +62,9 @@ impl SkillBase for Study {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -129,6 +132,9 @@ impl SkillBase for CastCancel {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -202,6 +208,9 @@ impl SkillBase for MagicRod {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -273,6 +282,9 @@ impl SkillBase for SpellBreaker {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -354,6 +366,9 @@ impl SkillBase for FreeCast {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -421,6 +436,9 @@ impl SkillBase for Hindsight {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -497,6 +515,9 @@ impl SkillBase for EndowBlaze {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -582,6 +603,9 @@ impl SkillBase for EndowTsunami {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -665,6 +689,9 @@ impl SkillBase for EndowTornado {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -750,6 +777,9 @@ impl SkillBase for EndowQuake {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -834,6 +864,9 @@ impl SkillBase for Dragonology {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -901,6 +934,9 @@ impl SkillBase for Volcano {
     #[inline(always)]
     fn _range(&self) -> i8 {
        2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1016,6 +1052,9 @@ impl SkillBase for Deluge {
     fn _range(&self) -> i8 {
        2
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1130,6 +1169,9 @@ impl SkillBase for Whirlwind {
     fn _range(&self) -> i8 {
        2
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1243,6 +1285,9 @@ impl SkillBase for MagneticEarth {
     #[inline(always)]
     fn _range(&self) -> i8 {
        2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1361,6 +1406,9 @@ impl SkillBase for Dispell {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1449,6 +1497,9 @@ impl SkillBase for Hocuspocus {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -1529,6 +1580,9 @@ impl SkillBase for CreateElementalConverter {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1600,6 +1654,9 @@ impl SkillBase for ElementalChangeWater {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1693,6 +1750,9 @@ impl SkillBase for ElementalChangeEarth {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1785,6 +1845,9 @@ impl SkillBase for ElementalChangeFire {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1876,6 +1939,9 @@ impl SkillBase for ElementalChangeWind {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

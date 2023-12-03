@@ -62,6 +62,9 @@ impl SkillBase for EnlargeWeightLimit {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -129,6 +132,9 @@ impl SkillBase for Discount {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -198,6 +204,9 @@ impl SkillBase for Overcharge {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -266,6 +275,9 @@ impl SkillBase for Pushcart {
     fn _range(&self) -> i8 {
        1
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -333,6 +345,9 @@ impl SkillBase for ItemAppraisal {
     #[inline(always)]
     fn _range(&self) -> i8 {
        1
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -405,6 +420,9 @@ impl SkillBase for Vending {
     #[inline(always)]
     fn _range(&self) -> i8 {
        1
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -486,6 +504,9 @@ impl SkillBase for Mammonite {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -1
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -631,6 +652,9 @@ impl SkillBase for CartRevolution {
     fn _range(&self) -> i8 {
        1
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -720,6 +744,9 @@ impl SkillBase for ChangeCart {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -801,6 +828,9 @@ impl SkillBase for CrazyUproar {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -872,6 +902,9 @@ impl SkillBase for DecorateCart {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

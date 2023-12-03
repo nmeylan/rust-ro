@@ -62,6 +62,9 @@ impl SkillBase for AxeMastery {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -130,6 +133,9 @@ impl SkillBase for PotionResearch {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -197,6 +203,9 @@ impl SkillBase for PreparePotion {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -277,6 +286,9 @@ impl SkillBase for Bomb {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -395,6 +407,9 @@ impl SkillBase for AcidTerror {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -501,6 +516,9 @@ impl SkillBase for AidPotion {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -613,6 +631,9 @@ impl SkillBase for SummonFlora {
     fn _range(&self) -> i8 {
        4
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -700,6 +721,9 @@ impl SkillBase for SummonMarineSphere {
     #[inline(always)]
     fn _range(&self) -> i8 {
        1
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -789,6 +813,9 @@ impl SkillBase for AlchemicalWeapon {
     fn _range(&self) -> i8 {
        1
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -872,6 +899,9 @@ impl SkillBase for SynthesizedShield {
     #[inline(always)]
     fn _range(&self) -> i8 {
        1
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -957,6 +987,9 @@ impl SkillBase for SyntheticArmor {
     fn _range(&self) -> i8 {
        1
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1040,6 +1073,9 @@ impl SkillBase for BiochemicalHelm {
     #[inline(always)]
     fn _range(&self) -> i8 {
        1
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1125,6 +1161,9 @@ impl SkillBase for Bioethics {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1192,6 +1231,9 @@ impl SkillBase for CallHomunculus {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1273,6 +1315,9 @@ impl SkillBase for Vaporize {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1344,6 +1389,9 @@ impl SkillBase for HomunculusResurrection {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1451,6 +1499,9 @@ impl SkillBase for AidBerserkPotion {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1534,6 +1585,9 @@ impl SkillBase for TwilightAlchemy1 {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1623,6 +1677,9 @@ impl SkillBase for TwilightAlchemy2 {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1710,6 +1767,9 @@ impl SkillBase for TwilightAlchemy3 {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

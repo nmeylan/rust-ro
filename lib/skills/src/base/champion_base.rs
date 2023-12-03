@@ -62,6 +62,9 @@ impl SkillBase for RagingPalmStrike {
     fn _range(&self) -> i8 {
        -2
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -200,6 +203,9 @@ impl SkillBase for GlacierFist {
     fn _range(&self) -> i8 {
        -2
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -301,6 +307,9 @@ impl SkillBase for ChainCrushCombo {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -511,6 +520,9 @@ impl SkillBase for Zen {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

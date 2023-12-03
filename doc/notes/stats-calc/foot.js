@@ -2327,7 +2327,7 @@ function isNonRangeWeapon() {
     function SaveCookie(skipSave) {
         const testCaseData = {};
 
-        testCaseData.job = eval(document.calcForm.A_JOB.value);
+        testCaseData.job = JobName[eval(document.calcForm.A_JOB.value)];
         testCaseData.base_level = eval(document.calcForm.A_BaseLV.value);
         testCaseData.job_level = eval(document.calcForm.A_JobLV.value);
         testCaseData.str = eval(document.calcForm.A_STR.value);
@@ -2494,7 +2494,7 @@ function isNonRangeWeapon() {
 
     JobName =
         ["Novice", "Swordsman", "Thief", "Acolyte", "Archer", "Magician", "Merchant", "Knight", "Assassin", "Priest", "Hunter", "Wizard", "Blacksmith", "Crusader", "Rogue", "Monk", "Bard", "Dancer", "Sage", "Alchemist",
-            "Super Novice", "Lord Knight", "Assassin Cross", "High Priest", "Sniper", "High Wizard", "Mastersmith", "Paladin", "Stalker", "Champion", "Minstrel", "Gypsie", "Professor", "Biochemist",
+            "Super Novice", "LordKnight", "AssassinCross", "HighPriest", "Sniper", "HighWizard", "Whitesmith", "Paladin", "Stalker", "Champion", "Clown", "Gypsy", "Professor", "Creator",
             "High Novice", "High Swordsman", "High Thief", "High Acolyte", "High Archer", "High Magician", "High Merchant", "Taekwon Kid", "Taekwon Master", "Soul Linker", "Ninja", "Gunslinger"];
 
 

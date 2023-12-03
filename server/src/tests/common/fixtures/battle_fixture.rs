@@ -4,7 +4,7 @@ use serde::{Deserialize};
 
 #[derive(Deserialize, GettersAll, Debug)]
 pub struct BattleFixture {
-    job: u32,
+    job: String,
     base_level: u32,
     job_level: u32,
     str: u16,

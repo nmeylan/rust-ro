@@ -124,6 +124,7 @@ pub trait SkillBase {
     fn _max_level(&self) -> u8;
     fn _sp_cost(&self) -> u16;
     fn _target_type(&self) -> SkillTargetType;
+    fn _is_ranged(&self) -> bool;
 }
 
 pub trait Skill: SkillBase {
@@ -145,6 +146,11 @@ pub trait Skill: SkillBase {
     #[inline(always)]
     fn range(&self) -> i8 {
         self._range()
+    }
+
+    #[inline(always)]
+    fn is_ranged(&self) -> bool {
+        self._is_ranged()
     }
 
     #[inline(always)]
@@ -246,6 +252,7 @@ pub trait Skill: SkillBase {
     fn after_cast_walk_delay(&self) -> u32 {
         self._after_cast_walk_delay()
     }
+
 
 }
 

@@ -45,7 +45,6 @@ impl StatusService {
 
     pub fn to_snapshot(&self, status: &Status) -> StatusSnapshot {
         let mut snapshot = StatusSnapshot::from(status);
-        snapshot.set_fist_atk( self.fist_atk(&snapshot));
         snapshot.set_atk_given_by_cards(self.atk_cards(&snapshot));
         snapshot.set_aspd(self.aspd(&snapshot));
         snapshot
@@ -99,16 +98,14 @@ impl StatusService {
         let imposito_magnus = 0;
         let _upgrade_damage = 0;
         let _atk_cards = 0;
-        (status.fist_atk() + status.weapon_atk() + imposito_magnus + status.weapon_upgrade_damage() + status.atk_given_by_cards()) as i32
+        (self.fist_atk(status, status.right_hand_weapon_type().is_ranged()) + status.weapon_atk() + imposito_magnus + status.weapon_upgrade_damage() + status.atk_given_by_cards()) as i32
     }
 
-    fn fist_atk(&self, status: &StatusSnapshot) -> u16 {
+    pub(crate) fn fist_atk(&self, status: &StatusSnapshot, is_ranged: bool) -> u16 {
         let mut str;
         let dex;
 
-        let weapon_type = status.right_hand_weapon_type();
-        let is_ranged_weapon = weapon_type.is_ranged();
-        if is_ranged_weapon {
+        if is_ranged {
             str = *status.dex();
             dex = *status.str();
         } else {

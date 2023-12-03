@@ -62,6 +62,9 @@ impl SkillBase for AidCondensedPotion {
     fn _range(&self) -> i8 {
        3
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -177,6 +180,9 @@ impl SkillBase for FullProtection {
     fn _range(&self) -> i8 {
        1
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -260,6 +266,9 @@ impl SkillBase for AcidDemonstration {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -385,6 +394,9 @@ impl SkillBase for PlantCultivation {
     #[inline(always)]
     fn _range(&self) -> i8 {
        1
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
