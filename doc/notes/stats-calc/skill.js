@@ -303,7 +303,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		[ 289, 5, 'Glacier Fist', 371 ] ,
 		[ 290, 10, 'Chain Crush Combo', 372 ] ,
 		[ 291, 1, 'Zen', 401 ] ,
-		[ 292, 10, 'Arrow Vulcan', 0 ] ,
+		[ 292, 10, 'Arrow Vulcan', 394 ] ,
 		[ 293, 5, 'Sheltering Bliss', 395 ] ,
 		[ 294, 1, 'Marionette Control', 396 ] ,
 		[ 295, 5, 'Indulge', 373 ] ,

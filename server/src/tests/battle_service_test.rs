@@ -76,7 +76,7 @@ mod tests {
             let mut min = u32::MAX;
             let mut max = u32::MIN;
             for _ in 0..1000 {
-                let damage = context.battle_service.damage_character_attack_monster(status_snapshot!(context, character), status_snapshot_mob!(context, mob), 1.0);
+                let damage = context.battle_service.damage_character_attack_monster(status_snapshot!(context, character), status_snapshot_mob!(context, mob), 1.0, false);
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);
@@ -115,7 +115,7 @@ mod tests {
             let mut max = u32::MIN;
             equip_item_from_name(&mut character, stat.weapon);
             for _ in 0..1000 {
-                let damage = context.battle_service.weapon_atk(status_snapshot!(context, character), &context.status_service.to_snapshot(&target_status));
+                let damage = context.battle_service.weapon_atk(status_snapshot!(context, character), &context.status_service.to_snapshot(&target_status), false);
                 average.push(damage);
                 min = min.min(damage);
                 max = max.max(damage);

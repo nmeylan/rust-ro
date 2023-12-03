@@ -46,11 +46,11 @@ impl BattleService {
     /// (([((({(base_atk +
     /// + rnd(min(DEX,ATK), ATK)*SizeModifier) * SkillModifiers * (1 - DEF/100) - VitDEF + BaneSkill + UpgradeDamage}
     /// + MasterySkill + WeaponryResearchSkill + EnvenomSkill) * ElementalModifier) + Enhancements) * DamageBonusModifiers * DamageReductionModifiers] * NumberOfMultiHits) - KyrieEleisonEffect) / NumberOfMultiHits
-    pub fn damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32) -> u32 {
+    pub fn damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool) -> u32 {
         let _rng = fastrand::Rng::new();
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let _imposito_magnus: u32 = 0;
-        let base_atk = *source_status.fist_atk() as f32 + upgrade_bonus + *source_status.atk_given_by_cards() as f32;
+        let base_atk = self.status_service.fist_atk(source_status, is_ranged) as f32 + upgrade_bonus + *source_status.atk_given_by_cards() as f32;
 
         let _size_modifier: f32 = self.size_modifier(source_status, target_status);
         let def: f32 = *target_status.def() as f32 / 100.0;
@@ -75,7 +75,7 @@ impl BattleService {
                                 (
                                     (
                                         (
-                                            (base_atk + self.weapon_atk(source_status, target_status) as f32).floor() * skill_modifier * (1.0 - def)
+                                            (base_atk + self.weapon_atk(source_status, target_status, is_ranged) as f32).floor() * skill_modifier * (1.0 - def)
                                         )
                                             - vitdef + bane_skill + source_status.weapon_upgrade_damage() as f32
                                     )
@@ -93,7 +93,7 @@ impl BattleService {
     }
 
     //  rnd(min(DEX*(0.8+0.2*WeaponLevel),ATK), ATK)
-    pub fn weapon_atk(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot) -> u32 {
+    pub fn weapon_atk(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, is_ranged: bool) -> u32 {
         let mut rng = fastrand::Rng::new();
         let weapon = source_status.right_hand_weapon().map(|weapon| self.configuration_service.get_item(*weapon.item_id()));
         let imposito_magnus: u32 = 0; // TODO get from status
@@ -120,7 +120,7 @@ impl BattleService {
         let weapon_over_upgrade_min: u32 = 0;
         let mut weapon_min_attack: u32 = 0;
         let size_modifier = self.size_modifier(source_status, target_status);
-        if work_dex >= weapon_attack { // || maximize power skill
+        if work_dex >= weapon_attack { // todo || maximize power skill
             weapon_max_attack = weapon_over_upgrade_max + ((weapon_attack + imposito_magnus) as f32 * size_modifier).floor() as u32;
             weapon_min_attack = weapon_over_upgrade_min + ((weapon_attack + imposito_magnus) as f32 * size_modifier).floor() as u32;
         } else {
@@ -299,7 +299,7 @@ impl BattleService {
         let damage = if matches!(target.map_item.object_type(), MapItemType::Mob) {
             let mob = self.configuration_service.get_mob(target.map_item.client_item_class() as i32);
             packet_zc_notify_act3.set_attacked_mt(mob.damage_motion);
-            self.damage_character_attack_monster(source_status, target_status, 1.0)
+            self.damage_character_attack_monster(source_status, target_status, 1.0, source_status.right_hand_weapon_type().is_ranged())
         } else {
             0
         };

@@ -62,6 +62,9 @@ impl SkillBase for IronFists {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -130,6 +133,9 @@ impl SkillBase for SpiritualCadence {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -197,6 +203,9 @@ impl SkillBase for SummonSpiritSphere {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -274,6 +283,9 @@ impl SkillBase for AbsorbSpiritSphere {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -349,6 +361,9 @@ impl SkillBase for RagingTrifectaBlow {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -1
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -466,6 +481,9 @@ impl SkillBase for Snap {
     fn _range(&self) -> i8 {
        18
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -538,6 +556,9 @@ impl SkillBase for Dodge {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -605,6 +626,9 @@ impl SkillBase for OccultImpaction {
     #[inline(always)]
     fn _range(&self) -> i8 {
        2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -739,6 +763,9 @@ impl SkillBase for ThrowSpiritSphere {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -857,6 +884,9 @@ impl SkillBase for MentalStrength {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -932,6 +962,9 @@ impl SkillBase for Root {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1014,6 +1047,9 @@ impl SkillBase for Fury {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1085,6 +1121,9 @@ impl SkillBase for AsuraStrike {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1237,6 +1276,9 @@ impl SkillBase for RagingQuadrupleBlow {
     fn _range(&self) -> i8 {
        -2
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1380,6 +1422,9 @@ impl SkillBase for RagingThrust {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1525,6 +1570,9 @@ impl SkillBase for KiTranslation {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1604,6 +1652,9 @@ impl SkillBase for KiExplosion {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -1
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

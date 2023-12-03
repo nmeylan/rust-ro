@@ -62,6 +62,9 @@ impl SkillBase for VulcanArrow {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -350,6 +353,9 @@ impl SkillBase for ShelteringBliss {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -460,6 +466,9 @@ impl SkillBase for MarionetteControl {
     fn _range(&self) -> i8 {
        7
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -532,6 +541,9 @@ impl SkillBase for LongingforFreedom {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -603,6 +615,9 @@ impl SkillBase for WandofHermode {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -723,6 +738,9 @@ impl SkillBase for TarotCardofFate {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

@@ -62,6 +62,9 @@ impl SkillBase for AuraBlade {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -172,6 +175,9 @@ impl SkillBase for Parrying {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -251,6 +257,9 @@ impl SkillBase for Concentration {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -354,6 +363,9 @@ impl SkillBase for Relax {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -426,6 +438,9 @@ impl SkillBase for Frenzy {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -497,6 +512,9 @@ impl SkillBase for SpiralPierce {
     #[inline(always)]
     fn _range(&self) -> i8 {
        5
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -669,6 +687,9 @@ impl SkillBase for TraumaticBlow {
     fn _range(&self) -> i8 {
        4
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -767,6 +788,9 @@ impl SkillBase for VitalStrike {
     #[inline(always)]
     fn _range(&self) -> i8 {
        4
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

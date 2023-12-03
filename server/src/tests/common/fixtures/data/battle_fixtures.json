@@ -1,6 +1,6 @@
 [
   {
-    "job": 1,
+    "job": "Swordsman",
     "base_level": 1,
     "job_level": 1,
     "str": 10,
@@ -31,7 +31,7 @@
     }
   },
   {
-    "job": 4,
+    "job": "Archer",
     "base_level": 1,
     "job_level": 1,
     "str": 1,
@@ -60,6 +60,38 @@
       "max_dmg": 184,
       "dps": 72.23,
       "stats_atk_left": 26
+    }
+  },
+  {
+    "job": "Clown",
+    "base_level": 1,
+    "job_level": 1,
+    "str": 1,
+    "agi": 1,
+    "vit": 1,
+    "dex": 10,
+    "int": 1,
+    "luk": 1,
+    "ammo": "Arrow",
+    "weapon": "Lute",
+    "passiveSkills": [],
+    "supportiveSkills": [],
+    "skill_to_use": {
+      "skid":394,
+      "level": 10
+    },
+    "target": "PORING",
+    "expected": {
+      "weapon_min_atk": 12,
+      "weapon_avg_atk": 58,
+      "weapon_max_atk": 104,
+      "base_atk": 11,
+      "hit_ratio": 0.89,
+      "min_dmg": 270,
+      "avg_dmg": 819,
+      "max_dmg": 1377,
+      "dps": 111.34,
+      "stats_atk_left": 116
     }
   }
 ]

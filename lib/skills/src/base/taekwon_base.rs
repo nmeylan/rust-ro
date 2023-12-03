@@ -62,6 +62,9 @@ impl SkillBase for Running {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -225,6 +228,9 @@ impl SkillBase for TornadoStance {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -296,6 +302,9 @@ impl SkillBase for TornadoKick {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -450,6 +459,9 @@ impl SkillBase for HeelDropStance {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -521,6 +533,9 @@ impl SkillBase for HeelDrop {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -675,6 +690,9 @@ impl SkillBase for RoundhouseStance {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -746,6 +764,9 @@ impl SkillBase for RoundhouseKick {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -900,6 +921,9 @@ impl SkillBase for CounterKickStance {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -971,6 +995,9 @@ impl SkillBase for CounterKick {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1125,6 +1152,9 @@ impl SkillBase for Tumbling {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1196,6 +1226,9 @@ impl SkillBase for FlyingKick {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1350,6 +1383,9 @@ impl SkillBase for PeacefulBreak {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -1417,6 +1453,9 @@ impl SkillBase for HappyBreak {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1486,6 +1525,9 @@ impl SkillBase for Kihop {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1553,6 +1595,9 @@ impl SkillBase for MildWind {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1668,6 +1713,9 @@ impl SkillBase for TaekwonJump {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1758,6 +1806,9 @@ impl SkillBase for TaekwonMission {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

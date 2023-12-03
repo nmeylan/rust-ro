@@ -62,6 +62,9 @@ impl SkillBase for MaceMastery {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -129,6 +132,9 @@ impl SkillBase for ImpositioManus {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -236,6 +242,9 @@ impl SkillBase for Suffragium {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         3
@@ -311,6 +320,9 @@ impl SkillBase for Aspersio {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -426,6 +438,9 @@ impl SkillBase for BsSacramenti {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -497,6 +512,9 @@ impl SkillBase for Sanctuary {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -642,6 +660,9 @@ impl SkillBase for SlowPoison {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         4
@@ -738,6 +759,9 @@ impl SkillBase for StatusRecovery {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -813,6 +837,9 @@ impl SkillBase for KyrieEleison {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -954,6 +981,9 @@ impl SkillBase for Magnificat {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1034,6 +1064,9 @@ impl SkillBase for Gloria {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         5
@@ -1109,6 +1142,9 @@ impl SkillBase for LexDivina {
     #[inline(always)]
     fn _range(&self) -> i8 {
        5
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1246,6 +1282,9 @@ impl SkillBase for TurnUndead {
     fn _range(&self) -> i8 {
        5
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -1330,6 +1369,9 @@ impl SkillBase for LexAeterna {
     fn _range(&self) -> i8 {
        9
     }
+    fn _is_ranged(&self) -> bool {
+        true
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -1405,6 +1447,9 @@ impl SkillBase for MagnusExorcismus {
     #[inline(always)]
     fn _range(&self) -> i8 {
        9
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -1553,6 +1598,9 @@ impl SkillBase for Redemptio {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {

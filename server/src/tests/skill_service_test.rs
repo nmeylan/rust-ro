@@ -37,8 +37,9 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
 #[cfg(test)]
 mod tests {
     use std::time::Duration;
+    use enums::class::JobName;
 
-    use enums::EnumWithNumberValue;
+    use enums::{EnumWithNumberValue, EnumWithStringValue};
     use enums::skill::UseSkillFailure;
     use crate::tests::common::assert_helper::*;
     use models::position::Position;
@@ -322,13 +323,17 @@ mod tests {
         let mut character = create_character();
         let _packetver = GlobalConfigService::instance().packetver();
         let scenario = common::fixtures::battle_fixture::BattleFixture::load("./src/tests/common/fixtures/data/battle_fixtures.json");
-
+        let mut i = -1;
         // When
         for scenarii in scenario.iter() {
+            i += 1;
+            // if i != 2 { continue; }
             let mut average = Vec::with_capacity(1001);
             let mut min = u32::MAX;
             let mut max = u32::MIN;
             let mut character_status = Status::default();
+            let job = JobName::from_string(scenarii.job().as_str());
+            character_status.job = job.value() as u32;
             character_status.str = *scenarii.str();
             character_status.agi = *scenarii.agi();
             character_status.vit = *scenarii.vit();
@@ -356,6 +361,7 @@ mod tests {
             // Then
             assert!(*scenarii.expected().min_dmg() - 1 <= min && min <= *scenarii.expected().min_dmg() + 1, "Expected min damage to be {} but was {} with skill {} and stats {:?}", scenarii.expected().min_dmg(), min, SkillEnum::from_id(*scenarii.skill_to_use().skid()).to_name(), scenarii);
             assert!(*scenarii.expected().max_dmg() - 1 <= max && max <= *scenarii.expected().max_dmg() + 1, "Expected max damage to be {} but was {} with skill {} and stats {:?}", scenarii.expected().max_dmg(), max, SkillEnum::from_id(*scenarii.skill_to_use().skid()).to_name(), scenarii);
+
         }
     }
 }

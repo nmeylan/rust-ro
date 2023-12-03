@@ -62,6 +62,9 @@ impl SkillBase for ShatteringStrike {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -228,6 +231,9 @@ impl SkillBase for CartBoost {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         1
@@ -309,6 +315,9 @@ impl SkillBase for UpgradeWeapon {
     fn _range(&self) -> i8 {
         0
     }
+    fn _is_ranged(&self) -> bool {
+        false
+    }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
         10
@@ -380,6 +389,9 @@ impl SkillBase for CartTermination {
     #[inline(always)]
     fn _range(&self) -> i8 {
        -2
+    }
+    fn _is_ranged(&self) -> bool {
+        true
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
@@ -542,6 +554,9 @@ impl SkillBase for MaximumPowerThrust {
     #[inline(always)]
     fn _range(&self) -> i8 {
         0
+    }
+    fn _is_ranged(&self) -> bool {
+        false
     }
     #[inline(always)]
     fn _max_level(&self) -> u8 {
