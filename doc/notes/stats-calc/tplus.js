@@ -12,9 +12,9 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
     function tPlusDamCut(wPDC){
         if(wBTw1==0){
-            if(n_B_IJYOU[6] && wLAch==0)//LA
+            if(TargetStatusFlags[6] && wLAch==0)//LA
                 wPDC *= 2;
-            if(n_B_IJYOU[17] && n_A_Weapon_element == 3)//ƒXƒpƒCƒ_ƒEƒFƒu
+            if(TargetStatusFlags[17] && n_A_Weapon_element == 3)//ƒXƒpƒCƒ_ƒEƒFƒu
                 wPDC *= 2;
             baizok = [110,114,117,119,120];
             if(n_A_PassSkill6[0] == 0 && n_A_PassSkill6[1] >= 1 && n_A_Weapon_element == 3)//‰Î
@@ -29,7 +29,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
     }
 
     function tPlusEnemyClick(){
-        if(Taijin){
+        if(InWarOfEmperium){
             n_B = new Array();
             for(i=0;i<=26;i++)
                 n_B[i] = MonsterOBJ[document.calcForm.B_Enemy.value][i];
@@ -47,9 +47,9 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
     }
 
     function tPlusLucky(wPL){
-        if(Taijin){
+        if(InWarOfEmperium){
             w = eval(document.calcForm.B_TAISEI6.value);
-            w += (n_B[11] / 10);
+            w += (targetStatsArray[TARGET_STAT_LUK] / 10);
 
             w = wPL * (100-w) / 100;
             return w;
@@ -60,7 +60,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
     }
 
     function tPlusAG(){
-        if(Taijin){
+        if(InWarOfEmperium){
             if(n_Enekyori!=2){
                 wPAG = w_AG[eval(document.calcForm.B_TAISEI10.value)];
                 w_Maxatk *= (wPAG /100);

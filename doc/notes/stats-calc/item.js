@@ -1669,7 +1669,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			CBIstr += elementOBJ[num[CBI2+1]] +" Element Weapon.<BR>";
 		if(22 == num[CBI2]){
 			if(num[CBI2+1] != 99)
-				CBIstr += "Bypasses defence on " + SyuzokuOBJ[num[CBI2+1]] + " monsters.<BR>";
+				CBIstr += "Bypasses defence on " + RaceOBJ[num[CBI2+1]] + " monsters.<BR>";
 			else
 				CBIstr += "Completely bypasses defence on the target.<BR>";
 		}
@@ -1684,14 +1684,14 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		if(27 <= num[CBI2] && num[CBI2] <=29)
 			CBIstr += "Increases damage against " + SizeOBJ[num[CBI2]-27] +" size monsters by "+ num[CBI2+1] +"%.<BR>";
 		if(30 <= num[CBI2] && num[CBI2] <=39)
-			CBIstr += "Increases damage against " + SyuzokuOBJ[num[CBI2]-30] +" type monsters by "+ num[CBI2+1] +"%.<BR>";
+			CBIstr += "Increases damage against " + RaceOBJ[num[CBI2]-30] +" type monsters by "+ num[CBI2+1] +"%.<BR>";
 		if(40 <= num[CBI2] && num[CBI2] <=49)
 			CBIstr += "Increases damage against " + elementOBJ[num[CBI2]-40] +" element monsters by "+ num[CBI2+1] +"%.<BR>";
 		if(50 <= num[CBI2] && num[CBI2] <=59){
 			if(num[CBI2+1] > 0)
-				CBIstr += "Decreases damage from " + SyuzokuOBJ[num[CBI2]-50] +" type monsters by "+ num[CBI2+1] +"%.<BR>";
+				CBIstr += "Decreases damage from " + RaceOBJ[num[CBI2]-50] +" type monsters by "+ num[CBI2+1] +"%.<BR>";
 			else
-				CBIstr += "Increases damage from " + SyuzokuOBJ[num[CBI2]-50] +" type monsters by "+ (-1 * num[CBI2+1]) +"%.<BR>";
+				CBIstr += "Increases damage from " + RaceOBJ[num[CBI2]-50] +" type monsters by "+ (-1 * num[CBI2+1]) +"%.<BR>";
 		}
 		if(60 <= num[CBI2] && num[CBI2] <=69){
 			if(num[CBI2+1] < 0)
@@ -1732,13 +1732,13 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		if(89 == num[CBI2])
 			CBIstr += "MATK"+ wIS + num[CBI2+1] +"%<BR>";
 		if(110 <= num[CBI2] && num[CBI2] <=119)
-			CBIstr += "Increases critical rate against " + SyuzokuOBJ[num[CBI2]-110] +"type monsters by "+ wIS + num[CBI2+1] +"<BR>";
+			CBIstr += "Increases critical rate against " + RaceOBJ[num[CBI2]-110] +"type monsters by "+ wIS + num[CBI2+1] +"<BR>";
 		if(120 <= num[CBI2] && num[CBI2] <=129)
-			CBIstr += "Experience obtained from " + SyuzokuOBJ[num[CBI2]-120] +" type monsters "+ wIS + num[CBI2+1] +"%<BR>";
+			CBIstr += "Experience obtained from " + RaceOBJ[num[CBI2]-120] +" type monsters "+ wIS + num[CBI2+1] +"%<BR>";
 		if(130 <= num[CBI2] && num[CBI2] <=149)
-			CBIstr += "When attacking, adds a "+ num[CBI2+1] +"% chance to inflict ["+ IjyouOBJ[num[CBI2]-130] +"] on the enemy.<BR>";
+			CBIstr += "When attacking, adds a "+ num[CBI2+1] +"% chance to inflict ["+ StatusOBJ[num[CBI2]-130] +"] on the enemy.<BR>";
 		if(150 <= num[CBI2] && num[CBI2] <=169)
-			CBIstr += "Status effect ["+ IjyouOBJ[num[CBI2]-150] +"] resistance +"+ num[CBI2+1] +"%<BR>";
+			CBIstr += "Status effect ["+ StatusOBJ[num[CBI2]-150] +"] resistance +"+ num[CBI2+1] +"%<BR>";
 		if(190 <= num[CBI2] && num[CBI2] <=192){
 			if(num[CBI2+1] > 0)
 				CBIstr += "Decreases damage from " + SizeOBJ[num[CBI2]-190] +" size monsters by "+ num[CBI2+1] +"%.<BR>";
