@@ -9,7 +9,7 @@ if (!self.__WB_pmw) {
 }
 
 function isRangedWeapon() {
-    return n_A_WeaponType == 10 || n_A_WeaponType == 17 || n_A_WeaponType == 18 || n_A_WeaponType == 19 || n_A_WeaponType == 20 || n_A_WeaponType == 21;
+    return n_A_WeaponType ==  WEAPON_TYPE_BOW || n_A_WeaponType ==  WEAPON_TYPE_HANDGUN || n_A_WeaponType ==  WEAPON_TYPE_RIFLE || n_A_WeaponType ==  WEAPON_TYPE_SHOTGUN || n_A_WeaponType ==  WEAPON_TYPE_GATLING_GUN || n_A_WeaponType ==  WEAPON_TYPE_GRENADE_LAUNCHER;
 }
 
 {
@@ -60,8 +60,51 @@ function isRangedWeapon() {
 
         }
     }
-
-    WeaponName = ["Unarmed", "Dagger", "Sword", "Two-handed Sword", "Spear", "Two-handed Spear", "Axe", "Two-handed Axe", "Mace", "Rod", "Bow", "Katar", "Book", "Knuckle", "Instrument", "Whip", "Huuma Shuriken", "Handgun", "Rifle", "Shotgun", "Gatling Gun", "Grenade Launcher"];
+    WEAPON_TYPE_UNARMED = 0;
+    WEAPON_TYPE_DAGGER = 1;
+    WEAPON_TYPE_SWORD = 2;
+    WEAPON_TYPE_TWO_HANDED_SWORD = 3;
+    WEAPON_TYPE_SPEAR = 4;
+    WEAPON_TYPE_TWO_HANDED_SPEAR = 5;
+    WEAPON_TYPE_AXE = 6;
+    WEAPON_TYPE_TWO_HANDED_AXE = 7;
+    WEAPON_TYPE_MACE = 8;
+    WEAPON_TYPE_ROD = 9;
+    WEAPON_TYPE_BOW = 10;
+    WEAPON_TYPE_KATAR = 11;
+    WEAPON_TYPE_BOOK = 12;
+    WEAPON_TYPE_KNUCKLE = 13;
+    WEAPON_TYPE_INSTRUMENT = 14;
+    WEAPON_TYPE_WHIP = 15;
+    WEAPON_TYPE_HUUMA_SHURIKEN = 16;
+    WEAPON_TYPE_HANDGUN = 17;
+    WEAPON_TYPE_RIFLE = 18;
+    WEAPON_TYPE_SHOTGUN = 19;
+    WEAPON_TYPE_GATLING_GUN = 20;
+    WEAPON_TYPE_GRENADE_LAUNCHER = 21;
+    WeaponName = [
+        "Unarmed", 
+        "Dagger", 
+        "Sword", 
+        "Two-handed Sword", 
+        "Spear", 
+        "Two-handed Spear",
+        "Axe", 
+        "Two-handed Axe", 
+        "Mace", 
+        "Rod", 
+        "Bow", //10
+        "Katar", 
+        "Book", 
+        "Knuckle", 
+        "Instrument", 
+        "Whip", 
+        "Huuma Shuriken", 
+        "Handgun",//17 
+        "Rifle", 
+        "Shotgun", 
+        "Gatling Gun", 
+        "Grenade Launcher"];
 
     ArrowOBJ = [
         [25, 0, "Arrow"],
@@ -507,6 +550,7 @@ function isRangedWeapon() {
 
     function ClickActiveSkill(wAS) {
         n_A_ActiveSkill = eval(document.calcForm.A_ActiveSkill.value);
+        skillToUseName = SkillOBJ[n_A_ActiveSkill][2];
         if (n_A_ActiveSkill > 100000) {
             n_A_ActiveSkillLV = Math.floor(n_A_ActiveSkill % 100);
             n_A_ActiveSkill = Math.floor((n_A_ActiveSkill % 100000) / 100);
@@ -1582,16 +1626,16 @@ function isRangedWeapon() {
         wBCEDPpHOSI = BattleCalc2(0);
         wBCEDPch = 0;
         if (wBCEDPpHOSI >= 1) {
-            www = w_HIT;
+            www = hitRate;
 
             if (SkillSearch(266))
                 wBCEDPpHOSI = Math.floor((wBCEDPpHOSI * element[targetStatsArray[TARGET_STAT_ELEMENT]][5]) / 4);
             if (n_A_PassSkill2[11])
                 wBCEDPpHOSI = Math.floor((wBCEDPpHOSI * element[targetStatsArray[TARGET_STAT_ELEMENT]][3]) / 5);
         } else
-            www = w998K * w_HIT / 100;
+            www = w998K * hitRate / 100;
 
-        if (n_A_WeaponType == 11 && n_A_ActiveSkill == 0)
+        if (n_A_WeaponType ==  WEAPON_TYPE_KATAR && n_A_ActiveSkill == 0)
             wBCEDPp = Math.floor(wBCEDPp * (1.01 + SkillSearch(13) * 0.02));
 
 
@@ -1599,7 +1643,7 @@ function isRangedWeapon() {
             wBCEDPp *= wBCEDPpDA;
             wBCEDPpHOSI *= wBCEDPpDA;
         }
-        return (wBCEDPp * www / 100) + (wBCEDPpHOSI * (100 - w_HIT) / 100);
+        return (wBCEDPp * www / 100) + (wBCEDPpHOSI * (100 - hitRate) / 100);
     }
 
 
