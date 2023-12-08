@@ -5,11 +5,11 @@ function calc() {
 
 
     sizeModifier = weaponsize[n_A_WeaponType][targetStatsArray[TARGET_STAT_SIZE]];
-    if (SkillSearch(78)) {
-        if ((n_A_WeaponType == 4 || n_A_WeaponType == 5) && targetStatsArray[TARGET_STAT_SIZE] == 1)
+    if (SkillSearch("Cavalier Mastery")) {
+        if ((n_A_WeaponType ==  WEAPON_TYPE_SPEAR || n_A_WeaponType ==  WEAPON_TYPE_TWO_HANDED_SPEAR) && targetStatsArray[TARGET_STAT_SIZE] == 1)
             sizeModifier = 1;
     }
-    if (SkillSearch(153) || n_A_PassSkill2[7])
+    if (SkillSearch("Weapon Perfection") || n_A_PassSkill2[7])
         sizeModifier = 1;
 
     if (cardOBJ[n_A_card[0]][0] == 32 || cardOBJ[n_A_card[1]][0] == 32 || cardOBJ[n_A_card[2]][0] == 32 || cardOBJ[n_A_card[3]][0] == 32 || cardOBJ[n_A_card[4]][0] == 32 || cardOBJ[n_A_card[5]][0] == 32 || cardOBJ[n_A_card[6]][0] == 32 || cardOBJ[n_A_card[7]][0] == 32)
@@ -19,96 +19,96 @@ function calc() {
     impositioMagnus = n_A_PassSkill2[2] * 5;
 
 
-    w_HIT = n_A_HIT + 80 - (n_B_FLEE);
-    if (SkillSearch(148))
-        w_HIT = Math.floor(w_HIT * (100 + 2 * SkillSearch(148)) / 100);
-    if (n_A_ActiveSkill == 70 || n_A_ActiveSkill == 6) {
-        w_HIT *= 1 + n_A_ActiveSkillLV * 0.05;
+    hitRate = n_A_HIT + 80 - (n_B_FLEE);
+    if (SkillSearch("Weaponry Research"))
+        hitRate = Math.floor(hitRate * (100 + 2 * SkillSearch("Weaponry Research")) / 100);
+    if (skillToUseName == "Pierce" || skillToUseName == "Bash") {
+        hitRate *= 1 + n_A_ActiveSkillLV * 0.05;
     }
-    if ((n_A_ActiveSkill == 83 || n_A_ActiveSkill == 388) && SkillSearch(381)) {
-        w_HIT *= 1.5;
+    if ((skillToUseName == "Sonic Blow" || skillToUseName == "Sonic Blow (Soul Linked)") && SkillSearch("Sonic Acceleration")) {
+        hitRate *= 1.5;
     }
-    if (n_A_ActiveSkill == 7) {
-        w_HIT *= 1 + n_A_ActiveSkillLV * 0.1;
+    if (skillToUseName == "Magnum Break") {
+        hitRate *= 1 + n_A_ActiveSkillLV * 0.1;
     }
-    if (n_A_ActiveSkill == 272) {
-        w_HIT *= (1 + n_A_ActiveSkillLV * 0.1);
+    if (skillToUseName == "Sharp Shooting (Temp)") {
+        hitRate *= (1 + n_A_ActiveSkillLV * 0.1);
     }
-    if (n_A_ActiveSkill == 337) {
-        w_HIT = 100;
+    if (skillToUseName == "Counter Kick") {
+        hitRate = 100;
     }
-    if (n_A_ActiveSkill == 384) {
-        w_HIT = 100;
+    if (skillToUseName == "Shield Boomerang (SoulLinked)") {
+        hitRate = 100;
     }
-    if (SkillSearch(364)) {
-        w_HIT = 100;
+    if (SkillSearch("Solar, Lunar, and Stellar Union")) {
+        hitRate = 100;
     }
-    if (w_HIT > 100) {
-        w_HIT = 100;
-    } else if (w_HIT < 5) {
-        w_HIT = 5;
+    if (hitRate > 100) {
+        hitRate = 100;
+    } else if (hitRate < 5) {
+        hitRate = 5;
     }
     if (StPlusCalc2(86) + StPlusCard(86))
-        w_HIT = w_HIT + (100 - w_HIT) * (StPlusCalc2(86) + StPlusCard(86)) / 100;
+        hitRate = hitRate + (100 - hitRate) * (StPlusCalc2(86) + StPlusCard(86)) / 100;
 
-    w_HIT = Math.floor(w_HIT * 100) / 100;
-    myInnerHtml("BattleHIT", w_HIT, 0);
+    hitRate = Math.floor(hitRate * 100) / 100;
+    myInnerHtml("BattleHIT", hitRate, 0);
 
-    if (n_A_ActiveSkill == 272) {
+    if (skillToUseName == "Sharp Shooting (Temp)") {
         n_A_CRI += 20;
     }
-    w_Cri = n_A_CRI - targetStatsArray[TARGET_STAT_LUK] * 0.2 - 0.1;
+    criticalRate = n_A_CRI - targetStatsArray[TARGET_STAT_LUK] * 0.2 - 0.1;
     if (TargetStatusFlags[8])
-        w_Cri *= 2;
-    if (w_Cri < 0) {
-        w_Cri = 0;
-    } else if (w_Cri > 100) {
-        w_Cri = 100;
+        criticalRate *= 2;
+    if (criticalRate < 0) {
+        criticalRate = 0;
+    } else if (criticalRate > 100) {
+        criticalRate = 100;
     }
-    myInnerHtml("CRInum", Math.round(w_Cri * 10) / 10 + SubName[0], 0);
+    myInnerHtml("CRInum", Math.round(criticalRate * 10) / 10 + SubName[0], 0);
 
 
-    wBC3_3danHatudouRitu = 0;
-    if (SkillSearch(187))
-        wBC3_3danHatudouRitu = 30 - SkillSearch(187);
+    tripleAttackChanceRate = 0;
+    if (SkillSearch("Raging Trifecta Blow")) // Ragin trifecta blow
+        tripleAttackChanceRate = 30 - SkillSearch("Raging Trifecta Blow");
 
 
-    wDA = SkillSearch(13) * 5;
-    if (n_A_WeaponType != 1)
-        wDA = 0;
+    doubleAttackChanceRate = SkillSearch("Double Attack") * 5;
+    if (n_A_WeaponType !=  WEAPON_TYPE_DAGGER)
+        doubleAttackChanceRate = 0;
     if (cardOBJ[n_A_card[0]][0] == 43 || cardOBJ[n_A_card[1]][0] == 43 || cardOBJ[n_A_card[2]][0] == 43 || cardOBJ[n_A_card[3]][0] == 43 || cardOBJ[n_A_card[4]][0] == 43 || cardOBJ[n_A_card[5]][0] == 43 || cardOBJ[n_A_card[6]][0] == 43 || cardOBJ[n_A_card[7]][0] == 43) {
-        if (SkillSearch(13) > 1)
-            wDA = SkillSearch(13) * 5;
+        if (SkillSearch("Double Attack") > 1)
+            doubleAttackChanceRate = SkillSearch("Double Attack") * 5;
         else
-            wDA = 5;
+            doubleAttackChanceRate = 5;
     }
     if (ItemOBJ[n_A_Equip[2]][0] == 570) {
-        if (SkillSearch(13) > 1)
-            wDA = SkillSearch(13) * 5;
+        if (SkillSearch("Double Attack") > 1)
+            doubleAttackChanceRate = SkillSearch("Double Attack") * 5;
         else
-            wDA = 10;
+            doubleAttackChanceRate = 10;
     }
     if (ItemOBJ[n_A_Equip[0]][0] == 399 || ItemOBJ[n_A_Equip[1]][0] == 399)
-        wDA = 25;
-    if (n_A_WeaponType == 17)
-        wDA = SkillSearch(425) * 5;
+        doubleAttackChanceRate = 25;
+    if (n_A_WeaponType ==  WEAPON_TYPE_HANDGUN)
+        doubleAttackChanceRate = SkillSearch("Single Action") * 5;
 
-    w_HIT_DA = w_HIT;
-    if (wDA != 0 && n_A_WeaponType != 17) {
-        w_HIT_DA = w_HIT_DA * (100 + SkillSearch(13)) / 100;
-        if (w_HIT_DA >= 100)
-            w_HIT_DA = 100;
+    hitRateDoubleAttack = hitRate;
+    if (doubleAttackChanceRate != 0 && n_A_WeaponType !=  WEAPON_TYPE_HANDGUN) {
+        hitRateDoubleAttack = hitRateDoubleAttack * (100 + SkillSearch("Double Attack")) / 100;
+        if (hitRateDoubleAttack >= 100)
+            hitRateDoubleAttack = 100;
     }
 
-    w998A = 100 - wBC3_3danHatudouRitu;
-    w998B = wBC3_3danHatudouRitu * w_HIT / 100;
-    w998C = wBC3_3danHatudouRitu - w998B;
-    w998D = w998A * wDA / 100;
-    w998E = w998D * w_HIT_DA / 100;
+    w998A = 100 - tripleAttackChanceRate;
+    w998B = tripleAttackChanceRate * hitRate / 100;
+    w998C = tripleAttackChanceRate - w998B;
+    w998D = w998A * doubleAttackChanceRate / 100;
+    w998E = w998D * hitRateDoubleAttack / 100;
     w998F = w998D - w998E;
-    w998G = (100 - wBC3_3danHatudouRitu - w998D) * w_Cri / 100;
-    w998H = 100 - wBC3_3danHatudouRitu - w998D - w998G;
-    w998I = w998H * w_HIT / 100;
+    w998G = (100 - tripleAttackChanceRate - w998D) * criticalRate / 100;
+    w998H = 100 - tripleAttackChanceRate - w998D - w998G;
+    w998I = w998H * hitRate / 100;
     w998J = w998H - w998I;
     w998K = w998B + w998E + w998G + w998I;
     w998L = 100 - w998K;
@@ -129,7 +129,7 @@ function calc() {
     weaponAttack = [0, 0, 0];
 
 
-    if (n_A_workDEX >= n_A_Weapon_ATK || SkillSearch(155)) // 155 = power maximize
+    if (n_A_workDEX >= n_A_Weapon_ATK || SkillSearch("Power Maximize")) // 155 = power maximize
         weaponAttack[2] = n_A_WeaponLV_overUpgradeBonusATK + Math.floor((n_A_Weapon_ATK + impositioMagnus) * sizeModifier);
     else
         weaponAttack[2] = n_A_WeaponLV_overUpgradeBonusATK + Math.floor((n_A_Weapon_ATK - 1 + impositioMagnus) * sizeModifier);
@@ -159,7 +159,7 @@ function calc() {
             weaponAttack[0] = n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK + impositioMagnus) * sizeModifier);
         else {
 
-            if (SkillSearch(155))
+            if (SkillSearch("Power Maximize"))
                 n_A_workDEX = n_A_Weapon_ATK;
             weaponAttack[0] = n_A_WeaponLV_Minplus + Math.floor((n_A_workDEX + impositioMagnus) * sizeModifier);
         }
@@ -182,7 +182,7 @@ function calc() {
     n_A_CriATK[2] = baseATK + n_A_WeaponLV_overUpgradeBonusATK + Math.floor((n_A_Weapon_ATK + impositioMagnus) * sizeModifier);
 
 
-    if (n_A_WeaponType == 10) {
+    if (n_A_WeaponType ==  WEAPON_TYPE_BOW) {
         n_Enekyori = 1;
         n_A_CriATK[1] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * sizeModifier);
         n_A_CriATK[0] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * sizeModifier);
@@ -195,8 +195,8 @@ function calc() {
     BK_n_A_DMG[0] = n_A_DMG[0];
     BK_n_A_DMG[1] = n_A_DMG[1];
 
-    ATKbai01();
-    applySkillModifier(1, 1);
+    ApplyATKBonusPercentage();
+    ApplySkillModifier(1, 1);
 
     wCriTyuu = 1;
     n_A_CriATK[1] = BattleCalc(n_A_CriATK[1], 10);
@@ -210,14 +210,14 @@ function calc() {
     n_A_EDP_DMG[0] = BattleCalcEDP(n_A_DMG[0], 0);
     n_A_EDP_DMG[1] = BattleCalcEDP(n_A_DMG[1], 1);
 
-    if (n_A_WeaponType == 11) {
-        wk = Math.floor(n_A_CriATK[1] * (0.01 + SkillSearch(13) * 0.02));
-        wk2 = Math.floor((n_A_CriATK[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch(13) * 0.02));
+    if (n_A_WeaponType ==  WEAPON_TYPE_KATAR) {
+        wk = Math.floor(n_A_CriATK[1] * (0.01 + SkillSearch("Double Attack") * 0.02));
+        wk2 = Math.floor((n_A_CriATK[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch("Double Attack") * 0.02));
         if (n_A_WeaponLV_Minplus == n_A_WeaponLV_overUpgradeBonusATK && n_A_EDP_DMG[0] == n_A_EDP_DMG[2]) {
             myInnerHtml("CRIATK", (n_A_CriATK[1] + wk2 + n_A_EDP_DMG[1]) + "(" + (n_A_CriATK[1] + n_A_EDP_DMG[1]) + "+" + wk2 + ")", 0);
         } else {
-            w1 = Math.floor((n_A_CriATK[0] + n_A_EDP_DMG[0]) * (0.01 + SkillSearch(13) * 0.02));
-            w2 = Math.floor((n_A_CriATK[2] + n_A_EDP_DMG[2]) * (0.01 + SkillSearch(13) * 0.02));
+            w1 = Math.floor((n_A_CriATK[0] + n_A_EDP_DMG[0]) * (0.01 + SkillSearch("Double Attack") * 0.02));
+            w2 = Math.floor((n_A_CriATK[2] + n_A_EDP_DMG[2]) * (0.01 + SkillSearch("Double Attack") * 0.02));
             myInnerHtml("CRIATK", (n_A_CriATK[0] + w1 + n_A_EDP_DMG[0]) + " ~ " + (n_A_CriATK[2] + w2 + n_A_EDP_DMG[2]) + "(" + (n_A_CriATK[0] + n_A_EDP_DMG[0]) + " ~ " + (n_A_CriATK[2] + n_A_EDP_DMG[2]) + "+" + w1 + " ~ " + w2 + ")", 0);
         }
         n_A_CriATK[1] += wk;
@@ -239,6 +239,7 @@ function calc() {
 
 function BattleCalc(w_atk, w_2) {
 
+    
     if (w_2 == 10)
         w_atk += n_A_WeaponLV_upgradeBonusATK;
     else
@@ -247,36 +248,36 @@ function BattleCalc(w_atk, w_2) {
     if (w_atk < 1) w_atk = 1;
 
 
-    if (n_A_WeaponType == 1 || n_A_WeaponType == 2) w_atk += 4 * SkillSearch(3);
-    else if (n_A_WeaponType == 3) w_atk += 4 * SkillSearch(4);
-    else if (n_A_WeaponType == 4 || n_A_WeaponType == 5) {
-        if (SkillSearch(78) == 0)
-            w_atk += 4 * SkillSearch(69);
+    if (n_A_WeaponType ==  WEAPON_TYPE_DAGGER || n_A_WeaponType ==  WEAPON_TYPE_SWORD) w_atk += 4 * SkillSearch(" Sword Mastery");
+    else if (n_A_WeaponType ==  WEAPON_TYPE_TWO_HANDED_SWORD) w_atk += 4 * SkillSearch("Two-Hand Sword Mastery");
+    else if (n_A_WeaponType ==  WEAPON_TYPE_SPEAR || n_A_WeaponType ==  WEAPON_TYPE_TWO_HANDED_SPEAR) {
+        if (SkillSearch("Cavalier Mastery") == 0)
+            w_atk += 4 * SkillSearch("Spear Mastery");
         else
-            w_atk += 5 * SkillSearch(69);
+            w_atk += 5 * SkillSearch("Spear Mastery");
 
-    } else if (n_A_WeaponType == 11) w_atk += 3 * SkillSearch(81);
-    else if (n_A_WeaponType == 8) w_atk += 3 * SkillSearch(89);
-    else if (n_A_WeaponType == 13 || n_A_WeaponType == 0) w_atk += 3 * SkillSearch(183);
-    else if (n_A_WeaponType == 14) w_atk += 3 * SkillSearch(198);
-    else if (n_A_WeaponType == 15) w_atk += 3 * SkillSearch(206);
-    else if (n_A_WeaponType == 12) w_atk += 3 * SkillSearch(224);
-    else if (n_A_WeaponType == 6 || n_A_WeaponType == 7) w_atk += 3 * SkillSearch(241);
+    } else if (n_A_WeaponType ==  WEAPON_TYPE_KATAR) w_atk += 3 * SkillSearch("Katar Mastery");
+    else if (n_A_WeaponType ==  WEAPON_TYPE_MACE) w_atk += 3 * SkillSearch("Mace Mastery");
+    else if (n_A_WeaponType ==  WEAPON_TYPE_KNUCKLE || n_A_WeaponType ==  WEAPON_TYPE_UNARMED) w_atk += 3 * SkillSearch("Iron Fist");
+    else if (n_A_WeaponType ==  WEAPON_TYPE_INSTRUMENT) w_atk += 3 * SkillSearch("Music Lessons");
+    else if (n_A_WeaponType ==  WEAPON_TYPE_WHIP) w_atk += 3 * SkillSearch("Dance Lessons");
+    else if (n_A_WeaponType ==  WEAPON_TYPE_BOOK) w_atk += 3 * SkillSearch("Study");
+    else if (n_A_WeaponType ==  WEAPON_TYPE_AXE || n_A_WeaponType ==  WEAPON_TYPE_TWO_HANDED_AXE) w_atk += 3 * SkillSearch("Axe Mastery");
 
-    if (n_A_WeaponType == 0 && SkillSearch(329))
-        w_atk += 10 * SkillSearch(329);
+    if (n_A_WeaponType ==  WEAPON_TYPE_UNARMED && SkillSearch("Sprint (Unarmed Mastery)"))
+        w_atk += 10 * SkillSearch("Sprint (Unarmed Mastery)");
 
     if (n_A_PassSkill3[10] && n_A_WeaponLV == 4)
         w_atk += 50 + 25 * n_A_PassSkill3[10];
 
 
     if (targetStatsArray[TARGET_STAT_RACE] == 6 || (90 <= targetStatsArray[TARGET_STAT_ELEMENT] && targetStatsArray[TARGET_STAT_ELEMENT] <= 99)) {
-        if (SkillSearch(24))
-            w_atk += Math.floor((3 + 5 / 100 * n_A_BaseLV) * SkillSearch(24));
+        if (SkillSearch("Demon Bane"))
+            w_atk += Math.floor((3 + 5 / 100 * n_A_BaseLV) * SkillSearch("Demon Bane"));
     }
     if (targetStatsArray[TARGET_STAT_RACE] == 2 || targetStatsArray[TARGET_STAT_RACE] == 4) {
-        w_atk += 4 * SkillSearch(116);
-        if (SkillSearch(390))
+        w_atk += 4 * SkillSearch("Beast Bane");
+        if (SkillSearch("Hunter Spirit (Soul Link)"))
             w_atk += n_A_STR;
     }
 
@@ -288,44 +289,45 @@ function BattleCalc(w_atk, w_2) {
 
 function BattleCalc2(w999) {
 
+    
     w999_AB = 0;
     if (w999 > 0)
         w999_AB = 1;
 
 
-    w999 += 2 * SkillSearch(148);
+    w999 += 2 * SkillSearch("Weaponry Research");
 
 
     if (wBCEDPch == 0)
         w999 = w999 * element[targetStatsArray[TARGET_STAT_ELEMENT]][n_A_Weapon_element];
 
 
-    if (n_A_WeaponType == 0 && SkillSearch(329))
-        if (n_A_ActiveSkill == 331 || n_A_ActiveSkill == 333 || n_A_ActiveSkill == 335 || n_A_ActiveSkill == 337)
-            w999 += 10 * SkillSearch(329);
+    if (n_A_WeaponType ==  WEAPON_TYPE_UNARMED && SkillSearch("Sprint (Unarmed Mastery)"))
+        if (skillToUseName == "Tornado Kick" || skillToUseName == "Heel Drop" || skillToUseName == "Roundouse" || skillToUseName == "Counter Kick")
+            w999 += 10 * SkillSearch("Sprint (Unarmed Mastery)");
 
 
     if (n_A_JOB == 15 || n_A_JOB == 29)
-        w999 += 3 * SkillSearch(185);
+        w999 += 3 * SkillSearch("Summon Spirit Sphere");
     else
         w999 += 3 * n_A_PassSkill2[10];
 
-    w999 += 3 * SkillSearch(416);
+    w999 += 3 * SkillSearch("Coin Flip");
 
 
-    if (n_A_WeaponType != 0 && w999_AB == 1)
-        w999 += 20 * SkillSearch(254);
+    if (n_A_WeaponType !=  WEAPON_TYPE_UNARMED && w999_AB == 1)
+        w999 += 20 * SkillSearch("Aura Blade");
 
 
     if (wBCEDPch == 0) {
-        if (n_A_ActiveSkill == 17 || n_A_ActiveSkill == 307)
+        if (skillToUseName == "Envenom" || skillToUseName == "")
             w999 += 15 * n_A_ActiveSkillLV;
-        if (n_A_ActiveSkill == 86 && (targetStatsArray[TARGET_STAT_ELEMENT] < 50 || 60 <= targetStatsArray[TARGET_STAT_ELEMENT]))
+        if (skillToUseName == "Poison React (Counter)" && (targetStatsArray[TARGET_STAT_ELEMENT] < 50 || 60 <= targetStatsArray[TARGET_STAT_ELEMENT]))
             w999 += 75;
     }
-    if (n_A_ActiveSkill == 423)
+    if (skillToUseName == "Magical Bullet")
         w999 += Math.floor(n_A_MATK[b] * (100 - targetStatsArray[TARGET_STAT_MDEF]) / 100 - n_B_MDEF2);
-    if (n_A_ActiveSkill == 437)
+    if (skillToUseName == "Gunslinger Mine")
         w999 += n_A_ActiveSkillLV * 50;
 
 
@@ -341,35 +343,35 @@ function BattleCalc2(w999) {
         w999 += 10;
 
 
-    if (n_A_ActiveSkill == 394) {
+    if (skillToUseName == "Throw Dagger") {
         w999 += SyurikenOBJ[eval(document.calcForm.SkillSubNum.value)][0];
-        w999 += 3 * SkillSearch(393);
+        w999 += 3 * SkillSearch("Dagger Throwing Practice");
         w999 += 4 * n_A_ActiveSkillLV;
     }
 
-    if (n_A_ActiveSkill == 395)
+    if (skillToUseName == "Throw Kunai")
         w999 += KunaiOBJ[eval(document.calcForm.SkillSubNum.value)][0] * 3;
 
     w999 = BaiCI(w999);
 
 
-    if (n_A_ActiveSkill == 169 && n_A_WeaponType == 10)
+    if (skillToUseName == "Back Stab" && n_A_WeaponType ==  WEAPON_TYPE_BOW)
         w999 = Math.floor(w999 / 2);
 
 
-    if (hasLeftHand && n_A_ActiveSkill == 0) {
+    if (hasLeftHand && skillToUseName == "Basic Attack") {
 
-        if (n_A_WeaponType != 0)
-            w999 = Math.floor(w999 * (50 + SkillSearch(79) * 10) / 100);
+        if (n_A_WeaponType !=  WEAPON_TYPE_UNARMED)
+            w999 = Math.floor(w999 * (50 + SkillSearch("Righthand Mastery") * 10) / 100);
     }
 
 
     if (targetStatsArray[19] == 5)
         return 1;
 
-    if (n_A_ActiveSkill == 423)
+    if (skillToUseName == "Magical Bullet")
         w999 = w999 * element[targetStatsArray[TARGET_STAT_ELEMENT]][8];
-    if (n_A_ActiveSkill == 437)
+    if (skillToUseName == "Gunslinger Mine")
         w999 = w999 * element[targetStatsArray[TARGET_STAT_ELEMENT]][0];
 
     return w999;
@@ -378,6 +380,7 @@ function BattleCalc2(w999) {
 
 function BaiCI(wBaiCI) {
 
+    
     if (wBCEDPch == 0 && not_use_card == 0) {
 
         w1 = 0;
@@ -387,8 +390,8 @@ function BaiCI(wBaiCI) {
             if (ArrowOBJ[n_A_Arrow][2] == "Holy Arrow")
                 w1 += 5;
         }
-        if (targetStatsArray[TARGET_STAT_RACE] == 9 && SkillSearch(234))
-            w1 += SkillSearch(234) * 4;
+        if (targetStatsArray[TARGET_STAT_RACE] == 9 && SkillSearch("Dragonology"))
+            w1 += SkillSearch("Dragonology") * 4;
 
         wBaiCI = Math.floor(wBaiCI * (100 + w1) / 100);
 
@@ -420,16 +423,16 @@ function BaiCI(wBaiCI) {
             w1 += StPlusCard(26);
             w1 += StPlusCalc2(26);
         }
-        if (EquipNumSearch(454))
-            w1 += EquipNumSearch(454) * 5;
-        if (CardNumSearch(323))
-            w1 += CardNumSearch(323) * 20;
-        if (CardNumSearch(363))
-            w1 += CardNumSearch(323) * 10;
+        if (EquipNumSearch("The Sign"))
+            w1 += EquipNumSearch("The Sign") * 5;
+        if (CardNumSearch("Turtle General"))
+            w1 += CardNumSearch("Turtle General") * 20;
+        if (CardNumSearch("Valkyrie Randgris"))
+            w1 += CardNumSearch("Turtle General") * 10;
         wBaiCI = Math.floor(wBaiCI * (100 + w1) / 100);
 
 
-        if (wCriTyuu == 1 && n_A_ActiveSkill != 272)
+        if (wCriTyuu == 1 && skillToUseName != "Sharp Shooting (Temp)")
             wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(70)) / 100);
 
 
@@ -449,51 +452,51 @@ function BaiCI(wBaiCI) {
         wBaiCI = Math.floor(wBaiCI * (100 + StPlusCalc2(1000 + targetStatsArray[0]) + StPlusCard(1000 + targetStatsArray[0])) / 100);
 
 
-        if (EquipNumSearch(626) && n_A_Arrow == 2)
+        if (EquipNumSearch("Burning Bow") && n_A_Arrow == 2)
             wBaiCI = wBaiCI * 125 / 100;
 
-        if (EquipNumSearch(627) && n_A_Arrow == 5)
+        if (EquipNumSearch("Freezing Bow") && n_A_Arrow == 5)
             wBaiCI = wBaiCI * 125 / 100;
 
-        if (EquipNumSearch(628) && n_A_Arrow == 4)
+        if (EquipNumSearch("Earthen Bow") && n_A_Arrow == 4)
             wBaiCI = wBaiCI * 125 / 100;
 
-        if (EquipNumSearch(629) && n_A_Arrow == 6)
+        if (EquipNumSearch("Gale Bow") && n_A_Arrow == 6)
             wBaiCI = wBaiCI * 125 / 100;
 
-        if (EquipNumSearch(630) && n_A_Arrow == 10)
+        if (EquipNumSearch("Orc Archer's Bow") && n_A_Arrow == 10)
             wBaiCI = wBaiCI * 150 / 100;
 
-        if (SkillSearch(258))
+        if (SkillSearch("Frenzy"))
             wBaiCI = wBaiCI * 2;
-        if (SkillSearch(266))
-            wBaiCI = Math.floor(wBaiCI * (150 + 50 * SkillSearch(266)) / 100);
-        if (n_A_ActiveSkill == 86 && (50 <= targetStatsArray[TARGET_STAT_ELEMENT] && targetStatsArray[TARGET_STAT_ELEMENT] < 60))
+        if (SkillSearch("Enchant Deadly Poison"))
+            wBaiCI = Math.floor(wBaiCI * (150 + 50 * SkillSearch("Enchant Deadly Poison")) / 100);
+        if (skillToUseName == "Poison React (Counter)" && (50 <= targetStatsArray[TARGET_STAT_ELEMENT] && targetStatsArray[TARGET_STAT_ELEMENT] < 60))
             wBaiCI = Math.floor(wBaiCI * (100 + 30 * n_A_ActiveSkillLV) / 100);
 
 
-        if (n_A_WeaponType == 11 && SkillSearch(262) && n_A_ActiveSkill != 263)
-            wBaiCI = Math.floor(wBaiCI * (110 + 2 * SkillSearch(262)) / 100);
+        if (n_A_WeaponType ==  WEAPON_TYPE_KATAR && SkillSearch("Advanced Katar Mastery") && skillToUseName != "Soul Destroyer")
+            wBaiCI = Math.floor(wBaiCI * (110 + 2 * SkillSearch("Advanced Katar Mastery")) / 100);
 
         w1 = 0;
         if (InWarOfEmperium == 0) {
-            if (SkillSearch(354) && SkillSearch(365))
-                w1 += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - SkillSearch(354) * 3);
-            else if (SkillSearch(354) && targetStatsArray[TARGET_STAT_SIZE] == 2 && targetStatsArray[TARGET_STAT_HP] >= 20000)
-                w1 += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - SkillSearch(354) * 3);
-            else if (SkillSearch(352) && targetStatsArray[TARGET_STAT_SIZE] == 0)
-                w1 += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch(352) * 3);
-            else if (SkillSearch(353) && targetStatsArray[TARGET_STAT_SIZE] == 1 && targetStatsArray[TARGET_STAT_HP] >= 5000)
-                w1 += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch(353) * 3);
+            if (SkillSearch("Stellar Wrath") && SkillSearch("Solar, Lunar, and Stellar Miracle"))
+                w1 += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - SkillSearch("Stellar Wrath") * 3);
+            else if (SkillSearch("Stellar Wrath") && targetStatsArray[TARGET_STAT_SIZE] == 2 && targetStatsArray[TARGET_STAT_HP] >= 20000)
+                w1 += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - SkillSearch("Stellar Wrath") * 3);
+            else if (SkillSearch("Solar Wrath") && targetStatsArray[TARGET_STAT_SIZE] == 0)
+                w1 += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch("Solar Wrath") * 3);
+            else if (SkillSearch("Lunar Wrath") && targetStatsArray[TARGET_STAT_SIZE] == 1 && targetStatsArray[TARGET_STAT_HP] >= 5000)
+                w1 += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch("Lunar Wrath") * 3);
         } else {
-            if (SkillSearch(354)) {
-                w1 += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - SkillSearch(354) * 3);
+            if (SkillSearch("Stellar Wrath")) {
+                w1 += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - SkillSearch("Stellar Wrath") * 3);
             } else {
-                if (SkillSearch(352)) {
-                    w1 += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch(352) * 3);
+                if (SkillSearch("Solar Wrath")) {
+                    w1 += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch("Solar Wrath") * 3);
                 } else {
-                    if (SkillSearch(353))
-                        w1 += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch(353) * 3);
+                    if (SkillSearch("Lunar Wrath"))
+                        w1 += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch("Lunar Wrath") * 3);
                 }
             }
         }
@@ -504,14 +507,14 @@ function BaiCI(wBaiCI) {
 
     w1 = 0;
 
-    if (n_A_ActiveSkill == 6)
-        if (n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch(362))
+    if (skillToUseName == "Bash")
+        if (n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch("Freezer"))
             w1 += 10;
 
-    if (TyouEnkakuSousa3dan == -1 && EquipNumSearch(639))
+    if (TyouEnkakuSousa3dan == -1 && EquipNumSearch("Barrage Fist"))
         w1 += 15;
 
-    if ((n_A_ActiveSkill == 83 || n_A_ActiveSkill == 388) && SkillSearch(381))
+    if ((skillToUseName == "Sonic Blow" || skillToUseName == "Sonic Blow (Soul Linked)") && SkillSearch("Sonic Acceleration"))
         w1 += 10;
 
     wBaiCI = wBaiCI * (100 + StPlusCalc2(5000 + n_A_ActiveSkill) + StPlusCard(5000 + n_A_ActiveSkill) + w1) / 100;
@@ -541,8 +544,8 @@ function BattleCalc3left(w998) {
             wBC3L2 += 5;
     }
 
-    wBC3_Normal = w998 * w_HIT / 100;
-    wBC3_Miss = wBC3L2 * (100 - w_HIT) / 100;
+    wBC3_Normal = w998 * hitRate / 100;
+    wBC3_Miss = wBC3L2 * (100 - hitRate) / 100;
 
     wBC3_X = wBC3_Normal + wBC3_Miss;
 
@@ -554,7 +557,10 @@ function BattleCalc3left(w998) {
 
 function SkillSearch(n) {
     for (k = 0; k <= 14; k++) {
-        if (JobSkillPassOBJ[n_A_JOB][k] == n) {
+        let passiveSkillToUseName;
+        if (JobSkillPassOBJ[n_A_JOB][k] != 999)
+            passiveSkillToUseName = SkillOBJ[JobSkillPassOBJ[n_A_JOB][k]][2];
+        if (passiveSkillToUseName === n) {
             return n_A_PassSkill[k];
         }
     }
@@ -563,20 +569,21 @@ function SkillSearch(n) {
 
 
 function BattleCalc4(wBC4, wBC4_2, wBC4_3) {
+    
     if (wBC4_3 == 0)
         wBC4_3 = n_A_WeaponLV_upgradeBonusATK;
     else
         wBC4_3 = n_A_Weapon2LV_upgradeBonusATK;
-    if ((StPlusCalc2(23) + StPlusCard(23)) == 0 || n_A_ActiveSkill == 275) {
-        if (n_A_ActiveSkill == 432)
+    if ((StPlusCalc2(23) + StPlusCard(23)) == 0 || skillToUseName == "Stave Crasher") {
+        if (skillToUseName == "Wounding Shot")
             return wBC4 + wBC4_3;
         if (StPlusCalc2(22) == targetStatsArray[TARGET_STAT_RACE] && targetStatsArray[TARGET_STAT_RACE] != 0)
             return wBC4 + wBC4_3;
         if (StPlusCalc2(22) == 99 && targetStatsArray[19] == 0)
             return wBC4 + wBC4_3;
-        if (SkillSearch(364))
+        if (SkillSearch("Solar, Lunar, and Stellar Union"))
             return wBC4 + wBC4_3;
-        if (CardNumSearch(255) && targetStatsArray[19] == 0)
+        if (CardNumSearch("Samurai Specter") && targetStatsArray[19] == 0)
             return wBC4 + wBC4_3;
         wBC4 = Math.floor(wBC4 * (100 - targetStatsArray[TARGET_STAT_DEF]) / 100) - n_B_DEF2[wBC4_2] + wBC4_3;
     } else {
@@ -593,17 +600,18 @@ function BattleCalc4(wBC4, wBC4_2, wBC4_3) {
 
 
 function BattleCalcEDP(wBCEDP, wBCEDP2) {
+    
     if (wBCEDP <= 0)
         return 0;
     if (element[targetStatsArray[TARGET_STAT_ELEMENT]][n_A_Weapon_element] <= 0 && BattleCalc2(0) == 0)
         return 0;
 
-    if (n_A_ActiveSkill == 19 || n_A_ActiveSkill == 263 || n_A_ActiveSkill == 88 || n_A_ActiveSkill == 264 || n_A_ActiveSkill == 248)
+    if (skillToUseName == "Sand Attack" || skillToUseName == "Soul Destroyer" || skillToUseName == "Venom Splasher" || skillToUseName == "Meteor Assault" || skillToUseName == "Bomb")
         return 0;
     wBCEDPch = 1;
     wBCEDPx = 0;
     wBCEDPy = 0;
-    if (SkillSearch(266)) {
+    if (SkillSearch("Enchant Deadly Poison")) {
         wBCEDPx = BattleCalc(wBCEDP, wBCEDP2);
         wBCEDPx = Math.floor((wBCEDPx * element[targetStatsArray[TARGET_STAT_ELEMENT]][5]) / 4);
     }
@@ -634,7 +642,7 @@ function BattleCalc999() {
     myInnerHtml("bSUB2", "", 0);
 
 
-    let skillToUseName = SkillOBJ[n_A_ActiveSkill][2];
+    
     if (skillToUseName != "Basic Attack" && skillToUseName != "Sharp Shooting (Temp)" && (skillToUseName != "Poison React (Counter)" || (targetStatsArray[TARGET_STAT_ELEMENT] < 50 && 60 <= targetStatsArray[TARGET_STAT_ELEMENT]))) {
         myInnerHtml("CRIATK", "", 0);
         myInnerHtml("CRInum", "", 0);
@@ -642,7 +650,7 @@ function BattleCalc999() {
         myInnerHtml("CRInumname", "", 0);
     }
 
-    if ((n_A_WeaponType == 10 || n_A_WeaponType == 17 || n_A_WeaponType == 18 || n_A_WeaponType == 19 || n_A_WeaponType == 20 || n_A_WeaponType == 21) && skillToUseName === "Basic Attack")
+    if ((n_A_WeaponType ==  WEAPON_TYPE_BOW || n_A_WeaponType ==  WEAPON_TYPE_HANDGUN || n_A_WeaponType ==  WEAPON_TYPE_RIFLE || n_A_WeaponType ==  WEAPON_TYPE_SHOTGUN || n_A_WeaponType ==  WEAPON_TYPE_GATLING_GUN || n_A_WeaponType ==  WEAPON_TYPE_GRENADE_LAUNCHER) && skillToUseName === "Basic Attack")
         n_Enekyori = 1;
 
 
@@ -652,7 +660,7 @@ function BattleCalc999() {
 
         if (skillToUseName === "Poison React (Counter)") {
             n_SpSkill = 1;
-            if (n_A_WeaponType != 11)
+            if (n_A_WeaponType !=  WEAPON_TYPE_KATAR)
                 myInnerHtml("bSUB", '<Font size="2"><B>Damage Shown with 2x right hand damage.</B></Font>', 0);
         }
 
@@ -721,7 +729,7 @@ function BattleCalc999() {
                 if (n_A_card[7] == 106)
                     w_left_star += 10;
                 w_left_Maxatk += w_left_star;
-                w_left_Maxatk = w_left_Maxatk * (3 + SkillSearch(80)) / 10;
+                w_left_Maxatk = w_left_Maxatk * (3 + SkillSearch("Lefthand Mastery")) / 10;
                 w_left_Maxatk = Math.floor(w_left_Maxatk);
 
 
@@ -733,7 +741,7 @@ function BattleCalc999() {
                 if (w_left_Minatk < 1) w_left_Minatk = 1;
                 w_left_Minatk = Math.floor(w_left_Minatk * element[targetStatsArray[TARGET_STAT_ELEMENT]][n_A_Weapon2_element]);
                 w_left_Minatk += w_left_star;
-                w_left_Minatk *= (0.3 + SkillSearch(80) / 10);
+                w_left_Minatk *= (0.3 + SkillSearch("Lefthand Mastery") / 10);
                 w_left_Minatk = Math.floor(w_left_Minatk);
 
                 w_left_Aveatk = (w_left_Maxatk + w_left_Minatk) / 2;
@@ -743,7 +751,7 @@ function BattleCalc999() {
                 w_left_Aveatk = 1;
             }
 
-            applySkillModifier(skillModifier, 0);
+            ApplySkillModifier(skillModifier, 0);
 
 
             finalDamages[2] = BattleCalc(n_A_DMG[2], 2);
@@ -769,11 +777,11 @@ function BattleCalc999() {
             finalDamages[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
             BattleCalc998(0, 0);
-        } else if (n_A_WeaponType == 11) {
-            applySkillModifier(skillModifier, 0);
+        } else if (n_A_WeaponType ==  WEAPON_TYPE_KATAR) {
+            ApplySkillModifier(skillModifier, 0);
             finalDamages[2] = BattleCalc(n_A_DMG[2], 2);
-            wk = Math.floor(finalDamages[2] * (0.01 + SkillSearch(13) * 0.02));
-            wk2 = Math.floor((finalDamages[2] + n_A_EDP_DMG[2]) * (0.01 + SkillSearch(13) * 0.02));
+            wk = Math.floor(finalDamages[2] * (0.01 + SkillSearch("Double Attack") * 0.02));
+            wk2 = Math.floor((finalDamages[2] + n_A_EDP_DMG[2]) * (0.01 + SkillSearch("Double Attack") * 0.02));
             myInnerHtml("ATK_02", (finalDamages[2] + wk2 + n_A_EDP_DMG[2]) + "(" + (finalDamages[2] + n_A_EDP_DMG[2]) + "+" + wk2 + ")", 0);
             finalDamages[2] += wk;
 
@@ -782,8 +790,8 @@ function BattleCalc999() {
             finalDamages[2] += HitEDPplus(n_A_EDP_DMG[2]);
 
             finalDamages[0] = BattleCalc(n_A_DMG[0], 0);
-            wk = Math.floor(finalDamages[0] * (0.01 + SkillSearch(13) * 0.02));
-            wk2 = Math.floor((finalDamages[0] + n_A_EDP_DMG[0]) * (0.01 + SkillSearch(13) * 0.02));
+            wk = Math.floor(finalDamages[0] * (0.01 + SkillSearch("Double Attack") * 0.02));
+            wk2 = Math.floor((finalDamages[0] + n_A_EDP_DMG[0]) * (0.01 + SkillSearch("Double Attack") * 0.02));
             myInnerHtml("ATK_00", (finalDamages[0] + wk2 + n_A_EDP_DMG[0]) + "(" + (finalDamages[0] + n_A_EDP_DMG[0]) + "+" + wk2 + ")", 0);
             finalDamages[0] += wk;
 
@@ -791,8 +799,8 @@ function BattleCalc999() {
             finalDamages[0] += HitEDPplus(n_A_EDP_DMG[0]);
 
             finalDamages[1] = BattleCalc(n_A_DMG[1], 1);
-            wk = Math.floor(finalDamages[1] * (0.01 + SkillSearch(13) * 0.02));
-            wk2 = Math.floor((finalDamages[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch(13) * 0.02));
+            wk = Math.floor(finalDamages[1] * (0.01 + SkillSearch("Double Attack") * 0.02));
+            wk2 = Math.floor((finalDamages[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch("Double Attack") * 0.02));
             myInnerHtml("ATK_01", (finalDamages[1] + wk2 + n_A_EDP_DMG[1]) + "(" + (finalDamages[1] + n_A_EDP_DMG[1]) + "+" + wk2 + ")", 0);
             finalDamages[1] += wk;
 
@@ -804,7 +812,7 @@ function BattleCalc999() {
             wTAKA = BattleTAKA();
             TyouEnkakuSousa3dan = 0;
 
-            if (SkillSearch(187)) {
+            if (SkillSearch("Raging Trifecta Blow")) {
                 TyouEnkakuSousa3dan = -1;
 
                 myInnerHtml("bSUBname", "Trifecta Damage", 0);
@@ -813,14 +821,14 @@ function BattleCalc999() {
                 san3 = Math.floor(BattleCalc(n_A_DMG[2] * (skillModifier + wBC3_3danAtkBairitu), 2) / 3) * 3;
                 myInnerHtml("bSUB", san1 + " ~ " + san3, 0);
                 myInnerHtml("bSUB2name", "Trifecta Rate", 0);
-                myInnerHtml("bSUB2", 30 - SkillSearch(187) + "%", 0);
+                myInnerHtml("bSUB2", 30 - SkillSearch("Raging Trifecta Blow") + "%", 0);
                 TyouEnkakuSousa3dan = 0;
             }
 
-            applySkillModifier(skillModifier, 0);
+            ApplySkillModifier(skillModifier, 0);
 
             finalDamages[2] = BattleCalc(n_A_DMG[2], 2);
-            if (SkillSearch(187))
+            if (SkillSearch("Raging Trifecta Blow"))
                 TyouEnkakuSousa3dan = san3;
             myInnerHtml("ATK_02", (finalDamages[2] + n_A_EDP_DMG[2]), 0);
 
@@ -831,7 +839,7 @@ function BattleCalc999() {
 
             finalDamages[0] = BattleCalc(n_A_DMG[0], 0);
             myInnerHtml("ATK_00", finalDamages[0] + n_A_EDP_DMG[0], 0);
-            if (SkillSearch(187))
+            if (SkillSearch("Raging Trifecta Blow"))
                 TyouEnkakuSousa3dan = san1;
 
             finalDamages[0] = BattleCalc3(finalDamages[0]);
@@ -840,7 +848,7 @@ function BattleCalc999() {
 
             finalDamages[1] = BattleCalc(n_A_DMG[1], 1);
             myInnerHtml("ATK_01", finalDamages[1] + n_A_EDP_DMG[1], 0);
-            if (SkillSearch(187))
+            if (SkillSearch("Raging Trifecta Blow"))
                 TyouEnkakuSousa3dan = san2;
 
             finalDamages[1] = BattleCalc3(finalDamages[1]);
@@ -866,7 +874,7 @@ function BattleCalc999() {
         n_A_CriATK[0] = n_A_DMG[0];
         n_A_CriATK[2] = n_A_DMG[2];
 
-        applySkillModifier(skillModifier, 1);
+        ApplySkillModifier(skillModifier, 1);
 
         wCriTyuu = 1;
         n_A_CriATK[1] = BattleCalc(n_A_CriATK[1], 10);
@@ -886,7 +894,7 @@ function BattleCalc999() {
         n_A_CriATK[0] += HitEDPplus(n_A_EDP_DMG[0]);
         n_A_CriATK[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
 
         finalDamages[2] = BattleCalc(n_A_DMG[2], 2);
         myInnerHtml("ATK_02", (finalDamages[2] + n_A_EDP_DMG[2]), 0);
@@ -1111,7 +1119,7 @@ function BattleCalc999() {
             skillModifier += n_A_ActiveSkillLV * 1 + 1;
             wDelay = 1;
             swDelay = 1;
-            w_HIT = w_HIT * 5 + 5;
+            w_HIT = hitRate * 5 + 5;
             if (w_HIT > 100)
                 w_HIT = 100;
         } else if (skillToUseName === "Disarm") {
@@ -1152,7 +1160,7 @@ function BattleCalc999() {
         }
 
 
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
 
 
         n_A_EDP_DMG[0] = BattleCalcEDP(n_A_DMG[0], 0);
@@ -1167,7 +1175,7 @@ function BattleCalc999() {
             if (wActiveHitNum > 1)
                 finalDamages[b] = Math.floor(finalDamages[b] / wActiveHitNum) * wActiveHitNum;
             myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * w_HIT + BattleCalc2(0) * (100 - w_HIT)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + BattleCalc2(0) * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
@@ -1192,7 +1200,7 @@ function BattleCalc999() {
         for (b = 0; b <= 2; b++) {
             finalDamages[b] = BattleCalc(n_A_DMG[b], b);
             myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * w_HIT + (BattleCalc2(0) + n_A_WeaponLV_upgradeBonusATK) * (100 - w_HIT)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + (BattleCalc2(0) + n_A_WeaponLV_upgradeBonusATK) * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
@@ -1223,7 +1231,7 @@ function BattleCalc999() {
         } else if (skillToUseName === "Throw Spirit Spheres (# Hits = # of Spirit Spheres)") {
             skillModifier += n_A_ActiveSkillLV * 0.5;
             if (n_A_JOB == 15 || n_A_JOB == 29)
-                w = SkillSearch(185);
+                w = SkillSearch("Summon Spirit Sphere");
             else
                 w = n_A_PassSkill2[10];
             if (w > n_A_ActiveSkillLV) {
@@ -1246,7 +1254,7 @@ function BattleCalc999() {
         }
 
 
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
 
         for (b = 0; b <= 2; b++) {
             finalDamages[b] = BattleCalc(n_A_DMG[b], b);
@@ -1259,7 +1267,7 @@ function BattleCalc999() {
                 myInnerHtml("ATK_0" + b, finalDamages[b] * 3 + "(" + finalDamages[b] * 2 + " + " + finalDamages[b] + ")", 0);
             finalDamages[b] -= n_A_EDP_DMG[b];
             finalDamages[b] *= hitCount;
-            finalDamages[b] = (finalDamages[b] * w_HIT + BattleCalc2(0) * hitCount * (100 - w_HIT)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + BattleCalc2(0) * hitCount * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]) * hitCount;
         }
 
@@ -1268,7 +1276,7 @@ function BattleCalc999() {
     } else if (skillToUseName === "Blitz Beat" || skillToUseName === "Falcon Eyes") {
         n_A_Weapon_element = 0;
         n_Enekyori = 1;
-        wBT = 80 + Math.floor(n_A_DEX / 10) * 2 + Math.floor(n_A_INT / 2) * 2 + SkillSearch(119) * 6;
+        wBT = 80 + Math.floor(n_A_DEX / 10) * 2 + Math.floor(n_A_INT / 2) * 2 + SkillSearch("Steel Crow") * 6;
         if (skillToUseName === "Falcon Eyes") {
             wBT = Math.floor(wBT * (150 + 70 * n_A_ActiveSkillLV) / 100);
             wBT = Math.floor(wBT * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
@@ -1292,7 +1300,7 @@ function BattleCalc999() {
         BattleCalc998(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Envenom" || (skillToUseName === "Poison React (Counter)" && (targetStatsArray[TARGET_STAT_ELEMENT] < 50 || 60 <= targetStatsArray[TARGET_STAT_ELEMENT]))) {
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
         n_A_Weapon_element = 5;
 
 
@@ -1306,7 +1314,7 @@ function BattleCalc999() {
             finalDamages[b] = BattleCalc(n_A_DMG[b], b);
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][5]);
             myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * w_HIT + wINV * (100 - w_HIT)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + wINV * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
@@ -1338,7 +1346,7 @@ function BattleCalc999() {
             if (finalDamages[b] < 1) finalDamages[b] = 1;
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
             myInnerHtml("ATK_0" + b, finalDamages[b], 0);
-            finalDamages[b] = (finalDamages[b] * w_HIT) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate) / 100;
         }
 
         CastAndDelay();
@@ -1374,7 +1382,7 @@ function BattleCalc999() {
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
             myInnerHtml("ATK_0" + b, finalDamages[b] * 5 + "(" + finalDamages[b] + SubName[8] + "5hit)", 0);
             finalDamages[b] *= 5;
-            finalDamages[b] = (finalDamages[b] * w_HIT) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate) / 100;
         }
 
         CastAndDelay();
@@ -1401,7 +1409,7 @@ function BattleCalc999() {
         wSPP2 = n_A_WeaponLV_upgradeBonusATK * element[targetStatsArray[TARGET_STAT_ELEMENT]][n_A_Weapon_element];
         wSPP2 = BaiCI(wSPP2);
         wSPP2 = tPlusDamCut(wSPP2);
-        finalDamages[2] = finalDamages[2] * w_HIT / 100 + wSPP2 * 5 * (100 - w_HIT) / 100;
+        finalDamages[2] = finalDamages[2] * hitRate / 100 + wSPP2 * 5 * (100 - hitRate) / 100;
 
 
         finalDamages[0] = finalDamages[1] = finalDamages[2];
@@ -1416,7 +1424,7 @@ function BattleCalc999() {
         if (targetStatsArray[19] == 0) {
 
             skillModifier += (400 + 50 * n_A_ActiveSkillLV + 20 * eval(document.calcForm.SkillSubNum.value)) / 100;
-            applySkillModifier(skillModifier, 0);
+            ApplySkillModifier(skillModifier, 0);
 
 
             for (b = 0; b <= 2; b++) {
@@ -1447,7 +1455,7 @@ function BattleCalc999() {
             finalDamages[b] = BattleCalc(n_A_DMG[b], b);
             finalDamages[b] *= n_A_ActiveSkillLV;
             myInnerHtml("ATK_0" + b, finalDamages[b] + w_SBr[b] + "(" + finalDamages[b] + "+" + w_SBr[b] + ")", 0);
-            finalDamages[b] = ((finalDamages[b] + w_SBr[b]) * w_HIT + (BattleCalc2(0) + w_SBr[b]) * (100 - w_HIT)) / 100;
+            finalDamages[b] = ((finalDamages[b] + w_SBr[b]) * hitRate + (BattleCalc2(0) + w_SBr[b]) * (100 - hitRate)) / 100;
         }
 
         CastAndDelay();
@@ -1463,7 +1471,7 @@ function BattleCalc999() {
         wGXhito = 100 - StPlusCard(57);
         wGXhito -= StPlusCalc2(57);
 
-        wGXsei = 100 - SkillSearch(156) * 5;
+        wGXsei = 100 - SkillSearch("Faith") * 5;
         wGXsei -= StPlusCard(66);
         wGXsei -= StPlusCalc2(66);
 
@@ -1489,13 +1497,13 @@ function BattleCalc999() {
             finalDamages[b] = Math.floor(finalDamages[b] * wGXsei / 100);
             finalDamages[b] = Math.floor(finalDamages[b] * (100 - wGXen) / 100);
 
-            if (CardNumSearch(135))
+            if (CardNumSearch("Bathory"))
                 finalDamages[b] = Math.floor(finalDamages[b] * 125 / 100);
 
-            if (CardNumSearch(75))
+            if (CardNumSearch("Evil Druid"))
                 finalDamages[b] = Math.floor(finalDamages[b] * 150 / 100);
 
-            if (CardNumSearch(134) || CardNumSearch(456))
+            if (CardNumSearch("Angeling") || CardNumSearch("0"))
                 finalDamages[b] = Math.floor(finalDamages[b] * 0 / 100);
             finalDamages[b] = Math.floor(finalDamages[b] / 2);
         }
@@ -1540,12 +1548,12 @@ function BattleCalc999() {
     } else if (skillToUseName === "Cart Revolution") {
         wCR = 100;
 
-        if (SkillSearch(327)) {
-            wCR += 20 * SkillSearch(327);
+        if (SkillSearch("Maximum Power-Thust")) {
+            wCR += 20 * SkillSearch("Maximum Power-Thust");
         } else {
-            if (SkillSearch(154))
-                wCR += SkillSearch(154) * 5;
-            if (SkillSearch(154) == 0 && n_A_PassSkill2[8])
+            if (SkillSearch("Power-Thrust"))
+                wCR += SkillSearch("Power-Thrust") * 5;
+            if (SkillSearch("Power-Thrust") == 0 && n_A_PassSkill2[8])
                 wCR += n_A_PassSkill2[8] * 5 / 10;
         }
         CR_n_A_DMG = [0, 0, 0];
@@ -1555,7 +1563,7 @@ function BattleCalc999() {
             CR_n_A_DMG[b] = Math.floor(n_A_DMG[b] * wCR / 100);
 
         skillModifier += 0.5;
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
 
         for (b = 0; b <= 2; b++) {
             finalDamages[b] = BattleCalc(n_A_DMG[b], b);
@@ -1563,7 +1571,7 @@ function BattleCalc999() {
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
             myInnerHtml("ATK_0" + b, finalDamages[b], 0);
 
-            finalDamages[b] = (finalDamages[b] * w_HIT + BattleCalc2(0) * 2 * (100 - w_HIT)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + BattleCalc2(0) * 2 * (100 - hitRate)) / 100;
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
         }
 
@@ -1602,7 +1610,7 @@ function BattleCalc999() {
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Occult Impaction") {
         n_A_Weapon_element = 0;
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
         skillModifier += n_A_ActiveSkillLV * 0.75;
 
 
@@ -1626,7 +1634,7 @@ function BattleCalc999() {
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Guillotine Fist" || skillToUseName === "Guillotine Fist (MaxSP-1)") {
         n_A_Weapon_element = 0;
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
         if (skillToUseName === "Guillotine Fist")
             skillModifier += 7 + eval(document.calcForm.SkillSubNum.value) / 10;
         else
@@ -1650,13 +1658,13 @@ function BattleCalc999() {
     } else if (skillToUseName === "Throw Dagger") {
         n_Enekyori = 1;
         not_use_card = 1;
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
 
         for (b = 0; b <= 2; b++) {
             finalDamages[b] = BattleCalc(n_A_DMG[b], b);
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
             myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * w_HIT + BattleCalc2(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - w_HIT)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + BattleCalc2(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
@@ -1665,17 +1673,17 @@ function BattleCalc999() {
     } else if (skillToUseName === "Throw Kunai") {
         n_Enekyori = 1;
         not_use_card = 1;
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
 
 
-        if (eval(document.calcForm.A_Weapon_element.value) == 0 && n_A_WeaponType != 0 && StPlusCard(20) == 0)
+        if (eval(document.calcForm.A_Weapon_element.value) == 0 && n_A_WeaponType !=  WEAPON_TYPE_UNARMED && StPlusCard(20) == 0)
             n_A_Weapon_element = KunaiOBJ[eval(document.calcForm.SkillSubNum.value)][1];
 
         for (b = 0; b <= 2; b++) {
             finalDamages[b] = BattleCalc(n_A_DMG[b], b);
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
             myInnerHtml("ATK_0" + b, finalDamages[b] * 3 + "(" + finalDamages[b] + SubName[8] + "3hit)", 0);
-            finalDamages[b] = (finalDamages[b] * 3 * w_HIT + BattleCalc2(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - w_HIT)) / 100;
+            finalDamages[b] = (finalDamages[b] * 3 * hitRate + BattleCalc2(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
@@ -1684,7 +1692,7 @@ function BattleCalc999() {
     } else if (skillToUseName === "Throw Huuma Shuriken") {
         skillModifier += (n_A_ActiveSkillLV * 1.5 + 0.5);
         n_Enekyori = 1;
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
         wCast = 3 * n_A_CAST;
         wDelay = 3;
         swDelay = 1;
@@ -1696,7 +1704,7 @@ function BattleCalc999() {
             if (wActiveHitNum > 1)
                 finalDamages[b] = Math.floor(finalDamages[b] / wActiveHitNum) * wActiveHitNum;
             myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * w_HIT + BattleCalc2(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - w_HIT)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + BattleCalc2(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
@@ -1705,7 +1713,7 @@ function BattleCalc999() {
     } else if (skillToUseName === "Final Strike" || skillToUseName === "Final Strike (MaxHP-1)") {
         n_A_Weapon_element = 0;
         n_Enekyori = 1;
-        applySkillModifier(skillModifier, 0);
+        ApplySkillModifier(skillModifier, 0);
         if (skillToUseName === "Final Strike")
             w_1senHP = eval(document.calcForm.SkillSubNum.value);
         else
@@ -1823,10 +1831,10 @@ function BattleCalc999() {
             finalDamages[2] = 0;
 
         w_HEAL_BAI = 100;
-        if (EquipNumSearch(644))
+        if (EquipNumSearch("Staff of Recovery"))
             w_HEAL_BAI += Math.floor(weaponRefinementLevel * 1.5)
-        if (CardNumSearch(332))
-            w_HEAL_BAI += 30 * CardNumSearch(332);
+        if (CardNumSearch("White Lady"))
+            w_HEAL_BAI += 30 * CardNumSearch("White Lady");
         finalDamages[2] = Math.floor(finalDamages[2] * w_HEAL_BAI / 100);
 
         finalDamages[2] = tPlusDamCut(finalDamages[2]);
@@ -2145,21 +2153,21 @@ function BattleCalc999() {
 }
 
 
-function ATKbai01() {
+function ApplyATKBonusPercentage() {
     wA01 = 100;
-    let skillToUseName = SkillOBJ[n_A_ActiveSkill][2];
+    
     ;
-    if (skillToUseName != 193 && skillToUseName != 197 && skillToUseName != 321) {
-        if (SkillSearch(12))
+    if (skillToUseName != "Occult Impaction" && skillToUseName != "Guillotine Fist" && skillToUseName != "Guillotine Fist (MaxSP-1)") {
+        if (SkillSearch("Auto Berserk"))
             wA01 += 32;
         else if (n_A_PassSkill2[12])
             wA01 += 5;
 
 
-        if (SkillSearch(256))
-            wA01 += SkillSearch(256) * 5;
-        if (SkillSearch(270))
-            wA01 += SkillSearch(270) * 2;
+        if (SkillSearch("Spear Dynamo"))
+            wA01 += SkillSearch("Spear Dynamo") * 5;
+        if (SkillSearch("True Sight"))
+            wA01 += SkillSearch("True Sight") * 2;
         if (n_A_PassSkill5[3])
             wA01 += 100;
         if (n_A_PassSkill6[2])
@@ -2176,21 +2184,21 @@ function ATKbai01() {
 }
 
 
-function applySkillModifier(wATKbai, ch_A02) {
-    wA02 = wATKbai * 100;
-    if (SkillSearch(327)) {
-        wA02 += 20 * SkillSearch(327);
+function ApplySkillModifier(skillModifier, isCrit) {
+    wA02 = skillModifier * 100;
+    if (SkillSearch("Maximum Power-Thust")) {
+        wA02 += 20 * SkillSearch("Maximum Power-Thust");
     } else {
-        if (SkillSearch(154))
-            wA02 += SkillSearch(154) * 5;
-        if (SkillSearch(154) == 0 && n_A_PassSkill2[8])
+        if (SkillSearch("Power-Thrust"))
+            wA02 += SkillSearch("Power-Thrust") * 5;
+        if (SkillSearch("Power-Thrust") == 0 && n_A_PassSkill2[8])
             wA02 += n_A_PassSkill2[8] * 5 / 5;
     }
-    if (SkillSearch(342)) {
-        wA02 += 2 * SkillSearch(342) * SkillSearch(380);
+    if (SkillSearch("Kihop")) {
+        wA02 += 2 * SkillSearch("Kihop") * SkillSearch("Party Members (Kihop Bonus");
     }
 
-    if (ch_A02 == 0) {
+    if (isCrit == 0) {
         n_A_DMG[2] = Math.floor(n_A_DMG[2] * wA02 / 100);
         n_A_DMG[0] = Math.floor(n_A_DMG[0] * wA02 / 100);
         n_A_DMG[1] = Math.floor(n_A_DMG[1] * wA02 / 100);
@@ -2203,14 +2211,14 @@ function applySkillModifier(wATKbai, ch_A02) {
 
 
 function BattleTAKA() {
-    if (n_A_WeaponType == 10 && SkillSearch(118) && n_A_ActiveSkill != 272) {
+    if (n_A_WeaponType ==  WEAPON_TYPE_BOW && SkillSearch("Blitz Beat") && skillToUseName != "Sharp Shooting (Temp)") {
         myInnerHtml("bSUBname", "Bird Damage (Atk Rate))", 0);
         wBTw1 = Math.floor((n_A_JobLV - 1) / 10 + 1);
         if (wBTw1 > 5) wBTw1 = 5;
-        wBTw2 = SkillSearch(118);
+        wBTw2 = SkillSearch("Blitz Beat");
         if (wBTw2 < wBTw1)
             wBTw1 = wBTw2;
-        wBT = 80 + Math.floor(n_A_DEX / 10) * 2 + Math.floor(n_A_INT / 2) * 2 + SkillSearch(119) * 6;
+        wBT = 80 + Math.floor(n_A_DEX / 10) * 2 + Math.floor(n_A_INT / 2) * 2 + SkillSearch("Steel Crow") * 6;
         wBT = Math.floor(wBT * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
         wBT = tPlusDamCut(wBT);
         wBTw3 = Math.round((1 + n_A_LUK * 0.3) * 100) / 100;
@@ -2218,7 +2226,7 @@ function BattleTAKA() {
             wBT = 0;
         myInnerHtml("bSUB", wBT * wBTw1 + "(" + wBTw3 + "%)", 0);
         wBT = wBT * wBTw1 * wBTw3 / 100;
-        wBT = wBT * (w_HIT + ((100 - w_HIT) * w_Cri / 100)) / 100;
+        wBT = wBT * (hitRate + ((100 - hitRate) * criticalRate / 100)) / 100;
         wBTw1 = 0;
         return Math.round(wBT * 100) / 100;
     } else
@@ -2229,20 +2237,22 @@ function BattleTAKA() {
 function HealCalc(HealLv, HealType) {
     wHeal = Math.floor((n_A_BaseLV + n_A_INT) / 8) * (HealLv * 8 + 4);
     wHealBAI = 100;
-    wHealBAI += SkillSearch(269) * 2;
-    if (EquipNumSearch(644))
+    wHealBAI += SkillSearch("Mediatio") * 2;
+    if (EquipNumSearch("Staff of Recovery"))
         wHealBAI += Math.floor(weaponRefinementLevel * 1.5)
-    if (CardNumSearch(332))
-        wHealBAI += 30 * CardNumSearch(332);
+    if (CardNumSearch("White Lady"))
+        wHealBAI += 30 * CardNumSearch("White Lady");
     if (HealType == 0)
-        if (EquipNumSearch(751) || EquipNumSearch(771))
+        if (EquipNumSearch("0") || EquipNumSearch("0"))
             wHealBAI += 50;
     wHeal = Math.floor(wHeal * wHealBAI / 100);
     return wHeal;
 }
 
 function BattleCalc998(BC998Cast, BC998Delay) {
-    if (targetStatsArray[0] == 44 && n_A_ActiveSkill != 0) {
+    
+    
+    if (targetStatsArray[0] == 44 && skillToUseName != "Basic Attack") {
         for (i = 0; i <= 2; i++) {
             finalDamages[i] = 0;
             myInnerHtml("ATK_0" + i, 0, 0);
@@ -2323,14 +2333,14 @@ function BattleCalc998(BC998Cast, BC998Delay) {
 
         w = Math.round(w * (100 - n_A_LUCKY)) / 100;
         w = Math.round(w * (100 - w_FLEE)) / 100;
-        if (SkillSearch(157)) {
-            w = Math.round(w * w_AG[SkillSearch(157)]) / 100;
+        if (SkillSearch("Guard")) {
+            w = Math.round(w * w_AG[SkillSearch("Guard")]) / 100;
         }
-        if (n_A_WeaponType == 3 && SkillSearch(255)) {
-            w = Math.round(w * (80 - SkillSearch(255) * 3)) / 100;
+        if (n_A_WeaponType ==  WEAPON_TYPE_TWO_HANDED_SWORD && SkillSearch("Parrying")) {
+            w = Math.round(w * (80 - SkillSearch("Parrying") * 3)) / 100;
         }
-        if (SkillSearch(287)) {
-            w = Math.round(w * (100 - SkillSearch(287) * 7.5)) / 100;
+        if (SkillSearch("Counter Instinct")) {
+            w = Math.round(w * (100 - SkillSearch("Counter Instinct") * 7.5)) / 100;
         }
         myInnerHtml("B_Ave2Atk", w + "Damage", 0);
 
@@ -2339,6 +2349,7 @@ function BattleCalc998(BC998Cast, BC998Delay) {
 
 function BattleHiDam() {
 
+    
     w_HiDam = new Array();
     wBHD = targetStatsArray[13];
     w_HiDam[0] = targetStatsArray[TARGET_STAT_ATK];
@@ -2360,14 +2371,14 @@ function BattleHiDam() {
     w_HiDam[6] = w_HiDam[6] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[0];
 
 
-    if (SkillSearch(23) && (targetStatsArray[TARGET_STAT_ELEMENT] >= 90 || targetStatsArray[TARGET_STAT_RACE] == 6)) {
-        wBHD = Math.floor((3 + 4 / 100 * n_A_BaseLV) * SkillSearch(23));
+    if (SkillSearch("Divine Protection") && (targetStatsArray[TARGET_STAT_ELEMENT] >= 90 || targetStatsArray[TARGET_STAT_RACE] == 6)) {
+        wBHD = Math.floor((3 + 4 / 100 * n_A_BaseLV) * SkillSearch("Divine Protection"));
         for (i = 0; i <= 6; i++)
             w_HiDam[i] -= wBHD;
     }
 
 
-    if (SkillSearch(355)) {
+    if (SkillSearch("Solar Protection")) {
         wBHD = Math.floor((n_A_BaseLV + n_A_LUK + n_A_DEX) / 2);
         for (i = 0; i <= 6; i++)
             w_HiDam[i] -= wBHD;
@@ -2376,31 +2387,31 @@ function BattleHiDam() {
 
     wBHD = StPlusCard(60);
     wBHD += StPlusCalc2(60);
-    if (EquipNumSearch(737) || EquipNumSearch(769))
+    if (EquipNumSearch("0") || EquipNumSearch("0"))
         wBHD += n_A_SHOULDER_DEF_PLUS * 3;
-    if (SkillSearch(150))
-        wBHD += SkillSearch(150);
-    if (n_A_SHOULDER_DEF_PLUS >= 9 && CardNumSearch(403))
+    if (SkillSearch("Skin Tempering"))
+        wBHD += SkillSearch("Skin Tempering");
+    if (n_A_SHOULDER_DEF_PLUS >= 9 && CardNumSearch("Orc Baby"))
         wBHD += 5;
     if (wBHD != 0) {
         for (i = 0; i <= 6; i++)
             w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD / 100);
     }
 
-    if (SkillSearch(58)) {
-        wBHD = 6 * SkillSearch(58);
+    if (SkillSearch("Energy Coat")) {
+        wBHD = 6 * SkillSearch("Energy Coat");
         for (i = 0; i <= 6; i++)
             w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD / 100);
     }
 
 
     wBHD = 0;
-    if (CardNumSearch(452) && n_A_JobSearch() == 3 && (targetStatsArray[TARGET_STAT_RACE] == 6 || targetStatsArray[TARGET_STAT_RACE] == 1))
+    if (CardNumSearch("0") && n_A_JobSearch() == 3 && (targetStatsArray[TARGET_STAT_RACE] == 6 || targetStatsArray[TARGET_STAT_RACE] == 1))
         wBHD += 30;
     if (n_A_PassSkill2[14] && targetStatsArray[TARGET_STAT_RACE] == 6 && n_A_JOB != 13 && n_A_JOB != 27)
         wBHD += n_A_PassSkill2[14] * 5;
-    if (targetStatsArray[TARGET_STAT_RACE] == 9 && SkillSearch(234))
-        wBHD += SkillSearch(234) * 4;
+    if (targetStatsArray[TARGET_STAT_RACE] == 9 && SkillSearch("Dragonology"))
+        wBHD += SkillSearch("Dragonology") * 4;
     wBHD += StPlusCard(50 + targetStatsArray[TARGET_STAT_RACE]);
     wBHD += StPlusCalc2(50 + targetStatsArray[TARGET_STAT_RACE]);
     if (wBHD != 0) {
@@ -2413,7 +2424,7 @@ function BattleHiDam() {
     wBHD += StPlusCard(190 + targetStatsArray[TARGET_STAT_SIZE]);
     wBHD += StPlusCalc2(190 + targetStatsArray[TARGET_STAT_SIZE]);
     if (targetStatsArray[TARGET_STAT_SIZE] == 1) {
-        if (EquipNumSearch(624))
+        if (EquipNumSearch("Hurricane Fury"))
             wBHD += weaponRefinementLevel;
     }
 
@@ -2434,28 +2445,28 @@ function BattleHiDam() {
     if (targetStatsArray[20]) {
         wBHD = StPlusCard(78);
         wBHD += StPlusCalc2(78);
-        if (SkillSearch(421))
+        if (SkillSearch("Gunslinger's Panic"))
             wBHD += 20;
         for (i = 0; i <= 6; i++)
             w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD / 100);
 
-        if (SkillSearch(165)) {
-            wBHD = 5 + 15 * SkillSearch(165);
+        if (SkillSearch("Defending Aura")) {
+            wBHD = 5 + 15 * SkillSearch("Defending Aura");
             for (i = 0; i <= 6; i++)
                 w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD / 100);
         }
     }
 
 
-    if (targetStatsArray[19] == 1 && CardNumSearch(231)) {
+    if (targetStatsArray[19] == 1 && CardNumSearch("Alice")) {
         for (i = 0; i <= 6; i++)
             w_HiDam[i] -= Math.floor(w_HiDam[i] * 40 / 100);
 
     }
 
 
-    if (targetStatsArray[0] == 275 && CardNumSearch(370)) {
-        wBHD = 100 * CardNumSearch(370);
+    if (targetStatsArray[0] == 275 && CardNumSearch("Bongun")) {
+        wBHD = 100 * CardNumSearch("Bongun");
         for (i = 0; i <= 6; i++)
             w_HiDam[i] += Math.floor(w_HiDam[i] * wBHD / 100);
 
@@ -2468,7 +2479,7 @@ function BattleHiDam() {
         w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD / 100);
 
 
-    if (EquipNumSearch(696)) {
+    if (EquipNumSearch("Strong Shield")) {
         wBHD = 20;
         for (i = 0; i <= 6; i++)
             w_HiDam[i] += Math.floor(w_HiDam[i] * wBHD / 100);
@@ -2499,44 +2510,46 @@ function BattleHiDam() {
 }
 
 function BattleMagicCalc(wBMC) {
+    
+    
     wBMC_MDEF = targetStatsArray[TARGET_STAT_MDEF];
     wMDEF_w = 0;
-    if (EquipNumSearch(645))
+    if (EquipNumSearch("Staff of Piercing"))
         wMDEF_w += 10 + weaponRefinementLevel;
-    if (targetStatsArray[19] == 0 && CardNumSearch(424))
+    if (targetStatsArray[19] == 0 && CardNumSearch("High Wizard Kathryne (MVP)"))
         wMDEF_w += 100;
-    if (targetStatsArray[19] == 1 && CardNumSearch(425))
-        wMDEF_w += 30 * CardNumSearch(425);
+    if (targetStatsArray[19] == 1 && CardNumSearch("Vesper"))
+        wMDEF_w += 30 * CardNumSearch("Vesper");
     if (wMDEF_w > 100)
         wMDEF_w = 100;
     if (wMDEF_w != 0) {
         wBMC_MDEF = wBMC_MDEF - Math.floor(wBMC_MDEF * wMDEF_w / 100);
         n_B_MDEF2 = n_B_MDEF2 - Math.floor(n_B_MDEF2 * wMDEF_w / 100);
     }
-    if (n_A_ActiveSkill == 122)
+    if (skillToUseName == "Fire Pillar")
         wBMC2 = Math.floor(wBMC + 50);
     else
         wBMC2 = Math.floor(wBMC * (100 - wBMC_MDEF) / 100 - n_B_MDEF2);
     if (wBMC2 < 1) wBMC2 = 1;
-    if (n_A_ActiveSkill == 104) {
+    if (skillToUseName == "Magnus Exorcismus") {
         if (targetStatsArray[TARGET_STAT_RACE] != 6 && targetStatsArray[TARGET_STAT_ELEMENT] < 90) {
             wBMC2 = 0;
         }
     }
 
     wBMC2 = Math.floor(wBMC2 * element[targetStatsArray[TARGET_STAT_ELEMENT]][n_A_Weapon_element]);
-    if (90 <= targetStatsArray[TARGET_STAT_ELEMENT] && (n_A_ActiveSkill == 47 || n_A_ActiveSkill == 313))
+    if (90 <= targetStatsArray[TARGET_STAT_ELEMENT] && (skillToUseName == "Soul Strike" || skillToUseName == ""))
         wBMC2 = Math.floor(wBMC2 * (1 + 0.05 * n_A_ActiveSkillLV));
 
 
-    if (targetStatsArray[TARGET_STAT_RACE] == 9 && SkillSearch(234))
-        wBMC2 = wBMC2 * (100 + SkillSearch(234) * 2) / 100;
+    if (targetStatsArray[TARGET_STAT_RACE] == 9 && SkillSearch("Dragonology"))
+        wBMC2 = wBMC2 * (100 + SkillSearch("Dragonology") * 2) / 100;
 
     if (targetStatsArray[TARGET_STAT_RACE] == 8)
-        wBMC2 = wBMC2 * (100 + CardNumSearch(427) * 10) / 100;
+        wBMC2 = wBMC2 * (100 + CardNumSearch("Dolor of Thanatos") * 10) / 100;
 
     if (targetStatsArray[TARGET_STAT_RACE] == 6)
-        wBMC2 = wBMC2 * (100 + CardNumSearch(428) * 2) / 100;
+        wBMC2 = wBMC2 * (100 + CardNumSearch("Skeggiold") * 2) / 100;
 
     wBMC2 = tPlusDamCut(wBMC2);
 

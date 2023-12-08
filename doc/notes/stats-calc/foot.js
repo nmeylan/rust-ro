@@ -9,7 +9,7 @@ if (!self.__WB_pmw) {
 }
 
 function isNonRangeWeapon() {
-    return n_A_WeaponType != 10 && n_A_WeaponType != 14 && n_A_WeaponType != 15 && n_A_WeaponType != 17 && n_A_WeaponType != 18 && n_A_WeaponType != 19 && n_A_WeaponType != 20 && n_A_WeaponType != 21;
+    return n_A_WeaponType !=  WEAPON_TYPE_BOW && n_A_WeaponType !=  WEAPON_TYPE_INSTRUMENT && n_A_WeaponType !=  WEAPON_TYPE_WHIP && n_A_WeaponType !=  WEAPON_TYPE_HANDGUN && n_A_WeaponType !=  WEAPON_TYPE_RIFLE && n_A_WeaponType !=  WEAPON_TYPE_SHOTGUN && n_A_WeaponType !=  WEAPON_TYPE_GATLING_GUN && n_A_WeaponType !=  WEAPON_TYPE_GRENADE_LAUNCHER;
 }
 
 {
@@ -321,7 +321,8 @@ function isNonRangeWeapon() {
     function EquipNumSearch(nENS) {
         wENS = 0;
         for (ENSi = 0; ENSi <= 20; ENSi++) {
-            if (nENS == n_A_Equip[ENSi])
+            let itemName = ItemOBJ[n_A_Equip[ENSi]][8];
+            if (nENS === itemName)
                 wENS += 1;
         }
         return wENS;
@@ -331,7 +332,8 @@ function isNonRangeWeapon() {
     function CardNumSearch(nCNS) {
         wCNS = 0;
         for (CNSi = 0; CNSi <= 25; CNSi++) {
-            if (nCNS == n_A_card[CNSi])
+            let cardName = cardOBJ[n_A_card[CNSi]][2];
+            if (nCNS === cardName)
                 wCNS += 1;
         }
         return wCNS;
@@ -750,7 +752,7 @@ function isNonRangeWeapon() {
             weapon_avg_atk: weaponAttack[1],
             weapon_max_atk: weaponAttack[2],
             base_atk: baseATK,
-            hit_ratio: w_HIT / 100.0,
+            hit_ratio: hitRate / 100.0,
             critical_rate: crit_rate,
             critical_damage_min: Number.parseFloat(crit_damages[0]),
             critical_damage_max: crit_damages.length > 1 ? Number.parseFloat(crit_damages[1]) : Number.parseFloat(crit_damages[0]),
@@ -794,7 +796,7 @@ function isNonRangeWeapon() {
         testCaseData.int = eval(document.calcForm.A_INT.value);
         testCaseData.luk = eval(document.calcForm.A_LUK.value);
 
-        if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && n_A_WeaponType != 0)) {
+        if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && n_A_WeaponType !=  WEAPON_TYPE_UNARMED)) {
             testCaseData.ammo = eval(document.calcForm.A_Arrow.value);
         }
 

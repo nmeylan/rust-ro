@@ -297,7 +297,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		[ 283, 5, 'Gloria Domini', 367 ] ,
 		[ 284, 5, "Martyr's Reconing", 0 ] ,
 		[ 285, 10, 'Battle Chant', 369 ] ,
-		[ 286, 5, 'Stealth (STR+)', 0 ] ,
+		[ 286, 5, 'Chase Walk', 389 ] ,
 		[ 287, 5, 'Counter Instinct', 390 ] ,
 		[ 288, 5, 'Raging Palm Strike', 370 ] ,
 		[ 289, 5, 'Glacier Fist', 371 ] ,

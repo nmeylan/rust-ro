@@ -188,7 +188,7 @@ function StAllCalc() {
         if (201 <= cardOBJ[n_A_card[4]][0] && cardOBJ[n_A_card[4]][0] <= 204)
             n_A_Weapon2_element = cardOBJ[n_A_card[4]][0] - 200;
 
-        if (n_A_WeaponType == 10 || n_A_WeaponType == 17 || n_A_WeaponType == 18 || n_A_WeaponType == 19 || n_A_WeaponType == 20 || n_A_WeaponType == 21) {
+        if (n_A_WeaponType ==  WEAPON_TYPE_BOW || n_A_WeaponType ==  WEAPON_TYPE_HANDGUN || n_A_WeaponType ==  WEAPON_TYPE_RIFLE || n_A_WeaponType ==  WEAPON_TYPE_SHOTGUN || n_A_WeaponType ==  WEAPON_TYPE_GATLING_GUN || n_A_WeaponType ==  WEAPON_TYPE_GRENADE_LAUNCHER) {
             n_A_Weapon_element = ArrowOBJ[n_A_Arrow][1];
         }
     }
@@ -336,16 +336,16 @@ function StAllCalc() {
     w = StPlusCard(17);
     w += StPlusCalc2(17);
 
-    if (SU_STR >= 80 && CardNumSearch(267))
+    if (SU_STR >= 80 && CardNumSearch("Giant Whisper"))
         w += 20;
-    if (SU_STR >= 95 && EquipNumSearch(621))
+    if (SU_STR >= 95 && EquipNumSearch("Doom Slayer"))
         w += 340;
-    if (SU_STR >= 44 && EquipNumSearch(625))
+    if (SU_STR >= 44 && EquipNumSearch("Holgren's Refining Hammer"))
         w += 44;
-    if (EquipNumSearch(676))
+    if (EquipNumSearch("Mythical Lion Mask"))
         w += n_A_HEAD_DEF_PLUS * 2;
 
-    if (n_A_PassSkill6[0] == 0 && n_A_PassSkill6[1] >= 1 && (CardNumSearch(130) || n_A_Equip[6] == 428 || n_A_Equip[6] == 604))
+    if (n_A_PassSkill6[0] == 0 && n_A_PassSkill6[1] >= 1 && (CardNumSearch("Pasana") || n_A_Equip[6] == 428 || n_A_Equip[6] == 604))
         w += n_A_PassSkill6[1] * 10;
 
     if (n_A_PassSkill7[2])
@@ -353,10 +353,10 @@ function StAllCalc() {
     if (n_A_PassSkill7[9])
         w += 20;
 
-    if (SkillSearch(420))
+    if (SkillSearch("Last Stand"))
         w += 100;
-    if (SkillSearch(433))
-        w += 20 + 10 * SkillSearch(433);
+    if (SkillSearch("Gatling Fever"))
+        w += 20 + 10 * SkillSearch("Gatling Fever");
 
     if (n_A_PassSkill3[9])
         w += 25 + 25 * n_A_PassSkill3[9];
@@ -434,11 +434,11 @@ function StAllCalc() {
             n_A_MaxHP = Math.floor(wKenseiHP[n_A_BaseLV - 90] * (100 + n_A_VIT) / 100);
     }
 
-    if (SkillSearch(345) && n_A_BaseLV >= 90)
+    if (SkillSearch("Taekwon Ranker") && n_A_BaseLV >= 90)
         n_A_MaxHP *= 3;
 
 
-    n_A_MaxHP += SkillSearch(156) * 200;
+    n_A_MaxHP += SkillSearch("Faith") * 200;
     bkHP = n_A_MaxHP;
     w = 0;
 
@@ -447,11 +447,11 @@ function StAllCalc() {
 
 
     w += StPlusCard(13);
-    if (n_A_BODY_DEF_PLUS >= 9 && CardNumSearch(225))
+    if (n_A_BODY_DEF_PLUS >= 9 && CardNumSearch("Apocalypse"))
         w += 800;
 
     //Temporary remover card code.
-    if (CardNumSearch(186))
+    if (CardNumSearch("Remover"))
         w -= n_A_BODY_DEF_PLUS * 40;
 
     if (n_A_Equip[8] == 536) {
@@ -468,29 +468,29 @@ function StAllCalc() {
 
     w += StPlusCard(15);
 
-    if (SU_VIT >= 80 && CardNumSearch(267))
+    if (SU_VIT >= 80 && CardNumSearch("Giant Whisper"))
         w += 3;
 
-    if (CardNumSearch(405)) {
+    if (CardNumSearch("Aliot")) {
         if (n_A_JobSearch() == 1 || n_A_JobSearch() == 2 || n_A_JobSearch() == 6)
             w += 5;
     }
-    if (n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch(304))
+    if (n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch("Firelock Soldier"))
         w += 10;
-    if (n_A_SHOES_DEF_PLUS <= 4 && CardNumSearch(407))
+    if (n_A_SHOES_DEF_PLUS <= 4 && CardNumSearch("Gold Acidus"))
         w += 4;
     if (n_A_PassSkill5[1])
         w += 100;
-    if (EquipNumSearch(715))
+    if (EquipNumSearch("Variant Shoes"))
         w -= n_A_SHOES_DEF_PLUS;
 
     n_A_MaxHP = n_A_MaxHP * (100 + w) / 100;
 
-    if (n_A_PassSkill6[0] == 1 && n_A_PassSkill6[1] >= 1 && (CardNumSearch(128) || n_A_Equip[6] == 429 || n_A_Equip[6] == 605)) {
+    if (n_A_PassSkill6[0] == 1 && n_A_PassSkill6[1] >= 1 && (CardNumSearch("Swordfish") || n_A_Equip[6] == 429 || n_A_Equip[6] == 605)) {
         dHP = [5, 9, 12, 14, 15];
         n_A_MaxHP = n_A_MaxHP * (100 + dHP[n_A_PassSkill6[1] - 1]) / 100;
     }
-    if (SkillSearch(258))
+    if (SkillSearch("Frenzy"))
         n_A_MaxHP *= 3;
 
 
@@ -566,7 +566,7 @@ function StAllCalc() {
 
     bkSP = n_A_MaxSP;
 
-    if (SkillSearch(345) && n_A_BaseLV >= 90)
+    if (SkillSearch("Taekwon Ranker") && n_A_BaseLV >= 90)
         n_A_MaxSP *= 3;
 
     w = 0;
@@ -582,15 +582,15 @@ function StAllCalc() {
     if (n_A_card[9] == 179)
         w += 40;
 
-    if (SkillSearch(372))
-        w += 30 * SkillSearch(372);
+    if (SkillSearch("Kaina"))
+        w += 30 * SkillSearch("Kaina");
 
     if (n_A_Equip[8] == 536) {
         wSPVS = n_A_JobSearch();
         if (wSPVS == 1 || wSPVS == 2 || wSPVS == 6)
             w += 2 * n_A_JobLV;
     }
-    if (weaponRefinementLevel >= 9 && EquipNumSearch(642))
+    if (weaponRefinementLevel >= 9 && EquipNumSearch("Lich's Bone Wand"))
         w += 300;
 
 
@@ -601,23 +601,23 @@ function StAllCalc() {
     w += StPlusCalc2(16);
 
     w += StPlusCard(16);
-    if (n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch(304))
+    if (n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch("Firelock Soldier"))
         w += 10;
-    if (n_A_SHOES_DEF_PLUS <= 4 && CardNumSearch(407))
+    if (n_A_SHOES_DEF_PLUS <= 4 && CardNumSearch("Gold Acidus"))
         w += 4;
 
-    if (CardNumSearch(405)) {
+    if (CardNumSearch("Aliot")) {
         if (n_A_JobSearch() == 3 || n_A_JobSearch() == 4 || n_A_JobSearch() == 5)
             w += 5;
     }
 
 
-    w += SkillSearch(269);
+    w += SkillSearch("Mediatio");
 
-    w += SkillSearch(274) * 2;
+    w += SkillSearch("Soul Drain") * 2;
     if (n_A_PassSkill5[2])
         w += 100;
-    if (EquipNumSearch(715))
+    if (EquipNumSearch("Variant Shoes"))
         w -= n_A_SHOES_DEF_PLUS;
 
     n_A_MaxSP = Math.floor(n_A_MaxSP * (100 + w) / 100);
@@ -640,9 +640,9 @@ function StAllCalc() {
 
     n_A_DEF += StPlusCard(18);
 
-    if (n_A_LEFT_DEF_PLUS <= 5 && CardNumSearch(222))
+    if (n_A_LEFT_DEF_PLUS <= 5 && CardNumSearch("Arcluse"))
         n_A_DEF += 2;
-    if (n_A_BODY_DEF_PLUS <= 5 && CardNumSearch(283))
+    if (n_A_BODY_DEF_PLUS <= 5 && CardNumSearch("Goat"))
         n_A_DEF += 2;
     if (n_A_Equip[0] == 521) {
         if (weaponRefinementLevel <= 5)
@@ -652,14 +652,14 @@ function StAllCalc() {
         else
             n_A_DEF += 3;
     }
-    if (EquipNumSearch(658))
+    if (EquipNumSearch("Gatekeeper-DD"))
         n_A_DEF += weaponRefinementLevel;
-    if (EquipNumSearch(715))
+    if (EquipNumSearch("Variant Shoes"))
         n_A_DEF += n_A_SHOES_DEF_PLUS;
-    if (EquipNumSearch(742) && n_A_JobSearch() == 1)
+    if (EquipNumSearch("0") && n_A_JobSearch() == 1)
         n_A_DEF += 6;
 
-    if (EquipNumSearch(764))
+    if (EquipNumSearch("0"))
         n_A_DEFplus -= (n_A_HEAD_DEF_PLUS + n_A_LEFT_DEF_PLUS);
 
     n_A_totalDEF = n_A_DEF + Math.round(n_A_DEFplus * 7 / 10);
@@ -669,14 +669,14 @@ function StAllCalc() {
     if (StPlusCalc2(85) + StPlusCard(85))
         n_A_totalDEF -= Math.floor(n_A_totalDEF * (StPlusCalc2(85) + StPlusCard(85)) / 100);
 
-    if (SkillSearch(256))
-        n_A_totalDEF = Math.floor(n_A_totalDEF * (1 - 0.05 * SkillSearch(256)));
+    if (SkillSearch("Spear Dynamo"))
+        n_A_totalDEF = Math.floor(n_A_totalDEF * (1 - 0.05 * SkillSearch("Spear Dynamo")));
 
 
-    if (SkillSearch(196))
+    if (SkillSearch("Mental Strength"))
         n_A_totalDEF = 90;
 
-    if (SkillSearch(258))
+    if (SkillSearch("Frenzy"))
         n_A_totalDEF = 0;
 
 
@@ -696,7 +696,7 @@ function StAllCalc() {
         for (i = 0; i <= 2; i++)
             n_A_VITDEF[i] += 2 + 2 * n_A_PassSkill3[9];
     }
-    if (SkillSearch(12)) {
+    if (SkillSearch("Auto Berserk")) {
         for (i = 0; i <= 2; i++)
             n_A_VITDEF[i] = Math.floor(n_A_VITDEF[i] * 0.45);
     } else {
@@ -709,15 +709,15 @@ function StAllCalc() {
         for (i = 0; i <= 2; i++)
             n_A_VITDEF[i] = Math.floor(n_A_VITDEF[i] / StPlusCalc2(24));
     }
-    if (SkillSearch(256)) {
+    if (SkillSearch("Spear Dynamo")) {
         for (i = 0; i <= 2; i++)
-            n_A_VITDEF[i] = Math.floor(n_A_VITDEF[i] * (1 - 0.05 * SkillSearch(256)));
+            n_A_VITDEF[i] = Math.floor(n_A_VITDEF[i] * (1 - 0.05 * SkillSearch("Spear Dynamo")));
     }
     if (n_A_PassSkill2[4]) {
         for (i = 0; i <= 2; i++)
             n_A_VITDEF[i] = Math.floor(n_A_VITDEF[i] * (1 + 0.05 * n_A_PassSkill2[4]));
     }
-    if (SkillSearch(258)) {
+    if (SkillSearch("Frenzy")) {
         for (i = 0; i <= 2; i++)
             n_A_VITDEF[i] = 0;
     }
@@ -729,33 +729,33 @@ function StAllCalc() {
     n_A_MDEF += StPlusCard(19);
 
     if (n_A_JobSearch() == 3)
-        n_A_MDEF += CardNumSearch(383);
-    if (n_A_LEFT_DEF_PLUS >= 9 && CardNumSearch(310))
+        n_A_MDEF += CardNumSearch("Rideword");
+    if (n_A_LEFT_DEF_PLUS >= 9 && CardNumSearch("Sting"))
         n_A_MDEF += 5;
     if (n_A_HEAD_DEF_PLUS <= 5 && n_A_card[8] == 213)
         n_A_MDEF += 5;
     if (n_A_card[9] == 213)
         n_A_MDEF += 5;
-    if (n_A_LEFT_DEF_PLUS <= 5 && CardNumSearch(222))
+    if (n_A_LEFT_DEF_PLUS <= 5 && CardNumSearch("Arcluse"))
         n_A_MDEF += 3;
-    if (n_A_BODY_DEF_PLUS <= 5 && CardNumSearch(283))
+    if (n_A_BODY_DEF_PLUS <= 5 && CardNumSearch("Goat"))
         n_A_MDEF += 5;
-    if (n_A_SHOES_DEF_PLUS <= 5 && CardNumSearch(381))
+    if (n_A_SHOES_DEF_PLUS <= 5 && CardNumSearch("Megalith"))
         n_A_MDEF += 7;
-    if (n_A_SHOULDER_DEF_PLUS <= 5 && CardNumSearch(258))
+    if (n_A_SHOULDER_DEF_PLUS <= 5 && CardNumSearch("Kappa"))
         n_A_MDEF += 8;
-    if (EquipNumSearch(764))
+    if (EquipNumSearch("0"))
         n_A_MDEF += (n_A_HEAD_DEF_PLUS + n_A_LEFT_DEF_PLUS);
 
-    if (SkillSearch(256))
+    if (SkillSearch("Spear Dynamo"))
         n_A_MDEF += 1;
-    if (SkillSearch(9))
-        n_A_MDEF += SkillSearch(9);
+    if (SkillSearch("Endure"))
+        n_A_MDEF += SkillSearch("Endure");
 
 
-    if (SkillSearch(196))
+    if (SkillSearch("Mental Strength"))
         n_A_MDEF = 90;
-    if (SkillSearch(258))
+    if (SkillSearch("Frenzy"))
         n_A_MDEF = 0;
 
     myInnerHtml("A_MDEF", n_A_MDEF, 0);
@@ -769,26 +769,26 @@ function StAllCalc() {
 
     n_A_HIT += StPlusCard(8);
 
-    if (EquipNumSearch(656))
+    if (EquipNumSearch("Jungle Carbine"))
         w -= Math.floor(SU_DEX / 3);
 
 
-    n_A_HIT += 1 * SkillSearch(39);
-    n_A_HIT += 2 * SkillSearch(148);
-    n_A_HIT += 3 * SkillSearch(270);
+    n_A_HIT += 1 * SkillSearch("Vulture's Eye");
+    n_A_HIT += 2 * SkillSearch("Weaponry Research");
+    n_A_HIT += 3 * SkillSearch("True Sight");
 
-    n_A_HIT += 10 * SkillSearch(256);
-    n_A_HIT += 1 * SkillSearch(426);
-    if (SkillSearch(421))
+    n_A_HIT += 10 * SkillSearch("Spear Dynamo");
+    n_A_HIT += 1 * SkillSearch("Snake Eyes");
+    if (SkillSearch("Gunslinger's Panic"))
         n_A_HIT -= 30;
-    if (SkillSearch(422))
+    if (SkillSearch("Increase Accuracy"))
         n_A_HIT += 20;
-    n_A_HIT += 2 * SkillSearch(425);
+    n_A_HIT += 2 * SkillSearch("Single Action");
 
-    if (EquipNumSearch(654))
+    if (EquipNumSearch("Western Outlaw"))
         n_A_HIT += Math.floor(SU_AGI / 5);
 
-    if (n_A_ActiveSkill == 324)
+    if (skillToUseName == "Rapid Smiting")
         n_A_HIT += 20;
 
     if (n_A_PassSkill5[4])
@@ -813,16 +813,16 @@ function StAllCalc() {
 
     n_A_FLEE += StPlusCard(9);
 
-    if (n_A_JobSearch() == 2 && CardNumSearch(295))
+    if (n_A_JobSearch() == 2 && CardNumSearch("Wanderer"))
         n_A_FLEE += 20;
-    if (n_A_SHOULDER_DEF_PLUS >= 9 && CardNumSearch(271))
+    if (n_A_SHOULDER_DEF_PLUS >= 9 && CardNumSearch("Ninetails"))
         n_A_FLEE += 20;
-    if (n_A_SHOULDER_DEF_PLUS <= 4 && CardNumSearch(401))
+    if (n_A_SHOULDER_DEF_PLUS <= 4 && CardNumSearch("Kavach Icarus"))
         n_A_FLEE += 10;
-    if (n_A_SHOULDER_DEF_PLUS >= 9 && CardNumSearch(403))
+    if (n_A_SHOULDER_DEF_PLUS >= 9 && CardNumSearch("Orc Baby"))
         n_A_FLEE += 5;
 
-    if (n_A_PassSkill6[0] == 2 && n_A_PassSkill6[1] >= 1 && (CardNumSearch(131) || n_A_Equip[6] == 430 || n_A_Equip[6] == 606))
+    if (n_A_PassSkill6[0] == 2 && n_A_PassSkill6[1] >= 1 && (CardNumSearch("Dokkebi") || n_A_Equip[6] == 430 || n_A_Equip[6] == 606))
         n_A_FLEE += n_A_PassSkill6[1] * 3;
 
     if (n_A_Equip[0] == 483)
@@ -830,30 +830,30 @@ function StAllCalc() {
 
 
     if (n_A_JOB == 8 || n_A_JOB == 14 || n_A_JOB == 22 || n_A_JOB == 28)
-        n_A_FLEE += 4 * SkillSearch(14);
+        n_A_FLEE += 4 * SkillSearch("Improve Dodge");
     else
-        n_A_FLEE += 3 * SkillSearch(14);
+        n_A_FLEE += 3 * SkillSearch("Improve Dodge");
 
-    if (SkillSearch(421))
+    if (SkillSearch("Gunslinger's Panic"))
         n_A_FLEE += 30;
-    if (SkillSearch(433))
-        n_A_FLEE -= 5 * SkillSearch(433);
+    if (SkillSearch("Gatling Fever"))
+        n_A_FLEE -= 5 * SkillSearch("Gatling Fever");
 
     Mikiri = new Array(0, 1, 3, 4, 6, 7, 9, 10, 12, 13, 15);
-    n_A_FLEE += Mikiri[SkillSearch(191)];
+    n_A_FLEE += Mikiri[SkillSearch("Flee")];
 
 
     if (n_A_JOB == 24)
-        n_A_FLEE += Math.round(SkillSearch(273) / 2);
-    if (n_A_PassSkill2[9] && SkillSearch(273) == 0)
+        n_A_FLEE += Math.round(SkillSearch("Wind Walk") / 2);
+    if (n_A_PassSkill2[9] && SkillSearch("Wind Walk") == 0)
         n_A_FLEE += Math.round(n_A_PassSkill2[9] / 2);
 
 
-    if (SkillSearch(383))
+    if (SkillSearch("Close Confine"))
         n_A_FLEE += 10;
 
 
-    if (SkillSearch(356))
+    if (SkillSearch("Lunar Protection"))
         n_A_FLEE += Math.floor((n_A_BaseLV + n_A_LUK + n_A_DEX) / 10);
 
     if (n_A_PassSkill5[4])
@@ -866,7 +866,7 @@ function StAllCalc() {
     if (n_A_PassSkill3[0])
         n_A_FLEE += n_A_PassSkill3[0] + Math.floor(n_A_PassSkill3[30] / 2) + Math.floor(n_A_PassSkill3[20] / 10);
 
-    if (SkillSearch(258))
+    if (SkillSearch("Frenzy"))
         n_A_FLEE /= 2;
 
 
@@ -881,11 +881,11 @@ function StAllCalc() {
     n_A_LUCKY += StPlusCard(11);
 
     if (n_A_JobSearch() == 2)
-        n_A_LUCKY += 5 * CardNumSearch(391);
+        n_A_LUCKY += 5 * CardNumSearch("Wild Rose");
 
     if (n_A_JobSearch() == 1)
-        n_A_LUCKY += 4 * CardNumSearch(354);
-    if (n_A_SHOULDER_DEF_PLUS <= 4 && CardNumSearch(401))
+        n_A_LUCKY += 4 * CardNumSearch("Heater");
+    if (n_A_SHOULDER_DEF_PLUS <= 4 && CardNumSearch("Kavach Icarus"))
         n_A_LUCKY += 1;
     if (n_A_Equip[7] == 535) {
         wHPVS = n_A_JobSearch();
@@ -895,7 +895,7 @@ function StAllCalc() {
         }
     }
 
-    if (n_A_JobSearch() == 41 && EquipNumSearch(678))
+    if (n_A_JobSearch() == 41 && EquipNumSearch("Hahoe Mask"))
         n_A_LUCKY += 2;
 
     n_A_LUCKY = Math.round(n_A_LUCKY * 10) / 10;
@@ -914,49 +914,49 @@ function StAllCalc() {
 
     w += StPlusCard(110 + targetStatsArray[TARGET_STAT_RACE]);
 
-    if (CardNumSearch(402))
+    if (CardNumSearch("Green Maiden"))
         w += n_A_SHOULDER_DEF_PLUS;
     if (n_A_JobSearch() == 2)
-        w += 4 * CardNumSearch(328);
+        w += 4 * CardNumSearch("Mobster");
     if (n_A_JobSearch() == 3) {
         if (targetStatsArray[TARGET_STAT_RACE] == 1 || targetStatsArray[TARGET_STAT_RACE] == 6)
-            w += 9 * CardNumSearch(253);
+            w += 9 * CardNumSearch("Fur Seal");
     }
-    if (SU_LUK >= 80 && CardNumSearch(267))
+    if (SU_LUK >= 80 && CardNumSearch("Giant Whisper"))
         w += 3;
-    if (EquipNumSearch(640))
+    if (EquipNumSearch("Giant Encyclopedia"))
         w += Math.floor(SU_LUK / 5);
-    if (EquipNumSearch(689))
+    if (EquipNumSearch("Sniping Suit"))
         w += Math.floor(SU_LUK / 5);
-    if (EquipNumSearch(762))
+    if (EquipNumSearch("Sniping Suit *"))
         w += Math.floor(n_A_LUK / 5);
 
-    if (EquipNumSearch(416) && 90 <= targetStatsArray[TARGET_STAT_ELEMENT])
+    if (EquipNumSearch("Sabath") && 90 <= targetStatsArray[TARGET_STAT_ELEMENT])
         w += 50;
 
-    if (n_A_JobSearch() == 41 && EquipNumSearch(675))
+    if (n_A_JobSearch() == 41 && EquipNumSearch("Bride Mask"))
         w += 5;
-    if (EquipNumSearch(623))
+    if (EquipNumSearch("Heart Breaker"))
         w += weaponRefinementLevel;
 
 
-    if (n_A_WeaponType == 10 && n_A_Arrow == 15)
+    if (n_A_WeaponType ==  WEAPON_TYPE_BOW && n_A_Arrow == 15)
         w += 20;
 
 
-    if (SkillSearch(195))
-        w += 7.5 + SkillSearch(195) * 2.5;
-    if (SkillSearch(253))
+    if (SkillSearch("Fury"))
+        w += 7.5 + SkillSearch("Fury") * 2.5;
+    if (SkillSearch("Fury (SuperNovice)"))
         w += 50;
     if (n_A_JOB == 24)
-        w += SkillSearch(270);
+        w += SkillSearch("True Sight");
     n_A_CRI += w;
 
     if (n_A_PassSkill3[5])
         n_A_CRI += 10 + n_A_PassSkill3[5] + Math.floor(n_A_PassSkill3[35] / 2) + Math.floor(n_A_PassSkill3[25] / 10);
 
 
-    if (n_A_WeaponType == 11)
+    if (n_A_WeaponType ==  WEAPON_TYPE_KATAR)
         n_A_CRI *= 2;
 
     n_A_CRI = Math.round(n_A_CRI * 10) / 10;
@@ -978,16 +978,16 @@ function StAllCalc() {
 
     w_MATK += StPlusCalc2(89);
 
-    if (weaponRefinementLevel >= 9 && EquipNumSearch(642))
+    if (weaponRefinementLevel >= 9 && EquipNumSearch("Lich's Bone Wand"))
         w_MATK += 3;
-    if (EquipNumSearch(646))
+    if (EquipNumSearch("Staff of Destruction"))
         w_MATK += Math.floor(weaponRefinementLevel / 2);
-    if (EquipNumSearch(737) || EquipNumSearch(769))
+    if (EquipNumSearch("0") || EquipNumSearch("0"))
         w_MATK += weaponRefinementLevel;
     if (n_A_PassSkill6[2])
         w_MATK += 10;
 
-    if (n_A_JobSearch() == 5 && CardNumSearch(454))
+    if (n_A_JobSearch() == 5 && CardNumSearch("0"))
         w_MATK += 3;
     if (n_A_HEAD_DEF_PLUS >= 9 && n_A_card[8] == 177)
         w_MATK += 2;
@@ -1015,14 +1015,14 @@ function StAllCalc() {
 
     myInnerHtml("A_MATK", n_A_MATK[0] + " ~ " + n_A_MATK[2], 0);
 
-    if (SkillSearch(276)) {
+    if (SkillSearch("Mystical Amplification")) {
         AmpMinMatkBK = n_A_MATK[0];
         AmpMaxMatkBK = n_A_MATK[2];
-        n_A_MATK[0] = Math.floor(n_A_MATK[0] * (1 + 0.05 * SkillSearch(276)));
-        n_A_MATK[2] = Math.floor(n_A_MATK[2] * (1 + 0.05 * SkillSearch(276)));
+        n_A_MATK[0] = Math.floor(n_A_MATK[0] * (1 + 0.05 * SkillSearch("Mystical Amplification")));
+        n_A_MATK[2] = Math.floor(n_A_MATK[2] * (1 + 0.05 * SkillSearch("Mystical Amplification")));
 
         myInnerHtml("A_MATK", n_A_MATK[0] + " ~ " + n_A_MATK[2], 0);
-        if (n_A_ActiveSkill == 275) {
+        if (skillToUseName == "Stave Crasher") {
             n_A_MATK[0] = AmpMinMatkBK;
             n_A_MATK[2] = AmpMaxMatkBK;
         }
@@ -1041,7 +1041,7 @@ function StAllCalc() {
         wASPD = 200 - JobASPD[n_A_JOB][n_A_WeaponType];
 
 
-    if (hasLeftHand == 1 && n_A_WeaponType == 0 && n_A_Weapon2Type != 0)
+    if (hasLeftHand == 1 && n_A_WeaponType ==  WEAPON_TYPE_UNARMED && n_A_Weapon2Type != 0)
         wASPD = 200 - JobASPD[n_A_JOB][n_A_Weapon2Type];
 
     n_A_ASPD = 200 - wASPD + (Math.floor(wASPD * n_A_AGI * 4 / 100) + Math.floor(wASPD * n_A_DEX / 100)) / 10;
@@ -1050,61 +1050,61 @@ function StAllCalc() {
         n_A_ASPD += 2;
 
 
-    if (SkillSearch(78) && (n_A_ActiveSkill == 0 || n_A_ActiveSkill == 284))
-        n_A_ASPD -= (6 - SkillSearch(78)) * 10;
+    if (SkillSearch("Cavalier Mastery") && (skillToUseName == "Basic Attack" || skillToUseName == "Martyr's Reconing"))
+        n_A_ASPD -= (6 - SkillSearch("Cavalier Mastery")) * 10;
 
-    n_A_ASPD += Math.round(SkillSearch(425) / 2);
+    n_A_ASPD += Math.round(SkillSearch("Single Action") / 2);
 
 
     w = 0;
     ASPDch = 0;
-    if (n_A_WeaponType == 3 && SkillSearch(74)) {
+    if (n_A_WeaponType ==  WEAPON_TYPE_TWO_HANDED_SWORD && SkillSearch("Twohand Quicken")) {
         w += 30;
         ASPDch = 1;
     }
-    if (n_A_WeaponType == 2 && SkillSearch(386)) {
+    if (n_A_WeaponType ==  WEAPON_TYPE_SWORD && SkillSearch("One Hand Quicken (Soul Linked)")) {
         w += 30;
         ASPDch = 1;
     }
-    if (6 <= n_A_WeaponType && n_A_WeaponType <= 8 && SkillSearch(152)) {
+    if (6 <= n_A_WeaponType && n_A_WeaponType <= 8 && SkillSearch("Andrenaline Rush")) {
         w += 30;
         ASPDch = 1;
     }
-    if (ASPDch == 0 && SkillSearch(389)) {
+    if (ASPDch == 0 && SkillSearch("Full Andrenaline Rush")) {
         w += 30;
         ASPDch = 1;
     }
-    if (n_A_WeaponType == 5 && SkillSearch(166)) {
-        w += SkillSearch(166) + 20;
+    if (n_A_WeaponType ==  WEAPON_TYPE_TWO_HANDED_SPEAR && SkillSearch("Spear Quicken")) {
+        w += SkillSearch("Spear Quicken") + 20;
         ASPDch = 1;
     }
-    if (EquipNumSearch(654))
+    if (EquipNumSearch("Western Outlaw"))
         w += Math.floor(SU_AGI / 5);
     if (n_A_Equip[0] == 484 && SU_STR >= 50)
         w += 5;
-    if (SU_STR >= 95 && EquipNumSearch(621))
+    if (SU_STR >= 95 && EquipNumSearch("Doom Slayer"))
         w -= 40;
-    if (EquipNumSearch(624))
+    if (EquipNumSearch("Hurricane Fury"))
         w += (weaponRefinementLevel * 2);
-    if (EquipNumSearch(641))
+    if (EquipNumSearch("Book of the Dead"))
         w += weaponRefinementLevel;
-    if (SkillSearch(258))
+    if (SkillSearch("Frenzy"))
         w += 30;
-    if (SkillSearch(420))
+    if (SkillSearch("Last Stand"))
         w += 20;
-    if (SkillSearch(433))
-        w += 2 * SkillSearch(433);
+    if (SkillSearch("Gatling Fever"))
+        w += 2 * SkillSearch("Gatling Fever");
 
-    if (SkillSearch(357)) {
+    if (SkillSearch("Stellar Protection")) {
         ASPDch = 1;
         w += Math.floor((n_A_BaseLV + n_A_LUK + n_A_DEX) / 10);
     }
 
-    if (SkillSearch(361)) {
+    if (SkillSearch("Solar, Lunar, and Stellar Shadow")) {
         ASPDch = 1;
-        w += 3 * SkillSearch(361);
+        w += 3 * SkillSearch("Solar, Lunar, and Stellar Shadow");
     }
-    if (ASPDch == 0 && n_A_WeaponType != 10 && n_A_PassSkill2[6] == 2) {
+    if (ASPDch == 0 && n_A_WeaponType !=  WEAPON_TYPE_BOW && n_A_PassSkill2[6] == 2) {
         w += 25;
         ASPDch = 1;
     } else if (ASPDch == 0 && 6 <= n_A_WeaponType && n_A_WeaponType <= 8 && n_A_PassSkill2[6] == 1) {
@@ -1114,7 +1114,7 @@ function StAllCalc() {
         w += 30;
         ASPDch = 1;
     }
-    if (n_A_PassSkill3[1] && n_A_WeaponType != 10 && ASPDch == 0)
+    if (n_A_PassSkill3[1] && n_A_WeaponType !=  WEAPON_TYPE_BOW && ASPDch == 0)
         w += 5 + n_A_PassSkill3[1] + Math.floor(n_A_PassSkill3[31] / 2) + Math.floor(n_A_PassSkill3[21] / 20);
 
 
@@ -1122,12 +1122,12 @@ function StAllCalc() {
     w += StPlusCard(12);
 
 
-    if (SkillSearch(196))
+    if (SkillSearch("Mental Strength"))
         w -= 25;
 
 
-    if (n_A_SpeedPOT || SkillSearch(323)) {
-        if (SkillSearch(323) == 0) {
+    if (n_A_SpeedPOT || SkillSearch("Deadly Poison (Consumed)")) {
+        if (SkillSearch("Deadly Poison (Consumed)") == 0) {
             if (n_A_SpeedPOT == 1)
                 w += 10;
             else if (n_A_SpeedPOT == 2)
@@ -1139,12 +1139,12 @@ function StAllCalc() {
     }
     n_A_ASPD += (200 - n_A_ASPD) * (w / 100);
 
-    if (n_A_WeaponType == 12 && SkillSearch(224))
-        n_A_ASPD += (200 - n_A_ASPD - (SkillSearch(224) * 5 / 10)) * ((SkillSearch(224) * 5 / 10) / 100);
+    if (n_A_WeaponType ==  WEAPON_TYPE_BOOK && SkillSearch("Study"))
+        n_A_ASPD += (200 - n_A_ASPD - (SkillSearch("Study") * 5 / 10)) * ((SkillSearch("Study") * 5 / 10) / 100);
 
 
-    if (SkillSearch(165))
-        n_A_ASPD -= (25 - SkillSearch(165) * 5);
+    if (SkillSearch("Defending Aura"))
+        n_A_ASPD -= (25 - SkillSearch("Defending Aura") * 5);
 
     if (n_A_ASPD > 190)
         n_A_ASPD = 190;
@@ -1174,19 +1174,19 @@ function StAllCalc() {
 
         wDelay = 0;
     swDelay = 0;
-    if (n_A_ActiveSkill != 0 && n_A_ActiveSkill != 284) {
+    if (skillToUseName != "Basic Attack" && skillToUseName != "Martyr's Reconing") {
         wDelay = Math.floor(n_A_ASPD * 100) / 100;
-        if (n_A_ActiveSkill == 17 || n_A_ActiveSkill == 307)
+        if (skillToUseName == "Envenom" || skillToUseName == "")
             wDelay = Math.floor(n_A_ASPD * 75) / 100;
         wA_ASPD = eval(document.calcForm.Conf01.value) / 100;
         if (wDelay < wA_ASPD)
             wDelay = wA_ASPD;
     }
 
-    if (SkillSearch(187)) {
-        w = 100 / (30 - SkillSearch(187));
+    if (SkillSearch("Raging Trifecta Blow")) {
+        w = 100 / (30 - SkillSearch("Raging Trifecta Blow"));
         n_A_ASPD += (n_A_ASPD - (1000 - n_A_AGI * 4 - n_A_DEX * 2) / 1000) / w;
-        if (SkillSearch(301))
+        if (SkillSearch("<Font size=2>Add the delay time when attacking for triple attack</Font>"))
             n_A_ASPD += (0.3 / w);
     }
 
@@ -1197,11 +1197,11 @@ function StAllCalc() {
 
 
     w = 100;
-    if (n_A_JobSearch() == 5 && CardNumSearch(454))
+    if (n_A_JobSearch() == 5 && CardNumSearch("0"))
         w -= 15;
-    if ((n_A_JOB == 18 || n_A_JOB == 32) && CardNumSearch(460))
+    if ((n_A_JOB == 18 || n_A_JOB == 32) && CardNumSearch("0"))
         w -= 15;
-    if (EquipNumSearch(750) || EquipNumSearch(770))
+    if (EquipNumSearch("0") || EquipNumSearch("0"))
         w -= weaponRefinementLevel;
     if (n_A_card[8] == 177)
         w -= n_A_HEAD_DEF_PLUS;
@@ -1213,7 +1213,7 @@ function StAllCalc() {
 
     if (n_A_PassSkill2[13])
         n_A_CAST *= (100 - 15 * n_A_PassSkill2[13]) / 100;
-    if (SkillSearch(322))
+    if (SkillSearch("Forsight"))
         n_A_CAST = n_A_CAST / 2;
 
 
@@ -1224,11 +1224,11 @@ function StAllCalc() {
     w += StPlusCalc2(75);
     w += StPlusCard(75);
     if (SU_LUK >= 77)
-        w += 100 * CardNumSearch(221);
+        w += 100 * CardNumSearch("Arc Angeling");
 
-    if (n_A_JobSearch() == 41 && EquipNumSearch(672))
+    if (n_A_JobSearch() == 41 && EquipNumSearch("Magistrate Hat"))
         w += 3;
-    if (n_A_SHOES_DEF_PLUS <= 4 && CardNumSearch(407))
+    if (n_A_SHOES_DEF_PLUS <= 4 && CardNumSearch("Gold Acidus"))
         w += 5;
 
     n_A_HPR = Math.floor(n_A_HPR * w / 100);
@@ -1239,21 +1239,21 @@ function StAllCalc() {
 
     w = 100;
 
-    w += SkillSearch(269) * 3;
+    w += SkillSearch("Mediatio") * 3;
 
     w += StPlusCalc2(76);
     w += StPlusCard(76);
 
     if (SU_LUK >= 77)
-        w += 100 * CardNumSearch(221);
+        w += 100 * CardNumSearch("Arc Angeling");
 
-    if (n_A_JobSearch() == 41 && EquipNumSearch(673))
+    if (n_A_JobSearch() == 41 && EquipNumSearch("Ayam"))
         w += 3;
     if (n_A_LEFT_DEF_PLUS <= 4 && n_A_card[8] == 179)
         w += 5;
     if (n_A_card[9] == 179)
         w += 5;
-    if (n_A_SHOES_DEF_PLUS <= 4 && CardNumSearch(407))
+    if (n_A_SHOES_DEF_PLUS <= 4 && CardNumSearch("Gold Acidus"))
         w += 5;
 
     n_A_SPR = Math.floor(n_A_SPR * w / 100);
@@ -1303,26 +1303,26 @@ function StPlusCalc() {
     wSPC_DEX += StPlusCalc2(5) + wSPCall;
     wSPC_LUK += StPlusCalc2(6) + wSPCall;
 
-    wSPC_DEX += SkillSearch(38);
-    wSPC_STR += SkillSearch(68) * 4;
-    wSPC_STR += SkillSearch(146);
-    wSPC_STR += SkillSearch(404);
-    wSPC_INT += SkillSearch(404);
-    if (SkillSearch(234))
-        wSPC_INT += (Math.floor(SkillSearch(234) / 2) + 1);
-    if (SkillSearch(286)) {
-        if (SkillSearch(286) == 5) wSPC_STR += 16;
-        if (SkillSearch(286) == 4) wSPC_STR += 8;
-        if (SkillSearch(286) == 3) wSPC_STR += 4;
-        if (SkillSearch(286) == 2) wSPC_STR += 2;
-        if (SkillSearch(286) == 1) wSPC_STR += 1;
+    wSPC_DEX += SkillSearch("Owl's Eye");
+    wSPC_STR += SkillSearch("Crazy Uproar") * 4;
+    wSPC_STR += SkillSearch("Hilt Binding");
+    wSPC_STR += SkillSearch("Ninja Aura");
+    wSPC_INT += SkillSearch("Ninja Aura");
+    if (SkillSearch("Dragonology"))
+        wSPC_INT += (Math.floor(SkillSearch("Dragonology") / 2) + 1);
+    if (SkillSearch("Chase Walk")) {
+        if (SkillSearch("Chase Walk") == 5) wSPC_STR += 16;
+        if (SkillSearch("Chase Walk") == 4) wSPC_STR += 8;
+        if (SkillSearch("Chase Walk") == 3) wSPC_STR += 4;
+        if (SkillSearch("Chase Walk") == 2) wSPC_STR += 2;
+        if (SkillSearch("Chase Walk") == 1) wSPC_STR += 1;
     }
-    if (SkillSearch(422)) {
+    if (SkillSearch("Increase Accuracy")) {
         wSPC_DEX += 4;
         wSPC_AGI += 4;
     }
 
-    w = SkillSearch(42);
+    w = SkillSearch("Improve Concentration");
     if (w) {
         w += 102;
         wSPC_DEX = Math.floor((n_A_DEX + wSPC_DEX) * w / 100) - n_A_DEX;
@@ -1334,17 +1334,17 @@ function StPlusCalc() {
 
     wSPC_AGI += StPlusCalc2(212);
     wSPC_DEX += StPlusCalc2(215);
-    if (n_A_JobSearch() == 41 && EquipNumSearch(672))
+    if (n_A_JobSearch() == 41 && EquipNumSearch("Magistrate Hat"))
         wSPC_AGI += 1;
-    if (n_A_JobSearch() == 41 && EquipNumSearch(673))
+    if (n_A_JobSearch() == 41 && EquipNumSearch("Ayam"))
         wSPC_INT += 1;
-    if (n_A_JobSearch() == 41 && EquipNumSearch(675))
+    if (n_A_JobSearch() == 41 && EquipNumSearch("Bride Mask"))
         wSPC_LUK += 2;
-    if (n_A_JobSearch() == 41 && EquipNumSearch(676))
+    if (n_A_JobSearch() == 41 && EquipNumSearch("Mythical Lion Mask"))
         wSPC_DEX += 2;
-    if (n_A_JobSearch() == 41 && EquipNumSearch(678))
+    if (n_A_JobSearch() == 41 && EquipNumSearch("Hahoe Mask"))
         wSPC_LUK += 1;
-    if (n_A_SHOES_DEF_PLUS >= 9 && EquipNumSearch(717))
+    if (n_A_SHOES_DEF_PLUS >= 9 && EquipNumSearch("Black Leather Boots"))
         wSPC_AGI += 2;
 
     wSPCall = StPlusCard(7);
@@ -1357,21 +1357,21 @@ function StPlusCalc() {
 
 
     if (n_A_JobSearch() == 3)
-        wSPC_INT += CardNumSearch(383);
-    if (CardNumSearch(173)) wSPC_INT += n_A_LEFT_DEF_PLUS;
-    if (CardNumSearch(402)) wSPC_LUK += n_A_SHOULDER_DEF_PLUS;
-    if (CardNumSearch(406)) wSPC_AGI += n_A_SHOES_DEF_PLUS;
+        wSPC_INT += CardNumSearch("Rideword");
+    if (CardNumSearch("Despero of Thanatos")) wSPC_INT += n_A_LEFT_DEF_PLUS;
+    if (CardNumSearch("Green Maiden")) wSPC_LUK += n_A_SHOULDER_DEF_PLUS;
+    if (CardNumSearch("Odium of Thanatos")) wSPC_AGI += n_A_SHOES_DEF_PLUS;
     if (n_A_card[8] == 180) wSPC_STR += n_A_HEAD_DEF_PLUS;
 
-    if (CardNumSearch(185)) wSPC_VIT += Math.floor(SU_DEX / 18);
-    if (CardNumSearch(187)) wSPC_STR += Math.floor(SU_INT / 18);
-    if (CardNumSearch(189)) wSPC_LUK += Math.floor(SU_AGI / 18);
-    if (CardNumSearch(191)) wSPC_AGI += Math.floor(SU_LUK / 18);
-    if (CardNumSearch(196)) wSPC_INT += Math.floor(SU_STR / 18);
-    if (CardNumSearch(197)) wSPC_DEX += Math.floor(SU_VIT / 18);
+    if (CardNumSearch("Obsidian")) wSPC_VIT += Math.floor(SU_DEX / 18);
+    if (CardNumSearch("Egnigem Cenia")) wSPC_STR += Math.floor(SU_INT / 18);
+    if (CardNumSearch("Venatu")) wSPC_LUK += Math.floor(SU_AGI / 18);
+    if (CardNumSearch("Ancient Mimic")) wSPC_AGI += Math.floor(SU_LUK / 18);
+    if (CardNumSearch("Mistress of Shelter")) wSPC_INT += Math.floor(SU_STR / 18);
+    if (CardNumSearch("Dame of Sentinel")) wSPC_DEX += Math.floor(SU_VIT / 18);
 
 
-    if (CardNumSearch(405)) {
+    if (CardNumSearch("Aliot")) {
         if (n_A_JobSearch() == 1 || n_A_JobSearch() == 2 || n_A_JobSearch() == 6)
             wSPC_STR += 2;
         if (n_A_JobSearch() == 3 || n_A_JobSearch() == 4 || n_A_JobSearch() == 5)
@@ -1384,7 +1384,7 @@ function StPlusCalc() {
     if (n_A_PassSkill2[1] > 0)
         wSPC_AGI += n_A_PassSkill2[1] + 2;
     wSPC_LUK += (n_A_PassSkill2[3] * 30);
-    if (n_A_JOB == 24 && SkillSearch(270)) {
+    if (n_A_JOB == 24 && SkillSearch("True Sight")) {
         wSPC_STR += 5;
         wSPC_AGI += 5;
         wSPC_VIT += 5;
@@ -1394,7 +1394,7 @@ function StPlusCalc() {
     }
 
 
-    if (SkillSearch(379))
+    if (SkillSearch("Sprint (STR + State)"))
         wSPC_STR += 10;
 
 
