@@ -199,9 +199,9 @@ function calc() {
     ApplySkillModifier(1, 1);
 
     wCriTyuu = 1;
-    n_A_CriATK[1] = BattleCalc(n_A_CriATK[1], 10);
-    n_A_CriATK[0] = BattleCalc(n_A_CriATK[0], 10);
-    n_A_CriATK[2] = BattleCalc(n_A_CriATK[2], 10);
+    n_A_CriATK[1] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_CriATK[1], 10);
+    n_A_CriATK[0] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_CriATK[0], 10);
+    n_A_CriATK[2] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_CriATK[2], 10);
     wCriTyuu = 0;
 
 
@@ -237,7 +237,7 @@ function calc() {
 }
 
 
-function BattleCalc(w_atk, w_2) {
+function ApplyMasteryAndWeaponryResearchAndDMGLevel(w_atk, w_2) {
 
     
     if (w_2 == 10)
@@ -281,13 +281,13 @@ function BattleCalc(w_atk, w_2) {
             w_atk += n_A_STR;
     }
 
-    w_atk = BattleCalc2(w_atk);
+    w_atk = ApplyWeaponryResearchAndDMGLevel(w_atk);
 
     return Math.floor(w_atk);
 }
 
 
-function BattleCalc2(w999) {
+function ApplyWeaponryResearchAndDMGLevel(w999) {
 
     
     w999_AB = 0;
@@ -428,7 +428,7 @@ function BaiCI(wBaiCI) {
         if (CardNumSearch("Turtle General"))
             w1 += CardNumSearch("Turtle General") * 20;
         if (CardNumSearch("Valkyrie Randgris"))
-            w1 += CardNumSearch("Turtle General") * 10;
+            w1 += CardNumSearch("Valkyrie Randgris") * 10;
         wBaiCI = Math.floor(wBaiCI * (100 + w1) / 100);
 
 
@@ -436,20 +436,20 @@ function BaiCI(wBaiCI) {
             wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(70)) / 100);
 
 
-        if (108 <= targetStatsArray[0] && targetStatsArray[0] <= 115 || targetStatsArray[0] == 319)
+        if (108 <= targetStatsArray[TARGET_STAT_MOB_INDEX] && targetStatsArray[TARGET_STAT_MOB_INDEX] <= 115 || targetStatsArray[TARGET_STAT_MOB_INDEX] == 319)
             wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(81)) / 100);
 
-        if (116 <= targetStatsArray[0] && targetStatsArray[0] <= 120)
+        if (116 <= targetStatsArray[TARGET_STAT_MOB_INDEX] && targetStatsArray[TARGET_STAT_MOB_INDEX] <= 120)
             wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(82)) / 100);
 
-        if (49 <= targetStatsArray[0] && targetStatsArray[0] <= 52 || 55 == targetStatsArray[0] || 221 == targetStatsArray[0])
+        if (49 <= targetStatsArray[TARGET_STAT_MOB_INDEX] && targetStatsArray[TARGET_STAT_MOB_INDEX] <= 52 || 55 == targetStatsArray[TARGET_STAT_MOB_INDEX] || 221 == targetStatsArray[TARGET_STAT_MOB_INDEX])
             wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(83)) / 100);
 
-        if (106 == targetStatsArray[0] || 152 == targetStatsArray[0] || 308 == targetStatsArray[0] || 32 == targetStatsArray[0])
+        if (106 == targetStatsArray[TARGET_STAT_MOB_INDEX] || 152 == targetStatsArray[TARGET_STAT_MOB_INDEX] || 308 == targetStatsArray[TARGET_STAT_MOB_INDEX] || 32 == targetStatsArray[TARGET_STAT_MOB_INDEX])
             wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(84)) / 100);
 
 
-        wBaiCI = Math.floor(wBaiCI * (100 + StPlusCalc2(1000 + targetStatsArray[0]) + StPlusCard(1000 + targetStatsArray[0])) / 100);
+        wBaiCI = Math.floor(wBaiCI * (100 + StPlusCalc2(1000 + targetStatsArray[TARGET_STAT_MOB_INDEX]) + StPlusCard(1000 + targetStatsArray[TARGET_STAT_MOB_INDEX])) / 100);
 
 
         if (EquipNumSearch("Burning Bow") && n_A_Arrow == 2)
@@ -528,7 +528,7 @@ function BattleCalc3(w998) {
     wBC3_DA = w998E * w998 * 2;
     wBC3_Cri = w998G * n_A_CriATK[1];
     wBC3_Normal = w998I * w998;
-    wBC3_Miss = w998L * BattleCalc2(0);
+    wBC3_Miss = w998L * ApplyWeaponryResearchAndDMGLevel(0);
 
     wBC3_X = (wBC3_3dan + wBC3_DA + wBC3_Cri + wBC3_Normal + wBC3_Miss) / 100;
 
@@ -603,7 +603,7 @@ function BattleCalcEDP(wBCEDP, wBCEDP2) {
     
     if (wBCEDP <= 0)
         return 0;
-    if (element[targetStatsArray[TARGET_STAT_ELEMENT]][n_A_Weapon_element] <= 0 && BattleCalc2(0) == 0)
+    if (element[targetStatsArray[TARGET_STAT_ELEMENT]][n_A_Weapon_element] <= 0 && ApplyWeaponryResearchAndDMGLevel(0) == 0)
         return 0;
 
     if (skillToUseName == "Sand Attack" || skillToUseName == "Soul Destroyer" || skillToUseName == "Venom Splasher" || skillToUseName == "Meteor Assault" || skillToUseName == "Bomb")
@@ -612,11 +612,11 @@ function BattleCalcEDP(wBCEDP, wBCEDP2) {
     wBCEDPx = 0;
     wBCEDPy = 0;
     if (SkillSearch("Enchant Deadly Poison")) {
-        wBCEDPx = BattleCalc(wBCEDP, wBCEDP2);
+        wBCEDPx = ApplyMasteryAndWeaponryResearchAndDMGLevel(wBCEDP, wBCEDP2);
         wBCEDPx = Math.floor((wBCEDPx * element[targetStatsArray[TARGET_STAT_ELEMENT]][5]) / 4);
     }
     if (n_A_PassSkill2[11]) {
-        wBCEDPy = BattleCalc(wBCEDP, wBCEDP2);
+        wBCEDPy = ApplyMasteryAndWeaponryResearchAndDMGLevel(wBCEDP, wBCEDP2);
         wBCEDPy = Math.floor((wBCEDPy * element[targetStatsArray[TARGET_STAT_ELEMENT]][3]) / 5);
     }
     wBCEDPch = 0;
@@ -628,8 +628,7 @@ function BattleCalc999() {
     wCast = 0;
 
     hitCount = 1;
-    n_Enekyori = 0;
-    wLAch = 0;
+    isRangedAttack = 0;
 
     finalDamages = [0, 0, 0];
     not_use_card = 0;
@@ -651,7 +650,7 @@ function BattleCalc999() {
     }
 
     if ((n_A_WeaponType ==  WEAPON_TYPE_BOW || n_A_WeaponType ==  WEAPON_TYPE_HANDGUN || n_A_WeaponType ==  WEAPON_TYPE_RIFLE || n_A_WeaponType ==  WEAPON_TYPE_SHOTGUN || n_A_WeaponType ==  WEAPON_TYPE_GATLING_GUN || n_A_WeaponType ==  WEAPON_TYPE_GRENADE_LAUNCHER) && skillToUseName === "Basic Attack")
-        n_Enekyori = 1;
+        isRangedAttack = 1;
 
 
     if (skillToUseName === "Basic Attack" || (skillToUseName === "Poison React (Counter)" && (50 <= targetStatsArray[TARGET_STAT_ELEMENT] && targetStatsArray[TARGET_STAT_ELEMENT] < 60))) {
@@ -754,7 +753,7 @@ function BattleCalc999() {
             ApplySkillModifier(skillModifier, 0);
 
 
-            finalDamages[2] = BattleCalc(n_A_DMG[2], 2);
+            finalDamages[2] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[2], 2);
             myInnerHtml("ATK_02", finalDamages[2] + n_A_EDP_DMG[2] + "(" + w_left_Maxatk + ")", 0);
 
 
@@ -762,24 +761,24 @@ function BattleCalc999() {
             finalDamages[2] += BattleCalc3left(w_left_Maxatk);
             finalDamages[2] += HitEDPplus(n_A_EDP_DMG[2]);
 
-            finalDamages[0] = BattleCalc(n_A_DMG[0], 0);
+            finalDamages[0] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[0], 0);
             myInnerHtml("ATK_00", finalDamages[0] + n_A_EDP_DMG[0] + "(" + w_left_Minatk + ")", 0);
 
             finalDamages[0] = BattleCalc3(finalDamages[0]);
             finalDamages[0] += BattleCalc3left(w_left_Minatk);
             finalDamages[0] += HitEDPplus(n_A_EDP_DMG[0]);
 
-            finalDamages[1] = BattleCalc(n_A_DMG[1], 1);
+            finalDamages[1] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[1], 1);
             myInnerHtml("ATK_01", finalDamages[1] + n_A_EDP_DMG[1] + "(" + w_left_Aveatk + ")", 0);
 
             finalDamages[1] = BattleCalc3(finalDamages[1]);
             finalDamages[1] += BattleCalc3left(w_left_Aveatk);
             finalDamages[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
-            BattleCalc998(0, 0);
+            BattleVariousResults(0, 0);
         } else if (n_A_WeaponType ==  WEAPON_TYPE_KATAR) {
             ApplySkillModifier(skillModifier, 0);
-            finalDamages[2] = BattleCalc(n_A_DMG[2], 2);
+            finalDamages[2] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[2], 2);
             wk = Math.floor(finalDamages[2] * (0.01 + SkillSearch("Double Attack") * 0.02));
             wk2 = Math.floor((finalDamages[2] + n_A_EDP_DMG[2]) * (0.01 + SkillSearch("Double Attack") * 0.02));
             myInnerHtml("ATK_02", (finalDamages[2] + wk2 + n_A_EDP_DMG[2]) + "(" + (finalDamages[2] + n_A_EDP_DMG[2]) + "+" + wk2 + ")", 0);
@@ -789,7 +788,7 @@ function BattleCalc999() {
             finalDamages[2] = BattleCalc3(finalDamages[2]);
             finalDamages[2] += HitEDPplus(n_A_EDP_DMG[2]);
 
-            finalDamages[0] = BattleCalc(n_A_DMG[0], 0);
+            finalDamages[0] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[0], 0);
             wk = Math.floor(finalDamages[0] * (0.01 + SkillSearch("Double Attack") * 0.02));
             wk2 = Math.floor((finalDamages[0] + n_A_EDP_DMG[0]) * (0.01 + SkillSearch("Double Attack") * 0.02));
             myInnerHtml("ATK_00", (finalDamages[0] + wk2 + n_A_EDP_DMG[0]) + "(" + (finalDamages[0] + n_A_EDP_DMG[0]) + "+" + wk2 + ")", 0);
@@ -798,7 +797,7 @@ function BattleCalc999() {
             finalDamages[0] = BattleCalc3(finalDamages[0]);
             finalDamages[0] += HitEDPplus(n_A_EDP_DMG[0]);
 
-            finalDamages[1] = BattleCalc(n_A_DMG[1], 1);
+            finalDamages[1] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[1], 1);
             wk = Math.floor(finalDamages[1] * (0.01 + SkillSearch("Double Attack") * 0.02));
             wk2 = Math.floor((finalDamages[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch("Double Attack") * 0.02));
             myInnerHtml("ATK_01", (finalDamages[1] + wk2 + n_A_EDP_DMG[1]) + "(" + (finalDamages[1] + n_A_EDP_DMG[1]) + "+" + wk2 + ")", 0);
@@ -807,7 +806,7 @@ function BattleCalc999() {
             finalDamages[1] = BattleCalc3(finalDamages[1]);
             finalDamages[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
-            BattleCalc998(0, 0);
+            BattleVariousResults(0, 0);
         } else {
             wTAKA = BattleTAKA();
             TyouEnkakuSousa3dan = 0;
@@ -816,9 +815,9 @@ function BattleCalc999() {
                 TyouEnkakuSousa3dan = -1;
 
                 myInnerHtml("bSUBname", "Trifecta Damage", 0);
-                san1 = Math.floor(BattleCalc(n_A_DMG[0] * (skillModifier + wBC3_3danAtkBairitu), 0) / 3) * 3;
-                san2 = Math.floor(BattleCalc(n_A_DMG[1] * (skillModifier + wBC3_3danAtkBairitu), 1) / 3) * 3;
-                san3 = Math.floor(BattleCalc(n_A_DMG[2] * (skillModifier + wBC3_3danAtkBairitu), 2) / 3) * 3;
+                san1 = Math.floor(ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[0] * (skillModifier + wBC3_3danAtkBairitu), 0) / 3) * 3;
+                san2 = Math.floor(ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[1] * (skillModifier + wBC3_3danAtkBairitu), 1) / 3) * 3;
+                san3 = Math.floor(ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[2] * (skillModifier + wBC3_3danAtkBairitu), 2) / 3) * 3;
                 myInnerHtml("bSUB", san1 + " ~ " + san3, 0);
                 myInnerHtml("bSUB2name", "Trifecta Rate", 0);
                 myInnerHtml("bSUB2", 30 - SkillSearch("Raging Trifecta Blow") + "%", 0);
@@ -827,7 +826,7 @@ function BattleCalc999() {
 
             ApplySkillModifier(skillModifier, 0);
 
-            finalDamages[2] = BattleCalc(n_A_DMG[2], 2);
+            finalDamages[2] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[2], 2);
             if (SkillSearch("Raging Trifecta Blow"))
                 TyouEnkakuSousa3dan = san3;
             myInnerHtml("ATK_02", (finalDamages[2] + n_A_EDP_DMG[2]), 0);
@@ -837,7 +836,7 @@ function BattleCalc999() {
             finalDamages[2] += wTAKA;
             finalDamages[2] += HitEDPplus(n_A_EDP_DMG[2]);
 
-            finalDamages[0] = BattleCalc(n_A_DMG[0], 0);
+            finalDamages[0] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[0], 0);
             myInnerHtml("ATK_00", finalDamages[0] + n_A_EDP_DMG[0], 0);
             if (SkillSearch("Raging Trifecta Blow"))
                 TyouEnkakuSousa3dan = san1;
@@ -846,7 +845,7 @@ function BattleCalc999() {
             finalDamages[0] += wTAKA;
             finalDamages[0] += HitEDPplus(n_A_EDP_DMG[0]);
 
-            finalDamages[1] = BattleCalc(n_A_DMG[1], 1);
+            finalDamages[1] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[1], 1);
             myInnerHtml("ATK_01", finalDamages[1] + n_A_EDP_DMG[1], 0);
             if (SkillSearch("Raging Trifecta Blow"))
                 TyouEnkakuSousa3dan = san2;
@@ -856,11 +855,11 @@ function BattleCalc999() {
             finalDamages[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
             CastAndDelay();
-            BattleCalc998(wCast, wDelay);
+            BattleVariousResults(wCast, wDelay);
         }
         return;
     } else if (skillToUseName === "Sharp Shooting (Temp)") {
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         myInnerHtml("CRIATKname", "Defence Bypassing Damage", 0);
         myInnerHtml("CRInumname", "Chance to Bypass Defence", 0);
 
@@ -877,9 +876,9 @@ function BattleCalc999() {
         ApplySkillModifier(skillModifier, 1);
 
         wCriTyuu = 1;
-        n_A_CriATK[1] = BattleCalc(n_A_CriATK[1], 10);
-        n_A_CriATK[0] = BattleCalc(n_A_CriATK[0], 10);
-        n_A_CriATK[2] = BattleCalc(n_A_CriATK[2], 10);
+        n_A_CriATK[1] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_CriATK[1], 10);
+        n_A_CriATK[0] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_CriATK[0], 10);
+        n_A_CriATK[2] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_CriATK[2], 10);
         wCriTyuu = 0;
 
 
@@ -896,27 +895,27 @@ function BattleCalc999() {
 
         ApplySkillModifier(skillModifier, 0);
 
-        finalDamages[2] = BattleCalc(n_A_DMG[2], 2);
+        finalDamages[2] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[2], 2);
         myInnerHtml("ATK_02", (finalDamages[2] + n_A_EDP_DMG[2]), 0);
 
 
         finalDamages[2] = BattleCalc3(finalDamages[2]);
         finalDamages[2] += HitEDPplus(n_A_EDP_DMG[2]);
 
-        finalDamages[0] = BattleCalc(n_A_DMG[0], 0);
+        finalDamages[0] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[0], 0);
         myInnerHtml("ATK_00", finalDamages[0] + n_A_EDP_DMG[0], 0);
 
         finalDamages[0] = BattleCalc3(finalDamages[0]);
         finalDamages[0] += HitEDPplus(n_A_EDP_DMG[0]);
 
-        finalDamages[1] = BattleCalc(n_A_DMG[1], 1);
+        finalDamages[1] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[1], 1);
         myInnerHtml("ATK_01", finalDamages[1] + n_A_EDP_DMG[1], 0);
 
         finalDamages[1] = BattleCalc3(finalDamages[1]);
         finalDamages[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         return;
     }
 
@@ -943,22 +942,22 @@ function BattleCalc999() {
             skillModifier += 0.3;
             n_A_Weapon_element = 2;
         } else if (skillToUseName === "Arrow Shower") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             skillModifier += n_A_ActiveSkillLV * 0.05 - 0.25;
             wDelay = 1;
             swDelay = 1;
         } else if (skillToUseName === "Arrow Repel") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             wCast = 1.5;
             skillModifier += 0.5;
         } else if (skillToUseName === "Mammonite")
             skillModifier += n_A_ActiveSkillLV * 0.5;
         else if (skillToUseName === "Spear Stab") {
             skillModifier += n_A_ActiveSkillLV * 0.2;
-            n_Enekyori = 1;
+            isRangedAttack = 1;
         } else if (skillToUseName === "Grimtooth") {
             if (n_A_ActiveSkillLV >= 3)
-                n_Enekyori = 1;
+                isRangedAttack = 1;
             skillModifier += 0.2 * n_A_ActiveSkillLV;
 
 
@@ -974,7 +973,7 @@ function BattleCalc999() {
             skillModifier += n_A_ActiveSkillLV * 0.5;
             wDelay = 1;
             swDelay = 1;
-            n_Enekyori = 1;
+            isRangedAttack = 1;
         } else if (skillToUseName === "Brandish Spear") {
             w = (1 + n_A_ActiveSkillLV * 0.2);
             if (n_A_ActiveSkillLV == 10) skillModifier += 4.625;
@@ -1010,7 +1009,7 @@ function BattleCalc999() {
             n_A_Weapon_element = ArrowOBJ[n_A_Arrow][1];
             if (eval(document.calcForm.A_Weapon_element.value) != 0)
                 n_A_Weapon_element = eval(document.calcForm.A_Weapon_element.value);
-            n_Enekyori = 1;
+            isRangedAttack = 1;
         } else if (skillToUseName === "Bomb") {
             not_use_card = 1;
             n_A_Weapon_element = 3;
@@ -1020,12 +1019,12 @@ function BattleCalc999() {
             w_HIT = 100;
             myInnerHtml("BattleHIT", 100, 0);
         } else if (skillToUseName === "Traumatic Blow") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             skillModifier += n_A_ActiveSkillLV * 0.4;
             wDelay = 0.5;
             swDelay = 1;
         } else if (skillToUseName === "Vital Strike") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             skillModifier += (n_A_ActiveSkillLV * 0.1 - 0.5);
             if (n_A_ActiveSkillLV > 5)
                 wDelay = 1;
@@ -1059,14 +1058,14 @@ function BattleCalc999() {
             n_A_Weapon_element = ArrowOBJ[n_A_Arrow][1];
             if (eval(document.calcForm.A_Weapon_element.value) != 0)
                 n_A_Weapon_element = eval(document.calcForm.A_Weapon_element.value);
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             wCast = 1.8 + n_A_ActiveSkillLV * 0.2;
             if (n_A_ActiveSkillLV >= 6) wDelay = 1;
             else wDelay = 0.8;
             wDelay = 3;
             swDelay = 2;
         } else if (skillToUseName === "Tomahawk Throwing") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             not_use_card = 1;
             n_A_Weapon_element = 4;
         } else if (skillToUseName === "Pulse Strike (Temp)") {
@@ -1093,29 +1092,29 @@ function BattleCalc999() {
         } else if (skillToUseName === "Bull's Eye") {
             not_use_card = 1;
             wCast = 0.5;
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             wActiveHitNum = 5;
             if (targetStatsArray[TARGET_STAT_RACE] == 2 || targetStatsArray[TARGET_STAT_RACE] == 7)
                 skillModifier += 4;
         } else if (skillToUseName === "Magical Bullet") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             n_A_Weapon_element = 8;
             not_use_card = 1;
         } else if (skillToUseName === "Trigger Happy Shot") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             wActiveHitNum = 5;
             skillModifier += n_A_ActiveSkillLV * 0.5 + 4;
             wDelay = 1.7;
             swDelay = 1;
         } else if (skillToUseName === "Desperado (Single Hit)") {
-            n_Enekyori = 0;
+            isRangedAttack = 0;
             skillModifier += n_A_ActiveSkillLV * 0.5 - 0.5;
             wDelay = 1;
             swDelay = 1;
         } else if (skillToUseName === "Tracking") {
             wCast = 1 + 0.2 * n_A_ActiveSkillLV;
             cast_kotei = 1;
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             skillModifier += n_A_ActiveSkillLV * 1 + 1;
             wDelay = 1;
             swDelay = 1;
@@ -1124,10 +1123,10 @@ function BattleCalc999() {
                 w_HIT = 100;
         } else if (skillToUseName === "Disarm") {
             wCast = 2;
-            n_Enekyori = 1;
+            isRangedAttack = 1;
         } else if (skillToUseName === "Wounding Shot") {
             wCast = 1.5;
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             skillModifier += n_A_ActiveSkillLV * 0.2;
             wDelay = 0;
             swDelay = 1;
@@ -1135,23 +1134,23 @@ function BattleCalc999() {
         } else if (skillToUseName === "Crowd Control Shot") {
             cast_kotei = 1;
             wCast = 1;
-            n_Enekyori = 0;
+            isRangedAttack = 0;
             skillModifier += n_A_ActiveSkillLV * 0.5;
             wDelay = 1;
             swDelay = 2
             w_HIT = 100;
         } else if (skillToUseName === "Full Blast") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             skillModifier += n_A_ActiveSkillLV * 1 + 2;
             wDelay = 1 + n_A_ActiveSkillLV * 0.2;
             swDelay = 1;
         } else if (skillToUseName === "Spread Shot") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             skillModifier += n_A_ActiveSkillLV * 0.2 - 0.2;
             wDelay = "(Unknown)";
             swDelay = 1;
         } else if (skillToUseName === "Gunslinger Mine") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             not_use_card = 1;
             wCast = 1;
             wDelay = 1;
@@ -1171,19 +1170,19 @@ function BattleCalc999() {
             wCast = wCast * n_A_CAST;
 
         for (b = 0; b <= 2; b++) {
-            finalDamages[b] = BattleCalc(n_A_DMG[b], b);
+            finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[b], b);
             if (wActiveHitNum > 1)
                 finalDamages[b] = Math.floor(finalDamages[b] / wActiveHitNum) * wActiveHitNum;
             myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * hitRate + BattleCalc2(0) * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(0) * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
         if (cast_kotei == 0)
             CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     } else if (skillToUseName === "Stave Crasher") {
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         wCast = 0.3;
         wDelay = 0.3;
         swDelay = 1;
@@ -1198,19 +1197,20 @@ function BattleCalc999() {
         wCast = wCast * n_A_CAST;
 
         for (b = 0; b <= 2; b++) {
-            finalDamages[b] = BattleCalc(n_A_DMG[b], b);
+            finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[b], b);
             myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * hitRate + (BattleCalc2(0) + n_A_WeaponLV_upgradeBonusATK) * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + (ApplyWeaponryResearchAndDMGLevel(0) + n_A_WeaponLV_upgradeBonusATK) * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     }
 
     else if (skillToUseName === "Double Strafe" || skillToUseName === "Pierce" || skillToUseName === "Throw Spirit Spheres (# Hits = # of Spirit Spheres)" || skillToUseName === "Bowling Bash" || skillToUseName === "Triple Action" || skillToUseName === "Beast Strafing") {
+        var isBowlingBash = false;
         if (skillToUseName === "Double Strafe") { // double strafe
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             skillModifier += n_A_ActiveSkillLV * 0.1 - 0.1;
             hitCount = 2;
         } else if (skillToUseName === "Pierce") {
@@ -1222,7 +1222,7 @@ function BattleCalc999() {
             hitCount = 2;
             if (n_A_ActiveSkillLV == 1)
                 hitCount = 1;
-            wLAch = 1;
+            isBowlingBash = true;
             if (TargetStatusFlags[6] == 1) {
                 hitCount = 3;
                 if (n_A_ActiveSkillLV == 1)
@@ -1241,14 +1241,14 @@ function BattleCalc999() {
             wCast = (1 + w) * n_A_CAST;
             wDelay = 0.5;
             swDelay = 1;
-            n_Enekyori = 1;
+            isRangedAttack = 1;
         } else if (skillToUseName === "Triple Action") {
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             skillModifier += 0.5;
             hitCount = 3;
         } else if (skillToUseName === "Beast Strafing") {
             n_SpSkill = 1;
-            n_Enekyori = 1;
+            isRangedAttack = 1;
             skillModifier += n_A_STR * 0.08 - 0.5;
             hitCount = 2;
         }
@@ -1257,25 +1257,25 @@ function BattleCalc999() {
         ApplySkillModifier(skillModifier, 0);
 
         for (b = 0; b <= 2; b++) {
-            finalDamages[b] = BattleCalc(n_A_DMG[b], b);
+            finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[b], b);
             finalDamages[b] += n_A_EDP_DMG[b];
             if (skillToUseName === "Beast Strafing" && targetStatsArray[TARGET_STAT_RACE] != 2 && targetStatsArray[TARGET_STAT_RACE] != 4)
                 finalDamages[b] = 0;
-            if (TargetStatusFlags[6] == 0 || wLAch == 0)
+            if (TargetStatusFlags[6] == 0 || !isBowlingBash)
                 myInnerHtml("ATK_0" + b, finalDamages[b] * hitCount + "(" + finalDamages[b] + SubName[8] + hitCount + "hit)", 0);
             else
                 myInnerHtml("ATK_0" + b, finalDamages[b] * 3 + "(" + finalDamages[b] * 2 + " + " + finalDamages[b] + ")", 0);
             finalDamages[b] -= n_A_EDP_DMG[b];
             finalDamages[b] *= hitCount;
-            finalDamages[b] = (finalDamages[b] * hitRate + BattleCalc2(0) * hitCount * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(0) * hitCount * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]) * hitCount;
         }
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     } else if (skillToUseName === "Blitz Beat" || skillToUseName === "Falcon Eyes") {
         n_A_Weapon_element = 0;
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         wBT = 80 + Math.floor(n_A_DEX / 10) * 2 + Math.floor(n_A_INT / 2) * 2 + SkillSearch("Steel Crow") * 6;
         if (skillToUseName === "Falcon Eyes") {
             wBT = Math.floor(wBT * (150 + 70 * n_A_ActiveSkillLV) / 100);
@@ -1297,7 +1297,7 @@ function BattleCalc999() {
         myInnerHtml("ATK_01", wBT, 0);
         finalDamages[0] = finalDamages[2] = finalDamages[1] = wBT;
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Envenom" || (skillToUseName === "Poison React (Counter)" && (targetStatsArray[TARGET_STAT_ELEMENT] < 50 || 60 <= targetStatsArray[TARGET_STAT_ELEMENT]))) {
         ApplySkillModifier(skillModifier, 0);
@@ -1308,10 +1308,10 @@ function BattleCalc999() {
         n_A_EDP_DMG[0] = BattleCalcEDP(n_A_DMG[0], 0);
         n_A_EDP_DMG[1] = BattleCalcEDP(n_A_DMG[1], 1);
 
-        wINV = Math.floor(BattleCalc2(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][5]);
+        wINV = Math.floor(ApplyWeaponryResearchAndDMGLevel(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][5]);
 
         for (b = 0; b <= 2; b++) {
-            finalDamages[b] = BattleCalc(n_A_DMG[b], b);
+            finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[b], b);
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][5]);
             myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
             finalDamages[b] = (finalDamages[b] * hitRate + wINV * (100 - hitRate)) / 100;
@@ -1322,9 +1322,9 @@ function BattleCalc999() {
         myInnerHtml("bSUB", '<Font color="#0000FF">' + wINV + "</Font>", 0);
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     } else if (skillToUseName === "Shield Boomerang" || skillToUseName === "Shield Boomerang (SoulLinked)") {
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         n_A_Weapon_element = 0;
         wDelay = 0.7;
         if (skillToUseName === "Shield Boomerang (SoulLinked)")
@@ -1350,9 +1350,9 @@ function BattleCalc999() {
         }
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     } else if (skillToUseName === "Rapid Smiting") {
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         n_A_Weapon_element = 0;
         wCast = 1 * n_A_CAST;
         wDelay = 1;
@@ -1386,9 +1386,9 @@ function BattleCalc999() {
         }
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     } else if (skillToUseName === "Clashing Spiral") {
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         if (n_A_ActiveSkillLV == 5)
             wCast = 1 * n_A_CAST;
         else
@@ -1415,7 +1415,7 @@ function BattleCalc999() {
         finalDamages[0] = finalDamages[1] = finalDamages[2];
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     } else if (skillToUseName === "Venom Splasher") {
         not_use_card = 1;
         n_SpSkill = 1;
@@ -1428,17 +1428,17 @@ function BattleCalc999() {
 
 
             for (b = 0; b <= 2; b++) {
-                finalDamages[b] = BattleCalc(n_A_DMG[b], b);
+                finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[b], b);
                 finalDamages[b] = Math.floor(finalDamages[b]);
                 myInnerHtml("ATK_0" + b, finalDamages[b], 0);
             }
         }
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Soul Destroyer") {
         not_use_card = 1;
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         wCast = 0.5 * n_A_CAST;
         wDelay = 0.8 + 0.2 * n_A_ActiveSkillLV;
         swDelay = 1;
@@ -1452,14 +1452,14 @@ function BattleCalc999() {
             w_SBr[i] = tPlusDamCut(w_SBr[i]);
 
         for (b = 0; b <= 2; b++) {
-            finalDamages[b] = BattleCalc(n_A_DMG[b], b);
+            finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[b], b);
             finalDamages[b] *= n_A_ActiveSkillLV;
             myInnerHtml("ATK_0" + b, finalDamages[b] + w_SBr[b] + "(" + finalDamages[b] + "+" + w_SBr[b] + ")", 0);
-            finalDamages[b] = ((finalDamages[b] + w_SBr[b]) * hitRate + (BattleCalc2(0) + w_SBr[b]) * (100 - hitRate)) / 100;
+            finalDamages[b] = ((finalDamages[b] + w_SBr[b]) * hitRate + (ApplyWeaponryResearchAndDMGLevel(0) + w_SBr[b]) * (100 - hitRate)) / 100;
         }
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     } else if (skillToUseName === "Grand Cross") {
 
         myInnerHtml("CRIATKname", '<Font color="#FF0000">HP Casting Cost</Font>', 0);
@@ -1510,12 +1510,11 @@ function BattleCalc999() {
         myInnerHtml("CRInum", '<Font color="#FF0000">' + finalDamages[0] + "�~3hit ~ " + finalDamages[1] + "�~3hit</Font>", 0);
 
 
-        n_Enekyori = 2;
+        isRangedAttack = 2;
         n_A_Weapon_element = 6;
         wCast = 3 * n_A_CAST;
         wDelay = 1.5;
         swDelay = 1;
-        wLAch = 1;
 
         for (b = 0; b <= 2; b++) {
             finalDamages[b] = BK_n_A_DMG[b] * (100 - targetStatsArray[TARGET_STAT_DEF]) / 100 - n_B_DEF2[b] + n_A_WeaponLV_upgradeBonusATK;
@@ -1542,7 +1541,7 @@ function BattleCalc999() {
             }
         }
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
 
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Cart Revolution") {
@@ -1566,17 +1565,17 @@ function BattleCalc999() {
         ApplySkillModifier(skillModifier, 0);
 
         for (b = 0; b <= 2; b++) {
-            finalDamages[b] = BattleCalc(n_A_DMG[b], b);
-            finalDamages[b] += Math.floor(BattleCalc(CR_n_A_DMG[b], b) * CRbai);
+            finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[b], b);
+            finalDamages[b] += Math.floor(ApplyMasteryAndWeaponryResearchAndDMGLevel(CR_n_A_DMG[b], b) * CRbai);
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
             myInnerHtml("ATK_0" + b, finalDamages[b], 0);
 
-            finalDamages[b] = (finalDamages[b] * hitRate + BattleCalc2(0) * 2 * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(0) * 2 * (100 - hitRate)) / 100;
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
         }
 
         CastAndDelay();
-        BattleCalc998(0, 0);
+        BattleVariousResults(0, 0);
     } else if (skillToUseName === "Gloria Domini") {
         finalDamages[2] = 500 + 300 * n_A_ActiveSkillLV;
         if (n_Ses)
@@ -1591,7 +1590,7 @@ function BattleCalc999() {
         wDelay = 1.5 + n_A_ActiveSkillLV * 0.5;
         swDelay = 1;
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Martyr's Reconing") {
         n_A_Weapon_element = 0;
@@ -1605,7 +1604,7 @@ function BattleCalc999() {
         finalDamages[1] = finalDamages[2];
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
 
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Occult Impaction") {
@@ -1630,7 +1629,7 @@ function BattleCalc999() {
         wDelay = 0.5;
         swDelay = 1;
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Guillotine Fist" || skillToUseName === "Guillotine Fist (MaxSP-1)") {
         n_A_Weapon_element = 0;
@@ -1653,25 +1652,25 @@ function BattleCalc999() {
         swDelay = 1;
         CastAndDelay();
 
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Throw Dagger") {
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         not_use_card = 1;
         ApplySkillModifier(skillModifier, 0);
 
         for (b = 0; b <= 2; b++) {
-            finalDamages[b] = BattleCalc(n_A_DMG[b], b);
+            finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[b], b);
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
             myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * hitRate + BattleCalc2(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     } else if (skillToUseName === "Throw Kunai") {
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         not_use_card = 1;
         ApplySkillModifier(skillModifier, 0);
 
@@ -1680,18 +1679,18 @@ function BattleCalc999() {
             n_A_Weapon_element = KunaiOBJ[eval(document.calcForm.SkillSubNum.value)][1];
 
         for (b = 0; b <= 2; b++) {
-            finalDamages[b] = BattleCalc(n_A_DMG[b], b);
+            finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[b], b);
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
             myInnerHtml("ATK_0" + b, finalDamages[b] * 3 + "(" + finalDamages[b] + SubName[8] + "3hit)", 0);
-            finalDamages[b] = (finalDamages[b] * 3 * hitRate + BattleCalc2(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * 3 * hitRate + ApplyWeaponryResearchAndDMGLevel(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     } else if (skillToUseName === "Throw Huuma Shuriken") {
         skillModifier += (n_A_ActiveSkillLV * 1.5 + 0.5);
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         ApplySkillModifier(skillModifier, 0);
         wCast = 3 * n_A_CAST;
         wDelay = 3;
@@ -1699,20 +1698,20 @@ function BattleCalc999() {
         wActiveHitNum = 2 + Math.round(n_A_ActiveSkillLV / 2);
 
         for (b = 0; b <= 2; b++) {
-            finalDamages[b] = BattleCalc(n_A_DMG[b], b);
+            finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(n_A_DMG[b], b);
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
             if (wActiveHitNum > 1)
                 finalDamages[b] = Math.floor(finalDamages[b] / wActiveHitNum) * wActiveHitNum;
             myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * hitRate + BattleCalc2(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(0) * element[targetStatsArray[TARGET_STAT_ELEMENT]][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(n_A_EDP_DMG[b]);
         }
 
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
     } else if (skillToUseName === "Final Strike" || skillToUseName === "Final Strike (MaxHP-1)") {
         n_A_Weapon_element = 0;
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         ApplySkillModifier(skillModifier, 0);
         if (skillToUseName === "Final Strike")
             w_1senHP = eval(document.calcForm.SkillSubNum.value);
@@ -1730,10 +1729,10 @@ function BattleCalc999() {
 
         CastAndDelay();
 
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Acid Terror") {
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         n_A_Weapon_element = 0;
         skillModifier = (50 + n_A_ActiveSkillLV * 50) / 100;
 
@@ -1745,10 +1744,10 @@ function BattleCalc999() {
 
         wCast = 1 * n_A_CAST;
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Acid Demonstration") {
-        n_Enekyori = 1;
+        isRangedAttack = 1;
         n_A_Weapon_element = 0;
         hitCount = n_A_ActiveSkillLV;
 
@@ -1768,7 +1767,7 @@ function BattleCalc999() {
         wDelay = 1;
         swDelay = 1;
         CastAndDelay();
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Land Mine" || skillToUseName === "Blast Mine" || skillToUseName === "Claymore Trap") {
         n_SpSkill = 1;
@@ -1792,13 +1791,13 @@ function BattleCalc999() {
 
         CastAndDelay();
 
-        BattleCalc998(0, 0);
+        BattleVariousResults(0, 0);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Heal") {
         n_A_Weapon_element = 6;
         wDelay = 1;
         swDelay = 1;
-        n_Enekyori = 2;
+        isRangedAttack = 2;
         finalDamages[2] = HealCalc(n_A_ActiveSkillLV, 0);
         finalDamages[2] = Math.floor(Math.floor(finalDamages[2] / 2) * element[targetStatsArray[TARGET_STAT_ELEMENT]][6]);
         if (targetStatsArray[TARGET_STAT_ELEMENT] < 90) {
@@ -1814,12 +1813,12 @@ function BattleCalc999() {
 
         CastAndDelay();
 
-        BattleCalc998(0, wDelay);
+        BattleVariousResults(0, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Sanctuary") {
         n_A_Weapon_element = 6;
         n_SpSkill = 1;
-        n_Enekyori = 2;
+        isRangedAttack = 2;
         if (n_A_ActiveSkillLV <= 6)
             finalDamages[2] = 100 * n_A_ActiveSkillLV;
         else
@@ -1846,11 +1845,11 @@ function BattleCalc999() {
 
         CastAndDelay();
 
-        BattleCalc998(0, 0);
+        BattleVariousResults(0, 0);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Turn Undead") {
         n_A_Weapon_element = 6;
-        n_Enekyori = 2;
+        isRangedAttack = 2;
         if (targetStatsArray[TARGET_STAT_ELEMENT] < 90) {
             w = 0;
             finalDamages[2] = 0;
@@ -1877,12 +1876,12 @@ function BattleCalc999() {
         swDelay = 1;
         CastAndDelay();
 
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else if (skillToUseName === "Gravity Field") {
         n_A_Weapon_element = 0;
         n_SpSkill = 1;
-        n_Enekyori = 2;
+        isRangedAttack = 2;
         hitCount = 4 + n_A_ActiveSkillLV;
         finalDamages[2] = 200 + 200 * n_A_ActiveSkillLV;
 
@@ -1902,10 +1901,10 @@ function BattleCalc999() {
         wDelay = 2;
         CastAndDelay();
 
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     } else {
-        n_Enekyori = 2;
+        isRangedAttack = 2;
         swDelay = 1;
         skillModifier = 1;
         if (skillToUseName === "Fire Bolt") {
@@ -2147,7 +2146,7 @@ function BattleCalc999() {
 
         CastAndDelay();
 
-        BattleCalc998(wCast, wDelay);
+        BattleVariousResults(wCast, wDelay);
         myInnerHtml("BattleHIT", 100, 0);
     }
 }
@@ -2222,7 +2221,7 @@ function BattleTAKA() {
         wBT = Math.floor(wBT * element[targetStatsArray[TARGET_STAT_ELEMENT]][0]);
         wBT = tPlusDamCut(wBT);
         wBTw3 = Math.round((1 + n_A_LUK * 0.3) * 100) / 100;
-        if (targetStatsArray[0] == 44)
+        if (targetStatsArray[TARGET_STAT_MOB_INDEX] == 44)
             wBT = 0;
         myInnerHtml("bSUB", wBT * wBTw1 + "(" + wBTw3 + "%)", 0);
         wBT = wBT * wBTw1 * wBTw3 / 100;
@@ -2249,10 +2248,22 @@ function HealCalc(HealLv, HealType) {
     return wHeal;
 }
 
-function BattleCalc998(BC998Cast, BC998Delay) {
+function BattleVariousResults(cast, afterCastDelay) {
+
+    if (afterCastDelay == 0)
+        w = 1 / (cast + n_A_ASPD) * finalDamages[1];
+    else
+        w = 1 / (cast + afterCastDelay) * finalDamages[1];
+    w *= 100;
+    w = Math.round(w);
+    w /= 100;
+
+    if (n_SpSkill)
+        myInnerHtml("DPS", "Special", 0);
+    else
+        myInnerHtml("DPS", w, 0);
     
-    
-    if (targetStatsArray[0] == 44 && skillToUseName != "Basic Attack") {
+    if (targetStatsArray[TARGET_STAT_MOB_INDEX] == 44 && skillToUseName != "Basic Attack") {
         for (i = 0; i <= 2; i++) {
             finalDamages[i] = 0;
             myInnerHtml("ATK_0" + i, 0, 0);
@@ -2296,11 +2307,11 @@ function BattleCalc998(BC998Cast, BC998Delay) {
         n_AveATKnum = i;
 
 
-        if (BC998Delay == 0)
+        if (afterCastDelay == 0)
 
-            w = (BC998Cast + n_A_ASPD) * n_AveATKnum;
+            w = (cast + n_A_ASPD) * n_AveATKnum;
         else
-            w = (BC998Cast + BC998Delay) * n_AveATKnum;
+            w = (cast + afterCastDelay) * n_AveATKnum;
         w = Math.floor(w * 100) / 100;
 
         if (n_SpSkill)
@@ -2312,24 +2323,11 @@ function BattleCalc998(BC998Cast, BC998Delay) {
         myInnerHtml("BattleTime", SubName[6], 0);
     }
 
-    if (BC998Delay == 0)
-
-        w = 1 / (BC998Cast + n_A_ASPD) * finalDamages[1];
-    else
-        w = 1 / (BC998Cast + BC998Delay) * finalDamages[1];
-    w *= 100;
-    w = Math.round(w);
-    w /= 100;
-
-    if (n_SpSkill)
-        myInnerHtml("AveSecondATK", "Special", 0);
-    else
-        myInnerHtml("AveSecondATK", w, 0);
 
     n_SpSkill = 0
 
     if (InWarOfEmperium == 0) {
-        w = BattleHiDam();
+        w = CalculateDamageReceived();
 
         w = Math.round(w * (100 - n_A_LUCKY)) / 100;
         w = Math.round(w * (100 - w_FLEE)) / 100;
@@ -2342,16 +2340,16 @@ function BattleCalc998(BC998Cast, BC998Delay) {
         if (SkillSearch("Counter Instinct")) {
             w = Math.round(w * (100 - SkillSearch("Counter Instinct") * 7.5)) / 100;
         }
-        myInnerHtml("B_Ave2Atk", w + "Damage", 0);
+        myInnerHtml("AverageReceivedDamageIncludingDodge", w + "Damage", 0);
 
     }
 }
 
-function BattleHiDam() {
+function CalculateDamageReceived() {
 
     
     w_HiDam = new Array();
-    wBHD = targetStatsArray[13];
+    wBHD = targetStatsArray[TARGET_STAT_ATK2];
     w_HiDam[0] = targetStatsArray[TARGET_STAT_ATK];
     w_HiDam[1] = (targetStatsArray[TARGET_STAT_ATK] * 5 + wBHD) / 6;
     w_HiDam[2] = (targetStatsArray[TARGET_STAT_ATK] * 4 + wBHD * 2) / 6;
@@ -2359,7 +2357,7 @@ function BattleHiDam() {
     w_HiDam[4] = (targetStatsArray[TARGET_STAT_ATK] * 2 + wBHD * 4) / 6;
     w_HiDam[5] = (targetStatsArray[TARGET_STAT_ATK] + wBHD * 5) / 6;
     w_HiDam[6] = wBHD;
-    if (targetStatsArray[TARGET_STAT_ATK] == targetStatsArray[13])
+    if (targetStatsArray[TARGET_STAT_ATK] == targetStatsArray[TARGET_STAT_ATK2])
         w_HiDam[6] = wBHD - 1;
 
     w_HiDam[0] = w_HiDam[0] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[2];
@@ -2465,7 +2463,7 @@ function BattleHiDam() {
     }
 
 
-    if (targetStatsArray[0] == 275 && CardNumSearch("Bongun")) {
+    if (targetStatsArray[TARGET_STAT_MOB_INDEX] == 275 && CardNumSearch("Bongun")) {
         wBHD = 100 * CardNumSearch("Bongun");
         for (i = 0; i <= 6; i++)
             w_HiDam[i] += Math.floor(w_HiDam[i] * wBHD / 100);
@@ -2473,8 +2471,8 @@ function BattleHiDam() {
     }
 
 
-    wBHD = StPlusCard(3000 + targetStatsArray[0]);
-    wBHD += StPlusCalc2(3000 + targetStatsArray[0]);
+    wBHD = StPlusCard(3000 + targetStatsArray[TARGET_STAT_MOB_INDEX]);
+    wBHD += StPlusCalc2(3000 + targetStatsArray[TARGET_STAT_MOB_INDEX]);
     for (i = 0; i <= 6; i++)
         w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD / 100);
 
@@ -2504,7 +2502,7 @@ function BattleHiDam() {
     for (i = 0; i <= 6; i++)
         wBHD += w_HiDam[i];
     wBHD = Math.round(wBHD / 7);
-    myInnerHtml("B_AveAtk", wBHD + " (" + w_HiDam[0] + " ~ " + w_HiDam[6] + ")", 0);
+    myInnerHtml("AverageReceivedDamage", wBHD + " (" + w_HiDam[0] + " ~ " + w_HiDam[6] + ")", 0);
 
     return wBHD;
 }
