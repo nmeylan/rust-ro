@@ -745,7 +745,7 @@ function isNonRangeWeapon() {
         let min_dmg = Number.parseFloat(document.querySelector("#ATK_00").textContent);
         let max_dmg = Number.parseFloat(document.querySelector("#ATK_02").textContent);
         let avg_dmg = Number.parseFloat(document.querySelector("#ATK_01").textContent);
-        let dps = Number.parseFloat(document.querySelector("#AveSecondATK").textContent);
+        let dps = Number.parseFloat(document.querySelector("#DPS").textContent);
         let aspd = Number.parseFloat(document.querySelector("#nm023").textContent);
         savedDataAsJson.expected = {
             weapon_min_atk: weaponAttack[0],

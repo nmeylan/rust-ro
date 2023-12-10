@@ -1285,6 +1285,7 @@ function isRangedWeapon() {
     function ClickB_Enemy() {
         targetStats = {};
         targetStatsArray = new Array();
+        TARGET_STAT_MOB_INDEX = 0;
         TARGET_STAT_RACE = 2;
         TARGET_STAT_ELEMENT = 3;
         TARGET_STAT_SIZE = 4;
@@ -1293,8 +1294,10 @@ function isRangedWeapon() {
         TARGET_STAT_VIT = 7;
         TARGET_STAT_AGI = 8;
         TARGET_STAT_INT = 9;
+        TARGET_STAT_DEX = 10;
         TARGET_STAT_LUK = 11;
         TARGET_STAT_ATK = 12;
+        TARGET_STAT_ATK2 = 13;
         TARGET_STAT_DEF = 14;
         TARGET_STAT_MDEF = 15;
         n_B2 = new Array();
@@ -1349,7 +1352,7 @@ function isRangedWeapon() {
                 n_B2[24] = n_B2[23];
         }
         n_B2[25] = Math.floor(targetStatsArray[TARGET_STAT_VIT] / 2) + targetStatsArray[TARGET_STAT_INT];
-        n_B2[26] = targetStatsArray[TARGET_STAT_LEVEL] + targetStatsArray[10];
+        n_B2[26] = targetStatsArray[TARGET_STAT_LEVEL] + targetStatsArray[TARGET_STAT_DEX];
         n_B2[27] = targetStatsArray[TARGET_STAT_LEVEL] + targetStatsArray[TARGET_STAT_AGI];
 
         if (MonsterStats) {
@@ -1392,8 +1395,8 @@ function isRangedWeapon() {
 
         if (TargetStatusFlags[21]) {
             targetStatsArray[TARGET_STAT_ATK] = targetStatsArray[TARGET_STAT_ATK] * 3;
-            targetStatsArray[13] = targetStatsArray[13] * 3;
-            targetStatsArray[10] = targetStatsArray[10] * 3;
+            targetStatsArray[TARGET_STAT_ATK2] = targetStatsArray[TARGET_STAT_ATK2] * 3;
+            targetStatsArray[TARGET_STAT_DEX] = targetStatsArray[TARGET_STAT_DEX] * 3;
         }
         if (TargetStatusFlags[22])
             targetStatsArray[TARGET_STAT_AGI] = targetStatsArray[TARGET_STAT_AGI] * 3;
@@ -1411,24 +1414,24 @@ function isRangedWeapon() {
             else
                 targetStatsArray[TARGET_STAT_AGI] -= w;
             if (InWarOfEmperium)
-                w = Math.floor(targetStatsArray[10] / 4);
+                w = Math.floor(targetStatsArray[TARGET_STAT_DEX] / 4);
             else
-                w = Math.floor(targetStatsArray[10] / 2);
+                w = Math.floor(targetStatsArray[TARGET_STAT_DEX] / 2);
             if (w > w2)
-                targetStatsArray[10] -= w2;
+                targetStatsArray[TARGET_STAT_DEX] -= w2;
             else
-                targetStatsArray[10] -= w;
+                targetStatsArray[TARGET_STAT_DEX] -= w;
         }
 
         if (targetStatsArray[19] == 0) {
             if (TargetStatusFlags[5] && (targetStatsArray[TARGET_STAT_RACE] == 6 || targetStatsArray[TARGET_STAT_ELEMENT] >= 90)) {
-                targetStatsArray[10] = targetStatsArray[10] - Math.floor(targetStatsArray[10] / 2);
+                targetStatsArray[TARGET_STAT_DEX] = targetStatsArray[TARGET_STAT_DEX] - Math.floor(targetStatsArray[TARGET_STAT_DEX] / 2);
                 targetStatsArray[TARGET_STAT_INT] = targetStatsArray[TARGET_STAT_INT] - Math.floor(targetStatsArray[TARGET_STAT_INT] / 2);
             }
             if (TargetStatusFlags[10]) {
                 targetStatsArray[TARGET_STAT_LUK] = 0;
                 targetStatsArray[TARGET_STAT_ATK] -= Math.floor(targetStatsArray[TARGET_STAT_ATK] * 25 / 100);
-                targetStatsArray[13] -= Math.floor(targetStatsArray[13] * 25 / 100);
+                targetStatsArray[TARGET_STAT_ATK2] -= Math.floor(targetStatsArray[TARGET_STAT_ATK2] * 25 / 100);
             }
             if (TargetStatusFlags[11]) {
                 targetStatsArray[TARGET_STAT_AGI] -= (TargetStatusFlags[11] + 2);
@@ -1450,7 +1453,7 @@ function isRangedWeapon() {
                 targetStatsArray[24] = targetStatsArray[23];
         }
         targetStatsArray[25] = Math.floor(targetStatsArray[TARGET_STAT_VIT] / 2) + targetStatsArray[TARGET_STAT_INT];
-        targetStatsArray[26] = targetStatsArray[TARGET_STAT_LEVEL] + targetStatsArray[10];
+        targetStatsArray[26] = targetStatsArray[TARGET_STAT_LEVEL] + targetStatsArray[TARGET_STAT_DEX];
         targetStatsArray[27] = targetStatsArray[TARGET_STAT_LEVEL] + targetStatsArray[TARGET_STAT_AGI];
 
         xiATK = 0;
@@ -1487,11 +1490,11 @@ function isRangedWeapon() {
         targetStatsArray[23] -= Math.floor(targetStatsArray[23] * xiDEF / 100);
         targetStatsArray[24] -= Math.floor(targetStatsArray[24] * xiDEF / 100);
         targetStatsArray[TARGET_STAT_ATK] += Math.floor(targetStatsArray[TARGET_STAT_ATK] * xiATK / 100);
-        targetStatsArray[13] += Math.floor(targetStatsArray[13] * xiATK / 100);
+        targetStatsArray[TARGET_STAT_ATK2] += Math.floor(targetStatsArray[TARGET_STAT_ATK2] * xiATK / 100);
 
         if (TargetStatusFlags[13] && InWarOfEmperium == 0) {
             targetStatsArray[TARGET_STAT_ATK] -= Math.floor(targetStatsArray[TARGET_STAT_ATK] * 25 / 100);
-            targetStatsArray[13] -= Math.floor(targetStatsArray[13] * 25 / 100);
+            targetStatsArray[TARGET_STAT_ATK2] -= Math.floor(targetStatsArray[TARGET_STAT_ATK2] * 25 / 100);
         }
         if (TargetStatusFlags[14] && InWarOfEmperium == 0)
             targetStatsArray[TARGET_STAT_DEF] -= Math.floor(targetStatsArray[TARGET_STAT_DEF] * 15 / 100);
@@ -1623,7 +1626,7 @@ function isRangedWeapon() {
             wBCEDPpDA = (100 + w998E) / 100;
 
         wBCEDPch = 1;
-        wBCEDPpHOSI = BattleCalc2(0);
+        wBCEDPpHOSI = ApplyWeaponryResearchAndDMGLevel(0);
         wBCEDPch = 0;
         if (wBCEDPpHOSI >= 1) {
             www = hitRate;
