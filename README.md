@@ -46,33 +46,186 @@ Focus is now on [Skills](https://github.com/nmeylan/rust-ro/issues/11)
 
 Also see [Meta issue](https://github.com/nmeylan/rust-ro/issues/19)
 
-# Usage
-*This section will be rewritten*
+# Setup 
 
-**Pre-requisite:**
-- postgresql (rathena db was converted using pgloader and then adapted)
-- RO db `db/pg.sql`
+Here's a list of **re-requisites** to run rust-ro:
 
-**Notes:**
+* Docker OR PostgreSQL 16+ directly on your machine 
+* Rust - nighly build
+
+## 1. Config
+
+First, make a copy from `config.template.json` to `config.json`:
+
+```shell
+cd rust-ro
+cp config.template.json config.json
+```
+Inside this JSON, you will find **database related variables** and **game related variables** (exp_rate, drop_rate etc) as well. You can change in the way you want, but for now let's leave it with default values.
+
+```json
+// config.json
+[
+  "game": {
+    "default_char_speed": 150,
+    "drop_rate": 1.0,
+    "drop_rate_card": 1.0,
+    "drop_rate_mvp": 1.0,
+    "max_base_level": 99,
+    "max_inventory": 100,
+    "mob_density": 1.0,
+    "max_stat_level": 99,
+    "base_exp_rate": 1.0,
+    "job_exp_rate": 1.0,
+    "mob_dropped_item_locked_to_owner_duration_in_secs": 30,
+    "player_dropped_item_locked_to_owner_duration_in_secs": 60
+  }
+]
+```
+
+> TODO: make a small info for each variable, maybe a wiki?
+
+## 2. Setup DB
+
+The entire database structure was based on **rAthena** but instead of using MySQL, we decided to go with PostgreSQL. There's minor modifications so far but until we mapped some **constraints**. 
+
+Since there's features like `ON CONFLICT (column) .. DO UPDATE`, `UNNEST(array)` that is not provided by MySQL, PostgreSQL took place to leverage the project in the database aspect.
+
+### 2.1 Setup DB: Docker
+
+If you already have **Docker** installed in your machine, we prepared a **docker-compose.yml** with all configs ready for your ragnarok server.
+
+Go to */docker* and run:
+```shell
+docker-compose up -d
+```
+
+By default, we ran `/rust-ro/docker/volumes/init.sql`, script that creates a database, user and grant all privileges to the user `ragnarok`. It also copies the `/rust-ro/docker/volumes/pg.sql` volume to your docker instance.
+
+```sql
+-- In case you want to take a look: 
+-- /rust-ro/docker/volumes/init.sql
+
+CREATE USER ragnarok WITH PASSWORD 'ragnarok';
+CREATE DATABASE ragnarok;
+GRANT ALL PRIVILEGES ON DATABASE ragnarok TO ragnarok;
+ALTER DATABASE ragnarok OWNER TO ragnarok;
+```
+
+After your database is up, you will need import the Game SQL (`/rust-ro/pg.sql`) to our new database. For that follow the steps:
+
+* Connect into the Docker `postgres_container` Bash
+* Log-in as user `postgres`
+* Run the `psql` command pointing 
+
+```shell
+docker exec -it postgres_container bash
+su postgres
+psql ragnarok < pg.sql
+```
+
+With that you're ready to go to the next step. 
+
+### 2.1 Setup DB: Locally
+
+If you have PostgreSQL installed in your machine, you will need to log-in into PSQL and create the user, dabase and give the necessary privilege for it:
+
+```shell
+sudo -u postgres psql
+```
+
+Run the queries below: 
+
+```sql 
+CREATE USER ragnarok WITH PASSWORD 'ragnarok';
+CREATE DATABASE ragnarok;
+GRANT ALL PRIVILEGES ON DATABASE ragnarok TO ragnarok;
+ALTER DATABASE ragnarok OWNER TO ragnarok;
+```
+
+After that, exit pgsql and import our `/rust-ro/db/pg.sql` via cli with:
+
+```shell
+ sudo -u postgres psql ragnarok < db/pg.sql
+```
+
+> If you're using the local version, don't forget to change the `database.port` number to `5433` in your `config.json` file. 
+
+
+## 3. Building the Binaries
+
+So far, we have a few executables being compiled together with the project:
+
+- **maps:** TODO description
+- **maps-tool:** TODO description
+- **packets:** TODO description
+- **packets-tool:** TODO description
+- **server:** TODO description
+- **skills-enum-generator:** TODO description
+
+To build, just go on the project root and run: 
+
+```shell
+cargo build
+```
+
+Simple like that! Now you're good to run your servers. 
+
+## 4. Running the Binaries
+
+After we have everyting set-up (binaries and database), we should run these binaries to make the game playable:
+
+- server
+- maps
+- packets
+
+
+### 4.1 Running Servers
+
+
+
+## 5. Developer Notes
+
 - All packets for account 2000000 are handle by this project.
 - All packets for any other account are proxied (and display in console) to hercules or rathena.
-
-
 - clientinfo.xml to be changed to target port 6901
 
 In proxy mode:
 - login, char, map server to be running using default ports (6900, 6121, 6122)
 
-Database:
-- This project use postgresql instead of mysql to leverage some feature not fully provided by mysql (`ON CONFLICT (column) .. DO UPDATE`, `UNNEST(array)`, ...).
-- Structure was copied from rathena database, some modification where done (like adding constraints)
 
-# What has been done? ✔️
-## Tools
+## Compilation
+A compilation of progress made so far, **click on streamable video below**
+
+[![Compilation of features so far](https://res.cloudinary.com/marcomontalbano/image/upload/v1678527790/video_to_markdown/images/streamable--jiapub-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://streamable.com/jiapub "Compilation of features so far")
+
+[![Compilation of features so far](https://res.cloudinary.com/marcomontalbano/image/upload/v1678527859/video_to_markdown/images/streamable--ofni1d-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://streamable.com/ofni1d "Compilation of features so far")
+
+### Integration of the VM (showing instance and class(npc) variable)
+
+https://user-images.githubusercontent.com/1909074/178155321-d3eeb4b8-32ed-4901-bbfe-b101b1a5a56d.mp4
+
+### Visual debugger
+![visual-debugger](doc/img/visual_debugger.PNG)
+Debug server state with a UI
+
+### warp
+![warps](doc/img/warp_spawn.PNG)
+![warps](doc/img/warp.PNG)
+
+### mob
+![mobs](doc/img/mob_spawn.PNG)
+
+### Proxied packets
+![packets](doc/img/packet_analyzer.PNG)
+
+
+## What has been done? ✔️
+### Tools
 - packet structure generator from [packet db](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db)
 - packet parser generator
 - map cache generator
-## Server
+### Server
 - proxy login, char and map request to hercules/rathena login, char and map servers
 - packet debug
 - login
@@ -94,30 +247,3 @@ Database:
 - basis for consumable item usage
 - basis for player attacking mob
 - mob drops item on death
-
-
-## Compilation
-A compilation of progress made so far, **click on streamable video below**
-
-[![Compilation of features so far](https://res.cloudinary.com/marcomontalbano/image/upload/v1678527790/video_to_markdown/images/streamable--jiapub-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://streamable.com/jiapub "Compilation of features so far")
-
-[![Compilation of features so far](https://res.cloudinary.com/marcomontalbano/image/upload/v1678527859/video_to_markdown/images/streamable--ofni1d-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://streamable.com/ofni1d "Compilation of features so far")
-
-## Integration of the VM (showing instance and class(npc) variable)
-
-https://user-images.githubusercontent.com/1909074/178155321-d3eeb4b8-32ed-4901-bbfe-b101b1a5a56d.mp4
-
-## Visual debugger
-![visual-debugger](doc/img/visual_debugger.PNG)
-Debug server state with a UI
-
-
-## warp
-![warps](doc/img/warp_spawn.PNG)
-![warps](doc/img/warp.PNG)
-
-## mob
-![mobs](doc/img/mob_spawn.PNG)
-
-## Proxied packets
-![packets](doc/img/packet_analyzer.PNG)
