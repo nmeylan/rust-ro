@@ -32,7 +32,7 @@ While it is a from scratch implemention it is heavily inspired by [herculesWS](h
 - [8. What has been done? ✔️](#8-what-has-been-done-️)
   - [8.1 Tools](#81-tools)
   - [8.2 Server](#82-server)
-- [9. Contribution](#9-contribution-️)
+- [9. Contribution](#9-contribution)
 
 
 ## 1. Ambition
