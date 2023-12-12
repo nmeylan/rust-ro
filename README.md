@@ -1,7 +1,5 @@
 ![build](https://github.com/nmeylan/rust-ro/actions/workflows/rust.yml/badge.svg)
 
-![Rust-RO logo](.github/images/logo.png)
-
 # Welcome to rust-ro!
 **rust-ro** is a Ragnarok MMO Server implementation written in Rust. 
 
@@ -85,7 +83,7 @@ To understand what is going on at this project, check the [architectures notes](
 
 Here's a list of **pre-requisites** to run rust-ro:
 
-* Docker OR PostgreSQL 16+ directly on your machine 
+* Docker OR PostgreSQL 12+ directly on your machine 
 * Rust - nighly build
 
 ### 5.1 Config
@@ -206,16 +204,9 @@ cargo build
 
 Simple like that! Now you're good to run your servers. 
 
-### 5.4 Running the Binaries
+### 5.4 Running the Server
 
-After we have everyting set-up (binaries and database), we should run these binaries to make the game playable:
-
-- server
-- maps
-- packets
-
-
-#### 5.4.1 Running Servers
+After we have everyting set-up (binaries and database), we should run server binary to turn on **rust-ro**.
 
 To run the `server` binary, you will need a `ENV` variable called `DATABASE_PASSWORD` together with your command:
 
@@ -226,15 +217,6 @@ DATABASE_PASSWORD=ragnarok cargo run --bin=server
 If everything goes right, you should receive something like this output:
 
 ```
-exclude pattern sqlx
-class file -> _Global
-class file -> Test
-class file -> GlobalVariableTest
-class file -> Warper
-class file after filter -> _Global
-class file after filter -> Test
-class file after filter -> GlobalVariableTest
-class file after filter -> Warper
 INFO [server] load 39 scripts in 0.126 secs
 INFO [server::server::boot::warps_loader] load 2781 warps in 0.007 secs
 INFO [server::server::boot::mob_spawn_loader] load 3391 mob spawns in 0.022 secs
