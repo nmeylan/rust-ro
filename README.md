@@ -1,6 +1,11 @@
 ![build](https://github.com/nmeylan/rust-ro/actions/workflows/rust.yml/badge.svg)
+
+![Rust-RO logo](.github/images/logo.png)
+
 # What is rust-ro?
-rust-ro is a Ragnarok mmo server implementation written in rust. While it is a from scratch implemention it is heavily inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena), for example this implementation support same scripting language for NPC meaning that existing scripts should work on this implementation and use the same database structure than rathena and some naming convention were kept.
+**rust-ro** is a Ragnarok MMO Server implementation written in Rust. 
+
+While it is a from scratch implemention it is heavily inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena), for example this implementation support same scripting language for NPC meaning that existing scripts should work on this implementation and use the same database structure than rathena and some naming convention were kept.
 
 ## Ambition
 The project started on August 2021 with the ambition to being able to connect on the server and navigate across maps to see monsters.
@@ -17,7 +22,7 @@ Although I mentioned above wanting to fully support packet version **20120307**,
 
 # Implementation details
 
-Checkout [architectures notes](doc/Architecture.md)
+To understand what is going on at this project, check the [architectures notes](doc/Architecture.md).
 
 ## Project files structure
 - `lib`: contains either, `proc-macro`, `reusable structure`, `generated code`
@@ -48,7 +53,7 @@ Also see [Meta issue](https://github.com/nmeylan/rust-ro/issues/19)
 
 # Setup 
 
-Here's a list of **re-requisites** to run rust-ro:
+Here's a list of **pre-requisites** to run rust-ro:
 
 * Docker OR PostgreSQL 16+ directly on your machine 
 * Rust - nighly build
@@ -182,6 +187,37 @@ After we have everyting set-up (binaries and database), we should run these bina
 
 ### 4.1 Running Servers
 
+To run the `server` binary, you will need a `ENV` variable called `DATABASE_PASSWORD` together with your command:
+
+```shell
+DATABASE_PASSWORD=ragnarok cargo run --bin=server
+```
+
+If everything goes right, you should receive something like this output:
+
+```
+exclude pattern sqlx
+class file -> _Global
+class file -> Test
+class file -> GlobalVariableTest
+class file -> Warper
+class file after filter -> _Global
+class file after filter -> Test
+class file after filter -> GlobalVariableTest
+class file after filter -> Warper
+INFO [server] load 39 scripts in 0.126 secs
+INFO [server::server::boot::warps_loader] load 2781 warps in 0.007 secs
+INFO [server::server::boot::mob_spawn_loader] load 3391 mob spawns in 0.022 secs
+INFO [server] load 897 map-cache in 0.05 secs
+INFO [server::proxy] Start proxy for Char proxy, 6123:6121
+INFO [server::proxy] Start proxy for map proxy, 6124:5121
+INFO [server::server] Server listen on 0.0.0.0:6901
+```
+
+### 4.2 Running the Game
+
+TODO: roBrowser or what?
+
 
 
 ## 5. Developer Notes
@@ -221,6 +257,9 @@ Debug server state with a UI
 
 
 ## What has been done? ✔️
+
+Some list of features that was developed so far: 
+
 ### Tools
 - packet structure generator from [packet db](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db)
 - packet parser generator
