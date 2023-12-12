@@ -226,11 +226,12 @@ INFO [server::proxy] Start proxy for map proxy, 6124:5121
 INFO [server::server] Server listen on 0.0.0.0:6901
 ```
 
-#### 5.4.2 Running the Game
+#### 5.5 Running the Game
+![Desktop Screenshot with Development Environment using RoBrowserLegacy](.github/images/robrowser-dev.png)
 
-TODO: roBrowser or what?
+The goal of the project is to run all packages from **packetver 20120307**, we decided to use [roBrowserLegacy](https://github.com/MrAntares/roBrowserLegacy). 
 
-
+If you have interest to contribute in a client with packetver 20120307, open a new issue and let's make it happen!
 
 ## 6. Developer Notes
 
