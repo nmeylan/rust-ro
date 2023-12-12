@@ -32,6 +32,7 @@ While it is a from scratch implemention it is heavily inspired by [herculesWS](h
 - [8. What has been done? ✔️](#8-what-has-been-done-️)
   - [8.1 Tools](#81-tools)
   - [8.2 Server](#82-server)
+- [9. Contribution](#9-contribution-️)
 
 
 ## 1. Ambition
@@ -299,3 +300,10 @@ Some list of features that was developed so far:
 - basis for consumable item usage
 - basis for player attacking mob
 - mob drops item on death
+
+## 9. Contribution
+This project is currently _half-open*_ to contribution. The reason is that all basis have not been put in place already and there are many thing to design yet.
+
+However if you are motivated and want to contribute you can take a look to the [contribution guide](https://github.com/nmeylan/rust-ro/blob/master/Contributing.md)
+
+_* contribution can be made under certain condition_
