@@ -1,0 +1,4 @@
+
+CREATE USER ragnarok WITH PASSWORD 'ragnarok';
+CREATE DATABASE ragnarok;
+GRANT ALL PRIVILEGES ON DATABASE ragnarok TO ragnarok;

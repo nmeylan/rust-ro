@@ -135,31 +135,8 @@ Go to */docker* and run:
 docker-compose up -d
 ```
 
-By default, we ran `/rust-ro/docker/volumes/init.sql`, script that creates a database, user and grant all privileges to the user `ragnarok`. It also copies the `/rust-ro/docker/volumes/pg.sql` volume to your docker instance.
+The first time, along with postgresql `initdb` is run, our custom script `init.sh` will be execute, it will create `ragnarok` database and create `ragnarok` user using `postgres` user. Then it will create ragnarok table using `ragnarok` user.
 
-```sql
--- In case you want to take a look: 
--- /rust-ro/docker/volumes/init.sql
-
-CREATE USER ragnarok WITH PASSWORD 'ragnarok';
-CREATE DATABASE ragnarok;
-GRANT ALL PRIVILEGES ON DATABASE ragnarok TO ragnarok;
-ALTER DATABASE ragnarok OWNER TO ragnarok;
-```
-
-After your database is up, you will need import the Game SQL (`/rust-ro/pg.sql`) to our new database. For that follow the steps:
-
-* Connect into the Docker `postgres_container` Bash
-* Log-in as user `postgres`
-* Run the `psql` command pointing which the import file to your new database
-
-```shell
-docker exec -it postgres_container bash
-su postgres
-psql ragnarok < pg.sql
-```
-
-With that you're ready to go to the next step. 
 
 #### 5.2.2 Setup DB: Locally
 
@@ -181,7 +158,7 @@ ALTER DATABASE ragnarok OWNER TO ragnarok;
 After that, exit pgsql and import our `/rust-ro/db/pg.sql` via cli with:
 
 ```shell
- sudo -u postgres psql ragnarok < db/pg.sql
+ sudo -u postgres psql -U ragnarok ragnarok < db/pg.sql
 ```
 
 > If you're using the local version, don't forget to change the `database.port` number to `5433` in your `config.json` file. 
