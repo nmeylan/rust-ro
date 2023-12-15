@@ -2554,23 +2554,6 @@ COPY ragnarok.achievement (char_id, id, count1, count2, count3, count4, count5, 
 \.
 
 
---
--- Data for Name: atcommandlog; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
---
-
-COPY ragnarok.atcommandlog (atcommand_id, atcommand_date, account_id, char_id, char_name, map, command) FROM stdin;
-1	2022-11-06 12:57:48+00	2000000	150000	walkiry	prontera	@speed 100
-2	2022-11-06 13:19:00+00	2000000	150000	walkiry	prontera	@speed 100
-3	2022-11-09 19:20:45+00	2000000	150000	walkiry	prontera	@speed 100
-4	2022-11-09 19:32:41+00	2000000	150000	walkiry	prontera	@speed 100
-5	2022-11-09 19:36:03+00	2000000	150000	walkiry	prontera	@speed 100
-6	2022-12-03 13:06:50+00	2000001	150001	walkiry2	prt_in	@item 501 200
-7	2022-12-03 13:06:53+00	2000001	150001	walkiry2	prt_in	@item 501 200
-8	2022-12-03 13:06:54+00	2000001	150001	walkiry2	prt_in	@item 501 200
-9	2022-12-03 13:06:54+00	2000001	150001	walkiry2	prt_in	@item 501 200
-10	2022-12-03 13:06:55+00	2000001	150001	walkiry2	prt_in	@item 501 200
-11	2022-12-03 13:08:31+00	2000001	150001	walkiry2	prt_in	@item glove 200
-\.
 
 
 --
@@ -2641,10 +2624,8 @@ COPY ragnarok.cashlog (id, "time", char_id, type, cash_type, amount, map) FROM s
 -- Data for Name: char; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
 --
 
-COPY ragnarok."char" (char_id, account_id, char_num, name, class, base_level, job_level, base_exp, job_exp, zeny, str, agi, vit, "int", dex, luk, pow, sta, wis, spl, con, crt, max_hp, hp, max_sp, sp, max_ap, ap, status_point, skill_point, trait_point, option, karma, manner, party_id, guild_id, pet_id, homun_id, elemental_id, hair, hair_color, clothes_color, body, weapon, shield, head_top, head_mid, head_bottom, robe, last_map, last_x, last_y, save_map, save_x, save_y, partner_id, online, father, mother, child, fame, rename, delete_date, moves, unban_time, font, uniqueitem_counter, sex, hotkey_rowshift, hotkey_rowshift2, clan_id, last_login, title_id, show_equip, inventory_slots, body_direction, disable_call) FROM stdin;
-150000	2000000	0	walkiry	4020	99	70	0	0	11128075	0	99	99	99	99	99	0	0	0	0	0	0	10190	10190	1540	1540	0	0	0	0	0	0	0	0	0	0	0	0	0	21	21	2	0	0	0	0	0	0	0	prt_in	127	71	prontera	156	191	0	0	0	0	0	0	0	0	0	0	0	0	M	0	0	0	2022-11-09 19:35:15+00	0	0	100	4	0
-150001	2000001	0	walkiry2	0	99	70	0	0	99520	99	99	99	99	99	99	0	0	0	0	0	0	1054	1054	216	216	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	prt_in	129	71	prontera	156	191	0	1	0	0	0	0	0	0	0	0	0	99	M	0	0	0	2022-12-03 13:06:20+00	0	0	100	2	0
-\.
+insert into ragnarok.char (char_id, account_id, char_num, name, class, base_level, job_level, base_exp, job_exp, zeny, str, agi, vit, int, dex, luk, pow, sta, wis, spl, con, crt, max_hp, hp, max_sp, sp, max_ap, ap, status_point, skill_point, trait_point, option, karma, manner, party_id, guild_id, pet_id, homun_id, elemental_id, hair, hair_color, clothes_color, body, weapon, shield, head_top, head_mid, head_bottom, robe, last_map, last_x, last_y, save_map, save_x, save_y, partner_id, online, father, mother, child, fame, rename, delete_date, moves, unban_time, font, uniqueitem_counter, sex, hotkey_rowshift, hotkey_rowshift2, clan_id, last_login, title_id, show_equip, inventory_slots, body_direction, disable_call)
+values  (150000, 2000000, 0, 'admin1', 4020, 99, 70, 0, 0, 11128075, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 10190, 10190, 1540, 1540, 0, 0, 1273, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 21, 2, 0, 0, 0, 0, 0, 0, 0, 'prt_monk', 171, 204, 'prontera', 156, 191, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'M', 0, 0, 0, '2022-11-09 19:35:15.000000 +00:00', 0, 0, 100, 4, 0);
 
 
 --
@@ -2654,74 +2635,6 @@ COPY ragnarok."char" (char_id, account_id, char_num, name, class, base_level, jo
 COPY ragnarok.char_configs (world_name, account_id, char_id, data) FROM stdin;
 \.
 
-
---
--- Data for Name: char_reg_num; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
---
-
-COPY ragnarok.char_reg_num (char_id, key, index, value) FROM stdin;
-150000	lastwarpx	0	224
-150000	lastwarpy	0	170
-150000	c	1	2
-150000	c	0	1
-150000	c	2	3
-150000	c	3	4
-\.
-
-
---
--- Data for Name: char_reg_str; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
---
-
-COPY ragnarok.char_reg_str (char_id, key, index, value) FROM stdin;
-150000	lastwarp$	0	moc_fild07
-150000	c	1	2s
-150000	c	0	1s
-150000	c	2	3s
-150000	c	3	4s
-\.
-
-
---
--- Data for Name: charlog; Type: TABLE DATA; Schema: ragnarok; Owner: ragnarok
---
-
-COPY ragnarok.charlog (id, "time", char_msg, account_id, char_num, name, str, agi, vit, "int", dex, luk, hair, hair_color) FROM stdin;
-1	2022-11-06 12:12:19+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-2	2022-11-06 12:54:42+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-3	2022-11-06 12:57:43+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-4	2022-11-06 12:58:37+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-5	2022-11-06 13:18:14+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-6	2022-11-06 17:14:25+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-7	2022-11-06 19:21:29+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-8	2022-11-06 19:23:38+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-9	2022-11-06 19:24:30+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-10	2022-11-09 19:20:28+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-11	2022-11-09 19:23:24+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-12	2022-11-09 19:24:57+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-13	2022-11-09 19:32:12+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-14	2022-11-09 19:35:15+00	char select	2000000	0	walkiry	0	0	0	0	0	0	0	0
-15	2022-11-19 08:56:15+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-16	2022-11-19 08:57:40+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-17	2022-11-19 09:23:08+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-18	2022-11-19 09:30:07+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-19	2022-11-19 09:45:10+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-20	2022-11-19 09:45:54+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-21	2022-11-19 09:46:46+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-22	2022-11-19 09:47:41+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-23	2022-11-19 09:57:39+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-24	2022-11-19 10:46:17+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-25	2022-11-19 10:53:45+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-26	2022-11-19 10:56:15+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-27	2022-11-19 10:57:24+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-28	2022-11-19 10:57:36+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-29	2022-11-19 11:04:15+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-30	2022-11-19 11:05:27+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-31	2022-11-19 11:08:40+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-32	2022-11-19 11:09:37+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-33	2022-11-19 16:50:04+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-34	2022-12-03 13:06:20+00	char select	2000001	0	walkiry2	0	0	0	0	0	0	0	0
-\.
 
 
 --
