@@ -9,9 +9,10 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       PGDATA: /data/postgres
     volumes:
-      - ./volumes/init.sql:/docker-entrypoint-initdb.d/db.sql
+      - ./volumes/init.sh:/docker-entrypoint-initdb.d/init.sh
       - ./volumes/pgdata:/data/postgres
-      - ./volumes/pg.sql:/pg.sql
+      - ./volumes/create_role.sql:/create_role.sql
+      - ../db/pg.sql:/pg.sql
     ports:
       - "5433:5432"
     restart: unless-stopped
