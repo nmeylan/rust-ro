@@ -137,6 +137,7 @@ docker-compose up -d
 
 The first time, along with postgresql `initdb` is run, our custom script `init.sh` will be execute, it will create `ragnarok` database and create `ragnarok` user using `postgres` user. Then it will create ragnarok table using `ragnarok` user.
 
+It comes with a default player account with following credentials: `admin/qwertz`
 
 #### 5.2.2 Setup DB: Locally
 
