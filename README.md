@@ -78,6 +78,7 @@ To understand what is going on at this project, check the [architectures notes](
   - `tools/map-cache`: generate map cache from map files
   - `tools/packets`: generate packets structure from database file
   - `tools/skills`: generate skills structure from configuration file 
+  - `tools/stat-calc`: A javascript/html stat calculator, cleaned up to better understand stats and combat calculation. Also added feature to generate test fixtures, to validate our implementation  
 
 
 ## 5. Setup 
