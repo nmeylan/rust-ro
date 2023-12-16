@@ -136,7 +136,7 @@ impl Repository {
 
     pub fn script_variable_account_str_fetch_all(&self, account_id: u32, variable_name: String) ->  Vec<(u32, String)> {
         let account_reg_str: Result<Vec<AccountRegStr>, Error> = self.runtime.block_on(async {
-            sqlx::query_as::<_, AccountRegStr>("SELECT * FROM account_reg_str WHERE char_id = $1 AND key = $2")
+            sqlx::query_as::<_, AccountRegStr>("SELECT * FROM acc_reg_str WHERE account_id = $1 AND key = $2")
                 .bind(account_id as i32).bind(variable_name.clone()).fetch_all(&self.pool).await
         });
         if account_reg_str.is_err() {
@@ -147,7 +147,7 @@ impl Repository {
 
     pub fn script_variable_account_num_fetch_all(&self, account_id: u32, variable_name: String) -> Vec<(u32, i32)> {
         let account_reg_num: Result<Vec<AccountRegNum>, Error> = self.runtime.block_on(async {
-            sqlx::query_as::<_, AccountRegNum>("SELECT * FROM account_reg_num WHERE char_id = $1 AND key = $2")
+            sqlx::query_as::<_, AccountRegNum>("SELECT * FROM acc_reg_num WHERE account_id = $1 AND key = $2")
                 .bind(account_id as i32).bind(variable_name.clone()).fetch_all(&self.pool).await
         });
         if account_reg_num.is_err() {
@@ -158,7 +158,7 @@ impl Repository {
 
     pub fn script_variable_server_str_fetch_all(&self, variable_name: String) ->  Vec<(u32, String)> {
         let server_reg: Result<Vec<ServerRegStr>, Error> = self.runtime.block_on(async {
-            sqlx::query_as::<_, ServerRegStr>("SELECT * FROM mapreg WHERE AND varname = $1")
+            sqlx::query_as::<_, ServerRegStr>("SELECT * FROM mapreg WHERE varname = $1")
                 .bind(variable_name.clone()).fetch_all(&self.pool).await
         });
         if server_reg.is_err() {
@@ -169,12 +169,12 @@ impl Repository {
 
     pub fn script_variable_server_num_fetch_all(&self, variable_name: String) -> Vec<(u32, i32)> {
         let server_reg: Result<Vec<ServerRegStr>, Error> = self.runtime.block_on(async {
-            sqlx::query_as::<_, ServerRegStr>("SELECT * FROM mapreg WHERE AND varname = $1")
+            sqlx::query_as::<_, ServerRegStr>("SELECT * FROM mapreg WHERE varname = $1")
                 .bind(variable_name.clone()).fetch_all(&self.pool).await
         });
         if server_reg.is_err() {
             error!("server_permanent fetch_all number {} {:?}", variable_name, server_reg.as_ref().err().unwrap());
         }
-        server_reg.as_ref().map_or(vec![], |rows| rows.iter().map(|r| (r.index as u32, r.value.clone().parse::<i32>().unwrap())).collect())
+        server_reg.as_ref().map_or(vec![], |rows| rows.iter().map(|r| (r.index as u32, r.value.clone().parse::<i32>().unwrap_or(0_i32))).collect())
     }
 }
