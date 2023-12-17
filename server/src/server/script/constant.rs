@@ -1,8 +1,10 @@
-use rathena_script_lang_interpreter::lang::value::Value;
-use enums::class::{JOB_2_1_MASK, JOB_2_2_MASK, JOB_BABY_MASK, JOB_BASE_MASK, JOB_TRANS_MASK, JobName};
-use enums::look::LookType;
 use crate::enums::EnumWithNumberValue;
 use crate::enums::EnumWithStringValue;
+use enums::class::{
+    JobName, JOB_2_1_MASK, JOB_2_2_MASK, JOB_BABY_MASK, JOB_BASE_MASK, JOB_TRANS_MASK,
+};
+use enums::look::LookType;
+use rathena_script_lang_interpreter::lang::value::Value;
 
 /*
 ([A-Z_]*): (.*)
@@ -43,6 +45,28 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
         "C_CHOCOLATE" => Value::new_number(0xD2691E),
         "C_GOLD" => Value::new_number(0xFFD700),
         "C_VIOLET" => Value::new_number(0xEE82EE),
+
+        // getcharid
+        "CHAR_ID_GID" => Value::new_number(0),
+        "CHAR_ID_PARTY" => Value::new_number(1),
+        "CHAR_ID_GUILD" => Value::new_number(2),
+        "CHAR_ID_ACCOUNT" => Value::new_number(3),
+        "CHAR_ID_BG" => Value::new_number(4),
+        "CHAR_ID_CLAN" => Value::new_number(5),
+
+        // getguildinfo - Hercules
+        "GUILDINFO_NAME" => Value::new_number(0),
+        "GUILDINFO_ID" => Value::new_number(1),
+        "GUILDINFO_LEVEL" => Value::new_number(2),
+        "GUILDINFO_ONLINE" => Value::new_number(3),
+        "GUILDINFO_AV_LEVEL" => Value::new_number(4),
+        "GUILDINFO_MAX_MEMBERS" => Value::new_number(5),
+        "GUILDINFO_EXP" => Value::new_number(6),
+        "GUILDINFO_NEXT_EXP" => Value::new_number(7),
+        "GUILDINFO_SKILL_POINTS" => Value::new_number(8),
+        "GUILDINFO_MASTER_NAME" => Value::new_number(9),
+        "GUILDINFO_MASTER_CID" => Value::new_number(10),
+
         // strcharinfo
         "PC_NAME" => Value::new_number(0),
         "PC_PARTY" => Value::new_number(1),
@@ -1249,12 +1273,17 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
         "4_RAGFES_16" => Value::new_number(10506),
         "4_RAGFES_16_M" => Value::new_number(10507),
         "4_EXJOB_NINJA2" => Value::new_number(10508),
-        &_ => Value::Reference(None)
+        &_ => Value::Reference(None),
     };
 
     if constant_value.is_reference() {
         if constant_name.starts_with("Job_") {
-            return Some(Value::new_number(JobName::from_string_ignore_case(constant_name.replace("Job_", "").replace('_', " ").as_str()).value() as i32));
+            return Some(Value::new_number(
+                JobName::from_string_ignore_case(
+                    constant_name.replace("Job_", "").replace('_', " ").as_str(),
+                )
+                .value() as i32,
+            ));
         }
         None
     } else {
@@ -1270,6 +1299,6 @@ pub fn get_battle_flag(flag_name: &String) -> Value {
         "max_hair_color" => Value::new_number(8),
         "min_cloth_color" => Value::new_number(0),
         "max_cloth_color" => Value::new_number(4),
-        &_ => panic!("unknown battle flag {flag_name}")
+        &_ => panic!("unknown battle flag {flag_name}"),
     }
 }

@@ -1,31 +1,8 @@
 
 -	script	Test	-1,{
-mes "Char ID:" + getcharid(0) + " fodase";
-mes "Char ID:" + GUILDINFO_NAME + " fodase";
-next;
-mes "Close";
+mes "Char ID:" + getcharid(4) + " fodase";
+mes "Char ID:" + GUILDINFO_MASTER_CID + " fodase";
 close;
-
-OnInit:
-    .counter = 0;
-    end;
-OnInstanceInit:
-    'counter = 0;
-    end;
-}
-
-prontera,154,188,4	script	Global Variable Test	98, {
-    cutin "kafra_04",2;
-	mes "[Kafra Employee]";
-	mes "Welcome!";
-	mes "The Kafra Corporation";
-	mes "will always support the";
-	mes "adventurers of Rune-Midgard";
-	mes "with its excellent service. So";
-	mes "what can I do for you today?";
-	// callfunc "F_Kafra",5,1,1,40,0;
-	savepoint "prt_fild05",274,243;
 }
 
 prontera,154,178,4	duplicate(Test)	Test Npc Instance1	100
-prontera,159,178,4	duplicate(Test)	Test Npc Instance2	100

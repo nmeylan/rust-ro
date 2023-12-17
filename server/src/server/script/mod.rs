@@ -284,23 +284,32 @@ impl NativeMethodHandler for PlayerScriptHandler {
 
             let char_info = match info_type {
                 0 => value::Value::new_number(char.char_id.clone() as i32),
-                1 => value::Value::new_number(0),
-                2 => value::Value::new_number(0),
-                3 => value::Value::new_number(0),
-                _ => value::Value::new_number(0)
+                1 => value::Value::new_number(1), // TODO: party id
+                2 => value::Value::new_number(2), // TODO: guild id
+                3 => value::Value::new_number(3), // TODO: account id
+                4 => value::Value::new_number(4), // TODO: bg_id
+                5 => value::Value::new_number(5), // TODO: clan_id
+                _ => panic!("Unknown char info type {info_type}")
             };
 
             execution_thread.push_constant_on_stack(char_info);
         } else if native.name.eq("getguildinfo") {
-            println!("debug: {:?}", params);
+
             let info_type = params[0].number_value().unwrap() as usize;
-
-            let char = self.server.state().get_character_unsafe(self.session.char_id());
-
+            
             let char_info = match info_type {
-                0 => value::Value::new_string("string foda".to_string()),
-                1 => value::Value::new_number(1337),
-                _ => value::Value::new_number(0)
+                0 => value::Value::new_number(0), // TODO: guild name
+                1 => value::Value::new_number(1), // TODO: guild id
+                2 => value::Value::new_number(2), // TODO: guild level
+                3 => value::Value::new_number(3), // TODO: guild online
+                4 => value::Value::new_number(4), // TODO: guild average level
+                5 => value::Value::new_number(5), // TODO: guild max members
+                6 => value::Value::new_number(6), // TODO: guild exp
+                7 => value::Value::new_number(7), // TODO: guild next exp
+                8 => value::Value::new_number(8), // TODO: guild skill points
+                9 => value::Value::new_number(9), // TODO: guild master char name
+                10 => value::Value::new_number(10), // TODO: guild master char name
+                _ => panic!("Unknown guild info type {info_type}")
             };
 
             execution_thread.push_constant_on_stack(char_info);
@@ -317,7 +326,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 1 => value::Value::new_string("TODO PARTY NAME".to_string()),
                 2 => value::Value::new_string("TODO GUILD NAME".to_string()),
                 3 => value::Value::new_string(char.current_map_name().clone()),
-                _ => value::Value::new_string(format!("Unknown char info type {info_type}"))
+                _ => panic!("setlook with char_id not yet supported")
             };
             execution_thread.push_constant_on_stack(char_info);
         } else if native.name.eq("message") {
