@@ -294,11 +294,13 @@ impl NativeMethodHandler for PlayerScriptHandler {
 
             execution_thread.push_constant_on_stack(char_info);
         } else if native.name.eq("getguildinfo") {
-
+            
             let info_type = params[0].number_value().unwrap() as usize;
+
+            // TODO: Validate if player has a guild.
             
             let char_info = match info_type {
-                0 => value::Value::new_number(0), // TODO: guild name
+                0 => value::Value::new_string("TODO Rustaceans Guild Name".to_string()), // TODO: guild name
                 1 => value::Value::new_number(1), // TODO: guild id
                 2 => value::Value::new_number(2), // TODO: guild level
                 3 => value::Value::new_number(3), // TODO: guild online
@@ -307,8 +309,8 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 6 => value::Value::new_number(6), // TODO: guild exp
                 7 => value::Value::new_number(7), // TODO: guild next exp
                 8 => value::Value::new_number(8), // TODO: guild skill points
-                9 => value::Value::new_number(9), // TODO: guild master char name
-                10 => value::Value::new_number(10), // TODO: guild master char name
+                9 => value::Value::new_string("TODO GUILD MASTER NAME".to_string()), // TODO: guild master char name
+                10 => value::Value::new_number(10), // TODO: guild master char id
                 _ => panic!("Unknown guild info type {info_type}")
             };
 
