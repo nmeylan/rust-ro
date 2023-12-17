@@ -42,6 +42,7 @@ impl Repository {
 #[async_trait]
 pub trait CharacterRepository {
     async fn character_save_position(&self, _account_id: u32, _char_id: u32, _map_name: String, _x: u16, _y: u16) -> Result<(), Error> { todo!() }
+    async fn character_save_respawn_point(&self, _account_id: u32, _char_id: u32, _map_name: String, _x: u16, _y: u16) -> Result<(), Error> { todo!() }
     async fn character_update_status(&self, _char_id: u32, _db_column: String, _value: u32) -> Result<(), Error> { todo!() }
     async fn character_zeny_fetch(&self, _char_id: u32) -> Result<i32, Error> { todo!() }
     async fn character_allocated_skill_points(&self, _char_id: u32) -> Result<i32, Error> { todo!() }

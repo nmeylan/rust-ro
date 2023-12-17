@@ -18,6 +18,7 @@ sprintf,1,255
 warp,3,4
 getcharid,1,1,Number
 getguildinfo,2,2,Number,String
+savepoint,3,3
 menu,1,1
 cutin,2,2
 callshop,0,1,Number

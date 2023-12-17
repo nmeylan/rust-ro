@@ -27,7 +27,7 @@ use crate::server::Server;
 
 
 use skill::ScriptSkillService;
-use crate::repository::ItemRepository;
+use crate::repository::{CharacterRepository, ItemRepository};
 use crate::server::request_handler::atcommand::handle_set_job;
 
 use crate::server::service::character::character_service::CharacterService;
@@ -293,12 +293,28 @@ impl NativeMethodHandler for PlayerScriptHandler {
             };
 
             execution_thread.push_constant_on_stack(char_info);
+        } else if native.name.eq("savepoint") {
+            println!("savepoint: {:?}", params);
+            let map_name = params[0].string_value().unwrap();
+            let save_x = params[1].number_value().unwrap();
+            let save_y = params[2].number_value().unwrap();
+
+            self.runtime.block_on(async {
+                let char = self.server.state().get_character_unsafe(self.session.char_id());
+                self.server.repository.character_save_respawn_point(
+                    char.account_id,
+                    char.char_id,
+                    map_name.clone(),
+                    save_x as u16,
+                    save_y as u16,
+                ).await.unwrap();
+            });
+
         } else if native.name.eq("getguildinfo") {
-            
             let info_type = params[0].number_value().unwrap() as usize;
 
             // TODO: Validate if player has a guild.
-            
+
             let char_info = match info_type {
                 0 => value::Value::new_string("TODO Rustaceans Guild Name".to_string()), // TODO: guild name
                 1 => value::Value::new_number(1), // TODO: guild id
@@ -342,9 +358,9 @@ impl NativeMethodHandler for PlayerScriptHandler {
         } else if native.name.eq("dispbottom") {
             let message = params[0].string_value().unwrap();
             let green = "0x00FF00".to_string();
-            let color =  if params.len() > 1 {
+            let color = if params.len() > 1 {
                 params[1].string_value().unwrap_or(&green).clone()
-            }else {
+            } else {
                 green
             };
             let color_rgb = if color.starts_with("0x") {

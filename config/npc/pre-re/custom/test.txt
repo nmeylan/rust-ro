@@ -1,7 +1,8 @@
 
 -	script	Test	-1,{
-mes "Char ID:" + getcharid(4) + " fodase";
-mes "Char ID:" + GUILDINFO_MASTER_CID + " fodase";
+mes "Position Saved";
+savepoint "prontera",150,190;
+next;
 close;
 }
 
