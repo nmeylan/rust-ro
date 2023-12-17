@@ -8,31 +8,30 @@ While it is a from scratch implemention it is heavily inspired by [herculesWS](h
 **Table of Content**
 
 - [Welcome to rust-ro!](#welcome-to-rust-ro)
-- [1. Ambition](#1-ambition)
-- [2. About Packet Version](#2-about-packet-version)
-- [3. Currently Working](#3-currently-working)
-- [4. Implementation details](#4-implementation-details)
-  - [4.1 Project files structure](#41-project-files-structure)
-- [5. Setup](#5-setup)
-  - [5.1 Config](#51-config)
-  - [5.2 Setup DB](#52-setup-db)
-    - [5.2.1 Setup DB: Docker](#521-setup-db-docker)
-    - [5.2.2 Setup DB: Locally](#522-setup-db-locally)
-  - [5.3 Building the Binaries](#53-building-the-binaries)
-  - [5.4 Running the Binaries](#54-running-the-binaries)
-    - [5.4.1 Running Servers](#541-running-servers)
-    - [5.4.2 Running the Game](#542-running-the-game)
-- [6. Developer Notes](#6-developer-notes)
-- [7. Progress Showcase (Compilation)](#7-progress-showcase-compilation)
-  - [7.1 Integration of the VM (showing instance and class(npc) variable)](#71-integration-of-the-vm-showing-instance-and-classnpc-variable)
-  - [7.2 Visual debugger](#72-visual-debugger)
-  - [7.3 Warps](#73-warps)
-  - [7.4 Mobs](#74-mobs)
-  - [7.5 Proxied packets](#75-proxied-packets)
-- [8. What has been done? ✔️](#8-what-has-been-done-️)
-  - [8.1 Tools](#81-tools)
-  - [8.2 Server](#82-server)
-- [9. Contribution](#9-contribution)
+  - [1. Ambition](#1-ambition)
+  - [2. About Packet Version](#2-about-packet-version)
+  - [3. Currently Working](#3-currently-working)
+  - [4. Implementation details](#4-implementation-details)
+    - [4.1 Project files structure](#41-project-files-structure)
+  - [5. Setup](#5-setup)
+    - [5.1 Config](#51-config)
+    - [5.2 Setup DB](#52-setup-db)
+      - [5.2.1 Setup DB: Docker](#521-setup-db-docker)
+      - [5.2.2 Setup DB: Locally](#522-setup-db-locally)
+    - [5.3 Building the Binaries](#53-building-the-binaries)
+    - [5.4 Running the Server](#54-running-the-server)
+      - [5.5 Running the Game](#55-running-the-game)
+  - [6. Developer Notes](#6-developer-notes)
+  - [7. Progress Showcase (Compilation)](#7-progress-showcase-compilation)
+    - [7.1 Integration of the VM (showing instance and class(npc) variable)](#71-integration-of-the-vm-showing-instance-and-classnpc-variable)
+    - [7.2 Visual debugger](#72-visual-debugger)
+    - [7.3 Warps](#73-warps)
+    - [7.4 Mobs](#74-mobs)
+    - [7.5 Proxied packets](#75-proxied-packets)
+  - [8. What has been done? ✔️](#8-what-has-been-done-️)
+    - [8.1 Tools](#81-tools)
+    - [8.2 Server](#82-server)
+  - [9. Contribution](#9-contribution)
 
 
 ## 1. Ambition
@@ -215,7 +214,10 @@ If you have interest to contribute in a client with packetver 20120307, open a n
 
 ## 6. Developer Notes
 
+Since were using **rAthena** and **Hercules** sources for this project, we decided to add a new layer of proxy by publishing the same package send by the client to `rust-ro` and a second emulator.
+
 - All packets for account 2000000 are handle by this project.
+  - You can also go to config.json and add more account_ids into the rust-ro server. 
 - All packets for any other account are proxied (and display in console) to hercules or rathena.
 - clientinfo.xml to be changed to target port 6901
 

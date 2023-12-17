@@ -276,6 +276,34 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 self.session.char_id()
             };
             self.server.add_to_next_tick(CharacterUpdateLook(CharacterLook { look_type: LookType::from_value(look_type as usize), look_value: look_value as u16, char_id }));
+        } else if native.name.eq("getcharid") {
+            println!("getcharid: {:?}", params);
+            let info_type = params[0].number_value().unwrap() as usize;
+
+            let char = self.server.state().get_character_unsafe(self.session.char_id());
+
+            let char_info = match info_type {
+                0 => value::Value::new_number(char.char_id.clone() as i32),
+                1 => value::Value::new_number(0),
+                2 => value::Value::new_number(0),
+                3 => value::Value::new_number(0),
+                _ => value::Value::new_number(0)
+            };
+
+            execution_thread.push_constant_on_stack(char_info);
+        } else if native.name.eq("getguildinfo") {
+            println!("debug: {:?}", params);
+            let info_type = params[0].number_value().unwrap() as usize;
+
+            let char = self.server.state().get_character_unsafe(self.session.char_id());
+
+            let char_info = match info_type {
+                0 => value::Value::new_string("string foda".to_string()),
+                1 => value::Value::new_number(1337),
+                _ => value::Value::new_number(0)
+            };
+
+            execution_thread.push_constant_on_stack(char_info);
         } else if native.name.eq("strcharinfo") {
             let info_type = params[0].number_value().unwrap() as usize;
             let char = if params.len() == 2 {

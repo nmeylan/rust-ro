@@ -1,8 +1,7 @@
 
 -	script	Test	-1,{
-.counter += 1;
-'counter += 1;
-mes "Npc counter variable: " + .counter, "NPC instance counter variable: " + 'counter;
+mes "Char ID:" + getcharid(0) + " fodase";
+mes "Char ID:" + GUILDINFO_NAME + " fodase";
 next;
 mes "Close";
 close;
@@ -16,25 +15,16 @@ OnInstanceInit:
 }
 
 prontera,154,188,4	script	Global Variable Test	98, {
-    setarray c[0], 1,2,3,4;
-       mes c[1] + " c array index 1";
-       next;
-       setarray #c[0], 1,2,3,4;
-       mes #c[1] + " #c array index 1";
-       next;
-       setarray $c[0], 1,2,3,4;
-       mes $c[1] + " $c array index 1";
-       next;
-       setarray c$[0], "1s","2s","3s","4s";
-       mes c$[1] + " c array index 1";
-       next;
-       setarray #c$[0], "1s","2s","3s","4s";
-       mes #c$[1] + " #c array index 1";
-       next;
-       setarray $c$[0], "1s","2s","3s","4s";
-       mes $c$[1] + " $c array index 1";
-    next;
-    close;
+    cutin "kafra_04",2;
+	mes "[Kafra Employee]";
+	mes "Welcome!";
+	mes "The Kafra Corporation";
+	mes "will always support the";
+	mes "adventurers of Rune-Midgard";
+	mes "with its excellent service. So";
+	mes "what can I do for you today?";
+	// callfunc "F_Kafra",5,1,1,40,0;
+	savepoint "prt_fild05",274,243;
 }
 
 prontera,154,178,4	duplicate(Test)	Test Npc Instance1	100
