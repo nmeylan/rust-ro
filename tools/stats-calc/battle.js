@@ -48,8 +48,8 @@ function calc() {
     } else if (hitRate < 5) {
         hitRate = 5;
     }
-    if (StPlusCalc2(86) + StPlusCard(86))
-        hitRate = hitRate + (100 - hitRate) * (StPlusCalc2(86) + StPlusCard(86)) / 100;
+    if (StPlusItem(INCREASE_HIT_PERCENTAGE) + StPlusCard(INCREASE_HIT_PERCENTAGE))
+        hitRate = hitRate + (100 - hitRate) * (StPlusItem(INCREASE_HIT_PERCENTAGE) + StPlusCard(INCREASE_HIT_PERCENTAGE)) / 100;
 
     hitRate = Math.floor(hitRate * 100) / 100;
     myInnerHtml("BattleHIT", hitRate, 0);
@@ -384,8 +384,8 @@ function BaiCI(wBaiCI) {
     if (wBCEDPch == 0 && not_use_card == 0) {
 
         w1 = 0;
-        w1 += StPlusCard(30 + targetStatsArray[TARGET_STAT_RACE]);
-        w1 += StPlusCalc2(30 + targetStatsArray[TARGET_STAT_RACE]);
+        w1 += StPlusCard(INCREASE_DAMAGE_RACE_PERCENTAGE + targetStatsArray[TARGET_STAT_RACE]);
+        w1 += StPlusItem(INCREASE_DAMAGE_RACE_PERCENTAGE + targetStatsArray[TARGET_STAT_RACE]);
         if (targetStatsArray[TARGET_STAT_RACE] == 6) {
             if (ArrowOBJ[n_A_Arrow][2] == "Holy Arrow")
                 w1 += 5;
@@ -397,22 +397,22 @@ function BaiCI(wBaiCI) {
 
 
         w1 = 0;
-        w1 += StPlusCard(40 + Math.floor(targetStatsArray[TARGET_STAT_ELEMENT] / 10));
-        w1 += StPlusCalc2(40 + Math.floor(targetStatsArray[TARGET_STAT_ELEMENT] / 10));
+        w1 += StPlusCard(INCREASE_DAMAGE_ELEMENT_PERCENTAGE + Math.floor(targetStatsArray[TARGET_STAT_ELEMENT] / 10));
+        w1 += StPlusItem(INCREASE_DAMAGE_ELEMENT_PERCENTAGE + Math.floor(targetStatsArray[TARGET_STAT_ELEMENT] / 10));
         wBaiCI = Math.floor(wBaiCI * (100 + w1) / 100);
 
 
         w1 = 0;
-        w1 += StPlusCard(27 + targetStatsArray[TARGET_STAT_SIZE]);
-        w1 += StPlusCalc2(27 + targetStatsArray[TARGET_STAT_SIZE]);
+        w1 += StPlusCard(INCREASE_DAMAGE_AGAINST_SIZE_PERCENTAGE + targetStatsArray[TARGET_STAT_SIZE]);
+        w1 += StPlusItem(INCREASE_DAMAGE_AGAINST_SIZE_PERCENTAGE + targetStatsArray[TARGET_STAT_SIZE]);
         wBaiCI = Math.floor(wBaiCI * (100 + w1) / 100);
 
 
         if (n_Enekyori == 1) {
             if (TyouEnkakuSousa3dan != -1) {
                 w1 = 0;
-                w1 += StPlusCard(25);
-                w1 += StPlusCalc2(25);
+                w1 += StPlusCard(REDUCE_DEFENSE_PERCENTAGE);
+                w1 += StPlusItem(REDUCE_DEFENSE_PERCENTAGE);
                 wBaiCI = Math.floor(wBaiCI * (100 + w1) / 100);
             }
         }
@@ -420,8 +420,8 @@ function BaiCI(wBaiCI) {
 
         w1 = 0;
         if (targetStatsArray[19] == 1) {
-            w1 += StPlusCard(26);
-            w1 += StPlusCalc2(26);
+            w1 += StPlusCard(INCREASE_DAMAGE_AGAINST_BOSS_PERCENTAGE);
+            w1 += StPlusItem(INCREASE_DAMAGE_AGAINST_BOSS_PERCENTAGE);
         }
         if (EquipNumSearch("The Sign"))
             w1 += EquipNumSearch("The Sign") * 5;
@@ -433,23 +433,23 @@ function BaiCI(wBaiCI) {
 
 
         if (wCriTyuu == 1 && skillToUseName != "Sharp Shooting (Temp)")
-            wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(70)) / 100);
+            wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(CRITICAL_DAMAGE_PERCENTAGE)) / 100);
 
 
         if (108 <= targetStatsArray[TARGET_STAT_MOB_INDEX] && targetStatsArray[TARGET_STAT_MOB_INDEX] <= 115 || targetStatsArray[TARGET_STAT_MOB_INDEX] == 319)
-            wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(81)) / 100);
+            wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(INCREASE_DAMAGE_GOBLIN_PERCENTAGE)) / 100);
 
         if (116 <= targetStatsArray[TARGET_STAT_MOB_INDEX] && targetStatsArray[TARGET_STAT_MOB_INDEX] <= 120)
-            wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(82)) / 100);
+            wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(INCREASE_DAMAGE_KOBOLD_PERCENTAGE)) / 100);
 
         if (49 <= targetStatsArray[TARGET_STAT_MOB_INDEX] && targetStatsArray[TARGET_STAT_MOB_INDEX] <= 52 || 55 == targetStatsArray[TARGET_STAT_MOB_INDEX] || 221 == targetStatsArray[TARGET_STAT_MOB_INDEX])
-            wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(83)) / 100);
+            wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(INCREASE_DAMAGE_ORC_PERCENTAGE)) / 100);
 
         if (106 == targetStatsArray[TARGET_STAT_MOB_INDEX] || 152 == targetStatsArray[TARGET_STAT_MOB_INDEX] || 308 == targetStatsArray[TARGET_STAT_MOB_INDEX] || 32 == targetStatsArray[TARGET_STAT_MOB_INDEX])
-            wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(84)) / 100);
+            wBaiCI = Math.floor(wBaiCI * (100 + StPlusCard(INCREASE_DAMAGE_GOLEM_PERCENTAGE)) / 100);
 
 
-        wBaiCI = Math.floor(wBaiCI * (100 + StPlusCalc2(1000 + targetStatsArray[TARGET_STAT_MOB_INDEX]) + StPlusCard(1000 + targetStatsArray[TARGET_STAT_MOB_INDEX])) / 100);
+        wBaiCI = Math.floor(wBaiCI * (100 + StPlusItem(1000 + targetStatsArray[TARGET_STAT_MOB_INDEX]) + StPlusCard(1000 + targetStatsArray[TARGET_STAT_MOB_INDEX])) / 100);
 
 
         if (EquipNumSearch("Burning Bow") && n_A_Arrow == 2)
@@ -517,7 +517,7 @@ function BaiCI(wBaiCI) {
     if ((skillToUseName == "Sonic Blow" || skillToUseName == "Sonic Blow (Soul Linked)") && SkillSearch("Sonic Acceleration"))
         w1 += 10;
 
-    wBaiCI = wBaiCI * (100 + StPlusCalc2(5000 + n_A_ActiveSkill) + StPlusCard(5000 + n_A_ActiveSkill) + w1) / 100;
+    wBaiCI = wBaiCI * (100 + StPlusItem(5000 + n_A_ActiveSkill) + StPlusCard(5000 + n_A_ActiveSkill) + w1) / 100;
 
     return wBaiCI;
 }
@@ -574,12 +574,12 @@ function BattleCalc4(wBC4, wBC4_2, wBC4_3) {
         wBC4_3 = n_A_WeaponLV_upgradeBonusATK;
     else
         wBC4_3 = n_A_Weapon2LV_upgradeBonusATK;
-    if ((StPlusCalc2(23) + StPlusCard(23)) == 0 || skillToUseName == "Stave Crasher") {
+    if ((StPlusItem(WEAPON_ATK_INCREASE_ON_TARGET_DEFENSE) + StPlusCard(WEAPON_ATK_INCREASE_ON_TARGET_DEFENSE)) == 0 || skillToUseName == "Stave Crasher") {
         if (skillToUseName == "Wounding Shot")
             return wBC4 + wBC4_3;
-        if (StPlusCalc2(22) == targetStatsArray[TARGET_STAT_RACE] && targetStatsArray[TARGET_STAT_RACE] != 0)
+        if (StPlusItem(BYPASS_DEFENSE_ON_RACE) == targetStatsArray[TARGET_STAT_RACE] && targetStatsArray[TARGET_STAT_RACE] != 0)
             return wBC4 + wBC4_3;
-        if (StPlusCalc2(22) == 99 && targetStatsArray[19] == 0)
+        if (StPlusItem(BYPASS_DEFENSE_ON_RACE) == 99 && targetStatsArray[19] == 0)
             return wBC4 + wBC4_3;
         if (SkillSearch("Solar, Lunar, and Stellar Union"))
             return wBC4 + wBC4_3;
@@ -1468,15 +1468,15 @@ function BattleCalc999() {
         myInnerHtml("CRInumname", '<Font color="#FF0000">Reflect Damage</Font>', 0);
 
 
-        wGXhito = 100 - StPlusCard(57);
-        wGXhito -= StPlusCalc2(57);
+        wGXhito = 100 - StPlusCard(DAMAGE_INC_DEC_RACE_DEMIHUMAN_PERCENTAGE);
+        wGXhito -= StPlusItem(DAMAGE_INC_DEC_RACE_DEMIHUMAN_PERCENTAGE);
 
         wGXsei = 100 - SkillSearch("Faith") * 5;
-        wGXsei -= StPlusCard(66);
-        wGXsei -= StPlusCalc2(66);
+        wGXsei -= StPlusCard(DAMAGE_INC_DEC_ELEMENT_HOLY_PERCENTAGE);
+        wGXsei -= StPlusItem(DAMAGE_INC_DEC_ELEMENT_HOLY_PERCENTAGE);
 
-        wGXen = StPlusCard(78);
-        wGXen += StPlusCalc2(78);
+        wGXen = StPlusCard(RESISTANCE_RANGE_ATTACK_PERCENTAGE);
+        wGXen += StPlusItem(RESISTANCE_RANGE_ATTACK_PERCENTAGE);
 
 
         work_A_VITDEF = [0, 0, 0];
@@ -2171,8 +2171,8 @@ function ApplyATKBonusPercentage() {
             wA01 += 100;
         if (n_A_PassSkill6[2])
             wA01 += 10;
-        if (StPlusCalc2(87))
-            wA01 += StPlusCalc2(87);
+        if (StPlusItem(ATK_PERCENTAGE))
+            wA01 += StPlusItem(ATK_PERCENTAGE);
     }
     n_A_CriATK[2] = n_A_CriATK[2] * wA01 / 100;
     n_A_CriATK[0] = n_A_CriATK[0] * wA01 / 100;
@@ -2383,8 +2383,8 @@ function CalculateDamageReceived() {
     }
 
 
-    wBHD = StPlusCard(60);
-    wBHD += StPlusCalc2(60);
+    wBHD = StPlusCard(DAMAGE_INC_DEC_ELEMENT_NEUTRAL_PERCENTAGE);
+    wBHD += StPlusItem(DAMAGE_INC_DEC_ELEMENT_NEUTRAL_PERCENTAGE);
     if (EquipNumSearch("0") || EquipNumSearch("0"))
         wBHD += n_A_SHOULDER_DEF_PLUS * 3;
     if (SkillSearch("Skin Tempering"))
@@ -2410,8 +2410,8 @@ function CalculateDamageReceived() {
         wBHD += n_A_PassSkill2[14] * 5;
     if (targetStatsArray[TARGET_STAT_RACE] == 9 && SkillSearch("Dragonology"))
         wBHD += SkillSearch("Dragonology") * 4;
-    wBHD += StPlusCard(50 + targetStatsArray[TARGET_STAT_RACE]);
-    wBHD += StPlusCalc2(50 + targetStatsArray[TARGET_STAT_RACE]);
+    wBHD += StPlusCard(DAMAGE_INC_DEC_RACE_PERCENTAGE + targetStatsArray[TARGET_STAT_RACE]);
+    wBHD += StPlusItem(DAMAGE_INC_DEC_RACE_PERCENTAGE + targetStatsArray[TARGET_STAT_RACE]);
     if (wBHD != 0) {
         for (i = 0; i <= 6; i++)
             w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD / 100);
@@ -2419,8 +2419,8 @@ function CalculateDamageReceived() {
 
 
     wBHD = 0;
-    wBHD += StPlusCard(190 + targetStatsArray[TARGET_STAT_SIZE]);
-    wBHD += StPlusCalc2(190 + targetStatsArray[TARGET_STAT_SIZE]);
+    wBHD += StPlusCard(DAMAGE_INC_DEC_SIZE_PERCENTAGE + targetStatsArray[TARGET_STAT_SIZE]);
+    wBHD += StPlusItem(DAMAGE_INC_DEC_SIZE_PERCENTAGE + targetStatsArray[TARGET_STAT_SIZE]);
     if (targetStatsArray[TARGET_STAT_SIZE] == 1) {
         if (EquipNumSearch("Hurricane Fury"))
             wBHD += weaponRefinementLevel;
@@ -2433,16 +2433,16 @@ function CalculateDamageReceived() {
 
 
     if (targetStatsArray[19] == 0) {
-        wBHD = StPlusCard(79);
-        wBHD += StPlusCalc2(79);
+        wBHD = StPlusCard(NORMAL_ATTACK_PERCENTAGE);
+        wBHD += StPlusItem(NORMAL_ATTACK_PERCENTAGE);
         for (i = 0; i <= 6; i++)
             w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD / 100);
     }
 
 
     if (targetStatsArray[20]) {
-        wBHD = StPlusCard(78);
-        wBHD += StPlusCalc2(78);
+        wBHD = StPlusCard(RESISTANCE_RANGE_ATTACK_PERCENTAGE);
+        wBHD += StPlusItem(RESISTANCE_RANGE_ATTACK_PERCENTAGE);
         if (SkillSearch("Gunslinger's Panic"))
             wBHD += 20;
         for (i = 0; i <= 6; i++)
@@ -2472,7 +2472,7 @@ function CalculateDamageReceived() {
 
 
     wBHD = StPlusCard(3000 + targetStatsArray[TARGET_STAT_MOB_INDEX]);
-    wBHD += StPlusCalc2(3000 + targetStatsArray[TARGET_STAT_MOB_INDEX]);
+    wBHD += StPlusItem(3000 + targetStatsArray[TARGET_STAT_MOB_INDEX]);
     for (i = 0; i <= 6; i++)
         w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD / 100);
 
@@ -2552,7 +2552,7 @@ function BattleMagicCalc(wBMC) {
     wBMC2 = tPlusDamCut(wBMC2);
 
 
-    wBMC2 = wBMC2 * (100 + StPlusCalc2(5000 + n_A_ActiveSkill) + StPlusCard(5000 + n_A_ActiveSkill)) / 100;
+    wBMC2 = wBMC2 * (100 + StPlusItem(5000 + n_A_ActiveSkill) + StPlusCard(5000 + n_A_ActiveSkill)) / 100;
 
     wBMC2 = Math.floor(wBMC2);
 

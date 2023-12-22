@@ -10,7 +10,14 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 	let frames = _____WB$wombat$assign$function_____("frames");
 	let opener = _____WB$wombat$assign$function_____("opener");
 
-
+	BONUS_STAT_STR = 1;
+	BONUS_CRITICAL_RATE = 10;
+	BONUS_STAT_ATK = 17;
+	BONUS_STAT_DEF = 18;
+	BONUS_DMG_AGAINST_SMALL = 27;
+	BONUS_DMG_AGAINST_MEDIUM = 28;
+	BONUS_DMG_AGAINST_LARGE = 29;
+	BONUS_STUN_CHANCE = 131;
 	cardOBJ = [
 		[0,0,"(No Card)",0,0],
 		[1,1,"All Race + 20%",0,30,20,31,20,32,20,33,20,34,20,35,20,36,20,37,20,38,20,39,20,0],
@@ -1032,7 +1039,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 		CBIstr = "";
 		for(i=4;cardOBJ[CBI][i] != 0;i+=2)
-			Item_Setumei(cardOBJ[CBI],i);
+			Item_Description(cardOBJ[CBI],i);
 		if(cardOBJ[CBI][3] != 0)
 			CBIstr += cardOBJ[CBI][3] +"<BR>";
 
@@ -1040,7 +1047,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			if(cardOBJ[CBI][i] == 90){
 				CBIstr += "<Font size=2><BR><B>When "+ SetCardName(cardOBJ[CBI][i+1]) + " are equipped at the same time:<BR>";
 				for(j=4;cardOBJ[cardOBJ[CBI][i+1]][j] != 0;j+=2)
-					Item_Setumei(cardOBJ[cardOBJ[CBI][i+1]],j);
+					Item_Description(cardOBJ[cardOBJ[CBI][i+1]],j);
 				if(cardOBJ[cardOBJ[CBI][i+1]][3] != 0)
 					CBIstr += cardOBJ[cardOBJ[CBI][i+1]][3] +"<BR>";
 				CBIstr += "</Font></B>";
