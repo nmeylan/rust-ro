@@ -1629,7 +1629,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 		CBIstr = "";
 		for(i=11;ItemOBJ[CBI][i] != 0;i+=2)
-			Item_Setumei(ItemOBJ[CBI],i);
+			Item_Description(ItemOBJ[CBI],i);
 		if(ItemOBJ[CBI][10] != 0)
 			CBIstr += ItemOBJ[CBI][10] +"<BR>";
 
@@ -1638,7 +1638,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 				CBIstr += "<Font size=2><BR><B>When "+ SetEquipName(ItemOBJ[CBI][i+1]) + " are equipped at the same time:<BR>";
 				for(j=11;ItemOBJ[ItemOBJ[CBI][i+1]][j] != 0;j+=2)
-					Item_Setumei(ItemOBJ[ItemOBJ[CBI][i+1]],j);
+					Item_Description(ItemOBJ[ItemOBJ[CBI][i+1]],j);
 				if(ItemOBJ[ItemOBJ[CBI][i+1]][10] != 0)
 					CBIstr += ItemOBJ[ItemOBJ[CBI][i+1]][10] +"<BR>";
 				CBIstr += "</Font></B>";
@@ -1647,116 +1647,352 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 		myInnerHtml("B_SETUMEI",CBIstr,0);
 	}
 
-	function Item_Setumei(num,CBI2)
+	STR = 1;
+	AGI = 2;
+	VIT = 3;
+	INT = 4;
+	DEX = 5;
+	LUK = 6;
+	ALL_STATS = 7;
+	HIT = 8;
+	FLEE = 9;
+	CRIT = 10;
+	PERFECT_DODGE = 11;
+	ASPD_PERCENTAGE = 12;
+	MAXHP = 13;
+	MAXSP = 14;
+	MAXHP_PERCENTAGE = 15;
+	MAXSP_PERCENTAGE = 16;
+	ATK = 17;
+	DEF = 18;
+	MDEF = 19;
+	ELEMENT_WEAPON = 20;
+	BYPASS_DEFENSE_ON_RACE = 22;
+	WEAPON_ATK_INCREASE_ON_TARGET_DEFENSE = 23;
+	REDUCE_DEFENSE = 24;
+	REDUCE_DEFENSE_PERCENTAGE = 25;
+	INCREASE_DAMAGE_AGAINST_BOSS_PERCENTAGE = 26;
+	INCREASE_DAMAGE_AGAINST_SIZE_PERCENTAGE = 27;
+	INCREASE_DAMAGE_AGAINST_SIZE_SMALL_PERCENTAGE = 27;
+	INCREASE_DAMAGE_AGAINST_SIZE_MEDIUM_PERCENTAGE = 28;
+	INCREASE_DAMAGE_AGAINST_SIZE_LARGE_PERCENTAGE = 29;
+	INCREASE_DAMAGE_RACE_PERCENTAGE = 30;
+	INCREASE_DAMAGE_RACE_FORMLESS_PERCENTAGE = 30;
+	INCREASE_DAMAGE_RACE_UNDEAD_PERCENTAGE = 31;
+	INCREASE_DAMAGE_RACE_BRUTE_PERCENTAGE = 32;
+	INCREASE_DAMAGE_RACE_PLANT_PERCENTAGE = 33;
+	INCREASE_DAMAGE_RACE_INSECT_PERCENTAGE = 34;
+	INCREASE_DAMAGE_RACE_FISH_PERCENTAGE = 35;
+	INCREASE_DAMAGE_RACE_DEMON_PERCENTAGE = 36;
+	INCREASE_DAMAGE_RACE_DEMIHUMAN_PERCENTAGE = 37;
+	INCREASE_DAMAGE_RACE_ANGEL_PERCENTAGE = 38;
+	INCREASE_DAMAGE_RACE_DRAGON_PERCENTAGE = 39;
+	INCREASE_DAMAGE_ELEMENT_PERCENTAGE = 40 ;
+	INCREASE_DAMAGE_ELEMENT_NEUTRAL_PERCENTAGE = 40;
+	INCREASE_DAMAGE_ELEMENT_WATER_PERCENTAGE = 41;
+	INCREASE_DAMAGE_ELEMENT_EARTH_PERCENTAGE = 42;
+	INCREASE_DAMAGE_ELEMENT_FIRE_PERCENTAGE = 43;
+	INCREASE_DAMAGE_ELEMENT_WIND_PERCENTAGE = 44;
+	INCREASE_DAMAGE_ELEMENT_POISON_PERCENTAGE = 45;
+	INCREASE_DAMAGE_ELEMENT_HOLY_PERCENTAGE = 46;
+	INCREASE_DAMAGE_ELEMENT_DARK_PERCENTAGE = 47;
+	INCREASE_DAMAGE_ELEMENT_GHOST_PERCENTAGE = 48;
+	INCREASE_DAMAGE_ELEMENT_UNDEAD_PERCENTAGE = 49;
+	DAMAGE_INC_DEC_RACE_PERCENTAGE = 50 ;
+	DAMAGE_INC_DEC_RACE_FORMLESS_PERCENTAGE = 50;
+	DAMAGE_INC_DEC_RACE_UNDEAD_PERCENTAGE = 51;
+	DAMAGE_INC_DEC_RACE_BRUTE_PERCENTAGE = 52;
+	DAMAGE_INC_DEC_RACE_PLANT_PERCENTAGE = 53;
+	DAMAGE_INC_DEC_RACE_INSECT_PERCENTAGE = 54;
+	DAMAGE_INC_DEC_RACE_FISH_PERCENTAGE = 55;
+	DAMAGE_INC_DEC_RACE_DEMON_PERCENTAGE = 56;
+	DAMAGE_INC_DEC_RACE_DEMIHUMAN_PERCENTAGE = 57;
+	DAMAGE_INC_DEC_RACE_ANGEL_PERCENTAGE = 58;
+	DAMAGE_INC_DEC_RACE_DRAGON_PERCENTAGE = 59;
+	DAMAGE_INC_DEC_ELEMENT_PERCENTAGE = 60;
+	DAMAGE_INC_DEC_ELEMENT_NEUTRAL_PERCENTAGE = 60;
+	DAMAGE_INC_DEC_ELEMENT_WATER_PERCENTAGE = 61;
+	DAMAGE_INC_DEC_ELEMENT_EARTH_PERCENTAGE = 62;
+	DAMAGE_INC_DEC_ELEMENT_FIRE_PERCENTAGE = 63;
+	DAMAGE_INC_DEC_ELEMENT_WIND_PERCENTAGE = 64;
+	DAMAGE_INC_DEC_ELEMENT_POISON_PERCENTAGE = 65;
+	DAMAGE_INC_DEC_ELEMENT_HOLY_PERCENTAGE = 66;
+	DAMAGE_INC_DEC_ELEMENT_DARK_PERCENTAGE = 67;
+	DAMAGE_INC_DEC_ELEMENT_GHOST_PERCENTAGE = 68;
+	DAMAGE_INC_DEC_ELEMENT_UNDEAD_PERCENTAGE = 69;
+	CRITICAL_DAMAGE_PERCENTAGE = 70;
+	CAST_TIME_PERCENTAGE = 73;
+	ACD_PERCENTAGE = 74;
+	HP_REGEN_PERCENTAGE = 75;
+	SP_REGEN_PERCENTAGE = 76;
+	RESISTANCE_RANGE_ATTACK_PERCENTAGE = 78;
+	NORMAL_ATTACK_PERCENTAGE = 79;
+	INCREASE_DAMAGE_GOBLIN_PERCENTAGE = 81;
+	INCREASE_DAMAGE_KOBOLD_PERCENTAGE = 82;
+	INCREASE_DAMAGE_ORC_PERCENTAGE = 83;
+	INCREASE_DAMAGE_GOLEM_PERCENTAGE = 84;
+	LOWER_DEFENCE_PERCENTAGE = 85;
+	INCREASE_HIT_PERCENTAGE = 86;
+	ATK_PERCENTAGE = 87;
+	MATK_BASED_ON_STAFF_PERCENTAGE = 88;
+	MATK_PERCENTAGE = 89;
+	CRITICAL_AGAINST_RACE_PERCENTAGE = 110;
+	CRITICAL_AGAINST_RACE_FORMLESS_PERCENTAGE = 110;
+	CRITICAL_AGAINST_RACE_UNDEAD_PERCENTAGE = 111;
+	CRITICAL_AGAINST_RACE_BRUTE_PERCENTAGE = 112;
+	CRITICAL_AGAINST_RACE_PLANT_PERCENTAGE = 113;
+	CRITICAL_AGAINST_RACE_INSECT_PERCENTAGE = 114;
+	CRITICAL_AGAINST_RACE_FISH_PERCENTAGE = 115;
+	CRITICAL_AGAINST_RACE_DEMON_PERCENTAGE = 116;
+	CRITICAL_AGAINST_RACE_DEMIHUMAN_PERCENTAGE = 117;
+	CRITICAL_AGAINST_RACE_ANGEL_PERCENTAGE = 118;
+	CRITICAL_AGAINST_RACE_DRAGON_PERCENTAGE = 119;
+	CHANCE_TO_INFLICT_STATUS_ON_ATTACK = 130 ;
+	CHANCE_TO_INFLICT_STATUS_POISON_ON_ATTACK = 130;
+	CHANCE_TO_INFLICT_STATUS_STUN_ON_ATTACK = 131;
+	CHANCE_TO_INFLICT_STATUS_FREEZE_ON_ATTACK = 132;
+	CHANCE_TO_INFLICT_STATUS_CURSE_ON_ATTACK = 133;
+	CHANCE_TO_INFLICT_STATUS_BLIND_ON_ATTACK = 134;
+	CHANCE_TO_INFLICT_STATUS_SLEEP_ON_ATTACK = 135;
+	CHANCE_TO_INFLICT_STATUS_SILENCE_ON_ATTACK = 136;
+	CHANCE_TO_INFLICT_STATUS_CHAOS_ON_ATTACK = 137;
+	CHANCE_TO_INFLICT_STATUS_BLEEDING_ON_ATTACK = 138;
+	CHANCE_TO_INFLICT_STATUS_STONE_ON_ATTACK = 139;
+	CHANCE_TO_INFLICT_STATUS_WEAPON_BREAK_ON_ATTACK = 140;
+	CHANCE_TO_INFLICT_STATUS_ARMOR_BREAK_ON_ATTACK = 141;
+	RESISTANCE_TO_STATUS_PERCENTAGE = 150 ;
+	RESISTANCE_TO_STATUS_POISON_PERCENTAGE = 150;
+	RESISTANCE_TO_STATUS_STUN_PERCENTAGE = 151;
+	RESISTANCE_TO_STATUS_FREEZE_PERCENTAGE = 152;
+	RESISTANCE_TO_STATUS_CURSE_PERCENTAGE = 153;
+	RESISTANCE_TO_STATUS_BLIND_PERCENTAGE = 154;
+	RESISTANCE_TO_STATUS_SLEEP_PERCENTAGE = 155;
+	RESISTANCE_TO_STATUS_SILENCE_PERCENTAGE = 156;
+	RESISTANCE_TO_STATUS_CHAOS_PERCENTAGE = 157;
+	RESISTANCE_TO_STATUS_BLEEDING_PERCENTAGE = 158;
+	RESISTANCE_TO_STATUS_STONE_PERCENTAGE = 159;
+	RESISTANCE_TO_STATUS_WEAPON_BREAK_PERCENTAGE = 160;
+	RESISTANCE_TO_STATUS_ARMOR_BREAK_PERCENTAGE = 161;
+	DAMAGE_INC_DEC_SIZE_PERCENTAGE = 190 ;
+	DAMAGE_INC_DEC_SIZE_SMALL_PERCENTAGE = 190;
+	DAMAGE_INC_DEC_SIZE_MEDIUM_PERCENTAGE = 191;
+	DAMAGE_INC_DEC_SIZE_LARGE_PERCENTAGE = 192 ;
+
+	function Item_Description(num, CBI2)
 	{
 		const start = Date.now();
-		wNAME1 = ["0","STR","AGI","VIT","INT","DEX","LUK","All Stats","HIT","FLEE","CRIT","Perfect Dodge","ASPD","MHP","MSP","MHP","MSP","ATK","DEF","MDEF"];
+		wNAME1 = ["0","STR","AGI","VIT","INT","DEX","LUK","ALL_STATS","HIT","FLEE","CRIT","PERFECT_DODGE","ASPD","MHP","MSP","MHP","MSP","ATK","DEF","MDEF"];
 		wIS = " + ";
+		CBIstr = "";
+		var stat = "";
+		var stat2 = "";
 		if(num[CBI2+1] < 0)
 			wIS = " ";
 
-		if(1 <= num[CBI2] && num[CBI2] <=11)
+		if(1 <= num[CBI2] && num[CBI2] <=11){
 			CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2+1] +"<BR>";
-		if(12 == num[CBI2])
-			CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2+1] +"%<BR>";
-		if(13 <= num[CBI2] && num[CBI2] <=14)
-			CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2+1] +"<BR>";
-		if(15 <= num[CBI2] && num[CBI2] <=16)
-			CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2+1] +"%<BR>";
-		if(17 <= num[CBI2] && num[CBI2] <=19)
-			CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2+1] +"<BR>";
-		if(20 == num[CBI2])
-			CBIstr += elementOBJ[num[CBI2+1]] +" Element Weapon.<BR>";
+			stat = wNAME1[num[CBI2]];
+		}
+		if(12 == num[CBI2]) {
+			CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2 + 1] + "%<BR>";
+			stat = wNAME1[num[CBI2]] + "_PERCENTAGE";
+		}
+		if(13 <= num[CBI2] && num[CBI2] <=14) {
+			CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2 + 1] + "<BR>";
+			stat = wNAME1[num[CBI2]];
+		}
+		if(15 <= num[CBI2] && num[CBI2] <=16) {
+			CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2 + 1] + "%<BR>";
+			stat = wNAME1[num[CBI2]] + "_PERCENTAGE";
+		}
+		if(17 <= num[CBI2] && num[CBI2] <=19) {
+			CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2 + 1] + "<BR>";
+			stat = wNAME1[num[CBI2]];
+		}
+		if(20 == num[CBI2]) {
+			CBIstr += elementOBJ[num[CBI2 + 1]] + " Element Weapon.<BR>";
+			stat = "ELEMENT_WEAPON";
+		}
 		if(22 == num[CBI2]){
+			stat = "BYPASS_DEFENSE_ON_RACE"
 			if(num[CBI2+1] != 99)
 				CBIstr += "Bypasses defence on " + RaceOBJ[num[CBI2+1]] + " monsters.<BR>";
 			else
 				CBIstr += "Completely bypasses defence on the target.<BR>";
 		}
-		if(23 == num[CBI2])
+		if(23 == num[CBI2]) {
+			stat = "WEAPON_ATK_INCREASE_ON_TARGET_DEFENSE";
 			CBIstr += "Attack power of the weapon increases against enemies with high VIT and defence.<BR>";
-		if(24 == num[CBI2])
-			CBIstr += "Reduces your defence by 1/"+ num[CBI2+1] +".<BR>";
-		if(25 == num[CBI2])
-			CBIstr += "Increases ranged damage by "+ num[CBI2+1] +"%.<BR>";
-		if(26 == num[CBI2])
-			CBIstr += "Increases damage against boss type monsters + "+ num[CBI2+1] +"% damage.<BR>";
-		if(27 <= num[CBI2] && num[CBI2] <=29)
-			CBIstr += "Increases damage against " + SizeOBJ[num[CBI2]-27] +" size monsters by "+ num[CBI2+1] +"%.<BR>";
-		if(30 <= num[CBI2] && num[CBI2] <=39)
-			CBIstr += "Increases damage against " + RaceOBJ[num[CBI2]-30] +" type monsters by "+ num[CBI2+1] +"%.<BR>";
-		if(40 <= num[CBI2] && num[CBI2] <=49)
-			CBIstr += "Increases damage against " + elementOBJ[num[CBI2]-40] +" element monsters by "+ num[CBI2+1] +"%.<BR>";
+		}
+		if(24 == num[CBI2]) {
+			stat = "REDUCE_DEFENSE";
+			CBIstr += "Reduces your defence by 1/" + num[CBI2 + 1] + ".<BR>";
+		}
+		if(25 == num[CBI2]) {
+			stat = "REDUCE_DEFENSE_PERCENTAGE";
+			CBIstr += "Increases ranged damage by " + num[CBI2 + 1] + "%.<BR>";
+		}
+		if(26 == num[CBI2]) {
+			stat = "INCREASE_DAMAGE_AGAINST_BOSS_PERCENTAGE";
+			CBIstr += "Increases damage against boss type monsters + " + num[CBI2 + 1] + "% damage.<BR>";
+		}
+		if(27 <= num[CBI2] && num[CBI2] <=29) {
+			stat = "INCREASE_DAMAGE_AGAINST_SIZE_PERCENTAGE";
+			CBIstr += "Increases damage against " + SizeOBJ[num[CBI2] - 27] + " size monsters by " + num[CBI2 + 1] + "%.<BR>";
+		}
+		if(30 <= num[CBI2] && num[CBI2] <=39) {
+			stat = "INCREASE_DAMAGE_RACE_PERCENTAGE";
+			CBIstr += "Increases damage against " + RaceOBJ[num[CBI2] - 30] + " type monsters by " + num[CBI2 + 1] + "%.<BR>";
+		}
+		if(40 <= num[CBI2] && num[CBI2] <=49) {
+			stat = "INCREASE_DAMAGE_ELEMENT_"+elementOBJ[num[CBI2] - 40].toUpperCase()+"_PERCENTAGE";
+			if (num[CBI2] === 40) {
+				stat2 = "INCREASE_DAMAGE_ELEMENT_PERCENTAGE";
+			}
+			CBIstr += "Increases damage against " + elementOBJ[num[CBI2] - 40] + " element monsters by " + num[CBI2 + 1] + "%.<BR>";
+		}
 		if(50 <= num[CBI2] && num[CBI2] <=59){
+			stat = "DAMAGE_INC_DEC_RACE_"+RaceOBJ[num[CBI2]-50].toUpperCase()+"_PERCENTAGE";
+			if (num[CBI2] === 50) {
+				stat2 = "DAMAGE_INC_DEC_RACE_PERCENTAGE";
+			}
 			if(num[CBI2+1] > 0)
 				CBIstr += "Decreases damage from " + RaceOBJ[num[CBI2]-50] +" type monsters by "+ num[CBI2+1] +"%.<BR>";
 			else
 				CBIstr += "Increases damage from " + RaceOBJ[num[CBI2]-50] +" type monsters by "+ (-1 * num[CBI2+1]) +"%.<BR>";
 		}
 		if(60 <= num[CBI2] && num[CBI2] <=69){
+			stat = "DAMAGE_INC_DEC_ELEMENT_" + elementOBJ[num[CBI2]-60].toUpperCase()+"_PERCENTAGE";
+			if (num[CBI2] === 60) {
+				stat2 = "DAMAGE_INC_DEC_ELEMENT_PERCENTAGE";
+			}
 			if(num[CBI2+1] < 0)
 				CBIstr += "Decreases resistance to " + elementOBJ[num[CBI2]-60] +" element attacks by "+ wIS + num[CBI2+1] +"%.<BR>";
 			else
 				CBIstr += "Increases resistance to " + elementOBJ[num[CBI2]-60] +" element attacks by "+ wIS + num[CBI2+1] +"%.<BR>";
 		}
-		if(70 == num[CBI2])
-			CBIstr += "Critical Damage + "+ num[CBI2+1] +"%<BR>";
-		if(73 == num[CBI2])
-			CBIstr += "Cast Time"+ wIS + num[CBI2+1] +"%<BR>";
-		if(74 == num[CBI2])
-			CBIstr += "After cast delay - " + num[CBI2+1] +"%<BR>";
-		if(75 == num[CBI2])
-			CBIstr += "HP Regen"+ wIS + num[CBI2+1] +"%<BR>";
-		if(76 == num[CBI2])
-			CBIstr += "SP Regen"+ wIS + num[CBI2+1] +"%<BR>";
-		if(78 == num[CBI2])
-			CBIstr += "Adjusts your resistance to ranged attacks by "+ wIS + num[CBI2+1] +"%<BR>";
-		if(79 == num[CBI2])
-			CBIstr += "Adjusts your resistance to normal monsters by "+ wIS + num[CBI2+1] +"%<BR>";
-		if(81 == num[CBI2])
-			CBIstr += "Increases damage on goblin monsters by "+ wIS + num[CBI2+1] +"%<BR>";
-		if(82 == num[CBI2])
-			CBIstr += "Increases damage on kobold monsters by "+ wIS + num[CBI2+1] +"%<BR>";
-		if(83 == num[CBI2])
-			CBIstr += "Increases damage on orc monsters (with the exception of Orc Lord and Orc Hero) by "+ wIS + num[CBI2+1] +"%<BR>";
-		if(84 == num[CBI2])
-			CBIstr += "Increases damage on golem monsters by "+ wIS + num[CBI2+1] +"%<BR>";
-		if(85 == num[CBI2])
-			CBIstr += "Lowers your defence rate by "+ num[CBI2+1] +"%.<BR>";
-		if(86 == num[CBI2])
-			CBIstr += "Increases your chance to hit all targets by a fixed " + num[CBI2+1] +"%.<BR>";
-		if(87 == num[CBI2])
-			CBIstr += "ATK"+ wIS + num[CBI2+1] +"%<BR>";
-		if(88 == num[CBI2])
-			CBIstr += "MATK"+ wIS + num[CBI2+1] +"% (Staff Type)<BR>";
-		if(89 == num[CBI2])
-			CBIstr += "MATK"+ wIS + num[CBI2+1] +"%<BR>";
-		if(110 <= num[CBI2] && num[CBI2] <=119)
-			CBIstr += "Increases critical rate against " + RaceOBJ[num[CBI2]-110] +"type monsters by "+ wIS + num[CBI2+1] +"<BR>";
-		if(120 <= num[CBI2] && num[CBI2] <=129)
-			CBIstr += "Experience obtained from " + RaceOBJ[num[CBI2]-120] +" type monsters "+ wIS + num[CBI2+1] +"%<BR>";
-		if(130 <= num[CBI2] && num[CBI2] <=149)
-			CBIstr += "When attacking, adds a "+ num[CBI2+1] +"% chance to inflict ["+ StatusOBJ[num[CBI2]-130] +"] on the enemy.<BR>";
-		if(150 <= num[CBI2] && num[CBI2] <=169)
-			CBIstr += "Status effect ["+ StatusOBJ[num[CBI2]-150] +"] resistance +"+ num[CBI2+1] +"%<BR>";
+		if(70 == num[CBI2]) {
+			stat = "CRITICAL_DAMAGE_PERCENTAGE";
+			CBIstr += "Critical Damage + " + num[CBI2 + 1] + "%<BR>";
+		}
+		if(73 == num[CBI2]) {
+			stat = "CAST_TIME_PERCENTAGE";
+			CBIstr += "Cast Time" + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(74 == num[CBI2]) {
+			stat = "ACD_PERCENTAGE";
+			CBIstr += "After cast delay - " + num[CBI2 + 1] + "%<BR>";
+		}
+		if(75 == num[CBI2]) {
+			stat = "HP_REGEN_PERCENTAGE";
+			CBIstr += "HP Regen" + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(76 == num[CBI2]) {
+			stat = "SP_REGEN_PERCENTAGE";
+			CBIstr += "SP Regen" + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(78 == num[CBI2]) {
+			stat = "RESISTANCE_RANGE_ATTACK_PERCENTAGE";
+			CBIstr += "Adjusts your resistance to ranged attacks by " + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(79 == num[CBI2]) {
+			stat = "NORMAL_ATTACK_PERCENTAGE";
+			CBIstr += "Adjusts your resistance to normal monsters by " + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(81 == num[CBI2]) {
+			stat = "INCREASE_DAMAGE_GOBLIN_PERCENTAGE";
+			CBIstr += "Increases damage on goblin monsters by " + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(82 == num[CBI2]) {
+			stat = "INCREASE_DAMAGE_KOBOLD_PERCENTAGE";
+			CBIstr += "Increases damage on kobold monsters by " + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(83 == num[CBI2]) {
+			stat = "INCREASE_DAMAGE_ORC_PERCENTAGE";
+			CBIstr += "Increases damage on orc monsters (with the exception of Orc Lord and Orc Hero) by " + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(84 == num[CBI2]) {
+			stat = "INCREASE_DAMAGE_GOLEM_PERCENTAGE";
+			CBIstr += "Increases damage on golem monsters by " + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(85 == num[CBI2]) {
+			stat = "LOWER_DEFENCE_PERCENTAGE";
+			CBIstr += "Lowers your defence rate by " + num[CBI2 + 1] + "%.<BR>";
+		}
+		if(86 == num[CBI2]) {
+			stat = "INCREASE_HIT_PERCENTAGE";
+			CBIstr += "Increases your chance to hit all targets by a fixed " + num[CBI2 + 1] + "%.<BR>";
+		}
+		if(87 == num[CBI2]) {
+			stat = "ATK_PERCENTAGE";
+			CBIstr += "ATK" + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(88 == num[CBI2]) {
+			stat = "MATK_BASED_ON_STAFF_PERCENTAGE";
+			CBIstr += "MATK" + wIS + num[CBI2 + 1] + "% (Staff Type)<BR>";
+		}
+		if(89 == num[CBI2]) {
+			stat = "MATK_PERCENTAGE";
+			CBIstr += "MATK" + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(110 <= num[CBI2] && num[CBI2] <=119) {
+			stat = "CRITICAL_AGAINST_RACE_"+RaceOBJ[num[CBI2] - 110].toUpperCase()+"_PERCENTAGE";
+			if (num[CBI2] === 110) {
+				stat2 = "CRITICAL_AGAINST_RACE_PERCENTAGE";
+			}
+			CBIstr += "Increases critical rate against " + RaceOBJ[num[CBI2] - 110] + "type monsters by " + wIS + num[CBI2 + 1] + "<BR>";
+		}
+		if(120 <= num[CBI2] && num[CBI2] <=129) {
+			CBIstr += "Experience obtained from " + RaceOBJ[num[CBI2] - 120] + " type monsters " + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		if(130 <= num[CBI2] && num[CBI2] <=149) {
+			if (!StatusOBJ[num[CBI2] - 130] ){
+				return
+			}
+			stat = "CHANCE_TO_INFLICT_STATUS_"+StatusOBJ[num[CBI2] - 130] .toUpperCase()+"_ON_ATTACK";
+			if (num[CBI2] === 130) {
+				stat2 = "CHANCE_TO_INFLICT_STATUS_ON_ATTACK";
+			}
+			CBIstr += "When attacking, adds a " + num[CBI2 + 1] + "% chance to inflict [" + StatusOBJ[num[CBI2] - 130] + "] on the enemy.<BR>";
+		}
+		if(150 <= num[CBI2] && num[CBI2] <=169) {
+			if (!StatusOBJ[num[CBI2] - 150] ){
+				return
+			}
+			stat = "RESISTANCE_TO_STATUS_"+StatusOBJ[num[CBI2] - 150] .toUpperCase()+"_PERCENTAGE";
+			if (num[CBI2] === 150) {
+				stat2 = "RESISTANCE_TO_STATUS_PERCENTAGE";
+			}
+			CBIstr += "Status effect [" + StatusOBJ[num[CBI2] - 150] + "] resistance +" + num[CBI2 + 1] + "%<BR>";
+		}
 		if(190 <= num[CBI2] && num[CBI2] <=192){
+			stat = "DAMAGE_INC_DEC_SIZE_"+SizeOBJ[num[CBI2]-190] .toUpperCase()+"_PERCENTAGE";
+			if (num[CBI2] === 190) {
+				stat2 = "DAMAGE_INC_DEC_SIZE_PERCENTAGE";
+			}
 			if(num[CBI2+1] > 0)
 				CBIstr += "Decreases damage from " + SizeOBJ[num[CBI2]-190] +" size monsters by "+ num[CBI2+1] +"%.<BR>";
 			else
 				CBIstr += "Increases damage from " + SizeOBJ[num[CBI2]-190] +" size monsters by "+ (-1 * num[CBI2+1]) +"%.<BR>";
 		}
-		if(193 == num[CBI2])
+		if(193 == num[CBI2]) {
 			CBIstr += "<Font color='#FF0000'>Unrefinable.</Font><BR>";
-		if(194 == num[CBI2])
+		}
+		if(194 == num[CBI2]) {
 			CBIstr += "Cannot be broken.<BR>";
-		if(195 == num[CBI2])
+		}
+		if(195 == num[CBI2]) {
 			CBIstr += "Two-Handed Staff.<BR>";
-		if(198 == num[CBI2])
-			CBIstr += "Armor becomes "+ elementOBJ[num[CBI2+1]] +" element.<BR>";
-		if(212 <= num[CBI2] && num[CBI2] <= 215)
-			CBIstr += wNAME1[num[CBI2] -210] + wIS + num[CBI2+1] +"<BR>";
-		if(220 == num[CBI2] || 230 == num[CBI2])
-			CBIstr += "Allows usage fo the skill ["+ SkillOBJ[Math.floor((num[CBI2+1]-100000)/100)][2] +"] Lv "+ Math.floor((num[CBI2+1]-100000)%100) +".<BR>";
+		}
+		if(198 == num[CBI2]) {
+			CBIstr += "Armor becomes " + elementOBJ[num[CBI2 + 1]] + " element.<BR>";
+		}
+		if(212 <= num[CBI2] && num[CBI2] <= 215) {
+			CBIstr += wNAME1[num[CBI2] - 210] + wIS + num[CBI2 + 1] + "<BR>";
+		}
+		if(220 == num[CBI2] || 230 == num[CBI2]) {
+			CBIstr += "Allows usage fo the skill [" + SkillOBJ[Math.floor((num[CBI2 + 1] - 100000) / 100)][2] + "] Lv " + Math.floor((num[CBI2 + 1] - 100000) % 100) + ".<BR>";
+		}
 		if(221 == num[CBI2] || 231 == num[CBI2]){
 			wNAME99 = [0,"When performing a physical attack, ","When performing a short range physical attack, ","When performing a long range physical attack, ","When performing a magical attack, ","When attacking, ","When recieving physical damage, ","When recieving short range physical damage, ","When recieving long range physical damage, ","When recieving magical damage, ","When recieving physical or magical damage, "];
 			wNAME98 = ["low","fixed","high"];
@@ -1767,16 +2003,32 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				CBIstr += Math.floor((num[CBI2+1] % 10000000) / 100000) + "%";
 			CBIstr += " chance to cast the skill ["+ SkillOBJ[Math.floor((num[CBI2+1] % 100000)/100)][2] +"] Lv "+ Math.floor((num[CBI2+1] % 100000)%100) +".<BR>";
 		}
-		if(1000 <= num[CBI2] && num[CBI2] <= 2999)
-			CBIstr += "Increases damage against the monster " + MonsterOBJ[num[CBI2] -1000][1] +" by "+ wIS + num[CBI2+1] +"%.<BR>";
+		if(1000 <= num[CBI2] && num[CBI2] <= 2999) {
+			CBIstr += "Increases damage against the monster " + MonsterOBJ[num[CBI2] - 1000][1] + " by " + wIS + num[CBI2 + 1] + "%.<BR>";
+		}
 		if(3000 <= num[CBI2] && num[CBI2] <=4999){
 			if(num[CBI2+1] > 0)
 				CBIstr += "Reduces damage from the monster " + MonsterOBJ[num[CBI2]-3000][1] +" by "+ num[CBI2+1] +"%.<BR>";
 			else
 				CBIstr += "Increases damage recieved from the monster " + MonsterOBJ[num[CBI2]-3000][1] +" by "+ (-1 * num[CBI2+1]) +"%.<BR>";
 		}
-		if(5000 <= num[CBI2] && num[CBI2] <= 6999)
-			CBIstr += SkillOBJ[num[CBI2] -5000][2] +"'s damage "+ wIS + num[CBI2+1] +"%<BR>";
+		if(5000 <= num[CBI2] && num[CBI2] <= 6999) {
+			CBIstr += SkillOBJ[num[CBI2] - 5000][2] + "'s damage " + wIS + num[CBI2 + 1] + "%<BR>";
+		}
+		// console.log(CBIstr)
+		/**
+		 * var stat = [];
+		 * for (var i = 0; i < 1000; i++) {
+		 *   stat.push(i);
+		 * }
+		 * for (var i = 0; i < 1000; i++) {
+		 *   var a = Item_Description(stat, i);
+		 *   if (a && a !== ""){
+		 *    console.log(i, a.replace("<BR>",""));
+		 *   }
+		 * }
+		 */
+		return [stat, stat2];
 	}
 
 	w_SE = [[737,436,475,"NULL"],

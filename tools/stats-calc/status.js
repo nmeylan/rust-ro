@@ -333,8 +333,8 @@ function StAllCalc() {
     }
 
 
-    w = StPlusCard(17);
-    w += StPlusCalc2(17);
+    w = StPlusCard(ATK);
+    w += StPlusItem(ATK);
 
     if (SU_STR >= 80 && CardNumSearch("Giant Whisper"))
         w += 20;
@@ -442,11 +442,11 @@ function StAllCalc() {
     bkHP = n_A_MaxHP;
     w = 0;
 
-    w += StPlusCalc2(13);
-    w += StPlusCalc2(3);
+    w += StPlusItem(MAXHP);
+    w += StPlusItem(VIT);
 
 
-    w += StPlusCard(13);
+    w += StPlusCard(MAXHP);
     if (n_A_BODY_DEF_PLUS >= 9 && CardNumSearch("Apocalypse"))
         w += 800;
 
@@ -464,9 +464,9 @@ function StAllCalc() {
 
     w = 0;
 
-    w += StPlusCalc2(15);
+    w += StPlusItem(MAXHP_PERCENTAGE);
 
-    w += StPlusCard(15);
+    w += StPlusCard(MAXHP_PERCENTAGE);
 
     if (SU_VIT >= 80 && CardNumSearch("Giant Whisper"))
         w += 3;
@@ -571,10 +571,10 @@ function StAllCalc() {
 
     w = 0;
 
-    w += StPlusCalc2(14);
-    w += StPlusCalc2(4);
+    w += StPlusItem(MAXSP);
+    w += StPlusItem(INT);
 
-    w += StPlusCard(14);
+    w += StPlusCard(MAXSP);
     if (n_A_HEAD_DEF_PLUS >= 9 && n_A_card[8] == 298)
         w += 150;
     if (n_A_HEAD_DEF_PLUS <= 4 && n_A_card[8] == 179)
@@ -598,9 +598,9 @@ function StAllCalc() {
 
     w = 0;
 
-    w += StPlusCalc2(16);
+    w += StPlusItem(MAXSP_PERCENTAGE);
 
-    w += StPlusCard(16);
+    w += StPlusCard(MAXSP_PERCENTAGE);
     if (n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch("Firelock Soldier"))
         w += 10;
     if (n_A_SHOES_DEF_PLUS <= 4 && CardNumSearch("Gold Acidus"))
@@ -632,13 +632,13 @@ function StAllCalc() {
         myInnerHtml("A_MaxSP", " " + n_A_MaxSP, 0);
 
 
-    n_A_DEF = StPlusCalc2(18);
+    n_A_DEF = StPlusItem(DEF);
 
     for (i = 2; i <= 10; i++) {
         n_A_DEF += ItemOBJ[n_A_Equip[i]][3];
     }
 
-    n_A_DEF += StPlusCard(18);
+    n_A_DEF += StPlusCard(DEF);
 
     if (n_A_LEFT_DEF_PLUS <= 5 && CardNumSearch("Arcluse"))
         n_A_DEF += 2;
@@ -664,10 +664,10 @@ function StAllCalc() {
 
     n_A_totalDEF = n_A_DEF + Math.round(n_A_DEFplus * 7 / 10);
 
-    if (StPlusCalc2(24) + StPlusCard(24))
-        n_A_totalDEF = Math.floor(n_A_totalDEF / StPlusCalc2(24));
-    if (StPlusCalc2(85) + StPlusCard(85))
-        n_A_totalDEF -= Math.floor(n_A_totalDEF * (StPlusCalc2(85) + StPlusCard(85)) / 100);
+    if (StPlusItem(REDUCE_DEFENSE) + StPlusCard(REDUCE_DEFENSE))
+        n_A_totalDEF = Math.floor(n_A_totalDEF / StPlusItem(REDUCE_DEFENSE));
+    if (StPlusItem(LOWER_DEFENCE_PERCENTAGE) + StPlusCard(LOWER_DEFENCE_PERCENTAGE))
+        n_A_totalDEF -= Math.floor(n_A_totalDEF * (StPlusItem(LOWER_DEFENCE_PERCENTAGE) + StPlusCard(LOWER_DEFENCE_PERCENTAGE)) / 100);
 
     if (SkillSearch("Spear Dynamo"))
         n_A_totalDEF = Math.floor(n_A_totalDEF * (1 - 0.05 * SkillSearch("Spear Dynamo")));
@@ -705,9 +705,9 @@ function StAllCalc() {
                 n_A_VITDEF[i] = Math.floor(n_A_VITDEF[i] * 0.9);
         }
     }
-    if (StPlusCalc2(24)) {
+    if (StPlusItem(REDUCE_DEFENSE)) {
         for (i = 0; i <= 2; i++)
-            n_A_VITDEF[i] = Math.floor(n_A_VITDEF[i] / StPlusCalc2(24));
+            n_A_VITDEF[i] = Math.floor(n_A_VITDEF[i] / StPlusItem(24));
     }
     if (SkillSearch("Spear Dynamo")) {
         for (i = 0; i <= 2; i++)
@@ -723,10 +723,10 @@ function StAllCalc() {
     }
 
 
-    n_A_MDEF = StPlusCalc2(19);
+    n_A_MDEF = StPlusItem(MDEF);
 
 
-    n_A_MDEF += StPlusCard(19);
+    n_A_MDEF += StPlusCard(MDEF);
 
     if (n_A_JobSearch() == 3)
         n_A_MDEF += CardNumSearch("Rideword");
@@ -764,10 +764,10 @@ function StAllCalc() {
     n_A_HIT = n_A_BaseLV + n_A_DEX;
 
 
-    n_A_HIT += StPlusCalc2(8);
+    n_A_HIT += StPlusItem(HIT);
 
 
-    n_A_HIT += StPlusCard(8);
+    n_A_HIT += StPlusCard(HIT);
 
     if (EquipNumSearch("Jungle Carbine"))
         w -= Math.floor(SU_DEX / 3);
@@ -808,10 +808,10 @@ function StAllCalc() {
     n_A_FLEE = n_A_BaseLV + n_A_AGI;
 
 
-    n_A_FLEE += StPlusCalc2(9);
+    n_A_FLEE += StPlusItem(FLEE);
 
 
-    n_A_FLEE += StPlusCard(9);
+    n_A_FLEE += StPlusCard(FLEE);
 
     if (n_A_JobSearch() == 2 && CardNumSearch("Wanderer"))
         n_A_FLEE += 20;
@@ -876,9 +876,9 @@ function StAllCalc() {
     n_A_LUCKY = 1 + n_A_LUK * 0.1;
 
 
-    n_A_LUCKY += StPlusCalc2(11);
+    n_A_LUCKY += StPlusItem(PERFECT_DODGE);
 
-    n_A_LUCKY += StPlusCard(11);
+    n_A_LUCKY += StPlusCard(PERFECT_DODGE);
 
     if (n_A_JobSearch() == 2)
         n_A_LUCKY += 5 * CardNumSearch("Wild Rose");
@@ -907,12 +907,12 @@ function StAllCalc() {
     n_A_CRI = 1 + n_A_LUK * 0.3;
 
 
-    n_A_CRI += StPlusCalc2(10);
+    n_A_CRI += StPlusItem(CRIT);
 
     w = 0;
-    w += StPlusCard(10);
+    w += StPlusCard(CRIT);
 
-    w += StPlusCard(110 + targetStatsArray[TARGET_STAT_RACE]);
+    w += StPlusCard(CRITICAL_AGAINST_RACE_PERCENTAGE + targetStatsArray[TARGET_STAT_RACE]);
 
     if (CardNumSearch("Green Maiden"))
         w += n_A_SHOULDER_DEF_PLUS;
@@ -976,7 +976,7 @@ function StAllCalc() {
 
     w_MATK = 100;
 
-    w_MATK += StPlusCalc2(89);
+    w_MATK += StPlusItem(MATK_PERCENTAGE);
 
     if (weaponRefinementLevel >= 9 && EquipNumSearch("Lich's Bone Wand"))
         w_MATK += 3;
@@ -1007,7 +1007,7 @@ function StAllCalc() {
 
     w_MATK = 100;
 
-    w_MATK += StPlusCalc2(88);
+    w_MATK += StPlusItem(MATK_BASED_ON_STAFF_PERCENTAGE);
 
     n_A_MATK[0] = Math.floor(n_A_MATK[0] * w_MATK / 100);
     n_A_MATK[2] = Math.floor(n_A_MATK[2] * w_MATK / 100);
@@ -1118,8 +1118,8 @@ function StAllCalc() {
         w += 5 + n_A_PassSkill3[1] + Math.floor(n_A_PassSkill3[31] / 2) + Math.floor(n_A_PassSkill3[21] / 20);
 
 
-    w += StPlusCalc2(12);
-    w += StPlusCard(12);
+    w += StPlusItem(ASPD_PERCENTAGE);
+    w += StPlusCard(ASPD_PERCENTAGE);
 
 
     if (SkillSearch("Mental Strength"))
@@ -1206,8 +1206,8 @@ function StAllCalc() {
     if (n_A_card[8] == 177)
         w -= n_A_HEAD_DEF_PLUS;
 
-    w += StPlusCalc2(73);
-    w += StPlusCard(73);
+    w += StPlusItem(CAST_TIME_PERCENTAGE);
+    w += StPlusCard(CAST_TIME_PERCENTAGE);
 
     n_A_CAST *= w / 100;
 
@@ -1221,8 +1221,8 @@ function StAllCalc() {
     if (n_A_HPR < 1)
         n_A_HPR = 1;
     w = 100;
-    w += StPlusCalc2(75);
-    w += StPlusCard(75);
+    w += StPlusItem(HP_REGEN_PERCENTAGE);
+    w += StPlusCard(HP_REGEN_PERCENTAGE);
     if (SU_LUK >= 77)
         w += 100 * CardNumSearch("Arc Angeling");
 
@@ -1241,8 +1241,8 @@ function StAllCalc() {
 
     w += SkillSearch("Mediatio") * 3;
 
-    w += StPlusCalc2(76);
-    w += StPlusCard(76);
+    w += StPlusItem(SP_REGEN_PERCENTAGE);
+    w += StPlusCard(SP_REGEN_PERCENTAGE);
 
     if (SU_LUK >= 77)
         w += 100 * CardNumSearch("Arc Angeling");
@@ -1293,15 +1293,15 @@ function StPlusCalc() {
     }
 
 
-    wSPCall = StPlusCalc2(7);
-    wSPC_STR += StPlusCalc2(1) + wSPCall;
-    wSPC_AGI += StPlusCalc2(2) + wSPCall;
-    wSPC_VIT += StPlusCalc2(3) + wSPCall;
-    wSPC_VIT += StPlusCalc2(213);
-    wSPC_INT += StPlusCalc2(4) + wSPCall;
-    wSPC_INT += StPlusCalc2(214);
-    wSPC_DEX += StPlusCalc2(5) + wSPCall;
-    wSPC_LUK += StPlusCalc2(6) + wSPCall;
+    wSPCall = StPlusItem(ALL_STATS);
+    wSPC_STR += StPlusItem(STR) + wSPCall;
+    wSPC_AGI += StPlusItem(AGI) + wSPCall;
+    wSPC_VIT += StPlusItem(VIT) + wSPCall;
+    wSPC_VIT += StPlusItem(213);
+    wSPC_INT += StPlusItem(INT) + wSPCall;
+    wSPC_INT += StPlusItem(214);
+    wSPC_DEX += StPlusItem(DEX) + wSPCall;
+    wSPC_LUK += StPlusItem(LUK) + wSPCall;
 
     wSPC_DEX += SkillSearch("Owl's Eye");
     wSPC_STR += SkillSearch("Crazy Uproar") * 4;
@@ -1332,8 +1332,8 @@ function StPlusCalc() {
         wSPC_AGI = Math.floor((n_A_AGI + wSPC_AGI) * 103 / 100) - n_A_AGI;
     }
 
-    wSPC_AGI += StPlusCalc2(212);
-    wSPC_DEX += StPlusCalc2(215);
+    wSPC_AGI += StPlusItem(212);
+    wSPC_DEX += StPlusItem(215);
     if (n_A_JobSearch() == 41 && EquipNumSearch("Magistrate Hat"))
         wSPC_AGI += 1;
     if (n_A_JobSearch() == 41 && EquipNumSearch("Ayam"))
@@ -1347,13 +1347,13 @@ function StPlusCalc() {
     if (n_A_SHOES_DEF_PLUS >= 9 && EquipNumSearch("Black Leather Boots"))
         wSPC_AGI += 2;
 
-    wSPCall = StPlusCard(7);
-    wSPC_STR += StPlusCard(1) + wSPCall;
-    wSPC_AGI += StPlusCard(2) + wSPCall;
-    wSPC_VIT += StPlusCard(3) + wSPCall;
-    wSPC_INT += StPlusCard(4) + wSPCall;
-    wSPC_DEX += StPlusCard(5) + wSPCall;
-    wSPC_LUK += StPlusCard(6) + wSPCall;
+    wSPCall = StPlusCard(ALL_STATS);
+    wSPC_STR += StPlusCard(STR) + wSPCall;
+    wSPC_AGI += StPlusCard(AGI) + wSPCall;
+    wSPC_VIT += StPlusCard(VIT) + wSPCall;
+    wSPC_INT += StPlusCard(INT) + wSPCall;
+    wSPC_DEX += StPlusCard(DEX) + wSPCall;
+    wSPC_LUK += StPlusCard(LUK) + wSPCall;
 
 
     if (n_A_JobSearch() == 3)
@@ -1521,7 +1521,7 @@ function StPlusCalc() {
 }
 
 
-function StPlusCalc2(nSTP2) {
+function StPlusItem(nSTP2) {
     wSTP2 = 0;
     for (STP2i = 0; STP2i <= 20; STP2i++) {
         for (STP2j = 0; ItemOBJ[n_A_Equip[STP2i]][STP2j + 11] != 0; STP2j += 2) {

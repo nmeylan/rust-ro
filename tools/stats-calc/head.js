@@ -1544,7 +1544,7 @@ function isRangedWeapon() {
 
         if (InWarOfEmperium == 0) {
             w1_Exp = StPlusCard(120 + targetStatsArray[TARGET_STAT_RACE]);
-            w1_Exp += StPlusCalc2(120 + targetStatsArray[TARGET_STAT_RACE]);
+            w1_Exp += StPlusItem(120 + targetStatsArray[TARGET_STAT_RACE]);
             if (n_A_JobSearch() == 3 && CardNumSearch(452) && (targetStatsArray[TARGET_STAT_RACE] == 1 || targetStatsArray[TARGET_STAT_RACE] == 6))
                 w1_Exp += 5;
             if (targetStatsArray[TARGET_STAT_RACE] == 2 && n_A_JobSearch() == 4 && CardNumSearch(453))
@@ -1664,7 +1664,7 @@ function isRangedWeapon() {
             if (swDelay == 1) {
                 wCAD = n_A_PassSkill3[2];
                 if (wDelay != "(Unknown)") {
-                    wDelay = Math.floor(wDelay * (100 - (StPlusCard(74) + StPlusCalc2(74)))) / 100;
+                    wDelay = Math.floor(wDelay * (100 - (StPlusCard(ACD_PERCENTAGE) + StPlusItem(ACD_PERCENTAGE)))) / 100;
                     if (wCAD != 0) {
                         if (wCAD == 10)
                             wCAD2 = 5;
