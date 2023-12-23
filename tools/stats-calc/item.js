@@ -2016,18 +2016,18 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 			CBIstr += SkillOBJ[num[CBI2] - 5000][2] + "'s damage " + wIS + num[CBI2 + 1] + "%<BR>";
 		}
 		// console.log(CBIstr)
-		/**
-		 * var stat = [];
-		 * for (var i = 0; i < 1000; i++) {
-		 *   stat.push(i);
-		 * }
-		 * for (var i = 0; i < 1000; i++) {
-		 *   var a = Item_Description(stat, i);
-		 *   if (a && a !== ""){
-		 *    console.log(i, a.replace("<BR>",""));
-		 *   }
-		 * }
-		 */
+
+		// var stat = [];
+		// for (var i = 0; i < 1000; i++) {
+		// 	stat.push(i);
+		// }
+		// for (var i = 0; i < 1000; i++) {
+		// 	var a = Item_Description(stat, i);
+		// 	if (a && a !== "") {
+		// 		console.log(i, a.replace("<BR>", ""));
+		// 	}
+		// }
+
 		return [stat, stat2];
 	}
 

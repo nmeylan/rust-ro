@@ -50,11 +50,11 @@ impl BattleService {
         let _rng = fastrand::Rng::new();
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let _imposito_magnus: u32 = 0;
-        let base_atk = self.status_service.fist_atk(source_status, is_ranged) as f32 + upgrade_bonus + *source_status.atk_given_by_cards() as f32;
+        let base_atk = self.status_service.fist_atk(source_status, is_ranged) as f32 + upgrade_bonus + source_status.base_atk() as f32;
 
         let _size_modifier: f32 = self.size_modifier(source_status, target_status);
-        let def: f32 = *target_status.def() as f32 / 100.0;
-        let vitdef: f32 = self.status_service.mob_vit_def(*target_status.vit() as u32) as f32; // TODO set to 0 if critical hit
+        let def: f32 = target_status.def() as f32 / 100.0;
+        let vitdef: f32 = self.status_service.mob_vit_def(target_status.vit() as u32) as f32; // TODO set to 0 if critical hit
         let bane_skill: f32 = 0.0; // TODO Beast Bane, Daemon Bane, Draconology
         let mastery_skill: f32 = 0.0;
         let weaponery_research_skill: f32 = 0.0;
@@ -95,7 +95,7 @@ impl BattleService {
     //  rnd(min(DEX*(0.8+0.2*WeaponLevel),ATK), ATK)
     pub fn weapon_atk(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, is_ranged: bool) -> u32 {
         let mut rng = fastrand::Rng::new();
-        let weapon = source_status.right_hand_weapon().map(|weapon| self.configuration_service.get_item(*weapon.item_id()));
+        let weapon = source_status.right_hand_weapon().map(|weapon| self.configuration_service.get_item(weapon.item_id()));
         let imposito_magnus: u32 = 0; // TODO get from status
         let mut weapon_level = 0;
         let mut weapon_attack = 0;
@@ -114,7 +114,7 @@ impl BattleService {
             };
         };
 
-        let work_dex = (*source_status.dex() as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32;
+        let work_dex = (source_status.dex() as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32;
         let mut weapon_max_attack: u32 = 0;
         let weapon_over_upgrade_max: u32 = 0;
         let weapon_over_upgrade_min: u32 = 0;
@@ -128,7 +128,7 @@ impl BattleService {
             weapon_min_attack = weapon_over_upgrade_min + ((work_dex + imposito_magnus) as f32 * size_modifier).floor() as u32;
         }
         if source_status.right_hand_weapon_type().is_ranged() {
-            let ammo_dmg = (source_status.ammo().map_or_else(|| 1.0, |ammo| (*ammo.attack() - 1) as f32) * size_modifier).floor() as u32;
+            let ammo_dmg = (source_status.ammo().map_or_else(|| 1.0, |ammo| (ammo.attack() - 1) as f32) * size_modifier).floor() as u32;
             weapon_max_attack += ammo_dmg;
             let mut w1 = weapon_over_upgrade_max + ((weapon_attack * weapon_attack) as f32 / 100.0 * size_modifier).floor() as u32 + (imposito_magnus as f32 * size_modifier).floor() as u32 + ammo_dmg;
             let w2 = weapon_over_upgrade_max + ((weapon_attack * work_dex) as f32 / 100.0 * size_modifier).floor() as u32 + (imposito_magnus as f32 * size_modifier).floor() as u32 + ammo_dmg;

@@ -94,19 +94,19 @@ impl SkillBase for Assumptio {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 20 { return Ok(20) } else {return Err(())}
+            if status.sp() >= 20 { return Ok(20) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 30 { return Ok(30) } else {return Err(())}
+            if status.sp() >= 30 { return Ok(30) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 40 { return Ok(40) } else {return Err(())}
+            if status.sp() >= 40 { return Ok(40) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 50 { return Ok(50) } else {return Err(())}
+            if status.sp() >= 50 { return Ok(50) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 60 { return Ok(60) } else {return Err(())}
+            if status.sp() >= 60 { return Ok(60) } else {return Err(())}
         }
         Err(())
     }
@@ -256,19 +256,19 @@ impl SkillBase for Basilica {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 80 { return Ok(80) } else {return Err(())}
+            if status.sp() >= 80 { return Ok(80) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 90 { return Ok(90) } else {return Err(())}
+            if status.sp() >= 90 { return Ok(90) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 100 { return Ok(100) } else {return Err(())}
+            if status.sp() >= 100 { return Ok(100) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 110 { return Ok(110) } else {return Err(())}
+            if status.sp() >= 110 { return Ok(110) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 120 { return Ok(120) } else {return Err(())}
+            if status.sp() >= 120 { return Ok(120) } else {return Err(())}
         }
         Err(())
     }

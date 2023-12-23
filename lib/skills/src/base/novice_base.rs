@@ -149,7 +149,7 @@ impl SkillBase for FirstAid {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 3 { Ok(3) } else {Err(())}
+        if status.sp() > 3 { Ok(3) } else {Err(())}
     }
     #[inline(always)]
     fn is_self_skill(&self) -> bool {
@@ -224,7 +224,7 @@ impl SkillBase for PlayDead {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 5 { Ok(5) } else {Err(())}
+        if status.sp() > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
     fn is_self_skill(&self) -> bool {

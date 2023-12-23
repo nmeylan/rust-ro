@@ -3,7 +3,7 @@ extern crate proc_macro;
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::__private::Span;
-use syn::{parse_macro_input, Data, DataStruct, DeriveInput, Fields, Ident};
+use syn::{parse_macro_input, Data, DataStruct, DeriveInput, Fields, Ident, Type};
 
 #[proc_macro_derive(Setters, attributes(set))]
 pub fn setters(input: TokenStream) -> TokenStream {
@@ -84,10 +84,18 @@ pub fn getters_all_fields(input: TokenStream) -> TokenStream {
         let field_name = field.ident.as_ref().unwrap();
         let function_name = Ident::new(format!("{field_name}").as_str(), Span::call_site());
         let ty = field.ty.clone();
-        quote! {
+        if is_a_number(&ty) {
+            quote! {
+            pub fn #function_name(&self) -> #ty {
+                self.#field_name
+            }
+        }
+        } else {
+            quote! {
             pub fn #function_name(&self) -> &#ty {
                 &self.#field_name
             }
+        }
         }
     });
 
@@ -97,4 +105,22 @@ pub fn getters_all_fields(input: TokenStream) -> TokenStream {
         }
     };
     TokenStream::from(res)
+}
+
+fn is_a_number(field_type: &Type) -> bool {
+    match field_type {
+        Type::Path(type_path) => {
+            if let Some(segment) = type_path.path.segments.last() {
+                match segment.ident.to_string().as_str() {
+                    "i8" | "i16" | "i32" | "i64" | "i128" | "isize" |
+                    "u8" | "u16" | "u32" | "u64" | "u128" | "usize" |
+                    "f32" | "f64" => true,
+                    _ => false,
+                }
+            } else {
+                false
+            }
+        },
+        _ => false,
+    }
 }

@@ -95,14 +95,14 @@ impl SkillTreeService {
             if let Some(requirements) = skill_in_tree.requires() {
                 let fulfill_requirements = requirements.iter().all(|requirement| {
                     let requirement_skill = enums::skill_enums::SkillEnum::from_name(requirement.name());
-                    character.status.known_skills.iter().any(|s| { s.value.id() == requirement_skill.id() && s.level >= *requirement.level() })
+                    character.status.known_skills.iter().any(|s| { s.value.id() == requirement_skill.id() && s.level >= requirement.level() })
                 });
                 if fulfill_requirements {
                     skills.push(KnownSkill { value: skill, level })
                 }
                 continue;
             }
-            if skill.is_platinium() || *skill_in_tree.job_level() as u32 > character.get_job_level() {
+            if skill.is_platinium() || skill_in_tree.job_level() as u32 > character.get_job_level() {
                 continue;
             }
             skills.push(KnownSkill { value: skill, level });

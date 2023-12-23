@@ -479,9 +479,9 @@ fn generate_validate_state(job_skills_file: &mut File, skill_config: &SkillConfi
         if let Some(state) = requirements.state() {
             job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
             job_skills_file.write_all(b"    fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {\n").unwrap();
-            job_skills_file.write_all(b"        if *status.state() > 0 {\n").unwrap();
+            job_skills_file.write_all(b"        if status.state() > 0 {\n").unwrap();
             job_skills_file.write_all(format!("            // {}\n", state.as_str()).as_bytes()).unwrap();
-            job_skills_file.write_all(format!("            if *status.state() & {} > 0 {{ Ok(()) }} else {{ Err(()) }}\n", state.as_flag()).as_bytes()).unwrap();
+            job_skills_file.write_all(format!("            if status.state() & {} > 0 {{ Ok(()) }} else {{ Err(()) }}\n", state.as_flag()).as_bytes()).unwrap();
             job_skills_file.write_all(b"        } else {\n").unwrap();
             job_skills_file.write_all(b"            Err(())\n").unwrap();
             job_skills_file.write_all(b"        }\n").unwrap();
@@ -869,12 +869,12 @@ generate_return_per_level!(generate_return_per_level_option_i32, i32, true);
 
 fn generate_validate_per_level(job_skills_file: &mut File, field_name: &str, value: &Option<u32>, value_per_level: &Option<Vec<u32>>) {
     if let Some(value) = value {
-        job_skills_file.write_all(format!("        if *{} > {} {{ Ok({}) }} else {{Err(())}}\n", field_name, value, value).as_bytes()).unwrap();
+        job_skills_file.write_all(format!("        if {} > {} {{ Ok({}) }} else {{Err(())}}\n", field_name, value, value).as_bytes()).unwrap();
     } else if let Some(value_per_level) = value_per_level {
         for (level, value_per_level) in value_per_level.iter().enumerate() {
             if level == 0 { continue; }
             job_skills_file.write_all(format!("        if self.level == {} {{\n", level).as_bytes()).unwrap();
-            job_skills_file.write_all(format!("            if *{} >= {} {{ return Ok({}) }} else {{return Err(())}}\n", field_name, value_per_level, value_per_level).as_bytes()).unwrap();
+            job_skills_file.write_all(format!("            if {} >= {} {{ return Ok({}) }} else {{return Err(())}}\n", field_name, value_per_level, value_per_level).as_bytes()).unwrap();
             job_skills_file.write_all(b"        }\n").unwrap();
         }
         job_skills_file.write_all(b"        Err(())\n").unwrap();

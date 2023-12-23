@@ -7,7 +7,7 @@ use crate::server::model::movement::{Movable, Movement};
 
 use models::position::Position;
 
-use models::status::Status;
+use models::status::{Status, StatusSnapshot};
 
 
 #[derive(Setters, Clone)]
@@ -17,7 +17,7 @@ pub struct Mob {
     pub name_english: String,
     pub mob_id: i16,
     pub spawn_id: u32,
-    pub status: Status,
+    pub status: StatusSnapshot,
     #[set]
     pub x: u16,
     #[set]
@@ -48,7 +48,7 @@ impl Movable for Mob {
 }
 
 impl Mob {
-    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, name_english: String, status: Status) -> Mob {
+    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, name_english: String, status: StatusSnapshot) -> Mob {
         Mob {
             id,
             x,
@@ -90,21 +90,21 @@ impl Mob {
             return;
         }
         let entry = self.damages.entry(attacker_id).or_insert(0);
-        if damage > self.status.hp {
-            self.status.hp = 0;
+        if damage > self.status.hp() {
+            self.status.set_hp(0);
         } else {
-            self.status.hp -= damage;
+            self.status.set_hp(self.status.hp() - damage);
         }
 
         *entry += damage;
     }
 
     pub fn should_die(&self) -> bool {
-        self.status.hp == 0
+        self.status.hp() == 0
     }
 
     pub fn hp(&self) -> u32 {
-        self.status.hp
+        self.status.hp()
     }
 
     pub fn attacker_with_higher_damage(&self) -> u32 {

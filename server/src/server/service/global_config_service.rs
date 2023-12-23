@@ -52,7 +52,7 @@ impl GlobalConfigService {
             });
             let mut skills_name_id: HashMap<String, u32> = Default::default();
             skills.values().for_each(|skill_config| {
-                skills_name_id.insert(skill_config.name().clone(), *skill_config.id());
+                skills_name_id.insert(skill_config.name().clone(), skill_config.id());
             });
             SERVICE_INSTANCE = Some(GlobalConfigService { configuration,
                 items: items.into_iter().map(|item| (item.id as u32, item)).collect(), items_name_id,
@@ -73,7 +73,7 @@ impl GlobalConfigService {
     }
 
     pub fn get_job_config(&self, id: u32) -> &JobConfig {
-        self.jobs.iter().find(|config| *config.id() == id).unwrap_or_else(|| panic!("Expected to find job config for id {id} but found none"))
+        self.jobs.iter().find(|config| config.id() == id).unwrap_or_else(|| panic!("Expected to find job config for id {id} but found none"))
     }
 
     pub fn get_skill_config_by_name(&self, name: &str) -> &SkillConfig {
