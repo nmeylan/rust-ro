@@ -78,7 +78,7 @@ impl SkillBase for SkidTrap {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -161,7 +161,7 @@ impl SkillBase for LandMine {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -244,7 +244,7 @@ impl SkillBase for AnkleSnare {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 12 { Ok(12) } else {Err(())}
+        if status.sp() > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -327,7 +327,7 @@ impl SkillBase for ShockwaveTrap {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 45 { Ok(45) } else {Err(())}
+        if status.sp() > 45 { Ok(45) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -410,7 +410,7 @@ impl SkillBase for Sandman {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 12 { Ok(12) } else {Err(())}
+        if status.sp() > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -493,7 +493,7 @@ impl SkillBase for Flasher {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 12 { Ok(12) } else {Err(())}
+        if status.sp() > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -576,7 +576,7 @@ impl SkillBase for FreezingTrap {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -677,7 +677,7 @@ impl SkillBase for BlastMine {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -760,7 +760,7 @@ impl SkillBase for ClaymoreTrap {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 15 { Ok(15) } else {Err(())}
+        if status.sp() > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -843,7 +843,7 @@ impl SkillBase for RemoveTrap {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 5 { Ok(5) } else {Err(())}
+        if status.sp() > 5 { Ok(5) } else {Err(())}
     }
 }
 // HT_TALKIEBOX
@@ -908,7 +908,7 @@ impl SkillBase for TalkieBox {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 1 { Ok(1) } else {Err(())}
+        if status.sp() > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -1220,27 +1220,27 @@ impl SkillBase for BlitzBeat {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 10 { return Ok(10) } else {return Err(())}
+            if status.sp() >= 10 { return Ok(10) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 13 { return Ok(13) } else {return Err(())}
+            if status.sp() >= 13 { return Ok(13) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 16 { return Ok(16) } else {return Err(())}
+            if status.sp() >= 16 { return Ok(16) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 19 { return Ok(19) } else {return Err(())}
+            if status.sp() >= 19 { return Ok(19) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 22 { return Ok(22) } else {return Err(())}
+            if status.sp() >= 22 { return Ok(22) } else {return Err(())}
         }
         Err(())
     }
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
-        if *status.state() > 0 {
+        if status.state() > 0 {
             // Falcon
-            if *status.state() & 8 > 0 { Ok(()) } else { Err(()) }
+            if status.state() & 8 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -1345,13 +1345,13 @@ impl SkillBase for Detect {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 8 { Ok(8) } else {Err(())}
+        if status.sp() > 8 { Ok(8) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
-        if *status.state() > 0 {
+        if status.state() > 0 {
             // Falcon
-            if *status.state() & 8 > 0 { Ok(()) } else { Err(()) }
+            if status.state() & 8 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -1429,13 +1429,13 @@ impl SkillBase for SpringTrap {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
-        if *status.state() > 0 {
+        if status.state() > 0 {
             // Falcon
-            if *status.state() & 8 > 0 { Ok(()) } else { Err(()) }
+            if status.state() & 8 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -1503,7 +1503,7 @@ impl SkillBase for PhantasmicArrow {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_weapon(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
@@ -1590,7 +1590,7 @@ impl SkillBase for BeastStrafing {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 12 { Ok(12) } else {Err(())}
+        if status.sp() > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_ammo(&self, character_ammo: Option<(AmmoType, u32)>) -> SkillRequirementResult<u32> {

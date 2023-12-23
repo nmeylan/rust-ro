@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+
+[*] --> Idle
+Idle --> UseSkill : use skill
+Idle --> PerformanceSkill
+Idle --> Attacking : attack
+Idle --> Walking : move
+Idle --> Attacked
+Idle --> Frozen
+Idle --> Stun
+
+
+state UseSkill {
+    [*] --> Casting
+    state Casting {
+
+    state "Walking" as Walking2
+    state CanMoveWhileCasting <<choice>>
+    [*] --> CanMoveWhileCasting
+    CanMoveWhileCasting --> Walking2 :Can move\nwhile casting
+    Walking2 --> [*]
+    }
+}
+UseSkill --> Idle
+
+state PerformanceSkill {
+    [*] --> PlaySong
+    PlaySong --> [*]
+    ||
+    state "Walking" as Walking3
+    [*] --> Walking3 : move
+    ||
+    state "Attacking" as Attacking2
+    [*] --> Attacking2
+}
+PerformanceSkill --> Idle
+Attacking --> Idle
+Attacked --> Walking : move
+Walking --> Idle
+Attacked --> Idle
+Frozen --> Idle
+Frozen --> Attacked
+Stun --> Idle
+Stun --> Attacked
+Attacked --> Stun
+Attacked --> Dead
+Dead --> [*]
+@enduml

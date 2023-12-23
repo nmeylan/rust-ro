@@ -93,7 +93,7 @@ mod tests {
         let status: &StatusSnapshot = status_snapshot!(context, character);
         // When
         let aspd = status.aspd();
-        let client_side_aspd = context.status_service.client_aspd(*aspd);
+        let client_side_aspd = context.status_service.client_aspd(aspd);
         // Then
         assert_eq!(client_side_aspd, 648);
     }

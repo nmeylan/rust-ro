@@ -45,7 +45,6 @@ impl StatusService {
 
     pub fn to_snapshot(&self, status: &Status) -> StatusSnapshot {
         let mut snapshot = StatusSnapshot::from(status);
-        snapshot.set_atk_given_by_cards(self.atk_cards(&snapshot));
         snapshot.set_aspd(self.aspd(&snapshot));
         snapshot
     }
@@ -61,7 +60,7 @@ impl StatusService {
 
     #[inline]
     pub fn attack_motion(&self, status: &StatusSnapshot) -> u32 {
-        let aspd = *status.aspd();
+        let aspd = status.aspd();
         (1000.0 / self.attack_per_seconds(aspd)).round() as u32
     }
 
@@ -75,12 +74,12 @@ impl StatusService {
     fn aspd(&self, status: &StatusSnapshot) -> f32 {
         let weapon_delay = self.weapon_delay(status) as f32 / 10.0;
         let speed_modifier = 0_f32;
-        200.0 - (weapon_delay - ((((weapon_delay * (*status.agi() as f32)) / 25.0).floor() + ((weapon_delay * (*status.dex() as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
+        200.0 - (weapon_delay - ((((weapon_delay * (status.agi() as f32)) / 25.0).floor() + ((weapon_delay * (status.dex() as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
     }
 
     fn weapon_delay(&self, status: &StatusSnapshot) -> u32 {
         let weapon =  status.right_hand_weapon_type();
-        *self.configuration_service.get_job_config(*status.job()).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
+        *self.configuration_service.get_job_config(status.job()).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
     }
 
     /// PRE-RE https://irowiki.org/classic/Attacks
@@ -98,7 +97,7 @@ impl StatusService {
         let imposito_magnus = 0;
         let _upgrade_damage = 0;
         let _atk_cards = 0;
-        (self.fist_atk(status, status.right_hand_weapon_type().is_ranged()) + status.weapon_atk() + imposito_magnus + status.weapon_upgrade_damage() + status.atk_given_by_cards()) as i32
+        (self.fist_atk(status, status.right_hand_weapon_type().is_ranged()) + status.weapon_atk() + imposito_magnus + status.weapon_upgrade_damage() + status.base_atk()) as i32
     }
 
     pub(crate) fn fist_atk(&self, status: &StatusSnapshot, is_ranged: bool) -> u16 {
@@ -106,11 +105,11 @@ impl StatusService {
         let dex;
 
         if is_ranged {
-            str = *status.dex();
-            dex = *status.str();
+            str = status.dex();
+            dex = status.str();
         } else {
-            str = *status.str();
-            dex = *status.dex();
+            str = status.str();
+            dex = status.dex();
         }
         // For homunculus
         // dstr = str / 10;

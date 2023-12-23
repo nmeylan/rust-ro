@@ -220,7 +220,7 @@ impl SkillBase for Ruwach {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn is_self_skill(&self) -> bool {
@@ -295,7 +295,7 @@ impl SkillBase for Pneuma {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {
@@ -377,10 +377,10 @@ impl SkillBase for Teleport {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 10 { return Ok(10) } else {return Err(())}
+            if status.sp() >= 10 { return Ok(10) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 9 { return Ok(9) } else {return Err(())}
+            if status.sp() >= 9 { return Ok(9) } else {return Err(())}
         }
         Err(())
     }
@@ -470,16 +470,16 @@ impl SkillBase for WarpPortal {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 35 { return Ok(35) } else {return Err(())}
+            if status.sp() >= 35 { return Ok(35) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 32 { return Ok(32) } else {return Err(())}
+            if status.sp() >= 32 { return Ok(32) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 29 { return Ok(29) } else {return Err(())}
+            if status.sp() >= 29 { return Ok(29) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 26 { return Ok(26) } else {return Err(())}
+            if status.sp() >= 26 { return Ok(26) } else {return Err(())}
         }
         Err(())
     }
@@ -599,34 +599,34 @@ impl SkillBase for Heal {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 13 { return Ok(13) } else {return Err(())}
+            if status.sp() >= 13 { return Ok(13) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 16 { return Ok(16) } else {return Err(())}
+            if status.sp() >= 16 { return Ok(16) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 19 { return Ok(19) } else {return Err(())}
+            if status.sp() >= 19 { return Ok(19) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 22 { return Ok(22) } else {return Err(())}
+            if status.sp() >= 22 { return Ok(22) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 25 { return Ok(25) } else {return Err(())}
+            if status.sp() >= 25 { return Ok(25) } else {return Err(())}
         }
         if self.level == 6 {
-            if *status.sp() >= 28 { return Ok(28) } else {return Err(())}
+            if status.sp() >= 28 { return Ok(28) } else {return Err(())}
         }
         if self.level == 7 {
-            if *status.sp() >= 31 { return Ok(31) } else {return Err(())}
+            if status.sp() >= 31 { return Ok(31) } else {return Err(())}
         }
         if self.level == 8 {
-            if *status.sp() >= 34 { return Ok(34) } else {return Err(())}
+            if status.sp() >= 34 { return Ok(34) } else {return Err(())}
         }
         if self.level == 9 {
-            if *status.sp() >= 37 { return Ok(37) } else {return Err(())}
+            if status.sp() >= 37 { return Ok(37) } else {return Err(())}
         }
         if self.level == 10 {
-            if *status.sp() >= 40 { return Ok(40) } else {return Err(())}
+            if status.sp() >= 40 { return Ok(40) } else {return Err(())}
         }
         Err(())
     }
@@ -738,40 +738,40 @@ impl SkillBase for IncreaseAgi {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 18 { return Ok(18) } else {return Err(())}
+            if status.sp() >= 18 { return Ok(18) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 21 { return Ok(21) } else {return Err(())}
+            if status.sp() >= 21 { return Ok(21) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 24 { return Ok(24) } else {return Err(())}
+            if status.sp() >= 24 { return Ok(24) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 27 { return Ok(27) } else {return Err(())}
+            if status.sp() >= 27 { return Ok(27) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 30 { return Ok(30) } else {return Err(())}
+            if status.sp() >= 30 { return Ok(30) } else {return Err(())}
         }
         if self.level == 6 {
-            if *status.sp() >= 33 { return Ok(33) } else {return Err(())}
+            if status.sp() >= 33 { return Ok(33) } else {return Err(())}
         }
         if self.level == 7 {
-            if *status.sp() >= 36 { return Ok(36) } else {return Err(())}
+            if status.sp() >= 36 { return Ok(36) } else {return Err(())}
         }
         if self.level == 8 {
-            if *status.sp() >= 39 { return Ok(39) } else {return Err(())}
+            if status.sp() >= 39 { return Ok(39) } else {return Err(())}
         }
         if self.level == 9 {
-            if *status.sp() >= 42 { return Ok(42) } else {return Err(())}
+            if status.sp() >= 42 { return Ok(42) } else {return Err(())}
         }
         if self.level == 10 {
-            if *status.sp() >= 45 { return Ok(45) } else {return Err(())}
+            if status.sp() >= 45 { return Ok(45) } else {return Err(())}
         }
         Err(())
     }
     #[inline(always)]
     fn _validate_hp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.hp() > 15 { Ok(15) } else {Err(())}
+        if status.hp() > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -885,34 +885,34 @@ impl SkillBase for DecreaseAgi {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 15 { return Ok(15) } else {return Err(())}
+            if status.sp() >= 15 { return Ok(15) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 17 { return Ok(17) } else {return Err(())}
+            if status.sp() >= 17 { return Ok(17) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 19 { return Ok(19) } else {return Err(())}
+            if status.sp() >= 19 { return Ok(19) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 21 { return Ok(21) } else {return Err(())}
+            if status.sp() >= 21 { return Ok(21) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 23 { return Ok(23) } else {return Err(())}
+            if status.sp() >= 23 { return Ok(23) } else {return Err(())}
         }
         if self.level == 6 {
-            if *status.sp() >= 25 { return Ok(25) } else {return Err(())}
+            if status.sp() >= 25 { return Ok(25) } else {return Err(())}
         }
         if self.level == 7 {
-            if *status.sp() >= 27 { return Ok(27) } else {return Err(())}
+            if status.sp() >= 27 { return Ok(27) } else {return Err(())}
         }
         if self.level == 8 {
-            if *status.sp() >= 29 { return Ok(29) } else {return Err(())}
+            if status.sp() >= 29 { return Ok(29) } else {return Err(())}
         }
         if self.level == 9 {
-            if *status.sp() >= 31 { return Ok(31) } else {return Err(())}
+            if status.sp() >= 31 { return Ok(31) } else {return Err(())}
         }
         if self.level == 10 {
-            if *status.sp() >= 33 { return Ok(33) } else {return Err(())}
+            if status.sp() >= 33 { return Ok(33) } else {return Err(())}
         }
         Err(())
     }
@@ -1001,13 +1001,13 @@ impl SkillBase for AquaBenedicta {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
-        if *status.state() > 0 {
+        if status.state() > 0 {
             // Water
-            if *status.state() & 256 > 0 { Ok(()) } else { Err(()) }
+            if status.state() & 256 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -1093,7 +1093,7 @@ impl SkillBase for SignumCrucis {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 35 { Ok(35) } else {Err(())}
+        if status.sp() > 35 { Ok(35) } else {Err(())}
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -1207,34 +1207,34 @@ impl SkillBase for Angelus {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 23 { return Ok(23) } else {return Err(())}
+            if status.sp() >= 23 { return Ok(23) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 26 { return Ok(26) } else {return Err(())}
+            if status.sp() >= 26 { return Ok(26) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 29 { return Ok(29) } else {return Err(())}
+            if status.sp() >= 29 { return Ok(29) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 32 { return Ok(32) } else {return Err(())}
+            if status.sp() >= 32 { return Ok(32) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 35 { return Ok(35) } else {return Err(())}
+            if status.sp() >= 35 { return Ok(35) } else {return Err(())}
         }
         if self.level == 6 {
-            if *status.sp() >= 38 { return Ok(38) } else {return Err(())}
+            if status.sp() >= 38 { return Ok(38) } else {return Err(())}
         }
         if self.level == 7 {
-            if *status.sp() >= 41 { return Ok(41) } else {return Err(())}
+            if status.sp() >= 41 { return Ok(41) } else {return Err(())}
         }
         if self.level == 8 {
-            if *status.sp() >= 44 { return Ok(44) } else {return Err(())}
+            if status.sp() >= 44 { return Ok(44) } else {return Err(())}
         }
         if self.level == 9 {
-            if *status.sp() >= 47 { return Ok(47) } else {return Err(())}
+            if status.sp() >= 47 { return Ok(47) } else {return Err(())}
         }
         if self.level == 10 {
-            if *status.sp() >= 50 { return Ok(50) } else {return Err(())}
+            if status.sp() >= 50 { return Ok(50) } else {return Err(())}
         }
         Err(())
     }
@@ -1350,34 +1350,34 @@ impl SkillBase for Blessing {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 28 { return Ok(28) } else {return Err(())}
+            if status.sp() >= 28 { return Ok(28) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 32 { return Ok(32) } else {return Err(())}
+            if status.sp() >= 32 { return Ok(32) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 36 { return Ok(36) } else {return Err(())}
+            if status.sp() >= 36 { return Ok(36) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 40 { return Ok(40) } else {return Err(())}
+            if status.sp() >= 40 { return Ok(40) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 44 { return Ok(44) } else {return Err(())}
+            if status.sp() >= 44 { return Ok(44) } else {return Err(())}
         }
         if self.level == 6 {
-            if *status.sp() >= 48 { return Ok(48) } else {return Err(())}
+            if status.sp() >= 48 { return Ok(48) } else {return Err(())}
         }
         if self.level == 7 {
-            if *status.sp() >= 52 { return Ok(52) } else {return Err(())}
+            if status.sp() >= 52 { return Ok(52) } else {return Err(())}
         }
         if self.level == 8 {
-            if *status.sp() >= 56 { return Ok(56) } else {return Err(())}
+            if status.sp() >= 56 { return Ok(56) } else {return Err(())}
         }
         if self.level == 9 {
-            if *status.sp() >= 60 { return Ok(60) } else {return Err(())}
+            if status.sp() >= 60 { return Ok(60) } else {return Err(())}
         }
         if self.level == 10 {
-            if *status.sp() >= 64 { return Ok(64) } else {return Err(())}
+            if status.sp() >= 64 { return Ok(64) } else {return Err(())}
         }
         Err(())
     }
@@ -1454,7 +1454,7 @@ impl SkillBase for Cure {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 15 { Ok(15) } else {Err(())}
+        if status.sp() > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
@@ -1533,7 +1533,7 @@ impl SkillBase for HolyLight {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 15 { Ok(15) } else {Err(())}
+        if status.sp() > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {

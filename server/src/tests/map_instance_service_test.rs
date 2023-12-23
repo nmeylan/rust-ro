@@ -162,7 +162,7 @@ mod tests {
         let mob_item_id = 82322;
         let map_instance_tasks_queue = Arc::new(<TasksQueue<MapEvent>>::new());
         let mob = create_mob(mob_item_id, "PORING");
-        let max_hp = mob.status.max_hp;
+        let max_hp = mob.status.max_hp();
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
@@ -179,7 +179,7 @@ mod tests {
         let mob_item_id = 82322;
         let map_instance_tasks_queue = Arc::new(<TasksQueue<MapEvent>>::new());
         let mob = create_mob(mob_item_id, "PORING");
-        let max_hp = mob.status.max_hp;
+        let max_hp = mob.status.max_hp();
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
@@ -197,7 +197,7 @@ mod tests {
         let map_instance_tasks_queue = Arc::new(<TasksQueue<MapEvent>>::new());
         let mob = create_mob(mob_item_id, "PORING");
         let original_mob = mob.clone();
-        let max_hp = mob.status.max_hp;
+        let max_hp = mob.status.max_hp();
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When

@@ -218,7 +218,7 @@ impl CharacterService {
     }
 
     pub fn get_job_level_max(&self, character: &mut Character) -> u32 {
-        *self.configuration_service.get_job_config(character.status.job).job_level().max_job_level() as u32
+        self.configuration_service.get_job_config(character.status.job).job_level().max_job_level() as u32
     }
 
     pub fn update_job_level(&self, character: &mut Character, maybe_new_base_level: Option<u32>, maybe_level_delta: Option<i32>) -> i32 {
@@ -677,15 +677,15 @@ impl CharacterService {
 
         let mut packet_hit = PacketZcParChange::new(self.configuration_service.packetver());
         packet_hit.set_var_id(StatusTypes::Hit.value() as u16);
-        packet_hit.set_count(character.status.hit as i32);
+        packet_hit.set_count(character_status.hit() as i32);
         packet_hit.fill_raw();
         let mut packet_flee = PacketZcParChange::new(self.configuration_service.packetver());
         packet_flee.set_var_id(StatusTypes::Flee1.value() as u16);
-        packet_flee.set_count(character.status.flee as i32);
+        packet_flee.set_count(character_status.flee() as i32);
         packet_flee.fill_raw();
         let mut packet_aspd = PacketZcParChange::new(self.configuration_service.packetver());
         packet_aspd.set_var_id(StatusTypes::Aspd.value() as u16);
-        let aspd = *character_status.aspd();
+        let aspd = character_status.aspd();
         packet_aspd.set_count(StatusService::instance().client_aspd(aspd));
         packet_aspd.fill_raw();
         let mut packet_atk = PacketZcParChange::new(self.configuration_service.packetver());
@@ -698,27 +698,27 @@ impl CharacterService {
         packet_atk2.fill_raw();
         let mut packet_def = PacketZcParChange::new(self.configuration_service.packetver());
         packet_def.set_var_id(StatusTypes::Def1.value() as u16);
-        packet_def.set_count(character.status.def as i32);
+        packet_def.set_count(character_status.def() as i32);
         packet_def.fill_raw();
         let mut packet_flee2 = PacketZcParChange::new(self.configuration_service.packetver());
         packet_flee2.set_var_id(StatusTypes::Flee2.value() as u16);
-        packet_flee2.set_count(character.status.flee as i32);
+        packet_flee2.set_count(character_status.flee() as i32);
         packet_flee2.fill_raw();
         let mut packet_crit = PacketZcParChange::new(self.configuration_service.packetver());
         packet_crit.set_var_id(StatusTypes::Critical.value() as u16);
-        packet_crit.set_count(character.status.crit as i32);
+        packet_crit.set_count(character_status.crit() as i32);
         packet_crit.fill_raw();
         let mut packet_matk = PacketZcParChange::new(self.configuration_service.packetver());
         packet_matk.set_var_id(StatusTypes::Matk1.value() as u16);
-        packet_matk.set_count(character.status.matk_min as i32);
+        packet_matk.set_count(character_status.matk_min() as i32);
         packet_matk.fill_raw();
         let mut packet_matk2 = PacketZcParChange::new(self.configuration_service.packetver());
         packet_matk2.set_var_id(StatusTypes::Matk2.value() as u16);
-        packet_matk2.set_count(character.status.matk_max as i32);
+        packet_matk2.set_count(character_status.matk_max() as i32);
         packet_matk2.fill_raw();
         let mut packet_mdef2 = PacketZcParChange::new(self.configuration_service.packetver());
         packet_mdef2.set_var_id(StatusTypes::Mdef2.value() as u16);
-        packet_mdef2.set_count(character.status.mdef as i32);
+        packet_mdef2.set_count(character_status.mdef() as i32);
         packet_mdef2.fill_raw();
         let mut packet_attack_range = PacketZcAttackRange::new(self.configuration_service.packetver());
         packet_attack_range.set_current_att_range(1);
@@ -813,9 +813,9 @@ impl CharacterService {
                     if matches!(map_item.object_type(), MapItemType::Mob) {
                         if let Some(mob) = map_instance_state.get_mob(map_item.id()) {
                             packet_zc_notify_standentry.set_clevel(3);
-                            packet_zc_notify_standentry.set_speed(mob.status.speed as i16);
-                            packet_zc_notify_standentry.set_hp(mob.status.hp);
-                            packet_zc_notify_standentry.set_max_hp(mob.status.max_hp);
+                            packet_zc_notify_standentry.set_speed(mob.status.speed() as i16);
+                            packet_zc_notify_standentry.set_hp(mob.status.hp());
+                            packet_zc_notify_standentry.set_max_hp(mob.status.max_hp());
                         }
                     }
                     packet_zc_notify_standentry.fill_raw_with_packetver(Some(self.configuration_service.packetver()));

@@ -149,7 +149,7 @@ impl SkillBase for CastCancel {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 2 { Ok(2) } else {Err(())}
+        if status.sp() > 2 { Ok(2) } else {Err(())}
     }
     #[inline(always)]
     fn is_self_skill(&self) -> bool {
@@ -224,7 +224,7 @@ impl SkillBase for MagicRod {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 2 { Ok(2) } else {Err(())}
+        if status.sp() > 2 { Ok(2) } else {Err(())}
     }
     #[inline(always)]
     fn is_self_skill(&self) -> bool {
@@ -299,7 +299,7 @@ impl SkillBase for SpellBreaker {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -453,7 +453,7 @@ impl SkillBase for Hindsight {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 35 { Ok(35) } else {Err(())}
+        if status.sp() > 35 { Ok(35) } else {Err(())}
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
@@ -532,7 +532,7 @@ impl SkillBase for EndowBlaze {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 40 { Ok(40) } else {Err(())}
+        if status.sp() > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -619,7 +619,7 @@ impl SkillBase for EndowTsunami {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 40 { Ok(40) } else {Err(())}
+        if status.sp() > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -706,7 +706,7 @@ impl SkillBase for EndowTornado {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 40 { Ok(40) } else {Err(())}
+        if status.sp() > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -793,7 +793,7 @@ impl SkillBase for EndowQuake {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 40 { Ok(40) } else {Err(())}
+        if status.sp() > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -967,19 +967,19 @@ impl SkillBase for Volcano {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 48 { return Ok(48) } else {return Err(())}
+            if status.sp() >= 48 { return Ok(48) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 46 { return Ok(46) } else {return Err(())}
+            if status.sp() >= 46 { return Ok(46) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 44 { return Ok(44) } else {return Err(())}
+            if status.sp() >= 44 { return Ok(44) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 42 { return Ok(42) } else {return Err(())}
+            if status.sp() >= 42 { return Ok(42) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 40 { return Ok(40) } else {return Err(())}
+            if status.sp() >= 40 { return Ok(40) } else {return Err(())}
         }
         Err(())
     }
@@ -1084,19 +1084,19 @@ impl SkillBase for Deluge {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 48 { return Ok(48) } else {return Err(())}
+            if status.sp() >= 48 { return Ok(48) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 46 { return Ok(46) } else {return Err(())}
+            if status.sp() >= 46 { return Ok(46) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 44 { return Ok(44) } else {return Err(())}
+            if status.sp() >= 44 { return Ok(44) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 42 { return Ok(42) } else {return Err(())}
+            if status.sp() >= 42 { return Ok(42) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 40 { return Ok(40) } else {return Err(())}
+            if status.sp() >= 40 { return Ok(40) } else {return Err(())}
         }
         Err(())
     }
@@ -1201,19 +1201,19 @@ impl SkillBase for Whirlwind {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 48 { return Ok(48) } else {return Err(())}
+            if status.sp() >= 48 { return Ok(48) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 46 { return Ok(46) } else {return Err(())}
+            if status.sp() >= 46 { return Ok(46) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 44 { return Ok(44) } else {return Err(())}
+            if status.sp() >= 44 { return Ok(44) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 42 { return Ok(42) } else {return Err(())}
+            if status.sp() >= 42 { return Ok(42) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 40 { return Ok(40) } else {return Err(())}
+            if status.sp() >= 40 { return Ok(40) } else {return Err(())}
         }
         Err(())
     }
@@ -1318,19 +1318,19 @@ impl SkillBase for MagneticEarth {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 66 { return Ok(66) } else {return Err(())}
+            if status.sp() >= 66 { return Ok(66) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 62 { return Ok(62) } else {return Err(())}
+            if status.sp() >= 62 { return Ok(62) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 58 { return Ok(58) } else {return Err(())}
+            if status.sp() >= 58 { return Ok(58) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 54 { return Ok(54) } else {return Err(())}
+            if status.sp() >= 54 { return Ok(54) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 50 { return Ok(50) } else {return Err(())}
+            if status.sp() >= 50 { return Ok(50) } else {return Err(())}
         }
         Err(())
     }
@@ -1422,7 +1422,7 @@ impl SkillBase for Dispell {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 1 { Ok(1) } else {Err(())}
+        if status.sp() > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -1513,7 +1513,7 @@ impl SkillBase for Hocuspocus {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 50 { Ok(50) } else {Err(())}
+        if status.sp() > 50 { Ok(50) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -1596,7 +1596,7 @@ impl SkillBase for CreateElementalConverter {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 30 { Ok(30) } else {Err(())}
+        if status.sp() > 30 { Ok(30) } else {Err(())}
     }
     #[inline(always)]
     fn is_self_skill(&self) -> bool {
@@ -1671,7 +1671,7 @@ impl SkillBase for ElementalChangeWater {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 30 { Ok(30) } else {Err(())}
+        if status.sp() > 30 { Ok(30) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -1766,7 +1766,7 @@ impl SkillBase for ElementalChangeEarth {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 30 { Ok(30) } else {Err(())}
+        if status.sp() > 30 { Ok(30) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -1861,7 +1861,7 @@ impl SkillBase for ElementalChangeFire {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 30 { Ok(30) } else {Err(())}
+        if status.sp() > 30 { Ok(30) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
@@ -1956,7 +1956,7 @@ impl SkillBase for ElementalChangeWind {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 30 { Ok(30) } else {Err(())}
+        if status.sp() > 30 { Ok(30) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {

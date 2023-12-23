@@ -259,6 +259,22 @@ pub enum StatusTypes {
     Statenorecoverrace,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum StatusEffect {
+    Poison,
+    Stun,
+    Freeze,
+    Curse,
+    Blind,
+    Sleep,
+    Silence,
+    Chaos,
+    Bleeding,
+    Stone,
+    WeaponBreak,
+    ArmorBreak,
+}
+
 impl StatusTypes {
     pub fn to_column(&self) -> Option<&str> {
         match self {

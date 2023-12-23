@@ -33,7 +33,7 @@ impl MobService {
     }
 
     pub fn action_move(&self, mob: &mut Mob, cells: &[u16], x_size: u16, y_size: u16, start_at: u128) -> Option<MobMovement> {
-        if mob.is_moving() || mob.status.speed == 1000 {
+        if mob.is_moving() || mob.status.speed() == 1000 {
             return None;
         }
         let mut rng = fastrand::Rng::new();

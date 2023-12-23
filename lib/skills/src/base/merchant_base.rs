@@ -362,7 +362,7 @@ impl SkillBase for ItemAppraisal {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn is_self_skill(&self) -> bool {
@@ -437,13 +437,13 @@ impl SkillBase for Vending {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 30 { Ok(30) } else {Err(())}
+        if status.sp() > 30 { Ok(30) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
-        if *status.state() > 0 {
+        if status.state() > 0 {
             // Cart
-            if *status.state() & 16 > 0 { Ok(()) } else { Err(()) }
+            if status.state() & 16 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -521,39 +521,39 @@ impl SkillBase for Mammonite {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 5 { Ok(5) } else {Err(())}
+        if status.sp() > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_zeny(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.zeny() >= 100 { return Ok(100) } else {return Err(())}
+            if status.zeny() >= 100 { return Ok(100) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.zeny() >= 200 { return Ok(200) } else {return Err(())}
+            if status.zeny() >= 200 { return Ok(200) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.zeny() >= 300 { return Ok(300) } else {return Err(())}
+            if status.zeny() >= 300 { return Ok(300) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.zeny() >= 400 { return Ok(400) } else {return Err(())}
+            if status.zeny() >= 400 { return Ok(400) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.zeny() >= 500 { return Ok(500) } else {return Err(())}
+            if status.zeny() >= 500 { return Ok(500) } else {return Err(())}
         }
         if self.level == 6 {
-            if *status.zeny() >= 600 { return Ok(600) } else {return Err(())}
+            if status.zeny() >= 600 { return Ok(600) } else {return Err(())}
         }
         if self.level == 7 {
-            if *status.zeny() >= 700 { return Ok(700) } else {return Err(())}
+            if status.zeny() >= 700 { return Ok(700) } else {return Err(())}
         }
         if self.level == 8 {
-            if *status.zeny() >= 800 { return Ok(800) } else {return Err(())}
+            if status.zeny() >= 800 { return Ok(800) } else {return Err(())}
         }
         if self.level == 9 {
-            if *status.zeny() >= 900 { return Ok(900) } else {return Err(())}
+            if status.zeny() >= 900 { return Ok(900) } else {return Err(())}
         }
         if self.level == 10 {
-            if *status.zeny() >= 1000 { return Ok(1000) } else {return Err(())}
+            if status.zeny() >= 1000 { return Ok(1000) } else {return Err(())}
         }
         Err(())
     }
@@ -668,13 +668,13 @@ impl SkillBase for CartRevolution {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 12 { Ok(12) } else {Err(())}
+        if status.sp() > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
-        if *status.state() > 0 {
+        if status.state() > 0 {
             // Cart
-            if *status.state() & 16 > 0 { Ok(()) } else { Err(()) }
+            if status.state() & 16 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -760,13 +760,13 @@ impl SkillBase for ChangeCart {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 40 { Ok(40) } else {Err(())}
+        if status.sp() > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
-        if *status.state() > 0 {
+        if status.state() > 0 {
             // Cart
-            if *status.state() & 16 > 0 { Ok(()) } else { Err(()) }
+            if status.state() & 16 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -844,7 +844,7 @@ impl SkillBase for CrazyUproar {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 8 { Ok(8) } else {Err(())}
+        if status.sp() > 8 { Ok(8) } else {Err(())}
     }
     #[inline(always)]
     fn is_self_skill(&self) -> bool {
@@ -919,13 +919,13 @@ impl SkillBase for DecorateCart {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 40 { Ok(40) } else {Err(())}
+        if status.sp() > 40 { Ok(40) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
-        if *status.state() > 0 {
+        if status.state() > 0 {
             // Cart
-            if *status.state() & 16 > 0 { Ok(()) } else { Err(()) }
+            if status.state() & 16 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }

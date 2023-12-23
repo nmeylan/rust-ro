@@ -89,7 +89,7 @@ impl MapInstanceLoop {
                     let mut map_instance_state = map_instance.state_mut();
                     let mobs = map_instance_state.mobs_mut();
                     for mob in mobs.values_mut().filter(|mob| mob.is_moving()) {
-                        let speed = mob.status.speed;
+                        let speed = mob.status.speed();
                         if let Some(movement) = mob.peek_movement() {
                             let mob_model = GlobalConfigService::instance().get_mob(mob.mob_id as i32);
                             if tick >= movement.move_at() {

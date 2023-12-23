@@ -94,27 +94,27 @@ impl SkillBase for RagingPalmStrike {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 2 { return Ok(2) } else {return Err(())}
+            if status.sp() >= 2 { return Ok(2) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 4 { return Ok(4) } else {return Err(())}
+            if status.sp() >= 4 { return Ok(4) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 6 { return Ok(6) } else {return Err(())}
+            if status.sp() >= 6 { return Ok(6) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 8 { return Ok(8) } else {return Err(())}
+            if status.sp() >= 8 { return Ok(8) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 10 { return Ok(10) } else {return Err(())}
+            if status.sp() >= 10 { return Ok(10) } else {return Err(())}
         }
         Err(())
     }
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
-        if *status.state() > 0 {
+        if status.state() > 0 {
             // ExplosionSpirits
-            if *status.state() & 8388608 > 0 { Ok(()) } else { Err(()) }
+            if status.state() & 8388608 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -235,19 +235,19 @@ impl SkillBase for GlacierFist {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 4 { return Ok(4) } else {return Err(())}
+            if status.sp() >= 4 { return Ok(4) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 6 { return Ok(6) } else {return Err(())}
+            if status.sp() >= 6 { return Ok(6) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 8 { return Ok(8) } else {return Err(())}
+            if status.sp() >= 8 { return Ok(8) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 10 { return Ok(10) } else {return Err(())}
+            if status.sp() >= 10 { return Ok(10) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 12 { return Ok(12) } else {return Err(())}
+            if status.sp() >= 12 { return Ok(12) } else {return Err(())}
         }
         Err(())
     }
@@ -355,34 +355,34 @@ impl SkillBase for ChainCrushCombo {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if self.level == 1 {
-            if *status.sp() >= 4 { return Ok(4) } else {return Err(())}
+            if status.sp() >= 4 { return Ok(4) } else {return Err(())}
         }
         if self.level == 2 {
-            if *status.sp() >= 6 { return Ok(6) } else {return Err(())}
+            if status.sp() >= 6 { return Ok(6) } else {return Err(())}
         }
         if self.level == 3 {
-            if *status.sp() >= 8 { return Ok(8) } else {return Err(())}
+            if status.sp() >= 8 { return Ok(8) } else {return Err(())}
         }
         if self.level == 4 {
-            if *status.sp() >= 10 { return Ok(10) } else {return Err(())}
+            if status.sp() >= 10 { return Ok(10) } else {return Err(())}
         }
         if self.level == 5 {
-            if *status.sp() >= 12 { return Ok(12) } else {return Err(())}
+            if status.sp() >= 12 { return Ok(12) } else {return Err(())}
         }
         if self.level == 6 {
-            if *status.sp() >= 14 { return Ok(14) } else {return Err(())}
+            if status.sp() >= 14 { return Ok(14) } else {return Err(())}
         }
         if self.level == 7 {
-            if *status.sp() >= 16 { return Ok(16) } else {return Err(())}
+            if status.sp() >= 16 { return Ok(16) } else {return Err(())}
         }
         if self.level == 8 {
-            if *status.sp() >= 18 { return Ok(18) } else {return Err(())}
+            if status.sp() >= 18 { return Ok(18) } else {return Err(())}
         }
         if self.level == 9 {
-            if *status.sp() >= 20 { return Ok(20) } else {return Err(())}
+            if status.sp() >= 20 { return Ok(20) } else {return Err(())}
         }
         if self.level == 10 {
-            if *status.sp() >= 22 { return Ok(22) } else {return Err(())}
+            if status.sp() >= 22 { return Ok(22) } else {return Err(())}
         }
         Err(())
     }
@@ -537,7 +537,7 @@ impl SkillBase for Zen {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 20 { Ok(20) } else {Err(())}
+        if status.sp() > 20 { Ok(20) } else {Err(())}
     }
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {

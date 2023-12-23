@@ -220,7 +220,7 @@ impl SkillBase for Steal {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -299,7 +299,7 @@ impl SkillBase for Hiding {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn is_self_skill(&self) -> bool {
@@ -374,7 +374,7 @@ impl SkillBase for Envenom {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 12 { Ok(12) } else {Err(())}
+        if status.sp() > 12 { Ok(12) } else {Err(())}
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -457,7 +457,7 @@ impl SkillBase for Detoxify {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 10 { Ok(10) } else {Err(())}
+        if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
@@ -532,7 +532,7 @@ impl SkillBase for SandAttack {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 9 { Ok(9) } else {Err(())}
+        if status.sp() > 9 { Ok(9) } else {Err(())}
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -615,7 +615,7 @@ impl SkillBase for BackSlide {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 7 { Ok(7) } else {Err(())}
+        if status.sp() > 7 { Ok(7) } else {Err(())}
     }
     #[inline(always)]
     fn is_self_skill(&self) -> bool {
@@ -690,13 +690,13 @@ impl SkillBase for FindStone {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 3 { Ok(3) } else {Err(())}
+        if status.sp() > 3 { Ok(3) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_state(&self, status: &StatusSnapshot) -> SkillRequirementResult<()> {
-        if *status.state() > 0 {
+        if status.state() > 0 {
             // RecoverWeightRate
-            if *status.state() & 64 > 0 { Ok(()) } else { Err(()) }
+            if status.state() & 64 > 0 { Ok(()) } else { Err(()) }
         } else {
             Err(())
         }
@@ -778,7 +778,7 @@ impl SkillBase for StoneFling {
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
-        if *status.sp() > 2 { Ok(2) } else {Err(())}
+        if status.sp() > 2 { Ok(2) } else {Err(())}
     }
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
