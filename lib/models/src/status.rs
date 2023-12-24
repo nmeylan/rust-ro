@@ -289,6 +289,10 @@ impl Status {
             .as_ref() { equipments.push(ammo as &dyn Wearable) }
         equipments
     }
+
+    pub fn attack_range(&self) -> u8 {
+        self.right_hand_weapon().map(|w| w.range).unwrap_or(1_u8)
+    }
 }
 
 #[derive(SettersAll, Debug, Clone, Copy, Default)]

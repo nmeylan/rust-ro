@@ -244,7 +244,7 @@ impl InventoryService {
 
     fn packet_attack_range(&self, character: &mut Character) -> PacketZcAttackRange {
         let mut packet_zc_attack_range = PacketZcAttackRange::new(self.configuration_service.packetver());
-        packet_zc_attack_range.set_current_att_range(character.status.right_hand_weapon().map(|w| w.range).unwrap_or(1_u8) as i16);
+        packet_zc_attack_range.set_current_att_range(character.status.attack_range() as i16);
         packet_zc_attack_range.fill_raw();
         packet_zc_attack_range
     }

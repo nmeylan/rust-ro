@@ -3,7 +3,6 @@ use crate::repository::model::mob_model::MobModel;
 use configuration::configuration::GameConfig;
 use enums::size::Size;
 use enums::EnumWithStringValue;
-use enums::weapon::WeaponType;
 use models::status::{KnownSkill, Look, Status, StatusSnapshot};
 
 pub struct StatusFromDb;
