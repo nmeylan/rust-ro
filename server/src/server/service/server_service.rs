@@ -119,11 +119,7 @@ impl ServerService {
 
         let map_item = server_state.map_item(character.attack().target, character.current_map_name(), character.current_map_instance());
         if let Some(map_item) = map_item {
-            let range = if let Some(weapon) = character.status.right_hand_weapon() {
-                self.configuration_service.get_item(weapon.item_id).range.unwrap_or(1) as u16
-            } else {
-                1
-            };
+            let range = character.status.attack_range();
             let target_position = server_state.map_item_x_y(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
             let is_in_range = range as i16 >= manhattan_distance(character.x, character.y, target_position.x, target_position.y) as i16 - 1;
             let maybe_map_instance = server_state.get_map_instance(character.current_map_name(), character.current_map_instance());

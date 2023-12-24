@@ -233,6 +233,9 @@ impl Server {
                             character.clear_attack();
                         }
                         let speed = character.status.speed;
+                        if character_movement.path.last().is_none(){
+                            continue;
+                        }
                         let new_movement = character_movement.path.last().unwrap();
                         let mut packet_zc_notify_playermove = PacketZcNotifyPlayermove::new(GlobalConfigService::instance().packetver());
 

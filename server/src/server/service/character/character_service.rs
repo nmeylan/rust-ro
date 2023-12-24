@@ -721,7 +721,7 @@ impl CharacterService {
         packet_mdef2.set_count(character_status.mdef() as i32);
         packet_mdef2.fill_raw();
         let mut packet_attack_range = PacketZcAttackRange::new(self.configuration_service.packetver());
-        packet_attack_range.set_current_att_range(1);
+        packet_attack_range.set_current_att_range(character.status.attack_range() as i16);
         packet_attack_range.fill_raw();
         let mut packet_maxhp = PacketZcParChange::new(self.configuration_service.packetver());
         packet_maxhp.set_var_id(StatusTypes::Maxhp.value() as u16);

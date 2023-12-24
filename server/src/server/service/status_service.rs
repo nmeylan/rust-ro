@@ -32,10 +32,6 @@ impl StatusService {
         snapshot
     }
 
-    pub fn to_snapshot_mob(&self, status: &Status) -> StatusSnapshot {
-        let mut snapshot = StatusSnapshot::from(status);
-        snapshot
-    }
     #[inline]
     pub fn attack_per_seconds(&self, aspd: f32) -> f32 {
         50_f32 / (200_f32 - aspd.min(199.0))
