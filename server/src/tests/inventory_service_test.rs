@@ -53,7 +53,7 @@ mod tests {
     use tokio::runtime::Runtime;
     use enums::class::JobName;
     use enums::item::EquipmentLocation;
-    use packets::packets::{PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2, PacketZcItemThrowAck, PacketZcEquipArrow};
+    use packets::packets::{PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2, PacketZcItemThrowAck, PacketZcEquipArrow, PacketZcAttackRange};
     use packets::packets::PacketZcReqWearEquipAck2;
     use crate::enums::EnumWithNumberValue;
     use crate::enums::EnumWithMaskValueU64;
@@ -208,13 +208,15 @@ mod tests {
     #[test]
     fn test_reload_inventory_should_trigger_update_weight() {
         // Given
-        let context = before_each(mocked_repository());
+        let context = before_each_with_latch(mocked_repository(), 1);
         let mut character = create_character();
         let runtime = Runtime::new().unwrap();
         // When
         context.inventory_service.reload_inventory(&runtime, character.char_id, &mut character);
         // Then
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateWeight(character.char_id), 0);
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcAttackRange::packet_id(GlobalConfigService::instance().packetver()))]));
     }
 
     #[test]
@@ -325,6 +327,7 @@ mod tests {
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, item.location as i32);
         assert_ne!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcAttackRange::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
     }
 
@@ -532,7 +535,7 @@ mod tests {
     #[test]
     fn test_takeoff_equip_item_should_trigger_stat_calculation() {
         // Given
-        let context = before_each(mocked_repository());
+        let context = before_each_with_latch(mocked_repository(), 2);
         let mut character = create_character();
         let char_id = character.char_id;
         let knife_index = equip_item_from_name(&mut character, "Knife");
@@ -540,6 +543,8 @@ mod tests {
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
         // Then
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateClientSideStats(char_id), 0);
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcAttackRange::packet_id(GlobalConfigService::instance().packetver()))]));
     }
 
     #[test]

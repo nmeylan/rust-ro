@@ -8,7 +8,7 @@ use enums::item::{EquipmentLocation, ItemType};
 use enums::look::LookType;
 use models::item::{Wearable};
 use crate::enums::EnumWithNumberValue;
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::repository::{InventoryRepository};
 
@@ -235,16 +235,24 @@ impl InventoryService {
         packet_zc_normal_itemlist3.set_packet_length((PacketZcNormalItemlist3::base_len(self.configuration_service.packetver()) + normal_items.len() * NormalitemExtrainfo3::base_len(self.configuration_service.packetver())) as i16);
         packet_zc_normal_itemlist3.set_item_info(normal_items);
         packet_zc_normal_itemlist3.fill_raw();
+        let packet_zc_attack_range = self.packet_attack_range(character);
         self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
-                                                                                      chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3, &packet_zc_equip_arrow]))))
+                                                                                      chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3, &packet_zc_equip_arrow, &packet_zc_attack_range]))))
             .expect("Fail to send client notification");
+    }
+
+    fn packet_attack_range(&self, character: &mut Character) -> PacketZcAttackRange {
+        let mut packet_zc_attack_range = PacketZcAttackRange::new(self.configuration_service.packetver());
+        packet_zc_attack_range.set_current_att_range(character.status.right_hand_weapon().map(|w| w.range).unwrap_or(1_u8) as i16);
+        packet_zc_attack_range.fill_raw();
+        packet_zc_attack_range
     }
 
     pub fn reload_equipped_item_sprites(&self, character: &Character) {
         let mut packets: Vec<u8> = vec![];
         character.status.equipped_gears().iter().for_each(|item| {
-            if let Some(packet) = self.sprite_change_packet_for_item(character, item) {
+            if let Some(packet) = self.sprite_change_packet_for_item(character, item, false) {
                 packets.extend(packet);
             }
         });
@@ -256,7 +264,7 @@ impl InventoryService {
         })).expect("Fail to send client notification");
     }
 
-    pub fn sprite_change_packet_for_item(&self, character: &Character, item: &dyn Wearable) -> Option<Vec<u8>> {
+    pub fn sprite_change_packet_for_item(&self, character: &Character, item: &dyn Wearable, is_takeoff: bool) -> Option<Vec<u8>> {
         let mut packet_zc_sprite_change = PacketZcSpriteChange2::new(self.configuration_service.packetver());
         packet_zc_sprite_change.set_gid(character.char_id);
         let item_info = self.configuration_service.get_item(item.item_id());
@@ -264,23 +272,26 @@ impl InventoryService {
             packet_zc_sprite_change.set_atype(LookType::Weapon.value() as u8);
             packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id()) as u16);
         }
-        if item.location() & EquipmentLocation::HandLeft.as_flag() > 0 {
+        else if item.location() & EquipmentLocation::HandLeft.as_flag() > 0 {
             packet_zc_sprite_change.set_atype(LookType::Shield.value() as u8);
             packet_zc_sprite_change.set_value2(item_info.view.unwrap_or(item.item_id()) as u16);
         }
-        if item.location() & EquipmentLocation::HeadTop.as_flag() > 0 {
+        else if item.location() & EquipmentLocation::HeadTop.as_flag() > 0 {
             packet_zc_sprite_change.set_atype(LookType::HeadTop.value() as u8);
             packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id()) as u16);
         }
-        if item.location() & EquipmentLocation::HeadMid.as_flag() > 0 {
+        else if item.location() & EquipmentLocation::HeadMid.as_flag() > 0 {
             packet_zc_sprite_change.set_atype(LookType::HeadMid.value() as u8);
             packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id()) as u16);
         }
-        if item.location() & EquipmentLocation::HeadLow.as_flag() > 0 {
+        else if item.location() & EquipmentLocation::HeadLow.as_flag() > 0 {
             packet_zc_sprite_change.set_atype(LookType::HeadBottom.value() as u8);
             packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id()) as u16);
         }
-        if packet_zc_sprite_change.atype != 0 {
+        if is_takeoff {
+            packet_zc_sprite_change.set_value(0_u16);
+        }
+         if packet_zc_sprite_change.atype != 0 {
             packet_zc_sprite_change.fill_raw();
             return Some(packet_zc_sprite_change.raw);
         }
@@ -376,6 +387,10 @@ impl InventoryService {
                 packet_zc_req_wear_equip_ack.fill_raw();
                 packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
             }
+            if matches!(item_to_equip_model.item_type, ItemType::Weapon) {
+                let packet_zc_attack_range = self.packet_attack_range(character);
+                packets_raws_by_value.extend(packet_zc_attack_range.raw);
+            }
         } else {
             packet_zc_req_wear_equip_ack.fill_raw();
             packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
@@ -400,14 +415,21 @@ impl InventoryService {
         let mut packet_zc_req_takeoff_equip_ack2 = PacketZcReqTakeoffEquipAck2::new(self.configuration_service.packetver());
         packet_zc_req_takeoff_equip_ack2.set_index(index as u16);
         let takeoff_equipement = character.takeoff_equip_item(index);
+        let mut packets_raws_by_value = vec![];
         if let Some(takeoff_equipement) = takeoff_equipement.as_ref() {
             packet_zc_req_takeoff_equip_ack2.set_wear_location(takeoff_equipement.location() as u16);
             packet_zc_req_takeoff_equip_ack2.set_result(0);
+
+            if takeoff_equipement.location & EquipmentLocation::HandRight.as_flag() > 0 || takeoff_equipement.location & EquipmentLocation::HandLeft.as_flag() > 0 {
+                let packet_zc_attack_range = self.packet_attack_range(character);
+                packets_raws_by_value.extend(packet_zc_attack_range.raw);
+            }
         } else {
             packet_zc_req_takeoff_equip_ack2.set_result(1);
         }
         packet_zc_req_takeoff_equip_ack2.fill_raw();
-        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_req_takeoff_equip_ack2.raw)))
+        packets_raws_by_value.extend(packet_zc_req_takeoff_equip_ack2.raw);
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
             .expect("Fail to send client notification");
         self.persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
             .expect("Fail to send persistence event");

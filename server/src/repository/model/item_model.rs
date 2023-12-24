@@ -278,6 +278,7 @@ impl ItemModel {
             card2: inventory_model.card2,
             card3: inventory_model.card3,
             inventory_index,
+            range: self.range.unwrap_or(1) as u8,
         }
     }
 

@@ -54,6 +54,7 @@ pub struct WearWeapon {
     pub card2: i16,
     pub card3: i16,
     pub inventory_index: usize,
+    pub range: u8,
 }
 
 impl WearWeapon {

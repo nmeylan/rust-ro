@@ -119,14 +119,14 @@ impl Server {
                             let character = server_state_mut.characters_mut().get_mut(&character_equip_item.char_id).unwrap();
                             let equipped_item = InventoryService::instance().equip_item(character, character_equip_item);
                             equipped_item
-                                .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, &item)
+                                .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, &item, false)
                                     .map(|packet| CharacterService::instance().send_area_notification_around_characters(character, packet)));
                         }
                         GameEvent::CharacterTakeoffEquipItem(character_takeoff_equip_item) => {
                             let character = server_state_mut.characters_mut().get_mut(&character_takeoff_equip_item.char_id).unwrap();
                             let index = character_takeoff_equip_item.index;
                             InventoryService::instance().takeoff_equip_item(character, index)
-                                .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, &item)
+                                .map(|item| InventoryService::instance().sprite_change_packet_for_item(character, &item, true)
                                     .map(|packet| CharacterService::instance().send_area_notification_around_characters(character, packet)));
                         }
                         GameEvent::CharacterUpdateClientSideStats(char_id) => {
