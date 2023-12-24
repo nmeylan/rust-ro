@@ -8,7 +8,7 @@ use crate::server::model::map::MAP_EXT;
 use crate::server::model::map_instance::MapInstance;
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use models::position::Position;
-use models::status::{Status, StatusSnapshot};
+use models::status::{StatusSnapshot};
 use crate::server::model::request::Request;
 use crate::server::model::script::Script;
 use crate::server::model::session::Session;

@@ -9,7 +9,6 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::enums::EnumWithNumberValue;
 use configuration::configuration::{SkillInTree};
-use enums::skill_enums::SkillEnum;
 use models::status::KnownSkill;
 use crate::util::string::StringUtil;
 

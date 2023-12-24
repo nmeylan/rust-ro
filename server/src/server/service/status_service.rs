@@ -1,24 +1,7 @@
 use std::sync::{Once};
-
-
-
-
-
-
-use enums::weapon::WeaponType;
 use models::status::{Status, StatusSnapshot};
 use crate::enums::EnumWithStringValue;
-
-
-
-
-
-
-
-
 use crate::server::service::global_config_service::GlobalConfigService;
-
-use crate::server::state::character::Character;
 
 
 static mut SERVICE_INSTANCE: Option<StatusService> = None;
