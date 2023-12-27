@@ -14,6 +14,7 @@ use crate::server::model::map_item::MapItemSnapshot;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::packets::packets::Packet;
+use crate::server::model::action::Damage;
 use crate::server::service::battle_service::BattleService;
 use crate::server::service::status_service::StatusService;
 
@@ -43,7 +44,7 @@ impl SkillService {
         });
     }
 
-    pub fn start_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, source_status: &StatusSnapshot, target_status: Option<&StatusSnapshot>, skill_id: u32, skill_level: u8, tick: u128) {
+    pub fn start_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, source_status: &StatusSnapshot, target_status: Option<&StatusSnapshot>, skill_id: u32, skill_level: u8, tick: u128) -> Option<Damage> {
         let item_snapshot = target.unwrap();
         let skill = SkillEnum::from_id(skill_id);
         let mut skill = skills::skill_enums::to_object(skill, skill_level).unwrap();
@@ -51,12 +52,12 @@ impl SkillService {
         let validate_sp = skill.validate_sp(source_status);
         if validate_sp.is_err() {
             self.send_skill_fail_packet(character, UseSkillFailure::SpInsufficient);
-            return;
+            return None;
         }
         let validate_hp = skill.validate_hp(source_status);
         if validate_hp.is_err() {
             self.send_skill_fail_packet(character, UseSkillFailure::HpInsufficient);
-            return;
+            return None;
         }
         let maybe_ammo = character.status.ammo.map(|ammo|
             (ammo.ammo_type, character.get_item_from_inventory(ammo.inventory_index).map(|ammo_in_inventory| ammo_in_inventory.amount as u32).unwrap_or(0)));
@@ -65,24 +66,24 @@ impl SkillService {
             let mut packet_zc_action_failure = PacketZcActionFailure::new(self.configuration_service.packetver());
             packet_zc_action_failure.fill_raw();
             self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_action_failure.raw_mut())))).unwrap();
-            return;
+            return None;
         }
 
         let validate_weapon = skill.validate_weapon(source_status);
         if validate_weapon.is_err() {
             self.send_skill_fail_packet(character, UseSkillFailure::ThisWeapon);
-            return;
+            return None;
         }
         let validate_zeny = skill.validate_zeny(source_status);
         if validate_zeny.is_err() {
             self.send_skill_fail_packet(character, UseSkillFailure::Money);
-            return;
+            return None;
         }
 
         let validate_items = skill.validate_item(&character.inventory_normal().iter().map(|(_, i)| i.to_normal_item()).collect::<Vec<NormalInventoryItem>>());
         if validate_items.is_err() {
             self.send_skill_fail_packet(character, validate_items.err().unwrap());
-            return;
+            return None;
         }
 
         // TODO use char stats
@@ -103,30 +104,34 @@ impl SkillService {
 
         let no_delay = skill.cast_time() == 0;
         character.set_skill_in_use(target.map(|target| target.map_item().id()), tick, skill, no_delay);
+        let mut damage = None;
         if no_delay {
-            self.do_use_skill(character, target, source_status, target_status, tick);
+            damage = self.do_use_skill(character, target, source_status, target_status, tick);
         }
 
         if validate_sp.unwrap() > 0 {}
+        return damage
     }
 
-    pub fn do_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, source_status: &StatusSnapshot, target_status: Option<&StatusSnapshot>, tick: u128) {
+    pub fn do_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, source_status: &StatusSnapshot, target_status: Option<&StatusSnapshot>, tick: u128) -> Option<Damage> {
         if tick < character.skill_in_use().start_skill_tick + character.skill_in_use().skill.cast_time() as u128 {
-            return;
+            return None;
         }
         let skill = &character.skill_in_use().skill;
         if !skill.is_offensive_skill() {
-            return;
+            return None;
         }
         let skill = skill.as_offensive_skill().unwrap();
         let damage = self.calculate_damage(source_status, target_status.as_ref().unwrap(), skill);
         let mut packet_zc_notify_skill2 = PacketZcNotifySkill2::new(self.configuration_service.packetver());
         packet_zc_notify_skill2.set_skid(skill.id() as u16);
         packet_zc_notify_skill2.set_attack_mt(305); // TODO
-        packet_zc_notify_skill2.set_target_id(target.as_ref().unwrap().map_item().id());
+        let target_id = target.as_ref().unwrap().map_item().id();
+        packet_zc_notify_skill2.set_target_id(target_id);
         packet_zc_notify_skill2.set_damage(damage as i32);
         packet_zc_notify_skill2.set_start_time(0);
-        packet_zc_notify_skill2.set_attacked_mt(480); // TODO
+        let attack_motion = 480;
+        packet_zc_notify_skill2.set_attacked_mt(attack_motion); // TODO
         packet_zc_notify_skill2.set_level(skill.level() as i16);
 
         packet_zc_notify_skill2.set_count(skill.hit_count().abs() as i16);
@@ -138,6 +143,13 @@ impl SkillService {
         self.client_notification_sender.send(Notification::Area(
             AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_skill2.raw_mut()))
         )).unwrap();
+
+        Some(Damage {
+            target_id,
+            attacker_id: character.char_id,
+            damage,
+            attacked_at: tick + attack_motion as u128,
+        })
     }
 
     pub fn after_skill_used(&self, character: &mut Character, tick: u128) {
