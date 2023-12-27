@@ -87,6 +87,8 @@ impl MapInstanceLoop {
                 loop {
                     let tick = get_tick();
                     let mut map_instance_state = map_instance.state_mut();
+
+                    MapInstanceService::instance().remove_dead_mobs(&mut map_instance_state);
                     let mobs = map_instance_state.mobs_mut();
                     for mob in mobs.values_mut().filter(|mob| mob.is_moving()) {
                         let speed = mob.status.speed();

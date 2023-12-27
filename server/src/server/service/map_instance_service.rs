@@ -136,7 +136,7 @@ impl MapInstanceService {
     }
 
     pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32, delay: u128) {
-        let mob = map_instance_state.remove_mob(id).unwrap();
+        let mob = map_instance_state.get_mob(id).unwrap();
         let mob_model = self.configuration_service.get_mob(mob.mob_id as i32);
         self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster {
             char_id: mob.attacker_with_higher_damage(),
@@ -150,6 +150,14 @@ impl MapInstanceService {
         }),
                                             delayed_tick(delay, GAME_TICK_RATE),
         );
+    }
+
+    pub fn remove_dead_mobs(&self, map_instance_state: &mut MapInstanceState) {
+        let mobs_to_remove = {
+            let mobs = map_instance_state.mobs_mut();
+            mobs.iter().filter(|(k, mob)| mob.should_die()).map(|(k, _)| *k).collect::<Vec<u32>>()
+        };
+        mobs_to_remove.iter().for_each(|mob| { map_instance_state.remove_mob(*mob); });
     }
 
     pub fn mob_die_client_notification(&self, map_instance_state: &MapInstanceState, mob_location: MobLocation) {

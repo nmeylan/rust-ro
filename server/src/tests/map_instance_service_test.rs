@@ -68,11 +68,13 @@ mod tests {
         let context = before_each();
         let mut map_instance_state = create_empty_map_instance_state();
         let mob_item_id = 82322;
-        let mob = create_mob(mob_item_id, "PORING");
+        let mut mob = create_mob(mob_item_id, "PORING");
+        mob.status.set_hp(0);
         map_instance_state.insert_item(MapItem::new(mob_item_id, mob.mob_id, MapItemType::Mob));
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
         context.map_instance_service.mob_die(&mut map_instance_state, mob_item_id, 0);
+        context.map_instance_service.remove_dead_mobs(&mut map_instance_state);
         // Then
         assert_eq!(mem::discriminant(&map_instance_state.get_mob(mob_item_id)), mem::discriminant(&None));
         assert_eq!(mem::discriminant(&map_instance_state.get_map_item(mob_item_id)), mem::discriminant(&None));
@@ -184,6 +186,7 @@ mod tests {
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
         context.map_instance_service.mob_being_attacked(&mut map_instance_state, Damage { target_id: mob_item_id, attacker_id: 150000, damage: max_hp + 10, attacked_at: get_tick() }, map_instance_tasks_queue, get_tick());
+        context.map_instance_service.remove_dead_mobs(&mut map_instance_state);
         // Then
         assert!(map_instance_state.get_mob(mob_item_id).is_none());
     }
