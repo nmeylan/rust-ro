@@ -170,6 +170,9 @@ impl ServerService {
             return;
         }
         let target = Self::get_target(server_state, character, Some(character_use_skill.target_id));
+        if target.is_none() {
+            return;
+        }
         let maybe_damage = self.skill_service.start_use_skill(character, target, &self.get_status_snapshot(&character.status, tick),
                                                         self.get_target_status(server_state, character, Some(character_use_skill.target_id), tick).as_ref(), character_use_skill.skill_id, character_use_skill.skill_level, tick);
         let maybe_map_instance = server_state.get_map_instance(character.current_map_name(), character.current_map_instance());

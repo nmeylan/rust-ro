@@ -91,7 +91,7 @@ impl MapInstanceLoop {
                     for mob in mobs.values_mut().filter(|mob| mob.is_moving()) {
                         let speed = mob.status.speed();
                         if let Some(movement) = mob.peek_movement() {
-                            let mob_model = GlobalConfigService::instance().get_mob(mob.mob_id as i32);
+                            let mob_model = GlobalConfigService::instance().get_mob_safe(mob.mob_id as i32).unwrap_or_else(|| panic!("Expected to find mob for id {}, {}, game id {} but found none", mob.mob_id, mob.name, mob.id));
                             if tick >= movement.move_at() {
                                 if tick < mob.last_attacked_at + (mob_model.damage_motion as u128) {
                                     info!("Mob delayed movement because he is attacked");
