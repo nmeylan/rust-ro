@@ -1,6 +1,5 @@
-use std::os::linux::raw::stat;
 use crate::item::{WearAmmo, WearGear, WearGearSnapshot, WearWeapon, Wearable, WearAmmoSnapshot, WearWeaponSnapshot};
-use accessor::{GettersAll, Setters, SettersAll};
+use accessor::{GettersAll,  SettersAll};
 use enums::bonus::BonusType;
 use enums::item::EquipmentLocation;
 use enums::size::Size;
