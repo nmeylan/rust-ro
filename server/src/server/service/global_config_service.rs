@@ -101,6 +101,9 @@ impl GlobalConfigService {
     pub fn get_mob(&self, id: i32) -> &MobModel {
         self.mobs.get(&(id as u32)).unwrap_or_else(|| panic!("Expected to find mob for id {id} but found none"))
     }
+    pub fn get_mob_safe(&self, id: i32) -> Option<&MobModel> {
+        self.mobs.get(&(id as u32))
+    }
 
     pub fn get_mob_by_name(&self, name: &str) -> &MobModel {
         let id = &self.get_mob_id_from_name(name);

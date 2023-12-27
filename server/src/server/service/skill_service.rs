@@ -45,7 +45,10 @@ impl SkillService {
     }
 
     pub fn start_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, source_status: &StatusSnapshot, target_status: Option<&StatusSnapshot>, skill_id: u32, skill_level: u8, tick: u128) -> Option<Damage> {
-        let item_snapshot = target.unwrap();
+        if target.is_none() || target_status.is_none() {
+            return None;
+        }
+        let target_snapshot = target.unwrap();
         let skill = SkillEnum::from_id(skill_id);
         let mut skill = skills::skill_enums::to_object(skill, skill_level).unwrap();
 
@@ -91,7 +94,7 @@ impl SkillService {
         skill.update_after_cast_act_delay(skill.base_after_cast_act_delay());
         skill.update_after_cast_walk_delay(skill.base_after_cast_walk_delay());
         let mut packet_zc_useskill_ack2 = PacketZcUseskillAck2::new(self.configuration_service.packetver());
-        packet_zc_useskill_ack2.set_target_id(item_snapshot.map_item().id());
+        packet_zc_useskill_ack2.set_target_id(target_snapshot.map_item().id());
         packet_zc_useskill_ack2.set_skid(skill_id as u16);
         packet_zc_useskill_ack2.set_property(12);  // element
         packet_zc_useskill_ack2.set_delay_time(skill.cast_time()); // cast time
@@ -110,10 +113,14 @@ impl SkillService {
         }
 
         if validate_sp.unwrap() > 0 {}
-        return damage
+        return damage;
     }
 
     pub fn do_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, source_status: &StatusSnapshot, target_status: Option<&StatusSnapshot>, tick: u128) -> Option<Damage> {
+        if target.is_none() || target_status.is_none() {
+            return None;
+        }
+
         if tick < character.skill_in_use().start_skill_tick + character.skill_in_use().skill.cast_time() as u128 {
             return None;
         }
@@ -171,11 +178,11 @@ impl SkillService {
 
     pub fn calculate_damage(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill: &dyn OffensiveSkill) -> u32 {
         let mut skill_modifier = skill.dmg_atk().unwrap_or(1.0);
-        if skill.hit_count()  > 1 {
+        if skill.hit_count() > 1 {
             skill_modifier /= skill.hit_count() as f32;
         }
         let mut damage = self.battle_service.damage_character_attack_monster(source_status, target_status, skill_modifier, skill.is_ranged());
-        if skill.hit_count()  > 1 {
+        if skill.hit_count() > 1 {
             damage *= skill.hit_count() as u32;
         } else {
             damage = ((damage as f32 / skill.hit_count().abs() as f32).floor() * skill.hit_count().abs() as f32) as u32;
