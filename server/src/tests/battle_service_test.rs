@@ -33,6 +33,7 @@ fn before_each_with_latch(latch_size: usize) -> BattleServiceTestContext {
 }
 
 #[cfg(test)]
+#[cfg(not(feature = "integration_tests"))]
 mod tests {
     use enums::size::Size;
     use models::status::Status;

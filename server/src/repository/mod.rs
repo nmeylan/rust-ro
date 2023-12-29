@@ -14,6 +14,7 @@ use tokio::runtime::Runtime;
 use crate::repository::model::item_model::{GetItemModel, InventoryItemModel, ItemBuySellModel, ItemModel};
 use configuration::configuration::DatabaseConfig;
 use models::status::KnownSkill;
+use crate::repository::model::char_model::CharSelectModel;
 use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 use crate::server::script::Value;
@@ -37,6 +38,19 @@ impl Repository {
             pool,
         }
     }
+    pub fn new_pg_lazy(configuration: &DatabaseConfig, runtime: Runtime) -> Repository {
+        let connection_url = format!("postgresql://{}:{}@{}:{}/{}",
+                                     configuration.username, configuration.password.as_ref().unwrap(),
+                                     configuration.host, configuration.port,
+                                     configuration.db);
+        let pool = PgPoolOptions::new()
+            .max_connections(20)
+            .connect_lazy(&connection_url).unwrap();
+        Repository {
+            runtime,
+            pool,
+        }
+    }
 }
 
 #[async_trait]
@@ -46,6 +60,7 @@ pub trait CharacterRepository {
     async fn character_zeny_fetch(&self, _char_id: u32) -> Result<i32, Error> { todo!() }
     async fn character_allocated_skill_points(&self, _char_id: u32) -> Result<i32, Error> { todo!() }
     async fn character_skills(&self, _char_id: u32) -> Result<Vec<KnownSkill>, Error> { todo!() }
+    async fn character_fetch(&self, account_id: u32, char_num: u8) -> Result<CharSelectModel, Error> { todo!() }
     async fn character_reset_skills(&self, _char_id: i32, _skills: Vec<i32>) -> Result<(), Error> { todo!() }
     async fn character_allocate_skill_point(&self, _char_id: i32,  _skill_id: i32, _increment: u8) -> Result<(), Error> { todo!() }
 }

@@ -10,6 +10,7 @@ pub mod server_helper;
 pub mod item_helper;
 pub mod sync_helper;
 pub mod fixtures;
+pub mod integration_test;
 
 
 use std::{fs, thread};
@@ -43,7 +44,8 @@ pub struct TestContext {
 }
 
 impl TestContext {
-    pub fn new(client_notification_sender: SyncSender<Notification>, client_notification_receiver: Receiver<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, persistence_event_receiver: Receiver<PersistenceEvent>, countdown_latch: CountDownLatch) -> Self {
+    pub fn new(client_notification_sender: SyncSender<Notification>, client_notification_receiver: Receiver<Notification>,
+               persistence_event_sender: SyncSender<PersistenceEvent>, persistence_event_receiver: Receiver<PersistenceEvent>, countdown_latch: CountDownLatch) -> Self {
         let received_notification = Arc::new(Mutex::new(vec![]));
         let received_persistence_events = Arc::new(Mutex::new(vec![]));
         let received_notification_cloned = received_notification.clone();
@@ -127,8 +129,6 @@ pub fn create_mpsc<T>() -> (SyncSender<T>, Receiver<T>) {
 
 pub fn before_all() {
     INIT.call_once(|| {
-        let (_client_notification_sender, _client_notification_receiver) = create_mpsc::<Notification>();
-        let (_persistence_event_sender, _persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
         unsafe {
             let mut config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
             let file_path = "../config/status_point_reward.json";

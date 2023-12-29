@@ -59,6 +59,7 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
 
 
 #[cfg(test)]
+#[cfg(not(feature = "integration_tests"))]
 mod tests {
     use std::sync::Arc;
     use tokio::runtime::Runtime;

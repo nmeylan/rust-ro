@@ -21,6 +21,8 @@ serde_json  = "1.0.108"
 eframe = { version = "0.20.1", default-features = false, features = ["glow", "default_fonts"], optional = true }
 sprintf = "0.1.4"
 async-trait = "0.1.74"
+testcontainers = {  version= "0.15.0" }
+testcontainers-modules = { version = "0.2.1", features = ["postgres"] }
 
 rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "be501b022e185bb832b053ee6280542b3d19f128"}
 
@@ -45,3 +47,5 @@ path = "../tools/map-cache/main.rs"
 visual_debugger = ["eframe"]
 static_db_update = []
 debug_movement = []
+integration_tests = []
+unit_tests = []

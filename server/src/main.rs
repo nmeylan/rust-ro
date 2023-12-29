@@ -69,6 +69,8 @@ use crate::util::log_filter::LogFilter;
 
 pub static mut CONFIGS: Option<Config> = None;
 pub static mut MAPS: Option<HashMap<String, &Map>> = None;
+pub static mut MOB_ROOT_PATH: &str = "./config/npc";
+pub static mut MAP_DIR: &str = "./config/maps/pre-re";
 #[tokio::main]
 pub async fn main() {
     unsafe {
@@ -107,8 +109,8 @@ pub async fn main() {
     let start = Instant::now();
     let warps = unsafe { WarpLoader::load_warps(CONFIGS.as_ref().unwrap()).await };
     let mobs_map = mobs.clone().into_iter().map(|mob| (mob.id as u32, mob)).collect();
-    let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map).join().unwrap() };
-    let maps = MapLoader::load_maps(warps, mob_spawns, scripts, &mut map_item_ids);
+    let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map, MOB_ROOT_PATH).join().unwrap() };
+    let maps = MapLoader::load_maps(warps, mob_spawns, scripts, &mut map_item_ids, unsafe { MAP_DIR });
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
     unsafe {
         GlobalConfigService::init(CONFIGS.clone().unwrap(),
@@ -145,7 +147,7 @@ pub async fn main() {
             warn!("Visual debugger has been enable in configuration, but feature has not been compiled. Please consider enabling \"visual-debugger\" feature.");
         }
     }
-    Server::start(server_ref_clone, single_client_notification_receiver, persistence_event_receiver, persistence_event_sender);
+    Server::start(server_ref_clone, single_client_notification_receiver, persistence_event_receiver, persistence_event_sender, true);
 
     for handle in handles {
         handle.join().expect("Failed await server and proxy threads");
@@ -167,6 +169,6 @@ pub fn load_scripts(vm: Arc<Vm>) -> HashMap<String, Vec<Script>> {
     scripts
 }
 
-fn configs() -> &'static Config {
+pub fn configs() -> &'static Config {
     unsafe { CONFIGS.as_ref().unwrap() }
 }

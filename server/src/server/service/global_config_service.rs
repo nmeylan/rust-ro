@@ -20,7 +20,7 @@ pub struct GlobalConfigService {
     jobs_skills_tree: Vec<JobSkillTree>,
     skills: HashMap<u32, SkillConfig>,
     skills_name_id: HashMap<String, u32>,
-    maps: HashMap<String, Map>,
+    pub(crate) maps: HashMap<String, Map>,
 }
 
 impl GlobalConfigService {

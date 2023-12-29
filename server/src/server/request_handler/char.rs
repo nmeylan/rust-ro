@@ -232,10 +232,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
     let packet_select_char = cast!(context.packet(), PacketChSelectChar);
     let session_id = context.session().account_id;
     let char_model: CharSelectModel = context.runtime().block_on(async {
-        sqlx::query_as::<_, CharSelectModel>("SELECT * FROM char WHERE account_id = $1 AND char_num = $2")
-            .bind(session_id as i32)
-            .bind(packet_select_char.char_num as i16)
-            .fetch_one(&server.repository.pool).await.unwrap()
+        server.repository.character_fetch(session_id, packet_select_char.char_num).await.unwrap()
     });
     let skills: Vec<KnownSkill> = context.runtime().block_on(async {
         server.repository.character_skills(char_model.char_id as u32).await.unwrap()
