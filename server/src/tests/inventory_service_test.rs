@@ -39,6 +39,7 @@ fn before_each_with_latch(inventory_repository: Arc<dyn InventoryRepository + Sy
 
 
 #[cfg(test)]
+#[cfg(not(feature = "integration_tests"))]
 mod tests {
     
     use std::sync::{Arc, Mutex};

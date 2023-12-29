@@ -15,6 +15,7 @@ use crate::server::model::map_instance::{MapInstance};
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType};
 use models::position::Position;
 use models::status::{Status, StatusSnapshot};
+use crate::MAP_DIR;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, CharacterUseSkill, GameEvent};
@@ -77,7 +78,7 @@ impl ServerService {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", map.name(), map.x_size(), map.y_size(), map.length());
         let mut map_items: HashMap<u32, MapItem> = HashMap::with_capacity(2048);
 
-        let mut cells = MapLoader::generate_cells(map.name(), map.length() as usize);
+        let mut cells = MapLoader::generate_cells(map.name(), map.length() as usize, unsafe { MAP_DIR });
         map.set_warp_cells(&mut cells, &mut map_items);
 
         let map_instance = MapInstance::from_map(self.vm.clone(), map, instance_id, cells, self.client_notification_sender.clone(), map_items, Arc::new(TasksQueue::new()));

@@ -28,6 +28,7 @@ fn before_each_with_latch(latch_size: usize) -> SkillTreeServiceTestContext {
 }
 
 #[cfg(test)]
+#[cfg(not(feature = "integration_tests"))]
 mod tests {
     use enums::class::JobName;
     use models::status::KnownSkill;

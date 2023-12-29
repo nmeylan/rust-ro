@@ -107,7 +107,7 @@ pub struct CharInsertModel {
     pub inventory_slots: i32,
 }
 
-#[derive(sqlx::FromRow)]
+#[derive(sqlx::FromRow, Default)]
 pub struct CharSelectModel {
     pub char_id: i32,
     pub account_id: i32,

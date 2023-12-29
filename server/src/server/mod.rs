@@ -121,7 +121,7 @@ impl Server {
                             CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::new(GlobalConfigService::instance()), tasks_queue.clone()),
                             MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone()),
                             BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),
-                            SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(),  BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),
+                            SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),
                             StatusService::new(GlobalConfigService::instance()),
         );
         Server {
@@ -167,121 +167,127 @@ impl Server {
         id
     }
     #[allow(unused_lifetimes)]
-    pub fn start<'server>(server_ref: Arc<Server>, single_client_notification_receiver: Receiver<Notification>, persistence_event_receiver: Receiver<PersistenceEvent>, persistence_event_sender: SyncSender<PersistenceEvent>) {
+    pub fn start<'server>(server_ref: Arc<Server>,
+                          single_client_notification_receiver: Receiver<Notification>,
+                          persistence_event_receiver: Receiver<PersistenceEvent>,
+                          persistence_event_sender: SyncSender<PersistenceEvent>, enable_client_interfaces: bool) {
         let port = server_ref.configuration.server.port;
 
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
         let client_notification_sender_clone = server_ref.client_notification_sender();
         thread::scope(|server_thread_scope: &Scope| {
             let listener = TcpListener::bind(format!("0.0.0.0:{port}")).unwrap();
-            info!("Server listen on 0.0.0.0:{}", port);
             let server_shared_ref = server_ref.clone();
-
-            thread::Builder::new().name("client_connection_thread".to_string()).spawn_scoped(server_thread_scope, move || {
-                for tcp_stream in listener.incoming() {
-                    // Receive new connection, starting new thread
-                    let server_shared_ref = server_shared_ref.clone();
-                    debug!("Received new connection");
-                    let response_sender_clone = response_sender.clone();
-                    let client_notification_sender_clone = client_notification_sender_clone.clone();
-                    server_thread_scope.spawn(move || {
-                        PACKETVER.with(|ver| *ver.borrow_mut() = server_shared_ref.packetver());
-                        let runtime = Runtime::new().unwrap();
-                        let mut tcp_stream = tcp_stream.unwrap();
-                        let tcp_stream_arc = Arc::new(RwLock::new(tcp_stream.try_clone().unwrap())); // todo remove this clone
-                        let mut buffer = [0; 2048];
-                        loop {
-                            match tcp_stream.read(&mut buffer) {
-                                Ok(bytes_read) => {
-                                    if bytes_read == 0 {
-                                        tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems closed.");
+            if enable_client_interfaces {
+                info!("Server listen on 0.0.0.0:{}", port);
+                thread::Builder::new().name("client_connection_thread".to_string()).spawn_scoped(server_thread_scope, move || {
+                    for tcp_stream in listener.incoming() {
+                        // Receive new connection, starting new thread
+                        let server_shared_ref = server_shared_ref.clone();
+                        debug!("Received new connection");
+                        let response_sender_clone = response_sender.clone();
+                        let client_notification_sender_clone = client_notification_sender_clone.clone();
+                        server_thread_scope.spawn(move || {
+                            PACKETVER.with(|ver| *ver.borrow_mut() = server_shared_ref.packetver());
+                            let runtime = Runtime::new().unwrap();
+                            let mut tcp_stream = tcp_stream.unwrap();
+                            let tcp_stream_arc = Arc::new(RwLock::new(tcp_stream.try_clone().unwrap())); // todo remove this clone
+                            let mut buffer = [0; 2048];
+                            loop {
+                                match tcp_stream.read(&mut buffer) {
+                                    Ok(bytes_read) => {
+                                        if bytes_read == 0 {
+                                            tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems closed.");
+                                            break;
+                                        }
+                                        let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
+                                        let context = Request::new(&runtime, server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
+                                        request_handler::handle(server_shared_ref.clone(), context);
+                                    }
+                                    Err(err) => {
+                                        error!("{}", err);
+                                        let _ = tcp_stream.shutdown(Shutdown::Both);
                                         break;
                                     }
-                                    let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
-                                    let context = Request::new(&runtime, server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
-                                    request_handler::handle(server_shared_ref.clone(), context);
-                                }
-                                Err(err) => {
-                                    error!("{}", err);
-                                    let _ = tcp_stream.shutdown(Shutdown::Both);
-                                    break;
                                 }
                             }
-                        }
-                    });
-                }
-            }).unwrap();
-            // Start a thread sending response packet to client request
+                        });
+                    }
+                }).unwrap();
+                // Start a thread sending response packet to client request
 
-            thread::Builder::new().name("client_response_thread".to_string()).spawn_scoped(server_thread_scope, move || {
-                for response in single_response_receiver.iter() {
-                    let tcp_stream = &response.socket();
-                    let data = response.serialized_packet();
-                    let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                    debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                    if GlobalConfigService::instance().config().server.trace_packet {
-                        debug_packets_from_vec(tcp_stream_guard.peer_addr().as_ref().unwrap(), PacketDirection::Backward,
-                                               GlobalConfigService::instance().packetver(), data, &Option::None);
+                thread::Builder::new().name("client_response_thread".to_string()).spawn_scoped(server_thread_scope, move || {
+                    for response in single_response_receiver.iter() {
+                        let tcp_stream = &response.socket();
+                        let data = response.serialized_packet();
+                        let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                        debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
+                        if GlobalConfigService::instance().config().server.trace_packet {
+                            debug_packets_from_vec(tcp_stream_guard.peer_addr().as_ref().unwrap(), PacketDirection::Backward,
+                                                   GlobalConfigService::instance().packetver(), data, &Option::None);
+                        }
+                        tcp_stream_guard.write_all(data).unwrap();
+                        tcp_stream_guard.flush().unwrap();
                     }
-                    tcp_stream_guard.write_all(data).unwrap();
-                    tcp_stream_guard.flush().unwrap();
-                }
-            }).unwrap();
-            // Start a thread sending packet to notify client from game update
-            let server_ref_clone = server_ref.clone();
-            thread::Builder::new().name("client_notification_thread".to_string()).spawn_scoped(server_thread_scope, move || {
-                PACKETVER.with(|ver| *ver.borrow_mut() = server_ref_clone.packetver());
-                let server_ref = server_ref_clone;
-                for response in single_client_notification_receiver.iter() {
-                    match response {
-                        Notification::Char(char_notification) => {
-                            if let Some(tcp_stream) = server_ref.state().get_map_socket_for_char_id(char_notification.char_id()) {
-                                let data = char_notification.serialized_packet();
-                                let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                                if tcp_stream_guard.peer_addr().is_ok() {
-                                    debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                                    if data.is_empty() {
-                                        debug!("{:?}", char_notification);
+                }).unwrap();
+                // Start a thread sending packet to notify client from game update
+                let server_ref_clone = server_ref.clone();
+                thread::Builder::new().name("client_notification_thread".to_string()).spawn_scoped(server_thread_scope, move || {
+                    PACKETVER.with(|ver| *ver.borrow_mut() = server_ref_clone.packetver());
+                    let server_ref = server_ref_clone;
+                    for response in single_client_notification_receiver.iter() {
+                        match response {
+                            Notification::Char(char_notification) => {
+                                if let Some(tcp_stream) = server_ref.state().get_map_socket_for_char_id(char_notification.char_id()) {
+                                    let data = char_notification.serialized_packet();
+                                    let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                                    if tcp_stream_guard.peer_addr().is_ok() {
+                                        debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
+                                        if data.is_empty() {
+                                            debug!("{:?}", char_notification);
+                                        }
+                                        if GlobalConfigService::instance().config().server.trace_packet {
+                                            debug_packets_from_vec(tcp_stream_guard.peer_addr().as_ref().unwrap(), PacketDirection::Backward,
+                                                                   GlobalConfigService::instance().packetver(), data, &Option::None);
+                                        }
+                                        tcp_stream_guard.write_all(data).unwrap();
+                                        tcp_stream_guard.flush().unwrap();
+                                    } else {
+                                        error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
                                     }
-                                    if GlobalConfigService::instance().config().server.trace_packet {
-                                        debug_packets_from_vec(tcp_stream_guard.peer_addr().as_ref().unwrap(), PacketDirection::Backward,
-                                                               GlobalConfigService::instance().packetver(), data, &Option::None);
-                                    }
-                                    tcp_stream_guard.write_all(data).unwrap();
-                                    tcp_stream_guard.flush().unwrap();
-                                } else {
-                                    error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
                                 }
                             }
-                        }
-                        Notification::Area(area_notification) => {
-                            match area_notification.range_type {
-                                AreaNotificationRangeType::Map => {}
-                                AreaNotificationRangeType::Fov { x, y, exclude_id } => {
-                                    server_ref.state().characters().iter()
-                                        .filter(|(_, character)| character.current_map_name() == &area_notification.map_name
-                                            && character.current_map_instance() == area_notification.map_instance_id
-                                            && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
-                                            && (exclude_id.is_none() || exclude_id.unwrap() != character.char_id)
-                                        )
-                                        .for_each(|(_, character)| {
-                                            if let Some(tcp_stream) = server_ref.state().get_map_socket_for_char_id(character.char_id) {
-                                                let data = area_notification.serialized_packet();
-                                                let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                                                if tcp_stream_guard.peer_addr().is_ok() {
-                                                    debug!("Area - Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                                                    tcp_stream_guard.write_all(data).map(|_| tcp_stream_guard.flush());
-                                                } else {
-                                                    error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
+                            Notification::Area(area_notification) => {
+                                match area_notification.range_type {
+                                    AreaNotificationRangeType::Map => {}
+                                    AreaNotificationRangeType::Fov { x, y, exclude_id } => {
+                                        server_ref.state().characters().iter()
+                                            .filter(|(_, character)| character.current_map_name() == &area_notification.map_name
+                                                && character.current_map_instance() == area_notification.map_instance_id
+                                                && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
+                                                && (exclude_id.is_none() || exclude_id.unwrap() != character.char_id)
+                                            )
+                                            .for_each(|(_, character)| {
+                                                if let Some(tcp_stream) = server_ref.state().get_map_socket_for_char_id(character.char_id) {
+                                                    let data = area_notification.serialized_packet();
+                                                    let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                                                    if tcp_stream_guard.peer_addr().is_ok() {
+                                                        debug!("Area - Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
+                                                        tcp_stream_guard.write_all(data).map(|_| tcp_stream_guard.flush());
+                                                    } else {
+                                                        error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            }).unwrap();
+                }).unwrap();
+            } else {
+                info!("Server does not listen client requests");
+            }
             let server_ref_clone = server_ref.clone();
             thread::Builder::new().name("game_loop_thread".to_string()).spawn_scoped(server_thread_scope, move || {
                 let runtime = Runtime::new().unwrap();

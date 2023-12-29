@@ -35,6 +35,7 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
 
 
 #[cfg(test)]
+#[cfg(not(feature = "integration_tests"))]
 mod tests {
     use std::time::Duration;
     use enums::class::JobName;

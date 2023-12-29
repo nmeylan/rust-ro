@@ -3,6 +3,7 @@ use crate::Repository;
 use async_trait::async_trait;
 use models::status::KnownSkill;
 use crate::repository::CharacterRepository;
+use crate::repository::model::char_model::CharSelectModel;
 
 #[async_trait]
 impl CharacterRepository for Repository {
@@ -49,6 +50,13 @@ impl CharacterRepository for Repository {
             .bind(char_id as i32)
             .fetch_all(&self.pool).await
             .map(|rows| rows.iter().map(|row| KnownSkill { value: enums::skill_enums::SkillEnum::from_id(row.get::<i32, _>(0) as u32), level: row.get::<i16, _>(1) as u8 }).collect::<Vec<KnownSkill>>())
+    }
+
+    async fn character_fetch(&self, account_id: u32, char_num: u8) -> Result<CharSelectModel, Error> {
+        sqlx::query_as::<_, CharSelectModel>("SELECT * FROM char WHERE account_id = $1 AND char_num = $2")
+            .bind(account_id as i32)
+            .bind(char_num as i16)
+            .fetch_one(&self.pool).await
     }
 
 

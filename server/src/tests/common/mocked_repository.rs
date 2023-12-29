@@ -2,6 +2,7 @@ use async_trait::async_trait;
 use sqlx::Error;
 use sqlx::postgres::PgQueryResult;
 use crate::repository::{CharacterRepository, InventoryRepository};
+use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
@@ -46,6 +47,10 @@ impl CharacterRepository for MockedRepository {
     }
 
     async fn character_zeny_fetch(&self, _char_id: u32) -> Result<i32, Error> {
+        Ok(Default::default())
+    }
+
+    async fn character_fetch(&self, account_id: u32, char_num: u8) -> Result<CharSelectModel, Error> {
         Ok(Default::default())
     }
 }

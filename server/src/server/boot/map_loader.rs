@@ -18,7 +18,6 @@ use crate::enums::EnumWithMaskValueU16;
 pub struct MapLoader;
 
 static MAPCACHE_EXT: &str = ".mcache";
-static MAP_DIR: &str = "./config/maps/pre-re";
 struct Header {
     #[allow(dead_code)]
     pub version: i16,
@@ -32,9 +31,9 @@ struct Header {
 
 impl MapLoader {
 
-    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: &mut HashMap<u32, MapItem>) -> HashMap<String, Map> {
+    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: &mut HashMap<u32, MapItem>, map_dir: &'static str) -> HashMap<String, Map> {
         let mut maps = HashMap::<String, Map>::new();
-        let paths = fs::read_dir(MAP_DIR).unwrap();
+        let paths = fs::read_dir(map_dir).unwrap();
         for path in paths {
             let _start = Instant::now();
             let path = path.as_ref().unwrap();
@@ -74,8 +73,8 @@ impl MapLoader {
     // This method is called each time a new instance is created. If we load this during boot it comes with 2 drawback:
     // - It slow done startup (yet it can be improved)
     // - We may store in memory cells for map that are not visited by player
-    pub fn generate_cells(name: &str, length: usize) -> Vec<u16> {
-        let file_path = Path::join(Path::new(MAP_DIR), format!("{name}{MAPCACHE_EXT}"));
+    pub fn generate_cells(name: &str, length: usize, map_dir: &'static str) -> Vec<u16> {
+        let file_path = Path::join(Path::new(map_dir), format!("{name}{MAPCACHE_EXT}"));
         let file = File::open(file_path).unwrap();
         let mut reader = BufReader::new(file);
         let mut map_cache_zip_content_buf = Vec::new();

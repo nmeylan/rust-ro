@@ -42,6 +42,7 @@ fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository + Sy
 }
 
 #[cfg(test)]
+#[cfg(not(feature = "integration_tests"))]
 mod tests {
     use std::sync::Arc;
     use std::sync::atomic::AtomicBool;

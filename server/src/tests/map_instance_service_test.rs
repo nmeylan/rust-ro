@@ -36,6 +36,7 @@ fn before_each_with_latch(latch_size: usize) -> MapInstanceServiceTestContext {
 }
 
 #[cfg(test)]
+#[cfg(not(feature = "integration_tests"))]
 mod tests {
     use std::collections::HashMap;
     use std::mem;
