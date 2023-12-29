@@ -132,13 +132,14 @@ impl SkillService {
         let damage = self.calculate_damage(source_status, target_status.as_ref().unwrap(), skill);
         let mut packet_zc_notify_skill2 = PacketZcNotifySkill2::new(self.configuration_service.packetver());
         packet_zc_notify_skill2.set_skid(skill.id() as u16);
-        packet_zc_notify_skill2.set_attack_mt(305); // TODO
         let target_id = target.as_ref().unwrap().map_item().id();
         packet_zc_notify_skill2.set_target_id(target_id);
         packet_zc_notify_skill2.set_damage(damage as i32);
         packet_zc_notify_skill2.set_start_time(0);
-        let attack_motion = 480;
-        packet_zc_notify_skill2.set_attacked_mt(attack_motion); // TODO
+
+        let attack_motion = self.status_service.attack_motion(&source_status);
+        packet_zc_notify_skill2.set_attack_mt(attack_motion as i32);
+        packet_zc_notify_skill2.set_attacked_mt(attack_motion  as i32);
         packet_zc_notify_skill2.set_level(skill.level() as i16);
 
         packet_zc_notify_skill2.set_count(skill.hit_count().abs() as i16);
