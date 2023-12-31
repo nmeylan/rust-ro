@@ -90,7 +90,7 @@ impl MapInstance {
             map,
             scripts,
             state: MyUnsafeCell::new(MapInstanceState::new(key, map.x_size(), map.y_size(), cells, map_items,
-                                         map.mob_spawns().iter().map(|spawn| MobSpawnTrack::default(spawn.id)).collect::<Vec<MobSpawnTrack>>()))
+                                         map.mob_spawns().iter().map(|spawn| (spawn.id, MobSpawnTrack::default(spawn.id))).collect::<HashMap<u32, MobSpawnTrack>>()))
         }
     }
 

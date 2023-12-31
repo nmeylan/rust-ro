@@ -18,6 +18,7 @@ use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
 use crate::server::model::events::map_event::{CharacterDropItems, MapEvent, MobDropItems, MobLocation};
 use models::item::DroppedItem;
 use models::position::Position;
+use crate::server::model::movement::Movable;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::mob_service::MobService;
@@ -54,15 +55,17 @@ impl MapInstanceService {
 
     pub fn spawn_mobs(&self, map: &Map, map_instance_state: &mut MapInstanceState) {
         for mob_spawn in map.mob_spawns().iter() {
-            let mob_spawn_track = map_instance_state.mob_spawns_tracks_mut().iter().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
-            if mob_spawn_track.spawned_amount >= mob_spawn.to_spawn_amount {
-                continue;
-            }
-            if mob_spawn.has_delay() {
-                // TODO check when respawn is planned
-            }
+            let spawned = {
+                let mob_spawn_track = map_instance_state.mob_spawns_tracks().get(&mob_spawn.id).unwrap();
+                if mob_spawn_track.spawned_amount >= mob_spawn.to_spawn_amount {
+                    continue;
+                }
+                if mob_spawn.has_delay() {
+                    // TODO check when respawn is planned
+                }
+                mob_spawn.to_spawn_amount - mob_spawn_track.spawned_amount
+            };
             let mut cell: (u16, u16);
-            let spawned = mob_spawn.to_spawn_amount - mob_spawn_track.spawned_amount;
             for _ in 0..spawned {
                 if mob_spawn.is_fixed_position() {
                     cell = (mob_spawn.x, mob_spawn.y);
@@ -75,9 +78,10 @@ impl MapInstanceService {
                 let mob = Mob::new(mob_map_item_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.info.name.clone(), mob_spawn.info.name_english.clone(),
                                    StatusFromDb::from_mob_model(&mob_spawn.info));
 
+                debug!("Spawning mob {}", mob_map_item_id);
                 map_instance_state.insert_mob(mob);
                 // END
-                let mob_spawn_track = map_instance_state.mob_spawns_tracks_mut().iter_mut().find(|spawn_track| spawn_track.spawn_id == mob_spawn.id).unwrap();
+                let mob_spawn_track = map_instance_state.mob_spawns_tracks_mut().get_mut(&mob_spawn.id).unwrap();
                 mob_spawn_track.increment_spawn();
             }
         }
@@ -113,7 +117,7 @@ impl MapInstanceService {
             packet_zc_notify_move.move_data = mob_movement.from.to_move_data(&mob_movement.to);
             packet_zc_notify_move.set_move_start_time(start_time);
             packet_zc_notify_move.fill_raw();
-            debug!("Mob moving from {} to {}. Notify area around {},{}", mob_movement.from, mob_movement.to, mob_movement.from.x, mob_movement.from.y);
+            debug!("Mob {} moving from {} to {}. Notify area around {},{}", mob_movement.id, mob_movement.from, mob_movement.to, mob_movement.from.x, mob_movement.from.y);
             self.client_notification_sender.send(Notification::Area(
                 AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
                                       AreaNotificationRangeType::Fov { x: mob_movement.from.x, y: mob_movement.from.y, exclude_id: None },
@@ -124,40 +128,70 @@ impl MapInstanceService {
     pub fn mob_being_attacked(&self, map_instance_state: &mut MapInstanceState, damage: Damage, map_instance_tasks_queue: Arc<TasksQueue<MapEvent>>, tick: u128) {
         let mobs = map_instance_state.mobs_mut();
         if let Some(mob) = mobs.get_mut(&damage.target_id) {
+            if !mob.is_present() {
+                return;
+            }
             mob.add_attack(damage.attacker_id, damage.damage);
             mob.last_attacked_at = tick;
             if mob.should_die() {
                 let delay = damage.attacked_at - tick;
                 let id = mob.id;
-                Self::add_to_delayed_tick(map_instance_tasks_queue, MapEvent::MobDeathClientNotification(MobLocation { mob_id: mob.id, x: mob.x, y: mob.y }), delay);
+                Self::add_to_delayed_tick(map_instance_tasks_queue.as_ref(), MapEvent::MobDeathClientNotification(MobLocation { mob_id: mob.id, x: mob.x, y: mob.y }), delay);
                 self.mob_die(map_instance_state, id, delay / 2);
             }
         }
     }
 
+    pub fn kill_all_mobs(&self, map_instance_state: &mut MapInstanceState, map_instance_tasks_queue: Arc<TasksQueue<MapEvent>>, char_id: u32) {
+        let mut ids: Vec<u32> = Vec::with_capacity(map_instance_state.mobs().len());
+        for (id, mob) in map_instance_state.mobs_mut().iter_mut() {
+            if !mob.is_present() {
+                continue;
+            }
+            debug!("Killing mob {}", id);
+            mob.status.set_hp(0);
+            mob.add_attack(char_id, 9999);
+            Self::add_to_delayed_tick(map_instance_tasks_queue.as_ref(), MapEvent::MobDeathClientNotification(MobLocation { mob_id: mob.id, x: mob.x, y: mob.y }), 0);
+            ids.push(*id);
+        }
+        for id in ids {
+            self.mob_die(map_instance_state, id, 0);
+        }
+    }
+
     pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32, delay: u128) {
-        let mob = map_instance_state.get_mob(id).unwrap();
-        let mob_model = self.configuration_service.get_mob(mob.mob_id as i32);
-        self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster {
-            char_id: mob.attacker_with_higher_damage(),
-            mob_id: mob.mob_id,
-            mob_x: mob.x,
-            mob_y: mob.y,
-            map_instance_key: map_instance_state.key().clone()
-            ,
-            mob_base_exp: mob_model.exp as u32,
-            mob_job_exp: mob_model.job_exp as u32,
-        }),
-                                            delayed_tick(delay, GAME_TICK_RATE),
-        );
+        let spawn_id = {
+            let instance_key = map_instance_state.key().clone();
+            let mob = map_instance_state.mobs_mut().get_mut(&id).expect(format!("can't find mob with id {}", id).as_str());
+            let mob_model = self.configuration_service.get_mob(mob.mob_id as i32);
+            self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster {
+                char_id: mob.attacker_with_higher_damage(),
+                mob_id: mob.mob_id,
+                mob_x: mob.x,
+                mob_y: mob.y,
+                map_instance_key: instance_key
+                ,
+                mob_base_exp: mob_model.exp as u32,
+                mob_job_exp: mob_model.job_exp as u32,
+            }), delayed_tick(delay, GAME_TICK_RATE),
+            );
+            mob.set_to_remove();
+            mob.spawn_id
+        };
+        if let Some(spawn) = map_instance_state.mob_spawns_tracks_mut().get_mut(&spawn_id) {
+            spawn.decrement_spawn();
+        }
     }
 
     pub fn remove_dead_mobs(&self, map_instance_state: &mut MapInstanceState) {
         let mobs_to_remove = {
             let mobs = map_instance_state.mobs_mut();
-            mobs.iter().filter(|(k, mob)| mob.should_die()).map(|(k, _)| *k).collect::<Vec<u32>>()
+            mobs.iter().filter(|(k, mob)| !mob.is_present()).map(|(k, _)| *k).collect::<Vec<u32>>()
         };
-        mobs_to_remove.iter().for_each(|mob| { map_instance_state.remove_mob(*mob); });
+        mobs_to_remove.iter().for_each(|mob| {
+            debug!("Remove dead mob {}", mob);
+            map_instance_state.remove_mob(*mob);
+        });
     }
 
     pub fn mob_die_client_notification(&self, map_instance_state: &MapInstanceState, mob_location: MobLocation) {
@@ -235,7 +269,7 @@ impl MapInstanceService {
             owner_id,
             dropped_at: get_tick(),
             amount,
-            is_identified
+            is_identified,
         };
         map_instance_state.insert_dropped_item(dropped_item);
         dropped_item
@@ -254,7 +288,7 @@ impl MapInstanceService {
         self.server_task_queue.add_to_first_index(GameEvent::MapNotifyItemRemoved(dropped_item_id));
     }
 
-    fn add_to_delayed_tick(map_instance_tasks_queue: Arc<TasksQueue<MapEvent>>, event: MapEvent, delay: u128) {
+    fn add_to_delayed_tick(map_instance_tasks_queue: &TasksQueue<MapEvent>, event: MapEvent, delay: u128) {
         map_instance_tasks_queue.add_to_index(event, delayed_tick(delay, MAP_LOOP_TICK_RATE));
     }
 }

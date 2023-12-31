@@ -1,5 +1,6 @@
 use std::collections::HashMap;
-
+use std::sync::atomic::AtomicBool;
+use std::sync::atomic::Ordering::SeqCst;
 
 
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
@@ -27,6 +28,7 @@ pub struct Mob {
     pub movements: Vec<Movement>,
     pub damages: HashMap<u32, u32>,
     pub last_attacked_at: u128,
+    pub to_remove: bool,
 }
 
 pub struct MobMovement {
@@ -63,6 +65,7 @@ impl Mob {
             movements: vec![],
             damages: Default::default(),
             last_attacked_at: 0,
+            to_remove: false
         }
     }
 
@@ -89,13 +92,14 @@ impl Mob {
         if damage == 0 {
             return;
         }
-        let entry = self.damages.entry(attacker_id).or_insert(0);
-        if damage > self.status.hp() {
-            self.status.set_hp(0);
+        let hp = self.status.hp();
+        if damage > hp {
+            self.set_hp(0);
         } else {
-            self.status.set_hp(self.status.hp() - damage);
+            self.set_hp(hp - damage);
         }
 
+        let entry = self.damages.entry(attacker_id).or_insert(0);
         *entry += damage;
     }
 
@@ -103,8 +107,20 @@ impl Mob {
         self.status.hp() == 0
     }
 
+    pub fn set_hp(&mut self, hp: u32) {
+        self.status.set_hp(hp);
+    }
+
     pub fn hp(&self) -> u32 {
         self.status.hp()
+    }
+
+    pub fn set_to_remove(&mut self) {
+        self.to_remove = true;
+    }
+
+    pub fn is_present(&self) -> bool {
+        !self.to_remove
     }
 
     pub fn attacker_with_higher_damage(&self) -> u32 {

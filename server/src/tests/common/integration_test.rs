@@ -31,34 +31,34 @@ use crate::util::log_filter::LogFilter;
 
 static INIT: Once = Once::new();
 pub static mut SERVER: Option<Arc<Server>> = None;
-pub static mut POSTGRES_CONTAINER: Option<Container<Postgres>> = None;
-pub static mut DOCKER_CLI: Option<Cli> = None;
 
 
 pub async fn before_all() -> Arc<Server> {
     INIT.call_once(|| unsafe {
         common::before_all();
         MAP_DIR = "../config/maps/pre-re";
-        let logger = Logger::try_with_str(CONFIGS.as_ref().unwrap().server.log_level.as_ref().unwrap()).unwrap();
+        // let logger = Logger::try_with_str("info").unwrap();
+        let logger = Logger::try_with_str("debug").unwrap();
         logger.filter(Box::new(LogFilter::new(CONFIGS.as_ref().unwrap().server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
         let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
 
-        DOCKER_CLI = Some(Cli::default());
-        let image = RunnableImage::from(Postgres::default()).with_tag("15-alpine")
-            .with_volume((env::current_dir().unwrap().join("../db/pg.sql").to_str().unwrap(), "/pg.sql"))
-            .with_volume((env::current_dir().unwrap().join("../docker/volumes/create_role.sql").to_str().unwrap(), "/create_role.sql"))
-            .with_volume((env::current_dir().unwrap().join("../docker/volumes/init.sh").to_str().unwrap(), "/docker-entrypoint-initdb.d/init.sh"))
-            ;
-        let node = DOCKER_CLI.as_ref().unwrap().run(image);
+        let database_config = {
 
-        let database_config = DatabaseConfig {
-            db: "ragnarok".to_string(),
-            host: "127.0.0.1".to_string(),
-            port: node.get_host_port_ipv4(5432),
-            username: "ragnarok".to_string(),
-            password: Some("ragnarok".to_string()),
+            let docker_cli = Some(Cli::with_reuse());
+            let image = RunnableImage::from(Postgres::default()).with_tag("15-alpine")
+                .with_volume((env::current_dir().unwrap().join("../db/pg.sql").to_str().unwrap(), "/pg.sql"))
+                .with_volume((env::current_dir().unwrap().join("../docker/volumes/create_role.sql").to_str().unwrap(), "/create_role.sql"))
+                .with_volume((env::current_dir().unwrap().join("../docker/volumes/init.sh").to_str().unwrap(), "/docker-entrypoint-initdb.d/init.sh"))
+                ;
+            let node = docker_cli.as_ref().unwrap().run(image);
+            DatabaseConfig {
+                db: "ragnarok".to_string(),
+                host: "127.0.0.1".to_string(),
+                port: node.get_host_port_ipv4(5432),
+                username: "ragnarok".to_string(),
+                password: Some("ragnarok".to_string()),
+            }
         };
-        POSTGRES_CONTAINER = Some(node);
         let repository: Repository = Repository::new_pg_lazy(&database_config, Runtime::new().unwrap());
         let repository_arc = Arc::new(repository);
         let mut map_item_ids = HashMap::<u32, MapItem>::new();
@@ -72,14 +72,20 @@ pub async fn before_all() -> Arc<Server> {
         unsafe {
             crate::GlobalConfigService::instance_mut().maps = maps;
         }
+        let (not_use_sender, not_use_receiver) = create_mpsc::<Notification>();
         let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
         let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
         let server = Server::new(CONFIGS.as_ref().unwrap(), repository_arc.clone(), map_item_ids, vm, client_notification_sender, persistence_event_sender.clone());
         SERVER = Some(Arc::new(server));
         thread::spawn(move || {
             info!("Starting server");
-            Server::start(SERVER.clone().unwrap(), client_notification_receiver, persistence_event_receiver, persistence_event_sender, false);
+            Server::start(SERVER.clone().unwrap(), not_use_receiver, persistence_event_receiver, persistence_event_sender, false);
         });
+        thread::Builder::new().name("client_notification_thread".to_string()).spawn(move || {
+            for notification in client_notification_receiver.iter() {
+                // println!("Sent client notification {:?}", notification);
+            }
+        }).unwrap();
     });
     return server();
 }
@@ -88,7 +94,7 @@ pub fn server() -> Arc<Server> {
     unsafe { SERVER.clone().unwrap() }
 }
 
-pub async fn character_join_game() {
+pub async fn character_join_game() -> u32 {
     let server = server();
     let char_model: CharSelectModel = server.repository.character_fetch(2000000, 0).await.unwrap();
     let char_id = char_model.char_id as u32;
@@ -115,4 +121,5 @@ pub async fn character_join_game() {
     let character = server.state().get_character_unsafe(char_id);
     server.add_to_next_tick(CharacterJoinGame(character.char_id));
     ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &Map::name_without_ext(character.current_map_name()), character.x(), character.y(), char_id);
+    char_id
 }

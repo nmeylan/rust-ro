@@ -137,6 +137,9 @@ pub fn before_all() {
             Config::set_config_status_point_raising_cost(&mut config, file_path).unwrap();
             let file_path = "../config/exp.json";
             Config::set_exp_requirements(&mut config, file_path).unwrap();
+            config.game.mob_move_frequency_when_no_player_around = 0.95;
+            config.game.mob_spawn_refresh_frequency = 0.2;
+            config.game.mob_action_refresh_frequency = 0.2;
             CONFIGS = Some(config);
         }
         let skills_config = Config::load_skills_config("..").unwrap();

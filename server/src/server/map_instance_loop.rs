@@ -32,15 +32,16 @@ impl MapInstanceLoop {
                 loop {
                     let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
                     let now = Instant::now();
-                    if last_mobs_action.elapsed().as_secs() > 2 {
+                    if last_mobs_action.elapsed().as_millis() >= (GlobalConfigService::instance().config().game.mob_action_refresh_frequency * 1000.0) as u128 {
                         let map_instance_state = map_instance.state_mut().as_mut();
                         MapInstanceService::instance().mobs_action(map_instance_state);
                         last_mobs_action = now;
                     }
-                    if last_mobs_spawn.elapsed().as_secs() >= 1 {
+                    if last_mobs_spawn.elapsed().as_millis() >= (GlobalConfigService::instance().config().game.mob_spawn_refresh_frequency * 1000.0) as u128 {
                         MapInstanceService::instance().spawn_mobs(map_instance.map(), map_instance.state_mut().as_mut());
                         last_mobs_spawn = now;
                     }
+
                     if let Some(tasks) = map_instance.pop_task() {
                         for task in tasks {
                             match task {
@@ -70,6 +71,9 @@ impl MapInstanceLoop {
                                 }
                                 MapEvent::CharDropItems(character_drop_items) => {
                                     MapInstanceService::instance().character_drop_items_and_send_packet( map_instance.state_mut().as_mut(), character_drop_items);
+                                }
+                                MapEvent::AdminKillAllMobs(char_id) => {
+                                    MapInstanceService::instance().kill_all_mobs(map_instance.state_mut().as_mut(), map_instance.task_queue(), char_id);
                                 }
                             }
                         }

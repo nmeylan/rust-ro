@@ -2884,8 +2884,7 @@ dependencies = [
 [[package]]
 name = "testcontainers"
 version = "0.15.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f83d2931d7f521af5bae989f716c3fa43a6af9af7ec7a5e21b59ae40878cec00"
+source = "git+https://github.com/nmeylan/testcontainers-rs?rev=9c2e0812c47160950f2cc85b0b612e3e5aed7ab0#9c2e0812c47160950f2cc85b0b612e3e5aed7ab0"
 dependencies = [
  "bollard-stubs",
  "futures",

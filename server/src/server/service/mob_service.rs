@@ -33,7 +33,7 @@ impl MobService {
     }
 
     pub fn action_move(&self, mob: &mut Mob, cells: &[u16], x_size: u16, y_size: u16, start_at: u128) -> Option<MobMovement> {
-        if mob.is_moving() || mob.status.speed() == 1000 {
+        if !mob.is_present() || mob.is_moving() || mob.status.speed() == 1000 {
             return None;
         }
         let mut rng = fastrand::Rng::new();
@@ -42,7 +42,7 @@ impl MobService {
         let should_move = if mob.is_view_char {
             rand <= 80
         } else {
-            rand <= 10
+            rand <= (self.configuration_service.config().game.mob_move_frequency_when_no_player_around * 100.0) as i32
         };
 
         if should_move {
