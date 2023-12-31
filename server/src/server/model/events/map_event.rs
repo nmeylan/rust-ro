@@ -14,6 +14,7 @@ pub enum MapEvent {
     MobDamage(Damage),
     MobDeathClientNotification(MobLocation),
     MobDropItems(MobDropItems),
+    AdminKillAllMobs(u32),
     CharDropItems(CharacterDropItems),
 }
 

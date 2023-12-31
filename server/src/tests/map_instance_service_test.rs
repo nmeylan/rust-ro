@@ -75,6 +75,7 @@ mod tests {
         map_instance_state.mobs_mut().insert(mob_item_id, mob);
         // When
         context.map_instance_service.mob_die(&mut map_instance_state, mob_item_id, 0);
+        assert_eq!(map_instance_state.get_mob(mob_item_id).unwrap().is_present(), false);
         context.map_instance_service.remove_dead_mobs(&mut map_instance_state);
         // Then
         assert_eq!(mem::discriminant(&map_instance_state.get_mob(mob_item_id)), mem::discriminant(&None));

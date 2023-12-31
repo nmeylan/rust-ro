@@ -18,7 +18,7 @@ pub struct MapInstanceState {
     mobs: HashMap<u32, Mob>,
     map_items: HashMap<u32, MapItem>,
     dropped_items: HashMap<u32, DroppedItem>,
-    mob_spawns_tracks: Vec<MobSpawnTrack>,
+    mob_spawns_tracks: HashMap<u32, MobSpawnTrack>,
 }
 
 pub struct MobSpawnTrack {
@@ -39,11 +39,14 @@ impl MobSpawnTrack {
     pub fn increment_spawn(&mut self) {
         self.spawned_amount += 1;
     }
+    pub fn decrement_spawn(&mut self) {
+        self.spawned_amount -= 1;
+    }
 }
 
 impl MapInstanceState {
     pub fn new(key: MapInstanceKey, x_size: u16, y_size: u16, cells: Vec<u16>,
-               map_items: HashMap<u32, MapItem>, mob_spawns_tracks: Vec<MobSpawnTrack>) -> MapInstanceState {
+               map_items: HashMap<u32, MapItem>, mob_spawns_tracks: HashMap<u32, MobSpawnTrack>) -> MapInstanceState {
         Self {
             key,
             x_size,
@@ -140,10 +143,10 @@ impl MapInstanceState {
     pub fn get_map_item(&self, item_id: u32) -> Option<&MapItem> {
         self.map_items().get(&item_id)
     }
-    pub fn mob_spawns_tracks(&self) -> &Vec<MobSpawnTrack> {
+    pub fn mob_spawns_tracks(&self) -> &HashMap<u32, MobSpawnTrack> {
         &self.mob_spawns_tracks
     }
-    pub fn mob_spawns_tracks_mut(&mut self) -> &mut Vec<MobSpawnTrack> {
+    pub fn mob_spawns_tracks_mut(&mut self) -> &mut HashMap<u32, MobSpawnTrack> {
         &mut self.mob_spawns_tracks
     }
 
