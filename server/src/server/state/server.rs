@@ -6,7 +6,7 @@ use std::sync::atomic::AtomicI8;
 use crate::server::model::map::MAP_EXT;
 
 use crate::server::model::map_instance::MapInstance;
-use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
+use crate::server::model::map_item::{MapItem, MapItems, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use models::position::Position;
 use models::status::{StatusSnapshot};
 use crate::server::model::request::Request;
@@ -14,23 +14,23 @@ use crate::server::model::script::Script;
 use crate::server::model::session::Session;
 
 use crate::server::state::character::Character;
-
+use crate::util::hasher::NoopHasherU32;
 
 
 pub struct ServerState {
-    map_items: HashMap<u32, MapItem>,
+    map_items: MapItems,
     map_instances: HashMap<String, Vec<Arc<MapInstance>>>,
     map_instances_count: AtomicI8,
     sessions: Arc<RwLock<HashMap<u32, Arc<Session>>>>,
-    characters: HashMap<u32, Character>,
-    locked_map_item: HashSet<u32>, // map item that should be removed from map instance, in next tick, avoid to use them meanwhile.
+    characters: HashMap<u32, Character, NoopHasherU32>,
+    locked_map_item: HashSet<u32, NoopHasherU32>, // map item that should be removed from map instance, in next tick, avoid to use them meanwhile.
 }
 
 unsafe impl Sync for ServerState {}
 unsafe impl Send for ServerState {}
 
 impl ServerState {
-    pub fn new(map_items: HashMap<u32, MapItem>) -> Self {
+    pub fn new(map_items: MapItems) -> Self {
         Self {
             map_items,
             map_instances: Default::default(),
@@ -84,17 +84,17 @@ impl ServerState {
     pub fn insert_map_item(&mut self, id: u32, map_item: MapItem) {
         self.map_items.insert(id, map_item);
     }
-    pub fn map_items(&self) -> &HashMap<u32, MapItem> {
-        &self.map_items
+    pub fn map_items(&self) -> &HashMap<u32, MapItem, NoopHasherU32> {
+        &self.map_items.get()
     }
 
     pub fn sessions(&self) -> &Arc<RwLock<HashMap<u32, Arc<Session>>>> {
         &self.sessions
     }
-    pub fn characters(&self) -> &HashMap<u32, Character> {
+    pub fn characters(&self) -> &HashMap<u32, Character, NoopHasherU32> {
         &self.characters
     }
-    pub fn characters_mut(&mut self) -> &mut HashMap<u32, Character> {
+    pub fn characters_mut(&mut self) -> &mut HashMap<u32, Character, NoopHasherU32> {
         &mut self.characters
     }
     pub fn map_instances(&self) -> &HashMap<String, Vec<Arc<MapInstance>>> {

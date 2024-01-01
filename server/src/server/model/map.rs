@@ -2,7 +2,7 @@ use std::collections::{HashMap};
 use enums::cell::CellType;
 use crate::enums::EnumWithMaskValueU16;
 use crate::server::model::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
-use crate::server::model::map_item::{MapItem, ToMapItem};
+use crate::server::model::map_item::{MapItem, MapItems, ToMapItem};
 use crate::server::model::mob_spawn::MobSpawn;
 use crate::server::model::script::Script;
 use crate::server::model::warp::Warp;
@@ -11,6 +11,7 @@ use crate::server::Server;
 
 
 use crate::util::coordinate;
+use crate::util::hasher::NoopHasherU32;
 
 
 pub static MAP_EXT: &str = ".gat";
@@ -117,7 +118,7 @@ impl Map {
         }
     }
 
-    pub fn set_warp_cells(&self, cells: &mut [u16], map_items: &mut HashMap<u32, MapItem>) {
+    pub fn set_warp_cells(&self, cells: &mut [u16], map_items: &mut MapItems) {
         for warp in self.warps.iter() {
             map_items.insert(warp.id, warp.to_map_item());
             let start_x = warp.x - warp.x_size;
@@ -136,10 +137,10 @@ impl Map {
 
 
 
-    pub fn set_warps(&mut self, warps: &[Warp], map_item_ids: &mut HashMap<u32, MapItem>) {
+    pub fn set_warps(&mut self, warps: &[Warp], map_item_ids: &mut MapItems) {
         let warps = warps.iter().map(|warp| {
             let mut warp = warp.clone();
-            warp.set_id(Server::generate_id(map_item_ids));
+            warp.set_id(map_item_ids.generate_id());
             warp
         }).collect::<Vec<Warp>>();
         self.warps = warps;
@@ -149,11 +150,11 @@ impl Map {
         self.mob_spawns = mob_spawns.to_vec();
     }
 
-    pub fn set_scripts(&mut self, scripts: &[Script], map_item_ids: &mut HashMap<u32, MapItem>) {
+    pub fn set_scripts(&mut self, scripts: &[Script], map_item_ids: &mut MapItems) {
         self.scripts =
             scripts.iter().map(|script| {
                 let mut script = script.clone();
-                script.set_id(Server::generate_id(map_item_ids));
+                script.set_id(map_item_ids.generate_id());
                 script
             }).collect::<Vec<Script>>();
     }

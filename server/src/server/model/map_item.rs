@@ -1,7 +1,15 @@
+use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
+use std::sync::atomic::AtomicU32;
+use std::sync::atomic::Ordering::SeqCst;
 use models::position::Position;
+use crate::util::hasher::NoopHasherU32;
 
+
+pub const UNKNOWN_MAP_ITEM: MapItem = MapItem::unknown();
+pub const CHARACTER_MAX_MAP_ITEM_ID: u32 = 300000;
+pub const MAP_INSTANCE_MAX_MAP_ITEM_ID: u32 = 100000;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum MapItemType {
@@ -122,4 +130,35 @@ pub trait ToMapItem {
 
 pub trait ToMapItemSnapshot {
     fn to_map_item_snapshot(&self) -> MapItemSnapshot;
+}
+
+pub struct MapItems {
+    items: HashMap<u32, MapItem, NoopHasherU32>,
+    sequence: AtomicU32,
+    sequence_max: u32,
+}
+
+impl MapItems {
+    pub fn new(sequence_start: u32, sequence_max: u32) -> Self {
+        Self {
+            items: HashMap::<u32, MapItem, NoopHasherU32>::with_hasher(NoopHasherU32::default()),
+            sequence: AtomicU32::new(sequence_start),
+            sequence_max,
+        }
+    }
+
+    pub fn generate_id(&mut self) -> u32 {
+        self.sequence.fetch_add(1, SeqCst)
+    }
+
+    pub fn get(&self) -> &HashMap<u32, MapItem, NoopHasherU32> {
+        &self.items
+    }
+
+    pub fn insert(&mut self, id: u32, map_item: MapItem) {
+        self.items.insert(id, map_item);
+    }
+    pub fn remove(&mut self, id: u32) {
+        self.items.remove(&id);
+    }
 }
