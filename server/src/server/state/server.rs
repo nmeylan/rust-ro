@@ -84,9 +84,6 @@ impl ServerState {
     pub fn insert_map_item(&mut self, id: u32, map_item: MapItem) {
         self.map_items.insert(id, map_item);
     }
-    pub fn map_items(&self) -> &HashMap<u32, MapItem, NoopHasherU32> {
-        &self.map_items.get()
-    }
 
     pub fn sessions(&self) -> &Arc<RwLock<HashMap<u32, Arc<Session>>>> {
         &self.sessions

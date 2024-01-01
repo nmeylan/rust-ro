@@ -1,11 +1,10 @@
-use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
 use std::sync::atomic::AtomicU32;
 use std::sync::atomic::Ordering::SeqCst;
 use models::position::Position;
 use crate::util::hasher::NoopHasherU32;
-
+use hashbrown::HashMap;
 
 pub const UNKNOWN_MAP_ITEM: MapItem = MapItem::unknown();
 pub const CHARACTER_MAX_MAP_ITEM_ID: u32 = 300000;
@@ -156,7 +155,7 @@ impl MapItems {
     }
 
     pub fn insert(&mut self, id: u32, map_item: MapItem) {
-        self.items.insert(id, map_item);
+        self.items.insert_unique_unchecked(id, map_item);
     }
     pub fn remove(&mut self, id: u32) {
         self.items.remove(&id);
