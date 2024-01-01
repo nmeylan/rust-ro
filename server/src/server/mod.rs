@@ -12,7 +12,7 @@ use crate::repository::Repository;
 use configuration::configuration::Config;
 
 
-use crate::server::model::map_item::MapItem;
+use crate::server::model::map_item::{MapItem, MapItems};
 use crate::server::model::path::manhattan_distance;
 use crate::server::model::request::Request;
 use crate::server::model::response::Response;
@@ -48,6 +48,7 @@ use crate::server::service::skill_service::SkillService;
 use crate::server::service::status_service::StatusService;
 
 use crate::server::state::server::ServerState;
+use crate::util::hasher::NoopHasherU32;
 use crate::util::packet::{debug_packets_from_vec, PacketDirection};
 use crate::util::tick::delayed_tick;
 
@@ -65,7 +66,6 @@ thread_local!(pub static PACKETVER: RefCell<u32> = RefCell::new(0));
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
 pub const MOB_FOV: u16 = 14;
-pub const UNKNOWN_MAP_ITEM: MapItem = MapItem::unknown();
 
 pub struct Server {
     pub configuration: &'static Config,
@@ -102,7 +102,7 @@ impl Server {
         self.configuration.server.packetver
     }
 
-    pub fn new(configuration: &'static Config, repository: Arc<Repository>, map_items: HashMap<u32, MapItem>, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
+    pub fn new(configuration: &'static Config, repository: Arc<Repository>, map_items: MapItems, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
         let tasks_queue = Arc::new(TasksQueue::new());
         let movement_tasks_queue = Arc::new(TasksQueue::new());
         CharacterService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(),
@@ -155,17 +155,6 @@ impl Server {
         self.client_notification_sender.clone()
     }
 
-    pub fn generate_id(map_items: &mut HashMap<u32, MapItem>) -> u32 {
-        let mut id: u32;
-        loop {
-            id = rand::thread_rng().gen::<u32>();
-            if let std::collections::hash_map::Entry::Vacant(e) = map_items.entry(id) {
-                e.insert(UNKNOWN_MAP_ITEM);
-                break;
-            }
-        }
-        id
-    }
     #[allow(unused_lifetimes)]
     pub fn start<'server>(server_ref: Arc<Server>,
                           single_client_notification_receiver: Receiver<Notification>,

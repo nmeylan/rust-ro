@@ -8,13 +8,14 @@ use crate::enums::EnumWithMaskValueU16;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::map::Map;
+use crate::server::model::map_item::MapItems;
 use crate::server::model::tasks_queue::TasksQueue;
 
 static mut EMPTY_MAP: Option<Map> = None;
 static INIT_EMPTY_MAP : Once = Once::new();
 pub fn create_empty_map_instance_state() -> MapInstanceState {
     let cells: Vec<u16> = vec![CellType::Walkable.as_flag(); 100 * 100 + 1];
-    MapInstanceState::new(MapInstanceKey::new("empty.gat".to_string(), 0), 100, 100, cells, Default::default(), Default::default())
+    MapInstanceState::new(MapInstanceKey::new("empty.gat".to_string(), 0), 100, 100, cells, MapItems::new(0, u32::MAX), Default::default())
 }
 
 pub fn create_empty_map() -> &'static Map {
@@ -25,5 +26,5 @@ pub fn create_empty_map() -> &'static Map {
 }
 pub fn create_empty_map_instance(client_notification_channel: SyncSender<Notification>, task_queue: Arc<TasksQueue<MapEvent>>) -> MapInstance {
     let cells: Vec<u16> = vec![CellType::Walkable.as_flag(); 100 * 100 + 1];
-    MapInstance::from_map(Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())), create_empty_map(), 0, cells, client_notification_channel, Default::default(), task_queue)
+    MapInstance::from_map(Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())), create_empty_map(), 0, cells, client_notification_channel, MapItems::new(0, u32::MAX), task_queue)
 }

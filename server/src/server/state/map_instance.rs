@@ -1,12 +1,14 @@
 use std::collections::HashMap;
 use enums::cell::CellType;
 use crate::server::model::map_instance::MapInstanceKey;
-use crate::server::model::map_item::{MapItem, ToMapItem};
+use crate::server::model::map_item::{MapItem, MapItems, ToMapItem};
 use crate::server::state::mob::Mob;
 use crate::enums::EnumWithMaskValueU16;
 use models::item::DroppedItem;
+use crate::server::model::map::Map;
 
 use crate::util::coordinate;
+use crate::util::hasher::NoopHasherU32;
 
 #[derive(SettersAll)]
 pub struct MapInstanceState {
@@ -15,9 +17,9 @@ pub struct MapInstanceState {
     y_size: u16,
     // index in this array will give x and y position of the cell.
     cells: Vec<u16>,
-    mobs: HashMap<u32, Mob>,
-    map_items: HashMap<u32, MapItem>,
-    dropped_items: HashMap<u32, DroppedItem>,
+    mobs: HashMap<u32, Mob, NoopHasherU32>,
+    map_items: MapItems,
+    dropped_items: HashMap<u32, DroppedItem, NoopHasherU32>,
     mob_spawns_tracks: HashMap<u32, MobSpawnTrack>,
 }
 
@@ -46,7 +48,7 @@ impl MobSpawnTrack {
 
 impl MapInstanceState {
     pub fn new(key: MapInstanceKey, x_size: u16, y_size: u16, cells: Vec<u16>,
-               map_items: HashMap<u32, MapItem>, mob_spawns_tracks: HashMap<u32, MobSpawnTrack>) -> MapInstanceState {
+               map_items: MapItems, mob_spawns_tracks: HashMap<u32, MobSpawnTrack>) -> MapInstanceState {
         Self {
             key,
             x_size,
@@ -85,17 +87,17 @@ impl MapInstanceState {
     }
 
     pub fn remove_item_with_id(&mut self, id: u32) {
-        self.map_items.remove(&id);
+        self.map_items.remove(id);
     }
 
     pub fn get_mob(&self, mob_id: u32) -> Option<&Mob> {
         self.mobs().get(&mob_id)
     }
 
-    pub fn mobs(&self) -> &HashMap<u32, Mob> {
+    pub fn mobs(&self) -> &HashMap<u32, Mob, NoopHasherU32> {
         &self.mobs
     }
-    pub fn mobs_mut(&mut self) -> &mut HashMap<u32, Mob> {
+    pub fn mobs_mut(&mut self) -> &mut HashMap<u32, Mob, NoopHasherU32> {
         &mut self.mobs
     }
 
@@ -115,10 +117,10 @@ impl MapInstanceState {
     pub fn get_dropped_item(&self, dropped_item_id: u32) -> Option<&DroppedItem> {
         self.dropped_items().get(&dropped_item_id)
     }
-    pub fn dropped_items(&self) -> &HashMap<u32, DroppedItem> {
+    pub fn dropped_items(&self) -> &HashMap<u32, DroppedItem, NoopHasherU32> {
         &self.dropped_items
     }
-    pub fn dropped_items_mut(&mut self) -> &mut HashMap<u32, DroppedItem> {
+    pub fn dropped_items_mut(&mut self) -> &mut HashMap<u32, DroppedItem, NoopHasherU32> {
         &mut self.dropped_items
     }
     pub fn insert_dropped_item(&mut self, dropped_item: DroppedItem) {
@@ -134,10 +136,10 @@ impl MapInstanceState {
             None
         }
     }
-    pub fn map_items(&self) -> &HashMap<u32, MapItem> {
-        &self.map_items
+    pub fn map_items(&self) -> &HashMap<u32, MapItem, NoopHasherU32> {
+        self.map_items.get()
     }
-    pub fn map_items_mut(&mut self) -> &mut HashMap<u32, MapItem> {
+    pub fn map_items_mut(&mut self) -> &mut MapItems {
         &mut self.map_items
     }
     pub fn get_map_item(&self, item_id: u32) -> Option<&MapItem> {

@@ -74,7 +74,7 @@ impl MapInstanceService {
                     // TODO implement constraint zone
                     cell = Map::find_random_walkable_cell(map_instance_state.cells_mut().deref(), map.x_size());
                 }
-                let mob_map_item_id = Server::generate_id(map_instance_state.map_items_mut());
+                let mob_map_item_id = map_instance_state.map_items_mut().generate_id();
                 let mob = Mob::new(mob_map_item_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.info.name.clone(), mob_spawn.info.name_english.clone(),
                                    StatusFromDb::from_mob_model(&mob_spawn.info));
 
@@ -260,7 +260,7 @@ impl MapInstanceService {
 
     fn drop_items(&self, map_instance_state: &mut MapInstanceState, rng: &mut fastrand::Rng, x: u16, y: u16, item_id: i32, is_identified: bool, amount: u16, owner_id: Option<u32>) -> DroppedItem {
         let (random_x, random_y) = Map::find_random_free_cell_around(map_instance_state.cells(), map_instance_state.x_size(), x, y);
-        let map_item_id = Server::generate_id(map_instance_state.map_items_mut());
+        let map_item_id = map_instance_state.map_items_mut().generate_id();
         let dropped_item = DroppedItem {
             map_item_id,
             item_id,

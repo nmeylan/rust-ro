@@ -9,11 +9,12 @@ use byteorder::{LittleEndian, ReadBytesExt};
 use flate2::read::ZlibDecoder;
 use enums::cell::CellType;
 use crate::server::model::map::{Map, MAP_EXT};
-use crate::server::model::map_item::MapItem;
+use crate::server::model::map_item::{MapItem, MapItems};
 use crate::server::model::mob_spawn::MobSpawn;
 use crate::server::model::script::Script;
 use crate::server::model::warp::Warp;
 use crate::enums::EnumWithMaskValueU16;
+use crate::util::hasher::NoopHasherU32;
 
 pub struct MapLoader;
 
@@ -31,7 +32,7 @@ struct Header {
 
 impl MapLoader {
 
-    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: &mut HashMap<u32, MapItem>, map_dir: &'static str) -> HashMap<String, Map> {
+    pub fn load_maps(warps: HashMap<String, Vec<Warp>>, mob_spawns: HashMap<String, Vec<MobSpawn>>, scripts: HashMap<String, Vec<Script>>, map_items: &mut MapItems, map_dir: &'static str) -> HashMap<String, Map> {
         let mut maps = HashMap::<String, Map>::new();
         let paths = fs::read_dir(map_dir).unwrap();
         for path in paths {

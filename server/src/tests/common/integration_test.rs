@@ -19,7 +19,7 @@ use crate::server::model::events::game_event::GameEvent::CharacterJoinGame;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map::Map;
 use crate::server::model::map_instance::MapInstanceKey;
-use crate::server::model::map_item::MapItem;
+use crate::server::model::map_item::{MapItem, MapItems};
 use crate::server::model::status::StatusFromDb;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::Server;
@@ -27,6 +27,7 @@ use crate::server::service::server_service::ServerService;
 use crate::server::state::character::Character;
 use crate::tests::common;
 use crate::tests::common::{CONFIGS, create_mpsc};
+use crate::util::hasher::NoopHasherU32;
 use crate::util::log_filter::LogFilter;
 
 static INIT: Once = Once::new();
@@ -61,7 +62,7 @@ pub async fn before_all() -> Arc<Server> {
         };
         let repository: Repository = Repository::new_pg_lazy(&database_config, Runtime::new().unwrap());
         let repository_arc = Arc::new(repository);
-        let mut map_item_ids = HashMap::<u32, MapItem>::new();
+        let mut map_item_ids = MapItems::new(0, u32::MAX);
 
         let mob_models = serde_json::from_str::<MobModels>(&fs::read_to_string("../config/mobs.json").unwrap());
         let mobs: Vec<MobModel> = mob_models.unwrap().into();

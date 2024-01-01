@@ -38,12 +38,9 @@ use crate::repository::{ItemRepository, Repository};
 use std::time::{Instant};
 use flexi_logger::Logger;
 
-
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use tokio::runtime::Runtime;
 use server::Server;
-
-
 
 
 use configuration::configuration::{Config};
@@ -58,10 +55,9 @@ use crate::server::boot::map_loader::MapLoader;
 use crate::server::boot::mob_spawn_loader::MobSpawnLoader;
 use crate::server::boot::script_loader::ScriptLoader;
 use crate::server::boot::warps_loader::WarpLoader;
+use crate::server::model::map_item::MapItems;
 use crate::server::model::script::Script;
 
-
-use self::server::model::map_item::MapItem;
 use self::server::script::ScriptHandler;
 use crate::server::service::global_config_service::GlobalConfigService;
 
@@ -83,7 +79,7 @@ pub async fn main() {
     let repository_arc = Arc::new(repository);
     let items =  repository_arc.get_all_items().await.unwrap();
     let mobs =  repository_arc.get_all_mobs().await.unwrap();
-    let mut map_item_ids = HashMap::<u32, MapItem>::new();
+    let mut map_item_ids = MapItems::new(300000, u32::MAX);
     #[cfg(feature = "static_db_update")]
     {
         // items.json is used in tests

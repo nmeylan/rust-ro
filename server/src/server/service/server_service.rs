@@ -12,7 +12,7 @@ use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::boot::map_loader::MapLoader;
 use crate::server::model::map::{Map, RANDOM_CELL};
 use crate::server::model::map_instance::{MapInstance};
-use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType};
+use crate::server::model::map_item::{CHARACTER_MAX_MAP_ITEM_ID, MAP_INSTANCE_MAX_MAP_ITEM_ID, MapItem, MapItems, MapItemSnapshot, MapItemType};
 use models::position::Position;
 use models::status::{Status, StatusSnapshot};
 use crate::MAP_DIR;
@@ -37,6 +37,7 @@ use crate::server::state::character::Character;
 
 
 use crate::server::state::server::ServerState;
+use crate::util::hasher::NoopHasherU32;
 use crate::util::tick::get_tick;
 
 static mut SERVICE_INSTANCE: Option<ServerService> = None;
@@ -76,7 +77,9 @@ impl ServerService {
 
     pub fn create_map_instance(&self, server_state: &mut ServerState, map: &'static Map, instance_id: u8) -> Arc<MapInstance> {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", map.name(), map.x_size(), map.y_size(), map.length());
-        let mut map_items: HashMap<u32, MapItem> = HashMap::with_capacity(2048);
+        let start_sequence = (CHARACTER_MAX_MAP_ITEM_ID + server_state.map_instances().len() as u32 * MAP_INSTANCE_MAX_MAP_ITEM_ID);
+        let end_sequence = start_sequence + MAP_INSTANCE_MAX_MAP_ITEM_ID - 1;
+        let mut map_items = MapItems::new(start_sequence, end_sequence);
 
         let mut cells = MapLoader::generate_cells(map.name(), map.length() as usize, unsafe { MAP_DIR });
         map.set_warp_cells(&mut cells, &mut map_items);
