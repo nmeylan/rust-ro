@@ -19,7 +19,7 @@ pub struct MapInstanceState {
     cells: Vec<u16>,
     mobs: HashMap<u32, Mob, NoopHasherU32>,
     map_items: MapItems,
-    dropped_items: HashMap<u32, DroppedItem, NoopHasherU32>,
+    dropped_items: hashbrown::HashMap<u32, DroppedItem, NoopHasherU32>,
     mob_spawns_tracks: HashMap<u32, MobSpawnTrack>,
 }
 
@@ -117,15 +117,15 @@ impl MapInstanceState {
     pub fn get_dropped_item(&self, dropped_item_id: u32) -> Option<&DroppedItem> {
         self.dropped_items().get(&dropped_item_id)
     }
-    pub fn dropped_items(&self) -> &HashMap<u32, DroppedItem, NoopHasherU32> {
+    fn dropped_items(&self) -> &hashbrown::HashMap<u32, DroppedItem, NoopHasherU32> {
         &self.dropped_items
     }
-    pub fn dropped_items_mut(&mut self) -> &mut HashMap<u32, DroppedItem, NoopHasherU32> {
+    fn dropped_items_mut(&mut self) -> &mut hashbrown::HashMap<u32, DroppedItem, NoopHasherU32> {
         &mut self.dropped_items
     }
     pub fn insert_dropped_item(&mut self, dropped_item: DroppedItem) {
         self.insert_item(dropped_item.to_map_item());
-        self.dropped_items_mut().insert(dropped_item.map_item_id, dropped_item);
+        self.dropped_items_mut().insert_unique_unchecked(dropped_item.map_item_id, dropped_item);
     }
 
     pub fn remove_dropped_item(&mut self, id: u32) -> Option<DroppedItem>{
@@ -136,7 +136,7 @@ impl MapInstanceState {
             None
         }
     }
-    pub fn map_items(&self) -> &HashMap<u32, MapItem, NoopHasherU32> {
+    pub fn map_items(&self) -> &hashbrown::HashMap<u32, MapItem, NoopHasherU32> {
         self.map_items.get()
     }
     pub fn map_items_mut(&mut self) -> &mut MapItems {
