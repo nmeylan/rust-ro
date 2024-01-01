@@ -6164,7 +6164,7 @@ struct PACKET_ZC_SSILIST_ITEM_CLICK_ACK {
   short x
   short y
  }
-0x3e08
+0x083e
 struct PACKET_AC_REFUSE_LOGIN_R2 {
   short PacketId
   unsigned int ErrorCode

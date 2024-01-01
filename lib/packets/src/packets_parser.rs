@@ -2338,7 +2338,7 @@ pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {
     if buffer[0] == 0x3d && buffer[1] == 0x08 {
         return Box::new(PacketZcSsilistItemClickAck::from(buffer, packetver));
     }
-    if buffer[0] == 0x08 && buffer[1] == 0x3e {
+    if buffer[0] == 0x3e && buffer[1] == 0x08 {
         return Box::new(PacketAcRefuseLoginR2::from(buffer, packetver));
     }
     if buffer[0] == 0x41 && buffer[1] == 0x08 {
