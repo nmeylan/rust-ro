@@ -4,6 +4,7 @@ use std::panic;
 use packets::packets::Packet;
 use packets::packets_parser::parse;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::util::tick::get_tick;
 
 pub fn chain_packets(packets: Vec<&dyn Packet>) -> Vec<u8> {
     let mut res: Vec<u8> = Vec::new();
@@ -43,9 +44,12 @@ impl Display for PacketDirection {
 }
 
 pub fn debug_packets_from_vec(outgoing: &SocketAddr, direction: PacketDirection, packetver: u32, bytes: &Vec<u8>, name: &Option<String>) {
-    let mut buffer = [0_u8; 2048];
+    let mut buffer = [0_u8; 10048];
     if bytes.len() < 2 {
         return;
+    }
+    if bytes.len() > buffer.len() {
+        panic!("Bulk of packet is greater {} than buffer {}", bytes.len(), buffer.len());
     }
     for (i, byte) in bytes.iter().enumerate() {
         if i >= buffer.len() {
@@ -53,9 +57,12 @@ pub fn debug_packets_from_vec(outgoing: &SocketAddr, direction: PacketDirection,
         }
         buffer[i] = *byte;
     }
+    if bytes.len() >= buffer.len() {
+        panic!("Can't debug packet {:02X?}\n from bulk packets {:02X?}", buffer, bytes.as_slice())
+    }
     debug_packets(outgoing, direction, packetver, &buffer, bytes.len(), name);
 }
-pub fn debug_packets(outgoing: &SocketAddr, direction: PacketDirection, packetver: u32, buffer: &[u8; 2048], bytes_read: usize, name: &Option<String>) {
+pub fn debug_packets(outgoing: &SocketAddr, direction: PacketDirection, packetver: u32, buffer: &[u8], bytes_read: usize, name: &Option<String>) {
     let packet = parse(&buffer[..bytes_read], packetver);
     if packet.raw().len() < bytes_read {
         let mut offset = 0;
@@ -86,5 +93,41 @@ fn print_packet(name: &Option<String>, outgoing: &SocketAddr, direction: PacketD
         packet.pretty_debug();
         info!("{:02X?}", packet.raw());
         println!("----------------------------End Packet----------------------------\n");
+    }
+}
+
+pub struct PacketsBuffer {
+    session_id: u32,
+    max_capacity: usize,
+    created_at: u128,
+    data: Vec<u8>
+}
+
+impl PacketsBuffer {
+    pub fn new(session_id: u32, max_capacity: usize) -> Self {
+        Self {
+            session_id,
+            max_capacity,
+            created_at: get_tick(),
+            data: Vec::with_capacity(2048),
+        }
+    }
+
+    pub fn push(&mut self, new_data: &[u8]) {
+        self.data.extend_from_slice(new_data);
+    }
+    pub fn should_flush(&self) -> bool {
+        get_tick() - self.created_at > 20
+    }
+
+    pub fn can_contain(&self, len: usize) -> bool {
+        self.data.len() + len <= self.max_capacity
+    }
+
+    pub fn data(&self) -> &Vec<u8> {
+        &self.data
+    }
+    pub fn session_id(&self) -> u32 {
+        self.session_id
     }
 }
