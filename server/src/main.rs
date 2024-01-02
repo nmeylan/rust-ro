@@ -34,9 +34,12 @@ use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
 use std::sync::{Arc};
+use std::thread;
 use crate::repository::{ItemRepository, Repository};
 use std::time::{Instant};
-use flexi_logger::Logger;
+use flexi_logger::{AdaptiveFormat, DeferredNow, Logger, TS_DASHES_BLANK_COLONS_DOT_BLANK};
+use log::Record;
+use rathena_script_lang_interpreter::lang::value::Scope::Local;
 
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use tokio::runtime::Runtime;
@@ -74,7 +77,18 @@ pub async fn main() {
     }
 
     let logger= Logger::try_with_str(configs().server.log_level.as_ref().unwrap()).unwrap();
-    logger.filter(Box::new(LogFilter::new(configs().server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
+    logger.format(|w: &mut dyn std::io::Write, now: &mut DeferredNow, record: &Record| {
+        let level = record.level();
+        write!(
+            w,
+            "{} [{}] [{}]: {}",
+            now.format(TS_DASHES_BLANK_COLONS_DOT_BLANK),
+            thread::current().name().unwrap_or("<unnamed>"),
+            record.level(),
+            &record.args()
+        )
+    })
+        .filter(Box::new(LogFilter::new(configs().server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
     let repository : Repository = Repository::new_pg(&configs().database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
     let items =  repository_arc.get_all_items().await.unwrap();

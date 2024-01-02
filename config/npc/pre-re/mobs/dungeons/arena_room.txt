@@ -1,0 +1,2 @@
+
+arena_room,100,100	monster	Poring	1002,100

@@ -33,7 +33,12 @@ pub fn handle_map_item_name(server: &Server, context: Request) {
     let mut name: [char; 24] = [0 as char; 24];
     // let aaaaa = format!("{} {}", map_item.x(), map_item.y());
     // aaaaa.fill_char_array(name.as_mut());
-    map_item_name.fill_char_array(name.as_mut());
+    #[cfg(feature = "debug_mob_movement")]{
+        map_item.id().to_string().fill_char_array(name.as_mut());
+    }
+    #[cfg(not(feature = "debug_mob_movement"))]{
+        map_item_name.fill_char_array(name.as_mut());
+    }
     packet_zc_ack_reqnameall2.set_name(name);
     // TODO handle guild name, guild title
     packet_zc_ack_reqnameall2.fill_raw();

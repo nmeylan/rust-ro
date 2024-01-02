@@ -14,6 +14,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::util::tick::get_tick;
 use crate::server::service::map_instance_service::MapInstanceService;
+use crate::util::debug::debug_in_game_chat;
 
 pub struct MapInstanceLoop;
 
@@ -34,7 +35,7 @@ impl MapInstanceLoop {
                     let now = Instant::now();
                     if last_mobs_action.elapsed().as_millis() >= (GlobalConfigService::instance().config().game.mob_action_refresh_frequency * 1000.0) as u128 {
                         let map_instance_state = map_instance.state_mut().as_mut();
-                        MapInstanceService::instance().mobs_action(map_instance_state);
+                        MapInstanceService::instance().mobs_action(map_instance_state, tick);
                         last_mobs_action = now;
                     }
                     if last_mobs_spawn.elapsed().as_millis() >= (GlobalConfigService::instance().config().game.mob_spawn_refresh_frequency * 1000.0) as u128 {
@@ -104,7 +105,11 @@ impl MapInstanceLoop {
                                     continue;
                                 }
                                 let movement = mob.pop_movement().unwrap();
-                                // debug!("mob move {} at {}", movement.position(), movement.move_at());
+                                #[cfg(feature = "debug_mob_movement")]
+                                {
+                                    info!("mob {} move {} at {}", mob.id, movement.position(), movement.move_at());
+                                }
+                                mob.set_last_moved_at(tick);
                                 mob.update_position(movement.position().x, movement.position().y);
 
                                 if let Some(next_movement) = mob.peek_mut_movement() {

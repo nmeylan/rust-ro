@@ -9,6 +9,7 @@ use crate::server::model::movement::{Movable, Movement};
 use models::position::Position;
 
 use models::status::{StatusSnapshot};
+use crate::server::model::path::manhattan_distance;
 
 
 #[derive(Setters, Clone)]
@@ -29,6 +30,7 @@ pub struct Mob {
     pub damages: HashMap<u32, u32>,
     pub last_attacked_at: u128,
     pub to_remove: bool,
+    pub last_moved_at: u128,
 }
 
 pub struct MobMovement {
@@ -65,7 +67,8 @@ impl Mob {
             movements: vec![],
             damages: Default::default(),
             last_attacked_at: 0,
-            to_remove: false
+            to_remove: false,
+            last_moved_at: 0,
         }
     }
 
@@ -84,6 +87,12 @@ impl Mob {
     }
 
     pub fn update_position(&mut self, x: u16, y: u16) {
+        #[cfg(feature = "debug_mob_movement")]
+        {
+            if manhattan_distance(self.x, self.y, x, y) > 2 {
+                error!("mob teleported old ({},{}) new ({},{})", self.x, self.y, x, y);
+            }
+        }
         self.x = x;
         self.y = y;
     }
@@ -133,6 +142,9 @@ impl Mob {
             }
         }
         attacker_with_higher_damage
+    }
+    pub fn set_last_moved_at(&mut self, tick: u128) {
+        self.last_moved_at = tick;
     }
 }
 
