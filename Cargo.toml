@@ -17,17 +17,9 @@ testcontainers = {git = "https://github.com/nmeylan/testcontainers-rs", rev = "9
 opt-level = 0
 incremental = true
 
-[profile.dev.package."*"]
-opt-level = 2
-incremental = true
-
-[profile.dev.package."packets"]
+[profile.release.package."configuration"]
 opt-level = 0
-[profile.dev.package."enums"]
+[profile.release.package."packets"]
 opt-level = 0
-[profile.dev.package."skills"]
-opt-level = 0
-[profile.dev.package."models"]
-opt-level = 0
-[profile.dev.package."server"]
+[profile.release.package."tools"]
 opt-level = 0
