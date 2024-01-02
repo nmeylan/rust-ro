@@ -276,10 +276,13 @@ impl NativeMethodHandler for PlayerScriptHandler {
                 self.session.char_id()
             };
             self.server.add_to_next_tick(CharacterUpdateLook(CharacterLook { look_type: LookType::from_value(look_type as usize), look_value: look_value as u16, char_id }));
+        } else if native.name.eq("basicskillcheck") {
+            // TODO: rAthena brings from a config file the flag `basic_skill_check`
+            // and since I didn't found the config file I'm assuming that it will be implemented yet.
+            let skill_check_flag = value::Value::new_number(1);
+            execution_thread.push_constant_on_stack(skill_check_flag);
         } else if native.name.eq("getcharid") {
-            println!("getcharid: {:?}", params);
             let info_type = params[0].number_value().unwrap() as usize;
-
             let char = self.server.state().get_character_unsafe(self.session.char_id());
 
             let char_info = match info_type {
