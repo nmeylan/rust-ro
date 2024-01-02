@@ -1,8 +1,8 @@
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc, mpsc, RwLock};
 use std::net::{Shutdown, TcpListener, TcpStream};
 use std::collections::HashMap;
 use rathena_script_lang_interpreter::lang::vm::Vm;
-use std::sync::mpsc::{Receiver, SyncSender};
+use std::sync::mpsc::{Receiver, RecvTimeoutError, SyncSender};
 use std::thread;
 use std::thread::Scope;
 use tokio::runtime::Runtime;
@@ -25,6 +25,7 @@ use model::events::persistence_event::PersistenceEvent;
 
 use crate::util::cell::{MyRefMut, MyUnsafeCell};
 use std::cell::RefCell;
+use std::time::Duration;
 
 
 use rand::Rng;
@@ -35,6 +36,7 @@ use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::character::item_service::ItemService;
 use script::skill::ScriptSkillService;
 use crate::server::game_loop::GAME_TICK_RATE;
+use crate::server::model::events::client_notification::CharNotification;
 
 
 use crate::server::service::battle_service::BattleService;
@@ -49,7 +51,7 @@ use crate::server::service::status_service::StatusService;
 
 use crate::server::state::server::ServerState;
 use crate::util::hasher::NoopHasherU32;
-use crate::util::packet::{debug_packets_from_vec, PacketDirection};
+use crate::util::packet::{debug_packets_from_vec, PacketDirection, PacketsBuffer};
 use crate::util::tick::delayed_tick;
 
 pub mod boot;
@@ -222,56 +224,59 @@ impl Server {
                 // Start a thread sending packet to notify client from game update
                 let server_ref_clone = server_ref.clone();
                 thread::Builder::new().name("client_notification_thread".to_string()).spawn_scoped(server_thread_scope, move || {
-                    PACKETVER.with(|ver| *ver.borrow_mut() = server_ref_clone.packetver());
                     let server_ref = server_ref_clone;
-                    for response in single_client_notification_receiver.iter() {
-                        match response {
-                            Notification::Char(char_notification) => {
-                                if let Some(tcp_stream) = server_ref.state().get_map_socket_for_char_id(char_notification.char_id()) {
-                                    let data = char_notification.serialized_packet();
+                    let mut packets_by_session: Vec<PacketsBuffer> = Vec::new();
+                    loop {
+                        packets_by_session.retain(|buffer| {
+                            if buffer.should_flush() {
+                                if let Some(tcp_stream) = server_ref.state().get_map_socket_for_char_id(buffer.session_id()) {
                                     let mut tcp_stream_guard = tcp_stream.write().unwrap();
                                     if tcp_stream_guard.peer_addr().is_ok() {
-                                        debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                                        if data.is_empty() {
-                                            debug!("{:?}", char_notification);
+                                        debug!("Respond to {:?} with {} bytes with: {:02X?}", tcp_stream_guard.peer_addr(), buffer.data().len(), buffer.data());
+                                        if buffer.data().is_empty() {
+                                            debug!("{} - {:?}", buffer.session_id(), buffer.data());
                                         }
                                         if GlobalConfigService::instance().config().server.trace_packet {
                                             debug_packets_from_vec(tcp_stream_guard.peer_addr().as_ref().unwrap(), PacketDirection::Backward,
-                                                                   GlobalConfigService::instance().packetver(), data, &Option::None);
+                                                                   GlobalConfigService::instance().packetver(), buffer.data(), &Option::None);
                                         }
-                                        if tcp_stream_guard.write_all(data).is_ok() {
+                                        if tcp_stream_guard.write_all(buffer.data()).is_ok() {
                                             tcp_stream_guard.flush().unwrap();
                                         }
                                     } else {
                                         error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
                                     }
                                 }
+                                return false;
                             }
-                            Notification::Area(area_notification) => {
-                                match area_notification.range_type {
-                                    AreaNotificationRangeType::Map => {}
-                                    AreaNotificationRangeType::Fov { x, y, exclude_id } => {
-                                        server_ref.state().characters().iter()
-                                            .filter(|(_, character)| character.current_map_name() == &area_notification.map_name
-                                                && character.current_map_instance() == area_notification.map_instance_id
-                                                && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
-                                                && (exclude_id.is_none() || exclude_id.unwrap() != character.char_id)
-                                            )
-                                            .for_each(|(_, character)| {
-                                                if let Some(tcp_stream) = server_ref.state().get_map_socket_for_char_id(character.char_id) {
-                                                    let data = area_notification.serialized_packet();
-                                                    let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                                                    if tcp_stream_guard.peer_addr().is_ok() {
-                                                        debug!("Area - Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                                                        tcp_stream_guard.write_all(data).map(|_| tcp_stream_guard.flush());
-                                                    } else {
-                                                        error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
-                                                    }
-                                                }
-                                            });
+                            true
+                        });
+                        match single_client_notification_receiver.recv_timeout(Duration::from_millis(16)) {
+                            Ok(response) => {
+                                match response {
+                                    Notification::Char(char_notification) => {
+                                        Self::buffer_packets(&mut packets_by_session, char_notification.char_id(), char_notification.serialized_packet().as_slice());
+                                    }
+                                    Notification::Area(area_notification) => {
+                                        match area_notification.range_type {
+                                            AreaNotificationRangeType::Map => {}
+                                            AreaNotificationRangeType::Fov { x, y, exclude_id } => {
+                                                server_ref.state().characters().iter()
+                                                    .filter(|(_, character)| character.current_map_name() == &area_notification.map_name
+                                                        && character.current_map_instance() == area_notification.map_instance_id
+                                                        && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
+                                                        && (exclude_id.is_none() || exclude_id.unwrap() != character.char_id)
+                                                    )
+                                                    .for_each(|(_, character)| {
+                                                        Self::buffer_packets(&mut packets_by_session, character.char_id, area_notification.serialized_packet().as_slice());
+                                                    });
+                                            }
+                                        }
                                     }
                                 }
                             }
+                            Err(mpsc::RecvTimeoutError::Timeout) => {}
+                            _ => {}
                         }
                     }
                 }).unwrap();
@@ -295,6 +300,24 @@ impl Server {
                 Self::persistence_thread(persistence_event_receiver, runtime, server_ref_clone.repository.clone());
             }).unwrap();
         })
+    }
+
+    fn buffer_packets(mut packets_by_session: &mut Vec<PacketsBuffer>, char_id: u32, data: &[u8]) {
+        let maybe_buffer = packets_by_session.iter_mut().find(|buffer| buffer.session_id() == char_id);
+        if maybe_buffer.is_none() {
+            let mut buffer = PacketsBuffer::new(char_id, 2048);
+            buffer.push(data);
+            packets_by_session.push(buffer);
+        } else {
+            let mut buffer = maybe_buffer.unwrap();
+            if buffer.can_contain(data.len()) {
+                buffer.push(data);
+            } else {
+                let mut buffer = PacketsBuffer::new(char_id, 2048);
+                buffer.push(data);
+                packets_by_session.push(buffer);
+            }
+        }
     }
 
     pub fn ensure_session_exists(&self, tcp_stream: &Arc<RwLock<TcpStream>>) -> Option<u32> {
