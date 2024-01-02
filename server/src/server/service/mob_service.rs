@@ -33,14 +33,14 @@ impl MobService {
     }
 
     pub fn action_move(&self, mob: &mut Mob, cells: &[u16], x_size: u16, y_size: u16, start_at: u128) -> Option<MobMovement> {
-        if !mob.is_present() || mob.is_moving() || mob.status.speed() == 1000 {
+        if !mob.is_present() || mob.is_moving() || mob.status.speed() == 1000 || start_at - mob.last_moved_at < 500 {
             return None;
         }
         let mut rng = fastrand::Rng::new();
         let mut movement: Option<MobMovement> = None;
         let rand = rng.i32(0..=100);
         let should_move = if mob.is_view_char {
-            rand <= 80
+            rand <= (self.configuration_service.config().game.mob_move_frequency_when_player_around * 100.0) as i32
         } else {
             rand <= (self.configuration_service.config().game.mob_move_frequency_when_no_player_around * 100.0) as i32
         };
@@ -50,6 +50,9 @@ impl MobService {
             let current_x = mob.x;
             let current_y = mob.y;
             if let Some((x, y)) = Map::find_random_walkable_cell_in_max_range(cells, x_size, y_size, current_x, current_y, rand_distance) {
+                if current_x == x && current_y == y {
+                    return None;
+                }
                 let from = Position { x: current_x, y: current_y, dir: 0 };
                 let to = Position { x, y, dir: 0 };
                 movement = Some(MobMovement { id: mob.id, from, to });

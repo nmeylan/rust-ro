@@ -47,6 +47,7 @@ pub struct GameConfig {
     pub max_inventory: u16,
     pub max_base_level: u32,
     pub mob_density: f32,
+    pub mob_move_frequency_when_player_around: f32,
     pub mob_move_frequency_when_no_player_around: f32,
     pub mob_spawn_refresh_frequency: f32,
     pub mob_action_refresh_frequency: f32,

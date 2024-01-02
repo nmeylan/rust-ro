@@ -99,17 +99,20 @@ impl MapInstanceService {
         // }
     }
 
-    pub fn mobs_action(&self, map_instance_state: &mut MapInstanceState) {
+    pub fn mobs_action(&self, map_instance_state: &mut MapInstanceState, tick: u128) {
         let start_time = get_tick_client();
-        let start_at = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
         let mut mob_movements: Vec<MobMovement> = Vec::with_capacity(map_instance_state.mobs().len() / 2);
         let cells = map_instance_state.cells().clone();
         let x_size = map_instance_state.x_size();
         let y_size = map_instance_state.y_size();
         for mob in map_instance_state.mobs_mut().values_mut() {
-            if let Some(mob_movement) = self.mob_service.action_move(mob, cells.as_ref(), x_size, y_size, start_at) {
+            if let Some(mob_movement) = self.mob_service.action_move(mob, cells.as_ref(), x_size, y_size, tick) {
                 mob_movements.push(mob_movement);
             }
+        }
+        #[cfg(feature = "debug_mob_movement")]
+        {
+            info!("mobs_action");
         }
         for mob_movement in mob_movements {
             let mut packet_zc_notify_move = PacketZcNotifyMove::new(self.configuration_service.packetver());
@@ -117,7 +120,10 @@ impl MapInstanceService {
             packet_zc_notify_move.move_data = mob_movement.from.to_move_data(&mob_movement.to);
             packet_zc_notify_move.set_move_start_time(start_time);
             packet_zc_notify_move.fill_raw();
-            debug!("Mob {} moving from {} to {}. Notify area around {},{}", mob_movement.id, mob_movement.from, mob_movement.to, mob_movement.from.x, mob_movement.from.y);
+            #[cfg(feature = "debug_mob_movement")]
+            {
+                info!("Mob {} moving from {} to {}. Notify area around {},{}", mob_movement.id, mob_movement.from, mob_movement.to, mob_movement.from.x, mob_movement.from.y);
+            }
             self.client_notification_sender.send(Notification::Area(
                 AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
                                       AreaNotificationRangeType::Fov { x: mob_movement.from.x, y: mob_movement.from.y, exclude_id: None },

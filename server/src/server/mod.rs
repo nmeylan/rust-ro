@@ -239,8 +239,9 @@ impl Server {
                                             debug_packets_from_vec(tcp_stream_guard.peer_addr().as_ref().unwrap(), PacketDirection::Backward,
                                                                    GlobalConfigService::instance().packetver(), data, &Option::None);
                                         }
-                                        tcp_stream_guard.write_all(data).unwrap();
-                                        tcp_stream_guard.flush().unwrap();
+                                        if tcp_stream_guard.write_all(data).is_ok() {
+                                            tcp_stream_guard.flush().unwrap();
+                                        }
                                     } else {
                                         error!("{:?} socket has been closed", tcp_stream_guard.peer_addr().err());
                                     }

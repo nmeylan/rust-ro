@@ -17,3 +17,4 @@ izlude_in,74,158,0	warp	iz04-1	3,2,izlude,52,136
 izlude_in,87,169,0	warp	iz05-1	2,3,izlude_in,111,169
 izlude,149,39,0	warp	izair1	1,1,izlude,182,56
 izlude,176,56,0	warp	lizair2	1,1,izlude,145,40
+izlude,128,224,0	warp	iz09	1,1,arena_room,100,100
