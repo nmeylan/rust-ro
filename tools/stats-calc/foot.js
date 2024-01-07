@@ -9,7 +9,7 @@ if (!self.__WB_pmw) {
 }
 
 function isNonRangeWeapon() {
-    return n_A_WeaponType !=  WEAPON_TYPE_BOW && n_A_WeaponType !=  WEAPON_TYPE_INSTRUMENT && n_A_WeaponType !=  WEAPON_TYPE_WHIP && n_A_WeaponType !=  WEAPON_TYPE_HANDGUN && n_A_WeaponType !=  WEAPON_TYPE_RIFLE && n_A_WeaponType !=  WEAPON_TYPE_SHOTGUN && n_A_WeaponType !=  WEAPON_TYPE_GATLING_GUN && n_A_WeaponType !=  WEAPON_TYPE_GRENADE_LAUNCHER;
+    return n_A_WeaponType != WEAPON_TYPE_BOW && n_A_WeaponType != WEAPON_TYPE_INSTRUMENT && n_A_WeaponType != WEAPON_TYPE_WHIP && n_A_WeaponType != WEAPON_TYPE_HANDGUN && n_A_WeaponType != WEAPON_TYPE_RIFLE && n_A_WeaponType != WEAPON_TYPE_SHOTGUN && n_A_WeaponType != WEAPON_TYPE_GATLING_GUN && n_A_WeaponType != WEAPON_TYPE_GRENADE_LAUNCHER;
 }
 
 {
@@ -105,8 +105,7 @@ function isNonRangeWeapon() {
             JobASPD[20][7] = 0;
         }
 
-        for (i = 21; i >= 0; i--)
-            document.calcForm.A_WeaponType.options[i] = null;
+        document.calcForm.A_WeaponType.options.length = 0;
         j = 0;
         for (i = 0; i <= 21; i++) {
             if (JobASPD[20][i] != 0) {
@@ -135,9 +134,7 @@ function isNonRangeWeapon() {
     function WeaponSet() {
         n_A_JobSet();
         n_A_WeaponType = eval(document.calcForm.A_WeaponType.value);
-        for (i = 50; i >= 0; i--) {
-            document.calcForm.A_weapon1.options[i] = null;
-        }
+        document.calcForm.A_weapon1.options.length = 0;
 
         work = new Array();
         j = 0;
@@ -162,9 +159,7 @@ function isNonRangeWeapon() {
     function WeaponSetLeft() {
         n_A_JobSet();
         n_A_Weapon2Type = eval(document.calcForm.A_Weapon2Type.value);
-        for (i = 50; i >= 0; i--) {
-            document.calcForm.A_weapon2.options[i] = null;
-        }
+        document.calcForm.A_weapon2.options.length = 0;
         work = new Array();
         j = 0;
         for (i = 0; i <= ItemMax; i++) {
@@ -183,19 +178,15 @@ function isNonRangeWeapon() {
 
     function WeaponSet2() {
         n_A_JobSet();
-        for (i = 120; i >= 0; i--) {
-            document.calcForm.A_head1.options[i] = null;
-        }
-        for (i = 40; i >= 0; i--) {
-            document.calcForm.A_head2.options[i] = null;
-            document.calcForm.A_head3.options[i] = null;
-            document.calcForm.A_left.options[i] = null;
-            document.calcForm.A_body.options[i] = null;
-            document.calcForm.A_shoulder.options[i] = null;
-            document.calcForm.A_shoes.options[i] = null;
-            document.calcForm.A_acces1.options[i] = null;
-            document.calcForm.A_acces2.options[i] = null;
-        }
+        document.calcForm.A_head1.options.length = 0;
+        document.calcForm.A_head2.options.length = 0;
+        document.calcForm.A_head3.options.length = 0;
+        document.calcForm.A_left.options.length = 0;
+        document.calcForm.A_body.options.length = 0;
+        document.calcForm.A_shoulder.options.length = 0;
+        document.calcForm.A_shoes.options.length = 0;
+        document.calcForm.A_acces1.options.length = 0;
+        document.calcForm.A_acces2.options.length = 0;
         workB = new Array();
         for (i = 0; i <= 7; i++)
             workB[i] = new Array();
@@ -391,8 +382,7 @@ function isNonRangeWeapon() {
         if (w_ASSPch) {
 
             for (k = 0; JobSkillActiveOBJ[n_A_JOB][k] != 999; k++) ;
-            for (i = k + 20; i >= k; i--)
-                document.calcForm.A_ActiveSkill.options[i] = null;
+            document.calcForm.A_ActiveSkill.options.length = 0;
             j = 0;
             for (i = k; w_ASSP0[j] != 999; i++, j++) {
                 if (w_ASSP9[j] < 200000)
@@ -603,8 +593,7 @@ function isNonRangeWeapon() {
         wES2 = eval(document.calcForm.ENEMY_SORT.value)
 
         if (20 <= wES2 && wES2 <= 99 || wES2 == 0) {
-            for (i = EnemyNum; i >= 0; i--)
-                document.calcForm.B_Enemy.options[i] = null;
+            document.calcForm.B_Enemy.options.length = 0;
             for (i = 0; ESortStr[wES2][i] != "N"; i++)
                 document.calcForm.B_Enemy.options[i] = new Option(MonsterOBJ[ESortStr[wES2][i]][1], MonsterOBJ[ESortStr[wES2][i]][0]);
             return;
@@ -796,7 +785,7 @@ function isNonRangeWeapon() {
         testCaseData.int = eval(document.calcForm.A_INT.value);
         testCaseData.luk = eval(document.calcForm.A_LUK.value);
 
-        if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && n_A_WeaponType !=  WEAPON_TYPE_UNARMED)) {
+        if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && n_A_WeaponType != WEAPON_TYPE_UNARMED)) {
             testCaseData.ammo = eval(document.calcForm.A_Arrow.value);
         }
 
