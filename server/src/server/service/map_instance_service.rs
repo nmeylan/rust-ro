@@ -110,10 +110,7 @@ impl MapInstanceService {
                 mob_movements.push(mob_movement);
             }
         }
-        #[cfg(feature = "debug_mob_movement")]
-        {
-            info!("mobs_action");
-        }
+
         for mob_movement in mob_movements {
             let mut packet_zc_notify_move = PacketZcNotifyMove::new(self.configuration_service.packetver());
             packet_zc_notify_move.set_gid(mob_movement.id);
