@@ -48,6 +48,9 @@ function isRangedWeapon() {
 
 
     function myInnerHtml(wIH1, wIH2, wIH3) {
+        if (InTestCaseGenerationMode == true && typeof wIH2 === 'string' && !(wIH2.startsWith("<select") || wIH2.startsWith("<input"))) {
+            return;
+        }
         if (wIH3 == 0) {
             wIHOB = document.getElementById(wIH1);
             while (wIHOB.hasChildNodes()) {
