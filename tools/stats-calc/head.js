@@ -250,8 +250,7 @@ function isRangedWeapon() {
         n_A_JobSet();
         n = n_A_JOB;
 
-        for (i = 71; i >= 0; i--)
-            document.calcForm.A_JobLV.options[i] = null;
+        document.calcForm.A_JobLV.options.length = 0;
         w = 0;
         if (n == 0) w = 10;
         else if (n <= 19 || (41 <= n && n <= 43)) w = 50;
@@ -271,9 +270,7 @@ function isRangedWeapon() {
         else
             JobASPD[20][7] = 0;
 
-        for (i = 21; i >= 0; i--) {
-            document.calcForm.A_WeaponType.options[i] = null;
-        }
+        document.calcForm.A_WeaponType.options.length = 0;
         j = 0;
         for (i = 0; i <= 21; i++) {
             if (JobASPD[n][i] != 0) {
@@ -308,124 +305,105 @@ function isRangedWeapon() {
 	}
 */
         if (JobSkillPassOBJ[n][0] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill0.options[i] = null;
+            document.calcForm.A_skill0.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][0]][1]; i++)
                 document.calcForm.A_skill0.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][1] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill1.options[i] = null;
+            document.calcForm.A_skill1.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][1]][1]; i++)
                 document.calcForm.A_skill1.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][2] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill2.options[i] = null;
+            document.calcForm.A_skill2.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][2]][1]; i++)
                 document.calcForm.A_skill2.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][3] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill3.options[i] = null;
+            document.calcForm.A_skill3.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][3]][1]; i++)
                 document.calcForm.A_skill3.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][4] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill4.options[i] = null;
+            document.calcForm.A_skill4.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][4]][1]; i++)
                 document.calcForm.A_skill4.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][5] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill5.options[i] = null;
+            document.calcForm.A_skill5.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][5]][1]; i++)
                 document.calcForm.A_skill5.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][6] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill6.options[i] = null;
+            document.calcForm.A_skill6.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][6]][1]; i++)
                 document.calcForm.A_skill6.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][7] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill7.options[i] = null;
+            document.calcForm.A_skill7.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][7]][1]; i++)
                 document.calcForm.A_skill7.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][8] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill8.options[i] = null;
+            document.calcForm.A_skill8.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][8]][1]; i++)
                 document.calcForm.A_skill8.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][9] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill9.options[i] = null;
+            document.calcForm.A_skill9.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][9]][1]; i++)
                 document.calcForm.A_skill9.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][10] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill10.options[i] = null;
+            document.calcForm.A_skill10.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][10]][1]; i++)
                 document.calcForm.A_skill10.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][11] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill11.options[i] = null;
+            document.calcForm.A_skill11.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][11]][1]; i++)
                 document.calcForm.A_skill11.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][12] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill12.options[i] = null;
+            document.calcForm.A_skill12.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][12]][1]; i++)
                 document.calcForm.A_skill12.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][13] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill13.options[i] = null;
+            document.calcForm.A_skill13.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][13]][1]; i++)
                 document.calcForm.A_skill13.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][14] != 999) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill14.options[i] = null;
+            document.calcForm.A_skill14.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][14]][1]; i++)
                 document.calcForm.A_skill14.options[i] = new Option(i, i);
         }
 
 
         if (JobSkillPassOBJ[n][0] == 58) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill0.options[i] = null;
+            document.calcForm.A_skill0.options.length = 0;
             n_ECname = ["0", "6% Reduction", "12% Reduction", "18% Reduction", "24% Reduction", "30% Reduction"];
             for (i = 0; i <= 5; i++)
                 document.calcForm.A_skill0.options[i] = new Option(n_ECname[i], i);
         }
 
         if (JobSkillPassOBJ[n][5] == 78) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill5.options[i] = null;
+            document.calcForm.A_skill5.options.length = 0;
             n_ECname = ["No Peco", "Mastery 0", "Mastery 1", "Mastery 2", "Mastery 3", "Mastery 4", "Mastery 5"];
             for (i = 0; i <= 6; i++)
                 document.calcForm.A_skill5.options[i] = new Option(n_ECname[i], i);
         }
 
         if (JobSkillPassOBJ[n][9] == 78) {
-            for (i = 10; i >= 0; i--)
-                document.calcForm.A_skill9.options[i] = null;
+            document.calcForm.A_skill9.options.length = 0;
             n_ECname = ["No Peco", "Mastery 0", "Mastery 1", "Mastery 2", "Mastery 3", "Mastery 4", "Mastery 5"];
             for (i = 0; i <= 6; i++)
                 document.calcForm.A_skill9.options[i] = new Option(n_ECname[i], i);
         }
 
 
-        for (i = 57; i >= 0; i--)
-            document.calcForm.A_ActiveSkill.options[i] = null;
+        document.calcForm.A_ActiveSkill.options.length = 0;
         for (i = 0; i <= 57 && JobSkillActiveOBJ[n][i] != 999; i++)
             document.calcForm.A_ActiveSkill.options[i] = new Option(SkillOBJ[JobSkillActiveOBJ[n][i]][2], JobSkillActiveOBJ[n][i]);
 
@@ -442,9 +420,7 @@ function isRangedWeapon() {
         n_A_JobSet();
         if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && n != 0)) {
             document.calcForm.A_Arrow.style.visibility = "visible";
-            for (i = 17; i >= 0; i--) {
-                document.calcForm.A_Arrow.options[i] = null;
-            }
+            document.calcForm.A_Arrow.options.length = 0;
             if (n == 10 || n == 14 || n == 15) {
                 j = 17;
                 for (i = 0; i <= 4; i++)
@@ -557,8 +533,7 @@ function isRangedWeapon() {
         } else
             n_A_ActiveSkillLV = SkillOBJ[n_A_ActiveSkill][1];
 
-        for (i = 10; i >= 0; i--)
-            document.calcForm.A_ActiveSkillLV.options[i] = null;
+        document.calcForm.A_ActiveSkillLV.options.length = 0;
         if (n_A_ActiveSkill >= 0)
             for (i = 1; i <= n_A_ActiveSkillLV; i++)
                 document.calcForm.A_ActiveSkillLV.options[i - 1] = new Option(i, i);
