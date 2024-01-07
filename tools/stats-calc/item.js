@@ -2113,28 +2113,7 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 				w_SE_num++;
 			}
 		}
-		console.log("SetEquip end. Took", Date.now() - start, "ms")
 	}
 
 
 }
-/*
-     FILE ARCHIVED ON 14:35:00 Nov 11, 2008 AND RETRIEVED FROM THE
-     INTERNET ARCHIVE ON 07:19:09 Nov 20, 2023.
-     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
-
-     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
-     SECTION 108(a)(3)).
-*/
-/*
-playback timings (ms):
-  captures_list: 121.477
-  exclusion.robots: 0.105
-  exclusion.robots.policy: 0.091
-  cdx.remote: 0.074
-  esindex: 0.011
-  LoadShardBlock: 102.274 (3)
-  PetaboxLoader3.datanode: 62.506 (4)
-  PetaboxLoader3.resolve: 85.96 (2)
-  load_resource: 64.851
-*/

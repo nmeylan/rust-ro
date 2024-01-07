@@ -1,7 +1,10 @@
 
 
-function calc() {
-    StAllCalc();
+function calc(force) {
+    if (InTestCaseGenerationMode && !force) {
+        return;
+    }
+    StAllCalc(force);
 
 
     sizeModifier = weaponsize[n_A_WeaponType][targetStatsArray[TARGET_STAT_SIZE]];

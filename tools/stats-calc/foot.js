@@ -12,6 +12,7 @@ function isNonRangeWeapon() {
     return n_A_WeaponType != WEAPON_TYPE_BOW && n_A_WeaponType != WEAPON_TYPE_INSTRUMENT && n_A_WeaponType != WEAPON_TYPE_WHIP && n_A_WeaponType != WEAPON_TYPE_HANDGUN && n_A_WeaponType != WEAPON_TYPE_RIFLE && n_A_WeaponType != WEAPON_TYPE_SHOTGUN && n_A_WeaponType != WEAPON_TYPE_GATLING_GUN && n_A_WeaponType != WEAPON_TYPE_GRENADE_LAUNCHER;
 }
 
+
 {
     let window = _____WB$wombat$assign$function_____("window");
     let self = _____WB$wombat$assign$function_____("self");
@@ -51,12 +52,13 @@ function isNonRangeWeapon() {
     }
 
     function StCalc(nSC) {
-        n_A_STR = eval(document.calcForm.A_STR.value);
-        n_A_AGI = eval(document.calcForm.A_AGI.value);
-        n_A_VIT = eval(document.calcForm.A_VIT.value);
-        n_A_DEX = eval(document.calcForm.A_DEX.value);
-        n_A_INT = eval(document.calcForm.A_INT.value);
-        n_A_LUK = eval(document.calcForm.A_LUK.value);
+        FORM_DATA = getFormData(document );
+        n_A_STR = FORM_DATA.A_STR;
+        n_A_AGI = FORM_DATA.A_AGI
+        n_A_VIT = FORM_DATA.A_VIT
+        n_A_DEX = FORM_DATA.A_DEX
+        n_A_INT = FORM_DATA.A_INT
+        n_A_LUK = FORM_DATA.A_LUK
 
         StPoint = 0;
         for (i = 2; i <= n_A_STR; i++)
@@ -72,7 +74,7 @@ function isNonRangeWeapon() {
         for (i = 2; i <= n_A_LUK; i++)
             StPoint += StCalc2(i);
 
-        n_A_BaseLV = eval(document.calcForm.A_BaseLV.value);
+        n_A_BaseLV = FORM_DATA.A_BaseLV
 
         n_A_JobSet();
         if (isRebirth)
@@ -382,7 +384,8 @@ function isNonRangeWeapon() {
         if (w_ASSPch) {
 
             for (k = 0; JobSkillActiveOBJ[n_A_JOB][k] != 999; k++) ;
-            document.calcForm.A_ActiveSkill.options.length = 0;
+            for (i = k + 20; i >= k; i--)
+                document.calcForm.A_ActiveSkill.options[i] = null;
             j = 0;
             for (i = k; w_ASSP0[j] != 999; i++, j++) {
                 if (w_ASSP9[j] < 200000)
@@ -656,7 +659,7 @@ function isNonRangeWeapon() {
         }
     }
 
-    function serializeFormToJSON() {
+    function getFormData(document) {
         var form = document.calcForm;
         var formData = new FormData(form);
         var formObject = {};
@@ -674,6 +677,11 @@ function isNonRangeWeapon() {
                 formObject[key] = value;
             }
         });
+        return formObject;
+    }
+
+    function serializeFormToJSON() {
+        var formObject = getFormData(document);
 
         return JSON.stringify(formObject);
     }
@@ -727,7 +735,8 @@ function isNonRangeWeapon() {
     }
 
     function GenerateTestCase() {
-        calc();
+        StCalc(true);
+        calc(true);
         let savedDataAsJson = SaveCookie(true);
         let crit_damages = document.querySelector("#CRIATK").textContent.split("~");
         let crit_rate = Number.parseFloat(document.querySelector("#CRInum").textContent);
@@ -755,7 +764,9 @@ function isNonRangeWeapon() {
         };
         removeNullValues(savedDataAsJson);
         console.log(JSON.stringify(savedDataAsJson));
-        navigator.clipboard.writeText(JSON.stringify(savedDataAsJson));
+        if (!InTestCaseGenerationMode) {
+            navigator.clipboard.writeText(JSON.stringify(savedDataAsJson));
+        }
     }
 
     function aegis_item(value) {
@@ -1099,8 +1110,8 @@ function isNonRangeWeapon() {
     document.calcForm.A_JOB.value = 0;
     ClickJob(0);
     EnemySort();
-    StCalc();
-    calc();
+    StCalc(true);
+    calc(true);
     LoadSave();
 
 
