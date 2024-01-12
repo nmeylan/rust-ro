@@ -849,7 +849,7 @@ function isNonRangeWeapon() {
         var passiveSkills = [];
         for (var i = 0; i < 15; i++) {
             if (JobSkillPassOBJ[w][i] == 999) break;
-            let skill_level = eval(document.calcForm["A_skill" + i].value);
+            let skill_level = eval(document.calcForm["A_PASSIVE_SKILL" + i].value);
             SaveData[saveDataIndex + i] = skill_level;
             if (skill_level > 0) {
                 passiveSkills.push({skid: SkillOBJ[JobSkillPassOBJ[w][i]][3], level: skill_level})
@@ -911,8 +911,8 @@ function isNonRangeWeapon() {
         let json = JSON.parse(localStorage.getItem(cookieNum));
         document.calcForm.A_JOB.value = json.A_JOB;
         ClickJob(json.A_JOB);
-        if (json.A2_SKILLSW === "on") {
-            document.calcForm.A2_SKILLSW.checked = true;
+        if (json.A_SUPPORTIVE_SKILLSW === "on") {
+            document.calcForm.A_SUPPORTIVE_SKILLSW.checked = true;
             Click_SkillSW();
         }
         repopulateFormFromJSON(json);

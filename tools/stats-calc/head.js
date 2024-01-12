@@ -236,18 +236,18 @@ function isRangedWeapon() {
         for (i = 0; i <= 12; i++)
             n_A_PassSkill2[i] = 0;
         if (n_SkillSW) {
-            document.calcForm.A2_Skill0.value = 0;
-            document.calcForm.A2_Skill1.value = 0;
-            document.calcForm.A2_Skill2.value = 0;
-            document.calcForm.A2_Skill3.checked = 0;
-            document.calcForm.A2_Skill4.value = 0;
-            document.calcForm.A2_Skill5.checked = 0;
-            document.calcForm.A2_Skill6.checked = 0;
-            document.calcForm.A2_Skill7.checked = 0;
-            document.calcForm.A2_Skill8.value = 0;
-            document.calcForm.A2_Skill9.value = 0;
-            document.calcForm.A2_Skill10.value = 0;
-            document.calcForm.A2_Skill11.checked = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL0.value = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL1.value = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL2.value = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL3.checked = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL4.value = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL5.checked = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL6.checked = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL7.checked = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL8.value = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL9.value = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL10.value = 0;
+            document.calcForm.A_SUPPORTIVE_SKILL11.checked = 0;
         }
 
         n_A_JobSet();
@@ -289,7 +289,7 @@ function isRangedWeapon() {
         for (i = 0; i <= 14; i++) {
             if (JobSkillPassOBJ[n][i] != 999) {
                 myInnerHtml("P_Skill" + i, SkillOBJ[JobSkillPassOBJ[n][i]][2], 0);
-                myInnerHtml("P_Skill" + i + "s", '<select name="A_skill' + i + '"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("P_Skill" + i + "s", '<select name="A_PASSIVE_SKILL' + i + '"onChange="StAllCalc()"></select>', 0);
             } else {
                 myInnerHtml("P_Skill" + i, "", 0);
                 myInnerHtml("P_Skill" + i + "s", "", 0);
@@ -299,7 +299,7 @@ function isRangedWeapon() {
 
         /*	for(j=0;j<=14;j++){
 		if(JobSkillPassOBJ[n][j] != 999){
-			wSeOB = document.getElementById("A_skill"+j);
+			wSeOB = document.getElementById("A_PASSIVE_SKILL"+j);
 			for(i=10;i>=0;i--)
 				wSeOB.options[i] = null;
 			for(i=0;i<=SkillOBJ[JobSkillPassOBJ[n][j]][1];i++)
@@ -308,101 +308,101 @@ function isRangedWeapon() {
 	}
 */
         if (JobSkillPassOBJ[n][0] != 999) {
-            document.calcForm.A_skill0.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL0.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][0]][1]; i++)
-                document.calcForm.A_skill0.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL0.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][1] != 999) {
-            document.calcForm.A_skill1.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL1.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][1]][1]; i++)
-                document.calcForm.A_skill1.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL1.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][2] != 999) {
-            document.calcForm.A_skill2.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL2.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][2]][1]; i++)
-                document.calcForm.A_skill2.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL2.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][3] != 999) {
-            document.calcForm.A_skill3.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL3.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][3]][1]; i++)
-                document.calcForm.A_skill3.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL3.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][4] != 999) {
-            document.calcForm.A_skill4.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL4.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][4]][1]; i++)
-                document.calcForm.A_skill4.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL4.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][5] != 999) {
-            document.calcForm.A_skill5.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL5.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][5]][1]; i++)
-                document.calcForm.A_skill5.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL5.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][6] != 999) {
-            document.calcForm.A_skill6.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL6.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][6]][1]; i++)
-                document.calcForm.A_skill6.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL6.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][7] != 999) {
-            document.calcForm.A_skill7.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL7.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][7]][1]; i++)
-                document.calcForm.A_skill7.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL7.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][8] != 999) {
-            document.calcForm.A_skill8.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL8.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][8]][1]; i++)
-                document.calcForm.A_skill8.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL8.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][9] != 999) {
-            document.calcForm.A_skill9.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL9.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][9]][1]; i++)
-                document.calcForm.A_skill9.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL9.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][10] != 999) {
-            document.calcForm.A_skill10.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL10.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][10]][1]; i++)
-                document.calcForm.A_skill10.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL10.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][11] != 999) {
-            document.calcForm.A_skill11.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL11.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][11]][1]; i++)
-                document.calcForm.A_skill11.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL11.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][12] != 999) {
-            document.calcForm.A_skill12.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL12.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][12]][1]; i++)
-                document.calcForm.A_skill12.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL12.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][13] != 999) {
-            document.calcForm.A_skill13.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL13.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][13]][1]; i++)
-                document.calcForm.A_skill13.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL13.options[i] = new Option(i, i);
         }
         if (JobSkillPassOBJ[n][14] != 999) {
-            document.calcForm.A_skill14.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL14.options.length = 0;
             for (i = 0; i <= SkillOBJ[JobSkillPassOBJ[n][14]][1]; i++)
-                document.calcForm.A_skill14.options[i] = new Option(i, i);
+                document.calcForm.A_PASSIVE_SKILL14.options[i] = new Option(i, i);
         }
 
 
         if (JobSkillPassOBJ[n][0] == 58) {
-            document.calcForm.A_skill0.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL0.options.length = 0;
             n_ECname = ["0", "6% Reduction", "12% Reduction", "18% Reduction", "24% Reduction", "30% Reduction"];
             for (i = 0; i <= 5; i++)
-                document.calcForm.A_skill0.options[i] = new Option(n_ECname[i], i);
+                document.calcForm.A_PASSIVE_SKILL0.options[i] = new Option(n_ECname[i], i);
         }
 
         if (JobSkillPassOBJ[n][5] == 78) {
-            document.calcForm.A_skill5.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL5.options.length = 0;
             n_ECname = ["No Peco", "Mastery 0", "Mastery 1", "Mastery 2", "Mastery 3", "Mastery 4", "Mastery 5"];
             for (i = 0; i <= 6; i++)
-                document.calcForm.A_skill5.options[i] = new Option(n_ECname[i], i);
+                document.calcForm.A_PASSIVE_SKILL5.options[i] = new Option(n_ECname[i], i);
         }
 
         if (JobSkillPassOBJ[n][9] == 78) {
-            document.calcForm.A_skill9.options.length = 0;
+            document.calcForm.A_PASSIVE_SKILL9.options.length = 0;
             n_ECname = ["No Peco", "Mastery 0", "Mastery 1", "Mastery 2", "Mastery 3", "Mastery 4", "Mastery 5"];
             for (i = 0; i <= 6; i++)
-                document.calcForm.A_skill9.options[i] = new Option(n_ECname[i], i);
+                document.calcForm.A_PASSIVE_SKILL9.options[i] = new Option(n_ECname[i], i);
         }
 
 
@@ -600,7 +600,7 @@ function isRangedWeapon() {
     }
 
     function Click_SkillSW() {
-        n_SkillSW = document.calcForm.A2_SKILLSW.checked;
+        n_SkillSW = document.calcForm.A_SUPPORTIVE_SKILLSW.checked;
 
         if (n_SkillSW) {
             name_CSSW_SKILL = ["Blessing", "Increase Agi", "Impositio Manus", "Gloria", "Angelus", "Assumptio", "Andrenaline Rush", "Weapon Perfection", "Power Thrust", "Wind Walker", "Spirit Spheres (GG Card)", "Magnum Break Bonus", "Aloevera", "<Font size=2>Suffragium</Font>", "<Font size=2>Resistant Souls</Font>", "<Font size=2>Additional Buffs Found Below</Font>"];
@@ -608,61 +608,61 @@ function isRangedWeapon() {
             for (i = 0; i <= 15; i++)
                 myInnerHtml("AS" + i + "_1", name_CSSW_SKILL[i], 0);
 
-            html_CSSW_SKILL[0] = '<select name="A2_Skill0"onChange="StAllCalc()"></select>';
-            html_CSSW_SKILL[1] = '<select name="A2_Skill1"onChange="StAllCalc()"></select>';
-            html_CSSW_SKILL[2] = '<select name="A2_Skill2"onChange="StAllCalc()"></select>';
-            html_CSSW_SKILL[3] = '<input type="checkbox" name="A2_Skill3"onClick="calc()">';
-            html_CSSW_SKILL[4] = '<select name="A2_Skill4"onChange="StAllCalc()"></select>';
-            html_CSSW_SKILL[5] = '<input type="checkbox" name="A2_Skill5"onClick="calc()">';
-            html_CSSW_SKILL[6] = '<select name="A2_Skill6"onChange="StAllCalc()"></select>';
-            html_CSSW_SKILL[7] = '<input type="checkbox" name="A2_Skill7"onClick="calc()">';
-            html_CSSW_SKILL[8] = '<select name="A2_Skill8"onChange="StAllCalc()"></select>';
-            html_CSSW_SKILL[9] = '<select name="A2_Skill9"onChange="StAllCalc()"></select>';
-            html_CSSW_SKILL[10] = '<select name="A2_Skill10"onChange="StAllCalc()"></select>';
-            html_CSSW_SKILL[11] = '<input type="checkbox" name="A2_Skill11"onClick="calc()">';
-            html_CSSW_SKILL[12] = '<input type="checkbox" name="A2_Skill12"onClick="calc()">';
-            html_CSSW_SKILL[13] = '<select name="A2_Skill13"onChange="StAllCalc()"></select>';
-            html_CSSW_SKILL[14] = '<select name="A2_Skill14"onChange="StAllCalc()"></select>';
+            html_CSSW_SKILL[0] = '<select name="A_SUPPORTIVE_SKILL0"onChange="StAllCalc()"></select>';
+            html_CSSW_SKILL[1] = '<select name="A_SUPPORTIVE_SKILL1"onChange="StAllCalc()"></select>';
+            html_CSSW_SKILL[2] = '<select name="A_SUPPORTIVE_SKILL2"onChange="StAllCalc()"></select>';
+            html_CSSW_SKILL[3] = '<input type="checkbox" name="A_SUPPORTIVE_SKILL3"onClick="calc()">';
+            html_CSSW_SKILL[4] = '<select name="A_SUPPORTIVE_SKILL4"onChange="StAllCalc()"></select>';
+            html_CSSW_SKILL[5] = '<input type="checkbox" name="A_SUPPORTIVE_SKILL5"onClick="calc()">';
+            html_CSSW_SKILL[6] = '<select name="A_SUPPORTIVE_SKILL6"onChange="StAllCalc()"></select>';
+            html_CSSW_SKILL[7] = '<input type="checkbox" name="A_SUPPORTIVE_SKILL7"onClick="calc()">';
+            html_CSSW_SKILL[8] = '<select name="A_SUPPORTIVE_SKILL8"onChange="StAllCalc()"></select>';
+            html_CSSW_SKILL[9] = '<select name="A_SUPPORTIVE_SKILL9"onChange="StAllCalc()"></select>';
+            html_CSSW_SKILL[10] = '<select name="A_SUPPORTIVE_SKILL10"onChange="StAllCalc()"></select>';
+            html_CSSW_SKILL[11] = '<input type="checkbox" name="A_SUPPORTIVE_SKILL11"onClick="calc()">';
+            html_CSSW_SKILL[12] = '<input type="checkbox" name="A_SUPPORTIVE_SKILL12"onClick="calc()">';
+            html_CSSW_SKILL[13] = '<select name="A_SUPPORTIVE_SKILL13"onChange="StAllCalc()"></select>';
+            html_CSSW_SKILL[14] = '<select name="A_SUPPORTIVE_SKILL14"onChange="StAllCalc()"></select>';
             for (i = 0; i <= 14; i++)
                 myInnerHtml("AS" + i + "_2", html_CSSW_SKILL[i], 0);
 
 
             for (i = 0; i <= 10; i++) {
-                document.calcForm.A2_Skill0.options[i] = new Option(i, i);
-                document.calcForm.A2_Skill1.options[i] = new Option(i, i);
-                document.calcForm.A2_Skill4.options[i] = new Option(i, i);
-                document.calcForm.A2_Skill9.options[i] = new Option(i, i);
+                document.calcForm.A_SUPPORTIVE_SKILL0.options[i] = new Option(i, i);
+                document.calcForm.A_SUPPORTIVE_SKILL1.options[i] = new Option(i, i);
+                document.calcForm.A_SUPPORTIVE_SKILL4.options[i] = new Option(i, i);
+                document.calcForm.A_SUPPORTIVE_SKILL9.options[i] = new Option(i, i);
             }
             for (i = 0; i <= 5; i++) {
-                document.calcForm.A2_Skill2.options[i] = new Option(i, i);
-                document.calcForm.A2_Skill8.options[i] = new Option(i, i);
-                document.calcForm.A2_Skill10.options[i] = new Option(i, i);
-                document.calcForm.A2_Skill14.options[i] = new Option(i, i);
+                document.calcForm.A_SUPPORTIVE_SKILL2.options[i] = new Option(i, i);
+                document.calcForm.A_SUPPORTIVE_SKILL8.options[i] = new Option(i, i);
+                document.calcForm.A_SUPPORTIVE_SKILL10.options[i] = new Option(i, i);
+                document.calcForm.A_SUPPORTIVE_SKILL14.options[i] = new Option(i, i);
             }
             if (n_A_JOB == 15 || n_A_JOB == 29)
                 myInnerHtml("AS10_1", "-", 0);
             for (i = 0; i <= 3; i++)
-                document.calcForm.A2_Skill13.options[i] = new Option(i, i);
-            document.calcForm.A2_Skill6.options[0] = new Option("None", 0);
-            document.calcForm.A2_Skill6.options[1] = new Option("Regular AR", 1);
-            document.calcForm.A2_Skill6.options[2] = new Option("Full AR", 2);
-            document.calcForm.A2_Skill6.options[3] = new Option("Scroll", 3);
+                document.calcForm.A_SUPPORTIVE_SKILL13.options[i] = new Option(i, i);
+            document.calcForm.A_SUPPORTIVE_SKILL6.options[0] = new Option("None", 0);
+            document.calcForm.A_SUPPORTIVE_SKILL6.options[1] = new Option("Regular AR", 1);
+            document.calcForm.A_SUPPORTIVE_SKILL6.options[2] = new Option("Full AR", 2);
+            document.calcForm.A_SUPPORTIVE_SKILL6.options[3] = new Option("Scroll", 3);
 
-            document.calcForm.A2_Skill0.value = n_A_PassSkill2[0];
-            document.calcForm.A2_Skill1.value = n_A_PassSkill2[1];
-            document.calcForm.A2_Skill2.value = n_A_PassSkill2[2];
-            document.calcForm.A2_Skill3.checked = n_A_PassSkill2[3];
-            document.calcForm.A2_Skill4.value = n_A_PassSkill2[4];
-            document.calcForm.A2_Skill5.checked = n_A_PassSkill2[5];
-            document.calcForm.A2_Skill6.value = n_A_PassSkill2[6];
-            document.calcForm.A2_Skill7.checked = n_A_PassSkill2[7];
-            document.calcForm.A2_Skill8.value = n_A_PassSkill2[8];
-            document.calcForm.A2_Skill9.value = n_A_PassSkill2[9];
-            document.calcForm.A2_Skill10.value = n_A_PassSkill2[10];
-            document.calcForm.A2_Skill11.checked = n_A_PassSkill2[11];
-            document.calcForm.A2_Skill12.checked = n_A_PassSkill2[12];
-            document.calcForm.A2_Skill13.value = n_A_PassSkill2[13];
-            document.calcForm.A2_Skill14.value = n_A_PassSkill2[14];
+            document.calcForm.A_SUPPORTIVE_SKILL0.value = n_A_PassSkill2[0];
+            document.calcForm.A_SUPPORTIVE_SKILL1.value = n_A_PassSkill2[1];
+            document.calcForm.A_SUPPORTIVE_SKILL2.value = n_A_PassSkill2[2];
+            document.calcForm.A_SUPPORTIVE_SKILL3.checked = n_A_PassSkill2[3];
+            document.calcForm.A_SUPPORTIVE_SKILL4.value = n_A_PassSkill2[4];
+            document.calcForm.A_SUPPORTIVE_SKILL5.checked = n_A_PassSkill2[5];
+            document.calcForm.A_SUPPORTIVE_SKILL6.value = n_A_PassSkill2[6];
+            document.calcForm.A_SUPPORTIVE_SKILL7.checked = n_A_PassSkill2[7];
+            document.calcForm.A_SUPPORTIVE_SKILL8.value = n_A_PassSkill2[8];
+            document.calcForm.A_SUPPORTIVE_SKILL9.value = n_A_PassSkill2[9];
+            document.calcForm.A_SUPPORTIVE_SKILL10.value = n_A_PassSkill2[10];
+            document.calcForm.A_SUPPORTIVE_SKILL11.checked = n_A_PassSkill2[11];
+            document.calcForm.A_SUPPORTIVE_SKILL12.checked = n_A_PassSkill2[12];
+            document.calcForm.A_SUPPORTIVE_SKILL13.value = n_A_PassSkill2[13];
+            document.calcForm.A_SUPPORTIVE_SKILL14.value = n_A_PassSkill2[14];
         } else {
             for (i = 0; i <= 14; i++) {
                 myInnerHtml("AS" + i + "_1", "", 0);
@@ -675,7 +675,7 @@ function isRangedWeapon() {
     SWs3sw = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     function Click_Skill3SW() {
-        n_Skill3SW = document.calcForm.A3_SKILLSW.checked;
+        n_Skill3SW = document.calcForm.A_PERFORMANCE_SKILLSW.checked;
 
         if (n_Skill3SW) {
             name_CS3SW_SKILL = ["Perfect Tabulature", "Impressive Rift", "Magic Strings", "Song of Lutie", "Focus Ballet", "Lady Luck", "Gypsie's Kiss", "Acoustic Rhythm", "Mental Sensing", "Battle Theme", "Harmonic Lick"];
@@ -683,50 +683,50 @@ function isRangedWeapon() {
             for (i = 0; i <= 10; i++)
                 myInnerHtml("EN" + i + "_1", name_CS3SW_SKILL[i], 0);
 
-            html_CS3SW_SKILL[0] = '<select name="A3_Skill0_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
-            html_CS3SW_SKILL[1] = '<select name="A3_Skill1_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
-            html_CS3SW_SKILL[2] = '<select name="A3_Skill2_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
-            html_CS3SW_SKILL[3] = '<select name="A3_Skill3_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
-            html_CS3SW_SKILL[4] = '<select name="A3_Skill4_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
-            html_CS3SW_SKILL[5] = '<select name="A3_Skill5_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
-            html_CS3SW_SKILL[6] = '<select name="A3_Skill6_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
-            html_CS3SW_SKILL[7] = '<select name="A3_Skill7"onChange="StAllCalc()"></select>';
-            html_CS3SW_SKILL[8] = '<select name="A3_Skill8"onChange="ClickB_Enemy()"></select>';
-            html_CS3SW_SKILL[9] = '<select name="A3_Skill9"onChange="StAllCalc()"></select>';
-            html_CS3SW_SKILL[10] = '<select name="A3_Skill10"onChange="StAllCalc()"></select>';
+            html_CS3SW_SKILL[0] = '<select name="A_PERFORMANCE_SKILL0_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
+            html_CS3SW_SKILL[1] = '<select name="A_PERFORMANCE_SKILL1_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
+            html_CS3SW_SKILL[2] = '<select name="A_PERFORMANCE_SKILL2_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
+            html_CS3SW_SKILL[3] = '<select name="A_PERFORMANCE_SKILL3_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
+            html_CS3SW_SKILL[4] = '<select name="A_PERFORMANCE_SKILL4_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
+            html_CS3SW_SKILL[5] = '<select name="A_PERFORMANCE_SKILL5_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
+            html_CS3SW_SKILL[6] = '<select name="A_PERFORMANCE_SKILL6_1"onChange="Skill3SW_2()|StAllCalc()"></select>';
+            html_CS3SW_SKILL[7] = '<select name="A_PERFORMANCE_SKILL7"onChange="StAllCalc()"></select>';
+            html_CS3SW_SKILL[8] = '<select name="A_PERFORMANCE_SKILL8"onChange="ClickB_Enemy()"></select>';
+            html_CS3SW_SKILL[9] = '<select name="A_PERFORMANCE_SKILL9"onChange="StAllCalc()"></select>';
+            html_CS3SW_SKILL[10] = '<select name="A_PERFORMANCE_SKILL10"onChange="StAllCalc()"></select>';
             for (i = 0; i <= 10; i++)
                 myInnerHtml("EN" + i + "_2", html_CS3SW_SKILL[i], 0);
 
-            myInnerHtml("EN11_1", "Marionette Control" + '<input type="checkbox" name="A3_Skill11"onClick="Skill3SW_2()|calc()">', 0);
+            myInnerHtml("EN11_1", "Marionette Control" + '<input type="checkbox" name="A_PERFORMANCE_SKILL11"onClick="Skill3SW_2()|calc()">', 0);
 
             for (i = 0; i <= 10; i++) {
-                document.calcForm.A3_Skill0_1.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill1_1.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill2_1.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill3_1.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill4_1.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill5_1.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill6_1.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL0_1.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL1_1.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL2_1.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL3_1.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL4_1.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL5_1.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL6_1.options[i] = new Option(i, i);
             }
             for (i = 0; i <= 5; i++) {
-                document.calcForm.A3_Skill7.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill8.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill9.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill10.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL7.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL8.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL9.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL10.options[i] = new Option(i, i);
             }
 
-            document.calcForm.A3_Skill0_1.value = n_A_PassSkill3[0];
-            document.calcForm.A3_Skill1_1.value = n_A_PassSkill3[1];
-            document.calcForm.A3_Skill2_1.value = n_A_PassSkill3[2];
-            document.calcForm.A3_Skill3_1.value = n_A_PassSkill3[3];
-            document.calcForm.A3_Skill4_1.value = n_A_PassSkill3[4];
-            document.calcForm.A3_Skill5_1.value = n_A_PassSkill3[5];
-            document.calcForm.A3_Skill6_1.value = n_A_PassSkill3[6];
-            document.calcForm.A3_Skill7.value = n_A_PassSkill3[7];
-            document.calcForm.A3_Skill8.value = n_A_PassSkill3[8];
-            document.calcForm.A3_Skill9.value = n_A_PassSkill3[9];
-            document.calcForm.A3_Skill10.value = n_A_PassSkill3[10];
-            document.calcForm.A3_Skill11.checked = n_A_PassSkill3[11];
+            document.calcForm.A_PERFORMANCE_SKILL0_1.value = n_A_PassSkill3[0];
+            document.calcForm.A_PERFORMANCE_SKILL1_1.value = n_A_PassSkill3[1];
+            document.calcForm.A_PERFORMANCE_SKILL2_1.value = n_A_PassSkill3[2];
+            document.calcForm.A_PERFORMANCE_SKILL3_1.value = n_A_PassSkill3[3];
+            document.calcForm.A_PERFORMANCE_SKILL4_1.value = n_A_PassSkill3[4];
+            document.calcForm.A_PERFORMANCE_SKILL5_1.value = n_A_PassSkill3[5];
+            document.calcForm.A_PERFORMANCE_SKILL6_1.value = n_A_PassSkill3[6];
+            document.calcForm.A_PERFORMANCE_SKILL7.value = n_A_PassSkill3[7];
+            document.calcForm.A_PERFORMANCE_SKILL8.value = n_A_PassSkill3[8];
+            document.calcForm.A_PERFORMANCE_SKILL9.value = n_A_PassSkill3[9];
+            document.calcForm.A_PERFORMANCE_SKILL10.value = n_A_PassSkill3[10];
+            document.calcForm.A_PERFORMANCE_SKILL11.checked = n_A_PassSkill3[11];
 
             Skill3SW_2();
         } else {
@@ -754,29 +754,29 @@ function isRangedWeapon() {
     }
 
     function Skill3SW_2() {
-        n_A_PassSkill3[0] = eval(document.calcForm.A3_Skill0_1.value);
-        n_A_PassSkill3[1] = eval(document.calcForm.A3_Skill1_1.value);
-        n_A_PassSkill3[2] = eval(document.calcForm.A3_Skill2_1.value);
-        n_A_PassSkill3[3] = eval(document.calcForm.A3_Skill3_1.value);
-        n_A_PassSkill3[4] = eval(document.calcForm.A3_Skill4_1.value);
-        n_A_PassSkill3[5] = eval(document.calcForm.A3_Skill5_1.value);
-        n_A_PassSkill3[6] = eval(document.calcForm.A3_Skill6_1.value);
-        n_A_PassSkill3[11] = eval(document.calcForm.A3_Skill11.checked);
+        n_A_PassSkill3[0] = eval(document.calcForm.A_PERFORMANCE_SKILL0_1.value);
+        n_A_PassSkill3[1] = eval(document.calcForm.A_PERFORMANCE_SKILL1_1.value);
+        n_A_PassSkill3[2] = eval(document.calcForm.A_PERFORMANCE_SKILL2_1.value);
+        n_A_PassSkill3[3] = eval(document.calcForm.A_PERFORMANCE_SKILL3_1.value);
+        n_A_PassSkill3[4] = eval(document.calcForm.A_PERFORMANCE_SKILL4_1.value);
+        n_A_PassSkill3[5] = eval(document.calcForm.A_PERFORMANCE_SKILL5_1.value);
+        n_A_PassSkill3[6] = eval(document.calcForm.A_PERFORMANCE_SKILL6_1.value);
+        n_A_PassSkill3[11] = eval(document.calcForm.A_PERFORMANCE_SKILL11.checked);
 
         if (n_A_PassSkill3[0] != 0) {
             if (SWs3sw[0] == 0) {
                 myInnerHtml("EN0_3", "Bard's Agi", 0);
-                myInnerHtml("EN0_4", '<select name="A3_Skill0_2"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN0_4", '<select name="A_PERFORMANCE_SKILL0_2"onChange="StAllCalc()"></select>', 0);
                 myInnerHtml("EN0_5", "Music Lessons", 0);
-                myInnerHtml("EN0_6", '<select name="A3_Skill0_3"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN0_6", '<select name="A_PERFORMANCE_SKILL0_3"onChange="StAllCalc()"></select>', 0);
 
                 for (i = 1; i <= 150; i++)
-                    document.calcForm.A3_Skill0_2.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL0_2.options[i - 1] = new Option(i, i);
                 for (i = 1; i <= 10; i++)
-                    document.calcForm.A3_Skill0_3.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL0_3.options[i - 1] = new Option(i, i);
                 SWs3sw[0] = 1;
-                document.calcForm.A3_Skill0_2.value = n_A_PassSkill3[20];
-                document.calcForm.A3_Skill0_3.value = n_A_PassSkill3[30];
+                document.calcForm.A_PERFORMANCE_SKILL0_2.value = n_A_PassSkill3[20];
+                document.calcForm.A_PERFORMANCE_SKILL0_3.value = n_A_PassSkill3[30];
             }
         } else {
             SWs3sw[0] = 0;
@@ -789,17 +789,17 @@ function isRangedWeapon() {
         if (n_A_PassSkill3[1] != 0) {
             if (SWs3sw[1] == 0) {
                 myInnerHtml("EN1_3", "Bard's Agi", 0);
-                myInnerHtml("EN1_4", '<select name="A3_Skill1_2"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN1_4", '<select name="A_PERFORMANCE_SKILL1_2"onChange="StAllCalc()"></select>', 0);
                 myInnerHtml("EN1_5", "Music Lessons", 0);
-                myInnerHtml("EN1_6", '<select name="A3_Skill1_3"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN1_6", '<select name="A_PERFORMANCE_SKILL1_3"onChange="StAllCalc()"></select>', 0);
 
                 for (i = 1; i <= 150; i++)
-                    document.calcForm.A3_Skill1_2.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL1_2.options[i - 1] = new Option(i, i);
                 for (i = 1; i <= 10; i++)
-                    document.calcForm.A3_Skill1_3.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL1_3.options[i - 1] = new Option(i, i);
                 SWs3sw[1] = 1;
-                document.calcForm.A3_Skill1_2.value = n_A_PassSkill3[21];
-                document.calcForm.A3_Skill1_3.value = n_A_PassSkill3[31];
+                document.calcForm.A_PERFORMANCE_SKILL1_2.value = n_A_PassSkill3[21];
+                document.calcForm.A_PERFORMANCE_SKILL1_3.value = n_A_PassSkill3[31];
             }
         } else {
             SWs3sw[1] = 0;
@@ -812,22 +812,22 @@ function isRangedWeapon() {
         if (n_A_PassSkill3[2] != 0) {
             if (SWs3sw[2] == 0) {
                 myInnerHtml("EN2_3", "Bard's Dex", 0);
-                myInnerHtml("EN2_4", '<select name="A3_Skill2_2"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN2_4", '<select name="A_PERFORMANCE_SKILL2_2"onChange="StAllCalc()"></select>', 0);
                 myInnerHtml("EN2_5", "Bard's Int", 0);
-                myInnerHtml("EN2_6", '<select name="A3_Skill2_3"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN2_6", '<select name="A_PERFORMANCE_SKILL2_3"onChange="StAllCalc()"></select>', 0);
                 myInnerHtml("EN2_7", "Music Lessons", 0);
-                myInnerHtml("EN2_8", '<select name="A3_Skill2_4"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN2_8", '<select name="A_PERFORMANCE_SKILL2_4"onChange="StAllCalc()"></select>', 0);
 
                 for (i = 1; i <= 200; i++)
-                    document.calcForm.A3_Skill2_2.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL2_2.options[i - 1] = new Option(i, i);
                 for (i = 1; i <= 150; i++)
-                    document.calcForm.A3_Skill2_3.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL2_3.options[i - 1] = new Option(i, i);
                 for (i = 1; i <= 10; i++)
-                    document.calcForm.A3_Skill2_4.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL2_4.options[i - 1] = new Option(i, i);
                 SWs3sw[2] = 1;
-                document.calcForm.A3_Skill2_2.value = n_A_PassSkill3[22];
-                document.calcForm.A3_Skill2_3.value = n_A_PassSkill3[29];
-                document.calcForm.A3_Skill2_4.value = n_A_PassSkill3[32];
+                document.calcForm.A_PERFORMANCE_SKILL2_2.value = n_A_PassSkill3[22];
+                document.calcForm.A_PERFORMANCE_SKILL2_3.value = n_A_PassSkill3[29];
+                document.calcForm.A_PERFORMANCE_SKILL2_4.value = n_A_PassSkill3[32];
             }
         } else {
             SWs3sw[2] = 0;
@@ -842,17 +842,17 @@ function isRangedWeapon() {
         if (n_A_PassSkill3[3] != 0) {
             if (SWs3sw[3] == 0) {
                 myInnerHtml("EN3_3", "Bard's Vit", 0);
-                myInnerHtml("EN3_4", '<select name="A3_Skill3_2"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN3_4", '<select name="A_PERFORMANCE_SKILL3_2"onChange="StAllCalc()"></select>', 0);
                 myInnerHtml("EN3_5", "Music Lessons", 0);
-                myInnerHtml("EN3_6", '<select name="A3_Skill3_3"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN3_6", '<select name="A_PERFORMANCE_SKILL3_3"onChange="StAllCalc()"></select>', 0);
 
                 for (i = 1; i <= 150; i++)
-                    document.calcForm.A3_Skill3_2.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL3_2.options[i - 1] = new Option(i, i);
                 for (i = 1; i <= 10; i++)
-                    document.calcForm.A3_Skill3_3.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL3_3.options[i - 1] = new Option(i, i);
                 SWs3sw[3] = 1;
-                document.calcForm.A3_Skill3_2.value = n_A_PassSkill3[23];
-                document.calcForm.A3_Skill3_3.value = n_A_PassSkill3[33];
+                document.calcForm.A_PERFORMANCE_SKILL3_2.value = n_A_PassSkill3[23];
+                document.calcForm.A_PERFORMANCE_SKILL3_3.value = n_A_PassSkill3[33];
             }
         } else {
             SWs3sw[3] = 0;
@@ -865,17 +865,17 @@ function isRangedWeapon() {
         if (n_A_PassSkill3[4] != 0) {
             if (SWs3sw[4] == 0) {
                 myInnerHtml("EN4_3", "Dancer's Dex", 0);
-                myInnerHtml("EN4_4", '<select name="A3_Skill4_2"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN4_4", '<select name="A_PERFORMANCE_SKILL4_2"onChange="StAllCalc()"></select>', 0);
                 myInnerHtml("EN4_5", "Dancing Lessons", 0);
-                myInnerHtml("EN4_6", '<select name="A3_Skill4_3"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN4_6", '<select name="A_PERFORMANCE_SKILL4_3"onChange="StAllCalc()"></select>', 0);
 
                 for (i = 1; i <= 180; i++)
-                    document.calcForm.A3_Skill4_2.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL4_2.options[i - 1] = new Option(i, i);
                 for (i = 1; i <= 10; i++)
-                    document.calcForm.A3_Skill4_3.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL4_3.options[i - 1] = new Option(i, i);
                 SWs3sw[4] = 1;
-                document.calcForm.A3_Skill4_2.value = n_A_PassSkill3[24];
-                document.calcForm.A3_Skill4_3.value = n_A_PassSkill3[34];
+                document.calcForm.A_PERFORMANCE_SKILL4_2.value = n_A_PassSkill3[24];
+                document.calcForm.A_PERFORMANCE_SKILL4_3.value = n_A_PassSkill3[34];
             }
         } else {
             SWs3sw[4] = 0;
@@ -888,17 +888,17 @@ function isRangedWeapon() {
         if (n_A_PassSkill3[5] != 0) {
             if (SWs3sw[5] == 0) {
                 myInnerHtml("EN5_3", "Dancer's Luck", 0);
-                myInnerHtml("EN5_4", '<select name="A3_Skill5_2"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN5_4", '<select name="A_PERFORMANCE_SKILL5_2"onChange="StAllCalc()"></select>', 0);
                 myInnerHtml("EN5_5", "Dancing Lessons", 0);
-                myInnerHtml("EN5_6", '<select name="A3_Skill5_3"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN5_6", '<select name="A_PERFORMANCE_SKILL5_3"onChange="StAllCalc()"></select>', 0);
 
                 for (i = 1; i <= 180; i++)
-                    document.calcForm.A3_Skill5_2.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL5_2.options[i - 1] = new Option(i, i);
                 for (i = 1; i <= 10; i++)
-                    document.calcForm.A3_Skill5_3.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL5_3.options[i - 1] = new Option(i, i);
                 SWs3sw[5] = 1;
-                document.calcForm.A3_Skill5_2.value = n_A_PassSkill3[25];
-                document.calcForm.A3_Skill5_3.value = n_A_PassSkill3[35];
+                document.calcForm.A_PERFORMANCE_SKILL5_2.value = n_A_PassSkill3[25];
+                document.calcForm.A_PERFORMANCE_SKILL5_3.value = n_A_PassSkill3[35];
             }
         } else {
             SWs3sw[5] = 0;
@@ -911,17 +911,17 @@ function isRangedWeapon() {
         if (n_A_PassSkill3[6] != 0) {
             if (SWs3sw[6] == 0) {
                 myInnerHtml("EN6_3", "Dancer's Int", 0);
-                myInnerHtml("EN6_4", '<select name="A3_Skill6_2"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN6_4", '<select name="A_PERFORMANCE_SKILL6_2"onChange="StAllCalc()"></select>', 0);
                 myInnerHtml("EN6_5", "Dancing Lessons", 0);
-                myInnerHtml("EN6_6", '<select name="A3_Skill6_3"onChange="StAllCalc()"></select>', 0);
+                myInnerHtml("EN6_6", '<select name="A_PERFORMANCE_SKILL6_3"onChange="StAllCalc()"></select>', 0);
 
                 for (i = 1; i <= 180; i++)
-                    document.calcForm.A3_Skill6_2.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL6_2.options[i - 1] = new Option(i, i);
                 for (i = 1; i <= 10; i++)
-                    document.calcForm.A3_Skill6_3.options[i - 1] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL6_3.options[i - 1] = new Option(i, i);
                 SWs3sw[4] = 1;
-                document.calcForm.A3_Skill6_2.value = n_A_PassSkill3[26];
-                document.calcForm.A3_Skill6_3.value = n_A_PassSkill3[36];
+                document.calcForm.A_PERFORMANCE_SKILL6_2.value = n_A_PassSkill3[26];
+                document.calcForm.A_PERFORMANCE_SKILL6_3.value = n_A_PassSkill3[36];
             }
         } else {
             SWs3sw[6] = 0;
@@ -935,36 +935,36 @@ function isRangedWeapon() {
             if (SWs3sw[11] == 0) {
                 myInnerHtml("EN11_2",
                     "<br>Controller's Stats: " +
-                    '<select name="A3_Skill11_STR"onChange="StAllCalc()"></select>' +
-                    '<select name="A3_Skill11_AGI"onChange="StAllCalc()"></select>' +
-                    '<select name="A3_Skill11_VIT"onChange="StAllCalc()"></select>' +
-                    '<select name="A3_Skill11_INT"onChange="StAllCalc()"></select>' +
-                    '<select name="A3_Skill11_DEX"onChange="StAllCalc()"></select>' +
-                    '<select name="A3_Skill11_LUK"onChange="StAllCalc()"></select>', 0);
+                    '<select name="A_PERFORMANCE_SKILL11_STR"onChange="StAllCalc()"></select>' +
+                    '<select name="A_PERFORMANCE_SKILL11_AGI"onChange="StAllCalc()"></select>' +
+                    '<select name="A_PERFORMANCE_SKILL11_VIT"onChange="StAllCalc()"></select>' +
+                    '<select name="A_PERFORMANCE_SKILL11_INT"onChange="StAllCalc()"></select>' +
+                    '<select name="A_PERFORMANCE_SKILL11_DEX"onChange="StAllCalc()"></select>' +
+                    '<select name="A_PERFORMANCE_SKILL11_LUK"onChange="StAllCalc()"></select>', 0);
                 ;
 
-                document.calcForm.A3_Skill11_STR.options[0] = new Option("STR", 0);
-                document.calcForm.A3_Skill11_AGI.options[0] = new Option("AGI", 0);
-                document.calcForm.A3_Skill11_VIT.options[0] = new Option("VIT", 0);
-                document.calcForm.A3_Skill11_INT.options[0] = new Option("INT", 0);
-                document.calcForm.A3_Skill11_DEX.options[0] = new Option("DEX", 0);
-                document.calcForm.A3_Skill11_LUK.options[0] = new Option("LUK", 0);
+                document.calcForm.A_PERFORMANCE_SKILL11_STR.options[0] = new Option("STR", 0);
+                document.calcForm.A_PERFORMANCE_SKILL11_AGI.options[0] = new Option("AGI", 0);
+                document.calcForm.A_PERFORMANCE_SKILL11_VIT.options[0] = new Option("VIT", 0);
+                document.calcForm.A_PERFORMANCE_SKILL11_INT.options[0] = new Option("INT", 0);
+                document.calcForm.A_PERFORMANCE_SKILL11_DEX.options[0] = new Option("DEX", 0);
+                document.calcForm.A_PERFORMANCE_SKILL11_LUK.options[0] = new Option("LUK", 0);
 
                 for (i = 1; i <= 99; i++) {
-                    document.calcForm.A3_Skill11_STR.options[i] = new Option(i, i);
-                    document.calcForm.A3_Skill11_AGI.options[i] = new Option(i, i);
-                    document.calcForm.A3_Skill11_VIT.options[i] = new Option(i, i);
-                    document.calcForm.A3_Skill11_INT.options[i] = new Option(i, i);
-                    document.calcForm.A3_Skill11_DEX.options[i] = new Option(i, i);
-                    document.calcForm.A3_Skill11_LUK.options[i] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL11_STR.options[i] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL11_AGI.options[i] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL11_VIT.options[i] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL11_INT.options[i] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL11_DEX.options[i] = new Option(i, i);
+                    document.calcForm.A_PERFORMANCE_SKILL11_LUK.options[i] = new Option(i, i);
                 }
                 SWs3sw[11] = 1;
-                document.calcForm.A3_Skill11_STR.value = n_A_PassSkill3[12];
-                document.calcForm.A3_Skill11_AGI.value = n_A_PassSkill3[13];
-                document.calcForm.A3_Skill11_VIT.value = n_A_PassSkill3[14];
-                document.calcForm.A3_Skill11_INT.value = n_A_PassSkill3[15];
-                document.calcForm.A3_Skill11_DEX.value = n_A_PassSkill3[16];
-                document.calcForm.A3_Skill11_LUK.value = n_A_PassSkill3[17];
+                document.calcForm.A_PERFORMANCE_SKILL11_STR.value = n_A_PassSkill3[12];
+                document.calcForm.A_PERFORMANCE_SKILL11_AGI.value = n_A_PassSkill3[13];
+                document.calcForm.A_PERFORMANCE_SKILL11_VIT.value = n_A_PassSkill3[14];
+                document.calcForm.A_PERFORMANCE_SKILL11_INT.value = n_A_PassSkill3[15];
+                document.calcForm.A_PERFORMANCE_SKILL11_DEX.value = n_A_PassSkill3[16];
+                document.calcForm.A_PERFORMANCE_SKILL11_LUK.value = n_A_PassSkill3[17];
             }
         } else {
             SWs3sw[11] = 0;
@@ -981,25 +981,25 @@ function isRangedWeapon() {
             html_CS4SW_SKILL = new Array();
             for (i = 0; i <= 4; i++)
                 myInnerHtml("EN4" + i + "_1", name_CS4SW_SKILL[i], 0);
-            html_CS4SW_SKILL[0] = '<input type="checkbox" name="A3_Skill40"onClick="calc()">';
-            html_CS4SW_SKILL[1] = '<select name="A3_Skill41"onChange="StAllCalc()"></select>';
-            html_CS4SW_SKILL[2] = '<select name="A3_Skill42"onChange="StAllCalc()"></select>';
-            html_CS4SW_SKILL[3] = '<select name="A3_Skill43"onChange="StAllCalc()"></select>';
-            html_CS4SW_SKILL[4] = '<select name="A3_Skill44"onChange="StAllCalc()"></select>';
+            html_CS4SW_SKILL[0] = '<input type="checkbox" name="A_PERFORMANCE_SKILL40"onClick="calc()">';
+            html_CS4SW_SKILL[1] = '<select name="A_PERFORMANCE_SKILL41"onChange="StAllCalc()"></select>';
+            html_CS4SW_SKILL[2] = '<select name="A_PERFORMANCE_SKILL42"onChange="StAllCalc()"></select>';
+            html_CS4SW_SKILL[3] = '<select name="A_PERFORMANCE_SKILL43"onChange="StAllCalc()"></select>';
+            html_CS4SW_SKILL[4] = '<select name="A_PERFORMANCE_SKILL44"onChange="StAllCalc()"></select>';
             for (i = 0; i <= 4; i++)
                 myInnerHtml("EN4" + i + "_2", html_CS4SW_SKILL[i], 0);
 
             for (i = 0; i <= 5; i++) {
-                document.calcForm.A3_Skill41.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill42.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill43.options[i] = new Option(i, i);
-                document.calcForm.A3_Skill44.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL41.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL42.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL43.options[i] = new Option(i, i);
+                document.calcForm.A_PERFORMANCE_SKILL44.options[i] = new Option(i, i);
             }
-            document.calcForm.A3_Skill40.checked = n_A_PassSkill3[40];
-            document.calcForm.A3_Skill41.value = n_A_PassSkill3[41];
-            document.calcForm.A3_Skill42.value = n_A_PassSkill3[42];
-            document.calcForm.A3_Skill43.value = n_A_PassSkill3[43];
-            document.calcForm.A3_Skill44.value = n_A_PassSkill3[44];
+            document.calcForm.A_PERFORMANCE_SKILL40.checked = n_A_PassSkill3[40];
+            document.calcForm.A_PERFORMANCE_SKILL41.value = n_A_PassSkill3[41];
+            document.calcForm.A_PERFORMANCE_SKILL42.value = n_A_PassSkill3[42];
+            document.calcForm.A_PERFORMANCE_SKILL43.value = n_A_PassSkill3[43];
+            document.calcForm.A_PERFORMANCE_SKILL44.value = n_A_PassSkill3[44];
         } else {
             for (i = 0; i <= 4; i++)
                 myInnerHtml("EN4" + i + "_1", "", 0);
@@ -1009,26 +1009,26 @@ function isRangedWeapon() {
     }
 
     function Click_Skill5SW() {
-        n_Skill5SW = document.calcForm.A5_SKILLSW.checked;
+        n_Skill5SW = document.calcForm.A_BATTLECHANT_SKILLSW.checked;
 
         if (n_Skill5SW) {
             name_CS5SW_SKILL = ["All Stats+20", "HP+100%", "SP+100%", "ATK+100%", "HIT+50 & FLEE+50"];
             html_CS5SW_SKILL = new Array();
             for (i = 0; i <= 4; i++)
                 myInnerHtml("EN5" + i + "_1", name_CS5SW_SKILL[i], 0);
-            html_CS5SW_SKILL[0] = '<input type="checkbox" name="A5_Skill0"onClick="calc()">';
-            html_CS5SW_SKILL[1] = '<input type="checkbox" name="A5_Skill1"onClick="calc()">';
-            html_CS5SW_SKILL[2] = '<input type="checkbox" name="A5_Skill2"onClick="calc()">';
-            html_CS5SW_SKILL[3] = '<input type="checkbox" name="A5_Skill3"onClick="calc()">';
-            html_CS5SW_SKILL[4] = '<input type="checkbox" name="A5_Skill4"onClick="calc()">';
+            html_CS5SW_SKILL[0] = '<input type="checkbox" name="A_BATTLECHANT_SKILL0"onClick="calc()">';
+            html_CS5SW_SKILL[1] = '<input type="checkbox" name="A_BATTLECHANT_SKILL1"onClick="calc()">';
+            html_CS5SW_SKILL[2] = '<input type="checkbox" name="A_BATTLECHANT_SKILL2"onClick="calc()">';
+            html_CS5SW_SKILL[3] = '<input type="checkbox" name="A_BATTLECHANT_SKILL3"onClick="calc()">';
+            html_CS5SW_SKILL[4] = '<input type="checkbox" name="A_BATTLECHANT_SKILL4"onClick="calc()">';
             for (i = 0; i <= 4; i++)
                 myInnerHtml("EN5" + i + "_2", html_CS5SW_SKILL[i], 0);
 
-            document.calcForm.A5_Skill0.checked = n_A_PassSkill5[0];
-            document.calcForm.A5_Skill1.checked = n_A_PassSkill5[1];
-            document.calcForm.A5_Skill2.checked = n_A_PassSkill5[2];
-            document.calcForm.A5_Skill3.checked = n_A_PassSkill5[3];
-            document.calcForm.A5_Skill4.checked = n_A_PassSkill5[4];
+            document.calcForm.A_BATTLECHANT_SKILL0.checked = n_A_PassSkill5[0];
+            document.calcForm.A_BATTLECHANT_SKILL1.checked = n_A_PassSkill5[1];
+            document.calcForm.A_BATTLECHANT_SKILL2.checked = n_A_PassSkill5[2];
+            document.calcForm.A_BATTLECHANT_SKILL3.checked = n_A_PassSkill5[3];
+            document.calcForm.A_BATTLECHANT_SKILL4.checked = n_A_PassSkill5[4];
         } else {
             for (i = 0; i <= 4; i++)
                 myInnerHtml("EN5" + i + "_1", "", 0);
@@ -1038,31 +1038,31 @@ function isRangedWeapon() {
     }
 
     function Click_Skill6SW() {
-        n_Skill6SW = document.calcForm.A6_SKILLSW.checked;
+        n_Skill6SW = document.calcForm.A_GROUND_SUPPORTIVE_SKILLSW.checked;
 
         if (n_Skill6SW) {
-            myInnerHtml("EN60_1", '<select name="A6_Skill0"onChange="StAllCalc()"></select>', 0);
-            myInnerHtml("EN60_2", '<select name="A6_Skill1"onChange="StAllCalc()"></select>', 0);
+            myInnerHtml("EN60_1", '<select name="A_GROUND_SUPPORTIVE_SKILL0"onChange="StAllCalc()"></select>', 0);
+            myInnerHtml("EN60_2", '<select name="A_GROUND_SUPPORTIVE_SKILL1"onChange="StAllCalc()"></select>', 0);
 
-            document.calcForm.A6_Skill0.options[0] = new Option("Volcano", 0);
-            document.calcForm.A6_Skill0.options[1] = new Option("Deluge", 1);
-            document.calcForm.A6_Skill0.options[2] = new Option("Whirlwind", 2);
+            document.calcForm.A_GROUND_SUPPORTIVE_SKILL0.options[0] = new Option("Volcano", 0);
+            document.calcForm.A_GROUND_SUPPORTIVE_SKILL0.options[1] = new Option("Deluge", 1);
+            document.calcForm.A_GROUND_SUPPORTIVE_SKILL0.options[2] = new Option("Whirlwind", 2);
             for (i = 0; i <= 5; i++)
-                document.calcForm.A6_Skill1.options[i] = new Option(i, i);
+                document.calcForm.A_GROUND_SUPPORTIVE_SKILL1.options[i] = new Option(i, i);
 
             myInnerHtml("EN61_1", "Murderer Bonus", 0);
-            myInnerHtml("EN61_2", '<select name="A6_Skill2"onChange="StAllCalc()"></select>', 0);
-            document.calcForm.A6_Skill2.options[0] = new Option("None", 0);
-            document.calcForm.A6_Skill2.options[1] = new Option("ALL+3", 1);
-            document.calcForm.A6_Skill2.options[2] = new Option("ALL+5", 2);
+            myInnerHtml("EN61_2", '<select name="A_GROUND_SUPPORTIVE_SKILL2"onChange="StAllCalc()"></select>', 0);
+            document.calcForm.A_GROUND_SUPPORTIVE_SKILL2.options[0] = new Option("None", 0);
+            document.calcForm.A_GROUND_SUPPORTIVE_SKILL2.options[1] = new Option("ALL+3", 1);
+            document.calcForm.A_GROUND_SUPPORTIVE_SKILL2.options[2] = new Option("ALL+5", 2);
 
             myInnerHtml("EN62_1", "Anolian C(IC1)", 0);
-            myInnerHtml("EN62_2", '<input type="checkbox" name="A6_Skill3"onClick="calc()">', 0);
+            myInnerHtml("EN62_2", '<input type="checkbox" name="A_GROUND_SUPPORTIVE_SKILL3"onClick="calc()">', 0);
 
-            document.calcForm.A6_Skill0.value = n_A_PassSkill6[0];
-            document.calcForm.A6_Skill1.value = n_A_PassSkill6[1];
-            document.calcForm.A6_Skill2.value = n_A_PassSkill6[2];
-            document.calcForm.A6_Skill3.checked = n_A_PassSkill6[3];
+            document.calcForm.A_GROUND_SUPPORTIVE_SKILL0.value = n_A_PassSkill6[0];
+            document.calcForm.A_GROUND_SUPPORTIVE_SKILL1.value = n_A_PassSkill6[1];
+            document.calcForm.A_GROUND_SUPPORTIVE_SKILL2.value = n_A_PassSkill6[2];
+            document.calcForm.A_GROUND_SUPPORTIVE_SKILL3.checked = n_A_PassSkill6[3];
         } else {
             myInnerHtml("EN60_1", "", 0);
             myInnerHtml("EN60_2", "", 0);
@@ -1074,58 +1074,58 @@ function isRangedWeapon() {
     }
 
     function Click_Skill7SW() {
-        n_Skill7SW = document.calcForm.A7_SKILLSW.checked;
+        n_Skill7SW = document.calcForm.A_FOOD_BOX_BONUSSW.checked;
 
         if (n_Skill7SW) {
             myInnerHtml("EN70_1", "Sesame Pastry (HIT+30)", 0);
-            myInnerHtml("EN70_2", '<input type="checkbox" name="A7_Skill0"onClick="calc()">', 0);
+            myInnerHtml("EN70_2", '<input type="checkbox" name="A_FOOD_BOX_BONUS0"onClick="calc()">', 0);
 
             myInnerHtml("EN71_1", "Honey Pastry (FLEE+30)", 0);
-            myInnerHtml("EN71_2", '<input type="checkbox" name="A7_Skill1"onClick="calc()">', 0);
+            myInnerHtml("EN71_2", '<input type="checkbox" name="A_FOOD_BOX_BONUS1"onClick="calc()">', 0);
 
             myInnerHtml("EN72_1", "Rainbow Cake (ATK/MATK+10)", 0);
-            myInnerHtml("EN72_2", '<input type="checkbox" name="A7_Skill2"onClick="calc()">', 0);
+            myInnerHtml("EN72_2", '<input type="checkbox" name="A_FOOD_BOX_BONUS2"onClick="calc()">', 0);
 
             myInnerHtml("EN79_1", "Box of Resentment (ATK+20)", 0);
-            myInnerHtml("EN79_2", '<input type="checkbox" name="A7_Skill9"onClick="calc()">', 0);
+            myInnerHtml("EN79_2", '<input type="checkbox" name="A_FOOD_BOX_BONUS9"onClick="calc()">', 0);
 
             myInnerHtml("EN710_1", "Box of Drowsiness (MATK+20)", 0);
-            myInnerHtml("EN710_2", '<input type="checkbox" name="A7_Skill10"onClick="calc()">', 0);
+            myInnerHtml("EN710_2", '<input type="checkbox" name="A_FOOD_BOX_BONUS10"onClick="calc()">', 0);
 
-            myInnerHtml("EN73", '<select name="A7_Skill3"onChange="StAllCalc()"></select> ', 0);
-            myInnerHtml("EN74", '<select name="A7_Skill4"onChange="StAllCalc()"></select> ', 0);
-            myInnerHtml("EN75", '<select name="A7_Skill5"onChange="StAllCalc()"></select> ', 0);
-            myInnerHtml("EN76", '<select name="A7_Skill6"onChange="StAllCalc()"></select> ', 0);
-            myInnerHtml("EN77", '<select name="A7_Skill7"onChange="StAllCalc()"></select> ', 0);
-            myInnerHtml("EN78", '<select name="A7_Skill8"onChange="StAllCalc()"></select> ', 0);
+            myInnerHtml("EN73", '<select name="A_FOOD_BOX_BONUS3"onChange="StAllCalc()"></select> ', 0);
+            myInnerHtml("EN74", '<select name="A_FOOD_BOX_BONUS4"onChange="StAllCalc()"></select> ', 0);
+            myInnerHtml("EN75", '<select name="A_FOOD_BOX_BONUS5"onChange="StAllCalc()"></select> ', 0);
+            myInnerHtml("EN76", '<select name="A_FOOD_BOX_BONUS6"onChange="StAllCalc()"></select> ', 0);
+            myInnerHtml("EN77", '<select name="A_FOOD_BOX_BONUS7"onChange="StAllCalc()"></select> ', 0);
+            myInnerHtml("EN78", '<select name="A_FOOD_BOX_BONUS8"onChange="StAllCalc()"></select> ', 0);
 
-            document.calcForm.A7_Skill3.options[0] = new Option("STR+Food", 0);
-            document.calcForm.A7_Skill4.options[0] = new Option("AGI+Food", 0);
-            document.calcForm.A7_Skill5.options[0] = new Option("VIT+Food", 0);
-            document.calcForm.A7_Skill6.options[0] = new Option("INT+Food", 0);
-            document.calcForm.A7_Skill7.options[0] = new Option("DEX+Food", 0);
-            document.calcForm.A7_Skill8.options[0] = new Option("LUK+Food", 0);
+            document.calcForm.A_FOOD_BOX_BONUS3.options[0] = new Option("STR+Food", 0);
+            document.calcForm.A_FOOD_BOX_BONUS4.options[0] = new Option("AGI+Food", 0);
+            document.calcForm.A_FOOD_BOX_BONUS5.options[0] = new Option("VIT+Food", 0);
+            document.calcForm.A_FOOD_BOX_BONUS6.options[0] = new Option("INT+Food", 0);
+            document.calcForm.A_FOOD_BOX_BONUS7.options[0] = new Option("DEX+Food", 0);
+            document.calcForm.A_FOOD_BOX_BONUS8.options[0] = new Option("LUK+Food", 0);
 
             for (i = 1; i <= 10; i++) {
-                document.calcForm.A7_Skill3.options[i] = new Option("+" + i, i);
-                document.calcForm.A7_Skill4.options[i] = new Option("+" + i, i);
-                document.calcForm.A7_Skill5.options[i] = new Option("+" + i, i);
-                document.calcForm.A7_Skill6.options[i] = new Option("+" + i, i);
-                document.calcForm.A7_Skill7.options[i] = new Option("+" + i, i);
-                document.calcForm.A7_Skill8.options[i] = new Option("+" + i, i);
+                document.calcForm.A_FOOD_BOX_BONUS3.options[i] = new Option("+" + i, i);
+                document.calcForm.A_FOOD_BOX_BONUS4.options[i] = new Option("+" + i, i);
+                document.calcForm.A_FOOD_BOX_BONUS5.options[i] = new Option("+" + i, i);
+                document.calcForm.A_FOOD_BOX_BONUS6.options[i] = new Option("+" + i, i);
+                document.calcForm.A_FOOD_BOX_BONUS7.options[i] = new Option("+" + i, i);
+                document.calcForm.A_FOOD_BOX_BONUS8.options[i] = new Option("+" + i, i);
             }
 
-            document.calcForm.A7_Skill0.checked = n_A_PassSkill7[0];
-            document.calcForm.A7_Skill1.checked = n_A_PassSkill7[1];
-            document.calcForm.A7_Skill2.checked = n_A_PassSkill7[2];
-            document.calcForm.A7_Skill3.value = n_A_PassSkill7[3];
-            document.calcForm.A7_Skill4.value = n_A_PassSkill7[4];
-            document.calcForm.A7_Skill5.value = n_A_PassSkill7[5];
-            document.calcForm.A7_Skill6.value = n_A_PassSkill7[6];
-            document.calcForm.A7_Skill7.value = n_A_PassSkill7[7];
-            document.calcForm.A7_Skill8.value = n_A_PassSkill7[8];
-            document.calcForm.A7_Skill9.checked = n_A_PassSkill7[2];
-            document.calcForm.A7_Skill10.checked = n_A_PassSkill7[2];
+            document.calcForm.A_FOOD_BOX_BONUS0.checked = n_A_PassSkill7[0];
+            document.calcForm.A_FOOD_BOX_BONUS1.checked = n_A_PassSkill7[1];
+            document.calcForm.A_FOOD_BOX_BONUS2.checked = n_A_PassSkill7[2];
+            document.calcForm.A_FOOD_BOX_BONUS3.value = n_A_PassSkill7[3];
+            document.calcForm.A_FOOD_BOX_BONUS4.value = n_A_PassSkill7[4];
+            document.calcForm.A_FOOD_BOX_BONUS5.value = n_A_PassSkill7[5];
+            document.calcForm.A_FOOD_BOX_BONUS6.value = n_A_PassSkill7[6];
+            document.calcForm.A_FOOD_BOX_BONUS7.value = n_A_PassSkill7[7];
+            document.calcForm.A_FOOD_BOX_BONUS8.value = n_A_PassSkill7[8];
+            document.calcForm.A_FOOD_BOX_BONUS9.checked = n_A_PassSkill7[2];
+            document.calcForm.A_FOOD_BOX_BONUS10.checked = n_A_PassSkill7[2];
         } else {
             myInnerHtml("EN70_1", "", 0);
             myInnerHtml("EN70_2", "", 0);
@@ -1143,7 +1143,7 @@ function isRangedWeapon() {
     }
 
 
-    function Click_IjyouSW() {
+    function Click_MonsterStats() {
         MonsterStats = document.calcForm.MonsterStats.checked;
 
         if (MonsterStats) {
@@ -1157,28 +1157,28 @@ function isRangedWeapon() {
             } else {
                 myInnerHtml("BI27_1", name_ISW_SKILL[27], 0);
             }
-            html_ISW_SKILL[0] = '<select name="B_IJYOU0"onChange="calc()"></select>';
-            html_ISW_SKILL[1] = '<select name="B_IJYOU1"onChange="calc()"></select>';
-            html_ISW_SKILL[2] = '<input type="checkbox" name="B_IJYOU2"onClick="calc()">';
-            html_ISW_SKILL[3] = '<input type="checkbox" name="B_IJYOU3"onClick="calc()">';
-            html_ISW_SKILL[4] = '<input type="checkbox" name="B_IJYOU4"onClick="calc()">';
-            html_ISW_SKILL[5] = '<input type="checkbox" name="B_IJYOU5"onClick="calc()">';
-            html_ISW_SKILL[6] = '<input type="checkbox" name="B_IJYOU6"onClick="calc()">';
-            html_ISW_SKILL[7] = '<input type="checkbox" name="B_IJYOU7"onClick="calc()">';
-            html_ISW_SKILL[8] = '<input type="checkbox" name="B_IJYOU8"onClick="calc()">';
-            html_ISW_SKILL[9] = '<input type="checkbox" name="B_IJYOU9"onClick="calc()">';
-            html_ISW_SKILL[10] = '<input type="checkbox" name="B_IJYOU10"onClick="calc()">';
-            html_ISW_SKILL[11] = '<select name="B_IJYOU11"onChange="calc()"></select>';
-            html_ISW_SKILL[12] = '<select name="B_IJYOU12"onChange="calc()"></select>';
-            html_ISW_SKILL[13] = '<input type="checkbox" name="B_IJYOU13"onClick="calc()">';
-            html_ISW_SKILL[14] = '<input type="checkbox" name="B_IJYOU14"onClick="calc()">';
-            html_ISW_SKILL[15] = '<input type="checkbox" name="B_IJYOU15"onClick="calc()">';
-            html_ISW_SKILL[16] = '<input type="checkbox" name="B_IJYOU16"onClick="calc()">';
-            html_ISW_SKILL[17] = '<input type="checkbox" name="B_IJYOU17"onClick="calc()">';
-            html_ISW_SKILL[18] = '<select name="B_IJYOU18"onChange="calc()"></select>';
-            html_ISW_SKILL[19] = '<input type="checkbox" name="B_IJYOU19"onClick="calc()">';
-            html_ISW_SKILL[20] = '<input type="checkbox" name="B_IJYOU20"onClick="calc()">';
-            html_ISW_SKILL[27] = '<select name="B_IJYOU27"onChange="calc()"></select>';
+            html_ISW_SKILL[0] = '<select name="TargetStatusFlag0"onChange="calc()"></select>';
+            html_ISW_SKILL[1] = '<select name="TargetStatusFlag1"onChange="calc()"></select>';
+            html_ISW_SKILL[2] = '<input type="checkbox" name="TargetStatusFlag2"onClick="calc()">';
+            html_ISW_SKILL[3] = '<input type="checkbox" name="TargetStatusFlag3"onClick="calc()">';
+            html_ISW_SKILL[4] = '<input type="checkbox" name="TargetStatusFlag4"onClick="calc()">';
+            html_ISW_SKILL[5] = '<input type="checkbox" name="TargetStatusFlag5"onClick="calc()">';
+            html_ISW_SKILL[6] = '<input type="checkbox" name="TargetStatusFlag6"onClick="calc()">';
+            html_ISW_SKILL[7] = '<input type="checkbox" name="TargetStatusFlag7"onClick="calc()">';
+            html_ISW_SKILL[8] = '<input type="checkbox" name="TargetStatusFlag8"onClick="calc()">';
+            html_ISW_SKILL[9] = '<input type="checkbox" name="TargetStatusFlag9"onClick="calc()">';
+            html_ISW_SKILL[10] = '<input type="checkbox" name="TargetStatusFlag10"onClick="calc()">';
+            html_ISW_SKILL[11] = '<select name="TargetStatusFlag11"onChange="calc()"></select>';
+            html_ISW_SKILL[12] = '<select name="TargetStatusFlag12"onChange="calc()"></select>';
+            html_ISW_SKILL[13] = '<input type="checkbox" name="TargetStatusFlag13"onClick="calc()">';
+            html_ISW_SKILL[14] = '<input type="checkbox" name="TargetStatusFlag14"onClick="calc()">';
+            html_ISW_SKILL[15] = '<input type="checkbox" name="TargetStatusFlag15"onClick="calc()">';
+            html_ISW_SKILL[16] = '<input type="checkbox" name="TargetStatusFlag16"onClick="calc()">';
+            html_ISW_SKILL[17] = '<input type="checkbox" name="TargetStatusFlag17"onClick="calc()">';
+            html_ISW_SKILL[18] = '<select name="TargetStatusFlag18"onChange="calc()"></select>';
+            html_ISW_SKILL[19] = '<input type="checkbox" name="TargetStatusFlag19"onClick="calc()">';
+            html_ISW_SKILL[20] = '<input type="checkbox" name="TargetStatusFlag20"onClick="calc()">';
+            html_ISW_SKILL[27] = '<select name="TargetStatusFlag27"onChange="calc()"></select>';
 
             for (i = 0; i <= 20; i++)
                 myInnerHtml("BI" + i + "_2", html_ISW_SKILL[i], 0);
@@ -1186,64 +1186,64 @@ function isRangedWeapon() {
             myInnerHtml("BI27_2", html_ISW_SKILL[27], 0);
 
             for (i = 0; i <= 10; i++) {
-                document.calcForm.B_IJYOU0.options[i] = new Option(i, i);
-                document.calcForm.B_IJYOU11.options[i] = new Option(i, i);
-                document.calcForm.B_IJYOU12.options[i] = new Option(i, i);
+                document.calcForm.TargetStatusFlag0.options[i] = new Option(i, i);
+                document.calcForm.TargetStatusFlag11.options[i] = new Option(i, i);
+                document.calcForm.TargetStatusFlag12.options[i] = new Option(i, i);
             }
             for (i = 0; i <= 5; i++) {
-                document.calcForm.B_IJYOU1.options[i] = new Option(i, i);
-                document.calcForm.B_IJYOU18.options[i] = new Option(i, i);
-                document.calcForm.B_IJYOU27.options[i] = new Option(i, i);
+                document.calcForm.TargetStatusFlag1.options[i] = new Option(i, i);
+                document.calcForm.TargetStatusFlag18.options[i] = new Option(i, i);
+                document.calcForm.TargetStatusFlag27.options[i] = new Option(i, i);
             }
             if (InWarOfEmperium == 0) {
-                myInnerHtml("BI21_2", '<input type="checkbox" name="B_IJYOU21"onClick="calc()">', 0);
-                myInnerHtml("BI22_2", '<input type="checkbox" name="B_IJYOU22"onClick="calc()">', 0);
-                myInnerHtml("BI23_2", '<input type="checkbox" name="B_IJYOU23"onClick="calc()">', 0);
-                myInnerHtml("BI24_2", '<input type="checkbox" name="B_IJYOU24"onClick="calc()">', 0);
+                myInnerHtml("BI21_2", '<input type="checkbox" name="TargetStatusFlag21"onClick="calc()">', 0);
+                myInnerHtml("BI22_2", '<input type="checkbox" name="TargetStatusFlag22"onClick="calc()">', 0);
+                myInnerHtml("BI23_2", '<input type="checkbox" name="TargetStatusFlag23"onClick="calc()">', 0);
+                myInnerHtml("BI24_2", '<input type="checkbox" name="TargetStatusFlag24"onClick="calc()">', 0);
                 ZoHe = [["None", "Neutral 1", "Neutral 2", "Neutral 3", "Neutral 4", "Water 1", "Water 2", "Water 3", "Water 4", "Earth 1", "Eart 2", "Earth 3", "Earth 4", "Fire 1", "Fire 2", "Fire 3", "Fire 4", "Wind 1", "Wind 2", "Wind 3", "Wind 4", "Poison 1", "Poison 2", "Poison 3", "Poison 4", "Holy 1", "Holy 2", "Holy 3", "Holy 4", "Shadow 1", "Shadow 2", "Shadow 3", "Shadow 4", "Ghost 1", "Ghost 2", "Ghost 3", "Ghost 4", "Undead 1", "Undead 2", "Undead 3", "Undead 4"],
                     [0, 1, 2, 3, 4, 11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 34, 41, 42, 43, 44, 51, 52, 53, 54, 61, 62, 63, 64, 71, 72, 73, 74, 81, 82, 83, 84, 91, 92, 93, 94]];
-                myInnerHtml("BI25_2", '<select name="B_IJYOU25"onChange="calc()"></select>', 0);
+                myInnerHtml("BI25_2", '<select name="TargetStatusFlag25"onChange="calc()"></select>', 0);
 
                 for (i = 0; i <= 40; i++)
-                    document.calcForm.B_IJYOU25.options[i] = new Option(ZoHe[0][i], ZoHe[1][i]);
+                    document.calcForm.TargetStatusFlag25.options[i] = new Option(ZoHe[0][i], ZoHe[1][i]);
                 ZoHe2 = ["None", "Water", "Earth", "Fire", "Wind"];
-                myInnerHtml("BI26_2", '<select name="B_IJYOU26"onChange="calc()"></select>', 0);
+                myInnerHtml("BI26_2", '<select name="TargetStatusFlag26"onChange="calc()"></select>', 0);
 
                 for (i = 0; i <= 4; i++)
-                    document.calcForm.B_IJYOU26.options[i] = new Option(ZoHe2[i], i);
+                    document.calcForm.TargetStatusFlag26.options[i] = new Option(ZoHe2[i], i);
             }
 
 
-            document.calcForm.B_IJYOU0.value = TargetStatusFlags[0];
-            document.calcForm.B_IJYOU1.value = TargetStatusFlags[1];
-            document.calcForm.B_IJYOU2.checked = TargetStatusFlags[2];
-            document.calcForm.B_IJYOU3.checked = TargetStatusFlags[3];
-            document.calcForm.B_IJYOU4.checked = TargetStatusFlags[4];
-            document.calcForm.B_IJYOU5.checked = TargetStatusFlags[5];
-            document.calcForm.B_IJYOU6.checked = TargetStatusFlags[6];
-            document.calcForm.B_IJYOU7.checked = TargetStatusFlags[7];
-            document.calcForm.B_IJYOU8.checked = TargetStatusFlags[8];
-            document.calcForm.B_IJYOU9.checked = TargetStatusFlags[9];
-            document.calcForm.B_IJYOU10.checked = TargetStatusFlags[10];
-            document.calcForm.B_IJYOU11.value = TargetStatusFlags[11];
-            document.calcForm.B_IJYOU12.value = TargetStatusFlags[12];
-            document.calcForm.B_IJYOU13.checked = TargetStatusFlags[13];
-            document.calcForm.B_IJYOU14.checked = TargetStatusFlags[14];
-            document.calcForm.B_IJYOU15.checked = TargetStatusFlags[15];
-            document.calcForm.B_IJYOU16.checked = TargetStatusFlags[16];
-            document.calcForm.B_IJYOU17.checked = TargetStatusFlags[17];
-            document.calcForm.B_IJYOU18.value = TargetStatusFlags[18];
-            document.calcForm.B_IJYOU19.checked = TargetStatusFlags[19];
-            document.calcForm.B_IJYOU20.checked = TargetStatusFlags[20];
+            document.calcForm.TargetStatusFlag0.value = TargetStatusFlags[0];
+            document.calcForm.TargetStatusFlag1.value = TargetStatusFlags[1];
+            document.calcForm.TargetStatusFlag2.checked = TargetStatusFlags[2];
+            document.calcForm.TargetStatusFlag3.checked = TargetStatusFlags[3];
+            document.calcForm.TargetStatusFlag4.checked = TargetStatusFlags[4];
+            document.calcForm.TargetStatusFlag5.checked = TargetStatusFlags[5];
+            document.calcForm.TargetStatusFlag6.checked = TargetStatusFlags[6];
+            document.calcForm.TargetStatusFlag7.checked = TargetStatusFlags[7];
+            document.calcForm.TargetStatusFlag8.checked = TargetStatusFlags[8];
+            document.calcForm.TargetStatusFlag9.checked = TargetStatusFlags[9];
+            document.calcForm.TargetStatusFlag10.checked = TargetStatusFlags[10];
+            document.calcForm.TargetStatusFlag11.value = TargetStatusFlags[11];
+            document.calcForm.TargetStatusFlag12.value = TargetStatusFlags[12];
+            document.calcForm.TargetStatusFlag13.checked = TargetStatusFlags[13];
+            document.calcForm.TargetStatusFlag14.checked = TargetStatusFlags[14];
+            document.calcForm.TargetStatusFlag15.checked = TargetStatusFlags[15];
+            document.calcForm.TargetStatusFlag16.checked = TargetStatusFlags[16];
+            document.calcForm.TargetStatusFlag17.checked = TargetStatusFlags[17];
+            document.calcForm.TargetStatusFlag18.value = TargetStatusFlags[18];
+            document.calcForm.TargetStatusFlag19.checked = TargetStatusFlags[19];
+            document.calcForm.TargetStatusFlag20.checked = TargetStatusFlags[20];
             if (InWarOfEmperium == 0) {
-                document.calcForm.B_IJYOU21.checked = TargetStatusFlags[21];
-                document.calcForm.B_IJYOU22.checked = TargetStatusFlags[22];
-                document.calcForm.B_IJYOU23.checked = TargetStatusFlags[23];
-                document.calcForm.B_IJYOU24.checked = TargetStatusFlags[24];
-                document.calcForm.B_IJYOU25.value = TargetStatusFlags[25];
-                document.calcForm.B_IJYOU26.value = TargetStatusFlags[26];
+                document.calcForm.TargetStatusFlag21.checked = TargetStatusFlags[21];
+                document.calcForm.TargetStatusFlag22.checked = TargetStatusFlags[22];
+                document.calcForm.TargetStatusFlag23.checked = TargetStatusFlags[23];
+                document.calcForm.TargetStatusFlag24.checked = TargetStatusFlags[24];
+                document.calcForm.TargetStatusFlag25.value = TargetStatusFlags[25];
+                document.calcForm.TargetStatusFlag26.value = TargetStatusFlags[26];
             }
-            document.calcForm.B_IJYOU27.value = TargetStatusFlags[27];
+            document.calcForm.TargetStatusFlag27.value = TargetStatusFlags[27];
         } else {
             for (i = 0; i <= 20; i++) {
                 myInnerHtml("BI" + i + "_1", "", 0);
@@ -1334,36 +1334,36 @@ function isRangedWeapon() {
         n_B2[27] = targetStatsArray[TARGET_STAT_LEVEL] + targetStatsArray[TARGET_STAT_AGI];
 
         if (MonsterStats) {
-            TargetStatusFlags[0] = eval(document.calcForm.B_IJYOU0.value);
-            TargetStatusFlags[1] = eval(document.calcForm.B_IJYOU1.value);
-            TargetStatusFlags[2] = document.calcForm.B_IJYOU2.checked;
-            TargetStatusFlags[3] = document.calcForm.B_IJYOU3.checked;
-            TargetStatusFlags[4] = document.calcForm.B_IJYOU4.checked;
-            TargetStatusFlags[5] = document.calcForm.B_IJYOU5.checked;
-            TargetStatusFlags[6] = document.calcForm.B_IJYOU6.checked;
-            TargetStatusFlags[7] = document.calcForm.B_IJYOU7.checked;
-            TargetStatusFlags[8] = document.calcForm.B_IJYOU8.checked;
-            TargetStatusFlags[9] = document.calcForm.B_IJYOU9.checked;
-            TargetStatusFlags[10] = document.calcForm.B_IJYOU10.checked;
-            TargetStatusFlags[11] = eval(document.calcForm.B_IJYOU11.value);
-            TargetStatusFlags[12] = eval(document.calcForm.B_IJYOU12.value);
-            TargetStatusFlags[13] = document.calcForm.B_IJYOU13.checked;
-            TargetStatusFlags[14] = document.calcForm.B_IJYOU14.checked;
-            TargetStatusFlags[15] = document.calcForm.B_IJYOU15.checked;
-            TargetStatusFlags[16] = document.calcForm.B_IJYOU16.checked;
-            TargetStatusFlags[17] = document.calcForm.B_IJYOU17.checked;
-            TargetStatusFlags[18] = eval(document.calcForm.B_IJYOU18.value);
-            TargetStatusFlags[19] = document.calcForm.B_IJYOU19.checked;
-            TargetStatusFlags[20] = document.calcForm.B_IJYOU20.checked;
+            TargetStatusFlags[0] = eval(document.calcForm.TargetStatusFlag0.value);
+            TargetStatusFlags[1] = eval(document.calcForm.TargetStatusFlag1.value);
+            TargetStatusFlags[2] = document.calcForm.TargetStatusFlag2.checked;
+            TargetStatusFlags[3] = document.calcForm.TargetStatusFlag3.checked;
+            TargetStatusFlags[4] = document.calcForm.TargetStatusFlag4.checked;
+            TargetStatusFlags[5] = document.calcForm.TargetStatusFlag5.checked;
+            TargetStatusFlags[6] = document.calcForm.TargetStatusFlag6.checked;
+            TargetStatusFlags[7] = document.calcForm.TargetStatusFlag7.checked;
+            TargetStatusFlags[8] = document.calcForm.TargetStatusFlag8.checked;
+            TargetStatusFlags[9] = document.calcForm.TargetStatusFlag9.checked;
+            TargetStatusFlags[10] = document.calcForm.TargetStatusFlag10.checked;
+            TargetStatusFlags[11] = eval(document.calcForm.TargetStatusFlag11.value);
+            TargetStatusFlags[12] = eval(document.calcForm.TargetStatusFlag12.value);
+            TargetStatusFlags[13] = document.calcForm.TargetStatusFlag13.checked;
+            TargetStatusFlags[14] = document.calcForm.TargetStatusFlag14.checked;
+            TargetStatusFlags[15] = document.calcForm.TargetStatusFlag15.checked;
+            TargetStatusFlags[16] = document.calcForm.TargetStatusFlag16.checked;
+            TargetStatusFlags[17] = document.calcForm.TargetStatusFlag17.checked;
+            TargetStatusFlags[18] = eval(document.calcForm.TargetStatusFlag18.value);
+            TargetStatusFlags[19] = document.calcForm.TargetStatusFlag19.checked;
+            TargetStatusFlags[20] = document.calcForm.TargetStatusFlag20.checked;
             if (InWarOfEmperium == 0) {
-                TargetStatusFlags[21] = document.calcForm.B_IJYOU21.checked;
-                TargetStatusFlags[22] = document.calcForm.B_IJYOU22.checked;
-                TargetStatusFlags[23] = document.calcForm.B_IJYOU23.checked;
-                TargetStatusFlags[24] = document.calcForm.B_IJYOU24.checked;
-                TargetStatusFlags[25] = eval(document.calcForm.B_IJYOU25.value);
-                TargetStatusFlags[26] = eval(document.calcForm.B_IJYOU26.value);
+                TargetStatusFlags[21] = document.calcForm.TargetStatusFlag21.checked;
+                TargetStatusFlags[22] = document.calcForm.TargetStatusFlag22.checked;
+                TargetStatusFlags[23] = document.calcForm.TargetStatusFlag23.checked;
+                TargetStatusFlags[24] = document.calcForm.TargetStatusFlag24.checked;
+                TargetStatusFlags[25] = eval(document.calcForm.TargetStatusFlag25.value);
+                TargetStatusFlags[26] = eval(document.calcForm.TargetStatusFlag26.value);
             }
-            TargetStatusFlags[27] = eval(document.calcForm.B_IJYOU27.value);
+            TargetStatusFlags[27] = eval(document.calcForm.TargetStatusFlag27.value);
         }
 
         if (TargetStatusFlags[25])
@@ -1533,7 +1533,7 @@ function isRangedWeapon() {
             }
             if (targetStatsArray[19] == 0) {
                 if (n_Skill3SW)
-                    n_A_PassSkill3[8] = eval(document.calcForm.A3_Skill8.value);
+                    n_A_PassSkill3[8] = eval(document.calcForm.A_PERFORMANCE_SKILL8.value);
                 if (n_A_PassSkill3[8]) {
                     targetStatsArray[16] = Math.floor(targetStatsArray[16] * (125 + 11 * n_A_PassSkill3[8]) / 100);
                     targetStatsArray[17] = Math.floor(targetStatsArray[17] * (125 + 11 * n_A_PassSkill3[8]) / 100);
