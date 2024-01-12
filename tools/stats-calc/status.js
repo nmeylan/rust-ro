@@ -4,12 +4,13 @@ function StAllCalc(force) {
         return;
     }
     FORM_DATA = getFormData(document);
+    console.log(JSON.stringify(FORM_DATA))
     n_A_JobSet();
 
     if (n_A_JOB == 20) {
-        if (SuperNoviceFullWeaponCHECK == 0 && eval(FORM_DATA.A_skill9) == 1)
+        if (SuperNoviceFullWeaponCHECK == 0 && eval(FORM_DATA.A_PASSIVE_SKILL9) == 1)
             SuperNoviceFullWeapon(1);
-        else if (SuperNoviceFullWeaponCHECK == 1 && eval(FORM_DATA.A_skill9) == 0)
+        else if (SuperNoviceFullWeaponCHECK == 1 && eval(FORM_DATA.A_PASSIVE_SKILL9) == 0)
             SuperNoviceFullWeapon(0);
     }
     n_A_BaseLV = eval(FORM_DATA.A_BaseLV);
@@ -200,126 +201,126 @@ function StAllCalc(force) {
     n_A_PassSkill = new Array();
 
 
-    if (JobSkillPassOBJ[n_A_JOB][0] != 999) n_A_PassSkill[0] = eval(FORM_DATA.A_skill0);
-    if (JobSkillPassOBJ[n_A_JOB][1] != 999) n_A_PassSkill[1] = eval(FORM_DATA.A_skill1);
-    if (JobSkillPassOBJ[n_A_JOB][2] != 999) n_A_PassSkill[2] = eval(FORM_DATA.A_skill2);
-    if (JobSkillPassOBJ[n_A_JOB][3] != 999) n_A_PassSkill[3] = eval(FORM_DATA.A_skill3);
-    if (JobSkillPassOBJ[n_A_JOB][4] != 999) n_A_PassSkill[4] = eval(FORM_DATA.A_skill4);
-    if (JobSkillPassOBJ[n_A_JOB][5] != 999) n_A_PassSkill[5] = eval(FORM_DATA.A_skill5);
-    if (JobSkillPassOBJ[n_A_JOB][6] != 999) n_A_PassSkill[6] = eval(FORM_DATA.A_skill6);
-    if (JobSkillPassOBJ[n_A_JOB][7] != 999) n_A_PassSkill[7] = eval(FORM_DATA.A_skill7);
-    if (JobSkillPassOBJ[n_A_JOB][8] != 999) n_A_PassSkill[8] = eval(FORM_DATA.A_skill8);
-    if (JobSkillPassOBJ[n_A_JOB][9] != 999) n_A_PassSkill[9] = eval(FORM_DATA.A_skill9);
-    if (JobSkillPassOBJ[n_A_JOB][10] != 999) n_A_PassSkill[10] = eval(FORM_DATA.A_skill10);
-    if (JobSkillPassOBJ[n_A_JOB][11] != 999) n_A_PassSkill[11] = eval(FORM_DATA.A_skill11);
-    if (JobSkillPassOBJ[n_A_JOB][12] != 999) n_A_PassSkill[12] = eval(FORM_DATA.A_skill12);
-    if (JobSkillPassOBJ[n_A_JOB][13] != 999) n_A_PassSkill[13] = eval(FORM_DATA.A_skill13);
-    if (JobSkillPassOBJ[n_A_JOB][14] != 999) n_A_PassSkill[14] = eval(FORM_DATA.A_skill14);
+    if (JobSkillPassOBJ[n_A_JOB][0] != 999) n_A_PassSkill[0] = eval(FORM_DATA.A_PASSIVE_SKILL0);
+    if (JobSkillPassOBJ[n_A_JOB][1] != 999) n_A_PassSkill[1] = eval(FORM_DATA.A_PASSIVE_SKILL1);
+    if (JobSkillPassOBJ[n_A_JOB][2] != 999) n_A_PassSkill[2] = eval(FORM_DATA.A_PASSIVE_SKILL2);
+    if (JobSkillPassOBJ[n_A_JOB][3] != 999) n_A_PassSkill[3] = eval(FORM_DATA.A_PASSIVE_SKILL3);
+    if (JobSkillPassOBJ[n_A_JOB][4] != 999) n_A_PassSkill[4] = eval(FORM_DATA.A_PASSIVE_SKILL4);
+    if (JobSkillPassOBJ[n_A_JOB][5] != 999) n_A_PassSkill[5] = eval(FORM_DATA.A_PASSIVE_SKILL5);
+    if (JobSkillPassOBJ[n_A_JOB][6] != 999) n_A_PassSkill[6] = eval(FORM_DATA.A_PASSIVE_SKILL6);
+    if (JobSkillPassOBJ[n_A_JOB][7] != 999) n_A_PassSkill[7] = eval(FORM_DATA.A_PASSIVE_SKILL7);
+    if (JobSkillPassOBJ[n_A_JOB][8] != 999) n_A_PassSkill[8] = eval(FORM_DATA.A_PASSIVE_SKILL8);
+    if (JobSkillPassOBJ[n_A_JOB][9] != 999) n_A_PassSkill[9] = eval(FORM_DATA.A_PASSIVE_SKILL9);
+    if (JobSkillPassOBJ[n_A_JOB][10] != 999) n_A_PassSkill[10] = eval(FORM_DATA.A_PASSIVE_SKILL10);
+    if (JobSkillPassOBJ[n_A_JOB][11] != 999) n_A_PassSkill[11] = eval(FORM_DATA.A_PASSIVE_SKILL11);
+    if (JobSkillPassOBJ[n_A_JOB][12] != 999) n_A_PassSkill[12] = eval(FORM_DATA.A_PASSIVE_SKILL12);
+    if (JobSkillPassOBJ[n_A_JOB][13] != 999) n_A_PassSkill[13] = eval(FORM_DATA.A_PASSIVE_SKILL13);
+    if (JobSkillPassOBJ[n_A_JOB][14] != 999) n_A_PassSkill[14] = eval(FORM_DATA.A_PASSIVE_SKILL14);
 
 
     if (n_SkillSW) {
-        n_A_PassSkill2[0] = eval(FORM_DATA.A2_Skill0);
-        n_A_PassSkill2[1] = eval(FORM_DATA.A2_Skill1);
-        n_A_PassSkill2[2] = eval(FORM_DATA.A2_Skill2);
-        n_A_PassSkill2[3] = FORM_DATA.A2_Skill3 === "on";
-        n_A_PassSkill2[4] = eval(FORM_DATA.A2_Skill4);
-        n_A_PassSkill2[5] = FORM_DATA.A2_Skill5 === "on";
-        n_A_PassSkill2[6] = eval(FORM_DATA.A2_Skill6);
-        n_A_PassSkill2[7] = FORM_DATA.A2_Skill7 === "on";
-        n_A_PassSkill2[8] = eval(FORM_DATA.A2_Skill8);
-        n_A_PassSkill2[9] = eval(FORM_DATA.A2_Skill9);
-        n_A_PassSkill2[10] = eval(FORM_DATA.A2_Skill10);
-        n_A_PassSkill2[11] = FORM_DATA.A2_Skill11 === "on";
-        n_A_PassSkill2[12] = FORM_DATA.A2_Skill12 === "on";
-        n_A_PassSkill2[13] = eval(FORM_DATA.A2_Skill13);
-        n_A_PassSkill2[14] = eval(FORM_DATA.A2_Skill14);
+        n_A_PassSkill2[0] = eval(FORM_DATA.A_SUPPORTIVE_SKILL0);
+        n_A_PassSkill2[1] = eval(FORM_DATA.A_SUPPORTIVE_SKILL1);
+        n_A_PassSkill2[2] = eval(FORM_DATA.A_SUPPORTIVE_SKILL2);
+        n_A_PassSkill2[3] = FORM_DATA.A_SUPPORTIVE_SKILL3 === "on";
+        n_A_PassSkill2[4] = eval(FORM_DATA.A_SUPPORTIVE_SKILL4);
+        n_A_PassSkill2[5] = FORM_DATA.A_SUPPORTIVE_SKILL5 === "on";
+        n_A_PassSkill2[6] = eval(FORM_DATA.A_SUPPORTIVE_SKILL6);
+        n_A_PassSkill2[7] = FORM_DATA.A_SUPPORTIVE_SKILL7 === "on";
+        n_A_PassSkill2[8] = eval(FORM_DATA.A_SUPPORTIVE_SKILL8);
+        n_A_PassSkill2[9] = eval(FORM_DATA.A_SUPPORTIVE_SKILL9);
+        n_A_PassSkill2[10] = eval(FORM_DATA.A_SUPPORTIVE_SKILL10);
+        n_A_PassSkill2[11] = FORM_DATA.A_SUPPORTIVE_SKILL11 === "on";
+        n_A_PassSkill2[12] = FORM_DATA.A_SUPPORTIVE_SKILL12 === "on";
+        n_A_PassSkill2[13] = eval(FORM_DATA.A_SUPPORTIVE_SKILL13);
+        n_A_PassSkill2[14] = eval(FORM_DATA.A_SUPPORTIVE_SKILL14);
     }
 
     if (n_Skill3SW) {
-        n_A_PassSkill3[0] = eval(FORM_DATA.A3_Skill0_1);
-        n_A_PassSkill3[1] = eval(FORM_DATA.A3_Skill1_1);
-        n_A_PassSkill3[2] = eval(FORM_DATA.A3_Skill2_1);
-        n_A_PassSkill3[3] = eval(FORM_DATA.A3_Skill3_1);
+        n_A_PassSkill3[0] = eval(FORM_DATA.A_PERFORMANCE_SKILL0_1);
+        n_A_PassSkill3[1] = eval(FORM_DATA.A_PERFORMANCE_SKILL1_1);
+        n_A_PassSkill3[2] = eval(FORM_DATA.A_PERFORMANCE_SKILL2_1);
+        n_A_PassSkill3[3] = eval(FORM_DATA.A_PERFORMANCE_SKILL3_1);
 
-        n_A_PassSkill3[5] = eval(FORM_DATA.A3_Skill5_1);
+        n_A_PassSkill3[5] = eval(FORM_DATA.A_PERFORMANCE_SKILL5_1);
 
-        n_A_PassSkill3[7] = eval(FORM_DATA.A3_Skill7);
+        n_A_PassSkill3[7] = eval(FORM_DATA.A_PERFORMANCE_SKILL7);
 
-        n_A_PassSkill3[9] = eval(FORM_DATA.A3_Skill9);
-        n_A_PassSkill3[10] = eval(FORM_DATA.A3_Skill10);
-        n_A_PassSkill3[11] = FORM_DATA.A3_Skill11 === "on";
+        n_A_PassSkill3[9] = eval(FORM_DATA.A_PERFORMANCE_SKILL9);
+        n_A_PassSkill3[10] = eval(FORM_DATA.A_PERFORMANCE_SKILL10);
+        n_A_PassSkill3[11] = FORM_DATA.A_PERFORMANCE_SKILL11 === "on";
         if (n_A_PassSkill3[11]) {
-            n_A_PassSkill3[12] = eval(FORM_DATA.A3_Skill11_STR);
-            n_A_PassSkill3[13] = eval(FORM_DATA.A3_Skill11_AGI);
-            n_A_PassSkill3[14] = eval(FORM_DATA.A3_Skill11_VIT);
-            n_A_PassSkill3[15] = eval(FORM_DATA.A3_Skill11_INT);
-            n_A_PassSkill3[16] = eval(FORM_DATA.A3_Skill11_DEX);
-            n_A_PassSkill3[17] = eval(FORM_DATA.A3_Skill11_LUK);
+            n_A_PassSkill3[12] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_STR);
+            n_A_PassSkill3[13] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_AGI);
+            n_A_PassSkill3[14] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_VIT);
+            n_A_PassSkill3[15] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_INT);
+            n_A_PassSkill3[16] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_DEX);
+            n_A_PassSkill3[17] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_LUK);
         }
 
         if (n_A_PassSkill3[0]) {
-            n_A_PassSkill3[20] = eval(FORM_DATA.A3_Skill0_2);
-            n_A_PassSkill3[30] = eval(FORM_DATA.A3_Skill0_3);
+            n_A_PassSkill3[20] = eval(FORM_DATA.A_PERFORMANCE_SKILL0_2);
+            n_A_PassSkill3[30] = eval(FORM_DATA.A_PERFORMANCE_SKILL0_3);
         }
         if (n_A_PassSkill3[1]) {
-            n_A_PassSkill3[21] = eval(FORM_DATA.A3_Skill1_2);
-            n_A_PassSkill3[31] = eval(FORM_DATA.A3_Skill1_3);
+            n_A_PassSkill3[21] = eval(FORM_DATA.A_PERFORMANCE_SKILL1_2);
+            n_A_PassSkill3[31] = eval(FORM_DATA.A_PERFORMANCE_SKILL1_3);
         }
         if (n_A_PassSkill3[2]) {
-            n_A_PassSkill3[22] = eval(FORM_DATA.A3_Skill2_2);
-            n_A_PassSkill3[29] = eval(FORM_DATA.A3_Skill2_3);
-            n_A_PassSkill3[32] = eval(FORM_DATA.A3_Skill2_4);
+            n_A_PassSkill3[22] = eval(FORM_DATA.A_PERFORMANCE_SKILL2_2);
+            n_A_PassSkill3[29] = eval(FORM_DATA.A_PERFORMANCE_SKILL2_3);
+            n_A_PassSkill3[32] = eval(FORM_DATA.A_PERFORMANCE_SKILL2_4);
         }
         if (n_A_PassSkill3[3]) {
-            n_A_PassSkill3[23] = eval(FORM_DATA.A3_Skill3_2);
-            n_A_PassSkill3[33] = eval(FORM_DATA.A3_Skill3_3);
+            n_A_PassSkill3[23] = eval(FORM_DATA.A_PERFORMANCE_SKILL3_2);
+            n_A_PassSkill3[33] = eval(FORM_DATA.A_PERFORMANCE_SKILL3_3);
         }
         if (n_A_PassSkill3[4]) {
-            n_A_PassSkill3[24] = eval(FORM_DATA.A3_Skill4_2);
-            n_A_PassSkill3[34] = eval(FORM_DATA.A3_Skill4_3);
+            n_A_PassSkill3[24] = eval(FORM_DATA.A_PERFORMANCE_SKILL4_2);
+            n_A_PassSkill3[34] = eval(FORM_DATA.A_PERFORMANCE_SKILL4_3);
         }
         if (n_A_PassSkill3[5]) {
-            n_A_PassSkill3[25] = eval(FORM_DATA.A3_Skill5_2);
-            n_A_PassSkill3[35] = eval(FORM_DATA.A3_Skill5_3);
+            n_A_PassSkill3[25] = eval(FORM_DATA.A_PERFORMANCE_SKILL5_2);
+            n_A_PassSkill3[35] = eval(FORM_DATA.A_PERFORMANCE_SKILL5_3);
         }
         if (n_A_PassSkill3[6]) {
-            n_A_PassSkill3[26] = eval(FORM_DATA.A3_Skill6_2);
-            n_A_PassSkill3[36] = eval(FORM_DATA.A3_Skill6_3);
+            n_A_PassSkill3[26] = eval(FORM_DATA.A_PERFORMANCE_SKILL6_2);
+            n_A_PassSkill3[36] = eval(FORM_DATA.A_PERFORMANCE_SKILL6_3);
         }
 
     }
     if (n_Skill4SW) {
-        n_A_PassSkill3[40] = FORM_DATA.A3_Skill40 === "on";
-        n_A_PassSkill3[41] = eval(FORM_DATA.A3_Skill41);
-        n_A_PassSkill3[42] = eval(FORM_DATA.A3_Skill42);
-        n_A_PassSkill3[43] = eval(FORM_DATA.A3_Skill43);
-        n_A_PassSkill3[44] = eval(FORM_DATA.A3_Skill44);
+        n_A_PassSkill3[40] = FORM_DATA.A_PERFORMANCE_SKILL40 === "on";
+        n_A_PassSkill3[41] = eval(FORM_DATA.A_PERFORMANCE_SKILL41);
+        n_A_PassSkill3[42] = eval(FORM_DATA.A_PERFORMANCE_SKILL42);
+        n_A_PassSkill3[43] = eval(FORM_DATA.A_PERFORMANCE_SKILL43);
+        n_A_PassSkill3[44] = eval(FORM_DATA.A_PERFORMANCE_SKILL44);
     }
     if (n_Skill5SW) {
-        n_A_PassSkill5[0] = FORM_DATA.A5_Skill0 === "on";
-        n_A_PassSkill5[1] = FORM_DATA.A5_Skill1 === "on";
-        n_A_PassSkill5[2] = FORM_DATA.A5_Skill2 === "on";
-        n_A_PassSkill5[3] = FORM_DATA.A5_Skill3 === "on";
-        n_A_PassSkill5[4] = FORM_DATA.A5_Skill4 === "on";
+        n_A_PassSkill5[0] = FORM_DATA.A_BATTLECHANT_SKILL0 === "on";
+        n_A_PassSkill5[1] = FORM_DATA.A_BATTLECHANT_SKILL1 === "on";
+        n_A_PassSkill5[2] = FORM_DATA.A_BATTLECHANT_SKILL2 === "on";
+        n_A_PassSkill5[3] = FORM_DATA.A_BATTLECHANT_SKILL3 === "on";
+        n_A_PassSkill5[4] = FORM_DATA.A_BATTLECHANT_SKILL4 === "on";
     }
     if (n_Skill6SW) {
-        n_A_PassSkill6[0] = eval(FORM_DATA.A6_Skill0);
-        n_A_PassSkill6[1] = eval(FORM_DATA.A6_Skill1);
-        n_A_PassSkill6[2] = eval(FORM_DATA.A6_Skill2);
-        n_A_PassSkill6[3] = FORM_DATA.A6_Skill3 === "on";
+        n_A_PassSkill6[0] = eval(FORM_DATA.A_GROUND_SUPPORTIVE_SKILL0);
+        n_A_PassSkill6[1] = eval(FORM_DATA.A_GROUND_SUPPORTIVE_SKILL1);
+        n_A_PassSkill6[2] = eval(FORM_DATA.A_GROUND_SUPPORTIVE_SKILL2);
+        n_A_PassSkill6[3] = FORM_DATA.A_GROUND_SUPPORTIVE_SKILL3 === "on";
     }
     if (n_Skill7SW) {
-        n_A_PassSkill7[0] = FORM_DATA.A7_Skill0 === "on";
-        n_A_PassSkill7[1] = FORM_DATA.A7_Skill1 === "on";
-        n_A_PassSkill7[2] = FORM_DATA.A7_Skill2 === "on";
-        n_A_PassSkill7[3] = eval(FORM_DATA.A7_Skill3);
-        n_A_PassSkill7[4] = eval(FORM_DATA.A7_Skill4);
-        n_A_PassSkill7[5] = eval(FORM_DATA.A7_Skill5);
-        n_A_PassSkill7[6] = eval(FORM_DATA.A7_Skill6);
-        n_A_PassSkill7[7] = eval(FORM_DATA.A7_Skill7);
-        n_A_PassSkill7[8] = eval(FORM_DATA.A7_Skill8);
-        n_A_PassSkill7[9] = FORM_DATA.A7_Skill9 === "on";
-        n_A_PassSkill7[10] = FORM_DATA.A7_Skill10 === "on";
+        n_A_PassSkill7[0] = FORM_DATA.A_FOOD_BOX_BONUS0 === "on";
+        n_A_PassSkill7[1] = FORM_DATA.A_FOOD_BOX_BONUS1 === "on";
+        n_A_PassSkill7[2] = FORM_DATA.A_FOOD_BOX_BONUS2 === "on";
+        n_A_PassSkill7[3] = eval(FORM_DATA.A_FOOD_BOX_BONUS3);
+        n_A_PassSkill7[4] = eval(FORM_DATA.A_FOOD_BOX_BONUS4);
+        n_A_PassSkill7[5] = eval(FORM_DATA.A_FOOD_BOX_BONUS5);
+        n_A_PassSkill7[6] = eval(FORM_DATA.A_FOOD_BOX_BONUS6);
+        n_A_PassSkill7[7] = eval(FORM_DATA.A_FOOD_BOX_BONUS7);
+        n_A_PassSkill7[8] = eval(FORM_DATA.A_FOOD_BOX_BONUS8);
+        n_A_PassSkill7[9] = FORM_DATA.A_FOOD_BOX_BONUS9 === "on";
+        n_A_PassSkill7[10] = FORM_DATA.A_FOOD_BOX_BONUS10 === "on";
     }
 
     ClickB_Enemy();
