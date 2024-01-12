@@ -1,26 +1,8 @@
-var _____WB$wombat$assign$function_____ = function (name) {
-    return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name];
-};
-if (!self.__WB_pmw) {
-    self.__WB_pmw = function (obj) {
-        this.__WB_source = obj;
-        return this;
-    }
-}
-
 function isRangedWeapon() {
     return n_A_WeaponType ==  WEAPON_TYPE_BOW || n_A_WeaponType ==  WEAPON_TYPE_HANDGUN || n_A_WeaponType ==  WEAPON_TYPE_RIFLE || n_A_WeaponType ==  WEAPON_TYPE_SHOTGUN || n_A_WeaponType ==  WEAPON_TYPE_GATLING_GUN || n_A_WeaponType ==  WEAPON_TYPE_GRENADE_LAUNCHER;
 }
 
 {
-    let window = _____WB$wombat$assign$function_____("window");
-    let self = _____WB$wombat$assign$function_____("self");
-    let document = _____WB$wombat$assign$function_____("document");
-    let location = _____WB$wombat$assign$function_____("location");
-    let top = _____WB$wombat$assign$function_____("top");
-    let parent = _____WB$wombat$assign$function_____("parent");
-    let frames = _____WB$wombat$assign$function_____("frames");
-    let opener = _____WB$wombat$assign$function_____("opener");
 
     hasLeftHand = 0;
     isRebirth = 0;
