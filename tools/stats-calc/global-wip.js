@@ -15,7 +15,6 @@ global.wBCEDPch = 0;
 global.wLAch = 0;
 global.wCriTyuu = 0;
 global.wBTw1 = 0;
-global.swDelay = 0;
 global.TyouEnkakuSousa3dan = 0;
 global.not_use_card = 0;
 global.SuperNoviceFullWeaponCHECK = 0;

@@ -4904,3 +4904,67 @@ global.weaponsize = [
     [1   ,1   ,1   ],
     [1   ,1   ,1   ],
 ];
+
+global.element = new Array();
+
+
+global.element[1] = new Array(1,1,1,1,1,1,1,1,0.25,1);
+global.element[2] = new Array(1,1,1,1,1,1,1,1,0,1);
+global.element[3] = new Array(1,1,1,1,1,1,1,1,0,1);
+global.element[4] = new Array(1,1,1,1,1,1,1,1,0,1);
+
+
+global.element[11] = new Array(1,0.25,1,0.5,1.75,1,1,1,1,1);
+global.element[12] = new Array(1,0,1,0.25,1.75,0.75,1,1,0.75,0.75);
+global.element[13] = new Array(1,-0.25,1,0,2,0.5,1,1,0.5,0.5);
+global.element[14] = new Array(1,-0.5,1,0,2,0.25,0.75,0.75,0.25,0.25);
+
+
+global.element[21] = new Array(1,1,1,1.5,0.5,1.25,1,1,1,1);
+global.element[22] = new Array(1,1,0.5,1.75,0.25,1.25,1,1,0.75,0.75);
+global.element[23] = new Array(1,1,0,2,0,1,1,1,0.5,0.5);
+global.element[24] = new Array(1,1,-0.25,2,0,0.75,0.75,0.75,0.25,0.25);
+
+
+global.element[31] = new Array(1,1.5,0.5,0.25,1,1.25,1,1,1,1);
+global.element[32] = new Array(1,1.75,0.25,0,1,1.25,1,1,0.75,0.75);
+global.element[33] = new Array(1,2,0,-0.25,1,1,1,1,0.5,0.5);
+global.element[34] = new Array(1,2,0,-0.5,1,0.75,0.75,0.75,0.25,0.25);
+
+
+
+global.element[41] = new Array(1,0.5,1.5,1,0.25,1.25,1,1,1,1);
+global.element[42] = new Array(1,0.25,1.75,1,0,1.25,1,1,0.75,0.75);
+global.element[43] = new Array(1,0,2,1,-0.25,1,1,1,0.5,0.5);
+global.element[44] = new Array(1,0,2,1,-0.5,0.75,0.75,0.75,0.25,0.25);
+
+
+
+global.element[51] = new Array(1,1,1,1,1,0,1,0.5,1,0.5);
+global.element[52] = new Array(1,1,1,1,1,0,1,0.25,0.75,0.25);
+global.element[53] = new Array(1,1,1,1,1,0,1.25,0,0.5,0);
+global.element[54] = new Array(1,0.75,0.75,0.75,0.75,0,1.25,-0.25,0.25,-0.25);
+
+
+global.element[61] = new Array(1,0.75,0.75,0.75,0.75,0.75,0,1.25,0.75,1);
+global.element[62] = new Array(1,0.5,0.5,0.5,0.5,0.5,-0.25,1.5,0.5,1.25);
+global.element[63] = new Array(1,0.25,0.25,0.25,0.25,0.25,-0.5,1.75,0.25,1.5);
+global.element[64] = new Array(1,0,0,0,0,0,-1,2,0,1.75);
+
+
+global.element[71] = new Array(1,1,1,1,1,0.5,1.25,0,0.75,0);
+global.element[72] = new Array(1,0.75,0.75,0.75,0.75,0.25,1.5,-0.25,0.5,0);
+global.element[73] = new Array(1,0.5,0.5,0.5,0.5,0,1.75,-0.5,0.25,0);
+global.element[74] = new Array(1,0.25,0.25,0.25,0.25,-0.25,2,-1,0,0);
+
+
+global.element[81] = new Array(0.25,1,1,1,1,1,1,1,1.25,1);
+global.element[82] = new Array(0.25,1,1,1,1,0.75,1,1,1.50,1);
+global.element[83] = new Array(0,1,1,1,1,0.5,1,1,1.75,1);
+global.element[84] = new Array(0,1,1,1,1,0.25,1,1,2,1);
+
+
+global.element[91] = new Array(1,1,1,1.25,1,-0.25,1.5,-0.25,1,0);
+global.element[92] = new Array(1,1,1,1.5,1,-0.5,1.75,-0.5,1.25,0);
+global.element[93] = new Array(1,1.25,0.75,1.75,1,-0.75,2,-0.75,1.5,0);
+global.element[94] = new Array(1,1.5,0.5,2,1,-1,2,-1,1.75,0);
