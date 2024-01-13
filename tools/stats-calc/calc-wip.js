@@ -2742,7 +2742,7 @@ function BaiCI(stats, targetStats, wBaiCI, InWarOfEmperium) {
             wBaiCI = Math.floor(wBaiCI * (100 + 30 * stats.skillToUseLV) / 100);
 
 
-        if (stats.weaponType == WEAPON_TYPE_KATAR && SkillSearch("Advanced Katar Mastery") && stats.skillToUseName != "Soul Destroyer", stats)
+        if (stats.weaponType == WEAPON_TYPE_KATAR && SkillSearch("Advanced Katar Mastery", stats) && stats.skillToUseName != "Soul Destroyer")
             wBaiCI = Math.floor(wBaiCI * (110 + 2 * SkillSearch("Advanced Katar Mastery", stats)) / 100);
 
         w1 = 0;
@@ -2884,24 +2884,24 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
     let wDelay = 0;
     let swDelay = 0;
     let battleResult = {
-        bonusSub: "", // bSUB
-        bonusSubName: "", // bSUBname
-        bonusSub2: "", // bSUB2
-        bonusSub2Name: "", // bSUB2name
-        critAtk: [],  // CRIATK
-        critChance: 0, // CRInum
-        critAtkName: "", // CRIATKname
-        critChanceName: "", // CRInumname
-        atk00: "", // ATK_00
-        atk02: "", // ATK_02
-        atk01: "", // ATK_01
-        battleHit: 0, // BattleHIT
-        dps: 0, // DPS
-        minAtkNum: 0, // MinATKnum
-        maxAtkNum: 0, // MaxATKnum
-        avgAtkNum: 0, // AveATKnum
-        battleTime: 0, // BattleTime
-        averageReceivedDamage: 0, // AverageReceivedDamageIncludingDodge
+        // bonusSub: "", // bSUB
+        // bonusSubName: "", // bSUBname
+        // bonusSub2: "", // bSUB2
+        // bonusSub2Name: "", // bSUB2name
+        // critAtk: [],  // CRIATK
+        // critChance: 0, // CRInum
+        // critAtkName: "", // CRIATKname
+        // critChanceName: "", // CRInumname
+        // atk00: "", // ATK_00
+        // atk02: "", // ATK_02
+        // atk01: "", // ATK_01
+        // battleHit: 0, // BattleHIT
+        // dps: 0, // DPS
+        // minAtkNum: 0, // MinATKnum
+        // maxAtkNum: 0, // MaxATKnum
+        // avgAtkNum: 0, // AveATKnum
+        // battleTime: 0, // BattleTime
+        // averageReceivedDamage: 0, // AverageReceivedDamageIncludingDodge
     };
 
     if (stats.skillToUseName != "Basic Attack" && stats.skillToUseName != "Martyr's Reconing") {
@@ -4772,12 +4772,12 @@ function HealCalc(HealLv, HealType) {
 
 function BattleVariousResults(stats, targetStats, cast, afterCastDelay, finalDamages, InWarOfEmperium) {
     let battleResult = {
-        dps: 0, // DPS
-        minAtkNum: 0, // MinATKnum
-        maxAtkNum: 0, // MaxATKnum
-        avgAtkNum: 0, // AveATKnum
-        battleTime: 0, // BattleTime
-        averageReceivedDamage: 0, // AverageReceivedDamageIncludingDodge
+        // dps: 0, // DPS
+        // minAtkNum: 0, // MinATKnum
+        // maxAtkNum: 0, // MaxATKnum
+        // avgAtkNum: 0, // AveATKnum
+        // battleTime: 0, // BattleTime
+        // averageReceivedDamage: 0, // AverageReceivedDamageIncludingDodge
     }
     let w;
     if (afterCastDelay == 0)
@@ -4901,9 +4901,9 @@ function BattleVariousResults(stats, targetStats, cast, afterCastDelay, finalDam
 
 function CalculateDamageReceived(stats, targetStats) {
     let battleResult = {
-        avgDamageReceived: 0, // AverageReceivedDamage
-        minDamageReceived: 0,
-        maxDamageReceived: 0,
+        // avgDamageReceived: 0, // AverageReceivedDamage
+        // minDamageReceived: 0,
+        // maxDamageReceived: 0,
     }
 
     let w_HiDam = new Array();
@@ -5122,12 +5122,12 @@ function BattleMagicCalc(wBMC) {
 
 function CastAndDelay(stats, wCast, wDelay, swDelay) {
     let battleResult = {
-        bonusSub: "", // bSUB
-        bonusSubName: "", // bSUBname
-        bonusSub2: "", // bSUB2name
-        bonusSub2Name: "", // bSUB2name
-        cast: 0,
-        afterCastDelay: 0,
+        // bonusSub: "", // bSUB
+        // bonusSubName: "", // bSUBname
+        // bonusSub2: "", // bSUB2name
+        // bonusSub2Name: "", // bSUB2name
+        // cast: 0,
+        // afterCastDelay: 0,
     }
     if (wCast != 0) {
         let wCAD = stats.performanceSkills[2];
