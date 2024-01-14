@@ -1822,8 +1822,8 @@ function CalculateEnemyStats(FORM_DATA, InWarOfEmperium) {
     // TARGET_STAT_MDEF = 25;
     // TARGET_STAT_MDEF = 26;
     // TARGET_STAT_MDEF = 27;
-
-    let mob = MonsterOBJ[eval(FORM_DATA.B_Enemy)];
+    console.log(eval(FORM_DATA.B_Enemy))
+    let mob = MonsterOBJ.find(m => m[0] === eval(FORM_DATA.B_Enemy));
     let targetStats = {
         mobIndex: mob[0],
         race: mob[2],
@@ -1852,6 +1852,8 @@ function CalculateEnemyStats(FORM_DATA, InWarOfEmperium) {
         def2Min: 0,
         def2Avg: 0,
         def2Max: 0,
+        perfectHit: 0,
+        perfectDodge: 0,
     };
 
     let def2Min, def2Max, def2Avg, mdef2, hit, flee;
@@ -1879,7 +1881,7 @@ function CalculateEnemyStats(FORM_DATA, InWarOfEmperium) {
         targetStats.hp = Math.floor(w * (100 + targetStats.vit) / 100);
         targetStats.hp += eval(document.calcForm.B_TAISEI11.value);
         targetStats.hp = Math.floor(targetStats.hp * (100 + eval(document.calcForm.B_TAISEI12.value)) / 100);
-        myInnerHtml("B_HP", targetStats.hp, 0);
+        // myInnerHtml("B_HP", targetStats.hp, 0);
 
 
         n_B_DEF2[2] = Math.floor(targetStats.vit * 0.5) + Math.floor(targetStats.vit * 0.3);
@@ -2035,6 +2037,7 @@ function CalculateEnemyStats(FORM_DATA, InWarOfEmperium) {
     targetStats.hit = targetStats.level + targetStats.dex;
     targetStats.flee = targetStats.level + targetStats.agi;
 
+
     let xiATK = 0;
     let xiDEF = 0;
     if (targetStats.isNormal) {
@@ -2120,6 +2123,8 @@ function CalculateEnemyStats(FORM_DATA, InWarOfEmperium) {
     if (targetStatusFlag.signumCrucis && (targetStats.race == 6 || targetStats.element >= 90))
         targetStats.def -= Math.floor(targetStats.def * (10 + targetStatusFlag.signumCrucis * 4) / 100);
 
+    targetStats.perfectHit = targetStats.flee + 20;
+    targetStats.perfectDodge = targetStats.hit + 75;
 
     // TODO move exp reward somewhere else
     // if (InWarOfEmperium == 0) {
@@ -2144,46 +2149,6 @@ function CalculateEnemyStats(FORM_DATA, InWarOfEmperium) {
     //     }
     // }
 
-    if (InWarOfEmperium == 0) {
-        // myInnerHtml("B_AA", " + ", 0);
-        // myInnerHtml("B_AB", " + ", 0);
-        let wIJ = [6, 12, 13, 21, 22, 14, 15, 23, 25];
-        let wIJ2 = [16, 17];
-        let wFront = "<Font color='BLUE'><B>";
-        let wFront2 = "<Font color='RED'><B>";
-        let wBack = "</B></Font>";
-
-        // for (i = 0; i <= 8; i++) {
-        //     wIJstr = targetStatsArray[wIJ[i]];
-        //     if (targetStatsArray[wIJ[i]] < n_B2[wIJ[i]])
-        //         wIJstr = wFront + targetStatsArray[wIJ[i]] + wBack;
-        //     if (targetStatsArray[wIJ[i]] > n_B2[wIJ[i]])
-        //         wIJstr = wFront2 + targetStatsArray[wIJ[i]] + wBack;
-        //     myInnerHtml("B_" + wIJ[i], wIJstr, 0);
-        // }
-        // for (i = 0; i <= 1; i++) {
-        //     wIJstr = targetStatsArray[wIJ2[i]];
-        //     if (targetStatsArray[wIJ2[i]] < n_B2[wIJ2[i]])
-        //         wIJstr = wFront2 + targetStatsArray[wIJ2[i]] + wBack;
-        //     if (targetStatsArray[wIJ2[i]] > n_B2[wIJ2[i]])
-        //         wIJstr = wFront + targetStatsArray[wIJ2[i]] + wBack;
-        //     myInnerHtml("B_" + wIJ2[i], wIJstr, 0);
-        // }
-        //
-        // myInnerHtml("B_2", RaceOBJ[targetStats.race], 0);
-        // w = Math.floor(targetStats.element / 10);
-        // if (targetStats.element != n_B2[3])
-        //     myInnerHtml("B_3", wFront2 + (elementOBJ[w] + targetStats.element % 10) + wBack, 0);
-        // else
-        //     myInnerHtml("B_3", (elementOBJ[w] + targetStats.element % 10), 0);
-        // myInnerHtml("B_4", SizeOBJ[targetStats.size], 0);
-    } else {
-        // targetStats.flee += eval(document.calcForm.B_TAISEI7.value);
-        // n_Ses = document.calcForm.B_Ses.checked;
-        // if (n_Ses) {
-        //     targetStats.flee = Math.floor(targetStats.flee * 0.8);
-        // }
-    }
     //
     // n_B_DEF2 = [0, 0, 0];
     // n_B_DEF2[2] = targetStats.def2Min;
