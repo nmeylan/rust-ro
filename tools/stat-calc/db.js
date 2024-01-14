@@ -177,7 +177,7 @@ global.WEAPON_NAME = [
     "Gatling Gun",
     "Grenade Launcher"];
 
-global.ARROW_OBJ = [
+global.ArrowOBJ = [
     [25, 0, "Arrow"],
     [30, 6, "Silver Arrow"],
     [30, 3, "Fire Arrow"],
@@ -2843,6 +2843,16 @@ global.w_SE = [[737,436,475,"NULL"],
     [767,616,692,"NULL"],
     [768,728,729,"NULL"],
 ];
+
+for(let i=0;i<global.w_SE.length;i++){
+    for(let k=1;global.w_SE[i][k] != "NULL";k++){
+        let j;
+        for(j=11;global.ItemOBJ[global.w_SE[i][k]][j] != 0;j+=2);
+        global.ItemOBJ[global.w_SE[i][k]][j]=90;
+        global.ItemOBJ[global.w_SE[i][k]][j+1]=global.w_SE[i][0];
+        global.ItemOBJ[global.w_SE[i][k]][j+2]=0;
+    }
+}
 
 // TODO rename
 global.SE_MAXnum = 31;
