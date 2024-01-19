@@ -238,7 +238,7 @@
                                             <td class="data">&nbsp;</td>
                                             <td>&nbsp;
                                                 <span id="nm027"></span><select name="A_WeaponType" id="weapon-type-select"></select>
-                                                <span id="A_SobWeaponName"></span>
+                                                <span id="A_SobWeaponName" data-left-hand="true"> Left Hand: <select name="A_Weapon2Type" id="weapon2-type-select"> <option value="0">Unarmed (or Shield)</option><option value="1">Dagger</option><option value="2">One-Hand Sword</option><option value="6">One-Hand Axe</option></select></span>
                                                 <select name="A_Arrow" style="visibility:hidden">
                                                     <option value="0">-
                                                 </select>
@@ -278,30 +278,40 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="calc"><span id="nm031"></span><select name="A_weapon1_card1"
+                                            <td class="calc"><span id="nm031"></span>Slot 1&nbsp;<select name="A_weapon1_card1"
                                                                                              id="weapon1-card-1-select">
                                             </select></td>
-                                            <td class="calc"><select name="A_weapon1_card2"
+                                            <td class="calc">Slot 2&nbsp;<select name="A_weapon1_card2"
                                                                      id="weapon1-card-2-select">
                                             </select></td>
-                                            <td class="calc"><select name="A_weapon1_card3"
+                                            <td class="calc">Slot 3&nbsp;<select name="A_weapon1_card3"
                                                                      id="weapon1-card-3-select">
                                             </select></td>
-                                            <td class="calc"><select name="A_weapon1_card4"
+                                            <td class="calc">Slot 4&nbsp;<select name="A_weapon1_card4"
                                                                      id="weapon1-card-4-select">
                                             </select></td>
                                         </tr>
-                                        <tr>
-                                            <td class="calc"><span id="spanA_weapon2"></span></td>
-                                            <td class="calc"><span id="spanA_weapon2seiren"></span></td>
+                                        <tr data-left-hand="true">
+                                            <td class="calc"><span id="spanA_weapon2" >Left hand <select  name="A_weapon2" id="weapon2-select"></select></span></td>
+                                            <td class="calc"><span id="spanA_weapon2seiren" >Refine (left) <select name="A_Weapon2_ATKplus"></select></span></td>
                                             <td class="calc"></td>
-                                            <td class="calc"><span id="spanA_weapon2_CardShort"></span></td>
+                                            <td class="calc"><select name="A_cardshortLeft"
+                                                                     id="left-hand-card-shortcut-select"></select>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td class="calc"><span id="nA_weapon2_c1"></span></td>
-                                            <td class="calc"><span id="nA_weapon2_c2"></span></td>
-                                            <td class="calc"><span id="nA_weapon2_c3"></span></td>
-                                            <td class="calc"><span id="nA_weapon2_c4"></span></td>
+                                        <tr data-left-hand="true">
+                                            <td class="calc">left hand card: Slot 1&nbsp;<select name="A_weapon2_card1"
+                                                                                             id="weapon2-card-1-select">
+                                            </select></td>
+                                            <td class="calc">Slot 2&nbsp;<select name="A_weapon2_card2"
+                                                                     id="weapon2-card-2-select">
+                                            </select></td>
+                                            <td class="calc">Slot 3&nbsp;<select name="A_weapon2_card3"
+                                                                     id="weapon2-card-3-select">
+                                            </select></td>
+                                            <td class="calc">Slot 4&nbsp;<select name="A_weapon2_card4"
+                                                                     id="weapon2-card-4-select">
+                                            </select></td>
                                         </tr>
 
                                         <tr>
