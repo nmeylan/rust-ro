@@ -260,12 +260,13 @@ function ClickJob(n) {
 
 
     for (i = 0; i <= 14; i++) {
+        document.calcForm["A_PASSIVE_SKILL" + i].value = 0;
         if (global.JobSkillPassOBJ[n][i] != 999) {
+            document.getElementById("P_Skill" + i + "s").hidden = false;
             myInnerHtml("P_Skill" + i, global.SkillOBJ[global.JobSkillPassOBJ[n][i]][2], 0);
-            myInnerHtml("P_Skill" + i + "s", '<select name="A_PASSIVE_SKILL' + i + '"onChange="StAllCalc()"></select>', 0);
-        } else {
+       } else {
             myInnerHtml("P_Skill" + i, "", 0);
-            myInnerHtml("P_Skill" + i + "s", "", 0);
+            document.getElementById("P_Skill" + i + "s").hidden = true;
         }
     }
 
@@ -478,51 +479,7 @@ function ClickActiveSkill(wAS) {
         document.calcForm.A_ActiveSkillLV.style.visibility = "visible";
         document.calcForm.A_ActiveSkillLV.value = n_A_ActiveSkillLV;
     }
-    if (n_A_ActiveSkill == 66 || n_A_ActiveSkill == 326) {
-        myInnerHtml("AASkillName", "Card Weight: ", 0);
-        myInnerHtml("AASkill", '<input type="text" name="SkillSubNum" value="8000" size=8>', 0);
-    } else if (n_A_ActiveSkill == 112 || n_A_ActiveSkill == 113) {
-        myInnerHtml("AASkillName", "Number of Stacked Monsters: ", 0);
-        myInnerHtml("AASkill", '<select name="SkillSubNum"onChange="calc()"></select>', 0);
-        for (i = 1; i <= 20; i++)
-            document.calcForm.SkillSubNum.options[i - 1] = new Option(i, i);
-        document.calcForm.SkillSubNum.value = 1;
-    } else if (n_A_ActiveSkill == 131) {
-        myInnerHtml("AASkillName", "Number of Hits: ", 0);
-        myInnerHtml("AASkill", '<select name="SkillSubNum"onChange="calc()"></select>', 0);
-        for (i = 1; i <= 15; i++)
-            document.calcForm.SkillSubNum.options[i - 1] = new Option(i, i);
-        document.calcForm.SkillSubNum.value = 3;
-    } else if (n_A_ActiveSkill == 88) {
-        myInnerHtml("AASkillName", "Poison React Level: ", 0);
-        myInnerHtml("AASkill", '<select name="SkillSubNum"onChange="calc()"></select>', 0);
-        for (i = 0; i <= 10; i++)
-            document.calcForm.SkillSubNum.options[i] = new Option(i, i);
-        document.calcForm.SkillSubNum.value = 5;
-    } else if (n_A_ActiveSkill == 197) {
-        myInnerHtml("AASkillName", "Remaining SP: ", 0);
-        myInnerHtml("AASkill", '<input type="text" name="SkillSubNum" size=6>', 0);
-        document.calcForm.SkillSubNum.value = n_A_MaxSP - 1;
-    } else if (n_A_ActiveSkill == 394) {
-        myInnerHtml("AASkillName", "", 0);
-        myInnerHtml("AASkill", '<select name="SkillSubNum"onChange="calc()"></select>', 0);
-        for (i = 0; i <= 4; i++)
-            document.calcForm.SkillSubNum.options[i] = new Option(SyurikenOBJ[i][2], i);
-        document.calcForm.SkillSubNum.value = 0;
-    } else if (n_A_ActiveSkill == 395) {
-        myInnerHtml("AASkillName", "", 0);
-        myInnerHtml("AASkill", '<select name="SkillSubNum"onChange="calc()"></select>', 0);
-        for (i = 0; i <= 4; i++)
-            document.calcForm.SkillSubNum.options[i] = new Option(KunaiOBJ[i][2], i);
-        document.calcForm.SkillSubNum.value = 0;
-    } else if (n_A_ActiveSkill == 405) {
-        myInnerHtml("AASkillName", "Remaining SP: ", 0);
-        myInnerHtml("AASkill", '<input type="text" name="SkillSubNum" size=6>', 0);
-        document.calcForm.SkillSubNum.value = n_A_MaxHP - 1;
-    } else {
-        myInnerHtml("AASkillName", "", 0);
-        myInnerHtml("AASkill", "", 0);
-    }
+
 }
 
 
