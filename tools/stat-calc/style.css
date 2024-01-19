@@ -264,3 +264,7 @@ td.top {
 table.rochart td {
     border: 1px #333 solid;
 }
+
+[data-left-hand=true] td.calc {
+    background-color: #e4e4e4;
+}

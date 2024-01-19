@@ -1,4 +1,5 @@
 import {CalculateEnemyStats} from "./calc.js";
+
 function myInnerHtml(wIH1, wIH2, wIH3) {
     if (wIH3 == 0) {
         let wIHOB = document.getElementById(wIH1);
@@ -112,7 +113,6 @@ let JobName =
         "High Novice", "High Swordsman", "High Thief", "High Acolyte", "High Archer", "High Magician", "High Merchant", "Taekwon Kid", "Taekwon Master", "Soul Linker", "Ninja", "Gunslinger"];
 
 
-
 let SpeedPotName = ["None", "Concentration Potion", "Awakening Potion", "Berserk Potion"];
 
 let EnName = ["Neutral", "Water (Sage)", "Earth (Sage)", "Fire (Sage)", "Wind (Sage)", "Poison (EP)", "Holy (Asp)", "Dark", "Ghost", "Undead"];
@@ -193,8 +193,8 @@ let JobEquipItemOBJ = [
     [0, 1, 59, 83, 999],
 ];
 
-let n_A_JOB, n_A_WeaponType, isRebirth, hasLeftHand, SuperNoviceFullWeaponCHECK;
-let  n_ECname = new Array();
+let n_A_JOB, n_A_WeaponType, n_A_Weapon2Type, isRebirth, SuperNoviceFullWeaponCHECK;
+let n_ECname = new Array();
 let n_A_Equip = new Array();
 for (i = 0; i <= 20; i++)
     n_A_Equip[i] = 0;
@@ -240,7 +240,7 @@ function ClickJob(n) {
         document.calcForm.A_JobLV.options[70] = new Option("+10", 71);
     }
 
-    SuperNoviceFullWeaponCHECK= n_A_JOB === 20;
+    SuperNoviceFullWeaponCHECK = n_A_JOB === 20;
     if (SuperNoviceFullWeaponCHECK)
         global.JobASPD[20][7] = 120;
     else
@@ -434,18 +434,12 @@ function ClickWeaponType(n) {
     }
 
     if ((n_A_JOB == 8 || n_A_JOB == 22) && n != 11) {
-        if (hasLeftHand == 0)
-            myInnerHtml("A_SobWeaponName", " Left Hand: " + '<select name="A_Weapon2Type" onChange = "ClickWeaponType2(this[this.selectedIndex].value) | StAllCalc()"> <option value="0">Unarmed (or Shield)<option value="1">Dagger<option value="2">One-Hand Sword<option value="6">One-Hand Axe</select>', 0);
+        document.querySelectorAll("[data-left-hand=true]").forEach(el => el.hidden = false)
     } else {
-        myInnerHtml("A_SobWeaponName", "", 0);
-        myInnerHtml("spanA_weapon2", "", 0);
-        myInnerHtml("spanA_weapon2seiren", "", 0);
-        myInnerHtml("spanA_weapon2_CardShort", "", 0);
-        myInnerHtml("nA_weapon2_c1", "", 0);
-        myInnerHtml("nA_weapon2_c2", "", 0);
-        myInnerHtml("nA_weapon2_c3", "", 0);
-        myInnerHtml("nA_weapon2_c4", "", 0);
-        hasLeftHand = 0;
+        document.querySelectorAll("[data-left-hand=true]").forEach(el => {
+            el.hidden = true;
+            el.querySelectorAll("select").forEach(select => select.value = 0)
+        })
     }
     n_A_Equip[0] = eval(document.calcForm.A_weapon1.value);
     ActiveSkillSetPlus();
@@ -453,55 +447,19 @@ function ClickWeaponType(n) {
 
 
 function ClickWeaponType2(n) {
-
     let {n_A_JOB, isRebirth} = n_A_JobSet();
     if (n != 0) {
-        if (hasLeftHand == 0) {
-            myInnerHtml("spanA_weapon2", '<select name="A_weapon2"onChange="StAllCalc()|ClickB_Item(this[this.selectedIndex].value)"></select>', 0);
-            myInnerHtml("spanA_weapon2seiren", "Refine(Left):" + '<select name="A_Weapon2_ATKplus"></select>', 0);
-            for (i = 0; i <= 10; i++) {
-                document.calcForm.A_Weapon2_ATKplus.options[i] = new Option(i, i);
-            }
-
-            myInnerHtml("nA_weapon2_c1", '<select name="A_weapon2_card1"onChange="StAllCalc()|Click_Card(this[this.selectedIndex].value)"></select>', 0);
-            myInnerHtml("nA_weapon2_c2", '<select name="A_weapon2_card2"onChange="StAllCalc()|Click_Card(this[this.selectedIndex].value)"></select>', 0);
-            myInnerHtml("nA_weapon2_c3", '<select name="A_weapon2_card3"onChange="StAllCalc()|Click_Card(this[this.selectedIndex].value)"></select>', 0);
-            myInnerHtml("nA_weapon2_c4", '<select name="A_weapon2_card4"onChange="StAllCalc()|Click_Card(this[this.selectedIndex].value)"></select>', 0);
-
-            for (i = 0; CardSortOBJ[0][i] != "NULL"; i++)
-                document.calcForm.A_weapon2_card1.options[i] = new Option(cardOBJ[CardSortOBJ[0][i]][2], cardOBJ[CardSortOBJ[0][i]][0]);
-            for (i = 0; CardSortOBJ[1][i] != "NULL"; i++) {
-                document.calcForm.A_weapon2_card2.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]);
-                document.calcForm.A_weapon2_card3.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]);
-                document.calcForm.A_weapon2_card4.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]);
-            }
-            document.calcForm.A_weapon2_card4.options[1] = new Option("Top 10 Rank", 106);
+        if (n_A_JOB == 8 || n_A_JOB == 22) {
+            WeaponSetLeft();
+            n_A_Equip[1] = eval(document.calcForm.A_weapon2.value);
+            ActiveSkillSetPlus();
         }
-        myInnerHtml("spanA_weapon2_CardShort", '<select name="A_cardshortLeft" onChange="SetCardShortLeft()|StAllCalc()|ActiveSkillSetPlus()"></select>', 0);
-        document.calcForm.A_cardshortLeft.options[0] = new Option("Card Shortcuts (Left)", 0);
-        for (i = 1; i <= 32; i++)
-            document.calcForm.A_cardshortLeft.options[i] = new Option(CardShort[i][0], i);
-        hasLeftHand = 1;
-        WeaponSetLeft();
-    } else {
-        myInnerHtml("spanA_weapon2", "", 0);
-        myInnerHtml("spanA_weapon2seiren", "", 0);
-        myInnerHtml("spanA_weapon2_CardShort", "", 0);
-        myInnerHtml("nA_weapon2_c1", "", 0);
-        myInnerHtml("nA_weapon2_c2", "", 0);
-        myInnerHtml("nA_weapon2_c3", "", 0);
-        myInnerHtml("nA_weapon2_c4", "", 0);
-        hasLeftHand = 0;
-    }
-    if (hasLeftHand) {
-        n_A_Equip[1] = eval(document.calcForm.A_weapon2.value);
-        ActiveSkillSetPlus();
     }
 }
 
 function ClickActiveSkill(wAS) {
     let n_A_ActiveSkill = eval(document.calcForm.A_ActiveSkill.value);
-    let  n_A_ActiveSkillLV = 0;
+    let n_A_ActiveSkillLV = 0;
     let skillToUseName = global.SkillOBJ[n_A_ActiveSkill][2];
     if (n_A_ActiveSkill > 100000) {
         n_A_ActiveSkillLV = Math.floor(n_A_ActiveSkill % 100);
@@ -576,7 +534,7 @@ function bindOnChangeEnemy() {
         console.log(enemyStats);
 
         myInnerHtml("Enemy_Race", global.RaceOBJ[enemyStats.race], 0);
-        if (enemyStats.element > 0 && global.elementOBJ[enemyStats.element] === undefined){
+        if (enemyStats.element > 0 && global.elementOBJ[enemyStats.element] === undefined) {
             let w = Math.floor(enemyStats.element / 10);
             myInnerHtml("Enemy_Element", (global.elementOBJ[w] + enemyStats.element % 10), 0);
         }
@@ -609,8 +567,18 @@ function bindOnChangeWeaponType() {
     });
 }
 
+function bindOnChangeWeapon2Type() {
+    let select = document.getElementById("weapon2-type-select");
+    select.addEventListener("change", (e) => {
+        ClickWeaponType2(e.target.value)
+    });
+}
+
 function bindOnChangeGear() {
     document.getElementById("weapon-select").addEventListener("change", (e) => {
+        ClickB_Item(e.target.value)
+    });
+    document.getElementById("weapon2-select").addEventListener("change", (e) => {
         ClickB_Item(e.target.value)
     });
     document.getElementById("headgear-select").addEventListener("change", (e) => {
@@ -656,6 +624,18 @@ function bindOnChangeCard() {
         ClickB_Item(e.target.value)
     });
     document.getElementById("weapon1-card-4-select").addEventListener("change", (e) => {
+        ClickB_Item(e.target.value)
+    });
+    document.getElementById("weapon2-card-1-select").addEventListener("change", (e) => {
+        ClickB_Item(e.target.value)
+    });
+    document.getElementById("weapon2-card-2-select").addEventListener("change", (e) => {
+        ClickB_Item(e.target.value)
+    });
+    document.getElementById("weapon2-card-3-select").addEventListener("change", (e) => {
+        ClickB_Item(e.target.value)
+    });
+    document.getElementById("weapon2-card-4-select").addEventListener("change", (e) => {
         ClickB_Item(e.target.value)
     });
     document.getElementById("headgear-card-select").addEventListener("change", (e) => {
@@ -718,32 +698,41 @@ function bindOnChangeCardShortcut() {
     document.getElementById("card-shortcut-select").addEventListener("change", (e) => {
         SetCardShortcut()
     });
+    document.getElementById("left-hand-card-shortcut-select").addEventListener("change", (e) => {
+        SetCardShortLeft()
+    });
 }
+
 function bindOnChangeExtendedInfo() {
     document.getElementById("extended-info-select").addEventListener("change", (e) => {
         ExtendedInfo()
     });
 }
+
 function bindOnClickPerformanceSkills() {
     document.getElementById("performance-skill-checkbox").addEventListener("click", (e) => {
         Click_PerformanceSkills()
     });
 }
+
 function bindOnClickPerformance2Skills() {
     document.getElementById("performance2-skill-checkbox").addEventListener("click", (e) => {
         Click_Performance2Skills()
     });
 }
+
 function bindOnClickBattleChants() {
     document.getElementById("battle-chant-checkbox").addEventListener("click", (e) => {
         Click_BattleChant()
     });
 }
+
 function bindOnGroundSupportiveSkills() {
     document.getElementById("ground-supportive-skills-checkbox").addEventListener("click", (e) => {
         Click_GroundSupportiveSkills()
     });
 }
+
 function bindOnFoodBox() {
     document.getElementById("food-box-checkbox").addEventListener("click", (e) => {
         Click_FoodBox()
@@ -760,7 +749,7 @@ function OnChangeStat(nSC) {
     let n_A_INT = FORM_DATA.A_INT
     let n_A_LUK = FORM_DATA.A_LUK
     let i = 2;
-        let StPoint = 0;
+    let StPoint = 0;
     for (i = 2; i <= n_A_STR; i++)
         StPoint += StCalc2(i);
     for (i = 2; i <= n_A_AGI; i++)
@@ -928,7 +917,7 @@ function WeaponSet2() {
         workB[m] = sort(workB[m]);
 
     let z;
-        for (let i = 0; i < wsj[0]; i++) {
+    for (let i = 0; i < wsj[0]; i++) {
         z = workB[0][i];
         document.calcForm.A_head1.options[i] = new Option(global.ItemOBJ[z][8], global.ItemOBJ[z][0]);
     }
@@ -982,7 +971,7 @@ function n_A_JobSet() {
         isRebirth = 1;
         if (34 <= n_A_JOB && n_A_JOB <= 40)
             n_A_JOB -= 34;
-    } 
+    }
     return {n_A_JOB, isRebirth}
 }
 
@@ -1628,7 +1617,7 @@ function cardsort(work) {
     for (var i = 1; work[i] != "NULL"; i++) {
         for (var k = i; k > 0; k--) {
             if (global.cardOBJ[work[k - 1]][2] > global.cardOBJ[work[k]][2]) {
-                var  work_backup = work[k - 1];
+                var work_backup = work[k - 1];
                 work[k - 1] = work[k];
                 work[k] = work_backup;
             }
@@ -1727,303 +1716,300 @@ function SetCard() {
     }
 }
 
-function ClickB_Item(CBI)
-{
+function ClickB_Item(CBI) {
     const start = Date.now();
     ActiveSkillSetPlus();
 
-    if(CBI == "SW"){
-        if(eval(document.calcForm.ITEM_SW.checked)==0){
-            myInnerHtml("nm080","Item Data",0);
-            for(i=0;i<=4;i++)
-                myInnerHtml("ITEM"+i,"",0);
-            myInnerHtml("ITEM_W_LV","",0);
-            myInnerHtml("ITEM_DATA","",0);
-            myInnerHtml("ITEM_SLOT","",0);
-            myInnerHtml("ITEM_LV","",0);
-            myInnerHtml("ITEM_WAIT","",0);
-            myInnerHtml("B_SETUMEI","",0);
+    if (CBI == "SW") {
+        if (eval(document.calcForm.ITEM_SW.checked) == 0) {
+            myInnerHtml("nm080", "Item Data", 0);
+            for (i = 0; i <= 4; i++)
+                myInnerHtml("ITEM" + i, "", 0);
+            myInnerHtml("ITEM_W_LV", "", 0);
+            myInnerHtml("ITEM_DATA", "", 0);
+            myInnerHtml("ITEM_SLOT", "", 0);
+            myInnerHtml("ITEM_LV", "", 0);
+            myInnerHtml("ITEM_WAIT", "", 0);
+            myInnerHtml("B_SETUMEI", "", 0);
             return;
-        }else{
+        } else {
             CBI = eval(document.calcForm.A_head1.value);
         }
     }
-    if(eval(document.calcForm.ITEM_SW.checked)==0)
+    if (eval(document.calcForm.ITEM_SW.checked) == 0)
         return;
-    myInnerHtml("nm080",ItemOBJ[CBI][8],0);
-    myInnerHtml("ITEM1","Slot",0);
-    myInnerHtml("ITEM3","Min Lv",0);
-    myInnerHtml("ITEM4","Weight",0);
-    if(ItemOBJ[CBI][1] < 50){
-        myInnerHtml("ITEM0","ATK",0);
-        myInnerHtml("ITEM2","Weapon Lv",0);
-        myInnerHtml("ITEM_W_LV",ItemOBJ[CBI][4],0);
+    myInnerHtml("nm080", ItemOBJ[CBI][8], 0);
+    myInnerHtml("ITEM1", "Slot", 0);
+    myInnerHtml("ITEM3", "Min Lv", 0);
+    myInnerHtml("ITEM4", "Weight", 0);
+    if (ItemOBJ[CBI][1] < 50) {
+        myInnerHtml("ITEM0", "ATK", 0);
+        myInnerHtml("ITEM2", "Weapon Lv", 0);
+        myInnerHtml("ITEM_W_LV", ItemOBJ[CBI][4], 0);
+    } else {
+        myInnerHtml("ITEM0", "DEF", 0);
+        myInnerHtml("ITEM2", "-", 0);
+        myInnerHtml("ITEM_W_LV", "-", 0);
     }
-    else{
-        myInnerHtml("ITEM0","DEF",0);
-        myInnerHtml("ITEM2","-",0);
-        myInnerHtml("ITEM_W_LV","-",0);
-    }
-    myInnerHtml("ITEM_DATA",ItemOBJ[CBI][3],0);
-    myInnerHtml("ITEM_SLOT",ItemOBJ[CBI][5],0);
-    myInnerHtml("ITEM_LV",ItemOBJ[CBI][7],0);
-    myInnerHtml("ITEM_WAIT",ItemOBJ[CBI][6],0);
+    myInnerHtml("ITEM_DATA", ItemOBJ[CBI][3], 0);
+    myInnerHtml("ITEM_SLOT", ItemOBJ[CBI][5], 0);
+    myInnerHtml("ITEM_LV", ItemOBJ[CBI][7], 0);
+    myInnerHtml("ITEM_WAIT", ItemOBJ[CBI][6], 0);
 
     let CBIstr = "";
-    for(i=11;ItemOBJ[CBI][i] != 0;i+=2)
-        Item_Description(ItemOBJ[CBI],i);
-    if(ItemOBJ[CBI][10] != 0)
-        CBIstr += ItemOBJ[CBI][10] +"<BR>";
+    for (i = 11; ItemOBJ[CBI][i] != 0; i += 2)
+        Item_Description(ItemOBJ[CBI], i);
+    if (ItemOBJ[CBI][10] != 0)
+        CBIstr += ItemOBJ[CBI][10] + "<BR>";
 
-    for(i=11;ItemOBJ[CBI][i] != 0;i+=2){
-        if(ItemOBJ[CBI][i] == 90){
+    for (i = 11; ItemOBJ[CBI][i] != 0; i += 2) {
+        if (ItemOBJ[CBI][i] == 90) {
 
-            CBIstr += "<Font size=2><BR><B>When "+ SetEquipName(ItemOBJ[CBI][i+1]) + " are equipped at the same time:<BR>";
-            for(j=11;ItemOBJ[ItemOBJ[CBI][i+1]][j] != 0;j+=2)
-                Item_Description(ItemOBJ[ItemOBJ[CBI][i+1]],j);
-            if(ItemOBJ[ItemOBJ[CBI][i+1]][10] != 0)
-                CBIstr += ItemOBJ[ItemOBJ[CBI][i+1]][10] +"<BR>";
+            CBIstr += "<Font size=2><BR><B>When " + SetEquipName(ItemOBJ[CBI][i + 1]) + " are equipped at the same time:<BR>";
+            for (j = 11; ItemOBJ[ItemOBJ[CBI][i + 1]][j] != 0; j += 2)
+                Item_Description(ItemOBJ[ItemOBJ[CBI][i + 1]], j);
+            if (ItemOBJ[ItemOBJ[CBI][i + 1]][10] != 0)
+                CBIstr += ItemOBJ[ItemOBJ[CBI][i + 1]][10] + "<BR>";
             CBIstr += "</Font></B>";
         }
     }
-    myInnerHtml("B_SETUMEI",CBIstr,0);
+    myInnerHtml("B_SETUMEI", CBIstr, 0);
 }
 
-function Item_Description(num, CBI2)
-{
+function Item_Description(num, CBI2) {
     const start = Date.now();
-    wNAME1 = ["0","STR","AGI","VIT","INT","DEX","LUK","ALL_STATS","HIT","FLEE","CRIT","PERFECT_DODGE","ASPD","MHP","MSP","MHP","MSP","ATK","DEF","MDEF"];
+    wNAME1 = ["0", "STR", "AGI", "VIT", "INT", "DEX", "LUK", "ALL_STATS", "HIT", "FLEE", "CRIT", "PERFECT_DODGE", "ASPD", "MHP", "MSP", "MHP", "MSP", "ATK", "DEF", "MDEF"];
     wIS = " + ";
     CBIstr = "";
     var stat = "";
     var stat2 = "";
-    if(num[CBI2+1] < 0)
+    if (num[CBI2 + 1] < 0)
         wIS = " ";
 
-    if(1 <= num[CBI2] && num[CBI2] <=11){
-        CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2+1] +"<BR>";
-        stat = wNAME1[num[CBI2]];
-    }
-    if(12 == num[CBI2]) {
-        CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2 + 1] + "%<BR>";
-        stat = wNAME1[num[CBI2]] + "_PERCENTAGE";
-    }
-    if(13 <= num[CBI2] && num[CBI2] <=14) {
+    if (1 <= num[CBI2] && num[CBI2] <= 11) {
         CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2 + 1] + "<BR>";
         stat = wNAME1[num[CBI2]];
     }
-    if(15 <= num[CBI2] && num[CBI2] <=16) {
+    if (12 == num[CBI2]) {
         CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2 + 1] + "%<BR>";
         stat = wNAME1[num[CBI2]] + "_PERCENTAGE";
     }
-    if(17 <= num[CBI2] && num[CBI2] <=19) {
+    if (13 <= num[CBI2] && num[CBI2] <= 14) {
         CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2 + 1] + "<BR>";
         stat = wNAME1[num[CBI2]];
     }
-    if(20 == num[CBI2]) {
+    if (15 <= num[CBI2] && num[CBI2] <= 16) {
+        CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2 + 1] + "%<BR>";
+        stat = wNAME1[num[CBI2]] + "_PERCENTAGE";
+    }
+    if (17 <= num[CBI2] && num[CBI2] <= 19) {
+        CBIstr += wNAME1[num[CBI2]] + wIS + num[CBI2 + 1] + "<BR>";
+        stat = wNAME1[num[CBI2]];
+    }
+    if (20 == num[CBI2]) {
         CBIstr += elementOBJ[num[CBI2 + 1]] + " Element Weapon.<BR>";
         stat = "ELEMENT_WEAPON";
     }
-    if(22 == num[CBI2]){
+    if (22 == num[CBI2]) {
         stat = "BYPASS_DEFENSE_ON_RACE"
-        if(num[CBI2+1] != 99)
-            CBIstr += "Bypasses defence on " + RaceOBJ[num[CBI2+1]] + " monsters.<BR>";
+        if (num[CBI2 + 1] != 99)
+            CBIstr += "Bypasses defence on " + RaceOBJ[num[CBI2 + 1]] + " monsters.<BR>";
         else
             CBIstr += "Completely bypasses defence on the target.<BR>";
     }
-    if(23 == num[CBI2]) {
+    if (23 == num[CBI2]) {
         stat = "WEAPON_ATK_INCREASE_ON_TARGET_DEFENSE";
         CBIstr += "Attack power of the weapon increases against enemies with high VIT and defence.<BR>";
     }
-    if(24 == num[CBI2]) {
+    if (24 == num[CBI2]) {
         stat = "REDUCE_DEFENSE";
         CBIstr += "Reduces your defence by 1/" + num[CBI2 + 1] + ".<BR>";
     }
-    if(25 == num[CBI2]) {
+    if (25 == num[CBI2]) {
         stat = "REDUCE_DEFENSE_PERCENTAGE";
         CBIstr += "Increases ranged damage by " + num[CBI2 + 1] + "%.<BR>";
     }
-    if(26 == num[CBI2]) {
+    if (26 == num[CBI2]) {
         stat = "INCREASE_DAMAGE_AGAINST_BOSS_PERCENTAGE";
         CBIstr += "Increases damage against boss type monsters + " + num[CBI2 + 1] + "% damage.<BR>";
     }
-    if(27 <= num[CBI2] && num[CBI2] <=29) {
+    if (27 <= num[CBI2] && num[CBI2] <= 29) {
         stat = "INCREASE_DAMAGE_AGAINST_SIZE_PERCENTAGE";
         CBIstr += "Increases damage against " + SizeOBJ[num[CBI2] - 27] + " size monsters by " + num[CBI2 + 1] + "%.<BR>";
     }
-    if(30 <= num[CBI2] && num[CBI2] <=39) {
+    if (30 <= num[CBI2] && num[CBI2] <= 39) {
         stat = "INCREASE_DAMAGE_RACE_PERCENTAGE";
         CBIstr += "Increases damage against " + RaceOBJ[num[CBI2] - 30] + " type monsters by " + num[CBI2 + 1] + "%.<BR>";
     }
-    if(40 <= num[CBI2] && num[CBI2] <=49) {
-        stat = "INCREASE_DAMAGE_ELEMENT_"+elementOBJ[num[CBI2] - 40].toUpperCase()+"_PERCENTAGE";
+    if (40 <= num[CBI2] && num[CBI2] <= 49) {
+        stat = "INCREASE_DAMAGE_ELEMENT_" + elementOBJ[num[CBI2] - 40].toUpperCase() + "_PERCENTAGE";
         if (num[CBI2] === 40) {
             stat2 = "INCREASE_DAMAGE_ELEMENT_PERCENTAGE";
         }
         CBIstr += "Increases damage against " + elementOBJ[num[CBI2] - 40] + " element monsters by " + num[CBI2 + 1] + "%.<BR>";
     }
-    if(50 <= num[CBI2] && num[CBI2] <=59){
-        stat = "DAMAGE_INC_DEC_RACE_"+RaceOBJ[num[CBI2]-50].toUpperCase()+"_PERCENTAGE";
+    if (50 <= num[CBI2] && num[CBI2] <= 59) {
+        stat = "DAMAGE_INC_DEC_RACE_" + RaceOBJ[num[CBI2] - 50].toUpperCase() + "_PERCENTAGE";
         if (num[CBI2] === 50) {
             stat2 = "DAMAGE_INC_DEC_RACE_PERCENTAGE";
         }
-        if(num[CBI2+1] > 0)
-            CBIstr += "Decreases damage from " + RaceOBJ[num[CBI2]-50] +" type monsters by "+ num[CBI2+1] +"%.<BR>";
+        if (num[CBI2 + 1] > 0)
+            CBIstr += "Decreases damage from " + RaceOBJ[num[CBI2] - 50] + " type monsters by " + num[CBI2 + 1] + "%.<BR>";
         else
-            CBIstr += "Increases damage from " + RaceOBJ[num[CBI2]-50] +" type monsters by "+ (-1 * num[CBI2+1]) +"%.<BR>";
+            CBIstr += "Increases damage from " + RaceOBJ[num[CBI2] - 50] + " type monsters by " + (-1 * num[CBI2 + 1]) + "%.<BR>";
     }
-    if(60 <= num[CBI2] && num[CBI2] <=69){
-        stat = "DAMAGE_INC_DEC_ELEMENT_" + elementOBJ[num[CBI2]-60].toUpperCase()+"_PERCENTAGE";
+    if (60 <= num[CBI2] && num[CBI2] <= 69) {
+        stat = "DAMAGE_INC_DEC_ELEMENT_" + elementOBJ[num[CBI2] - 60].toUpperCase() + "_PERCENTAGE";
         if (num[CBI2] === 60) {
             stat2 = "DAMAGE_INC_DEC_ELEMENT_PERCENTAGE";
         }
-        if(num[CBI2+1] < 0)
-            CBIstr += "Decreases resistance to " + elementOBJ[num[CBI2]-60] +" element attacks by "+ wIS + num[CBI2+1] +"%.<BR>";
+        if (num[CBI2 + 1] < 0)
+            CBIstr += "Decreases resistance to " + elementOBJ[num[CBI2] - 60] + " element attacks by " + wIS + num[CBI2 + 1] + "%.<BR>";
         else
-            CBIstr += "Increases resistance to " + elementOBJ[num[CBI2]-60] +" element attacks by "+ wIS + num[CBI2+1] +"%.<BR>";
+            CBIstr += "Increases resistance to " + elementOBJ[num[CBI2] - 60] + " element attacks by " + wIS + num[CBI2 + 1] + "%.<BR>";
     }
-    if(70 == num[CBI2]) {
+    if (70 == num[CBI2]) {
         stat = "CRITICAL_DAMAGE_PERCENTAGE";
         CBIstr += "Critical Damage + " + num[CBI2 + 1] + "%<BR>";
     }
-    if(73 == num[CBI2]) {
+    if (73 == num[CBI2]) {
         stat = "CAST_TIME_PERCENTAGE";
         CBIstr += "Cast Time" + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(74 == num[CBI2]) {
+    if (74 == num[CBI2]) {
         stat = "ACD_PERCENTAGE";
         CBIstr += "After cast delay - " + num[CBI2 + 1] + "%<BR>";
     }
-    if(75 == num[CBI2]) {
+    if (75 == num[CBI2]) {
         stat = "HP_REGEN_PERCENTAGE";
         CBIstr += "HP Regen" + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(76 == num[CBI2]) {
+    if (76 == num[CBI2]) {
         stat = "SP_REGEN_PERCENTAGE";
         CBIstr += "SP Regen" + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(78 == num[CBI2]) {
+    if (78 == num[CBI2]) {
         stat = "RESISTANCE_RANGE_ATTACK_PERCENTAGE";
         CBIstr += "Adjusts your resistance to ranged attacks by " + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(79 == num[CBI2]) {
+    if (79 == num[CBI2]) {
         stat = "NORMAL_ATTACK_PERCENTAGE";
         CBIstr += "Adjusts your resistance to normal monsters by " + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(81 == num[CBI2]) {
+    if (81 == num[CBI2]) {
         stat = "INCREASE_DAMAGE_GOBLIN_PERCENTAGE";
         CBIstr += "Increases damage on goblin monsters by " + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(82 == num[CBI2]) {
+    if (82 == num[CBI2]) {
         stat = "INCREASE_DAMAGE_KOBOLD_PERCENTAGE";
         CBIstr += "Increases damage on kobold monsters by " + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(83 == num[CBI2]) {
+    if (83 == num[CBI2]) {
         stat = "INCREASE_DAMAGE_ORC_PERCENTAGE";
         CBIstr += "Increases damage on orc monsters (with the exception of Orc Lord and Orc Hero) by " + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(84 == num[CBI2]) {
+    if (84 == num[CBI2]) {
         stat = "INCREASE_DAMAGE_GOLEM_PERCENTAGE";
         CBIstr += "Increases damage on golem monsters by " + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(85 == num[CBI2]) {
+    if (85 == num[CBI2]) {
         stat = "LOWER_DEFENCE_PERCENTAGE";
         CBIstr += "Lowers your defence rate by " + num[CBI2 + 1] + "%.<BR>";
     }
-    if(86 == num[CBI2]) {
+    if (86 == num[CBI2]) {
         stat = "INCREASE_HIT_PERCENTAGE";
         CBIstr += "Increases your chance to hit all targets by a fixed " + num[CBI2 + 1] + "%.<BR>";
     }
-    if(87 == num[CBI2]) {
+    if (87 == num[CBI2]) {
         stat = "ATK_PERCENTAGE";
         CBIstr += "ATK" + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(88 == num[CBI2]) {
+    if (88 == num[CBI2]) {
         stat = "MATK_BASED_ON_STAFF_PERCENTAGE";
         CBIstr += "MATK" + wIS + num[CBI2 + 1] + "% (Staff Type)<BR>";
     }
-    if(89 == num[CBI2]) {
+    if (89 == num[CBI2]) {
         stat = "MATK_PERCENTAGE";
         CBIstr += "MATK" + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(110 <= num[CBI2] && num[CBI2] <=119) {
-        stat = "CRITICAL_AGAINST_RACE_"+RaceOBJ[num[CBI2] - 110].toUpperCase()+"_PERCENTAGE";
+    if (110 <= num[CBI2] && num[CBI2] <= 119) {
+        stat = "CRITICAL_AGAINST_RACE_" + RaceOBJ[num[CBI2] - 110].toUpperCase() + "_PERCENTAGE";
         if (num[CBI2] === 110) {
             stat2 = "CRITICAL_AGAINST_RACE_PERCENTAGE";
         }
         CBIstr += "Increases critical rate against " + RaceOBJ[num[CBI2] - 110] + "type monsters by " + wIS + num[CBI2 + 1] + "<BR>";
     }
-    if(120 <= num[CBI2] && num[CBI2] <=129) {
+    if (120 <= num[CBI2] && num[CBI2] <= 129) {
         CBIstr += "Experience obtained from " + RaceOBJ[num[CBI2] - 120] + " type monsters " + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    if(130 <= num[CBI2] && num[CBI2] <=149) {
-        if (!StatusOBJ[num[CBI2] - 130] ){
+    if (130 <= num[CBI2] && num[CBI2] <= 149) {
+        if (!StatusOBJ[num[CBI2] - 130]) {
             return
         }
-        stat = "CHANCE_TO_INFLICT_STATUS_"+StatusOBJ[num[CBI2] - 130] .toUpperCase()+"_ON_ATTACK";
+        stat = "CHANCE_TO_INFLICT_STATUS_" + StatusOBJ[num[CBI2] - 130].toUpperCase() + "_ON_ATTACK";
         if (num[CBI2] === 130) {
             stat2 = "CHANCE_TO_INFLICT_STATUS_ON_ATTACK";
         }
         CBIstr += "When attacking, adds a " + num[CBI2 + 1] + "% chance to inflict [" + StatusOBJ[num[CBI2] - 130] + "] on the enemy.<BR>";
     }
-    if(150 <= num[CBI2] && num[CBI2] <=169) {
-        if (!StatusOBJ[num[CBI2] - 150] ){
+    if (150 <= num[CBI2] && num[CBI2] <= 169) {
+        if (!StatusOBJ[num[CBI2] - 150]) {
             return
         }
-        stat = "RESISTANCE_TO_STATUS_"+StatusOBJ[num[CBI2] - 150] .toUpperCase()+"_PERCENTAGE";
+        stat = "RESISTANCE_TO_STATUS_" + StatusOBJ[num[CBI2] - 150].toUpperCase() + "_PERCENTAGE";
         if (num[CBI2] === 150) {
             stat2 = "RESISTANCE_TO_STATUS_PERCENTAGE";
         }
         CBIstr += "Status effect [" + StatusOBJ[num[CBI2] - 150] + "] resistance +" + num[CBI2 + 1] + "%<BR>";
     }
-    if(190 <= num[CBI2] && num[CBI2] <=192){
-        stat = "DAMAGE_INC_DEC_SIZE_"+SizeOBJ[num[CBI2]-190] .toUpperCase()+"_PERCENTAGE";
+    if (190 <= num[CBI2] && num[CBI2] <= 192) {
+        stat = "DAMAGE_INC_DEC_SIZE_" + SizeOBJ[num[CBI2] - 190].toUpperCase() + "_PERCENTAGE";
         if (num[CBI2] === 190) {
             stat2 = "DAMAGE_INC_DEC_SIZE_PERCENTAGE";
         }
-        if(num[CBI2+1] > 0)
-            CBIstr += "Decreases damage from " + SizeOBJ[num[CBI2]-190] +" size monsters by "+ num[CBI2+1] +"%.<BR>";
+        if (num[CBI2 + 1] > 0)
+            CBIstr += "Decreases damage from " + SizeOBJ[num[CBI2] - 190] + " size monsters by " + num[CBI2 + 1] + "%.<BR>";
         else
-            CBIstr += "Increases damage from " + SizeOBJ[num[CBI2]-190] +" size monsters by "+ (-1 * num[CBI2+1]) +"%.<BR>";
+            CBIstr += "Increases damage from " + SizeOBJ[num[CBI2] - 190] + " size monsters by " + (-1 * num[CBI2 + 1]) + "%.<BR>";
     }
-    if(193 == num[CBI2]) {
+    if (193 == num[CBI2]) {
         CBIstr += "<Font color='#FF0000'>Unrefinable.</Font><BR>";
     }
-    if(194 == num[CBI2]) {
+    if (194 == num[CBI2]) {
         CBIstr += "Cannot be broken.<BR>";
     }
-    if(195 == num[CBI2]) {
+    if (195 == num[CBI2]) {
         CBIstr += "Two-Handed Staff.<BR>";
     }
-    if(198 == num[CBI2]) {
+    if (198 == num[CBI2]) {
         CBIstr += "Armor becomes " + elementOBJ[num[CBI2 + 1]] + " element.<BR>";
     }
-    if(212 <= num[CBI2] && num[CBI2] <= 215) {
+    if (212 <= num[CBI2] && num[CBI2] <= 215) {
         CBIstr += wNAME1[num[CBI2] - 210] + wIS + num[CBI2 + 1] + "<BR>";
     }
-    if(220 == num[CBI2] || 230 == num[CBI2]) {
+    if (220 == num[CBI2] || 230 == num[CBI2]) {
         CBIstr += "Allows usage fo the skill [" + SkillOBJ[Math.floor((num[CBI2 + 1] - 100000) / 100)][2] + "] Lv " + Math.floor((num[CBI2 + 1] - 100000) % 100) + ".<BR>";
     }
-    if(221 == num[CBI2] || 231 == num[CBI2]){
-        wNAME99 = [0,"When performing a physical attack, ","When performing a short range physical attack, ","When performing a long range physical attack, ","When performing a magical attack, ","When attacking, ","When recieving physical damage, ","When recieving short range physical damage, ","When recieving long range physical damage, ","When recieving magical damage, ","When recieving physical or magical damage, "];
-        wNAME98 = ["low","fixed","high"];
-        CBIstr += wNAME99[Math.floor(num[CBI2+1] / 10000000)] +"there is a ";
-        if(Math.floor((num[CBI2+1] % 10000000) / 100000) >= 97)
-            CBIstr += wNAME98[Math.floor((num[CBI2+1] % 10000000) / 100000)-97];
+    if (221 == num[CBI2] || 231 == num[CBI2]) {
+        wNAME99 = [0, "When performing a physical attack, ", "When performing a short range physical attack, ", "When performing a long range physical attack, ", "When performing a magical attack, ", "When attacking, ", "When recieving physical damage, ", "When recieving short range physical damage, ", "When recieving long range physical damage, ", "When recieving magical damage, ", "When recieving physical or magical damage, "];
+        wNAME98 = ["low", "fixed", "high"];
+        CBIstr += wNAME99[Math.floor(num[CBI2 + 1] / 10000000)] + "there is a ";
+        if (Math.floor((num[CBI2 + 1] % 10000000) / 100000) >= 97)
+            CBIstr += wNAME98[Math.floor((num[CBI2 + 1] % 10000000) / 100000) - 97];
         else
-            CBIstr += Math.floor((num[CBI2+1] % 10000000) / 100000) + "%";
-        CBIstr += " chance to cast the skill ["+ SkillOBJ[Math.floor((num[CBI2+1] % 100000)/100)][2] +"] Lv "+ Math.floor((num[CBI2+1] % 100000)%100) +".<BR>";
+            CBIstr += Math.floor((num[CBI2 + 1] % 10000000) / 100000) + "%";
+        CBIstr += " chance to cast the skill [" + SkillOBJ[Math.floor((num[CBI2 + 1] % 100000) / 100)][2] + "] Lv " + Math.floor((num[CBI2 + 1] % 100000) % 100) + ".<BR>";
     }
-    if(1000 <= num[CBI2] && num[CBI2] <= 2999) {
+    if (1000 <= num[CBI2] && num[CBI2] <= 2999) {
         CBIstr += "Increases damage against the monster " + MonsterOBJ[num[CBI2] - 1000][1] + " by " + wIS + num[CBI2 + 1] + "%.<BR>";
     }
-    if(3000 <= num[CBI2] && num[CBI2] <=4999){
-        if(num[CBI2+1] > 0)
-            CBIstr += "Reduces damage from the monster " + MonsterOBJ[num[CBI2]-3000][1] +" by "+ num[CBI2+1] +"%.<BR>";
+    if (3000 <= num[CBI2] && num[CBI2] <= 4999) {
+        if (num[CBI2 + 1] > 0)
+            CBIstr += "Reduces damage from the monster " + MonsterOBJ[num[CBI2] - 3000][1] + " by " + num[CBI2 + 1] + "%.<BR>";
         else
-            CBIstr += "Increases damage recieved from the monster " + MonsterOBJ[num[CBI2]-3000][1] +" by "+ (-1 * num[CBI2+1]) +"%.<BR>";
+            CBIstr += "Increases damage recieved from the monster " + MonsterOBJ[num[CBI2] - 3000][1] + " by " + (-1 * num[CBI2 + 1]) + "%.<BR>";
     }
-    if(5000 <= num[CBI2] && num[CBI2] <= 6999) {
+    if (5000 <= num[CBI2] && num[CBI2] <= 6999) {
         CBIstr += SkillOBJ[num[CBI2] - 5000][2] + "'s damage " + wIS + num[CBI2 + 1] + "%<BR>";
     }
     // console.log(CBIstr)
@@ -2041,14 +2027,15 @@ function Item_Description(num, CBI2)
 
     return [stat, stat2];
 }
-function SetEquipName(SENw){
+
+function SetEquipName(SENw) {
     const start = Date.now();
     SENstr = "";
-    for(SENi=0;SENi<=SE_MAXnum;SENi++){
-        if(w_SE[SENi][0] == SENw){
-            for(SENj=1;w_SE[SENi][SENj] != "NULL";SENj++){
-                SENstr += "["+ ItemOBJ[w_SE[SENi][SENj]][8] +"]";
-                if(w_SE[SENi][SENj+1] != "NULL")
+    for (SENi = 0; SENi <= SE_MAXnum; SENi++) {
+        if (w_SE[SENi][0] == SENw) {
+            for (SENj = 1; w_SE[SENi][SENj] != "NULL"; SENj++) {
+                SENstr += "[" + ItemOBJ[w_SE[SENi][SENj]][8] + "]";
+                if (w_SE[SENi][SENj + 1] != "NULL")
                     SENstr += " + ";
             }
             return SENstr;
@@ -2056,7 +2043,6 @@ function SetEquipName(SENw){
     }
     console.log("SetEquipName end. Took", Date.now() - start, "ms")
 }
-
 
 
 myInnerHtml("PR1", "", 0);
@@ -2087,8 +2073,8 @@ for (i = 1; i <= 99; i++) {
     document.calcForm.A_LUK.options[i - 1] = new Option(i, i);
 }
 
-for(i=1;i<=81;i++)
-    myInnerHtml("nm0"+i,NameCalc[i-1],0);
+for (i = 1; i <= 81; i++)
+    myInnerHtml("nm0" + i, NameCalc[i - 1], 0);
 
 
 for (i = 0; i <= 45; i++)
@@ -2145,6 +2131,21 @@ for (var i = 0; global.CardSortOBJ[7][i] != "NULL"; i++) {
 for (i = 0; i <= 38; i++)
     document.calcForm.A_cardshort.options[i] = new Option(CardShort[i][0], i);
 
+for (i = 0; i <= 10; i++) {
+    document.calcForm.A_Weapon2_ATKplus.options[i] = new Option(i, i);
+}
+for (i = 0; CardSortOBJ[0][i] != "NULL"; i++)
+    document.calcForm.A_weapon2_card1.options[i] = new Option(cardOBJ[CardSortOBJ[0][i]][2], cardOBJ[CardSortOBJ[0][i]][0]);
+for (i = 0; CardSortOBJ[1][i] != "NULL"; i++) {
+    document.calcForm.A_weapon2_card2.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]);
+    document.calcForm.A_weapon2_card3.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]);
+    document.calcForm.A_weapon2_card4.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]);
+}
+document.calcForm.A_weapon2_card4.options[1] = new Option("Top 10 Rank", 106);
+document.calcForm.A_cardshortLeft.options[0] = new Option("Card Shortcuts (Left)", 0);
+for (i = 1; i <= 32; i++)
+    document.calcForm.A_cardshortLeft.options[i] = new Option(CardShort[i][0], i);
+
 let sortedMonster = global.MonsterOBJ.sort((a, b) => {
     if (a[1] < b[1]) {
         return -1;
@@ -2192,6 +2193,7 @@ LoadSave();
 bindOnChangeEnemy();
 bindOnChangeJob();
 bindOnChangeWeaponType();
+bindOnChangeWeapon2Type();
 bindOnChangeGear();
 bindOnChangeCard();
 bindOnChangeActiveSkill();
