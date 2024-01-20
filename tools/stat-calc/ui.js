@@ -510,6 +510,12 @@ function bindOnChangeEnemy() {
     })
 }
 
+function bindOnClickCalculate() {
+    let select = document.getElementById("btn-calculate");
+    select.addEventListener("click", (e) => {
+        Calculate();
+    });
+}
 function bindOnChangeJob() {
     let select = document.getElementById("job-select");
     select.addEventListener("change", (e) => {
@@ -1049,7 +1055,7 @@ function ActiveSkillSetPlus() {
 }
 
 
-function KakutyouKansuu() {
+function ExtendedInfoCalc() {
     wKK = eval(document.calcForm.A_Kakutyou.value);
     if (wKK == 0) {
         myInnerHtml("A_KakutyouData", "", 0);
@@ -1306,6 +1312,10 @@ function removeNullValues(obj) {
             removeNullValues(obj[key]);
         }
     }
+}
+
+function Calculate() {
+
 }
 
 function GenerateTestCase() {

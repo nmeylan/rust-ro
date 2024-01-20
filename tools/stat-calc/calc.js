@@ -1589,7 +1589,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     // myInnerHtml("A_SPR", n_A_SPR, 0);
 
-    // KakutyouKansuu();
+    // ExtendedInfoCalc();
     return stats;
 }
 
