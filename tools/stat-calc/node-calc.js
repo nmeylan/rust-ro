@@ -1,9 +1,9 @@
-import "./global-wip.js"
-import "./db-wip.js"
-import {CalculateAllStats, CalculateEnemyStats, CalculateBattle} from "./calc-wip.js"
+import "./global.js"
+import "./db.js"
+import {CalculateAllStats, CalculateEnemyStats, CalculateBattle} from "./calc.js"
 import fs from "fs";
 
-let formData = JSON.parse(fs.readFileSync('test-data.json', 'utf-8'))
+let formData = JSON.parse(fs.readFileSync('./test-data.json', 'utf-8'))
 // let targetStats = Calculate(formData);
 let targetStats = CalculateEnemyStats(formData, 0);
 let sourceStats = CalculateAllStats(formData, targetStats);
