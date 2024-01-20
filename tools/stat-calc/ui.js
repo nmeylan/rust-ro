@@ -1,4 +1,4 @@
-import {CalculateEnemyStats} from "./calc.js";
+import {CalculateAllStats, CalculateBattle, CalculateEnemyStats} from "./calc.js";
 
 function myInnerHtml(wIH1, wIH2, wIH3) {
     if (wIH3 == 0) {
@@ -483,30 +483,90 @@ function ClickActiveSkill(wAS) {
 }
 
 
+function refreshEnemyStats(enemyStats) {
+    myInnerHtml("Enemy_Race", global.RaceOBJ[enemyStats.race], 0);
+    if (enemyStats.element > 0 && global.elementOBJ[enemyStats.element] === undefined) {
+        let w = Math.floor(enemyStats.element / 10);
+        myInnerHtml("Enemy_Element", (global.elementOBJ[w] + enemyStats.element % 10), 0);
+    }
+    myInnerHtml("Enemy_Size", global.SizeOBJ[enemyStats.size], 0);
+    myInnerHtml("Enemy_HP", enemyStats.hp, 0);
+    myInnerHtml("Enemy_ATK", enemyStats.atk, 0);
+    myInnerHtml("Enemy_ATK2", enemyStats.atk2, 0);
+    myInnerHtml("Enemy_PerfectHit", enemyStats.perfectHit, 0);
+    myInnerHtml("Enemey_PerfectDodge", enemyStats.perfectDodge, 0);
+    myInnerHtml("Enemy_Def", enemyStats.def, 0);
+    myInnerHtml("Enemy_Mdef", enemyStats.mdef, 0);
+    myInnerHtml("Enemy_VitDef", enemyStats.vit, 0);
+    myInnerHtml("Enemy_Mdef2", enemyStats.mdef2, 0);
+    myInnerHtml("Enemy_RewardBaseEXP", enemyStats.exp, 0);
+    myInnerHtml("Enemy_RewardJobEXP", enemyStats.jobExp, 0);
+}
+
+function refreshPlayerStats(playerStats) {
+    myInnerHtml("A_STR", playerStats.str, 0);
+    myInnerHtml("A_AGI", playerStats.agi, 0);
+    myInnerHtml("A_VIT", playerStats.vit, 0);
+    myInnerHtml("A_DEX", playerStats.dex, 0);
+    myInnerHtml("A_INT", playerStats.int, 0);
+    myInnerHtml("A_LUK", playerStats.luk, 0);
+    myInnerHtml("A_STRp", playerStats.bstr, 0);
+    myInnerHtml("A_AGIp", playerStats.bagi, 0);
+    myInnerHtml("A_VITp", playerStats.bvit, 0);
+    myInnerHtml("A_DEXp", playerStats.bdex, 0);
+    myInnerHtml("A_INTp", playerStats.bint, 0);
+    myInnerHtml("A_LUKp", playerStats.bluk, 0);
+    myInnerHtml("A_MaxHP", playerStats.maxHp, 0);
+    myInnerHtml("A_MaxSP", playerStats.maxSp, 0);
+    myInnerHtml("A_totalDEF", playerStats.def, 0);
+    myInnerHtml("A_MDEF", playerStats.mdef, 0);
+    myInnerHtml("A_HIT", playerStats.hit, 0);
+    myInnerHtml("A_FLEE", playerStats.flee, 0);
+    myInnerHtml("A_LUCKY", playerStats.perfectDodge, 0);
+    myInnerHtml("A_CRI", playerStats.crit, 0);
+    myInnerHtml("A_MATK", playerStats.matk, 0);
+    myInnerHtml("A_ASPD", playerStats.aspdForDisplay, 0);
+    myInnerHtml("A_ATK_LEFT", playerStats.atkLeft, 0);
+    myInnerHtml("A_ATK_RIGHT", playerStats.atkRight, 0);
+    myInnerHtml("A_MATK_1", playerStats.matk[0], 0);
+    myInnerHtml("A_MATK_2", playerStats.matk[2], 0);
+}
+
+function refreshBattleResults(battleResults) {
+    myInnerHtml("BaseAttackCalc", battleResults.baseAttackCalc, 0);
+    myInnerHtml("MinWeaponAttackCalc", battleResults.minWeaponAttackCalc, 0);
+    myInnerHtml("AvgWeaponAttackCalc", battleResults.maxWeaponAttackCalc, 0);
+    myInnerHtml("BattleHIT", battleResults.battleHit, 0);
+    myInnerHtml("BattleFLEE", battleResults.battleFlee, 0);
+    myInnerHtml("CRIATKname", battleResults.critAtkName, 0);
+    myInnerHtml("CRIATK", battleResults.critAtk[0], 0);
+    myInnerHtml("CRInumname", battleResults.critChanceName, 0);
+    myInnerHtml("CRInum", battleResults.critChance, 0);
+    myInnerHtml("bSUBname", battleResults.bonusSubName, 0);
+    myInnerHtml("bSUB", battleResults.bonusSub, 0);
+    myInnerHtml("bSUB2name", battleResults.bonusSub2Name, 0);
+    myInnerHtml("bSUB2", battleResults.bonusSub2, 0);
+    myInnerHtml("ATK_00", battleResults.atk00, 0);
+    myInnerHtml("ATK_01", battleResults.atk01, 0);
+    myInnerHtml("ATK_02", battleResults.atk02, 0);
+    myInnerHtml("DPS", battleResults.dps, 0);
+    myInnerHtml("MinATKnum", battleResults.minAtkNum, 0);
+    myInnerHtml("AveATKnum", battleResults.avgAtkNum, 0);
+    myInnerHtml("MaxATKnum", battleResults.maxAtkNum, 0);
+    myInnerHtml("BattleTime", battleResults.battleTime, 0);
+    // myInnerHtml("AtkBaseExp", playerStats.str, 0);
+    // myInnerHtml("AtkJobExp", playerStats.str, 0);
+    myInnerHtml("AverageReceivedDamage", battleResults.averageReceivedDamage, 0);
+    // myInnerHtml("AverageReceivedDamageIncludingDodge", battleResults.str, 0);
+}
+
 function bindOnChangeEnemy() {
     let select = document.getElementById("enemy-select");
     select.addEventListener("change", (e) => {
 
         let enemyStats = CalculateEnemyStats(getFormData(document), global.InWarOfEmperium);
-        console.log(enemyStats);
 
-        myInnerHtml("Enemy_Race", global.RaceOBJ[enemyStats.race], 0);
-        if (enemyStats.element > 0 && global.elementOBJ[enemyStats.element] === undefined) {
-            let w = Math.floor(enemyStats.element / 10);
-            myInnerHtml("Enemy_Element", (global.elementOBJ[w] + enemyStats.element % 10), 0);
-        }
-        myInnerHtml("Enemy_Size", global.SizeOBJ[enemyStats.size], 0);
-        myInnerHtml("Enemy_HP", enemyStats.hp, 0);
-        myInnerHtml("Enemy_ATK", enemyStats.atk, 0);
-        myInnerHtml("Enemy_ATK2", enemyStats.atk2, 0);
-        myInnerHtml("Enemy_PerfectHit", enemyStats.perfectHit, 0);
-        myInnerHtml("Enemey_PerfectDodge", enemyStats.perfectDodge, 0);
-        myInnerHtml("Enemy_Def", enemyStats.def, 0);
-        myInnerHtml("Enemy_Mdef", enemyStats.mdef, 0);
-        myInnerHtml("Enemy_VitDef", enemyStats.vit, 0);
-        myInnerHtml("Enemy_Mdef2", enemyStats.mdef2, 0);
-        myInnerHtml("Enemy_RewardBaseEXP", enemyStats.exp, 0);
-        myInnerHtml("Enemy_RewardJobEXP", enemyStats.jobExp, 0);
+        refreshEnemyStats(enemyStats);
     })
 }
 
@@ -1315,7 +1375,18 @@ function removeNullValues(obj) {
 }
 
 function Calculate() {
+    let formData = getFormData(document);
+    let targetStats = CalculateEnemyStats(formData, 0);
+    let sourceStats = CalculateAllStats(formData, targetStats);
+    let battleResult = CalculateBattle(sourceStats, targetStats, 0);
 
+    console.log(targetStats);
+    console.log(sourceStats);
+    console.log(battleResult);
+
+    refreshEnemyStats(targetStats);
+    refreshPlayerStats(sourceStats);
+    refreshBattleResults(battleResult);
 }
 
 function GenerateTestCase() {
@@ -2159,6 +2230,7 @@ LoadSave();
 
 bindOnChangeEnemy();
 bindOnChangeJob();
+bindOnClickCalculate();
 bindOnChangeWeaponType();
 bindOnChangeWeapon2Type();
 bindOnChangeGear();

@@ -19,6 +19,8 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         maxSp: 0, // A_MaxSP
         def: 0,
         cast: 0,
+        atkLeft: 0,
+        atkRight: 0,
         weaponType: 0,
         weapon1: 0,
         weapon1ATK: 0,
@@ -26,6 +28,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         weapon2ATK: 0,
         weapon1Element: 0,
         weapon2Element: 0,
+        matk: [],
         isRebirth: false,
         passiveSkills: [],
         supportiveSkills: [],
@@ -1103,6 +1106,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     // myInnerHtml("A_MDEF", n_A_MDEF, 0);
 
 
+    stats.mdef = n_A_MDEF;
     stats.hit = stats.baseLevel + stats.dex;
 
 
@@ -1301,14 +1305,14 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     // myInnerHtml("A_CRI", stats.crit, 0);
 
 
-    let n_A_MATK = [0, 0, 0];
+    stats.matk = [0, 0, 0];
 
     w = Math.floor(stats.int / 7);
-    n_A_MATK[0] = stats.int + w * w;
+    stats.matk[0] = stats.int + w * w;
 
 
     w = Math.floor(stats.int / 5);
-    n_A_MATK[2] = stats.int + w * w;
+    stats.matk[2] = stats.int + w * w;
 
     let w_MATK = 100;
 
@@ -1329,46 +1333,46 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         w_MATK += 2;
     if (stats.equipments[0] == 484 && SU_INT >= 70)
         w_MATK += 5;
-    n_A_MATK[0] = Math.floor(n_A_MATK[0] * w_MATK / 100);
-    n_A_MATK[2] = Math.floor(n_A_MATK[2] * w_MATK / 100);
+    stats.matk[0] = Math.floor(stats.matk[0] * w_MATK / 100);
+    stats.matk[2] = Math.floor(stats.matk[2] * w_MATK / 100);
 
     if (stats.foodBoxBonus[2]) {
-        n_A_MATK[0] += 10;
-        n_A_MATK[2] += 10;
+        stats.matk[0] += 10;
+        stats.matk[2] += 10;
     }
     if (stats.foodBoxBonus[10]) {
-        n_A_MATK[0] += 20;
-        n_A_MATK[2] += 20;
+        stats.matk[0] += 20;
+        stats.matk[2] += 20;
     }
 
     w_MATK = 100;
 
     w_MATK += StPlusItem(MATK_BASED_ON_STAFF_PERCENTAGE, stats);
 
-    n_A_MATK[0] = Math.floor(n_A_MATK[0] * w_MATK / 100);
-    n_A_MATK[2] = Math.floor(n_A_MATK[2] * w_MATK / 100);
+    stats.matk[0] = Math.floor(stats.matk[0] * w_MATK / 100);
+    stats.matk[2] = Math.floor(stats.matk[2] * w_MATK / 100);
 
 
-    // myInnerHtml("A_MATK", n_A_MATK[0] + " ~ " + n_A_MATK[2], 0);
+    // myInnerHtml("A_MATK", stats.matk[0] + " ~ " + stats.matk[2], 0);
 
     if (SkillSearch("Mystical Amplification", stats)) {
-        AmpMinMatkBK = n_A_MATK[0];
-        AmpMaxMatkBK = n_A_MATK[2];
-        n_A_MATK[0] = Math.floor(n_A_MATK[0] * (1 + 0.05 * SkillSearch("Mystical Amplification", stats)));
-        n_A_MATK[2] = Math.floor(n_A_MATK[2] * (1 + 0.05 * SkillSearch("Mystical Amplification", stats)));
+        AmpMinMatkBK = stats.matk[0];
+        AmpMaxMatkBK = stats.matk[2];
+        stats.matk[0] = Math.floor(stats.matk[0] * (1 + 0.05 * SkillSearch("Mystical Amplification", stats)));
+        stats.matk[2] = Math.floor(stats.matk[2] * (1 + 0.05 * SkillSearch("Mystical Amplification", stats)));
 
-        myInnerHtml("A_MATK", n_A_MATK[0] + " ~ " + n_A_MATK[2], 0);
+        myInnerHtml("A_MATK", stats.matk[0] + " ~ " + stats.matk[2], 0);
         if (stats.skillToUseName == "Stave Crasher") {
-            n_A_MATK[0] = AmpMinMatkBK;
-            n_A_MATK[2] = AmpMaxMatkBK;
+            stats.matk[0] = AmpMinMatkBK;
+            stats.matk[2] = AmpMaxMatkBK;
         }
     }
 
 
-    if (n_A_MATK[0] != n_A_MATK[2])
-        n_A_MATK[2] -= 1;
+    if (stats.matk[0] != stats.matk[2])
+        stats.matk[2] -= 1;
 
-    n_A_MATK[1] = (n_A_MATK[2] + n_A_MATK[0]) / 2;
+    stats.matk[1] = (stats.matk[2] + stats.matk[0]) / 2;
 
     let wASPD;
 
@@ -1494,6 +1498,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     // myInnerHtml("A_ASPD", stats.aspd, 0);
 
+    stats.aspdForDisplay = stats.aspd;
     stats.aspd = (200 - stats.aspd) / 50;
     let n_A_ATK_w, n_A_ATK;
     if (isNonRangeWeapon(stats.weaponType)) {
@@ -1507,6 +1512,8 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     let ATK_LEFT = Math.floor(impositioMagnus + stats.weapon1ATK + stats.weapon2_ATK + n_A_ATK);
     let ATK_RIGHT = Math.floor(stats.weapon1LV_upgradeBonusATK + stats.weapon2LV_upgradeBonusATK);
     // myInnerHtml("A_ATK_2", ATK_LEFT + "+" + ATK_RIGHT, 0),
+    stats.atkLeft = ATK_LEFT;
+    stats.atkRight = ATK_RIGHT;
 
 
     if (SkillSearch("Raging Trifecta Blow", stats)) {
@@ -2558,7 +2565,7 @@ function ApplyWeaponryResearchAndDMGLevel(stats, targetStats, w999, InWarOfEmper
             w999 += 75;
     }
     if (stats.skillToUseName == "Magical Bullet")
-        w999 += Math.floor(n_A_MATK[b] * (100 - targetStatsArray[TARGET_STAT_MDEF]) / 100 - n_B_MDEF2);
+        w999 += Math.floor(stats.matk[b] * (100 - targetStatsArray[TARGET_STAT_MDEF]) / 100 - n_B_MDEF2);
     if (stats.skillToUseName == "Gunslinger Mine")
         w999 += stats.skillToUseLV * 50;
 
@@ -3501,9 +3508,9 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
         wCast = 0.3;
         wDelay = 0.3;
         swDelay = 1;
-        n_A_DMG[2] = n_A_MATK[2];
-        n_A_DMG[0] = n_A_MATK[0];
-        n_A_DMG[1] = (n_A_MATK[0] + n_A_MATK[2]) / 2;
+        n_A_DMG[2] = stats.matk[2];
+        n_A_DMG[0] = stats.matk[0];
+        n_A_DMG[1] = (stats.matk[0] + stats.matk[2]) / 2;
 
 
         for (b = 0; b <= 2; b++)
@@ -3874,7 +3881,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
             finalDamages[b] = BK_n_A_DMG[b] * (100 - stats.def) / 100 - work_A_VITDEF[b] + stats.weapon1LV_upgradeBonusATK;
             finalDamages[b] = Math.floor(finalDamages[b] * (skillModifier + stats.skillToUseLV * 0.4));
 
-            w = n_A_MATK[b] * (100 - n_A_MDEF) / 100 - stats.intMDEF;
+            w = stats.matk[b] * (100 - n_A_MDEF) / 100 - stats.intMDEF;
             w = Math.floor(w * (stats.skillToUseLV * 0.4 + 1));
 
             finalDamages[b] += w;
@@ -3906,7 +3913,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
             finalDamages[b] = BK_n_A_DMG[b] * (100 - targetStats.def) / 100 - n_B_DEF2[b] + stats.weapon1LV_upgradeBonusATK;
             finalDamages[b] *= skillModifier + stats.skillToUseLV * 0.4;
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStats.element][6]);
-            w = n_A_MATK[b] * (100 - targetStatsArray[TARGET_STAT_MDEF]) / 100 - n_B_MDEF2;
+            w = stats.matk[b] * (100 - targetStatsArray[TARGET_STAT_MDEF]) / 100 - n_B_MDEF2;
             w *= (stats.skillToUseLV * 0.4 + 1);
             w = Math.floor(w * element[targetStats.element][6]);
             finalDamages[b] = tPlusDamCut(stats, targetStats, Math.floor((w + finalDamages[b], InWarOfEmperium) * element[targetStats.element][6]));
@@ -4552,9 +4559,9 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
             wCast = 15;
             wDelay = 4;
             if (targetStats.race != 6 && targetStats.element < 90) {
-                n_A_MATK[2] = 0;
-                n_A_MATK[0] = 0;
-                n_A_MATK[1] = 0;
+                stats.matk[2] = 0;
+                stats.matk[0] = 0;
+                stats.matk[1] = 0;
             }
         } else if (stats.skillToUseName === "Estin") {
             stats.weapon1Element = eval(document.calcForm.A_Weapon_element.value);
@@ -4641,7 +4648,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
 
         let finalDamagesCopy = [0, 0, 0];
         for (b = 0; b <= 2; b++) {
-            finalDamages[b] = BattleMagicCalc(n_A_MATK[b] * skillModifier);
+            finalDamages[b] = BattleMagicCalc(stats.matk[b] * skillModifier);
             // myInnerHtml("ATK_0" + b, finalDamages[b] * hitCount + "(" + finalDamages[b] + SubName[8] + hitCount + "hit)", 0);
             finalDamagesCopy[b] = finalDamages[b];
             finalDamages[b] *= hitCount;
