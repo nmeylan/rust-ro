@@ -306,110 +306,102 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     if (JobSkillPassOBJ[stats.job][14] != 999) stats.passiveSkills[14] = eval(FORM_DATA.A_PASSIVE_SKILL14);
 
 
-    if (n_SkillSW) {
-        stats.supportiveSkills[0] = eval(FORM_DATA.A_SUPPORTIVE_SKILL0);
-        stats.supportiveSkills[1] = eval(FORM_DATA.A_SUPPORTIVE_SKILL1);
-        stats.supportiveSkills[2] = eval(FORM_DATA.A_SUPPORTIVE_SKILL2);
-        stats.supportiveSkills[3] = FORM_DATA.A_SUPPORTIVE_SKILL3 === "on";
-        stats.supportiveSkills[4] = eval(FORM_DATA.A_SUPPORTIVE_SKILL4);
-        stats.supportiveSkills[5] = FORM_DATA.A_SUPPORTIVE_SKILL5 === "on";
-        stats.supportiveSkills[6] = eval(FORM_DATA.A_SUPPORTIVE_SKILL6);
-        stats.supportiveSkills[7] = FORM_DATA.A_SUPPORTIVE_SKILL7 === "on";
-        stats.supportiveSkills[8] = eval(FORM_DATA.A_SUPPORTIVE_SKILL8);
-        stats.supportiveSkills[9] = eval(FORM_DATA.A_SUPPORTIVE_SKILL9);
-        stats.supportiveSkills[10] = eval(FORM_DATA.A_SUPPORTIVE_SKILL10);
-        stats.supportiveSkills[11] = FORM_DATA.A_SUPPORTIVE_SKILL11 === "on";
-        stats.supportiveSkills[12] = FORM_DATA.A_SUPPORTIVE_SKILL12 === "on";
-        stats.supportiveSkills[13] = eval(FORM_DATA.A_SUPPORTIVE_SKILL13);
-        stats.supportiveSkills[14] = eval(FORM_DATA.A_SUPPORTIVE_SKILL14);
+    stats.supportiveSkills[0] = eval(FORM_DATA.A_SUPPORTIVE_SKILL0);
+    stats.supportiveSkills[1] = eval(FORM_DATA.A_SUPPORTIVE_SKILL1);
+    stats.supportiveSkills[2] = eval(FORM_DATA.A_SUPPORTIVE_SKILL2);
+    stats.supportiveSkills[3] = FORM_DATA.A_SUPPORTIVE_SKILL3 === "on";
+    stats.supportiveSkills[4] = eval(FORM_DATA.A_SUPPORTIVE_SKILL4);
+    stats.supportiveSkills[5] = FORM_DATA.A_SUPPORTIVE_SKILL5 === "on";
+    stats.supportiveSkills[6] = eval(FORM_DATA.A_SUPPORTIVE_SKILL6);
+    stats.supportiveSkills[7] = FORM_DATA.A_SUPPORTIVE_SKILL7 === "on";
+    stats.supportiveSkills[8] = eval(FORM_DATA.A_SUPPORTIVE_SKILL8);
+    stats.supportiveSkills[9] = eval(FORM_DATA.A_SUPPORTIVE_SKILL9);
+    stats.supportiveSkills[10] = eval(FORM_DATA.A_SUPPORTIVE_SKILL10);
+    stats.supportiveSkills[11] = FORM_DATA.A_SUPPORTIVE_SKILL11 === "on";
+    stats.supportiveSkills[12] = FORM_DATA.A_SUPPORTIVE_SKILL12 === "on";
+    stats.supportiveSkills[13] = eval(FORM_DATA.A_SUPPORTIVE_SKILL13);
+    stats.supportiveSkills[14] = eval(FORM_DATA.A_SUPPORTIVE_SKILL14);
+
+
+    stats.performanceSkills[0] = eval(FORM_DATA.PERFORMANCE_SKILL_PERFECT_TABLATURE0_1);
+    stats.performanceSkills[1] = eval(FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT1_1);
+    stats.performanceSkills[2] = eval(FORM_DATA.PERFORMANCE_SKILL_MAGIC_STRING2_1);
+    stats.performanceSkills[3] = eval(FORM_DATA.PERFORMANCE_SKILL_SONG_OF_LUTIE3_1);
+    stats.performanceSkills[4] = eval(FORM_DATA.PERFORMANCE_SKILL_FOCUS_BALLET4_1);
+
+    stats.performanceSkills[5] = eval(FORM_DATA.PERFORMANCE_SKILL_LADY_LUCK5_1);
+
+    stats.performanceSkills[7] = eval(FORM_DATA.A_PERFORMANCE_SKILL7);
+
+    stats.performanceSkills[9] = eval(FORM_DATA.A_PERFORMANCE_SKILL9);
+    stats.performanceSkills[10] = eval(FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT10);
+    stats.performanceSkills[11] = FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT11 === "on";
+    stats.performanceSkills[12] = eval(FORM_DATA.A_PERFORMANCE_BARD_STR);
+    stats.performanceSkills[13] = eval(FORM_DATA.A_PERFORMANCE_BARD_AGI);
+    stats.performanceSkills[14] = eval(FORM_DATA.A_PERFORMANCE_BARD_VIT);
+    stats.performanceSkills[15] = eval(FORM_DATA.A_PERFORMANCE_BARD_INT);
+    stats.performanceSkills[16] = eval(FORM_DATA.A_PERFORMANCE_BARD_DEX);
+    stats.performanceSkills[17] = eval(FORM_DATA.A_PERFORMANCE_BARD_LUK);
+
+    if (stats.performanceSkills[0]) {
+        stats.performanceSkills[20] = eval(FORM_DATA.A_PERFORMANCE_BARD_AGI);
+        stats.performanceSkills[30] = eval(FORM_DATA.PERFORMANCE_SKILL_PERFECT_TABLATURE0_3);
+    }
+    if (stats.performanceSkills[1]) {
+        stats.performanceSkills[21] = eval(FORM_DATA.A_PERFORMANCE_BARD_AGI);
+        stats.performanceSkills[31] = eval(FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT1_3);
+    }
+    if (stats.performanceSkills[2]) {
+        stats.performanceSkills[22] = eval(FORM_DATA.A_PERFORMANCE_BARD_DEX);
+        stats.performanceSkills[29] = eval(FORM_DATA.A_PERFORMANCE_BARD_INT);
+        stats.performanceSkills[32] = eval(FORM_DATA.PERFORMANCE_SKILL_MAGIC_STRING2_4);
+    }
+    if (stats.performanceSkills[3]) {
+        stats.performanceSkills[23] = eval(FORM_DATA.A_PERFORMANCE_BARD_VIT);
+        stats.performanceSkills[33] = eval(FORM_DATA.PERFORMANCE_SKILL_SONG_OF_LUTIE3_3);
+    }
+    if (stats.performanceSkills[4]) {
+        stats.performanceSkills[24] = eval(FORM_DATA.A_PERFORMANCE_BARD_DEX);
+        stats.performanceSkills[34] = eval(FORM_DATA.PERFORMANCE_SKILL_FOCUS_BALLET4_3);
+    }
+    if (stats.performanceSkills[5]) {
+        stats.performanceSkills[25] = eval(FORM_DATA.A_PERFORMANCE_BARD_LUK);
+        stats.performanceSkills[35] = eval(FORM_DATA.PERFORMANCE_SKILL_LADY_LUCK5_3);
+    }
+    if (stats.performanceSkills[6]) {
+        stats.performanceSkills[26] = eval(FORM_DATA.A_PERFORMANCE_BARD_INT);
+        stats.performanceSkills[36] = eval(FORM_DATA.PERFORMANCE_SKILL_GYPSIE_KISS6_3);
     }
 
-    if (n_Skill3SW) {
-        stats.performanceSkills[0] = eval(FORM_DATA.A_PERFORMANCE_SKILL0_1);
-        stats.performanceSkills[1] = eval(FORM_DATA.A_PERFORMANCE_SKILL1_1);
-        stats.performanceSkills[2] = eval(FORM_DATA.A_PERFORMANCE_SKILL2_1);
-        stats.performanceSkills[3] = eval(FORM_DATA.A_PERFORMANCE_SKILL3_1);
 
-        stats.performanceSkills[5] = eval(FORM_DATA.A_PERFORMANCE_SKILL5_1);
+    stats.performanceSkills[40] = FORM_DATA.A_PERFORMANCE_SKILL40 === "on";
+    stats.performanceSkills[41] = eval(FORM_DATA.A_PERFORMANCE_SKILL41);
+    stats.performanceSkills[42] = eval(FORM_DATA.A_PERFORMANCE_SKILL42);
+    stats.performanceSkills[43] = eval(FORM_DATA.A_PERFORMANCE_SKILL43);
+    stats.performanceSkills[44] = eval(FORM_DATA.A_PERFORMANCE_SKILL44);
 
-        stats.performanceSkills[7] = eval(FORM_DATA.A_PERFORMANCE_SKILL7);
+    stats.supportiveSkillsBattleChant[0] = FORM_DATA.A_BATTLECHANT_SKILL0 === "on";
+    stats.supportiveSkillsBattleChant[1] = FORM_DATA.A_BATTLECHANT_SKILL1 === "on";
+    stats.supportiveSkillsBattleChant[2] = FORM_DATA.A_BATTLECHANT_SKILL2 === "on";
+    stats.supportiveSkillsBattleChant[3] = FORM_DATA.A_BATTLECHANT_SKILL3 === "on";
+    stats.supportiveSkillsBattleChant[4] = FORM_DATA.A_BATTLECHANT_SKILL4 === "on";
 
-        stats.performanceSkills[9] = eval(FORM_DATA.A_PERFORMANCE_SKILL9);
-        stats.performanceSkills[10] = eval(FORM_DATA.A_PERFORMANCE_SKILL10);
-        stats.performanceSkills[11] = FORM_DATA.A_PERFORMANCE_SKILL11 === "on";
-        if (stats.performanceSkills[11]) {
-            stats.performanceSkills[12] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_STR);
-            stats.performanceSkills[13] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_AGI);
-            stats.performanceSkills[14] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_VIT);
-            stats.performanceSkills[15] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_INT);
-            stats.performanceSkills[16] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_DEX);
-            stats.performanceSkills[17] = eval(FORM_DATA.A_PERFORMANCE_SKILL11_LUK);
-        }
+    stats.groundSupportiveSkills[0] = eval(FORM_DATA.A_GROUND_SUPPORTIVE_SKILL0);
+    stats.groundSupportiveSkills[1] = eval(FORM_DATA.A_GROUND_SUPPORTIVE_SKILL1);
+    stats.groundSupportiveSkills[2] = eval(FORM_DATA.A_GROUND_SUPPORTIVE_SKILL2);
+    stats.groundSupportiveSkills[3] = FORM_DATA.A_GROUND_SUPPORTIVE_SKILL3 === "on";
 
-        if (stats.performanceSkills[0]) {
-            stats.performanceSkills[20] = eval(FORM_DATA.A_PERFORMANCE_SKILL0_2);
-            stats.performanceSkills[30] = eval(FORM_DATA.A_PERFORMANCE_SKILL0_3);
-        }
-        if (stats.performanceSkills[1]) {
-            stats.performanceSkills[21] = eval(FORM_DATA.A_PERFORMANCE_SKILL1_2);
-            stats.performanceSkills[31] = eval(FORM_DATA.A_PERFORMANCE_SKILL1_3);
-        }
-        if (stats.performanceSkills[2]) {
-            stats.performanceSkills[22] = eval(FORM_DATA.A_PERFORMANCE_SKILL2_2);
-            stats.performanceSkills[29] = eval(FORM_DATA.A_PERFORMANCE_SKILL2_3);
-            stats.performanceSkills[32] = eval(FORM_DATA.A_PERFORMANCE_SKILL2_4);
-        }
-        if (stats.performanceSkills[3]) {
-            stats.performanceSkills[23] = eval(FORM_DATA.A_PERFORMANCE_SKILL3_2);
-            stats.performanceSkills[33] = eval(FORM_DATA.A_PERFORMANCE_SKILL3_3);
-        }
-        if (stats.performanceSkills[4]) {
-            stats.performanceSkills[24] = eval(FORM_DATA.A_PERFORMANCE_SKILL4_2);
-            stats.performanceSkills[34] = eval(FORM_DATA.A_PERFORMANCE_SKILL4_3);
-        }
-        if (stats.performanceSkills[5]) {
-            stats.performanceSkills[25] = eval(FORM_DATA.A_PERFORMANCE_SKILL5_2);
-            stats.performanceSkills[35] = eval(FORM_DATA.A_PERFORMANCE_SKILL5_3);
-        }
-        if (stats.performanceSkills[6]) {
-            stats.performanceSkills[26] = eval(FORM_DATA.A_PERFORMANCE_SKILL6_2);
-            stats.performanceSkills[36] = eval(FORM_DATA.A_PERFORMANCE_SKILL6_3);
-        }
-
-    }
-    if (n_Skill4SW) {
-        stats.performanceSkills[40] = FORM_DATA.A_PERFORMANCE_SKILL40 === "on";
-        stats.performanceSkills[41] = eval(FORM_DATA.A_PERFORMANCE_SKILL41);
-        stats.performanceSkills[42] = eval(FORM_DATA.A_PERFORMANCE_SKILL42);
-        stats.performanceSkills[43] = eval(FORM_DATA.A_PERFORMANCE_SKILL43);
-        stats.performanceSkills[44] = eval(FORM_DATA.A_PERFORMANCE_SKILL44);
-    }
-    if (n_Skill5SW) {
-        stats.supportiveSkillsBattleChant[0] = FORM_DATA.A_BATTLECHANT_SKILL0 === "on";
-        stats.supportiveSkillsBattleChant[1] = FORM_DATA.A_BATTLECHANT_SKILL1 === "on";
-        stats.supportiveSkillsBattleChant[2] = FORM_DATA.A_BATTLECHANT_SKILL2 === "on";
-        stats.supportiveSkillsBattleChant[3] = FORM_DATA.A_BATTLECHANT_SKILL3 === "on";
-        stats.supportiveSkillsBattleChant[4] = FORM_DATA.A_BATTLECHANT_SKILL4 === "on";
-    }
-    if (n_Skill6SW) {
-        stats.groundSupportiveSkills[0] = eval(FORM_DATA.A_GROUND_SUPPORTIVE_SKILL0);
-        stats.groundSupportiveSkills[1] = eval(FORM_DATA.A_GROUND_SUPPORTIVE_SKILL1);
-        stats.groundSupportiveSkills[2] = eval(FORM_DATA.A_GROUND_SUPPORTIVE_SKILL2);
-        stats.groundSupportiveSkills[3] = FORM_DATA.A_GROUND_SUPPORTIVE_SKILL3 === "on";
-    }
-    if (n_Skill7SW) {
-        stats.foodBoxBonus[0] = FORM_DATA.A_FOOD_BOX_BONUS0 === "on";
-        stats.foodBoxBonus[1] = FORM_DATA.A_FOOD_BOX_BONUS1 === "on";
-        stats.foodBoxBonus[2] = FORM_DATA.A_FOOD_BOX_BONUS2 === "on";
-        stats.foodBoxBonus[3] = eval(FORM_DATA.A_FOOD_BOX_BONUS3);
-        stats.foodBoxBonus[4] = eval(FORM_DATA.A_FOOD_BOX_BONUS4);
-        stats.foodBoxBonus[5] = eval(FORM_DATA.A_FOOD_BOX_BONUS5);
-        stats.foodBoxBonus[6] = eval(FORM_DATA.A_FOOD_BOX_BONUS6);
-        stats.foodBoxBonus[7] = eval(FORM_DATA.A_FOOD_BOX_BONUS7);
-        stats.foodBoxBonus[8] = eval(FORM_DATA.A_FOOD_BOX_BONUS8);
-        stats.foodBoxBonus[9] = FORM_DATA.A_FOOD_BOX_BONUS9 === "on";
-        stats.foodBoxBonus[10] = FORM_DATA.A_FOOD_BOX_BONUS10 === "on";
-    }
+    stats.foodBoxBonus[0] = FORM_DATA.A_FOOD_BOX_BONUS0 === "on";
+    stats.foodBoxBonus[1] = FORM_DATA.A_FOOD_BOX_BONUS1 === "on";
+    stats.foodBoxBonus[2] = FORM_DATA.A_FOOD_BOX_BONUS2 === "on";
+    stats.foodBoxBonus[3] = eval(FORM_DATA.A_FOOD_BOX_BONUS3);
+    stats.foodBoxBonus[4] = eval(FORM_DATA.A_FOOD_BOX_BONUS4);
+    stats.foodBoxBonus[5] = eval(FORM_DATA.A_FOOD_BOX_BONUS5);
+    stats.foodBoxBonus[6] = eval(FORM_DATA.A_FOOD_BOX_BONUS6);
+    stats.foodBoxBonus[7] = eval(FORM_DATA.A_FOOD_BOX_BONUS7);
+    stats.foodBoxBonus[8] = eval(FORM_DATA.A_FOOD_BOX_BONUS8);
+    stats.foodBoxBonus[9] = FORM_DATA.A_FOOD_BOX_BONUS9 === "on";
+    stats.foodBoxBonus[10] = FORM_DATA.A_FOOD_BOX_BONUS10 === "on";
 
 
     let wSPC_STR = JobStatsBonusPerLevel[stats.job][stats.jobLevel - 1][0];
@@ -1038,32 +1030,32 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         stats.vitDEF[2] = stats.vitDEF[0];
     }
     if (stats.performanceSkills[9]) {
-        for (i = 0; i <= 2; i++)
+        for (let i = 0; i <= 2; i++)
             stats.vitDEF[i] += 2 + 2 * stats.performanceSkills[9];
     }
     if (SkillSearch("Auto Berserk", stats)) {
-        for (i = 0; i <= 2; i++)
+        for (let i = 0; i <= 2; i++)
             stats.vitDEF[i] = Math.floor(stats.vitDEF[i] * 0.45);
     } else {
         if (stats.supportiveSkills[12]) {
-            for (i = 0; i <= 2; i++)
+            for (let i = 0; i <= 2; i++)
                 stats.vitDEF[i] = Math.floor(stats.vitDEF[i] * 0.9);
         }
     }
     if (StPlusItem(REDUCE_DEFENSE, stats)) {
-        for (i = 0; i <= 2; i++)
+        for (let i = 0; i <= 2; i++)
             stats.vitDEF[i] = Math.floor(stats.vitDEF[i] / StPlusItem(24), stats);
     }
     if (SkillSearch("Spear Dynamo", stats)) {
-        for (i = 0; i <= 2; i++)
+        for (let i = 0; i <= 2; i++)
             stats.vitDEF[i] = Math.floor(stats.vitDEF[i] * (1 - 0.05 * SkillSearch("Spear Dynamo", stats)));
     }
     if (stats.supportiveSkills[4]) {
-        for (i = 0; i <= 2; i++)
+        for (let i = 0; i <= 2; i++)
             stats.vitDEF[i] = Math.floor(stats.vitDEF[i] * (1 + 0.05 * stats.supportiveSkills[4]));
     }
     if (SkillSearch("Frenzy", stats)) {
-        for (i = 0; i <= 2; i++)
+        for (let i = 0; i <= 2; i++)
             stats.vitDEF[i] = 0;
     }
 
@@ -2185,8 +2177,8 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         bonusSubName: "", // bSUBname
         bonusSub2: "", // bSUB2
         bonusSub2Name: "", // bSUB2name
-        critAtkName: "", // CRIATKname
-        critChanceName: "", // CRInumname
+        critAtkName: "Critical Damage", // CRIATKname
+        critChanceName: "Critical Rate", // CRInumname
         atk00: "", // ATK_00
         atk02: "", // ATK_02
         atk01: "", // ATK_01
@@ -2414,6 +2406,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
     if (stats.weaponType == WEAPON_TYPE_KATAR) {
         wk = Math.floor(stats.critATK[1] * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
         wk2 = Math.floor((stats.critATK[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
+        battleResult.critAtk = [];
         if (stats.weapon1LV_Minplus == stats.weapon1LV_overUpgradeBonusATK && n_A_EDP_DMG[0] == n_A_EDP_DMG[2]) {
             battleResult.critAtk[0] = stats.critATK[1] + wk2 + n_A_EDP_DMG[1];
             // myInnerHtml("CRIATK", (stats.critATK[1] + wk2 + n_A_EDP_DMG[1]) + "(" + (stats.critATK[1] + n_A_EDP_DMG[1]) + "+" + wk2 + ")", 0);
@@ -2426,6 +2419,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         }
         stats.critATK[1] += wk;
     } else {
+        battleResult.critAtk = [];
         if (stats.weapon1LV_Minplus == stats.weapon1LV_overUpgradeBonusATK && n_A_EDP_DMG[0] == n_A_EDP_DMG[2]) {
             battleResult.critAtk[0] = stats.critATK[1] + n_A_EDP_DMG[1];
             //     myInnerHtml("CRIATK", stats.critATK[1] + n_A_EDP_DMG[1], 0);
@@ -3158,7 +3152,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
             let battleVariousResult = BattleVariousResults(stats, targetStats, wCast, wDelay, finalDamages, InWarOfEmperium);
             battleResult = Object.assign(battleResult, battleVariousResult);
         }
-        return;
+        return battleResult;
     } else if (stats.skillToUseName === "Sharp Shooting (Temp)") {
         isRangedAttack = 1;
         battleResult.critAtkName = "Defence Bypassing Damage";
@@ -3190,6 +3184,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
         n_A_EDP_DMG[1] = BattleCalcEDP(stats, targetStats, n_A_DMG[1], 3);
 
         // myInnerHtml("CRIATK", (stats.critATK[0] + n_A_EDP_DMG[0]) + " ~ " + (stats.critATK[2] + n_A_EDP_DMG[2]), 0);
+        battleResult.critAtk = [];
         battleResult.critAtk[0] = stats.critATK[0] + n_A_EDP_DMG[0];
         battleResult.critAtk[1] = stats.critATK[2] + n_A_EDP_DMG[2];
 
@@ -3226,7 +3221,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
         battleResult = Object.assign(battleResult, castAndDelayBattleResult);
         let battleVariousResult = BattleVariousResults(stats, targetStats, wCast, wDelay, finalDamages, InWarOfEmperium);
         battleResult = Object.assign(battleResult, battleVariousResult);
-        return;
+        return battleResult;
     }
 
     // 6 -> bash
@@ -3856,6 +3851,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
         //
         // myInnerHtml("CRInumname", '<Font color="#FF0000">Reflect Damage</Font>', 0);
         battleResult.critAtkName = "HP Casting Cost";
+        battleResult.critAtk = [];
         battleResult.critAtk[0] = Math.floor(stats.maxHp / 5);
         battleResult.critChanceName = "Reflect Damage";
 
@@ -5114,14 +5110,13 @@ function CastAndDelay(stats, wCast, wDelay, swDelay) {
     }
     if (wDelay != 0) {
         if (swDelay == 1) {
-            wCAD = stats.performanceSkills[2];
+            let wCAD = stats.performanceSkills[2];
             if (wDelay != "(Unknown)") {
                 wDelay = Math.floor(wDelay * (100 - (StPlusCard(ACD_PERCENTAGE, stats) + StPlusItem(ACD_PERCENTAGE, stats)))) / 100;
                 if (wCAD != 0) {
+                    let wCAD2 = 3;
                     if (wCAD == 10)
                         wCAD2 = 5;
-                    else
-                        wCAD2 = 3;
                     wCAD = wCAD * wCAD2 + stats.performanceSkills[32] * 2 + Math.floor(stats.performanceSkills[29] / 5);
                     wDelay *= (100 - wCAD) / 100;
                 }
@@ -5134,7 +5129,7 @@ function CastAndDelay(stats, wCast, wDelay, swDelay) {
             // myInnerHtml("bSUB2", Math.floor(wDelay * 100) / 100 + "s", 0);
             battleResult.bonusSub2 = Math.floor(wDelay * 100) / 100 + "s";
             battleResult.bonusSub2Name = "Delay (Fixed Type)";
-            return;
+            return battleResult;
         }
         if (swDelay == 2) {
             battleResult.bonusSub2 = wDelay + "s";
