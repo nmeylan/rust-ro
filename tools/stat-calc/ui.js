@@ -390,7 +390,7 @@ function ClickJob(n) {
     ActiveSkillSetPlus();
 
     ClickActiveSkill(0);
-    WeaponSet2();
+    ItemSet();
 }
 
 function ClickWeaponType(n) {
@@ -535,7 +535,8 @@ function refreshPlayerStats(playerStats) {
 function refreshBattleResults(battleResults) {
     myInnerHtml("BaseAttackCalc", battleResults.baseAttackCalc, 0);
     myInnerHtml("MinWeaponAttackCalc", battleResults.minWeaponAttackCalc, 0);
-    myInnerHtml("AvgWeaponAttackCalc", battleResults.maxWeaponAttackCalc, 0);
+    myInnerHtml("AvgWeaponAttackCalc", battleResults.avgWeaponAttackCalc, 0);
+    myInnerHtml("MaxWeaponAttackCalc", battleResults.maxWeaponAttackCalc, 0);
     myInnerHtml("BattleHIT", battleResults.battleHit, 0);
     myInnerHtml("BattleFLEE", battleResults.battleFlee, 0);
     myInnerHtml("CRIATKname", battleResults.critAtkName, 0);
@@ -828,7 +829,7 @@ function SuperNoviceFullWeapon(nSNFW) {
     }
     ClickWeaponType(0);
     WeaponSet();
-    WeaponSet2();
+    ItemSet();
 }
 
 function sort(work) {
@@ -889,7 +890,7 @@ function WeaponSetLeft() {
 }
 
 
-function WeaponSet2() {
+function ItemSet() {
     let {n_A_JOB, isRebirth} = n_A_JobSet();
     document.calcForm.A_head1.options.length = 0;
     document.calcForm.A_head2.options.length = 0;
