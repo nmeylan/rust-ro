@@ -25,641 +25,125 @@
             <div>
                 <div class="topic">
                     <h3>RO Calculator</h3>
-                    <table style="width=98%">
+                    <div>
+                        <button type="reset" value="Reset">Reset</button>
+                        <input type="button" value="Generate TestCase" onclick="GenerateTestCase()">
+                        <input type="button" value="Save" id="btn-save">
+                        <input type="button" value="Load" id="btn-load">
+                        <select name="A_SaveSlot">
+                            <option value="0">Save1
+                            <option value="1">Save2
+                            <option value="2">Save3
+                            <option value="3">Save4
+                            <option value="4">Save5
+                            <option value="5">Save6
+                            <option value="6">Save7
+                            <option value="7">Save8
+                            <option value="8">Save9
+                            <option value="9">Save10
+                            <option value="10">Save11
+                            <option value="11">Save12
+                            <option value="12">Save13
+                            <option value="13">Save14
+                            <option value="14">Save15
+                            <option value="15">Save16
+                            <option value="16">Save17
+                            <option value="17">Save18
+                            <option value="18">Save19
+                        </select>
+                    </div>
+
+                    <table>
                         <tr>
-                            <td>&nbsp;</td>
-                            <td>
-                                <br>
+                            <td valign="top">
 
-                                <input type="button" value="Generate TestCase" onclick="GenerateTestCase()">
-                                <input type="button" value="Save" onclick="SaveCookie()">
-                                <input type="button" value="Load" onclick="LoadCookie()">
-                                <select name="A_SaveSlot">
-                                    <option value="num00">Save1
-                                    <option value="num01">Save2
-                                    <option value="num02">Save3
-                                    <option value="num03">Save4
-                                    <option value="num04">Save5
-                                    <option value="num05">Save6
-                                    <option value="num06">Save7
-                                    <option value="num07">Save8
-                                    <option value="num09">Save9
-                                    <option value="num10">Save10
-                                    <option value="num11">Save11
-                                    <option value="num12">Save12
-                                    <option value="num13">Save13
-                                    <option value="num14">Save14
-                                    <option value="num15">Save15
-                                    <option value="num16">Save16
-                                    <option value="num17">Save17
-                                    <option value="num18">Save18
-                                    <option value="num19">Save19
-                                </select>
-                                <span id="DELHTML"></span>
-                                <table>
+                                <table style="border: 1px solid #999; border-collapse: collapse;">
                                     <tr>
-                                        <td valign="top">
-
-                                            <table style="border: 1px solid #999; border-collapse: collapse;">
-                                                <tr>
-                                                    <td colspan="6" bgcolor="#DDDDFF" class="subheader">
-                                                        <div style="float: left;"><span
-                                                                id="nm01"></span></div>
-                                                        <div style="float: right; padding-right: 3px;"><input
-                                                                type="checkbox" name="isAdopted"
-                                                        ><span id="nm078"></span> / <input
-                                                                type="checkbox" name="BLVauto" checked="1"><span
-                                                                id="nm02"></span></div>
-                                                        <div style="clear: both;"></div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="nm03"></td>
-                                                    <td><select name="A_BaseLV"
-                                                                id="base-level-select"></select></td>
-                                                    <td id="nm04"></td>
-                                                    <td><select name="A_JobLV"></select></td>
-                                                    <td id="nm05"></td>
-                                                    <td><select id="job-select" name="A_JOB"></select>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="nm06"></td>
-                                                    <td><select name="A_STR"
-                                                                id="str-select"></select><span
-                                                    ></span></td>
-                                                    <td id="nm07"></td>
-                                                    <td><select name="A_AGI"
-                                                                id="agi-select"></select><span
-                                                    ></span></td>
-                                                    <td id="nm08"></td>
-                                                    <td><select name="A_VIT"
-                                                                id="vit-select"></select><span
-                                                    ></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="nm010"></td>
-                                                    <td><select name="A_INT"
-                                                                id="int-select"></select><span
-                                                    ></span></td>
-                                                    <td id="nm09"></td>
-                                                    <td><select name="A_DEX"
-                                                                id="dex-select"></select><span
-                                                    ></span></td>
-                                                    <td id="nm011"></td>
-                                                    <td><select name="A_LUK"
-                                                                id="luk-select"></select><span
-                                                    ></span></td>
-                                                </tr>
-                                            </table>
-                                            <br>
-                                            <table style="border: 1px solid #999; border-collapse: collapse;">
-                                                <tr>
-                                                    <td><span id="nm012"></span></td>
-                                                    <td><span id="A_STPOINT"></span></td>
-                                                </tr>
-                                            </table>
-
-
+                                        <td colspan="6" bgcolor="#DDDDFF" class="subheader">
+                                            <div style="float: left;"><span
+                                                    id="nm01"></span></div>
+                                            <div style="float: right; padding-right: 3px;"><input
+                                                    type="checkbox" name="isAdopted"
+                                            ><span id="nm078"></span> / <input
+                                                    type="checkbox" name="BLVauto" checked="1"><span
+                                                    id="nm02"></span></div>
+                                            <div style="clear: both;"></div>
                                         </td>
-                                        <td valign="top">
-
-                                            <table style="border: 1px solid #999; border-collapse: collapse;">
-                                                <tr>
-                                                    <td bgcolor="#DDDDFF" colspan="2" class="subheader">
-                                                        <div style="float: left;"><span
-                                                                id="nm013"></span></div>
-                                                        <div style="float: right; padding-right: 3px;">
-                                                            <select name="A_Kakutyou"
-                                                                    id="extended-info-select">
-                                                                <option value="0">-
-                                                                <option value="1">Heal Amount
-                                                                <option value="2">Increased HP Recovery
-                                                                <option value="3">Increased SP Recovery
-                                                                <option value="4">Spiritual Cadence
-                                                                <option value="5">Weight Limit
-                                                            </select>
-                                                        </div>
-                                                        <div style="clear: both;"></div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span id="A_KakutyouSel"></span>
-                                                        <span id="A_KakutyouData"></span>
-                                                    </td>
-                                                </tr>
-                                            </table>
-
+                                    </tr>
+                                    <tr>
+                                        <td id="nm03"></td>
+                                        <td><select name="A_BaseLV"
+                                                    id="base-level-select"></select></td>
+                                        <td id="nm04"></td>
+                                        <td><select name="A_JobLV"></select></td>
+                                        <td id="nm05"></td>
+                                        <td><select id="job-select" name="A_JOB"></select>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="nm06"></td>
+                                        <td><select name="A_STR"
+                                                    id="str-select"></select><span
+                                        ></span></td>
+                                        <td id="nm07"></td>
+                                        <td><select name="A_AGI"
+                                                    id="agi-select"></select><span
+                                        ></span></td>
+                                        <td id="nm08"></td>
+                                        <td><select name="A_VIT"
+                                                    id="vit-select"></select><span
+                                        ></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="nm010"></td>
+                                        <td><select name="A_INT"
+                                                    id="int-select"></select><span
+                                        ></span></td>
+                                        <td id="nm09"></td>
+                                        <td><select name="A_DEX"
+                                                    id="dex-select"></select><span
+                                        ></span></td>
+                                        <td id="nm011"></td>
+                                        <td><select name="A_LUK"
+                                                    id="luk-select"></select><span
+                                        ></span></td>
                                     </tr>
                                 </table>
                                 <br>
-
-                                <table style="border: 1px solid #999; border-collapse: collapse; width: auto;">
+                                <table style="border: 1px solid #999; border-collapse: collapse;">
                                     <tr>
-                                        <td colspan="6" class="subheader">
-                                            <div style="float: left;">Weapon Settings</div>
-                                            <div style="clear: left;"></div>
+                                        <td><span id="nm012"></span></td>
+                                        <td><span id="A_STPOINT"></span></td>
+                                    </tr>
+                                </table>
+
+
+                            </td>
+                            <td valign="top">
+
+                                <table style="border: 1px solid #999; border-collapse: collapse;">
+                                    <tr>
+                                        <td bgcolor="#DDDDFF" colspan="2" class="subheader">
+                                            <div style="float: left;"><span
+                                                    id="nm013"></span></div>
+                                            <div style="float: right; padding-right: 3px;">
+                                                <select name="A_Kakutyou"
+                                                        id="extended-info-select">
+                                                    <option value="0">-
+                                                    <option value="1">Heal Amount
+                                                    <option value="2">Increased HP Recovery
+                                                    <option value="3">Increased SP Recovery
+                                                    <option value="4">Spiritual Cadence
+                                                    <option value="5">Weight Limit
+                                                </select>
+                                            </div>
+                                            <div style="clear: both;"></div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span id="nm026"></span><select name="A_SpeedPOT">
-                                            <option value="0">-</option>
-                                            <option value="10">Concentration Potion</option>
-                                            <option value="15">Awakening Potion</option>
-                                            <option value="20">Berserk Potion</option>
-                                        </select></td>
-                                        <td class="data">&nbsp;</td>
-                                        <td>&nbsp;
-                                            <span id="nm027"></span><select name="A_WeaponType"
-                                                                            id="weapon-type-select"></select>
-                                            <span id="A_SobWeaponName" data-left-hand="true"> Left Hand: <select
-                                                    name="A_Weapon2Type" id="weapon2-type-select"> <option value="0">Unarmed (or Shield)</option><option
-                                                    value="1">Dagger</option><option value="2">One-Hand Sword</option><option
-                                                    value="6">One-Hand Axe</option></select></span>
-                                            <select name="A_Arrow" style="visibility:hidden">
-                                                <option value="0">-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br>
-
-                                <table style="border: 1px solid #999; border-collapse: collapse;">
-                                    <tr>
-                                        <td colspan="8" class="subheader">
-                                            <div style="float: left;"><span id="nm028"></span></div>
-                                            <div style="clear: left;"></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="calc"><span id="nm029"></span><select name="A_weapon1"
-                                                                                         id="weapon-select"></select>
-                                        </td>
-                                        <td class="calc"><span id="A_seirenchi_name"></span><select
-                                                name="A_Weapon_ATKplus" style="visibility:hidden">
-                                            <option value="0">0
-                                            <option value="1">1
-                                            <option value="2">2
-                                            <option value="3">3
-                                            <option value="4">4
-                                            <option value="5">5
-                                            <option value="6">6
-                                            <option value="7">7
-                                            <option value="8">8
-                                            <option value="9">9
-                                            <option value="10">10
-                                        </select></td>
-                                        <td class="calc"><span id="nm030"></span><select
-                                                name="A_Weapon_element"></select></td>
-                                        <td class="calc"><select name="A_cardshort"
-                                                                 id="card-shortcut-select"></select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="calc"><span id="nm031"></span>Slot 1&nbsp;<select
-                                                name="A_weapon1_card1"
-                                                id="weapon1-card-1-select">
-                                        </select></td>
-                                        <td class="calc">Slot 2&nbsp;<select name="A_weapon1_card2"
-                                                                             id="weapon1-card-2-select">
-                                        </select></td>
-                                        <td class="calc">Slot 3&nbsp;<select name="A_weapon1_card3"
-                                                                             id="weapon1-card-3-select">
-                                        </select></td>
-                                        <td class="calc">Slot 4&nbsp;<select name="A_weapon1_card4"
-                                                                             id="weapon1-card-4-select">
-                                        </select></td>
-                                    </tr>
-                                    <tr data-left-hand="true">
-                                        <td class="calc"><span id="spanA_weapon2">Left hand <select name="A_weapon2"
-                                                                                                    id="weapon2-select"></select></span>
-                                        </td>
-                                        <td class="calc"><span id="spanA_weapon2seiren">Refine (left) <select
-                                                name="A_Weapon2_ATKplus"></select></span></td>
-                                        <td class="calc"></td>
-                                        <td class="calc"><select name="A_cardshortLeft"
-                                                                 id="left-hand-card-shortcut-select"></select>
-                                        </td>
-                                    </tr>
-                                    <tr data-left-hand="true">
-                                        <td class="calc">left hand card: Slot 1&nbsp;<select name="A_weapon2_card1"
-                                                                                             id="weapon2-card-1-select">
-                                        </select></td>
-                                        <td class="calc">Slot 2&nbsp;<select name="A_weapon2_card2"
-                                                                             id="weapon2-card-2-select">
-                                        </select></td>
-                                        <td class="calc">Slot 3&nbsp;<select name="A_weapon2_card3"
-                                                                             id="weapon2-card-3-select">
-                                        </select></td>
-                                        <td class="calc">Slot 4&nbsp;<select name="A_weapon2_card4"
-                                                                             id="weapon2-card-4-select">
-                                        </select></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="calc">
-                                            <select name="A_HEAD_DEF_PLUS">
-                                                <option value="0">+0
-                                                <option value="1">+1
-                                                <option value="2">+2
-                                                <option value="3">+3
-                                                <option value="4">+4
-                                                <option value="5">+5
-                                                <option value="6">+6
-                                                <option value="7">+7
-                                                <option value="8">+8
-                                                <option value="9">+9
-                                                <option value="10">+10
-                                            </select>
-                                            <select name="A_head1" id="headgear-select">
-                                            </select>
-                                        </td>
-                                        <td class="calc"><select name="A_head1_card"
-                                                                 id="headgear-card-select">
-                                        </select></td>
-                                        <td class="calc"></td>
-                                        <td class="calc"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="calc">
-                                            <select name="A_BODY_DEF_PLUS">
-                                                <option value="0">+0
-                                                <option value="1">+1
-                                                <option value="2">+2
-                                                <option value="3">+3
-                                                <option value="4">+4
-                                                <option value="5">+5
-                                                <option value="6">+6
-                                                <option value="7">+7
-                                                <option value="8">+8
-                                                <option value="9">+9
-                                                <option value="10">+10
-                                            </select>
-                                            <select name="A_body" id="body-select">
-                                            </select>
-                                        </td>
-                                        <td class="calc"><select name="A_body_card"
-                                                                 id="body-card-select">
-                                        </select>
-                                        </td>
-                                        <td class="calc">
-                                            <select name="A_head2"
-                                                    id="headgear2-select">
-                                            </select>
-                                        </td>
-                                        <td class="calc"><select name="A_head2_card"
-                                                                 id="headgear2-card-select">
-                                        </select></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="calc">
-                                            <select name="A_LEFT_DEF_PLUS">
-                                                <option value="0">+0
-                                                <option value="1">+1
-                                                <option value="2">+2
-                                                <option value="3">+3
-                                                <option value="4">+4
-                                                <option value="5">+5
-                                                <option value="6">+6
-                                                <option value="7">+7
-                                                <option value="8">+8
-                                                <option value="9">+9
-                                                <option value="10">+10
-                                            </select>
-                                            <select name="A_left"
-                                                    id="shield-select">
-                                            </select>
-                                        </td>
-                                        <td class="calc"><select name="A_left_card"
-                                                                 id="shield-card-select">
-                                        </select>
-                                        </td>
-                                        <td class="calc">
-                                            <select name="A_head3"
-                                                    id="headgear3-select">
-                                            </select></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="calc">
-                                            <select name="A_SHOULDER_DEF_PLUS">
-                                                <option value="0">+0
-                                                <option value="1">+1
-                                                <option value="2">+2
-                                                <option value="3">+3
-                                                <option value="4">+4
-                                                <option value="5">+5
-                                                <option value="6">+6
-                                                <option value="7">+7
-                                                <option value="8">+8
-                                                <option value="9">+9
-                                                <option value="10">+10
-                                            </select>
-                                            <select name="A_shoulder"
-                                                    id="shoulder-select">
-                                            </select>
-                                        </td>
-                                        <td class="calc"><select name="A_shoulder_card"
-                                                                 id="shoulder-card-select">
-                                        </select>
-                                        </td>
-                                        <td class="calc"><select name="A_acces1"
-                                                                 id="accessory1-select">
-                                        </select>
-                                        </td>
-                                        <td class="calc"><select name="A_acces1_card"
-                                                                 id="accessory1-card-select">
-                                        </select></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="calc">
-                                            <select name="A_SHOES_DEF_PLUS">
-                                                <option value="0">+0
-                                                <option value="1">+1
-                                                <option value="2">+2
-                                                <option value="3">+3
-                                                <option value="4">+4
-                                                <option value="5">+5
-                                                <option value="6">+6
-                                                <option value="7">+7
-                                                <option value="8">+8
-                                                <option value="9">+9
-                                                <option value="10">+10
-                                            </select>
-                                            <select name="A_shoes" id="shoes-select">
-                                            </select>
-                                        </td>
-                                        <td class="calc"><select name="A_shoes_card"
-                                                                 id="shoes-card-select">
-                                        </select></td>
-                                        <td class="calc"><select name="A_acces2" id="accessory2-select">
-                                        </select>
-                                        </td>
-                                        <td class="calc"><select name="A_acces2_card"
-                                                                 id="accessory2-card-select">
-                                        </select></td>
-                                    </tr>
-                                </table>
-                                <br>
-
-                                <table style="border: 1px solid #999; border-collapse: collapse; width: 60%;">
-                                    <tr>
-                                        <td colspan="10" class="subheader">
-                                            <div style="float: left;"><span id="nm080"></span></div>
-                                            <div style="float: right; padding-right: 3px;"><input type="checkbox"
-                                                                                                  id="item-sw-checkbox"
-                                                                                                  name="ITEM_SW"><span
-                                                    id="nm081"></span></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="13%" bgcolor="#DDDDFF" id="ITEM0" class="calc"></td>
-                                        <td width="7%" id="ITEM_DATA" class="calc"></td>
-                                        <td width="13%" bgcolor="#DDDDFF" id="ITEM1" class="calc"></td>
-                                        <td width="7%" id="ITEM_SLOT" class="calc"></td>
-                                        <td width="13%" bgcolor="#DDDDFF" id="ITEM2" class="calc"></td>
-                                        <td width="7%" id="ITEM_W_LV" class="calc"></td>
-                                        <td width="13%" bgcolor="#DDDDFF" id="ITEM3" class="calc"></td>
-                                        <td width="7%" id="ITEM_LV" class="calc"></td>
-                                        <td width="13%" bgcolor="#DDDDFF" id="ITEM4" class="calc"></td>
-                                        <td width="7%" id="ITEM_WAIT" class="calc"></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="10" id="B_SETUMEI" class="calc">
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br>
-                                <table>
-                                    <tr>
-                                        <td style="width: 50%;" valign="top">
-
-                                            <table style="border: 1px solid #999; border-collapse: collapse;">
-                                                <tbody>
-                                                <tr>
-                                                    <td colspan="4" class="subheader">
-                                                        <div style="float: left;"><span id="nm033">Passive / Durration Skills</span>
-                                                        </div>
-                                                        <div style="clear: left;"></div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="P_Skill0"></td>
-                                                    <td id="P_Skill0s"><select name="A_PASSIVE_SKILL0"></select></td>
-                                                    <td id="P_Skill1"></td>
-                                                    <td id="P_Skill1s"><select name="A_PASSIVE_SKILL1"></select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="P_Skill2"></td>
-                                                    <td id="P_Skill2s"><select name="A_PASSIVE_SKILL2"></select></td>
-                                                    <td id="P_Skill3"></td>
-                                                    <td id="P_Skill3s"><select name="A_PASSIVE_SKILL3"></select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="P_Skill4"></td>
-                                                    <td id="P_Skill4s"><select name="A_PASSIVE_SKILL4"></select></td>
-                                                    <td id="P_Skill5"></td>
-                                                    <td id="P_Skill5s"><select name="A_PASSIVE_SKILL5"></select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="P_Skill6"></td>
-                                                    <td id="P_Skill6s"><select name="A_PASSIVE_SKILL6"></select></td>
-                                                    <td id="P_Skill7"></td>
-                                                    <td id="P_Skill7s"><select name="A_PASSIVE_SKILL7"></select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="P_Skill8"></td>
-                                                    <td id="P_Skill8s"><select name="A_PASSIVE_SKILL8"></select></td>
-                                                    <td id="P_Skill9"></td>
-                                                    <td id="P_Skill9s"><select name="A_PASSIVE_SKILL9"></select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="P_Skill10"></td>
-                                                    <td id="P_Skill10s"><select name="A_PASSIVE_SKILL10"></select></td>
-                                                    <td id="P_Skill11"></td>
-                                                    <td id="P_Skill11s"><select name="A_PASSIVE_SKILL11"></select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="P_Skill12"></td>
-                                                    <td id="P_Skill12s"><select name="A_PASSIVE_SKILL12"></select></td>
-                                                    <td id="P_Skill13"></td>
-                                                    <td id="P_Skill13s"><select name="A_PASSIVE_SKILL13"></select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="P_Skill14"></td>
-                                                    <td id="P_Skill14s"><select name="A_PASSIVE_SKILL14"></select></td>
-                                                    <td id="P_Skill15"></td>
-                                                    <td id="P_Skill15s"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </td>
-                                        <td style="width: 50%;" valign="top">
-
-                                            <table style="border: 1px solid #999; border-collapse: collapse;">
-                                                <tbody>
-                                                <tr>
-                                                    <td colspan="4" class="subheader">
-                                                        <div style="float: left;"><span id="nm034">Supportive / Party Skills</span>
-                                                        </div>
-                                                        <div style="clear: both;"></div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="AS0_1">Blessing</td>
-                                                    <td id="AS0_2"><select name="A_SUPPORTIVE_SKILL0" let {n_A_JOB,
-                                                                           isRebirth}=n_A_JobSet()>
-                                                        <option value="0">0</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8">8</option>
-                                                        <option value="9">9</option>
-                                                        <option value="10">10</option>
-                                                    </select></td>
-                                                    <td id="AS1_1">Increase Agi</td>
-                                                    <td id="AS1_2"><select name="A_SUPPORTIVE_SKILL1" let {n_A_JOB,
-                                                                           isRebirth}=n_A_JobSet()>
-                                                        <option value="0">0</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8">8</option>
-                                                        <option value="9">9</option>
-                                                        <option value="10">10</option>
-                                                    </select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="AS2_1">Impositio Manus</td>
-                                                    <td id="AS2_2"><select name="A_SUPPORTIVE_SKILL2" let {n_A_JOB,
-                                                                           isRebirth}=n_A_JobSet()>
-                                                        <option value="0">0</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                    </select></td>
-                                                    <td id="AS3_1">Gloria</td>
-                                                    <td id="AS3_2"><input type="checkbox" name="A_SUPPORTIVE_SKILL3">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="AS4_1">Angelus</td>
-                                                    <td id="AS4_2"><select name="A_SUPPORTIVE_SKILL4" let {n_A_JOB,
-                                                                           isRebirth}=n_A_JobSet()>
-                                                        <option value="0">0</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8">8</option>
-                                                        <option value="9">9</option>
-                                                        <option value="10">10</option>
-                                                    </select></td>
-                                                    <td id="AS5_1">Assumptio</td>
-                                                    <td id="AS5_2"><input type="checkbox" name="A_SUPPORTIVE_SKILL5">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="AS6_1">Andrenaline Rush</td>
-                                                    <td id="AS6_2"><select name="A_SUPPORTIVE_SKILL6" let {n_A_JOB,
-                                                                           isRebirth}=n_A_JobSet()>
-                                                        <option value="0">None</option>
-                                                        <option value="1">Regular AR</option>
-                                                        <option value="2">Full AR</option>
-                                                        <option value="3">Scroll</option>
-                                                    </select></td>
-                                                    <td id="AS7_1">Weapon Perfection</td>
-                                                    <td id="AS7_2"><input type="checkbox" name="A_SUPPORTIVE_SKILL7">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="AS8_1">Power Thrust</td>
-                                                    <td id="AS8_2"><select name="A_SUPPORTIVE_SKILL8" let {n_A_JOB,
-                                                                           isRebirth}=n_A_JobSet()>
-                                                        <option value="0">0</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                    </select></td>
-                                                    <td id="AS9_1">Wind Walker</td>
-                                                    <td id="AS9_2"><select name="A_SUPPORTIVE_SKILL9" let {n_A_JOB,
-                                                                           isRebirth}=n_A_JobSet()>
-                                                        <option value="0">0</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                        <option value="6">6</option>
-                                                        <option value="7">7</option>
-                                                        <option value="8">8</option>
-                                                        <option value="9">9</option>
-                                                        <option value="10">10</option>
-                                                    </select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="AS10_1">Spirit Spheres (GG Card)</td>
-                                                    <td id="AS10_2"><select name="A_SUPPORTIVE_SKILL10" let {n_A_JOB,
-                                                                            isRebirth}=n_A_JobSet()>
-                                                        <option value="0">0</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                    </select></td>
-                                                    <td id="AS11_1">Magnum Break Bonus</td>
-                                                    <td id="AS11_2"><input type="checkbox" name="A_SUPPORTIVE_SKILL11">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="AS12_1">Aloevera</td>
-                                                    <td id="AS12_2"><input type="checkbox" name="A_SUPPORTIVE_SKILL12">
-                                                    </td>
-                                                    <td id="AS13_1"><font size="2">Suffragium</font></td>
-                                                    <td id="AS13_2"><select name="A_SUPPORTIVE_SKILL13" let {n_A_JOB,
-                                                                            isRebirth}=n_A_JobSet()>
-                                                        <option value="0">0</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                    </select></td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="AS14_1"><font size="2">Resistant Souls</font></td>
-                                                    <td id="AS14_2"><select name="A_SUPPORTIVE_SKILL14" let {n_A_JOB,
-                                                                            isRebirth}=n_A_JobSet()>
-                                                        <option value="0">0</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
-                                                    </select></td>
-                                                    <td colspan="2" id="AS15_1"><font size="2">Additional Buffs Found
-                                                        Below</font></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-
+                                            <span id="A_KakutyouSel"></span>
+                                            <span id="A_KakutyouData"></span>
                                         </td>
                                     </tr>
                                 </table>
@@ -667,6 +151,537 @@
                             </td>
                         </tr>
                     </table>
+                    <br>
+
+                    <table style="border: 1px solid #999; border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td colspan="6" class="subheader">
+                                <div style="float: left;">Weapon Settings</div>
+                                <div style="clear: left;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">
+                                <span id="nm026"></span><select name="A_SpeedPOT">
+                                <option value="0">-</option>
+                                <option value="10">Concentration Potion</option>
+                                <option value="15">Awakening Potion</option>
+                                <option value="20">Berserk Potion</option>
+                            </select></td>
+                            <td colspan="2">&nbsp;
+                                <span id="nm027"></span><select name="A_WeaponType"
+                                                                id="weapon-type-select"></select>
+                                <span id="A_SobWeaponName" data-left-hand="true"> Left Hand: <select
+                                        name="A_Weapon2Type" id="weapon2-type-select"> <option value="0">Unarmed (or Shield)</option><option
+                                        value="1">Dagger</option><option value="2">One-Hand Sword</option><option
+                                        value="6">One-Hand Axe</option></select></span>
+                                <select name="A_Arrow" style="visibility:hidden">
+                                    <option value="0">-
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+
+                    <table style="border: 1px solid #999; border-collapse: collapse;">
+                        <tr>
+                            <td colspan="8" class="subheader">
+                                <div style="float: left;"><span id="nm028"></span></div>
+                                <div style="clear: left;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="calc"><span id="nm029"></span><select name="A_weapon1"
+                                                                             id="weapon-select"></select>
+                            </td>
+                            <td class="calc"><span id="A_seirenchi_name"></span><select
+                                    name="A_Weapon_ATKplus" style="visibility:hidden">
+                                <option value="0">0
+                                <option value="1">1
+                                <option value="2">2
+                                <option value="3">3
+                                <option value="4">4
+                                <option value="5">5
+                                <option value="6">6
+                                <option value="7">7
+                                <option value="8">8
+                                <option value="9">9
+                                <option value="10">10
+                            </select></td>
+                            <td class="calc"><span id="nm030"></span><select
+                                    name="A_Weapon_element"></select></td>
+                            <td class="calc"><select name="A_cardshort"
+                                                     id="card-shortcut-select"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="calc"><span id="nm031"></span>Slot 1&nbsp;<select
+                                    name="A_weapon1_card1"
+                                    id="weapon1-card-1-select">
+                            </select></td>
+                            <td class="calc">Slot 2&nbsp;<select name="A_weapon1_card2"
+                                                                 id="weapon1-card-2-select">
+                            </select></td>
+                            <td class="calc">Slot 3&nbsp;<select name="A_weapon1_card3"
+                                                                 id="weapon1-card-3-select">
+                            </select></td>
+                            <td class="calc">Slot 4&nbsp;<select name="A_weapon1_card4"
+                                                                 id="weapon1-card-4-select">
+                            </select></td>
+                        </tr>
+                        <tr data-left-hand="true">
+                            <td class="calc"><span id="spanA_weapon2">Left hand <select name="A_weapon2"
+                                                                                        id="weapon2-select"></select></span>
+                            </td>
+                            <td class="calc"><span id="spanA_weapon2seiren">Refine (left) <select
+                                    name="A_Weapon2_ATKplus"></select></span></td>
+                            <td class="calc"></td>
+                            <td class="calc"><select name="A_cardshortLeft"
+                                                     id="left-hand-card-shortcut-select"></select>
+                            </td>
+                        </tr>
+                        <tr data-left-hand="true">
+                            <td class="calc">left hand card: Slot 1&nbsp;<select name="A_weapon2_card1"
+                                                                                 id="weapon2-card-1-select">
+                            </select></td>
+                            <td class="calc">Slot 2&nbsp;<select name="A_weapon2_card2"
+                                                                 id="weapon2-card-2-select">
+                            </select></td>
+                            <td class="calc">Slot 3&nbsp;<select name="A_weapon2_card3"
+                                                                 id="weapon2-card-3-select">
+                            </select></td>
+                            <td class="calc">Slot 4&nbsp;<select name="A_weapon2_card4"
+                                                                 id="weapon2-card-4-select">
+                            </select></td>
+                        </tr>
+
+                        <tr>
+                            <td class="calc">
+                                <select name="A_HEAD_DEF_PLUS">
+                                    <option value="0">+0
+                                    <option value="1">+1
+                                    <option value="2">+2
+                                    <option value="3">+3
+                                    <option value="4">+4
+                                    <option value="5">+5
+                                    <option value="6">+6
+                                    <option value="7">+7
+                                    <option value="8">+8
+                                    <option value="9">+9
+                                    <option value="10">+10
+                                </select>
+                                <select name="A_head1" id="headgear-select">
+                                </select>
+                            </td>
+                            <td class="calc"><select name="A_head1_card"
+                                                     id="headgear-card-select">
+                            </select></td>
+                            <td class="calc"></td>
+                            <td class="calc"></td>
+                        </tr>
+                        <tr>
+                            <td class="calc">
+                                <select name="A_BODY_DEF_PLUS">
+                                    <option value="0">+0
+                                    <option value="1">+1
+                                    <option value="2">+2
+                                    <option value="3">+3
+                                    <option value="4">+4
+                                    <option value="5">+5
+                                    <option value="6">+6
+                                    <option value="7">+7
+                                    <option value="8">+8
+                                    <option value="9">+9
+                                    <option value="10">+10
+                                </select>
+                                <select name="A_body" id="body-select">
+                                </select>
+                            </td>
+                            <td class="calc"><select name="A_body_card"
+                                                     id="body-card-select">
+                            </select>
+                            </td>
+                            <td class="calc">
+                                <select name="A_head2"
+                                        id="headgear2-select">
+                                </select>
+                            </td>
+                            <td class="calc"><select name="A_head2_card"
+                                                     id="headgear2-card-select">
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td class="calc">
+                                <select name="A_LEFT_DEF_PLUS">
+                                    <option value="0">+0
+                                    <option value="1">+1
+                                    <option value="2">+2
+                                    <option value="3">+3
+                                    <option value="4">+4
+                                    <option value="5">+5
+                                    <option value="6">+6
+                                    <option value="7">+7
+                                    <option value="8">+8
+                                    <option value="9">+9
+                                    <option value="10">+10
+                                </select>
+                                <select name="A_left"
+                                        id="shield-select">
+                                </select>
+                            </td>
+                            <td class="calc"><select name="A_left_card"
+                                                     id="shield-card-select">
+                            </select>
+                            </td>
+                            <td class="calc">
+                                <select name="A_head3"
+                                        id="headgear3-select">
+                                </select></td>
+                        </tr>
+                        <tr>
+                            <td class="calc">
+                                <select name="A_SHOULDER_DEF_PLUS">
+                                    <option value="0">+0
+                                    <option value="1">+1
+                                    <option value="2">+2
+                                    <option value="3">+3
+                                    <option value="4">+4
+                                    <option value="5">+5
+                                    <option value="6">+6
+                                    <option value="7">+7
+                                    <option value="8">+8
+                                    <option value="9">+9
+                                    <option value="10">+10
+                                </select>
+                                <select name="A_shoulder"
+                                        id="shoulder-select">
+                                </select>
+                            </td>
+                            <td class="calc"><select name="A_shoulder_card"
+                                                     id="shoulder-card-select">
+                            </select>
+                            </td>
+                            <td class="calc"><select name="A_acces1"
+                                                     id="accessory1-select">
+                            </select>
+                            </td>
+                            <td class="calc"><select name="A_acces1_card"
+                                                     id="accessory1-card-select">
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td class="calc">
+                                <select name="A_SHOES_DEF_PLUS">
+                                    <option value="0">+0
+                                    <option value="1">+1
+                                    <option value="2">+2
+                                    <option value="3">+3
+                                    <option value="4">+4
+                                    <option value="5">+5
+                                    <option value="6">+6
+                                    <option value="7">+7
+                                    <option value="8">+8
+                                    <option value="9">+9
+                                    <option value="10">+10
+                                </select>
+                                <select name="A_shoes" id="shoes-select">
+                                </select>
+                            </td>
+                            <td class="calc"><select name="A_shoes_card"
+                                                     id="shoes-card-select">
+                            </select></td>
+                            <td class="calc"><select name="A_acces2" id="accessory2-select">
+                            </select>
+                            </td>
+                            <td class="calc"><select name="A_acces2_card"
+                                                     id="accessory2-card-select">
+                            </select></td>
+                        </tr>
+                    </table>
+                    <br>
+
+                    <table style="border: 1px solid #999; border-collapse: collapse; width: 60%;">
+                        <tr>
+                            <td colspan="10" class="subheader">
+                                <div style="float: left;"><span id="nm080"></span></div>
+                                <div style="float: right; padding-right: 3px;"><input type="checkbox"
+                                                                                      id="item-sw-checkbox"
+                                                                                      name="ITEM_SW"><span
+                                        id="nm081"></span></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="13%" bgcolor="#DDDDFF" id="ITEM0" class="calc"></td>
+                            <td width="7%" id="ITEM_DATA" class="calc"></td>
+                            <td width="13%" bgcolor="#DDDDFF" id="ITEM1" class="calc"></td>
+                            <td width="7%" id="ITEM_SLOT" class="calc"></td>
+                            <td width="13%" bgcolor="#DDDDFF" id="ITEM2" class="calc"></td>
+                            <td width="7%" id="ITEM_W_LV" class="calc"></td>
+                            <td width="13%" bgcolor="#DDDDFF" id="ITEM3" class="calc"></td>
+                            <td width="7%" id="ITEM_LV" class="calc"></td>
+                            <td width="13%" bgcolor="#DDDDFF" id="ITEM4" class="calc"></td>
+                            <td width="7%" id="ITEM_WAIT" class="calc"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="10" id="B_SETUMEI" class="calc">
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+
+                    <div class="passive-support-skills-grid">
+                        <div class="container">
+                            <h2 class="subheader container-header">
+                                <span id="nm033">Passive / Durration Skills</span>
+                            </h2>
+                            <div class="container-content passive-skills-container">
+                                <div>
+                                    <span id="P_Skill0"></span>
+                                    <span id="P_Skill0s"><select name="A_PASSIVE_SKILL0"></select></span>
+                                </div>
+                                <div>
+                                    <span id="P_Skill1"></span>
+                                    <span id="P_Skill1s"><select name="A_PASSIVE_SKILL1"></select></span>
+                                </div>
+                                <div>
+
+                                    <span id="P_Skill2"></span>
+                                    <span id="P_Skill2s"><select name="A_PASSIVE_SKILL2"></select></span>
+                                </div>
+                                <div>
+                                    <span id="P_Skill3"></span>
+                                    <span id="P_Skill3s"><select name="A_PASSIVE_SKILL3"></select></span>
+                                </div>
+                                <div>
+
+                                    <span id="P_Skill4"></span>
+                                    <span id="P_Skill4s"><select name="A_PASSIVE_SKILL4"></select></span>
+                                </div>
+                                <div>
+                                    <span id="P_Skill5"></span>
+                                    <span id="P_Skill5s"><select name="A_PASSIVE_SKILL5"></select></span>
+                                </div>
+                                <div>
+
+                                    <span id="P_Skill6"></span>
+                                    <span id="P_Skill6s"><select name="A_PASSIVE_SKILL6"></select></span>
+                                </div>
+                                <div>
+                                    <span id="P_Skill7"></span>
+                                    <span id="P_Skill7s"><select name="A_PASSIVE_SKILL7"></select></span>
+                                </div>
+                                <div>
+
+                                    <span id="P_Skill8"></span>
+                                    <span id="P_Skill8s"><select name="A_PASSIVE_SKILL8"></select></span>
+                                </div>
+                                <div>
+                                    <span id="P_Skill9"></span>
+                                    <span id="P_Skill9s"><select name="A_PASSIVE_SKILL9"></select></span>
+                                </div>
+                                <div>
+
+                                    <span id="P_Skill10"></span>
+                                    <span id="P_Skill10s"><select name="A_PASSIVE_SKILL10"></select></span>
+                                </div>
+                                <div>
+                                    <span id="P_Skill11"></span>
+                                    <span id="P_Skill11s"><select name="A_PASSIVE_SKILL11"></select></span>
+                                </div>
+                                <div>
+
+                                    <span id="P_Skill12"></span>
+                                    <span id="P_Skill12s"><select name="A_PASSIVE_SKILL12"></select></span>
+                                </div>
+                                <div>
+                                    <span id="P_Skill13"></span>
+                                    <span id="P_Skill13s"><select name="A_PASSIVE_SKILL13"></select></span>
+                                </div>
+                                <div>
+
+                                    <span id="P_Skill14"></span>
+                                    <span id="P_Skill14s"><select name="A_PASSIVE_SKILL14"></select></span>
+                                </div>
+                                <div>
+                                    <span id="P_Skill15"></span>
+                                    <span id="P_Skill15s"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <h2 class="subheader container-header">
+                                <span id="nm034">Supportive / Party Skills</span>
+                            </h2>
+                            <div class="container-content support-skills-container">
+                                <div>
+                                    <span id="AS0_1">Blessing</span>
+                                    <span id="AS0_2"><select name="A_SUPPORTIVE_SKILL0" let {n_A_JOB,
+                                                             isRebirth}=n_A_JobSet()>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select></span>
+                                </div>
+                                <div>
+                                    <span id="AS1_1">Increase Agi</span>
+                                    <span id="AS1_2"><select name="A_SUPPORTIVE_SKILL1" let {n_A_JOB,
+                                                             isRebirth}=n_A_JobSet()>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select></span>
+                                </div>
+                                <div>
+                                    <span id="AS2_1">Impositio Manus</span>
+                                    <span id="AS2_2"><select name="A_SUPPORTIVE_SKILL2" let {n_A_JOB,
+                                                             isRebirth}=n_A_JobSet()>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select></span>
+                                </div>
+                                <div>
+                                    <span id="AS3_1">Gloria</span>
+                                    <span id="AS3_2"><input type="checkbox" name="A_SUPPORTIVE_SKILL3">
+                                                    </span>
+                                </div>
+                                <div>
+                                    <span id="AS4_1">Angelus</span>
+                                    <span id="AS4_2"><select name="A_SUPPORTIVE_SKILL4" let {n_A_JOB,
+                                                             isRebirth}=n_A_JobSet()>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select></span>
+                                </div>
+                                <div>
+                                    <span id="AS5_1">Assumptio</span>
+                                    <span id="AS5_2"><input type="checkbox" name="A_SUPPORTIVE_SKILL5">
+                                                    </span>
+                                </div>
+                                <div>
+                                    <span id="AS6_1">Andrenaline Rush</span>
+                                    <span id="AS6_2"><select name="A_SUPPORTIVE_SKILL6" let {n_A_JOB,
+                                                             isRebirth}=n_A_JobSet()>
+                                                        <option value="0">None</option>
+                                                        <option value="1">Regular AR</option>
+                                                        <option value="2">Full AR</option>
+                                                        <option value="3">Scroll</option>
+                                                    </select></span>
+                                </div>
+                                <div>
+                                    <span id="AS7_1">Weapon Perfection</span>
+                                    <span id="AS7_2"><input type="checkbox" name="A_SUPPORTIVE_SKILL7">
+                                                    </span>
+                                </div>
+                                <div>
+                                    <span id="AS8_1">Power Thrust</span>
+                                    <span id="AS8_2"><select name="A_SUPPORTIVE_SKILL8" let {n_A_JOB,
+                                                             isRebirth}=n_A_JobSet()>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select></span>
+                                </div>
+                                <div>
+                                    <span id="AS9_1">Wind Walker</span>
+                                    <span id="AS9_2"><select name="A_SUPPORTIVE_SKILL9" let {n_A_JOB,
+                                                             isRebirth}=n_A_JobSet()>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select></span>
+                                </div>
+                                <div>
+                                    <span id="AS10_1">Spirit Spheres (GG Card)</span>
+                                    <span id="AS10_2"><select name="A_SUPPORTIVE_SKILL10" let {n_A_JOB,
+                                                              isRebirth}=n_A_JobSet()>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select></span>
+                                </div>
+                                <div>
+                                    <span id="AS11_1">Magnum Break Bonus</span>
+                                    <span id="AS11_2"><input type="checkbox" name="A_SUPPORTIVE_SKILL11">
+                                                    </span>
+                                </div>
+                                <div>
+                                    <span id="AS12_1">Aloevera</span>
+                                    <span id="AS12_2"><input type="checkbox" name="A_SUPPORTIVE_SKILL12">
+                                                    </span>
+                                </div>
+                                <div>
+                                    <span id="AS13_1"><font size="2">Suffragium</font></span>
+                                    <span id="AS13_2"><select name="A_SUPPORTIVE_SKILL13" let {n_A_JOB,
+                                                              isRebirth}=n_A_JobSet()>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                    </select></span>
+                                </div>
+                                <div>
+                                    <span id="AS14_1"><font size="2">Resistant Souls</font></span>
+                                    <span id="AS14_2"><select name="A_SUPPORTIVE_SKILL14" let {n_A_JOB,
+                                                              isRebirth}=n_A_JobSet()>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select></span>
+                                </div>
+                                <div>
+                                            <span colspan="2" id="AS15_1"><font size="2">Additional Buffs Found
+                                                        Below</font></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="topic">
@@ -1322,11 +1337,6 @@
                         <option value="40">0.4s</option>
                         <option value="50">0.5s (2 per second)</option>
                     </select>
-                    <input type="button" value="Set" onclick="SaveCookieConf()"> <span id="set"></span>
-
-                    <font size="1" color="#AAAAFF">(1.4ver)</font>
-                    <span id="PR1"></span>
-
                 </div>
             </div>
             <div class="calculation-results topic">
@@ -1335,9 +1345,9 @@
                         <input type="button" value="Calculate" id="btn-calculate">
                     </div>
                 </h3>
-                <div class="result-subpanel">
+                <div class="result-subpanel container">
                     <h2 class="subheader">Stats</h2>
-                    <div class="stats">
+                    <div class="stats container-content">
                         <div class="stat"><span class="title">STR</span><span class="stat1" id="A_STR"></span><span
                                 class="stat-sep"></span><span class="stat2" id="A_STRp"></span></div>
                         <div class="stat"><span class="title">INT</span><span class="stat1" id="A_INT"></span><span
@@ -1380,57 +1390,65 @@
                     </div>
                 </div>
 
-                <h2 class="subheader">Intermediate calculation</h2>
-                <div class="intermediate-results">
-                    <div id="BaseAttackCalcName" class="title">Base atk</div>
-                    <div id="BaseAttackCalc"></div>
-                    <div id="MinWeaponAttackCalcName" class="title">Weapon attack min</div>
-                    <div id="MinWeaponAttackCalc"></div>
-                    <div id="AvgWeaponAttackCalcName" class="title">Weapon attack avg</div>
-                    <div id="AvgWeaponAttackCalc"></div>
-                    <div id="MaxWeaponAttackCalcName" class="title">Weapon attack max</div>
-                    <div id="MaxWeaponAttackCalc"></div>
+                <div class="container">
+                    <h2 class="subheader">Intermediate calculation</h2>
+                    <div class="intermediate-results container-content">
+                        <div id="BaseAttackCalcName" class="title">Base atk</div>
+                        <div id="BaseAttackCalc"></div>
+                        <div id="MinWeaponAttackCalcName" class="title">Weapon attack min</div>
+                        <div id="MinWeaponAttackCalc"></div>
+                        <div id="AvgWeaponAttackCalcName" class="title">Weapon attack avg</div>
+                        <div id="AvgWeaponAttackCalc"></div>
+                        <div id="MaxWeaponAttackCalcName" class="title">Weapon attack max</div>
+                        <div id="MaxWeaponAttackCalc"></div>
+                    </div>
                 </div>
 
-                <h2 class="subheader" id="nm052"></h2>
-                <div class="combat-result">
-                    <div class="title" id="nm053"></div>
-                    <div><span id="BattleHIT"></span><span id="nm067"></span></div>
-                    <div class="title" id="nm054"></div>
-                    <div><span id="BattleFLEE"></span><span id="nm068"></span></div>
-                    <div class="title" id="CRIATKname">Critical Damage</div>
-                    <div id="CRIATK"></div>
-                    <div class="title" id="CRInumname">Critical Rate</div>
-                    <div id="CRInum"></div>
-                    <div class="title" id="bSUBname"></div>
-                    <div id="bSUB"></div>
-                    <div class="title" id="bSUB2name"></div>
-                    <div id="bSUB2"></div>
-                    <div class="title" id="nm055"></div>
-                    <div id="ATK_00"></div>
-                    <div class="title" id="nm056"></div>
-                    <div id="ATK_01"></div>
-                    <div class="title" id="nm057"></div>
-                    <div id="ATK_02"></div>
-                    <div class="title" id="nm058"></div>
-                    <div id="DPS"></div>
-                    <div class="title" id="nm059"></div>
-                    <div id="MinATKnum"></div>
-                    <div class="title" id="nm060"></div>
-                    <div id="AveATKnum"></div>
-                    <div class="title" id="nm061"></div>
-                    <div id="MaxATKnum"></div>
-                    <div class="title" id="nm062"></div>
-                    <div id="BattleTime"></div>
-                    <div class="title" id="nm063"></div>
-                    <div id="AtkBaseExp"></div>
-                    <div class="title" id="nm064"></div>
-                    <div id="AtkJobExp"></div>
-                    <div class="title" id="nm065"></div>
-                    <div id="AverageReceivedDamage"></div>
-                    <div class="title" id="nm066"></div>
-                    <div id="AverageReceivedDamageIncludingDodge"></div>
+                <div class="container">
+                    <h2 class="subheader" id="nm052"></h2>
+                    <div class="combat-result container-content">
+                        <div class="title" id="nm053"></div>
+                        <div><span id="BattleHIT"></span><span id="nm067"></span></div>
+                        <div class="title" id="nm054"></div>
+                        <div><span id="BattleFLEE"></span><span id="nm068"></span></div>
+                        <div class="title" id="CRIATKname">Critical Damage</div>
+                        <div id="CRIATK"></div>
+                        <div class="title" id="CRInumname">Critical Rate</div>
+                        <div id="CRInum"></div>
+                        <div class="title" id="bSUBname"></div>
+                        <div id="bSUB"></div>
+                        <div class="title" id="bSUB2name"></div>
+                        <div id="bSUB2"></div>
+                        <div class="title" id="nm055"></div>
+                        <div id="ATK_00"></div>
+                        <div class="title" id="nm056"></div>
+                        <div id="ATK_01"></div>
+                        <div class="title" id="nm057"></div>
+                        <div id="ATK_02"></div>
+                        <div class="title" id="nm058"></div>
+                        <div id="DPS"></div>
+                        <div class="title" id="nm059"></div>
+                        <div id="MinATKnum"></div>
+                        <div class="title" id="nm060"></div>
+                        <div id="AveATKnum"></div>
+                        <div class="title" id="nm061"></div>
+                        <div id="MaxATKnum"></div>
+                        <div class="title" id="nm062"></div>
+                        <div id="BattleTime"></div>
+                        <div class="title" id="nm063"></div>
+                        <div id="AtkBaseExp"></div>
+                        <div class="title" id="nm064"></div>
+                        <div id="AtkJobExp"></div>
+                        <div class="title" id="nm065"></div>
+                        <div id="AverageReceivedDamage"></div>
+                        <div class="title" id="nm066"></div>
+                        <div id="AverageReceivedDamageIncludingDodge"></div>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
 
 </form>

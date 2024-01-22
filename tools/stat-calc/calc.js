@@ -358,7 +358,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     }
     if (stats.performanceSkills[3]) {
         stats.performanceSkills[23] = eval(FORM_DATA.A_PERFORMANCE_BARD_VIT);
-        stats.performanceSkills[33] = eval(FORM_DATA.PERFORMANCE_SKILL_SONG_OF_LUTIE3_3);
+        stats.performanceSkills[33] = eval(FORM_DATA.PERFORMANCE_SKILL_SONG_OF_LUTIE3_2);
     }
     if (stats.performanceSkills[4]) {
         stats.performanceSkills[24] = eval(FORM_DATA.A_PERFORMANCE_BARD_DEX);

@@ -1,6 +1,6 @@
 
 body {
-    font-family: Tahoma, Verdana, Arial, "sans-serif";
+    font-family: Arial, "sans-serif";
     font-size: 12px;
     margin: 7px;
     padding: 0;
@@ -11,7 +11,7 @@ body {
 }
 
 table {
-    font-family: Tahoma, Verdana, Arial, "sans-serif";
+    font-family: Arial, "sans-serif";
     font-size: 12px;
 
     color: #333;
@@ -19,7 +19,7 @@ table {
 }
 
 table.maintb {
-    font-family: Tahoma, Verdana, Arial, "sans-serif";
+    font-family: Arial, "sans-serif";
     font-size: 12px;
 
     background-color: #e1e1e1;
@@ -60,8 +60,6 @@ td.top {
 .topic {
     border: 1px solid #999;
     background-color: #fff;
-    margin-bottom: 1em;
-    margin-right: 7px;
     padding: 5px;
 }
 
@@ -255,7 +253,7 @@ td data {
     display: grid;
     grid-template-columns: 1.5fr 0.5fr;
     grid-template-rows: 1fr;
-    gap: 0px 0px;
+    gap: 0px 5px;
     grid-template-areas:
     ". .";
 }
@@ -264,6 +262,9 @@ td data {
     position: sticky;
     top: 1rem;
     align-self: start;
+}
+.calculation-results .container {
+    margin-bottom: 5px;
 }
 .calculation-results h3 {
     margin: -5px;
@@ -307,12 +308,12 @@ td data {
 
 .container {
     width: 100%;
+    border: solid 1px #999;
 }
 .container-header {
     display: block;
 }
 .container-content{
-    border: solid 1px #999;
     padding: 5px;
 }
 .flex-container-content {
@@ -384,4 +385,62 @@ td data {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-auto-flow: row;
+}
+
+.searchable-select-wrapper {
+    position: relative;
+    height: 30px;
+}
+.searchable-select-wrapper select, .searchable-select-wrapper input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+}
+.searchable-select-wrapper input {
+    z-index: 2;
+}
+.searchable-select-wrapper select {
+    max-height: 200px;
+}
+
+.passive-support-skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: row;
+    gap: 5px 5px;
+}
+
+.passive-skills-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: row;
+    gap: 5px 5px;
+}
+
+.passive-skills-container div span:first-child {
+    display: inline-block;
+    width: 200px;
+}
+
+.support-skills-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: row;
+    gap: 5px 5px;
+
+}
+.support-skills-container div span:first-child {
+    display: inline-block;
+    width: 200px;
+}
+
+.support-skills-container  select {
+    width: 70px;
+}
+.support-skills-container input[type=checkbox] {
+    vertical-align: middle;
+    margin: 0;
+    height: 20px;
 }
