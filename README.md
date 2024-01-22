@@ -134,6 +134,10 @@ Go to */docker* and run:
 ```shell
 docker-compose up -d
 ```
+it doesn't work, try this command:
+```shell
+docker-compose up --build
+```
 
 The first time, along with postgresql `initdb` is run, our custom script `init.sh` will be execute, it will create `ragnarok` database and create `ragnarok` user using `postgres` user. Then it will create ragnarok table using `ragnarok` user.
 
