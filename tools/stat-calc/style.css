@@ -249,6 +249,10 @@ td data {
     background-color: #e4e4e4;
 }
 
+.base-stats input[type=number] {
+    width: 50px;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: 1.5fr 0.5fr;
