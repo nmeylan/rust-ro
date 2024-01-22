@@ -2043,29 +2043,6 @@ function SetEquipName(SENw) {
 }
 
 
-for (i = 1; i <= 99; i++) {
-    document.calcForm.A_BaseLV.options[i - 1] = new Option(i, i);
-}
-
-for (i = 1; i <= 99; i++) {
-    document.calcForm.A_STR.options[i - 1] = new Option(i, i);
-}
-for (i = 1; i <= 99; i++) {
-    document.calcForm.A_AGI.options[i - 1] = new Option(i, i);
-}
-for (i = 1; i <= 99; i++) {
-    document.calcForm.A_VIT.options[i - 1] = new Option(i, i);
-}
-for (i = 1; i <= 99; i++) {
-    document.calcForm.A_INT.options[i - 1] = new Option(i, i);
-}
-for (i = 1; i <= 99; i++) {
-    document.calcForm.A_DEX.options[i - 1] = new Option(i, i);
-}
-for (i = 1; i <= 99; i++) {
-    document.calcForm.A_LUK.options[i - 1] = new Option(i, i);
-}
-
 for (i = 1; i <= 81; i++)
     myInnerHtml("nm0" + i, NameCalc[i - 1], 0);
 
