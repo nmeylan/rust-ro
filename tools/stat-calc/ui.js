@@ -203,6 +203,90 @@ let n_A_card = new Array();
 for (i = 0; i <= 25; i++)
     n_A_card[i] = 0;
 
+function bindSearchable(selectElement) {
+    var wrapperDiv = document.createElement("div");
+    wrapperDiv.classList.add("searchable-select-wrapper");
+    selectElement.parentNode.insertBefore(wrapperDiv, selectElement);
+    wrapperDiv.appendChild(selectElement);
+
+    var inputElement = document.createElement("input");
+    inputElement.type = "text";
+    inputElement.placeholder = "Search...";
+    inputElement.hidden = true;
+    wrapperDiv.insertBefore(inputElement, selectElement);
+    selectElement.addEventListener("focus", function () {
+        selectElement.size = 0;
+        inputElement.hidden = false;
+        inputElement.focus()
+    })
+    selectElement.addEventListener("click", function () {
+        inputElement.hidden = true;
+        inputElement.blur();
+        selectElement.dispatchEvent(new Event('change'));
+    })
+    selectElement.dataset.size = selectElement.options.length;
+
+    inputElement.addEventListener("input", function() {
+        var searchText = inputElement.value.toLowerCase();
+        var options = selectElement.options;
+
+        let hiddenCount = 0;
+        for (var i = 0; i < options.length; i++) {
+            var optionText = options[i].text.toLowerCase();
+            if (optionText.includes(searchText)) {
+                options[i].style.display = "";
+            } else {
+                options[i].style.display = "none";
+                hiddenCount +=1;
+            }
+        }
+
+        selectElement.size = options.length - hiddenCount + 1;
+        selectElement.dataset.size = selectElement.size;
+    });
+    inputElement.addEventListener("keyup", function(event) {
+        var searchText = inputElement.value.toLowerCase();
+        var options = selectElement.options;
+        let hiddenCount = 0;
+        let matchIndex = -1;
+        let includingItems = [];
+        for (var i = 0; i < options.length; i++) {
+            var optionText = options[i].text.toLowerCase();
+            if (optionText === searchText) {
+                matchIndex = i;
+            }
+            else if (optionText.includes(searchText)) {
+                includingItems.push(i);
+            }
+            options[i].style.backgroundColor = "";
+        }
+        if (matchIndex >= 0) {
+            options[matchIndex].style.backgroundColor = "#999";
+            if (event.key === "Enter") {
+                selectElement.selectedIndex = matchIndex;
+                selectElement.dispatchEvent(new Event('click'));
+            }
+        } else if (includingItems.length === 1) {
+            options[includingItems[0]].style.backgroundColor = "#999";
+            if (event.key === "Enter") {
+                selectElement.selectedIndex = includingItems[0];
+                selectElement.dispatchEvent(new Event('click'));
+            }
+        }
+    });
+    inputElement.addEventListener("blur", function() {
+        selectElement.size = 0;
+        inputElement.hidden = true;
+        selectElement.style.top = 0;
+    });
+
+    // Show the select options when the input gains focus
+    inputElement.addEventListener("focus", function() {
+        selectElement.style.top = 25;
+        selectElement.size = selectElement.dataset.size;
+    });
+}
+
 function ClickJob(n) {
 
     myInnerHtml("A_KakutyouSel", "", 0);
@@ -360,21 +444,21 @@ function ClickJob(n) {
 
     if (global.JobSkillPassOBJ[n][0] == 58) {
         document.calcForm.A_PASSIVE_SKILL0.options.length = 0;
-        n_ECname = ["0", "6% Reduction", "12% Reduction", "18% Reduction", "24% Reduction", "30% Reduction"];
+        let n_ECname = ["0", "6% Reduction", "12% Reduction", "18% Reduction", "24% Reduction", "30% Reduction"];
         for (i = 0; i <= 5; i++)
             document.calcForm.A_PASSIVE_SKILL0.options[i] = new Option(n_ECname[i], i);
     }
 
     if (global.JobSkillPassOBJ[n][5] == 78) {
         document.calcForm.A_PASSIVE_SKILL5.options.length = 0;
-        n_ECname = ["No Peco", "Mastery 0", "Mastery 1", "Mastery 2", "Mastery 3", "Mastery 4", "Mastery 5"];
+        let n_ECname = ["No Peco", "Mastery 0", "Mastery 1", "Mastery 2", "Mastery 3", "Mastery 4", "Mastery 5"];
         for (i = 0; i <= 6; i++)
             document.calcForm.A_PASSIVE_SKILL5.options[i] = new Option(n_ECname[i], i);
     }
 
     if (global.JobSkillPassOBJ[n][9] == 78) {
         document.calcForm.A_PASSIVE_SKILL9.options.length = 0;
-        n_ECname = ["No Peco", "Mastery 0", "Mastery 1", "Mastery 2", "Mastery 3", "Mastery 4", "Mastery 5"];
+        let n_ECname = ["No Peco", "Mastery 0", "Mastery 1", "Mastery 2", "Mastery 3", "Mastery 4", "Mastery 5"];
         for (i = 0; i <= 6; i++)
             document.calcForm.A_PASSIVE_SKILL9.options[i] = new Option(n_ECname[i], i);
     }
@@ -760,6 +844,18 @@ function bindOnGroundSupportiveSkills() {
 function bindOnFoodBox() {
     document.getElementById("food-box-checkbox").addEventListener("click", (e) => {
         Click_FoodBox()
+    });
+}
+
+function bindSave() {
+    document.getElementById("btn-save").addEventListener("click", (e) => {
+        SaveForm()
+    });
+}
+
+function bindLoad() {
+    document.getElementById("btn-load").addEventListener("click", (e) => {
+        LoadSave()
     });
 }
 
@@ -1393,7 +1489,7 @@ function Calculate() {
 function GenerateTestCase() {
     OnChangeStat(true);
     calc(true);
-    let savedDataAsJson = SaveCookie(true);
+    let savedDataAsJson = SaveForm(true);
     let crit_damages = document.querySelector("#CRIATK").textContent.split("~");
     let crit_rate = Number.parseFloat(document.querySelector("#CRInum").textContent);
     let min_dmg = Number.parseFloat(document.querySelector("#ATK_00").textContent);
@@ -1439,132 +1535,139 @@ function card(value) {
     return global.CardIds[value][2]
 }
 
-function SaveCookie(skipSave) {
-    const testCaseData = {};
+function SaveForm() {
+    // const testCaseData = {};
+    //
+    // testCaseData.job = JobName[eval(document.calcForm.A_JOB.value)];
+    // testCaseData.base_level = eval(document.calcForm.A_BaseLV.value);
+    // testCaseData.job_level = eval(document.calcForm.A_JobLV.value);
+    // testCaseData.str = eval(document.calcForm.A_STR.value);
+    // testCaseData.agi = eval(document.calcForm.A_AGI.value);
+    // testCaseData.vit = eval(document.calcForm.A_VIT.value);
+    // testCaseData.dex = eval(document.calcForm.A_DEX.value);
+    // testCaseData.int = eval(document.calcForm.A_INT.value);
+    // testCaseData.luk = eval(document.calcForm.A_LUK.value);
+    //
+    // if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && n_A_WeaponType != WEAPON_TYPE_UNARMED)) {
+    //     testCaseData.ammo = eval(document.calcForm.A_Arrow.value);
+    // }
+    //
+    // testCaseData.speed_potion = eval(document.calcForm.A_SpeedPOT.value);
+    // testCaseData.weapon = aegis_item(eval(document.calcForm.A_weapon1.value));
+    // testCaseData.weapon_refinement = eval(document.calcForm.A_Weapon_ATKplus.value);
+    // testCaseData.weapon_card1 = card(eval(document.calcForm.A_weapon1_card1.value));
+    // testCaseData.weapon_card2 = card(eval(document.calcForm.A_weapon1_card2.value));
+    // testCaseData.weapon_card3 = card(eval(document.calcForm.A_weapon1_card3.value));
+    // testCaseData.weapon_card4 = card(eval(document.calcForm.A_weapon1_card4.value));
+    //
+    // if (document.calcForm.A_weapon2) {
+    //     testCaseData.weapon_left = aegis_item(eval(document.calcForm.A_weapon2.value));
+    //     testCaseData.weapon_left_refinement = eval(document.calcForm.A_Weapon2_ATKplus.value);
+    //     testCaseData.weapon_left_card1 = card(eval(document.calcForm.A_weapon2_card1.value));
+    //     testCaseData.weapon_left_card2 = card(eval(document.calcForm.A_weapon2_card2.value));
+    //     testCaseData.weapon_left_card3 = card(eval(document.calcForm.A_weapon2_card3.value));
+    //     testCaseData.weapon_left_card4 = card(eval(document.calcForm.A_weapon2_card4.value));
+    // }
+    //
+    // if (document.calcForm.A_Arrow && document.calcForm.A_Arrow.style["visibility"] !== "hidden") {
+    //     testCaseData.ammo = global.ArrowOBJ[document.calcForm.A_Arrow.value][2];
+    // }
+    //
+    //
+    // testCaseData.headgear_upper = aegis_item(eval(document.calcForm.A_head1.value));
+    // testCaseData.headgear_upper_card = card(eval(document.calcForm.A_head1_card.value));
+    // testCaseData.headgear_middle = aegis_item(eval(document.calcForm.A_head2.value));
+    // testCaseData.headgear_middle_card = card(eval(document.calcForm.A_head2_card.value));
+    // testCaseData.headgear_lower = aegis_item(eval(document.calcForm.A_head3.value))
+    //
+    // if (document.calcForm.A_left.value !== "305") {
+    //     testCaseData.shield = aegis_item(eval(document.calcForm.A_left.value));
+    // }
+    // testCaseData.shield_card = card(eval(document.calcForm.A_left_card.value));
+    // testCaseData.body = aegis_item(eval(document.calcForm.A_body.value));
+    // testCaseData.body_card = card(eval(document.calcForm.A_body_card.value));
+    // testCaseData.shoulder = aegis_item(eval(document.calcForm.A_shoulder.value));
+    // testCaseData.shoulder_card = card(eval(document.calcForm.A_shoulder_card.value));
+    // testCaseData.shoes = aegis_item(eval(document.calcForm.A_shoes.value));
+    // testCaseData.shoes_card = card(eval(document.calcForm.A_shoes_card.value));
+    // testCaseData.accessory_left = aegis_item(eval(document.calcForm.A_acces1.value));
+    // testCaseData.accessory_left_card = card(eval(document.calcForm.A_acces1_card.value));
+    // testCaseData.accessory_right = aegis_item(eval(document.calcForm.A_acces2.value));
+    // testCaseData.accessory_right_card = card(eval(document.calcForm.A_acces2_card.value));
+    //
+    // let {n_A_JOB, isRebirth} = n_A_JobSet();
+    // w = n_A_JOB;
+    // var saveDataIndex = 45;
+    // var passiveSkills = [];
+    // for (var i = 0; i < 15; i++) {
+    //     if (global.JobSkillPassOBJ[w][i] == 999) break;
+    //     let skill_level = eval(document.calcForm["A_PASSIVE_SKILL" + i].value);
+    //     SaveData[saveDataIndex + i] = skill_level;
+    //     if (skill_level > 0) {
+    //         passiveSkills.push({skid: SkillOBJ[global.JobSkillPassOBJ[w][i]][3], level: skill_level})
+    //     }
+    // }
+    // testCaseData.passiveSkills = passiveSkills;
+    // testCaseData.weapon_element = eval(document.calcForm.A_Weapon_element.value);
+    //
+    // const supportiveSkillsIds = [
+    //     {skid: 34}, {skid: 29}, {skid: 66}, {skid: 75}, {skid: 33}, {skid: 361}, {skid: 111}, {skid: 112},
+    //     {skid: 486}, {skid: 383}, {state: 'Spirit Sphere'}, {skid: 7}, {state: 'Aloevera'}, {skid: 67}, {skid: 256}];
+    // var supportiveSkills = [];
+    // for (i = 0; i <= 12; i++) {
+    //     if (n_A_PassSkill2[i] === undefined || n_A_PassSkill2[i] === 0) {
+    //         continue;
+    //     }
+    //     var value = n_A_PassSkill2[i];
+    //     if (value == true)
+    //         value = 1;
+    //     else if (value == false)
+    //         value = 0;
+    //     if (value > 0) {
+    //         supportiveSkills.push({...supportiveSkillsIds[i], value})
+    //     }
+    // }
+    // testCaseData.supportiveSkills = supportiveSkills;
+    //
+    // testCaseData.headgear_upper_refinement = eval(document.calcForm.A_HEAD_DEF_PLUS.value);
+    // testCaseData.body_refinement = eval(document.calcForm.A_BODY_DEF_PLUS.value);
+    // testCaseData.shield_refinement = eval(document.calcForm.A_LEFT_DEF_PLUS.value);
+    // testCaseData.shoulder_refinement = eval(document.calcForm.A_SHOULDER_DEF_PLUS.value);
+    // testCaseData.shoes_refinement = eval(document.calcForm.A_SHOES_DEF_PLUS.value);
+    // testCaseData.skill_to_use = {
+    //     skid: SkillOBJ[eval(document.calcForm.A_ActiveSkill.value)][3],
+    //     level: eval(document.calcForm.A_ActiveSkillLV.value)
+    // };
+    // testCaseData.target = MonsterIds[eval(document.calcForm.B_Enemy.value)][2];
 
-    testCaseData.job = JobName[eval(document.calcForm.A_JOB.value)];
-    testCaseData.base_level = eval(document.calcForm.A_BaseLV.value);
-    testCaseData.job_level = eval(document.calcForm.A_JobLV.value);
-    testCaseData.str = eval(document.calcForm.A_STR.value);
-    testCaseData.agi = eval(document.calcForm.A_AGI.value);
-    testCaseData.vit = eval(document.calcForm.A_VIT.value);
-    testCaseData.dex = eval(document.calcForm.A_DEX.value);
-    testCaseData.int = eval(document.calcForm.A_INT.value);
-    testCaseData.luk = eval(document.calcForm.A_LUK.value);
+    let saveId =  document.calcForm.A_SaveSlot.value;
 
-    if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && n_A_WeaponType != WEAPON_TYPE_UNARMED)) {
-        testCaseData.ammo = eval(document.calcForm.A_Arrow.value);
-    }
+    localStorage.setItem(saveId, serializeFormToJSON());
+    refreshSaveSlotOptions();
 
-    testCaseData.speed_potion = eval(document.calcForm.A_SpeedPOT.value);
-    testCaseData.weapon = aegis_item(eval(document.calcForm.A_weapon1.value));
-    testCaseData.weapon_refinement = eval(document.calcForm.A_Weapon_ATKplus.value);
-    testCaseData.weapon_card1 = card(eval(document.calcForm.A_weapon1_card1.value));
-    testCaseData.weapon_card2 = card(eval(document.calcForm.A_weapon1_card2.value));
-    testCaseData.weapon_card3 = card(eval(document.calcForm.A_weapon1_card3.value));
-    testCaseData.weapon_card4 = card(eval(document.calcForm.A_weapon1_card4.value));
+}
 
-    if (document.calcForm.A_weapon2) {
-        testCaseData.weapon_left = aegis_item(eval(document.calcForm.A_weapon2.value));
-        testCaseData.weapon_left_refinement = eval(document.calcForm.A_Weapon2_ATKplus.value);
-        testCaseData.weapon_left_card1 = card(eval(document.calcForm.A_weapon2_card1.value));
-        testCaseData.weapon_left_card2 = card(eval(document.calcForm.A_weapon2_card2.value));
-        testCaseData.weapon_left_card3 = card(eval(document.calcForm.A_weapon2_card3.value));
-        testCaseData.weapon_left_card4 = card(eval(document.calcForm.A_weapon2_card4.value));
-    }
-
-    if (document.calcForm.A_Arrow && document.calcForm.A_Arrow.style["visibility"] !== "hidden") {
-        testCaseData.ammo = global.ArrowOBJ[document.calcForm.A_Arrow.value][2];
-    }
-
-
-    testCaseData.headgear_upper = aegis_item(eval(document.calcForm.A_head1.value));
-    testCaseData.headgear_upper_card = card(eval(document.calcForm.A_head1_card.value));
-    testCaseData.headgear_middle = aegis_item(eval(document.calcForm.A_head2.value));
-    testCaseData.headgear_middle_card = card(eval(document.calcForm.A_head2_card.value));
-    testCaseData.headgear_lower = aegis_item(eval(document.calcForm.A_head3.value))
-
-    if (document.calcForm.A_left.value !== "305") {
-        testCaseData.shield = aegis_item(eval(document.calcForm.A_left.value));
-    }
-    testCaseData.shield_card = card(eval(document.calcForm.A_left_card.value));
-    testCaseData.body = aegis_item(eval(document.calcForm.A_body.value));
-    testCaseData.body_card = card(eval(document.calcForm.A_body_card.value));
-    testCaseData.shoulder = aegis_item(eval(document.calcForm.A_shoulder.value));
-    testCaseData.shoulder_card = card(eval(document.calcForm.A_shoulder_card.value));
-    testCaseData.shoes = aegis_item(eval(document.calcForm.A_shoes.value));
-    testCaseData.shoes_card = card(eval(document.calcForm.A_shoes_card.value));
-    testCaseData.accessory_left = aegis_item(eval(document.calcForm.A_acces1.value));
-    testCaseData.accessory_left_card = card(eval(document.calcForm.A_acces1_card.value));
-    testCaseData.accessory_right = aegis_item(eval(document.calcForm.A_acces2.value));
-    testCaseData.accessory_right_card = card(eval(document.calcForm.A_acces2_card.value));
-
-    let {n_A_JOB, isRebirth} = n_A_JobSet();
-    w = n_A_JOB;
-    var saveDataIndex = 45;
-    var passiveSkills = [];
-    for (var i = 0; i < 15; i++) {
-        if (global.JobSkillPassOBJ[w][i] == 999) break;
-        let skill_level = eval(document.calcForm["A_PASSIVE_SKILL" + i].value);
-        SaveData[saveDataIndex + i] = skill_level;
-        if (skill_level > 0) {
-            passiveSkills.push({skid: SkillOBJ[global.JobSkillPassOBJ[w][i]][3], level: skill_level})
-        }
-    }
-    testCaseData.passiveSkills = passiveSkills;
-    testCaseData.weapon_element = eval(document.calcForm.A_Weapon_element.value);
-
-    const supportiveSkillsIds = [
-        {skid: 34}, {skid: 29}, {skid: 66}, {skid: 75}, {skid: 33}, {skid: 361}, {skid: 111}, {skid: 112},
-        {skid: 486}, {skid: 383}, {state: 'Spirit Sphere'}, {skid: 7}, {state: 'Aloevera'}, {skid: 67}, {skid: 256}];
-    var supportiveSkills = [];
-    for (i = 0; i <= 12; i++) {
-        if (n_A_PassSkill2[i] === undefined || n_A_PassSkill2[i] === 0) {
-            continue;
-        }
-        var value = n_A_PassSkill2[i];
-        if (value == true)
-            value = 1;
-        else if (value == false)
-            value = 0;
-        if (value > 0) {
-            supportiveSkills.push({...supportiveSkillsIds[i], value})
-        }
-    }
-    testCaseData.supportiveSkills = supportiveSkills;
-
-    testCaseData.headgear_upper_refinement = eval(document.calcForm.A_HEAD_DEF_PLUS.value);
-    testCaseData.body_refinement = eval(document.calcForm.A_BODY_DEF_PLUS.value);
-    testCaseData.shield_refinement = eval(document.calcForm.A_LEFT_DEF_PLUS.value);
-    testCaseData.shoulder_refinement = eval(document.calcForm.A_SHOULDER_DEF_PLUS.value);
-    testCaseData.shoes_refinement = eval(document.calcForm.A_SHOES_DEF_PLUS.value);
-    testCaseData.skill_to_use = {
-        skid: SkillOBJ[eval(document.calcForm.A_ActiveSkill.value)][3],
-        level: eval(document.calcForm.A_ActiveSkillLV.value)
-    };
-    testCaseData.target = MonsterIds[eval(document.calcForm.B_Enemy.value)][2];
-
-    if (!skipSave) {
-        cookieNum = document.calcForm.A_SaveSlot.value;
-
-        bkcN = cookieNum;
-        LoadSave();
-        document.calcForm.A_SaveSlot.value = bkcN;
-        localStorage.setItem(bkcN, serializeFormToJSON())
-        console.log(serializeFormToJSON())
-    } else {
-        return testCaseData;
+function refreshSaveSlotOptions() {
+    for (let k = 1; k <= 19; k++) {
+        let saveLabel = "num0" + (k - 1);
+        if (k == 9)
+            saveLabel = "num0" + k;
+        if (k >= 10)
+            saveLabel = "num" + k;
+        let json = JSON.parse(localStorage.getItem(k));
+        const isSelected = document.calcForm.A_SaveSlot.value == k;
+        if (json) {
+            document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": " + JobName[json.A_JOB], k, isSelected, isSelected );
+        } else
+            document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": no Save Data", k);
     }
 }
 
 
-function LoadCookie() {
+function LoadSave() {
 
-    SaveData = new Array();
-    cookieNum = document.calcForm.A_SaveSlot.value;
-    SaveData = document.cookie.split("; ");
-    wStr = "";
-    let json = JSON.parse(localStorage.getItem(cookieNum));
+    let saveSlot = document.calcForm.A_SaveSlot.value;
+    let json = JSON.parse(localStorage.getItem(saveSlot));
     document.calcForm.A_JOB.value = json.A_JOB;
     ClickJob(json.A_JOB);
     if (json.A_SUPPORTIVE_SKILLSW === "on") {
@@ -1582,31 +1685,10 @@ function LoadCookie() {
     let {n_A_JOB, isRebirth} = n_A_JobSet();
     ClickActiveSkill(json.A_ActiveSkill);
 
-
-    OnChangeStat(1);
-    StAllCalc();
     ActiveSkillSetPlus();
+    Calculate();
 }
 
-
-function LoadSave() {
-
-    let SaveData = new Array();
-    let cookieNum = "";
-    for (let k = 1; k <= 19; k++) {
-        cookieNum = "num0" + (k - 1);
-        if (k == 9)
-            cookieNum = "num0" + k;
-        if (k >= 10)
-            cookieNum = "num" + k;
-        let json = JSON.parse(localStorage.getItem(cookieNum));
-
-        if (json) {
-            document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": " + JobName[json.A_JOB], cookieNum);
-        } else
-            document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": no Save Data", cookieNum);
-    }
-}
 
 let CardShort = [
     ["Card Shortcuts", 0, 0, 0, 0],
@@ -1796,16 +1878,16 @@ function ClickB_Item(CBI) {
     myInnerHtml("ITEM_WAIT", ItemOBJ[CBI][6], 0);
 
     let CBIstr = "";
-    for (i = 11; ItemOBJ[CBI][i] != 0; i += 2)
+    for (let i = 11; ItemOBJ[CBI][i] != 0; i += 2)
         Item_Description(ItemOBJ[CBI], i);
     if (ItemOBJ[CBI][10] != 0)
         CBIstr += ItemOBJ[CBI][10] + "<BR>";
 
-    for (i = 11; ItemOBJ[CBI][i] != 0; i += 2) {
+    for (let i = 11; ItemOBJ[CBI][i] != 0; i += 2) {
         if (ItemOBJ[CBI][i] == 90) {
 
             CBIstr += "<Font size=2><BR><B>When " + SetEquipName(ItemOBJ[CBI][i + 1]) + " are equipped at the same time:<BR>";
-            for (j = 11; ItemOBJ[ItemOBJ[CBI][i + 1]][j] != 0; j += 2)
+            for (let j = 11; ItemOBJ[ItemOBJ[CBI][i + 1]][j] != 0; j += 2)
                 Item_Description(ItemOBJ[ItemOBJ[CBI][i + 1]], j);
             if (ItemOBJ[ItemOBJ[CBI][i + 1]][10] != 0)
                 CBIstr += ItemOBJ[ItemOBJ[CBI][i + 1]][10] + "<BR>";
@@ -1817,9 +1899,9 @@ function ClickB_Item(CBI) {
 
 function Item_Description(num, CBI2) {
     const start = Date.now();
-    wNAME1 = ["0", "STR", "AGI", "VIT", "INT", "DEX", "LUK", "ALL_STATS", "HIT", "FLEE", "CRIT", "PERFECT_DODGE", "ASPD", "MHP", "MSP", "MHP", "MSP", "ATK", "DEF", "MDEF"];
-    wIS = " + ";
-    CBIstr = "";
+    const wNAME1 = ["0", "STR", "AGI", "VIT", "INT", "DEX", "LUK", "ALL_STATS", "HIT", "FLEE", "CRIT", "PERFECT_DODGE", "ASPD", "MHP", "MSP", "MHP", "MSP", "ATK", "DEF", "MDEF"];
+    let wIS = " + ";
+    let CBIstr = "";
     var stat = "";
     var stat2 = "";
     if (num[CBI2 + 1] < 0)
@@ -2030,8 +2112,8 @@ function Item_Description(num, CBI2) {
         CBIstr += "Allows usage fo the skill [" + SkillOBJ[Math.floor((num[CBI2 + 1] - 100000) / 100)][2] + "] Lv " + Math.floor((num[CBI2 + 1] - 100000) % 100) + ".<BR>";
     }
     if (221 == num[CBI2] || 231 == num[CBI2]) {
-        wNAME99 = [0, "When performing a physical attack, ", "When performing a short range physical attack, ", "When performing a long range physical attack, ", "When performing a magical attack, ", "When attacking, ", "When recieving physical damage, ", "When recieving short range physical damage, ", "When recieving long range physical damage, ", "When recieving magical damage, ", "When recieving physical or magical damage, "];
-        wNAME98 = ["low", "fixed", "high"];
+        const wNAME99 = [0, "When performing a physical attack, ", "When performing a short range physical attack, ", "When performing a long range physical attack, ", "When performing a magical attack, ", "When attacking, ", "When recieving physical damage, ", "When recieving short range physical damage, ", "When recieving long range physical damage, ", "When recieving magical damage, ", "When recieving physical or magical damage, "];
+        const wNAME98 = ["low", "fixed", "high"];
         CBIstr += wNAME99[Math.floor(num[CBI2 + 1] / 10000000)] + "there is a ";
         if (Math.floor((num[CBI2 + 1] % 10000000) / 100000) >= 97)
             CBIstr += wNAME98[Math.floor((num[CBI2 + 1] % 10000000) / 100000) - 97];
@@ -2051,7 +2133,7 @@ function Item_Description(num, CBI2) {
     if (5000 <= num[CBI2] && num[CBI2] <= 6999) {
         CBIstr += SkillOBJ[num[CBI2] - 5000][2] + "'s damage " + wIS + num[CBI2 + 1] + "%<BR>";
     }
-    // console.log(CBIstr)
+    console.log(CBIstr)
 
     // var stat = [];
     // for (var i = 0; i < 1000; i++) {
@@ -2069,10 +2151,10 @@ function Item_Description(num, CBI2) {
 
 function SetEquipName(SENw) {
     const start = Date.now();
-    SENstr = "";
-    for (SENi = 0; SENi <= SE_MAXnum; SENi++) {
+    let SENstr = "";
+    for (let SENi = 0; SENi <= SE_MAXnum; SENi++) {
         if (w_SE[SENi][0] == SENw) {
-            for (SENj = 1; w_SE[SENi][SENj] != "NULL"; SENj++) {
+            for (let SENj = 1; w_SE[SENi][SENj] != "NULL"; SENj++) {
                 SENstr += "[" + ItemOBJ[w_SE[SENi][SENj]][8] + "]";
                 if (w_SE[SENi][SENj + 1] != "NULL")
                     SENstr += " + ";
@@ -2082,11 +2164,6 @@ function SetEquipName(SENw) {
     }
     console.log("SetEquipName end. Took", Date.now() - start, "ms")
 }
-
-
-myInnerHtml("PR1", "", 0);
-myInnerHtml("set", '<A Href="../other/set.html" target="_blank">Description</A>', 0);
-myInnerHtml("DELHTML", ' <Font size=2><A Href="del.html" target="migi">Delete Save Data</A></Font>', 0);
 
 
 for (i = 1; i <= 99; i++) {
@@ -2193,8 +2270,10 @@ let sortedMonster = global.MonsterOBJ.sort((a, b) => {
         return 1;
     }
 })
-for (i = 0; i < sortedMonster.length; i++)
-    document.calcForm.B_Enemy.options[i] = new Option(sortedMonster[i][1], sortedMonster[i][0]);
+let enemySelect = document.getElementById("enemy-select");
+for (i = 0; i < sortedMonster.length; i++) {
+    enemySelect.options[i] = new Option(sortedMonster[i][1], sortedMonster[i][0]);
+}
 
 // 0: Provoke (Non Undead)
 // 1: Quagmire
@@ -2227,8 +2306,12 @@ for (i = 0; i < sortedMonster.length; i++)
 
 document.calcForm.A_JOB.value = 0;
 ClickJob(0);
-LoadSave();
+refreshSaveSlotOptions();
 
+bindSearchable(document.getElementById("enemy-select"))
+
+bindSave();
+bindLoad();
 bindOnChangeEnemy();
 bindOnChangeJob();
 bindOnClickCalculate();
@@ -2240,3 +2323,4 @@ bindOnChangeActiveSkill();
 bindOnChangeStat();
 bindOnChangeCardShortcut();
 bindOnChangeExtendedInfo();
+Calculate();
