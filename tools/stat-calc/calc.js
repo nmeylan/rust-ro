@@ -41,12 +41,12 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         arrow: null,
         weapon1Index: 0,
         weapon2Index: 0,
-        shoulderDefPlus: 0,
-        headDefPlus: 0,
-        bodyDefPlus: 0,
-        shieldHandDefPlus: 0,
-        shoesHandDefPlus: 0,
-        totalGearDefPlus: 0,
+        shoulderRefinement: 0,
+        headRefinement: 0,
+        bodyRefinement: 0,
+        shieldHandRefinement: 0,
+        shoesHandRefinement: 0,
+        totalGearRefinement: 0,
         speedPotion: false,
     }
     let {job, isRebirth} = n_A_JobSet(FORM_DATA);
@@ -107,12 +107,12 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     stats.dex = eval(FORM_DATA.A_DEX);
     stats.int = eval(FORM_DATA.A_INT);
     stats.luk = eval(FORM_DATA.A_LUK);
-    let SU_STR = stats.str;
-    let SU_AGI = stats.agi;
-    let SU_VIT = stats.vit;
-    let SU_DEX = stats.dex;
-    let SU_INT = stats.int;
-    let SU_LUK = stats.luk;
+    stats.baseStr = stats.str;
+    stats.baseAgi = stats.agi;
+    stats.baseVit = stats.vit;
+    stats.baseDex = stats.dex;
+    stats.baseInt = stats.int;
+    stats.baseLuk = stats.luk;
 
     stats.weaponType = eval(FORM_DATA.A_WeaponType);
 
@@ -229,12 +229,12 @@ function CalculateAllStats(FORM_DATA, targetStats) {
             stats.weapon1LV_overUpgradeBonusATK = 14 * (weaponRefinementLevel - 4);
         }
     }
-    stats.headDefPlus = eval(FORM_DATA.A_HEAD_DEF_PLUS);
-    stats.bodyDefPlus = eval(FORM_DATA.A_BODY_DEF_PLUS);
-    stats.shieldHandDefPlus = eval(FORM_DATA.A_LEFT_DEF_PLUS);
-    stats.shoulderDefPlus = eval(FORM_DATA.A_SHOULDER_DEF_PLUS);
-    stats.shoesHandDefPlus = eval(FORM_DATA.A_SHOES_DEF_PLUS);
-    stats.totalGearDefPlus = stats.headDefPlus + stats.bodyDefPlus + stats.shieldHandDefPlus + stats.shoulderDefPlus + stats.shoesHandDefPlus;
+    stats.headRefinement = eval(FORM_DATA.A_HEAD_DEF_PLUS);
+    stats.bodyRefinement = eval(FORM_DATA.A_BODY_DEF_PLUS);
+    stats.shieldHandRefinement = eval(FORM_DATA.A_LEFT_DEF_PLUS);
+    stats.shoulderRefinement = eval(FORM_DATA.A_SHOULDER_DEF_PLUS);
+    stats.shoesHandRefinement = eval(FORM_DATA.A_SHOES_DEF_PLUS);
+    stats.totalGearRefinement = stats.headRefinement + stats.bodyRefinement + stats.shieldHandRefinement + stats.shoulderRefinement + stats.shoesHandRefinement;
 
     stats.skillToUse = eval(FORM_DATA.A_ActiveSkill);
     stats.skillToUseName = SkillOBJ[stats.skillToUse][2];
@@ -306,35 +306,35 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     if (JobSkillPassOBJ[stats.job][14] != 999) stats.passiveSkills[14] = eval(FORM_DATA.A_PASSIVE_SKILL14);
 
 
-    stats.supportiveSkills[0] = eval(FORM_DATA.A_SUPPORTIVE_SKILL0);
-    stats.supportiveSkills[1] = eval(FORM_DATA.A_SUPPORTIVE_SKILL1);
-    stats.supportiveSkills[2] = eval(FORM_DATA.A_SUPPORTIVE_SKILL2);
+    stats.supportiveSkills[0] = FORM_DATA.A_SUPPORTIVE_SKILL0 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL0) : 0;
+    stats.supportiveSkills[1] = FORM_DATA.A_SUPPORTIVE_SKILL1 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL1) : 0;
+    stats.supportiveSkills[2] = FORM_DATA.A_SUPPORTIVE_SKILL2 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL2) : 0;
     stats.supportiveSkills[3] = FORM_DATA.A_SUPPORTIVE_SKILL3 === "on";
-    stats.supportiveSkills[4] = eval(FORM_DATA.A_SUPPORTIVE_SKILL4);
+    stats.supportiveSkills[4] = FORM_DATA.A_SUPPORTIVE_SKILL4 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL4) : 0;
     stats.supportiveSkills[5] = FORM_DATA.A_SUPPORTIVE_SKILL5 === "on";
-    stats.supportiveSkills[6] = eval(FORM_DATA.A_SUPPORTIVE_SKILL6);
+    stats.supportiveSkills[6] = FORM_DATA.A_SUPPORTIVE_SKILL6 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL6) : 0;
     stats.supportiveSkills[7] = FORM_DATA.A_SUPPORTIVE_SKILL7 === "on";
-    stats.supportiveSkills[8] = eval(FORM_DATA.A_SUPPORTIVE_SKILL8);
-    stats.supportiveSkills[9] = eval(FORM_DATA.A_SUPPORTIVE_SKILL9);
-    stats.supportiveSkills[10] = eval(FORM_DATA.A_SUPPORTIVE_SKILL10);
+    stats.supportiveSkills[8] = FORM_DATA.A_SUPPORTIVE_SKILL8 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL8) : 0;
+    stats.supportiveSkills[9] = FORM_DATA.A_SUPPORTIVE_SKILL9 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL9) : 0;
+    stats.supportiveSkills[10] = FORM_DATA.A_SUPPORTIVE_SKILL10 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL10) : 0;
     stats.supportiveSkills[11] = FORM_DATA.A_SUPPORTIVE_SKILL11 === "on";
     stats.supportiveSkills[12] = FORM_DATA.A_SUPPORTIVE_SKILL12 === "on";
-    stats.supportiveSkills[13] = eval(FORM_DATA.A_SUPPORTIVE_SKILL13);
-    stats.supportiveSkills[14] = eval(FORM_DATA.A_SUPPORTIVE_SKILL14);
+    stats.supportiveSkills[13] = FORM_DATA.A_SUPPORTIVE_SKILL13 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL13) : 0;
+    stats.supportiveSkills[14] = FORM_DATA.A_SUPPORTIVE_SKILL14 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL14) : 0;
 
 
-    stats.performanceSkills[0] = eval(FORM_DATA.PERFORMANCE_SKILL_PERFECT_TABLATURE0_1);
-    stats.performanceSkills[1] = eval(FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT1_1);
-    stats.performanceSkills[2] = eval(FORM_DATA.PERFORMANCE_SKILL_MAGIC_STRING2_1);
-    stats.performanceSkills[3] = eval(FORM_DATA.PERFORMANCE_SKILL_SONG_OF_LUTIE3_1);
-    stats.performanceSkills[4] = eval(FORM_DATA.PERFORMANCE_SKILL_FOCUS_BALLET4_1);
+    stats.performanceSkills[0] = FORM_DATA.PERFORMANCE_SKILL_PERFECT_TABLATURE0_1 ? eval(FORM_DATA.PERFORMANCE_SKILL_PERFECT_TABLATURE0_1) : 0;
+    stats.performanceSkills[1] = FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT1_1 ? eval(FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT1_1) : 0;
+    stats.performanceSkills[2] = FORM_DATA.PERFORMANCE_SKILL_MAGIC_STRING2_1 ? eval(FORM_DATA.PERFORMANCE_SKILL_MAGIC_STRING2_1) : 0;
+    stats.performanceSkills[3] = FORM_DATA.PERFORMANCE_SKILL_SONG_OF_LUTIE3_1 ? eval(FORM_DATA.PERFORMANCE_SKILL_SONG_OF_LUTIE3_1) : 0;
+    stats.performanceSkills[4] = FORM_DATA.PERFORMANCE_SKILL_FOCUS_BALLET4_1 ? eval(FORM_DATA.PERFORMANCE_SKILL_FOCUS_BALLET4_1) : 0;
 
-    stats.performanceSkills[5] = eval(FORM_DATA.PERFORMANCE_SKILL_LADY_LUCK5_1);
+    stats.performanceSkills[5] = FORM_DATA.PERFORMANCE_SKILL_LADY_LUCK5_1 ? eval(FORM_DATA.PERFORMANCE_SKILL_LADY_LUCK5_1) : 0;
 
-    stats.performanceSkills[7] = eval(FORM_DATA.A_PERFORMANCE_SKILL7);
+    stats.performanceSkills[7] = FORM_DATA.A_PERFORMANCE_SKILL7 ? eval(FORM_DATA.A_PERFORMANCE_SKILL7) : 0;
 
-    stats.performanceSkills[9] = eval(FORM_DATA.A_PERFORMANCE_SKILL9);
-    stats.performanceSkills[10] = eval(FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT10);
+    stats.performanceSkills[9] = FORM_DATA.A_PERFORMANCE_SKILL9 ? eval(FORM_DATA.A_PERFORMANCE_SKILL9) : 0;
+    stats.performanceSkills[10] = FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT10 ? eval(FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT10) : 0;
     stats.performanceSkills[11] = FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT11 === "on";
     stats.performanceSkills[12] = eval(FORM_DATA.A_PERFORMANCE_BARD_STR);
     stats.performanceSkills[13] = eval(FORM_DATA.A_PERFORMANCE_BARD_AGI);
@@ -345,40 +345,40 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     if (stats.performanceSkills[0]) {
         stats.performanceSkills[20] = eval(FORM_DATA.A_PERFORMANCE_BARD_AGI);
-        stats.performanceSkills[30] = eval(FORM_DATA.PERFORMANCE_SKILL_PERFECT_TABLATURE0_3);
+        stats.performanceSkills[30] = FORM_DATA.PERFORMANCE_SKILL_PERFECT_TABLATURE0_3 ? eval(FORM_DATA.PERFORMANCE_SKILL_PERFECT_TABLATURE0_3) : 0;
     }
     if (stats.performanceSkills[1]) {
         stats.performanceSkills[21] = eval(FORM_DATA.A_PERFORMANCE_BARD_AGI);
-        stats.performanceSkills[31] = eval(FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT1_3);
+        stats.performanceSkills[31] = FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT1_3 ? eval(FORM_DATA.PERFORMANCE_SKILL_IMPRESSIVE_RIFT1_3) : 0;
     }
     if (stats.performanceSkills[2]) {
         stats.performanceSkills[22] = eval(FORM_DATA.A_PERFORMANCE_BARD_DEX);
         stats.performanceSkills[29] = eval(FORM_DATA.A_PERFORMANCE_BARD_INT);
-        stats.performanceSkills[32] = eval(FORM_DATA.PERFORMANCE_SKILL_MAGIC_STRING2_4);
+        stats.performanceSkills[32] = FORM_DATA.PERFORMANCE_SKILL_MAGIC_STRING2_4 ? eval(FORM_DATA.PERFORMANCE_SKILL_MAGIC_STRING2_4) : 0;
     }
     if (stats.performanceSkills[3]) {
         stats.performanceSkills[23] = eval(FORM_DATA.A_PERFORMANCE_BARD_VIT);
-        stats.performanceSkills[33] = eval(FORM_DATA.PERFORMANCE_SKILL_SONG_OF_LUTIE3_2);
+        stats.performanceSkills[33] = FORM_DATA.PERFORMANCE_SKILL_SONG_OF_LUTIE3_2 ? eval(FORM_DATA.PERFORMANCE_SKILL_SONG_OF_LUTIE3_2) : 0;
     }
     if (stats.performanceSkills[4]) {
         stats.performanceSkills[24] = eval(FORM_DATA.A_PERFORMANCE_BARD_DEX);
-        stats.performanceSkills[34] = eval(FORM_DATA.PERFORMANCE_SKILL_FOCUS_BALLET4_3);
+        stats.performanceSkills[34] = FORM_DATA.PERFORMANCE_SKILL_FOCUS_BALLET4_3 ? eval(FORM_DATA.PERFORMANCE_SKILL_FOCUS_BALLET4_3) : 0;
     }
     if (stats.performanceSkills[5]) {
         stats.performanceSkills[25] = eval(FORM_DATA.A_PERFORMANCE_BARD_LUK);
-        stats.performanceSkills[35] = eval(FORM_DATA.PERFORMANCE_SKILL_LADY_LUCK5_3);
+        stats.performanceSkills[35] = FORM_DATA.PERFORMANCE_SKILL_LADY_LUCK5_3 ? eval(FORM_DATA.PERFORMANCE_SKILL_LADY_LUCK5_3) : 0;
     }
     if (stats.performanceSkills[6]) {
         stats.performanceSkills[26] = eval(FORM_DATA.A_PERFORMANCE_BARD_INT);
-        stats.performanceSkills[36] = eval(FORM_DATA.PERFORMANCE_SKILL_GYPSIE_KISS6_3);
+        stats.performanceSkills[36] = FORM_DATA.PERFORMANCE_SKILL_GYPSIE_KISS6_3 ? eval(FORM_DATA.PERFORMANCE_SKILL_GYPSIE_KISS6_3) : 0;
     }
 
 
     stats.performanceSkills[40] = FORM_DATA.A_PERFORMANCE_SKILL40 === "on";
-    stats.performanceSkills[41] = eval(FORM_DATA.A_PERFORMANCE_SKILL41);
-    stats.performanceSkills[42] = eval(FORM_DATA.A_PERFORMANCE_SKILL42);
-    stats.performanceSkills[43] = eval(FORM_DATA.A_PERFORMANCE_SKILL43);
-    stats.performanceSkills[44] = eval(FORM_DATA.A_PERFORMANCE_SKILL44);
+    stats.performanceSkills[41] = FORM_DATA.A_PERFORMANCE_SKILL41 ? eval(FORM_DATA.A_PERFORMANCE_SKILL41) : 0;
+    stats.performanceSkills[42] = FORM_DATA.A_PERFORMANCE_SKILL42 ? eval(FORM_DATA.A_PERFORMANCE_SKILL42) : 0;
+    stats.performanceSkills[43] = FORM_DATA.A_PERFORMANCE_SKILL43 ? eval(FORM_DATA.A_PERFORMANCE_SKILL43) : 0;
+    stats.performanceSkills[44] = FORM_DATA.A_PERFORMANCE_SKILL44 ? eval(FORM_DATA.A_PERFORMANCE_SKILL44) : 0;
 
     stats.supportiveSkillsBattleChant[0] = FORM_DATA.A_BATTLECHANT_SKILL0 === "on";
     stats.supportiveSkillsBattleChant[1] = FORM_DATA.A_BATTLECHANT_SKILL1 === "on";
@@ -412,12 +412,12 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     let wSPC_LUK = JobStatsBonusPerLevel[stats.job][stats.jobLevel - 1][5];
 
     if (stats.job == 0 && isRebirth) {
-        TenNovSTR = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1];
-        TenNovAGI = [0, 0, 0, 0, 1, 1, 1, 1, 1, 1];
-        TenNovVIT = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1];
-        TenNovINT = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1];
-        TenNovDEX = [0, 0, 1, 1, 1, 1, 1, 1, 1, 1];
-        TenNovLUK = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+        let TenNovSTR = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1];
+        let TenNovAGI = [0, 0, 0, 0, 1, 1, 1, 1, 1, 1];
+        let TenNovVIT = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1];
+        let TenNovINT = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1];
+        let TenNovDEX = [0, 0, 1, 1, 1, 1, 1, 1, 1, 1];
+        let TenNovLUK = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1];
         wSPC_STR = TenNovSTR[stats.jobLevel - 1];
         wSPC_AGI = TenNovAGI[stats.jobLevel - 1];
         wSPC_VIT = TenNovVIT[stats.jobLevel - 1];
@@ -478,7 +478,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         wSPC_DEX += 2;
     if (n_A_JobSearch(stats.job) == 41 && StPlusItem("Hahoe Mask", stats))
         wSPC_LUK += 1;
-    if (stats.shoesHandDefPlus >= 9 && StPlusItem("Black Leather Boots", stats))
+    if (stats.shoesHandRefinement >= 9 && StPlusItem("Black Leather Boots", stats))
         wSPC_AGI += 2;
 
     wSPCall = StPlusCard(ALL_STATS, stats);
@@ -492,17 +492,17 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     if (n_A_JobSearch(stats.job) == 3)
         wSPC_INT += CardNumSearch("Rideword", stats);
-    if (CardNumSearch("Despero of Thanatos", stats)) wSPC_INT += stats.shieldHandDefPlus;
-    if (CardNumSearch("Green Maiden", stats)) wSPC_LUK += stats.shoulderDefPlus;
-    if (CardNumSearch("Odium of Thanatos", stats)) wSPC_AGI += stats.shoesHandDefPlus;
-    if (stats.cards[8] == 180) wSPC_STR += stats.headDefPlus;
+    if (CardNumSearch("Despero of Thanatos", stats)) wSPC_INT += stats.shieldHandRefinement;
+    if (CardNumSearch("Green Maiden", stats)) wSPC_LUK += stats.shoulderRefinement;
+    if (CardNumSearch("Odium of Thanatos", stats)) wSPC_AGI += stats.shoesHandRefinement;
+    if (stats.cards[8] == 180) wSPC_STR += stats.headRefinement;
 
-    if (CardNumSearch("Obsidian", stats)) wSPC_VIT += Math.floor(SU_DEX / 18);
-    if (CardNumSearch("Egnigem Cenia", stats)) wSPC_STR += Math.floor(SU_INT / 18);
-    if (CardNumSearch("Venatu", stats)) wSPC_LUK += Math.floor(SU_AGI / 18);
-    if (CardNumSearch("Ancient Mimic", stats)) wSPC_AGI += Math.floor(SU_LUK / 18);
-    if (CardNumSearch("Mistress of Shelter", stats)) wSPC_INT += Math.floor(SU_STR / 18);
-    if (CardNumSearch("Dame of Sentinel", stats)) wSPC_DEX += Math.floor(SU_VIT / 18);
+    if (CardNumSearch("Obsidian", stats)) wSPC_VIT += Math.floor(stats.baseDex / 18);
+    if (CardNumSearch("Egnigem Cenia", stats)) wSPC_STR += Math.floor(stats.baseInt / 18);
+    if (CardNumSearch("Venatu", stats)) wSPC_LUK += Math.floor(stats.baseAgi / 18);
+    if (CardNumSearch("Ancient Mimic", stats)) wSPC_AGI += Math.floor(stats.baseLuk / 18);
+    if (CardNumSearch("Mistress of Shelter", stats)) wSPC_INT += Math.floor(stats.baseStr / 18);
+    if (CardNumSearch("Dame of Sentinel", stats)) wSPC_DEX += Math.floor(stats.baseVit / 18);
 
 
     if (CardNumSearch("Aliot", stats)) {
@@ -674,14 +674,14 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     w = StPlusCard(ATK, stats);
     w += StPlusItem(ATK, stats);
 
-    if (SU_STR >= 80 && CardNumSearch("Giant Whisper", stats))
+    if (stats.baseStr >= 80 && CardNumSearch("Giant Whisper", stats))
         w += 20;
-    if (SU_STR >= 95 && StPlusItem("Doom Slayer", stats))
+    if (stats.baseStr >= 95 && StPlusItem("Doom Slayer", stats))
         w += 340;
-    if (SU_STR >= 44 && StPlusItem("Holgren's Refining Hammer", stats))
+    if (stats.baseStr >= 44 && StPlusItem("Holgren's Refining Hammer", stats))
         w += 44;
     if (StPlusItem("Mythical Lion Mask", stats))
-        w += stats.headDefPlus * 2;
+        w += stats.headRefinement * 2;
 
     if (stats.groundSupportiveSkills[0] == 0 && stats.groundSupportiveSkills[1] >= 1 && (CardNumSearch("Pasana", stats) || stats.equipments[6] == 428 || stats.equipments[6] == 604))
         w += stats.groundSupportiveSkills[1] * 10;
@@ -785,12 +785,12 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
 
     w += StPlusCard(MAXHP, stats);
-    if (stats.bodyDefPlus >= 9 && CardNumSearch("Apocalypse", stats))
+    if (stats.bodyRefinement >= 9 && CardNumSearch("Apocalypse", stats))
         w += 800;
 
     //Temporary remover card code.
     if (CardNumSearch("Remover", stats))
-        w -= stats.bodyDefPlus * 40;
+        w -= stats.bodyRefinement * 40;
 
     if (stats.equipments[8] == 536) {
         wHPVS = n_A_JobSearch(stats.job);
@@ -806,21 +806,21 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     w += StPlusCard(MAXHP_PERCENTAGE, stats);
 
-    if (SU_VIT >= 80 && CardNumSearch("Giant Whisper", stats))
+    if (stats.baseVit >= 80 && CardNumSearch("Giant Whisper", stats))
         w += 3;
 
     if (CardNumSearch("Aliot", stats)) {
         if (n_A_JobSearch(stats.job) == 1 || n_A_JobSearch(stats.job) == 2 || n_A_JobSearch(stats.job) == 6)
             w += 5;
     }
-    if (stats.shoesHandDefPlus >= 9 && CardNumSearch("Firelock Soldier", stats))
+    if (stats.shoesHandRefinement >= 9 && CardNumSearch("Firelock Soldier", stats))
         w += 10;
-    if (stats.shoesHandDefPlus <= 4 && CardNumSearch("Gold Acidus", stats))
+    if (stats.shoesHandRefinement <= 4 && CardNumSearch("Gold Acidus", stats))
         w += 4;
     if (stats.supportiveSkillsBattleChant[1])
         w += 100;
     if (StPlusItem("Variant Shoes", stats))
-        w -= stats.shoesHandDefPlus;
+        w -= stats.shoesHandRefinement;
 
     stats.maxHp = stats.maxHp * (100 + w) / 100;
 
@@ -913,9 +913,9 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     w += StPlusItem(INT, stats);
 
     w += StPlusCard(MAXSP, stats);
-    if (stats.headDefPlus >= 9 && stats.cards[8] == 298)
+    if (stats.headRefinement >= 9 && stats.cards[8] == 298)
         w += 150;
-    if (stats.headDefPlus <= 4 && stats.cards[8] == 179)
+    if (stats.headRefinement <= 4 && stats.cards[8] == 179)
         w += 40;
     if (stats.cards[9] == 179)
         w += 40;
@@ -939,9 +939,9 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     w += StPlusItem(MAXSP_PERCENTAGE, stats);
 
     w += StPlusCard(MAXSP_PERCENTAGE, stats);
-    if (stats.shoesHandDefPlus >= 9 && CardNumSearch("Firelock Soldier", stats))
+    if (stats.shoesHandRefinement >= 9 && CardNumSearch("Firelock Soldier", stats))
         w += 10;
-    if (stats.shoesHandDefPlus <= 4 && CardNumSearch("Gold Acidus", stats))
+    if (stats.shoesHandRefinement <= 4 && CardNumSearch("Gold Acidus", stats))
         w += 4;
 
     if (CardNumSearch("Aliot", stats)) {
@@ -956,7 +956,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     if (stats.supportiveSkillsBattleChant[2])
         w += 100;
     if (StPlusItem("Variant Shoes", stats))
-        w -= stats.shoesHandDefPlus;
+        w -= stats.shoesHandRefinement;
 
     stats.maxSp = Math.floor(stats.maxSp * (100 + w) / 100);
 
@@ -978,9 +978,9 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     stats.def += StPlusCard(DEF, stats);
 
-    if (stats.shieldHandDefPlus <= 5 && CardNumSearch("Arcluse", stats))
+    if (stats.shieldHandRefinement <= 5 && CardNumSearch("Arcluse", stats))
         stats.def += 2;
-    if (stats.bodyDefPlus <= 5 && CardNumSearch("Goat", stats))
+    if (stats.bodyRefinement <= 5 && CardNumSearch("Goat", stats))
         stats.def += 2;
     if (stats.equipments[0] == 521) {
         if (weaponRefinementLevel <= 5)
@@ -993,14 +993,14 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     if (StPlusItem("Gatekeeper-DD", stats))
         stats.def += weaponRefinementLevel;
     if (StPlusItem("Variant Shoes", stats))
-        stats.def += stats.shoesHandDefPlus;
+        stats.def += stats.shoesHandRefinement;
     if (StPlusItem("0", stats) && n_A_JobSearch(stats.job) == 1)
         stats.def += 6;
 
     if (StPlusItem("0", stats))
-        stats.totalGearDefPlus -= (stats.headDefPlus + stats.shieldHandDefPlus);
+        stats.totalGearRefinement -= (stats.headRefinement + stats.shieldHandRefinement);
 
-    stats.totalDef = stats.def + Math.round(stats.totalGearDefPlus * 7 / 10);
+    stats.totalDef = stats.def + Math.round(stats.totalGearRefinement * 7 / 10);
 
     if (StPlusItem(REDUCE_DEFENSE, stats) + StPlusCard(REDUCE_DEFENSE, stats))
         stats.totalDef = Math.floor(stats.totalDef / StPlusItem(REDUCE_DEFENSE, stats), stats);
@@ -1067,22 +1067,22 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     if (n_A_JobSearch(stats.job) == 3)
         n_A_MDEF += CardNumSearch("Rideword", stats);
-    if (stats.shieldHandDefPlus >= 9 && CardNumSearch("Sting", stats))
+    if (stats.shieldHandRefinement >= 9 && CardNumSearch("Sting", stats))
         n_A_MDEF += 5;
-    if (stats.headDefPlus <= 5 && stats.cards[8] == 213)
+    if (stats.headRefinement <= 5 && stats.cards[8] == 213)
         n_A_MDEF += 5;
     if (stats.cards[9] == 213)
         n_A_MDEF += 5;
-    if (stats.shieldHandDefPlus <= 5 && CardNumSearch("Arcluse", stats))
+    if (stats.shieldHandRefinement <= 5 && CardNumSearch("Arcluse", stats))
         n_A_MDEF += 3;
-    if (stats.bodyDefPlus <= 5 && CardNumSearch("Goat", stats))
+    if (stats.bodyRefinement <= 5 && CardNumSearch("Goat", stats))
         n_A_MDEF += 5;
-    if (stats.shoesHandDefPlus <= 5 && CardNumSearch("Megalith", stats))
+    if (stats.shoesHandRefinement <= 5 && CardNumSearch("Megalith", stats))
         n_A_MDEF += 7;
-    if (stats.shoulderDefPlus <= 5 && CardNumSearch("Kappa", stats))
+    if (stats.shoulderRefinement <= 5 && CardNumSearch("Kappa", stats))
         n_A_MDEF += 8;
     if (StPlusItem("0", stats))
-        n_A_MDEF += (stats.headDefPlus + stats.shieldHandDefPlus);
+        n_A_MDEF += (stats.headRefinement + stats.shieldHandRefinement);
 
     if (SkillSearch("Spear Dynamo", stats))
         n_A_MDEF += 1;
@@ -1108,7 +1108,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     stats.hit += StPlusCard(HIT, stats);
 
     if (StPlusItem("Jungle Carbine", stats))
-        w -= Math.floor(SU_DEX / 3);
+        w -= Math.floor(stats.baseDex / 3);
 
 
     stats.hit += 1 * SkillSearch("Vulture's Eye", stats);
@@ -1124,7 +1124,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     stats.hit += 2 * SkillSearch("Single Action", stats);
 
     if (StPlusItem("Western Outlaw", stats))
-        stats.hit += Math.floor(SU_AGI / 5);
+        stats.hit += Math.floor(stats.baseAgi / 5);
 
     if (stats.skillToUseName == "Rapid Smiting")
         stats.hit += 20;
@@ -1149,18 +1149,18 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     if (n_A_JobSearch(stats.job) == 2 && CardNumSearch("Wanderer", stats))
         stats.flee += 20;
-    if (stats.shoulderDefPlus >= 9 && CardNumSearch("Ninetails", stats))
+    if (stats.shoulderRefinement >= 9 && CardNumSearch("Ninetails", stats))
         stats.flee += 20;
-    if (stats.shoulderDefPlus <= 4 && CardNumSearch("Kavach Icarus", stats))
+    if (stats.shoulderRefinement <= 4 && CardNumSearch("Kavach Icarus", stats))
         stats.flee += 10;
-    if (stats.shoulderDefPlus >= 9 && CardNumSearch("Orc Baby", stats))
+    if (stats.shoulderRefinement >= 9 && CardNumSearch("Orc Baby", stats))
         stats.flee += 5;
 
     if (stats.groundSupportiveSkills[0] == 2 && stats.groundSupportiveSkills[1] >= 1 && (CardNumSearch("Dokkebi", stats) || stats.equipments[6] == 430 || stats.equipments[6] == 606))
         stats.flee += stats.groundSupportiveSkills[1] * 3;
 
     if (stats.equipments[0] == 483)
-        stats.flee -= (stats.baseLevel + SU_AGI);
+        stats.flee -= (stats.baseLevel + stats.baseAgi);
 
 
     if (stats.job == 8 || stats.job == 14 || stats.job == 22 || stats.job == 28)
@@ -1219,13 +1219,13 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     if (n_A_JobSearch(stats.job) == 1)
         stats.perfectDodge += 4 * CardNumSearch("Heater", stats);
-    if (stats.shoulderDefPlus <= 4 && CardNumSearch("Kavach Icarus", stats))
+    if (stats.shoulderRefinement <= 4 && CardNumSearch("Kavach Icarus", stats))
         stats.perfectDodge += 1;
     if (stats.equipments[7] == 535) {
         wHPVS = n_A_JobSearch(stats.job);
         if (wHPVS == 3 || wHPVS == 4 || wHPVS == 5) {
             stats.perfectDodge += 5;
-            stats.perfectDodge += stats.shoulderDefPlus * 2;
+            stats.perfectDodge += stats.shoulderRefinement * 2;
         }
     }
 
@@ -1247,19 +1247,19 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     w += StPlusCard(CRITICAL_AGAINST_RACE_PERCENTAGE + targetStats.race, stats);
 
     if (CardNumSearch("Green Maiden", stats))
-        w += stats.shoulderDefPlus;
+        w += stats.shoulderRefinement;
     if (n_A_JobSearch(stats.job) == 2)
         w += 4 * CardNumSearch("Mobster", stats);
     if (n_A_JobSearch(stats.job) == 3) {
         if (targetStats.race == 1 || targetStats.race == 6)
             w += 9 * CardNumSearch("Fur Seal", stats);
     }
-    if (SU_LUK >= 80 && CardNumSearch("Giant Whisper", stats))
+    if (stats.baseLuk >= 80 && CardNumSearch("Giant Whisper", stats))
         w += 3;
     if (StPlusItem("Giant Encyclopedia", stats))
-        w += Math.floor(SU_LUK / 5);
+        w += Math.floor(stats.baseLuk / 5);
     if (StPlusItem("Sniping Suit", stats))
-        w += Math.floor(SU_LUK / 5);
+        w += Math.floor(stats.baseLuk / 5);
     if (StPlusItem("Sniping Suit *", stats))
         w += Math.floor(stats.luk / 5);
 
@@ -1321,9 +1321,9 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     if (n_A_JobSearch(stats.job) == 5 && CardNumSearch("0", stats))
         w_MATK += 3;
-    if (stats.headDefPlus >= 9 && stats.cards[8] == 177)
+    if (stats.headRefinement >= 9 && stats.cards[8] == 177)
         w_MATK += 2;
-    if (stats.equipments[0] == 484 && SU_INT >= 70)
+    if (stats.equipments[0] == 484 && stats.baseInt >= 70)
         w_MATK += 5;
     stats.matk[0] = Math.floor(stats.matk[0] * w_MATK / 100);
     stats.matk[2] = Math.floor(stats.matk[2] * w_MATK / 100);
@@ -1412,10 +1412,10 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         ASPDch = 1;
     }
     if (StPlusItem("Western Outlaw", stats))
-        w += Math.floor(SU_AGI / 5);
-    if (stats.equipments[0] == 484 && SU_STR >= 50)
+        w += Math.floor(stats.baseAgi / 5);
+    if (stats.equipments[0] == 484 && stats.baseStr >= 50)
         w += 5;
-    if (SU_STR >= 95 && StPlusItem("Doom Slayer", stats))
+    if (stats.baseStr >= 95 && StPlusItem("Doom Slayer", stats))
         w -= 40;
     if (StPlusItem("Hurricane Fury", stats))
         w += (weaponRefinementLevel * 2);
@@ -1529,7 +1529,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     if (StPlusItem("0", stats) || EquipNumSearch("0", stats))
         w -= weaponRefinementLevel;
     if (stats.cards[8] == 177)
-        w -= stats.headDefPlus;
+        w -= stats.headRefinement;
 
     w += StPlusItem(CAST_TIME_PERCENTAGE, stats);
     w += StPlusCard(CAST_TIME_PERCENTAGE, stats);
@@ -1548,12 +1548,12 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     w = 100;
     w += StPlusItem(HP_REGEN_PERCENTAGE, stats);
     w += StPlusCard(HP_REGEN_PERCENTAGE, stats);
-    if (SU_LUK >= 77)
+    if (stats.baseLuk >= 77)
         w += 100 * CardNumSearch("Arc Angeling", stats);
 
     if (n_A_JobSearch(stats.job) == 41 && StPlusItem("Magistrate Hat", stats))
         w += 3;
-    if (stats.shoesHandDefPlus <= 4 && CardNumSearch("Gold Acidus", stats))
+    if (stats.shoesHandRefinement <= 4 && CardNumSearch("Gold Acidus", stats))
         w += 5;
 
     n_A_HPR = Math.floor(n_A_HPR * w / 100);
@@ -1569,16 +1569,16 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     w += StPlusItem(SP_REGEN_PERCENTAGE, stats);
     w += StPlusCard(SP_REGEN_PERCENTAGE, stats);
 
-    if (SU_LUK >= 77)
+    if (stats.baseLuk >= 77)
         w += 100 * CardNumSearch("Arc Angeling", stats);
 
     if (n_A_JobSearch(stats.job) == 41 && StPlusItem("Ayam", stats))
         w += 3;
-    if (stats.shieldHandDefPlus <= 4 && stats.cards[8] == 179)
+    if (stats.shieldHandRefinement <= 4 && stats.cards[8] == 179)
         w += 5;
     if (stats.cards[9] == 179)
         w += 5;
-    if (stats.shoesHandDefPlus <= 4 && CardNumSearch("Gold Acidus", stats))
+    if (stats.shoesHandRefinement <= 4 && CardNumSearch("Gold Acidus", stats))
         w += 5;
 
     n_A_SPR = Math.floor(n_A_SPR * w / 100);
@@ -2302,15 +2302,14 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
     let w998L = 100 - w998K;
 
 
-    stats.flee = stats.flee + 20 - (targetStats.hit);
-    if (stats.flee > 95) {
-        stats.flee = 95;
-    } else if (stats.flee < 5) {
-        stats.flee = 5;
+    battleResult.battleFlee = stats.flee + 20 - (targetStats.hit);
+    if (battleResult.battleFlee > 95) {
+        battleResult.battleFlee = 95;
+    } else if (battleResult.battleFlee < 5) {
+        battleResult.battleFlee = 5;
     }
     if (InWarOfEmperium == 0) ;
     // myInnerHtml("BattleFLEE", stats.flee, 0);
-    battleResult.battleFlee = stats.flee;
 
     let workDex = Math.floor(stats.dex * (1 + (stats.weapon1Lv - 1) * 0.2));
 
@@ -2741,7 +2740,7 @@ function BaiCI(stats, targetStats, wBaiCI, InWarOfEmperium) {
     let w1 = 0;
 
     if (stats.skillToUseName == "Bash")
-        if (stats.shoesHandDefPlus >= 9 && CardNumSearch("Freezer"))
+        if (stats.shoesHandRefinement >= 9 && CardNumSearch("Freezer"))
             w1 += 10;
 
     if (TyouEnkakuSousa3dan == -1 && EquipNumSearch("Barrage Fist", stats))
@@ -3680,7 +3679,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
         if (stats.skillToUseName === "Shield Boomerang (SoulLinked)")
             wDelay = 0.35;
         swDelay = 1;
-        wSBr = stats.shieldHandDefPlus * 4;
+        wSBr = stats.shieldHandRefinement * 4;
 
         skillModifier2 = (1 + stats.skillToUseLV * 0.3);
         if (stats.skillToUseName === "Shield Boomerang (SoulLinked)")
@@ -3714,7 +3713,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
         wCast = 1 * stats.cast;
         wDelay = 1;
         swDelay = 1;
-        wSBr = stats.shieldHandDefPlus;
+        wSBr = stats.shieldHandRefinement;
         wSC = ItemOBJ[stats.equipments[5]][6];
 
         skillModifier2 = (1 + stats.skillToUseLV * 0.3);
@@ -4912,10 +4911,10 @@ function CalculateDamageReceived(stats, targetStats) {
     wBHD = StPlusCard("DAMAGE_INC_DEC_ELEMENT_NEUTRAL_PERCENTAGE", stats);
     wBHD += StPlusItem("DAMAGE_INC_DEC_ELEMENT_NEUTRAL_PERCENTAGE", stats);
     if (EquipNumSearch("0", stats) || EquipNumSearch("0", stats))
-        wBHD += stats.shoulderDefPlus * 3;
+        wBHD += stats.shoulderRefinement * 3;
     if (SkillSearch("Skin Tempering", stats))
         wBHD += SkillSearch("Skin Tempering", stats);
-    if (stats.shoulderDefPlus >= 9 && CardNumSearch("Orc Baby", stats))
+    if (stats.shoulderRefinement >= 9 && CardNumSearch("Orc Baby", stats))
         wBHD += 5;
     if (wBHD != 0) {
         for (i = 0; i <= 6; i++)
@@ -5152,9 +5151,21 @@ function CastAndDelay(stats, wCast, wDelay, swDelay) {
     return battleResult;
 }
 
+function GetTestCase(formData) {
+    let targetStats = CalculateEnemyStats(formData, 0);
+    let sourceStats = CalculateAllStats(formData, targetStats);
+    let battleResult = CalculateBattle(sourceStats, targetStats, 0);
+
+    return {
+        ...sourceStats,
+        ...battleResult,
+    }
+}
+
 
 export {
     CalculateAllStats,
     CalculateEnemyStats,
-    CalculateBattle
+    CalculateBattle,
+    GetTestCase
 }

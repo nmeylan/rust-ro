@@ -1,4 +1,4 @@
-import {CalculateAllStats, CalculateBattle, CalculateEnemyStats} from "./calc.js";
+import {CalculateAllStats, CalculateBattle, CalculateEnemyStats, GetTestCase} from "./calc.js";
 
 function myInnerHtml(wIH1, wIH2, wIH3) {
     if (wIH3 == 0) {
@@ -868,6 +868,12 @@ function bindLoad() {
     });
 }
 
+function bindGenerateTestCase() {
+    document.getElementById("btn-generate-testcase").addEventListener("click", (e) => {
+        GenerateTestCase()
+    });
+}
+
 
 function OnChangeStat(nSC) {
     let FORM_DATA = getFormData(document);
@@ -1367,65 +1373,12 @@ function Calculate() {
     let sourceStats = CalculateAllStats(formData, targetStats);
     let battleResult = CalculateBattle(sourceStats, targetStats, 0);
 
-    console.log(targetStats);
-    console.log(sourceStats);
-    console.log(battleResult);
-
     refreshEnemyStats(targetStats);
     refreshPlayerStats(sourceStats);
     refreshBattleResults(battleResult);
 }
 
 function GenerateTestCase() {
-    OnChangeStat(true);
-    calc(true);
-    let savedDataAsJson = SaveForm(true);
-    let crit_damages = document.querySelector("#CRIATK").textContent.split("~");
-    let crit_rate = Number.parseFloat(document.querySelector("#CRInum").textContent);
-    let min_dmg = Number.parseFloat(document.querySelector("#ATK_00").textContent);
-    let max_dmg = Number.parseFloat(document.querySelector("#ATK_02").textContent);
-    let avg_dmg = Number.parseFloat(document.querySelector("#ATK_01").textContent);
-    let dps = Number.parseFloat(document.querySelector("#DPS").textContent);
-    let aspd = Number.parseFloat(document.querySelector("#nm023").textContent);
-    savedDataAsJson.expected = {
-        weapon_min_atk: weaponAttack[0],
-        weapon_avg_atk: weaponAttack[1],
-        weapon_max_atk: weaponAttack[2],
-        base_atk: baseATK,
-        hit_ratio: hitRate / 100.0,
-        critical_rate: crit_rate,
-        critical_damage_min: Number.parseFloat(crit_damages[0]),
-        critical_damage_max: crit_damages.length > 1 ? Number.parseFloat(crit_damages[1]) : Number.parseFloat(crit_damages[0]),
-        min_dmg: min_dmg,
-        avg_dmg: avg_dmg,
-        max_dmg: max_dmg,
-        dps: dps,
-        aspd: aspd,
-        stats_atk_left: ATK_LEFT,
-        stats_atk_right: ATK_RIGHT,
-    };
-    removeNullValues(savedDataAsJson);
-    console.log(JSON.stringify(savedDataAsJson));
-    if (!InTestCaseGenerationMode) {
-        navigator.clipboard.writeText(JSON.stringify(savedDataAsJson));
-    }
-}
-
-function aegis_item(value) {
-    if (global.ItemIds[value][2].startsWith("(No")) {
-        return null;
-    }
-    return global.ItemIds[value][2];
-}
-
-function card(value) {
-    if (!value) {
-        return null;
-    }
-    return global.CardIds[value][2]
-}
-
-function SaveForm() {
     // const testCaseData = {};
     //
     // testCaseData.job = JobName[eval(document.calcForm.A_JOB.value)];
@@ -1486,13 +1439,12 @@ function SaveForm() {
     // testCaseData.accessory_right_card = card(eval(document.calcForm.A_acces2_card.value));
     //
     // let {n_A_JOB, isRebirth} = n_A_JobSet();
-    // w = n_A_JOB;
+    // let w = n_A_JOB;
     // var saveDataIndex = 45;
     // var passiveSkills = [];
     // for (var i = 0; i < 15; i++) {
     //     if (global.JobSkillPassOBJ[w][i] == 999) break;
     //     let skill_level = eval(document.calcForm["A_PASSIVE_SKILL" + i].value);
-    //     SaveData[saveDataIndex + i] = skill_level;
     //     if (skill_level > 0) {
     //         passiveSkills.push({skid: SkillOBJ[global.JobSkillPassOBJ[w][i]][3], level: skill_level})
     //     }
@@ -1505,10 +1457,10 @@ function SaveForm() {
     //     {skid: 486}, {skid: 383}, {state: 'Spirit Sphere'}, {skid: 7}, {state: 'Aloevera'}, {skid: 67}, {skid: 256}];
     // var supportiveSkills = [];
     // for (i = 0; i <= 12; i++) {
-    //     if (n_A_PassSkill2[i] === undefined || n_A_PassSkill2[i] === 0) {
+    //     let value = document.calcForm["A_SUPPORTIVE_SKILL" + i].value;
+    //     if (value === undefined || value === 0) {
     //         continue;
     //     }
-    //     var value = n_A_PassSkill2[i];
     //     if (value == true)
     //         value = 1;
     //     else if (value == false)
@@ -1529,7 +1481,57 @@ function SaveForm() {
     //     level: eval(document.calcForm.A_ActiveSkillLV.value)
     // };
     // testCaseData.target = MonsterIds[eval(document.calcForm.B_Enemy.value)][2];
+    // let crit_damages = document.querySelector("#CRIATK").textContent.split("~");
+    // let crit_rate = Number.parseFloat(document.querySelector("#CRInum").textContent);
+    // let min_dmg = Number.parseFloat(document.querySelector("#ATK_00").textContent);
+    // let max_dmg = Number.parseFloat(document.querySelector("#ATK_02").textContent);
+    // let avg_dmg = Number.parseFloat(document.querySelector("#ATK_01").textContent);
+    // let dps = Number.parseFloat(document.querySelector("#DPS").textContent);
+    // let aspd = Number.parseFloat(document.querySelector("#nm023").textContent);
+    //
+    // let targetStats = CalculateEnemyStats(formData, 0);
+    // let sourceStats = CalculateAllStats(formData, targetStats);
+    // let battleResult = CalculateBattle(sourceStats, targetStats, 0);
+    //
+    // testCaseData.expected = {
+    //     weapon_min_atk: weaponAttack[0],
+    //     weapon_avg_atk: weaponAttack[1],
+    //     weapon_max_atk: weaponAttack[2],
+    //     base_atk: baseATK,
+    //     hit_ratio: hitRate / 100.0,
+    //     critical_rate: crit_rate,
+    //     critical_damage_min: Number.parseFloat(crit_damages[0]),
+    //     critical_damage_max: crit_damages.length > 1 ? Number.parseFloat(crit_damages[1]) : Number.parseFloat(crit_damages[0]),
+    //     min_dmg: min_dmg,
+    //     avg_dmg: avg_dmg,
+    //     max_dmg: max_dmg,
+    //     dps: dps,
+    //     aspd: aspd,
+    //     stats_atk_left: ATK_LEFT,
+    //     stats_atk_right: ATK_RIGHT,
+    // };
+    let testCase = GetTestCase(getFormData(document));
+    console.log(testCase);
+    removeNullValues(testCase);
+    console.log(JSON.stringify(testCase));
+    navigator.clipboard.writeText(JSON.stringify(testCase));
+}
 
+function aegis_item(value) {
+    if (global.ItemIds[value][2].startsWith("(No")) {
+        return null;
+    }
+    return global.ItemIds[value][2];
+}
+
+function card(value) {
+    if (!value) {
+        return null;
+    }
+    return global.CardIds[value][2]
+}
+
+function SaveForm() {
     let saveId =  document.calcForm.A_SaveSlot.value;
 
     localStorage.setItem(saveId, serializeFormToJSON());
@@ -1832,6 +1834,7 @@ bindSearchable(document.getElementById("enemy-select"))
 
 bindSave();
 bindLoad();
+bindGenerateTestCase();
 bindOnChangeEnemy();
 bindOnChangeJob();
 bindOnClickCalculate();

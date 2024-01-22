@@ -8,7 +8,6 @@
     <script lang="JavaScript">
         Lang = 0;
         InWarOfEmperium = 0;
-        InTestCaseGenerationMode = false;
         global = {};
     </script>
     <script lang="JavaScript" src="db.js"></script>
@@ -27,7 +26,7 @@
                     <h3>Stats & Stuff</h3>
                     <div>
                         <button type="reset" value="Reset">Reset</button>
-                        <input type="button" value="Generate TestCase" onclick="GenerateTestCase()">
+                        <input type="button" value="Generate TestCase" id="btn-generate-testcase">
                         <input type="button" value="Save" id="btn-save">
                         <input type="button" value="Load" id="btn-load">
                         <select name="A_SaveSlot">
