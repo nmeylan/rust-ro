@@ -289,10 +289,6 @@ function bindSearchable(selectElement) {
 
 function ClickJob(n) {
 
-    myInnerHtml("A_KakutyouSel", "", 0);
-    myInnerHtml("A_KakutyouData", "", 0);
-    document.calcForm.A_Kakutyou.value = 0;
-
     if (global.n_SkillSW) {
         document.calcForm.A_SUPPORTIVE_SKILL0.value = 0;
         document.calcForm.A_SUPPORTIVE_SKILL1.value = 0;
@@ -1211,125 +1207,6 @@ function ActiveSkillSetPlus() {
         document.calcForm.A_ActiveSkillLV.style.visibility = "hidden";
 }
 
-
-function ExtendedInfoCalc() {
-    wKK = eval(document.calcForm.A_Kakutyou.value);
-    if (wKK == 0) {
-        myInnerHtml("A_KakutyouData", "", 0);
-        return;
-    }
-    Heal = new Array();
-    if (wKK == 1) {
-        for (i = 0; i <= 10; i++)
-            Heal[i] = HealCalc(i, 1);
-        if (n_A_JOB == 3 || n_A_JOB == 9 || n_A_JOB == 13 || n_A_JOB == 14 || n_A_JOB == 15 || n_A_JOB == 20 || n_A_JOB == 23 || n_A_JOB == 27 || n_A_JOB == 28 || n_A_JOB == 29) {
-            w = "";
-            for (i = 1; i <= 9; i++)
-                w += "Lv" + i + " " + Heal[i] + "<br>";
-            w += "Lv10 " + Heal[10] + "<br>";
-        } else {
-            w = "<table border=0>";
-            w += "<tr><td>Heal Lv1 (Vitata Card) </td><td> " + Heal[1] + "</td></tr>";
-            w += "<tr><td>Heal Lv2</td><td>" + Heal[2] + "</td></tr>";
-            w += "<tr><td>Heal Lv3</td><td>" + Heal[3] + "</td></tr>";
-            w += "<tr><td>Heal Lv4</td><td>" + Heal[4] + "</td></tr>";
-            w += "<tr><td>Heal Lv5 (Scroll)</td><td>" + Heal[5] + "</td></tr></table>";
-        }
-        w += "<Font size=2>Required Int/Lv for next bonus: </Font>+" + (8 - (n_A_BaseLV + n_A_INT) % 8);
-        myInnerHtml("A_KakutyouData", w, 0);
-    } else if (wKK == 2) {
-        if (n_A_JOB == 1 || n_A_JOB == 7 || n_A_JOB == 13 || n_A_JOB == 20 || n_A_JOB == 21 || n_A_JOB == 27) {
-            HPRLV = eval(document.calcForm.A_KakutyouSelNum.value);
-            w = Math.floor((5 + n_A_MaxHP / 500) * HPRLV);
-            myInnerHtml("A_KakutyouData", "<br>Regen: " + w, 0);
-        } else
-            myInnerHtml("A_KakutyouData", "", 0);
-    } else if (wKK == 3) {
-        if (n_A_JOB == 5 || n_A_JOB == 9 || n_A_JOB == 11 || n_A_JOB == 18 || n_A_JOB == 20 || n_A_JOB == 23 || n_A_JOB == 25 || n_A_JOB == 32) {
-            SPRLV = eval(document.calcForm.A_KakutyouSelNum.value);
-            w = Math.floor((3 + n_A_MaxSP / 500) * SPRLV);
-            myInnerHtml("A_KakutyouData", "<br>Regen: " + w, 0);
-        } else
-            myInnerHtml("A_KakutyouData", "", 0);
-    } else if (wKK == 4) {
-        if (n_A_JOB == 15 || n_A_JOB == 29) {
-            SPRLV = eval(document.calcForm.A_KakutyouSelNum.value);
-            w1 = Math.floor((4 + n_A_MaxHP / 500) * SPRLV);
-            w2 = Math.floor((2 + n_A_MaxSP / 500) * SPRLV);
-            myInnerHtml("A_KakutyouData", "<br>HP Regen: " + w1 + "<br>SP Regen: " + w2, 0);
-        } else
-            myInnerHtml("A_KakutyouData", "", 0);
-    } else if (wKK == 5) {
-        syozijob = [0, 800, 400, 400, 600, 200, 800, 800, 400, 600, 700, 400, 1000, 800, 400, 600, 700, 700, 400, 1000, 0, 800, 400, 600, 700, 400, 1000, 800, 400, 600, 700, 700, 400, 1000, 0, 0, 0, 0, 0, 0, 0, 800, 800, 400, 600, 800];
-        syoziryou = 2000 + syozijob[n_A_JOB];
-        if (eval(document.calcForm.isAdopted.checked))
-            syoziryou = 2000;
-        syoziryou += eval(document.calcForm.A_STR.value) * 30;
-        if (SkillSearch(78))
-            syoziryou += 1000;
-        if (n_A_JOB == 6 || n_A_JOB == 12 || n_A_JOB == 19 || n_A_JOB == 20 || n_A_JOB == 26 || n_A_JOB == 33)
-            syoziryou += eval(document.calcForm.A_KakutyouSelNum.value) * 200;
-        EquipKG = 0;
-        for (i = 0; i <= 10; i++)
-            EquipKG += global.ItemOBJ[n_A_Equip[i]][6];
-        myInnerHtml("A_KakutyouData", "Weight Limit: " + syoziryou + "<BR>Total Weight of Equipment: " + EquipKG, 0);
-    }
-}
-
-function ExtendedInfo() {
-    let wKK = eval(document.calcForm.A_Kakutyou.value);
-    if (wKK == 2) {
-        if (n_A_JOB == 1 || n_A_JOB == 7 || n_A_JOB == 13 || n_A_JOB == 20 || n_A_JOB == 21 || n_A_JOB == 27) {
-            myInnerHtml("A_KakutyouSel", "Increased HP Recovery Level: " + '<select name="A_KakutyouSelNum"onChange="StAllCalc()"></select>', 0);
-            for (i = 0; i <= 10; i++)
-                document.calcForm.A_KakutyouSelNum.options[i] = new Option(i, i);
-            document.calcForm.A_KakutyouSelNum.value = 10;
-            return;
-        } else {
-            myInnerHtml("A_KakutyouSel", "Not Available for this Class", 0);
-            return;
-        }
-    }
-    if (wKK == 3) {
-        if (n_A_JOB == 5 || n_A_JOB == 9 || n_A_JOB == 11 || n_A_JOB == 18 || n_A_JOB == 20 || n_A_JOB == 23 || n_A_JOB == 25 || n_A_JOB == 32) {
-            myInnerHtml("A_KakutyouSel", "Increased SP Recovery Level: " + '<select name="A_KakutyouSelNum"onChange="StAllCalc()"></select>', 0);
-            for (i = 0; i <= 10; i++)
-                document.calcForm.A_KakutyouSelNum.options[i] = new Option(i, i);
-            document.calcForm.A_KakutyouSelNum.value = 10;
-            return;
-        } else {
-            myInnerHtml("A_KakutyouSel", "Not Available for this Class", 0);
-            return;
-        }
-    }
-    if (wKK == 4) {
-        if (n_A_JOB == 15 || n_A_JOB == 29) {
-            myInnerHtml("A_KakutyouSel", "Spiritual Cadence Lv: " + '<select name="A_KakutyouSelNum"onChange="StAllCalc()"></select>', 0);
-            for (i = 0; i <= 5; i++)
-                document.calcForm.A_KakutyouSelNum.options[i] = new Option(i, i);
-            document.calcForm.A_KakutyouSelNum.value = 5;
-            return;
-        } else {
-            myInnerHtml("A_KakutyouSel", "Not Available for this Class", 0);
-            return;
-        }
-    }
-    if (wKK == 5) {
-        if (n_A_JOB == 6 || n_A_JOB == 12 || n_A_JOB == 19 || n_A_JOB == 20 || n_A_JOB == 26 || n_A_JOB == 33) {
-            myInnerHtml("A_KakutyouSel", "Enlarge Weight Limit Lv: " + '<select name="A_KakutyouSelNum"onChange="StAllCalc()"></select><BR>', 0);
-            for (i = 0; i <= 10; i++)
-                document.calcForm.A_KakutyouSelNum.options[i] = new Option(i, i);
-            if (n_A_JOB == 20)
-                document.calcForm.A_KakutyouSelNum.value = 0;
-            else
-                document.calcForm.A_KakutyouSelNum.value = 5;
-        } else {
-            myInnerHtml("A_KakutyouSel", "", 0);
-        }
-        return;
-    }
-    myInnerHtml("A_KakutyouSel", "", 0);
-}
 
 function SetCardShortcut() {
     let w = eval(document.calcForm.A_cardshort.value);
@@ -2322,5 +2199,4 @@ bindOnChangeCard();
 bindOnChangeActiveSkill();
 bindOnChangeStat();
 bindOnChangeCardShortcut();
-bindOnChangeExtendedInfo();
 Calculate();
