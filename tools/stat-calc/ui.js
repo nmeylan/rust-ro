@@ -712,9 +712,6 @@ function bindOnChangeGear() {
     document.getElementById("accessory2-select").addEventListener("change", (e) => {
         ClickB_Item(e.target.value)
     });
-    document.getElementById("item-sw-checkbox").addEventListener("click", (e) => {
-        ClickB_Item('SW')
-    });
 }
 
 function bindOnChangeCard() {
@@ -807,6 +804,22 @@ function bindOnChangeCardShortcut() {
     });
 }
 
+function bindAutoCalculate() {
+    document.querySelectorAll("input").forEach((input) => {
+        input.addEventListener("change", (event) => {
+            if (document.getElementById("checkbox-auto-calculate").checked) {
+                Calculate();
+            }
+        });
+    });
+    document.querySelectorAll("select").forEach((input) => {
+        input.addEventListener("change", (event) => {
+            if (document.getElementById("checkbox-auto-calculate").checked) {
+                Calculate();
+            }
+        });
+    });
+}
 function bindOnChangeExtendedInfo() {
     document.getElementById("extended-info-select").addEventListener("change", (e) => {
         ExtendedInfo()
@@ -1829,4 +1842,5 @@ bindOnChangeCard();
 bindOnChangeActiveSkill();
 bindOnChangeStat();
 bindOnChangeCardShortcut();
+bindAutoCalculate()
 Calculate();
