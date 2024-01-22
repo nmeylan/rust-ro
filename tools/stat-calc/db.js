@@ -153,6 +153,139 @@ global.DAMAGE_INC_DEC_SIZE_SMALL_PERCENTAGE = 190;
 global.DAMAGE_INC_DEC_SIZE_MEDIUM_PERCENTAGE = 191;
 global.DAMAGE_INC_DEC_SIZE_LARGE_PERCENTAGE = 192 ;
 
+global.bonusLabel = {
+    1: "str",
+    2: "agi",
+    3: "vit",
+    4: "int",
+    5: "dex",
+    6: "luk",
+    7: "all_stats",
+    8: "hit",
+    9: "flee",
+    10: "crit",
+    11: "perfect_dodge",
+    12: "aspd_percentage",
+    13: "maxhp",
+    14: "maxsp",
+    15: "maxhp_percentage",
+    16: "maxsp_percentage",
+    17: "atk",
+    18: "def",
+    19: "mdef",
+    20: "element_weapon",
+    22: "bypass_defense_on_race",
+    23: "weapon_atk_increase_on_target_defense",
+    24: "reduce_defense",
+    25: "reduce_defense_percentage",
+    26: "increase_damage_against_boss_percentage",
+    27: "increase_damage_against_size_percentage",
+    27: "increase_damage_against_size_small_percentage",
+    28: "increase_damage_against_size_medium_percentage",
+    29: "increase_damage_against_size_large_percentage",
+    30: "increase_damage_race_percentage",
+    30: "increase_damage_race_formless_percentage",
+    31: "increase_damage_race_undead_percentage",
+    32: "increase_damage_race_brute_percentage",
+    33: "increase_damage_race_plant_percentage",
+    34: "increase_damage_race_insect_percentage",
+    35: "increase_damage_race_fish_percentage",
+    36: "increase_damage_race_demon_percentage",
+    37: "increase_damage_race_demihuman_percentage",
+    38: "increase_damage_race_angel_percentage",
+    39: "increase_damage_race_dragon_percentage",
+    40 : "increase_damage_element_percentage",
+    40: "increase_damage_element_neutral_percentage",
+    41: "increase_damage_element_water_percentage",
+    42: "increase_damage_element_earth_percentage",
+    43: "increase_damage_element_fire_percentage",
+    44: "increase_damage_element_wind_percentage",
+    45: "increase_damage_element_poison_percentage",
+    46: "increase_damage_element_holy_percentage",
+    47: "increase_damage_element_dark_percentage",
+    48: "increase_damage_element_ghost_percentage",
+    49: "increase_damage_element_undead_percentage",
+    50 : "damage_inc_dec_race_percentage",
+    50: "damage_inc_dec_race_formless_percentage",
+    51: "damage_inc_dec_race_undead_percentage",
+    52: "damage_inc_dec_race_brute_percentage",
+    53: "damage_inc_dec_race_plant_percentage",
+    54: "damage_inc_dec_race_insect_percentage",
+    55: "damage_inc_dec_race_fish_percentage",
+    56: "damage_inc_dec_race_demon_percentage",
+    57: "damage_inc_dec_race_demihuman_percentage",
+    58: "damage_inc_dec_race_angel_percentage",
+    59: "damage_inc_dec_race_dragon_percentage",
+    60: "damage_inc_dec_element_percentage",
+    60: "damage_inc_dec_element_neutral_percentage",
+    61: "damage_inc_dec_element_water_percentage",
+    62: "damage_inc_dec_element_earth_percentage",
+    63: "damage_inc_dec_element_fire_percentage",
+    64: "damage_inc_dec_element_wind_percentage",
+    65: "damage_inc_dec_element_poison_percentage",
+    66: "damage_inc_dec_element_holy_percentage",
+    67: "damage_inc_dec_element_dark_percentage",
+    68: "damage_inc_dec_element_ghost_percentage",
+    69: "damage_inc_dec_element_undead_percentage",
+    70: "critical_damage_percentage",
+    73: "cast_time_percentage",
+    74: "acd_percentage",
+    75: "hp_regen_percentage",
+    76: "sp_regen_percentage",
+    78: "resistance_range_attack_percentage",
+    79: "normal_attack_percentage",
+    81: "increase_damage_goblin_percentage",
+    82: "increase_damage_kobold_percentage",
+    83: "increase_damage_orc_percentage",
+    84: "increase_damage_golem_percentage",
+    85: "lower_defence_percentage",
+    86: "increase_hit_percentage",
+    87: "atk_percentage",
+    88: "matk_based_on_staff_percentage",
+    89: "matk_percentage",
+    110: "critical_against_race_percentage",
+    110: "critical_against_race_formless_percentage",
+    111: "critical_against_race_undead_percentage",
+    112: "critical_against_race_brute_percentage",
+    113: "critical_against_race_plant_percentage",
+    114: "critical_against_race_insect_percentage",
+    115: "critical_against_race_fish_percentage",
+    116: "critical_against_race_demon_percentage",
+    117: "critical_against_race_demihuman_percentage",
+    118: "critical_against_race_angel_percentage",
+    119: "critical_against_race_dragon_percentage",
+    130 : "chance_to_inflict_status_on_attack",
+    130: "chance_to_inflict_status_poison_on_attack",
+    131: "chance_to_inflict_status_stun_on_attack",
+    132: "chance_to_inflict_status_freeze_on_attack",
+    133: "chance_to_inflict_status_curse_on_attack",
+    134: "chance_to_inflict_status_blind_on_attack",
+    135: "chance_to_inflict_status_sleep_on_attack",
+    136: "chance_to_inflict_status_silence_on_attack",
+    137: "chance_to_inflict_status_chaos_on_attack",
+    138: "chance_to_inflict_status_bleeding_on_attack",
+    139: "chance_to_inflict_status_stone_on_attack",
+    140: "chance_to_inflict_status_weapon_break_on_attack",
+    141: "chance_to_inflict_status_armor_break_on_attack",
+    150 : "resistance_to_status_percentage",
+    150: "resistance_to_status_poison_percentage",
+    151: "resistance_to_status_stun_percentage",
+    152: "resistance_to_status_freeze_percentage",
+    153: "resistance_to_status_curse_percentage",
+    154: "resistance_to_status_blind_percentage",
+    155: "resistance_to_status_sleep_percentage",
+    156: "resistance_to_status_silence_percentage",
+    157: "resistance_to_status_chaos_percentage",
+    158: "resistance_to_status_bleeding_percentage",
+    159: "resistance_to_status_stone_percentage",
+    160: "resistance_to_status_weapon_break_percentage",
+    161: "resistance_to_status_armor_break_percentage",
+    190 : "damage_inc_dec_size_percentage",
+    190: "damage_inc_dec_size_small_percentage",
+    191: "damage_inc_dec_size_medium_percentage",
+    192 : "damage_inc_dec_size_large_percentage"
+}
+
 global.WEAPON_NAME = [
     "Unarmed",
     "Dagger",
@@ -1237,7 +1370,16 @@ global.CardSortOBJ = [
     [0, 399, 227, 228, 229, 140, 94, 242, 95, 246, 89, 257, 266, 269, 408, 278, 407, 300, 304, 91, 93, 318, 322, 406, 88, 351, 362, 92, 423, 90, 377, 379, 381, 388, 409, 391, "NULL"],
     [0, 230, 414, 236, 412, 237, 141, 247, 248, 250, 251, 152, 148, 256, 260, 262, 212, 97, 270, 146, 418, 410, 226, 103, 292, 297, 416, 395, 151, 312, 314, 96, 145, 315, 316, 100, 98, 324, 335, 336, 417, 419, 149, 216, 350, 354, 144, 411, 413, 105, 415, 365, 142, 147, 150, 370, 371, 143, 101, 378, 104, 102, 218, 385, 386, 99, 389, "NULL"]
 ];
-
+// 1 ->
+// 2 ->
+// 3 -> atk for weapon, def for gear
+// 4 -> weaponlvl
+// 5 -> slot
+// 6 -> item weight
+// 7 -> required level
+// 8 -> name
+// 9, 10 -> description
+// >11 -> stats
 global.ItemOBJ = [
     [0,0,0,0,1,0,0,0,"(Unarmed)","",0,0],
     [1,1,0,17,1,"3 / 4",40,0,"Knife","",0,0],
@@ -2810,7 +2952,7 @@ global.ItemIds = [
     [782,5305,"Pirate_Dagger"] ,
 ]
 // TODO rename
-global.w_SE = [[737,436,475,"NULL"],
+global.equipmentsSetCombo = [[737,436,475,"NULL"],
     [769,436,477,"NULL"],
     [738,288,699,"NULL"],
     [739,300,724,"NULL"],
@@ -2844,13 +2986,13 @@ global.w_SE = [[737,436,475,"NULL"],
     [768,728,729,"NULL"],
 ];
 
-for(let i=0;i<global.w_SE.length;i++){
-    for(let k=1;global.w_SE[i][k] != "NULL";k++){
+for(let i=0; i<global.equipmentsSetCombo.length; i++){
+    for(let k=1; global.equipmentsSetCombo[i][k] != "NULL"; k++){
         let j;
-        for(j=11;global.ItemOBJ[global.w_SE[i][k]][j] != 0;j+=2);
-        global.ItemOBJ[global.w_SE[i][k]][j]=90;
-        global.ItemOBJ[global.w_SE[i][k]][j+1]=global.w_SE[i][0];
-        global.ItemOBJ[global.w_SE[i][k]][j+2]=0;
+        for(j=11; global.ItemOBJ[global.equipmentsSetCombo[i][k]][j] != 0; j+=2);
+        global.ItemOBJ[global.equipmentsSetCombo[i][k]][j]=90;
+        global.ItemOBJ[global.equipmentsSetCombo[i][k]][j+1]=global.equipmentsSetCombo[i][0];
+        global.ItemOBJ[global.equipmentsSetCombo[i][k]][j+2]=0;
     }
 }
 
