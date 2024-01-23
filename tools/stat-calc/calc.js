@@ -251,21 +251,21 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     for(let i = 0; i < 15; i++) {
         addPassiveSkill(FORM_DATA, stats, i);
     }
-    stats.supportiveSkills[0] = FORM_DATA.A_SUPPORTIVE_SKILL0 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL0) : 0;
-    stats.supportiveSkills[1] = FORM_DATA.A_SUPPORTIVE_SKILL1 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL1) : 0;
-    stats.supportiveSkills[2] = FORM_DATA.A_SUPPORTIVE_SKILL2 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL2) : 0;
-    stats.supportiveSkills[3] = FORM_DATA.A_SUPPORTIVE_SKILL3 === "on";
-    stats.supportiveSkills[4] = FORM_DATA.A_SUPPORTIVE_SKILL4 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL4) : 0;
-    stats.supportiveSkills[5] = FORM_DATA.A_SUPPORTIVE_SKILL5 === "on";
-    stats.supportiveSkills[6] = FORM_DATA.A_SUPPORTIVE_SKILL6 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL6) : 0;
-    stats.supportiveSkills[7] = FORM_DATA.A_SUPPORTIVE_SKILL7 === "on";
-    stats.supportiveSkills[8] = FORM_DATA.A_SUPPORTIVE_SKILL8 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL8) : 0;
-    stats.supportiveSkills[9] = FORM_DATA.A_SUPPORTIVE_SKILL9 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL9) : 0;
-    stats.supportiveSkills[10] = FORM_DATA.A_SUPPORTIVE_SKILL10 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL10) : 0;
-    stats.supportiveSkills[11] = FORM_DATA.A_SUPPORTIVE_SKILL11 === "on";
-    stats.supportiveSkills[12] = FORM_DATA.A_SUPPORTIVE_SKILL12 === "on";
-    stats.supportiveSkills[13] = FORM_DATA.A_SUPPORTIVE_SKILL13 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL13) : 0;
-    stats.supportiveSkills[14] = FORM_DATA.A_SUPPORTIVE_SKILL14 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL14) : 0;
+    stats.supportiveSkills[0] = {name: "Blessing", skid: 34, level: FORM_DATA.A_SUPPORTIVE_SKILL0 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL0) : 0};
+    stats.supportiveSkills[1] = {name: "Increase AGI", skid: 29,level: FORM_DATA.A_SUPPORTIVE_SKILL1 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL1) : 0};
+    stats.supportiveSkills[2] = {name : "Impositio Manus", skid: 66, level: FORM_DATA.A_SUPPORTIVE_SKILL2 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL2) : 0};
+    stats.supportiveSkills[3] = {name : "Gloria", skid: 75,level: FORM_DATA.A_SUPPORTIVE_SKILL3 === "on" ? 1 : 0};
+    stats.supportiveSkills[4] = {name : "Angelus", skid: 33,level: FORM_DATA.A_SUPPORTIVE_SKILL4 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL4) : 0};
+    stats.supportiveSkills[5] = {name : "Assumptio", skid: 361,level: FORM_DATA.A_SUPPORTIVE_SKILL5 === "on" ? 1 : 0};
+    stats.supportiveSkills[6] = {name : "Adrenaline Rush", skid: 111,level: FORM_DATA.A_SUPPORTIVE_SKILL6 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL6) : 0};
+    stats.supportiveSkills[7] = {name : "Weapon Perfection", skid: 112,level: FORM_DATA.A_SUPPORTIVE_SKILL7 === "on" ? 1 : 0};
+    stats.supportiveSkills[8] = {name : "Power-Thrust", skid: 113,level: FORM_DATA.A_SUPPORTIVE_SKILL8 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL8) : 0};
+    stats.supportiveSkills[9] = {name : "Wind Walker", skid: 383,level: FORM_DATA.A_SUPPORTIVE_SKILL9 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL9) : 0};
+    stats.supportiveSkills[10] = {name : "Spirit Sphere", skid: 261, level: FORM_DATA.A_SUPPORTIVE_SKILL10 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL10) : 0};
+    stats.supportiveSkills[11] = {name : "Magnum break bonus", skid: 7, level: FORM_DATA.A_SUPPORTIVE_SKILL11 === "on" ? 1 : 0};
+    stats.supportiveSkills[12] = {name : "Provoke", skid: 6,level: FORM_DATA.A_SUPPORTIVE_SKILL12 === "on" ? 1 : 0};
+    stats.supportiveSkills[13] = {name : "Suffragium", skid: 67,level: FORM_DATA.A_SUPPORTIVE_SKILL13 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL13) : 0};
+    stats.supportiveSkills[14] = {name : "Providence", skid: 256, level: FORM_DATA.A_SUPPORTIVE_SKILL14 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL14) : 0};
 
 
     stats.performanceSkills[0] = FORM_DATA.PERFORMANCE_SKILL_PERFECT_TABLATURE0_1 ? eval(FORM_DATA.PERFORMANCE_SKILL_PERFECT_TABLATURE0_1) : 0;
@@ -457,12 +457,12 @@ function CalculateAllStats(FORM_DATA, targetStats) {
             wSPC_INT += 2;
     }
 
-    wSPC_STR += stats.supportiveSkills[0];
-    wSPC_INT += stats.supportiveSkills[0];
-    wSPC_DEX += stats.supportiveSkills[0];
-    if (stats.supportiveSkills[1] > 0)
-        wSPC_AGI += stats.supportiveSkills[1] + 2;
-    wSPC_LUK += (stats.supportiveSkills[3] * 30);
+    wSPC_STR += stats.supportiveSkills[0].level;
+    wSPC_INT += stats.supportiveSkills[0].level;
+    wSPC_DEX += stats.supportiveSkills[0].level;
+    if (stats.supportiveSkills[1].level > 0)
+        wSPC_AGI += stats.supportiveSkills[1].level + 2;
+    wSPC_LUK += (stats.supportiveSkills[3].level * 30);
     if (stats.job == 24 && SkillSearch("True Sight", stats)) {
         wSPC_STR += 5;
         wSPC_AGI += 5;
@@ -988,7 +988,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         for (let i = 0; i <= 2; i++)
             stats.vitDEF[i] = Math.floor(stats.vitDEF[i] * 0.45);
     } else {
-        if (stats.supportiveSkills[12]) {
+        if (stats.supportiveSkills[12].level) {
             for (let i = 0; i <= 2; i++)
                 stats.vitDEF[i] = Math.floor(stats.vitDEF[i] * 0.9);
         }
@@ -1001,9 +1001,9 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         for (let i = 0; i <= 2; i++)
             stats.vitDEF[i] = Math.floor(stats.vitDEF[i] * (1 - 0.05 * SkillSearch("Spear Dynamo", stats)));
     }
-    if (stats.supportiveSkills[4]) {
+    if (stats.supportiveSkills[4].level) {
         for (let i = 0; i <= 2; i++)
-            stats.vitDEF[i] = Math.floor(stats.vitDEF[i] * (1 + 0.05 * stats.supportiveSkills[4]));
+            stats.vitDEF[i] = Math.floor(stats.vitDEF[i] * (1 + 0.05 * stats.supportiveSkills[4].level));
     }
     if (SkillSearch("Frenzy", stats)) {
         for (let i = 0; i <= 2; i++)
@@ -1130,8 +1130,8 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     if (stats.job == 24)
         stats.flee += Math.round(SkillSearch("Wind Walk", stats) / 2);
-    if (stats.supportiveSkills[9] && SkillSearch("Wind Walk", stats) == 0)
-        stats.flee += Math.round(stats.supportiveSkills[9] / 2);
+    if (stats.supportiveSkills[9].level && SkillSearch("Wind Walk", stats) == 0)
+        stats.flee += Math.round(stats.supportiveSkills[9].level / 2);
 
 
     if (SkillSearch("Close Confine", stats))
@@ -1388,13 +1388,13 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         ASPDch = 1;
         w += 3 * SkillSearch("Solar, Lunar, and Stellar Shadow", stats);
     }
-    if (ASPDch == 0 && stats.equipments.weapon.type != WEAPON_TYPE_BOW && stats.supportiveSkills[6] == 2) {
+    if (ASPDch == 0 && stats.equipments.weapon.type != WEAPON_TYPE_BOW && stats.supportiveSkills[6].level == 2) {
         w += 25;
         ASPDch = 1;
-    } else if (ASPDch == 0 && 6 <= stats.equipments.weapon.type && stats.equipments.weapon.type <= 8 && stats.supportiveSkills[6] == 1) {
+    } else if (ASPDch == 0 && 6 <= stats.equipments.weapon.type && stats.equipments.weapon.type <= 8 && stats.supportiveSkills[6].level == 1) {
         w += 25;
         ASPDch = 1;
-    } else if (ASPDch == 0 && 6 <= stats.equipments.weapon.type && stats.equipments.weapon.type <= 8 && stats.supportiveSkills[6] == 3) {
+    } else if (ASPDch == 0 && 6 <= stats.equipments.weapon.type && stats.equipments.weapon.type <= 8 && stats.supportiveSkills[6].level == 3) {
         w += 30;
         ASPDch = 1;
     }
@@ -1451,7 +1451,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         n_A_ATK_w = Math.round(Math.floor(stats.dex / 10) * Math.floor(stats.dex / 10));
         n_A_ATK = stats.dex + n_A_ATK_w + Math.floor(stats.str / 5) + Math.floor(stats.luk / 5)
     }
-    let impositioMagnus = stats.supportiveSkills[2] * 5;
+    let impositioMagnus = stats.supportiveSkills[2].level * 5;
     let ATK_LEFT = Math.floor(impositioMagnus + stats.equipments.weapon.atk + stats.equipments.weaponLeftHand.atk + n_A_ATK);
     let ATK_RIGHT = Math.floor(stats.equipments.weapon.upgradeBonusATK + stats.equipments.weaponLeftHand.overUpgradeBonusATK);
     // myInnerHtml("A_ATK_2", ATK_LEFT + "+" + ATK_RIGHT, 0),
@@ -1487,8 +1487,8 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     stats.cast *= w / 100;
 
-    if (stats.supportiveSkills[13])
-        stats.cast *= (100 - 15 * stats.supportiveSkills[13]) / 100;
+    if (stats.supportiveSkills[13].level)
+        stats.cast *= (100 - 15 * stats.supportiveSkills[13].level) / 100;
     if (SkillSearch("Forsight", stats))
         stats.cast = stats.cast / 2;
 
@@ -2145,14 +2145,14 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         if ((stats.equipments.weapon.type == WEAPON_TYPE_SPEAR || stats.equipments.weapon.type == WEAPON_TYPE_TWO_HANDED_SPEAR) && targetStats.size == 1)
             sizeModifier = 1;
     }
-    if (SkillSearch("Weapon Perfection", stats) || stats.supportiveSkills[7])
+    if (SkillSearch("Weapon Perfection", stats) || stats.supportiveSkills[7].level)
         sizeModifier = 1;
 
     if (cardOBJ[stats.equipments.weapon.cards[0].index][0] == 32 || cardOBJ[stats.equipments.weapon.cards[1].index][0] == 32 || cardOBJ[stats.equipments.weapon.cards[2].index][0] == 32 || cardOBJ[stats.equipments.weapon.cards[3].index][0] == 32 || cardOBJ[stats.equipments.weaponLeftHand.cards[0].index][0] == 32 || cardOBJ[stats.equipments.weaponLeftHand.cards[1].index][0] == 32 || cardOBJ[stats.equipments.weaponLeftHand.cards[2].index][0] == 32 || cardOBJ[stats.equipments.weaponLeftHand.cards[3].index][0] == 32)
         sizeModifier = 1;
 
 
-    let impositioMagnus = stats.supportiveSkills[2] * 5;
+    let impositioMagnus = stats.supportiveSkills[2].level * 5;
 
 
     let hitRate = stats.hit + 80 - (targetStats.flee);
@@ -2492,7 +2492,7 @@ function ApplyWeaponryResearchAndDMGLevel(stats, targetStats, w999, InWarOfEmper
     if (stats.job == 15 || stats.job == 29)
         w999 += 3 * SkillSearch("Summon Spirit Sphere", stats);
     else
-        w999 += 3 * stats.supportiveSkills[10];
+        w999 += 3 * stats.supportiveSkills[10].level;
 
     w999 += 3 * SkillSearch("Coin Flip", stats);
 
@@ -2779,7 +2779,7 @@ function BattleCalcEDP(stats, targetStats, wBCEDP, wBCEDP2) {
         wBCEDPx = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, wBCEDP, wBCEDP2, InWarOfEmperium);
         wBCEDPx = Math.floor((wBCEDPx * element[targetStats.element][5]) / 4);
     }
-    if (stats.supportiveSkills[11]) {
+    if (stats.supportiveSkills[11].level) {
         wBCEDPy = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, wBCEDP, wBCEDP2, InWarOfEmperium);
         wBCEDPy = Math.floor((wBCEDPy * element[targetStats.element][3]) / 5);
     }
@@ -3496,7 +3496,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
             if (stats.job == 15 || stats.job == 29)
                 w = SkillSearch("Summon Spirit Sphere", stats);
             else
-                w = stats.supportiveSkills[10];
+                w = stats.supportiveSkills[10].level;
             if (w > stats.skillToUseLV) {
                 w = stats.skillToUseLV;
             }
@@ -3894,8 +3894,8 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
         } else {
             if (SkillSearch("Power-Thrust", stats))
                 wCR += SkillSearch("Power-Thrust", stats) * 5;
-            if (SkillSearch("Power-Thrust", stats) == 0 && stats.supportiveSkills[8])
-                wCR += stats.supportiveSkills[8] * 5 / 10;
+            if (SkillSearch("Power-Thrust", stats) == 0 && stats.supportiveSkills[8].level)
+                wCR += stats.supportiveSkills[8].level * 5 / 10;
         }
         CR_n_A_DMG = [0, 0, 0];
 
@@ -4613,7 +4613,7 @@ function ApplyATKBonusPercentage(stats, n_A_DMG) {
     if (stats.skillToUseName != "Occult Impaction" && stats.skillToUseName != "Guillotine Fist" && stats.skillToUseName != "Guillotine Fist (MaxSP-1)") {
         if (SkillSearch("Auto Berserk", stats))
             wA01 += 32;
-        else if (stats.supportiveSkills[12])
+        else if (stats.supportiveSkills[12].level)
             wA01 += 5;
 
 
@@ -4644,8 +4644,8 @@ function ApplySkillModifier(stats, n_A_DMG, skillModifier, isCrit) {
     } else {
         if (SkillSearch("Power-Thrust", stats))
             wA02 += SkillSearch("Power-Thrust", stats) * 5;
-        if (SkillSearch("Power-Thrust", stats) == 0 && stats.supportiveSkills[8])
-            wA02 += stats.supportiveSkills[8] * 5 / 5;
+        if (SkillSearch("Power-Thrust", stats) == 0 && stats.supportiveSkills[8].level)
+            wA02 += stats.supportiveSkills[8].level * 5 / 5;
     }
     if (SkillSearch("Kihop", stats)) {
         wA02 += 2 * SkillSearch("Kihop", stats) * SkillSearch("Party Members (Kihop Bonus", stats);
@@ -4873,8 +4873,8 @@ function CalculateDamageReceived(stats, targetStats) {
     wBHD = 0;
     if (CardNumSearch("0", stats) && n_A_JobSearch(stats) == 3 && (targetStats.race == 6 || targetStats.race == 1))
         wBHD += 30;
-    if (stats.supportiveSkills[14] && targetStats.race == 6 && stats.job != 13 && stats.job != 27)
-        wBHD += stats.supportiveSkills[14] * 5;
+    if (stats.supportiveSkills[14].level && targetStats.race == 6 && stats.job != 13 && stats.job != 27)
+        wBHD += stats.supportiveSkills[14].level * 5;
     if (targetStats.race == 9 && SkillSearch("Dragonology", stats))
         wBHD += SkillSearch("Dragonology", stats) * 4;
     wBHD += GetCardStats(DAMAGE_INC_DEC_RACE_PERCENTAGE + targetStats.race, stats);
@@ -4957,7 +4957,7 @@ function CalculateDamageReceived(stats, targetStats) {
         w_HiDam[i] = Math.floor(w_HiDam[i] * 100) / 100;
     }
 
-    if (stats.supportiveSkills[5])
+    if (stats.supportiveSkills[5].level)
         for (let i = 0; i <= 6; i++)
             w_HiDam[i] = Math.floor(w_HiDam[i] / 2);
 
