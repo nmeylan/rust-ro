@@ -144,6 +144,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
         weapon2RefinementLevel = eval(FORM_DATA.A_Weapon2_ATKplus);
         stats.equipments.weaponLeftHand = buildEquipment(eval(FORM_DATA.A_weapon2), true, weapon2RefinementLevel);
+        stats.equipments.weaponLeftHand.type = eval(FORM_DATA.A_Weapon2Type);
         stats.equipments.weaponLeftHand.level = ItemOBJ[eval(FORM_DATA.A_weapon2)][4];
         stats.equipments.weaponLeftHand.element = stats.equipments.weapon.element;
         stats.equipments.weaponLeftHand.starCrumb = eval(FORM_DATA.A_Weapon2_StarCrumb) ? eval(FORM_DATA.A_Weapon2_StarCrumb) : 0;
@@ -1333,14 +1334,14 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     let wASPD;
 
-    if (hasLeftHand == 1)
-        wASPD = (200 - (JobASPD[stats.job][stats.equipments.weapon.type] + JobASPD[stats.job][stats.weapon2IndexType]) / 2) * 1.4;
+    if (stats.equipments.weaponLeftHand)
+        wASPD = (200 - (JobASPD[stats.job][stats.equipments.weapon.type] + JobASPD[stats.job][stats.equipments.weaponLeftHand.type]) / 2) * 1.4;
     else
         wASPD = 200 - JobASPD[stats.job][stats.equipments.weapon.type];
 
 
-    if (hasLeftHand == 1 && stats.equipments.weapon.type == WEAPON_TYPE_UNARMED && stats.weapon2IndexType != 0)
-        wASPD = 200 - JobASPD[stats.job][stats.weapon2IndexType];
+    if (stats.equipments.weaponLeftHand && stats.equipments.weapon.type == WEAPON_TYPE_UNARMED && stats.equipments.weaponLeftHand.type != 0)
+        wASPD = 200 - JobASPD[stats.job][stats.equipments.weaponLeftHand.type];
 
     stats.aspd = 200 - wASPD + (Math.floor(wASPD * stats.agi * 4 / 100) + Math.floor(wASPD * stats.dex / 100)) / 10;
 
@@ -1903,39 +1904,37 @@ function CalculateEnemyStats(FORM_DATA, InWarOfEmperium) {
         sageChangeElement: false,
         flying: 0,
     };
-    if (MonsterStats) {
-        targetStatusFlag = {
-            provoke: eval(FORM_DATA.TargetStatusFlag0),
-            quagmire: eval(FORM_DATA.TargetStatusFlag1),
-            poison: FORM_DATA.TargetStatusFlag2 == "on",
-            blind: FORM_DATA.TargetStatusFlag3 == "on",
-            frozen: FORM_DATA.TargetStatusFlag4 == "on",
-            blessing: FORM_DATA.TargetStatusFlag5 == "on",
-            lexAerterna: FORM_DATA.TargetStatusFlag6 == "on",
-            stun: FORM_DATA.TargetStatusFlag7 == "on",
-            sleep: FORM_DATA.TargetStatusFlag8 == "on",
-            stone: FORM_DATA.TargetStatusFlag9 == "on",
-            curse: FORM_DATA.TargetStatusFlag10 == "on",
-            agilityDown: eval(FORM_DATA.TargetStatusFlag10),
-            signumCrucis: eval(FORM_DATA.TargetStatusFlag11),
-            divestWeapon: FORM_DATA.TargetStatusFlag12 == "on",
-            divestWeapon: FORM_DATA.TargetStatusFlag13 == "on",
-            divestShield: FORM_DATA.TargetStatusFlag14 == "on",
-            divestArmor: FORM_DATA.TargetStatusFlag15 == "on",
-            divestHelm: FORM_DATA.TargetStatusFlag16 == "on",
-            fiberLock: FORM_DATA.TargetStatusFlag17 == "on",
-            mindBreaker: eval(FORM_DATA.TargetStatusFlag18),
-            slowGrace: FORM_DATA.TargetStatusFlag19 == "on",
-            downTtempo: FORM_DATA.TargetStatusFlag20 == "on",
-            powerUp: FORM_DATA.TargetStatusFlag21 == "on",
-            agilityUp: FORM_DATA.TargetStatusFlag22 == "on",
-            eska: FORM_DATA.TargetStatusFlag23 == "on",
-            eske: FORM_DATA.TargetStatusFlag24 == "on",
-            monsterChangeElement: eval(FORM_DATA.TargetStatusFlag25),
-            sageChangeElement: eval(FORM_DATA.TargetStatusFlag26),
-            flying: eval(FORM_DATA.TargetStatusFlag27),
-        };
-    }
+    targetStatusFlag = {
+        provoke: eval(FORM_DATA.TargetStatusFlag0),
+        quagmire: eval(FORM_DATA.TargetStatusFlag1),
+        poison: FORM_DATA.TargetStatusFlag2 == "on",
+        blind: FORM_DATA.TargetStatusFlag3 == "on",
+        frozen: FORM_DATA.TargetStatusFlag4 == "on",
+        blessing: FORM_DATA.TargetStatusFlag5 == "on",
+        lexAerterna: FORM_DATA.TargetStatusFlag6 == "on",
+        stun: FORM_DATA.TargetStatusFlag7 == "on",
+        sleep: FORM_DATA.TargetStatusFlag8 == "on",
+        stone: FORM_DATA.TargetStatusFlag9 == "on",
+        curse: FORM_DATA.TargetStatusFlag10 == "on",
+        agilityDown: eval(FORM_DATA.TargetStatusFlag10),
+        signumCrucis: eval(FORM_DATA.TargetStatusFlag11),
+        divestWeapon: FORM_DATA.TargetStatusFlag12 == "on",
+        divestWeapon: FORM_DATA.TargetStatusFlag13 == "on",
+        divestShield: FORM_DATA.TargetStatusFlag14 == "on",
+        divestArmor: FORM_DATA.TargetStatusFlag15 == "on",
+        divestHelm: FORM_DATA.TargetStatusFlag16 == "on",
+        fiberLock: FORM_DATA.TargetStatusFlag17 == "on",
+        mindBreaker: eval(FORM_DATA.TargetStatusFlag18),
+        slowGrace: FORM_DATA.TargetStatusFlag19 == "on",
+        downTtempo: FORM_DATA.TargetStatusFlag20 == "on",
+        powerUp: FORM_DATA.TargetStatusFlag21 == "on",
+        agilityUp: FORM_DATA.TargetStatusFlag22 == "on",
+        eska: FORM_DATA.TargetStatusFlag23 == "on",
+        eske: FORM_DATA.TargetStatusFlag24 == "on",
+        monsterChangeElement: eval(FORM_DATA.TargetStatusFlag25),
+        sageChangeElement: eval(FORM_DATA.TargetStatusFlag26),
+        flying: eval(FORM_DATA.TargetStatusFlag27),
+    };
 
     if (targetStatusFlag.monsterChangeElement)
         targetStats.element = targetStatusFlag.monsterChangeElement
@@ -2557,7 +2556,7 @@ function ApplyWeaponryResearchAndDMGLevel(stats, targetStats, w999, InWarOfEmper
         w999 = Math.floor(w999 / 2);
 
 
-    if (hasLeftHand && stats.skillToUseName == "Basic Attack") {
+    if (stats.equipments.weaponLeftHand && stats.skillToUseName == "Basic Attack") {
 
         if (stats.equipments.weapon.type != WEAPON_TYPE_UNARMED)
             w999 = Math.floor(w999 * (50 + SkillSearch("Righthand Mastery", stats) * 10) / 100);
@@ -2882,7 +2881,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
             // myInnerHtml("bSUB", '<Font size="2"><B>Damage Shown with 2x right hand damage.</B></Font>', 0);
         }
 
-        if (hasLeftHand) {
+        if (stats.equipments.weaponLeftHand) {
 
             if (!targetStats.isStaticPlant) {
                 TyouEnkakuSousa3dan = 0;
