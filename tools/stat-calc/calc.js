@@ -2332,10 +2332,10 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
 
 
     if (isRangedWeapon(stats.weaponType)) {
-        w1 = stats.weapon1LV_overUpgradeBonusATK + Math.floor(stats.weapon1ATK * stats.weapon1ATK / 100 * sizeModifier) + Math.floor(impositioMagnus * sizeModifier);
-        w2 = stats.weapon1LV_overUpgradeBonusATK + Math.floor(stats.weapon1ATK * workDex / 100 * sizeModifier) + Math.floor(impositioMagnus * sizeModifier);
+        let w1 = stats.weapon1LV_overUpgradeBonusATK + Math.floor(stats.weapon1ATK * stats.weapon1ATK / 100 * sizeModifier) + Math.floor(impositioMagnus * sizeModifier);
+        let w2 = stats.weapon1LV_overUpgradeBonusATK + Math.floor(stats.weapon1ATK * workDex / 100 * sizeModifier) + Math.floor(impositioMagnus * sizeModifier);
 
-        w = Math.floor((ArrowOBJ[stats.arrow][0] - 1) * sizeModifier);
+        let w = Math.floor((ArrowOBJ[stats.arrow][0] - 1) * sizeModifier);
         w1 += w;
         w2 += w;
         if (w1 > w2) w1 = w2;
@@ -2345,7 +2345,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
 
     if (isRangedWeapon(stats.weaponType)) {
         weaponAttack[0] = stats.weapon1LV_Minplus + Math.floor((stats.weapon1ATK * stats.weapon1ATK / 100 + impositioMagnus) * sizeModifier);
-        w = stats.weapon1LV_Minplus + Math.floor((stats.weapon1ATK * workDex / 100 + impositioMagnus) * sizeModifier);
+        let w = stats.weapon1LV_Minplus + Math.floor((stats.weapon1ATK * workDex / 100 + impositioMagnus) * sizeModifier);
         if (weaponAttack[0] > w) weaponAttack[0] = w;
     } else {
         if (workDex >= stats.weapon1ATK)
@@ -2459,7 +2459,7 @@ function HitEDPplus(wBCEDPp) {
     if (wBCEDPpHOSI >= 1) {
         www = hitRate;
 
-        if (SkillSearch(266))
+        if (SkillSearch("Enchant Deadly Poison", stats))
             wBCEDPpHOSI = Math.floor((wBCEDPpHOSI * element[targetStatsArray[TARGET_STAT_ELEMENT]][5]) / 4);
         if (n_A_PassSkill2[11])
             wBCEDPpHOSI = Math.floor((wBCEDPpHOSI * element[targetStatsArray[TARGET_STAT_ELEMENT]][3]) / 5);
@@ -2467,7 +2467,7 @@ function HitEDPplus(wBCEDPp) {
         www = w998K * hitRate / 100;
 
     if (n_A_WeaponType == WEAPON_TYPE_KATAR && n_A_ActiveSkill == 0)
-        wBCEDPp = Math.floor(wBCEDPp * (1.01 + SkillSearch(13) * 0.02));
+        wBCEDPp = Math.floor(wBCEDPp * (1.01 + SkillSearch("Double Attack", stats) * 0.02));
 
 
     if (n_A_ActiveSkill == 0) {
@@ -3078,7 +3078,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
             battleResult = Object.assign(battleResult, battleVariousResult);
         } else {
             let wTAKA = 0;
-            if (stats.weaponType == WEAPON_TYPE_BOW && SkillSearch("Blitz Beat") && stats.skillToUseName != "Sharp Shooting (Temp)", stats) {
+            if (stats.weaponType == WEAPON_TYPE_BOW && SkillSearch("Blitz Beat", stats) && stats.skillToUseName != "Sharp Shooting (Temp)", stats) {
                 // myInnerHtml("bSUBname", "Bird Damage (Atk Rate))", 0);
                 battleResult.bonusSubName = "Bird Damage (Atk Rate))";
                 wBTw1 = Math.floor((stats.jobLevel - 1) / 10 + 1);
@@ -4711,7 +4711,7 @@ function ApplySkillModifier(stats, n_A_DMG, skillModifier, isCrit) {
             wA02 += stats.supportiveSkills[8] * 5 / 5;
     }
     if (SkillSearch("Kihop", stats)) {
-        wA02 += 2 * SkillSearch("Kihop") * SkillSearch("Party Members (Kihop Bonus", stats);
+        wA02 += 2 * SkillSearch("Kihop", stats) * SkillSearch("Party Members (Kihop Bonus", stats);
     }
 
     if (isCrit == 0) {
@@ -5166,7 +5166,15 @@ function buildEquipment(equipmentIndex, isWeapon) {
     }
     for (let STP2j = 0; item[STP2j + 11] != 0; STP2j += 2) {
         let bonus = bonusLabel[item[STP2j + 11]];
-        equipment[bonus] = ItemOBJ[equipment][STP2j + 12];
+        if (bonus === undefined) {
+            if (item[STP2j + 11] > 5000) {
+                equipment[bonusLabel[5000]] = item[STP2j + 12];
+            } else {
+                console.log("Item bonus is undefined for item", item[8], "value", item[STP2j + 11], "at index", STP2j + 11)
+            }
+        } else {
+            equipment[bonus] = item[STP2j + 12];
+        }
     }
     return equipment;
 }
@@ -5187,5 +5195,6 @@ export {
     CalculateAllStats,
     CalculateEnemyStats,
     CalculateBattle,
-    GetTestCase
+    GetTestCase,
+    buildEquipment
 }

@@ -111,6 +111,7 @@ global.INCREASE_HIT_PERCENTAGE = 86;
 global.ATK_PERCENTAGE = 87;
 global.MATK_BASED_ON_STAFF_PERCENTAGE = 88;
 global.MATK_PERCENTAGE = 89;
+global.IS_PART_OF_COMBO = 90;
 global.CRITICAL_AGAINST_RACE_PERCENTAGE = 110;
 global.CRITICAL_AGAINST_RACE_FORMLESS_PERCENTAGE = 110;
 global.CRITICAL_AGAINST_RACE_UNDEAD_PERCENTAGE = 111;
@@ -152,6 +153,13 @@ global.DAMAGE_INC_DEC_SIZE_PERCENTAGE = 190 ;
 global.DAMAGE_INC_DEC_SIZE_SMALL_PERCENTAGE = 190;
 global.DAMAGE_INC_DEC_SIZE_MEDIUM_PERCENTAGE = 191;
 global.DAMAGE_INC_DEC_SIZE_LARGE_PERCENTAGE = 192 ;
+global.IS_IMPOSSIBLE_TO_REFINE = 193 ;
+global.IS_INDESTRUCTIBLE = 194 ;
+global.HAS_BONUS_WHEN_REFINED = 195 ;
+global.IS_REBIRTH_ONLY = 200 ;
+global.ENABLE_SKILL = 220 ;
+global.AUTOSPELL_SKILL = 221 ;
+global.AUTOSPELL2_SKILL = 231 ;
 
 global.bonusLabel = {
     1: "str",
@@ -243,6 +251,7 @@ global.bonusLabel = {
     87: "atk_percentage",
     88: "matk_based_on_staff_percentage",
     89: "matk_percentage",
+    90: "is_part_of_combo",
     110: "critical_against_race_percentage",
     110: "critical_against_race_formless_percentage",
     111: "critical_against_race_undead_percentage",
@@ -283,7 +292,15 @@ global.bonusLabel = {
     190 : "damage_inc_dec_size_percentage",
     190: "damage_inc_dec_size_small_percentage",
     191: "damage_inc_dec_size_medium_percentage",
-    192 : "damage_inc_dec_size_large_percentage"
+    192 : "damage_inc_dec_size_large_percentage",
+    193 : "is_impossible_to_refine",
+    194 : "is_indestructible",
+    195: "has_bonus_when_refined",
+    200: "is_rebirth_only",
+    220: "enable_skill",
+    221: "autospell_skill",
+    231: "autospell_skill",
+    5000: "increase_skill_damage",
 }
 
 global.WEAPON_NAME = [
@@ -2990,7 +3007,7 @@ for(let i=0; i<global.equipmentsSetCombo.length; i++){
     for(let k=1; global.equipmentsSetCombo[i][k] != "NULL"; k++){
         let j;
         for(j=11; global.ItemOBJ[global.equipmentsSetCombo[i][k]][j] != 0; j+=2);
-        global.ItemOBJ[global.equipmentsSetCombo[i][k]][j]=90;
+        global.ItemOBJ[global.equipmentsSetCombo[i][k]][j]=global.IS_PART_OF_COMBO;
         global.ItemOBJ[global.equipmentsSetCombo[i][k]][j+1]=global.equipmentsSetCombo[i][0];
         global.ItemOBJ[global.equipmentsSetCombo[i][k]][j+2]=0;
     }
