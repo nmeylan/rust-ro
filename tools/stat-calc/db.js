@@ -159,6 +159,7 @@ global.HAS_BONUS_WHEN_REFINED = 195 ;
 global.IS_REBIRTH_ONLY = 200 ;
 global.ENABLE_SKILL = 220 ;
 global.AUTOSPELL_SKILL = 221 ;
+global.ENABLE_SKILL = 230 ;
 global.AUTOSPELL2_SKILL = 231 ;
 
 global.bonusLabel = {
@@ -296,9 +297,11 @@ global.bonusLabel = {
     193 : "is_impossible_to_refine",
     194 : "is_indestructible",
     195: "has_bonus_when_refined",
+    198: "armor_element",
     200: "is_rebirth_only",
     220: "enable_skill",
     221: "autospell_skill",
+    230: "enable_skill",
     231: "autospell_skill",
     5000: "increase_skill_damage",
 }
@@ -3018,7 +3021,7 @@ global.SE_MAXnum = 31;
 
 
 // TODO rename
-global.w_SC = [[429, 306, 235, "NULL"],
+global.cardSetCombo = [[429, 306, 235, "NULL"],
     [430, 349, 305, "NULL"],
     [431, 254, 259, 356, "NULL"],
     [432, 229, 280, 352, "NULL"],
