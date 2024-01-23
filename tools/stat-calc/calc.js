@@ -248,24 +248,9 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     stats.passiveSkills = new Array();
 
-
-    if (JobSkillPassOBJ[stats.job][0] != 999) stats.passiveSkills[0] = eval(FORM_DATA.A_PASSIVE_SKILL0);
-    if (JobSkillPassOBJ[stats.job][1] != 999) stats.passiveSkills[1] = eval(FORM_DATA.A_PASSIVE_SKILL1);
-    if (JobSkillPassOBJ[stats.job][2] != 999) stats.passiveSkills[2] = eval(FORM_DATA.A_PASSIVE_SKILL2);
-    if (JobSkillPassOBJ[stats.job][3] != 999) stats.passiveSkills[3] = eval(FORM_DATA.A_PASSIVE_SKILL3);
-    if (JobSkillPassOBJ[stats.job][4] != 999) stats.passiveSkills[4] = eval(FORM_DATA.A_PASSIVE_SKILL4);
-    if (JobSkillPassOBJ[stats.job][5] != 999) stats.passiveSkills[5] = eval(FORM_DATA.A_PASSIVE_SKILL5);
-    if (JobSkillPassOBJ[stats.job][6] != 999) stats.passiveSkills[6] = eval(FORM_DATA.A_PASSIVE_SKILL6);
-    if (JobSkillPassOBJ[stats.job][7] != 999) stats.passiveSkills[7] = eval(FORM_DATA.A_PASSIVE_SKILL7);
-    if (JobSkillPassOBJ[stats.job][8] != 999) stats.passiveSkills[8] = eval(FORM_DATA.A_PASSIVE_SKILL8);
-    if (JobSkillPassOBJ[stats.job][9] != 999) stats.passiveSkills[9] = eval(FORM_DATA.A_PASSIVE_SKILL9);
-    if (JobSkillPassOBJ[stats.job][10] != 999) stats.passiveSkills[10] = eval(FORM_DATA.A_PASSIVE_SKILL10);
-    if (JobSkillPassOBJ[stats.job][11] != 999) stats.passiveSkills[11] = eval(FORM_DATA.A_PASSIVE_SKILL11);
-    if (JobSkillPassOBJ[stats.job][12] != 999) stats.passiveSkills[12] = eval(FORM_DATA.A_PASSIVE_SKILL12);
-    if (JobSkillPassOBJ[stats.job][13] != 999) stats.passiveSkills[13] = eval(FORM_DATA.A_PASSIVE_SKILL13);
-    if (JobSkillPassOBJ[stats.job][14] != 999) stats.passiveSkills[14] = eval(FORM_DATA.A_PASSIVE_SKILL14);
-
-
+    for(let i = 0; i < 15; i++) {
+        addPassiveSkill(FORM_DATA, stats, i);
+    }
     stats.supportiveSkills[0] = FORM_DATA.A_SUPPORTIVE_SKILL0 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL0) : 0;
     stats.supportiveSkills[1] = FORM_DATA.A_SUPPORTIVE_SKILL1 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL1) : 0;
     stats.supportiveSkills[2] = FORM_DATA.A_SUPPORTIVE_SKILL2 ? eval(FORM_DATA.A_SUPPORTIVE_SKILL2) : 0;
@@ -1663,12 +1648,9 @@ function SetCardCombo(stats) {
 }
 
 function SkillSearch(n, stats) {
-    for (let k = 0; k <= 14; k++) {
-        let passiveSkillToUseName;
-        if (JobSkillPassOBJ[stats.job][k] != 999)
-            passiveSkillToUseName = SkillOBJ[JobSkillPassOBJ[stats.job][k]][2];
-        if (passiveSkillToUseName === n) {
-            return stats.passiveSkills[k];
+    for (let skill of stats.passiveSkills) {
+        if (skill.name === n) {
+            return skill.level
         }
     }
     return 0;
@@ -5157,6 +5139,19 @@ function buildCard(cardIndex) {
         }
     }
     return card;
+}
+
+function addPassiveSkill(FORM_DATA, stats, index) {
+    if (JobSkillPassOBJ[stats.job][index] != 999) {
+        let level = eval(FORM_DATA["A_PASSIVE_SKILL" + index]);
+        if (level > 0) {
+            stats.passiveSkills.push({
+                skid: SkillOBJ[JobSkillPassOBJ[stats.job][index]][3],
+                name: SkillOBJ[JobSkillPassOBJ[stats.job][index]][2],
+                level: eval(FORM_DATA["A_PASSIVE_SKILL" + index])
+            });
+        }
+    }
 }
 
 function GetTestCase(formData) {
