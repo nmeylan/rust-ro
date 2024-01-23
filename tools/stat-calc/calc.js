@@ -32,11 +32,6 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         cards: [],
         equipments: [],
         arrow: null,
-        shoulderRefinement: 0,
-        headRefinement: 0,
-        bodyRefinement: 0,
-        shieldHandRefinement: 0,
-        shoesHandRefinement: 0,
         totalGearRefinement: 0,
         speedPotion: false,
     }
@@ -113,6 +108,8 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     stats.equipments.weapon = buildEquipment(eval(FORM_DATA.A_weapon1), true, weaponRefinementLevel);
     stats.equipments.weapon.type = eval(FORM_DATA.A_WeaponType);
     stats.equipments.weapon.level = ItemOBJ[stats.equipments.weapon.index][4];
+    stats.equipments.weapon.starCrumb = eval(FORM_DATA.A_Weapon_StarCrumb) ?  eval(FORM_DATA.A_Weapon_StarCrumb) : 0;
+    stats.equipments.weapon.craftedByTop10Smith = eval(FORM_DATA.A_Weapon_CraftByTop10) ? eval(FORM_DATA.A_Weapon_CraftByTop10) : 0;
 
     stats.equipments.weapon.element = eval(FORM_DATA.A_Weapon_element);
 
@@ -149,6 +146,8 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         stats.equipments.weaponLeftHand = buildEquipment(eval(FORM_DATA.A_weapon2), true, weapon2RefinementLevel);
         stats.equipments.weaponLeftHand.level = ItemOBJ[eval(FORM_DATA.A_weapon2)][4];
         stats.equipments.weaponLeftHand.element = stats.equipments.weapon.element;
+        stats.equipments.weaponLeftHand.starCrumb = eval(FORM_DATA.A_Weapon2_StarCrumb) ? eval(FORM_DATA.A_Weapon2_StarCrumb) : 0;
+        stats.equipments.weapon.craftedByTop10Smith = eval(FORM_DATA.A_Weapon2_CraftByTop10) ? eval(FORM_DATA.A_Weapon2_CraftByTop10) : 0;
 
         if (stats.equipments.weaponLeftHand.level == 1) {
             stats.equipments.weaponLeftHand.overUpgradeBonusATK = weapon2RefinementLevel * 2;
@@ -201,32 +200,30 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     SetEquipmentCombo(stats);
 
 
-    stats.cards = [];
-    stats.cards[0] = eval(FORM_DATA.A_weapon1_card1);
-    stats.cards[1] = eval(FORM_DATA.A_weapon1_card2);
-    stats.cards[2] = eval(FORM_DATA.A_weapon1_card3);
-    stats.cards[3] = eval(FORM_DATA.A_weapon1_card4);
-
-    const hasLeftHand = eval(FORM_DATA.A_weapon2);
-    if (hasLeftHand) {
-        stats.cards[4] = eval(FORM_DATA.A_weapon2_card1);
-        stats.cards[5] = eval(FORM_DATA.A_weapon2_card2);
-        stats.cards[6] = eval(FORM_DATA.A_weapon2_card3);
-        stats.cards[7] = eval(FORM_DATA.A_weapon2_card4);
-    } else {
-        stats.cards[4] = 0;
-        stats.cards[5] = 0;
-        stats.cards[6] = 0;
-        stats.cards[7] = 0;
+    if (stats.equipments.weapon) {
+        stats.equipments.weapon.cards = [];
+        stats.equipments.weapon.cards[0] = buildCard(eval(FORM_DATA.A_weapon1_card1));
+        stats.equipments.weapon.cards[1] = buildCard(eval(FORM_DATA.A_weapon1_card2));
+        stats.equipments.weapon.cards[2] = buildCard(eval(FORM_DATA.A_weapon1_card3));
+        stats.equipments.weapon.cards[3] = buildCard(eval(FORM_DATA.A_weapon1_card4));
     }
-    stats.cards[8] = eval(FORM_DATA.A_head1_card);
-    stats.cards[9] = eval(FORM_DATA.A_head2_card);
-    stats.cards[10] = eval(FORM_DATA.A_left_card);
-    stats.cards[11] = eval(FORM_DATA.A_body_card);
-    stats.cards[12] = eval(FORM_DATA.A_shoulder_card);
-    stats.cards[13] = eval(FORM_DATA.A_shoes_card);
-    stats.cards[14] = eval(FORM_DATA.A_acces1_card);
-    stats.cards[15] = eval(FORM_DATA.A_acces2_card);
+    if (stats.equipments.weaponLeftHand) {
+        stats.equipments.weaponLeftHand.cards = [];
+        stats.equipments.weaponLeftHand.cards[0] = buildCard(eval(FORM_DATA.A_weapon2_card1));
+        stats.equipments.weaponLeftHand.cards[1] = buildCard(eval(FORM_DATA.A_weapon2_card2));
+        stats.equipments.weaponLeftHand.cards[2] = buildCard(eval(FORM_DATA.A_weapon2_card3));
+        stats.equipments.weaponLeftHand.cards[3] = buildCard(eval(FORM_DATA.A_weapon2_card4));
+    }
+
+
+    stats.equipments.upperHeadgear.cards[0] = buildCard(eval(FORM_DATA.A_head1_card));
+    stats.equipments.middleHeadgear.cards[0] = buildCard(eval(FORM_DATA.A_head2_card));
+    stats.equipments.shield.cards[0] = buildCard(eval(FORM_DATA.A_left_card));
+    stats.equipments.body.cards[0] = buildCard(eval(FORM_DATA.A_body_card));
+    stats.equipments.shoulder.cards[0] = buildCard(eval(FORM_DATA.A_shoulder_card));
+    stats.equipments.shoes.cards[0] = buildCard(eval(FORM_DATA.A_shoes_card));
+    stats.equipments.accessory1.cards[0] = buildCard(eval(FORM_DATA.A_acces1_card));
+    stats.equipments.accessory2.cards[0] = buildCard(eval(FORM_DATA.A_acces2_card));
 
     SetCardCombo(stats);
 
@@ -242,11 +239,6 @@ function CalculateAllStats(FORM_DATA, targetStats) {
                     stats.equipments.weaponLeftHand.element = ItemOBJ[stats.equipments.weaponLeftHand.index][j + 12];
             }
         }
-
-        if (201 <= cardOBJ[stats.cards[0]][0] && cardOBJ[stats.cards[0]][0] <= 204)
-            stats.equipments.weapon.element = cardOBJ[stats.cards[0]][0] - 200;
-        if (201 <= cardOBJ[stats.cards[4]][0] && cardOBJ[stats.cards[4]][0] <= 204)
-            stats.equipments.weaponLeftHand.element = cardOBJ[stats.cards[4]][0] - 200;
 
         if (stats.equipments.weapon.type == WEAPON_TYPE_BOW || stats.equipments.weapon.type == WEAPON_TYPE_HANDGUN || stats.equipments.weapon.type == WEAPON_TYPE_RIFLE || stats.equipments.weapon.type == WEAPON_TYPE_SHOTGUN || stats.equipments.weapon.type == WEAPON_TYPE_GATLING_GUN || stats.equipments.weapon.type == WEAPON_TYPE_GRENADE_LAUNCHER) {
             stats.equipments.weapon.element = ArrowOBJ[stats.arrow][1];
@@ -462,7 +454,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     if (CardNumSearch("Despero of Thanatos", stats)) wSPC_INT += stats.equipments.shield.refinement;
     if (CardNumSearch("Green Maiden", stats)) wSPC_LUK += stats.equipments.shoulder.refinement;
     if (CardNumSearch("Odium of Thanatos", stats)) wSPC_AGI += stats.equipments.shoes.refinement;
-    if (stats.cards[8] == 180) wSPC_STR += stats.equipments.upperHeadgear.refinement;
+    if (stats.equipments.upperHeadgear.cards[0] == 180) wSPC_STR += stats.equipments.upperHeadgear.refinement;
 
     if (CardNumSearch("Obsidian", stats)) wSPC_VIT += Math.floor(stats.baseDex / 18);
     if (CardNumSearch("Egnigem Cenia", stats)) wSPC_STR += Math.floor(stats.baseInt / 18);
@@ -880,11 +872,11 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     w += GetEquipmentStats(INT, stats);
 
     w += GetCardStats(MAXSP, stats);
-    if (stats.equipments.upperHeadgear.refinement >= 9 && stats.cards[8] == 298)
+    if (stats.equipments.upperHeadgear.refinement >= 9 && stats.equipments.upperHeadgear.cards[0] == 298)
         w += 150;
-    if (stats.equipments.upperHeadgear.refinement <= 4 && stats.cards[8] == 179)
+    if (stats.equipments.upperHeadgear.refinement <= 4 && stats.equipments.upperHeadgear.cards[0] == 179)
         w += 40;
-    if (stats.cards[9] == 179)
+    if (stats.equipments.middleHeadgear.cards[0] == 179)
         w += 40;
 
     if (SkillSearch("Kaina", stats))
@@ -1042,9 +1034,9 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         n_A_MDEF += CardNumSearch("Rideword", stats);
     if (stats.equipments.shield.refinement >= 9 && CardNumSearch("Sting", stats))
         n_A_MDEF += 5;
-    if (stats.equipments.upperHeadgear.refinement <= 5 && stats.cards[8] == 213)
+    if (stats.equipments.upperHeadgear.refinement <= 5 && stats.equipments.upperHeadgear.cards[0] == 213)
         n_A_MDEF += 5;
-    if (stats.cards[9] == 213)
+    if (stats.equipments.middleHeadgear.cards[0] == 213)
         n_A_MDEF += 5;
     if (stats.equipments.shield.refinement <= 5 && CardNumSearch("Arcluse", stats))
         n_A_MDEF += 3;
@@ -1294,7 +1286,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     if (n_A_JobSearch(stats.job) == 5 && CardNumSearch("0", stats))
         w_MATK += 3;
-    if (stats.equipments.upperHeadgear.refinement >= 9 && stats.cards[8] == 177)
+    if (stats.equipments.upperHeadgear.refinement >= 9 && stats.equipments.upperHeadgear.cards[0] == 177)
         w_MATK += 2;
     if (stats.equipments.weapon.index == 484 && stats.baseInt >= 70)
         w_MATK += 5;
@@ -1501,7 +1493,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         w -= 15;
     if (GetEquipmentStats(0, stats) || EquipNumSearch("0", stats))
         w -= weaponRefinementLevel;
-    if (stats.cards[8] == 177)
+    if (stats.equipments.upperHeadgear.cards[0] == 177)
         w -= stats.equipments.upperHeadgear.refinement;
 
     w += GetEquipmentStats(CAST_TIME_PERCENTAGE, stats);
@@ -1547,9 +1539,9 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     if (n_A_JobSearch(stats.job) == 41 && EquipNumSearch("Ayam", stats))
         w += 3;
-    if (stats.equipments.shield.refinement <= 4 && stats.cards[8] == 179)
+    if (stats.equipments.shield.refinement <= 4 && stats.equipments.upperHeadgear.cards[0] == 179)
         w += 5;
-    if (stats.cards[9] == 179)
+    if (stats.equipments.middleHeadgear.cards[0] == 179)
         w += 5;
     if (stats.equipments.shoes.refinement <= 4 && CardNumSearch("Gold Acidus", stats))
         w += 5;
@@ -1580,10 +1572,14 @@ function GetEquipmentStats(nSTP2, stats) {
 
 function GetCardStats(nSTP2, stats) {
     let wSTP2 = 0;
-    for (let STP2i = 0; STP2i <= 25; STP2i++) {
-        for (let STP2j = 0; cardOBJ[stats.cards[STP2i]][STP2j + 4] != 0; STP2j += 2) {
-            if (nSTP2 == cardOBJ[stats.cards[STP2i]][STP2j + 4])
-                wSTP2 += cardOBJ[stats.cards[STP2i]][STP2j + 5];
+
+    for (let equipment of Object.values(stats.equipments)) {
+        if (!equipment.cards) continue;
+        for(let card of equipment.cards) {
+            for (let STP2j = 0; cardOBJ[card.index][STP2j + 4] != 0; STP2j += 2) {
+                if (nSTP2 == cardOBJ[card.index][STP2j + 4])
+                    wSTP2 += cardOBJ[card.index][STP2j + 5];
+            }
         }
     }
     return wSTP2;
@@ -1591,10 +1587,14 @@ function GetCardStats(nSTP2, stats) {
 
 function CardNumSearch(nCNS, stats) {
     let wCNS = 0;
-    for (let CNSi = 0; CNSi <= 25; CNSi++) {
-        let cardName = cardOBJ[stats.cards[CNSi]][2];
-        if (nCNS === cardName)
-            wCNS += 1;
+
+    for (let equipment of Object.values(stats.equipments)) {
+        if (!equipment.cards) continue;
+        for(let card of equipment.cards) {
+            let cardName = cardOBJ[card.index][2];
+            if (nCNS === cardName)
+                wCNS += 1;
+        }
     }
     return wCNS;
 }
@@ -1627,11 +1627,9 @@ function SetEquipmentCombo(stats) {
     for (let SEk = 0; SEk < equipmentsSetCombo.length; SEk++) {
         for (let SEj = 1; equipmentsSetCombo[SEk][SEj] != "NULL" && (w_SE_ch == 1 || (w_SE_ch == 0 && SEj == 1)); SEj++) {
             w_SE_ch = 0;
-            for (let SEi = 0; SEi <= 10 && w_SE_ch == 0; SEi++) {
-                for (let equipment of Object.values(stats.equipments)) {
-                    if (equipment.index == equipmentsSetCombo[SEk][SEj])
-                        w_SE_ch = 1;
-                }
+            for (let equipment of Object.values(stats.equipments)) {
+                if (equipment.index == equipmentsSetCombo[SEk][SEj])
+                    w_SE_ch = 1;
             }
         }
         if (w_SE_ch == 1) {
@@ -1642,21 +1640,22 @@ function SetEquipmentCombo(stats) {
 }
 
 function SetCardCombo(stats) {
-    for (let SEi = 16; SEi <= 25; SEi++)
-        stats.cards[SEi] = 0;
 
     let w_SE_num = 16;
     let w_SE_ch = 0;
     for (let SEk = 0; SEk < cardSetCombo.length; SEk++) {
         for (let SEj = 1; cardSetCombo[SEk][SEj] != "NULL" && (w_SE_ch == 1 || (w_SE_ch == 0 && SEj == 1)); SEj++) {
             w_SE_ch = 0;
-            for (let SEi = 0; SEi <= 15 && w_SE_ch == 0; SEi++) {
-                if (stats.cards[SEi] == cardSetCombo[SEk][SEj])
-                    w_SE_ch = 1;
+            for (let equipment of Object.values(stats.equipments)) {
+                if (!equipment.cards) continue;
+                for(let card of equipment.cards) {
+                    if (card.index == cardSetCombo[SEk][SEj])
+                        w_SE_ch = 1;
+                }
             }
         }
         if (w_SE_ch == 1) {
-            stats.cards[w_SE_num] = cardSetCombo[SEk][0];
+            stats.cards["SET_" +w_SE_num] = {index: cardSetCombo[SEk][0]};
             w_SE_num++;
         }
     }
@@ -2168,7 +2167,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
     if (SkillSearch("Weapon Perfection", stats) || stats.supportiveSkills[7])
         sizeModifier = 1;
 
-    if (cardOBJ[stats.cards[0]][0] == 32 || cardOBJ[stats.cards[1]][0] == 32 || cardOBJ[stats.cards[2]][0] == 32 || cardOBJ[stats.cards[3]][0] == 32 || cardOBJ[stats.cards[4]][0] == 32 || cardOBJ[stats.cards[5]][0] == 32 || cardOBJ[stats.cards[6]][0] == 32 || cardOBJ[stats.cards[7]][0] == 32)
+    if (cardOBJ[stats.equipments.weapon.cards[0].index][0] == 32 || cardOBJ[stats.equipments.weapon.cards[1].index][0] == 32 || cardOBJ[stats.equipments.weapon.cards[2].index][0] == 32 || cardOBJ[stats.equipments.weapon.cards[3].index][0] == 32 || cardOBJ[stats.equipments.weaponLeftHand.cards[0].index][0] == 32 || cardOBJ[stats.equipments.weaponLeftHand.cards[1].index][0] == 32 || cardOBJ[stats.equipments.weaponLeftHand.cards[2].index][0] == 32 || cardOBJ[stats.equipments.weaponLeftHand.cards[3].index][0] == 32)
         sizeModifier = 1;
 
 
@@ -2234,7 +2233,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
     let doubleAttackChanceRate = SkillSearch("Double Attack", stats) * 5;
     if (stats.equipments.weapon.type != WEAPON_TYPE_DAGGER)
         doubleAttackChanceRate = 0;
-    if (cardOBJ[stats.cards[0]][0] == 43 || cardOBJ[stats.cards[1]][0] == 43 || cardOBJ[stats.cards[2]][0] == 43 || cardOBJ[stats.cards[3]][0] == 43 || cardOBJ[stats.cards[4]][0] == 43 || cardOBJ[stats.cards[5]][0] == 43 || cardOBJ[stats.cards[6]][0] == 43 || cardOBJ[stats.cards[7]][0] == 43) {
+    if (cardOBJ[stats.equipments.weapon.cards[0].index][0] == 43 || cardOBJ[stats.equipments.weapon.cards[1].index][0] == 43 || cardOBJ[stats.equipments.weapon.cards[2].index][0] == 43 || cardOBJ[stats.equipments.weapon.cards[3].index][0] == 43 || cardOBJ[stats.equipments.weaponLeftHand.cards[0].index][0] == 43 || cardOBJ[stats.equipments.weaponLeftHand.cards[1].index][0] == 43 || cardOBJ[stats.equipments.weaponLeftHand.cards[2].index][0] == 43 || cardOBJ[stats.equipments.weaponLeftHand.cards[3].index][0] == 43) {
         if (SkillSearch("Double Attack", stats) > 1)
             doubleAttackChanceRate = SkillSearch("Double Attack", stats) * 5;
         else
@@ -2533,15 +2532,12 @@ function ApplyWeaponryResearchAndDMGLevel(stats, targetStats, w999, InWarOfEmper
         w999 += stats.skillToUseLV * 50;
 
 
-    if (cardOBJ[stats.cards[0]][0] == 106 && cardOBJ[stats.cards[1]][0] == 106 && cardOBJ[stats.cards[2]][0] == 106) {
+    if (stats.equipments.weapon.starCrumb >= 3) {
         w999 += 40;
     } else {
-        for (let i = 0; i <= 2; i++) {
-            if (cardOBJ[stats.cards[i]][0] == 106)
-                w999 += 5;
-        }
+        w999 += 5 * stats.equipments.weapon.starCrumb;
     }
-    if (stats.cards[3] == 106)
+    if (stats.equipments.weapon.craftedByTop10Smith)
         w999 += 10;
 
 
@@ -2741,10 +2737,7 @@ function BattleCalc3(stats, targetStats, w998, InWarOfEmperium, w998B, w998E, w9
 function BattleCalc3left(w998) {
 
     wBC3L2 = 0;
-    for (let i = 4; i <= 7; i++) {
-        if (cardOBJ[stats.cards[i]][0] == 106)
-            wBC3L2 += 5;
-    }
+    wBC3L2 += 5 * stats.equipments.weaponLeftHand.starCrumb;
 
     wBC3_Normal = w998 * hitRate / 100;
     wBC3_Miss = wBC3L2 * (100 - hitRate) / 100;
@@ -2943,16 +2936,14 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
 
 
                 w_left_star = 0;
-                if (stats.cards[4] == 106 && stats.cards[5] == 106 && stats.cards[6] == 106) {
+                if (stats.equipments.weaponLeftHand.starCrumb >= 3) {
                     w_left_star += 40;
                 } else {
-                    for (let i = 4; i <= 6; i++) {
-                        if (cardOBJ[stats.cards[i]][0] == 106)
-                            w_left_star += 5;
-                    }
+                    w_left_star += 5 * stats.equipments.weaponLeftHand.starCrumb;
                 }
-                if (stats.cards[7] == 106)
+                if (stats.equipments.weapon.craftedByTop10Smith)
                     w_left_star += 10;
+
                 w_left_Maxatk += w_left_star;
                 w_left_Maxatk = w_left_Maxatk * (3 + SkillSearch("Lefthand Mastery", stats)) / 10;
                 w_left_Maxatk = Math.floor(w_left_Maxatk);
@@ -4845,14 +4836,14 @@ function CalculateDamageReceived(stats, targetStats) {
 
     let w_HiDam = new Array();
     let wBHD = targetStats.atk2;
-    w_HiDam[0] = targetStats.atk;
-    w_HiDam[1] = (targetStats.atk * 5 + wBHD) / 6;
-    w_HiDam[2] = (targetStats.atk * 4 + wBHD * 2) / 6;
-    w_HiDam[3] = (targetStats.atk + wBHD) / 2;
-    w_HiDam[4] = (targetStats.atk * 2 + wBHD * 4) / 6;
-    w_HiDam[5] = (targetStats.atk + wBHD * 5) / 6;
+    w_HiDam[0] = targetStats.atk1;
+    w_HiDam[1] = (targetStats.atk1 * 5 + wBHD) / 6;
+    w_HiDam[2] = (targetStats.atk1 * 4 + wBHD * 2) / 6;
+    w_HiDam[3] = (targetStats.atk1 + wBHD) / 2;
+    w_HiDam[4] = (targetStats.atk1 * 2 + wBHD * 4) / 6;
+    w_HiDam[5] = (targetStats.atk1 + wBHD * 5) / 6;
     w_HiDam[6] = wBHD;
-    if (targetStats.atk == targetStats.atk2)
+    if (targetStats.atk1 == targetStats.atk2)
         w_HiDam[6] = wBHD - 1;
 
     w_HiDam[0] = w_HiDam[0] * (100 - stats.totalDef) / 100 - stats.vitDEF[2];
