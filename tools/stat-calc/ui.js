@@ -313,7 +313,7 @@ function ClickJob(n) {
     else if (n <= 19 || (41 <= n && n <= 43)) w = 50;
     else if (n == 20) w = 71;
     else w = 70;
-    for (i = 1; i <= w; i++)
+    for (let i = 1; i <= w; i++)
         document.calcForm.A_JobLV.options[i - 1] = new Option(i, i);
     if (n == 20) {
         document.calcForm.A_JobLV.options[69] = new Option("70-99", 70);
@@ -339,7 +339,7 @@ function ClickJob(n) {
     ClickWeaponType(0);
 
 
-    for (i = 0; i <= 14; i++) {
+    for (let i = 0; i <= 14; i++) {
         document.calcForm["A_PASSIVE_SKILL" + i].value = 0;
         if (global.JobSkillPassOBJ[n][i] != 999) {
             document.getElementById("P_Skill" + i + "s").hidden = false;
@@ -363,77 +363,77 @@ function ClickJob(n) {
 */
     if (global.JobSkillPassOBJ[n][0] != 999) {
         document.calcForm.A_PASSIVE_SKILL0.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][0]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][0]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL0.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][1] != 999) {
         document.calcForm.A_PASSIVE_SKILL1.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][1]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][1]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL1.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][2] != 999) {
         document.calcForm.A_PASSIVE_SKILL2.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][2]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][2]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL2.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][3] != 999) {
         document.calcForm.A_PASSIVE_SKILL3.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][3]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][3]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL3.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][4] != 999) {
         document.calcForm.A_PASSIVE_SKILL4.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][4]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][4]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL4.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][5] != 999) {
         document.calcForm.A_PASSIVE_SKILL5.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][5]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][5]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL5.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][6] != 999) {
         document.calcForm.A_PASSIVE_SKILL6.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][6]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][6]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL6.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][7] != 999) {
         document.calcForm.A_PASSIVE_SKILL7.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][7]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][7]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL7.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][8] != 999) {
         document.calcForm.A_PASSIVE_SKILL8.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][8]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][8]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL8.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][9] != 999) {
         document.calcForm.A_PASSIVE_SKILL9.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][9]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][9]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL9.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][10] != 999) {
         document.calcForm.A_PASSIVE_SKILL10.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][10]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][10]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL10.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][11] != 999) {
         document.calcForm.A_PASSIVE_SKILL11.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][11]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][11]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL11.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][12] != 999) {
         document.calcForm.A_PASSIVE_SKILL12.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][12]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][12]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL12.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][13] != 999) {
         document.calcForm.A_PASSIVE_SKILL13.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][13]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][13]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL13.options[i] = new Option(i, i);
     }
     if (global.JobSkillPassOBJ[n][14] != 999) {
         document.calcForm.A_PASSIVE_SKILL14.options.length = 0;
-        for (i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][14]][1]; i++)
+        for (let i = 0; i <= global.SkillOBJ[global.JobSkillPassOBJ[n][14]][1]; i++)
             document.calcForm.A_PASSIVE_SKILL14.options[i] = new Option(i, i);
     }
 
@@ -441,31 +441,31 @@ function ClickJob(n) {
     if (global.JobSkillPassOBJ[n][0] == 58) {
         document.calcForm.A_PASSIVE_SKILL0.options.length = 0;
         let n_ECname = ["0", "6% Reduction", "12% Reduction", "18% Reduction", "24% Reduction", "30% Reduction"];
-        for (i = 0; i <= 5; i++)
+        for (let i = 0; i <= 5; i++)
             document.calcForm.A_PASSIVE_SKILL0.options[i] = new Option(n_ECname[i], i);
     }
 
     if (global.JobSkillPassOBJ[n][5] == 78) {
         document.calcForm.A_PASSIVE_SKILL5.options.length = 0;
         let n_ECname = ["No Peco", "Mastery 0", "Mastery 1", "Mastery 2", "Mastery 3", "Mastery 4", "Mastery 5"];
-        for (i = 0; i <= 6; i++)
+        for (let i = 0; i <= 6; i++)
             document.calcForm.A_PASSIVE_SKILL5.options[i] = new Option(n_ECname[i], i);
     }
 
     if (global.JobSkillPassOBJ[n][9] == 78) {
         document.calcForm.A_PASSIVE_SKILL9.options.length = 0;
         let n_ECname = ["No Peco", "Mastery 0", "Mastery 1", "Mastery 2", "Mastery 3", "Mastery 4", "Mastery 5"];
-        for (i = 0; i <= 6; i++)
+        for (let i = 0; i <= 6; i++)
             document.calcForm.A_PASSIVE_SKILL9.options[i] = new Option(n_ECname[i], i);
     }
 
 
     document.calcForm.A_ActiveSkill.options.length = 0;
-    for (i = 0; i <= 57 && global.JobSkillActiveOBJ[n][i] != 999; i++)
+    for (let i = 0; i <= 57 && global.JobSkillActiveOBJ[n][i] != 999; i++)
         document.calcForm.A_ActiveSkill.options[i] = new Option(global.SkillOBJ[global.JobSkillActiveOBJ[n][i]][2], global.JobSkillActiveOBJ[n][i]);
 
 
-    for (i = 0; i < 20; i++)
+    for (let i = 0; i < 20; i++)
         w_ASSP0bk[i] = 999;
     ActiveSkillSetPlus();
 
@@ -481,22 +481,22 @@ function ClickWeaponType(n) {
         document.calcForm.A_Arrow.options.length = 0;
         if (n == 10 || n == 14 || n == 15) {
             j = 17;
-            for (i = 0; i <= 4; i++)
+            for (let i = 0; i <= 4; i++)
                 global.ArrowOBJ[i] = global.ArrowOBJbackup[i];
         } else if (n == 17 || n == 18 || n == 19 || n == 20) {
             j = 2;
-            for (i = 0; i <= 2; i++)
+            for (let i = 0; i <= 2; i++)
                 global.ArrowOBJ[i] = global.BulletOBJ[i];
         } else if (n == 21) {
             j = 4;
-            for (i = 0; i <= 4; i++)
+            for (let i = 0; i <= 4; i++)
                 global.ArrowOBJ[i] = global.GrenadeOBJ[i]
         } else {
             j = 1;
             global.ArrowOBJ[0] = [0, 0, "No Arrow"];
             global.ArrowOBJ[1] = global.ArrowOBJ[16];
         }
-        for (i = 0; i <= j; i++)
+        for (let i = 0; i <= j; i++)
             document.calcForm.A_Arrow.options[i] = new Option(global.ArrowOBJ[i][2], i);
     } else {
         document.calcForm.A_Arrow.value = 0;
@@ -550,7 +550,7 @@ function ClickActiveSkill(wAS) {
 
     document.calcForm.A_ActiveSkillLV.options.length = 0;
     if (n_A_ActiveSkill >= 0)
-        for (i = 1; i <= n_A_ActiveSkillLV; i++)
+        for (let i = 1; i <= n_A_ActiveSkillLV; i++)
             document.calcForm.A_ActiveSkillLV.options[i - 1] = new Option(i, i);
 
     if (global.SkillOBJ[n_A_ActiveSkill][1] == 1)
@@ -584,18 +584,18 @@ function refreshEnemyStats(enemyStats) {
 }
 
 function refreshPlayerStats(playerStats) {
-    myInnerHtml("A_STR", playerStats.str, 0);
-    myInnerHtml("A_AGI", playerStats.agi, 0);
-    myInnerHtml("A_VIT", playerStats.vit, 0);
-    myInnerHtml("A_DEX", playerStats.dex, 0);
-    myInnerHtml("A_INT", playerStats.int, 0);
-    myInnerHtml("A_LUK", playerStats.luk, 0);
-    myInnerHtml("A_STRp", playerStats.bstr, 0);
-    myInnerHtml("A_AGIp", playerStats.bagi, 0);
-    myInnerHtml("A_VITp", playerStats.bvit, 0);
-    myInnerHtml("A_DEXp", playerStats.bdex, 0);
-    myInnerHtml("A_INTp", playerStats.bint, 0);
-    myInnerHtml("A_LUKp", playerStats.bluk, 0);
+    myInnerHtml("A_STR", playerStats.baseStr, 0);
+    myInnerHtml("A_AGI", playerStats.baseAgi, 0);
+    myInnerHtml("A_VIT", playerStats.baseVit, 0);
+    myInnerHtml("A_DEX", playerStats.baseDex, 0);
+    myInnerHtml("A_INT", playerStats.baseInt, 0);
+    myInnerHtml("A_LUK", playerStats.baseLuk, 0);
+    myInnerHtml("A_STRp", playerStats.bonusStr, 0);
+    myInnerHtml("A_AGIp", playerStats.bonusAgi, 0);
+    myInnerHtml("A_VITp", playerStats.bonusVit, 0);
+    myInnerHtml("A_DEXp", playerStats.bonusDex, 0);
+    myInnerHtml("A_INTp", playerStats.bonusInt, 0);
+    myInnerHtml("A_LUKp", playerStats.bonusLuk, 0);
     myInnerHtml("A_MaxHP", playerStats.maxHp, 0);
     myInnerHtml("A_MaxSP", playerStats.maxSp, 0);
     myInnerHtml("A_totalDEF", playerStats.def, 0);
@@ -867,6 +867,12 @@ function bindSave() {
         SaveForm()
     });
 }
+function bindCopyToClipboard() {
+    document.getElementById("btn-copy-form").addEventListener("click", (e) => {
+        let formData= getFormData(document);
+        navigator.clipboard.writeText(JSON.stringify(formData));
+    });
+}
 
 function bindLoad() {
     document.getElementById("btn-load").addEventListener("click", (e) => {
@@ -891,17 +897,17 @@ function OnChangeStat(nSC) {
     let n_A_LUK = FORM_DATA.A_LUK
     let i = 2;
     let StPoint = 0;
-    for (i = 2; i <= n_A_STR; i++)
+    for (let i = 2; i <= n_A_STR; i++)
         StPoint += StCalc2(i);
-    for (i = 2; i <= n_A_AGI; i++)
+    for (let i = 2; i <= n_A_AGI; i++)
         StPoint += StCalc2(i);
-    for (i = 2; i <= n_A_VIT; i++)
+    for (let i = 2; i <= n_A_VIT; i++)
         StPoint += StCalc2(i);
-    for (i = 2; i <= n_A_INT; i++)
+    for (let i = 2; i <= n_A_INT; i++)
         StPoint += StCalc2(i);
-    for (i = 2; i <= n_A_DEX; i++)
+    for (let i = 2; i <= n_A_DEX; i++)
         StPoint += StCalc2(i);
-    for (i = 2; i <= n_A_LUK; i++)
+    for (let i = 2; i <= n_A_LUK; i++)
         StPoint += StCalc2(i);
 
     let n_A_BaseLV = FORM_DATA.A_BaseLV
@@ -912,10 +918,10 @@ function OnChangeStat(nSC) {
         statusPoint = 100;
 
     if (nSC == 1 || document.calcForm.BLVauto.checked == 0) {
-        for (i = 1; i < n_A_BaseLV; i++)
+        for (let i = 1; i < n_A_BaseLV; i++)
             statusPoint += Math.floor((i) / 5) + 3;
     } else {
-        for (i = 1; StPoint > statusPoint && i < 99; i++)
+        for (let i = 1; StPoint > statusPoint && i < 99; i++)
             statusPoint += Math.floor((i) / 5) + 3;
     }
     if (i > 99) i = 99;
@@ -938,7 +944,7 @@ function SuperNoviceFullWeapon(nSNFW) {
 
     document.calcForm.A_WeaponType.options.length = 0;
     j = 0;
-    for (i = 0; i <= 21; i++) {
+    for (let i = 0; i <= 21; i++) {
         if (global.JobASPD[20][i] != 0) {
             document.calcForm.A_WeaponType.options[j] = new Option(WeaponName[i], i);
             j++;
@@ -1062,31 +1068,31 @@ function ItemSet() {
         z = workB[0][i];
         document.calcForm.A_head1.options[i] = new Option(global.ItemOBJ[z][8], global.ItemOBJ[z][0]);
     }
-    for (i = 0; i < wsj[1]; i++) {
+    for (let i = 0; i < wsj[1]; i++) {
         z = workB[1][i];
         document.calcForm.A_head2.options[i] = new Option(global.ItemOBJ[z][8], global.ItemOBJ[z][0]);
     }
-    for (i = 0; i < wsj[2]; i++) {
+    for (let i = 0; i < wsj[2]; i++) {
         z = workB[2][i];
         document.calcForm.A_head3.options[i] = new Option(global.ItemOBJ[z][8], global.ItemOBJ[z][0]);
     }
-    for (i = 0; i < wsj[3]; i++) {
+    for (let i = 0; i < wsj[3]; i++) {
         z = workB[3][i];
         document.calcForm.A_left.options[i] = new Option(global.ItemOBJ[z][8], global.ItemOBJ[z][0]);
     }
-    for (i = 0; i < wsj[4]; i++) {
+    for (let i = 0; i < wsj[4]; i++) {
         z = workB[4][i];
         document.calcForm.A_body.options[i] = new Option(global.ItemOBJ[z][8], global.ItemOBJ[z][0]);
     }
-    for (i = 0; i < wsj[5]; i++) {
+    for (let i = 0; i < wsj[5]; i++) {
         z = workB[5][i];
         document.calcForm.A_shoulder.options[i] = new Option(global.ItemOBJ[z][8], global.ItemOBJ[z][0]);
     }
-    for (i = 0; i < wsj[6]; i++) {
+    for (let i = 0; i < wsj[6]; i++) {
         z = workB[6][i];
         document.calcForm.A_shoes.options[i] = new Option(global.ItemOBJ[z][8], global.ItemOBJ[z][0]);
     }
-    for (i = 0; i < wsj[7]; i++) {
+    for (let i = 0; i < wsj[7]; i++) {
         z = workB[7][i];
         document.calcForm.A_acces1.options[i] = new Option(global.ItemOBJ[z][8], global.ItemOBJ[z][0]);
         document.calcForm.A_acces2.options[i] = new Option(global.ItemOBJ[z][8], global.ItemOBJ[z][0]);
@@ -1172,11 +1178,11 @@ function ActiveSkillSetPlus() {
     let w_ASSP9 = new Array();
     let i, j2;
     let j = 0;
-    for (i = 0; i < 20; i++) {
+    for (let i = 0; i < 20; i++) {
         w_ASSP0[i] = 999;
         w_ASSP9[i] = 0;
     }
-    for (i = 0; i <= 20; i++) {
+    for (let i = 0; i <= 20; i++) {
         for (j2 = 0; global.ItemOBJ[n_A_Equip[i]][11 + j2] != 0; j2 += 2) {
             if (global.ItemOBJ[n_A_Equip[i]][11 + j2] == 220 || global.ItemOBJ[n_A_Equip[i]][11 + j2] == 221) {
                 w_ASSP0[j] = Math.floor((global.ItemOBJ[n_A_Equip[i]][12 + j2] % 100000) / 100);
@@ -1186,7 +1192,7 @@ function ActiveSkillSetPlus() {
         }
     }
 
-    for (i = 0; i <= 25; i++) {
+    for (let i = 0; i <= 25; i++) {
         for (j2 = 0; global.cardOBJ[n_A_card[i]][4 + j2] != 0; j2 += 2) {
             if (global.cardOBJ[n_A_card[i]][4 + j2] == 220 || global.cardOBJ[n_A_card[i]][4 + j2] == 221) {
                 w_ASSP0[j] = Math.floor((global.cardOBJ[n_A_card[i]][5 + j2] % 100000) / 100);
@@ -1207,17 +1213,17 @@ function ActiveSkillSetPlus() {
     }
 
     let w_ASSPch = 0;
-    for (i = 0; i < 20; i++) {
+    for (let i = 0; i < 20; i++) {
         if (w_ASSP0bk[i] != w_ASSP0[i])
             w_ASSPch = 1
     }
     if (w_ASSPch) {
 
         for (k = 0; global.JobSkillActiveOBJ[n_A_JOB][k] != 999; k++) ;
-        for (i = k + 20; i >= k; i--)
+        for (let i = k + 20; i >= k; i--)
             document.calcForm.A_ActiveSkill.options[i] = null;
         j = 0;
-        for (i = k; w_ASSP0[j] != 999; i++, j++) {
+        for (let i = k; w_ASSP0[j] != 999; i++, j++) {
             if (w_ASSP9[j] < 200000)
                 document.calcForm.A_ActiveSkill.options[i] = new Option(SkillOBJ[w_ASSP0[j]][2], w_ASSP9[j]);
             else
@@ -1225,7 +1231,7 @@ function ActiveSkillSetPlus() {
         }
 
     }
-    for (i = 0; i < 20; i++)
+    for (let i = 0; i < 20; i++)
         w_ASSP0bk[i] = w_ASSP0[i];
 
     if (eval(document.calcForm.A_ActiveSkill.value) == 0)
@@ -1462,7 +1468,7 @@ function GenerateTestCase() {
     //     {skid: 34}, {skid: 29}, {skid: 66}, {skid: 75}, {skid: 33}, {skid: 361}, {skid: 111}, {skid: 112},
     //     {skid: 486}, {skid: 383}, {state: 'Spirit Sphere'}, {skid: 7}, {state: 'Aloevera'}, {skid: 67}, {skid: 256}];
     // var supportiveSkills = [];
-    // for (i = 0; i <= 12; i++) {
+    // for (let i = 0; i <= 12; i++) {
     //     let value = document.calcForm["A_SUPPORTIVE_SKILL" + i].value;
     //     if (value === undefined || value === 0) {
     //         continue;
@@ -1585,6 +1591,11 @@ function LoadSave(saveSlot) {
     }
     document.calcForm.A_weapon1.value = json.A_weapon1;
     ClickB_Item(json.A_weapon1);
+    if (json.A_weapon2) {
+        document.calcForm.A_weapon2.value = json.A_weapon2;
+        ClickB_Item(json.A_weapon2);
+
+    }
     let {n_A_JOB, isRebirth} = n_A_JobSet();
     ClickActiveSkill(json.A_ActiveSkill);
 
@@ -1654,13 +1665,13 @@ function Click_Card(CBI) {
     ActiveSkillSetPlus();
 }
 
-for (let i = 0; i < global.w_SC.length; i++) {
-    for (let k = 1; global.w_SC[i][k] != "NULL"; k++) {
+for (let i = 0; i < global.cardSetCombo.length; i++) {
+    for (let k = 1; global.cardSetCombo[i][k] != "NULL"; k++) {
         let j;
-        for (j = 4; global.cardOBJ[global.w_SC[i][k]][j] != 0; j += 2) ;
-        global.cardOBJ[global.w_SC[i][k]][j] = 90;
-        global.cardOBJ[global.w_SC[i][k]][j + 1] = global.w_SC[i][0];
-        global.cardOBJ[global.w_SC[i][k]][j + 2] = 0;
+        for (j = 4; global.cardOBJ[global.cardSetCombo[i][k]][j] != 0; j += 2) ;
+        global.cardOBJ[global.cardSetCombo[i][k]][j] = 90;
+        global.cardOBJ[global.cardSetCombo[i][k]][j + 1] = global.cardSetCombo[i][0];
+        global.cardOBJ[global.cardSetCombo[i][k]][j + 2] = 0;
     }
 }
 
@@ -1845,6 +1856,7 @@ bindSearchable(document.getElementById("enemy-select"))
 
 bindSave();
 bindLoad();
+bindCopyToClipboard();
 bindGenerateTestCase();
 bindOnChangeEnemy();
 bindOnChangeJob();
