@@ -810,12 +810,18 @@ function bindAutoCalculate() {
             if (document.getElementById("checkbox-auto-calculate").checked) {
                 Calculate();
             }
+            if (document.getElementById("checkbox-auto-save").checked) {
+                localStorage.setItem("autosave", serializeFormToJSON());
+            }
         });
     });
     document.querySelectorAll("select").forEach((input) => {
         input.addEventListener("change", (event) => {
             if (document.getElementById("checkbox-auto-calculate").checked) {
                 Calculate();
+            }
+            if (document.getElementById("checkbox-auto-save").checked) {
+                localStorage.setItem("autosave", serializeFormToJSON());
             }
         });
     });
@@ -964,7 +970,7 @@ function WeaponSet() {
     let work = new Array();
     let j = 0;
     for (let i = 0; i < global.ItemOBJ.length; i++) {
-        if (global.ItemOBJ[i][1] == n_A_WeaponType && JobEquipItemSearch(global.ItemOBJ[i][2]) == 1) {
+        if (global.ItemOBJ[i][1] == n_A_WeaponType && checkIfClassCanWearEquipment(global.ItemOBJ[i][2]) == 1) {
             work[j] = i;
             j++;
         } else if (global.ItemOBJ[i][4] == 4 && global.ItemOBJ[i][1] == n_A_WeaponType && SuperNoviceFullWeaponCHECK) {
@@ -988,7 +994,7 @@ function WeaponSetLeft() {
     let work = new Array();
     let j = 0;
     for (let i = 0; i < global.ItemOBJ.length; i++) {
-        if (global.ItemOBJ[i][1] == n_A_Weapon2Type && JobEquipItemSearch(global.ItemOBJ[i][2]) == 1) {
+        if (global.ItemOBJ[i][1] == n_A_Weapon2Type && checkIfClassCanWearEquipment(global.ItemOBJ[i][2]) == 1) {
             work[j] = i;
             j++;
         }
@@ -1019,28 +1025,28 @@ function ItemSet() {
     for (let i = 0; i <= 7; i++)
         wsj[i] = 0;
     for (let i = 0; i < global.ItemOBJ.length; i++) {
-        if (global.ItemOBJ[i][1] == 50 && (JobEquipItemSearch(global.ItemOBJ[i][2]) == 1 || SuperNoviceFullWeaponCHECK)) {
+        if (global.ItemOBJ[i][1] == 50 && (checkIfClassCanWearEquipment(global.ItemOBJ[i][2]) == 1 || SuperNoviceFullWeaponCHECK)) {
             workB[0][wsj[0]] = i;
             wsj[0]++;
-        } else if (global.ItemOBJ[i][1] == 51 && (JobEquipItemSearch(global.ItemOBJ[i][2]) == 1 || SuperNoviceFullWeaponCHECK)) {
+        } else if (global.ItemOBJ[i][1] == 51 && (checkIfClassCanWearEquipment(global.ItemOBJ[i][2]) == 1 || SuperNoviceFullWeaponCHECK)) {
             workB[1][wsj[1]] = i;
             wsj[1]++;
-        } else if (global.ItemOBJ[i][1] == 52 && (JobEquipItemSearch(global.ItemOBJ[i][2]) == 1 || SuperNoviceFullWeaponCHECK)) {
+        } else if (global.ItemOBJ[i][1] == 52 && (checkIfClassCanWearEquipment(global.ItemOBJ[i][2]) == 1 || SuperNoviceFullWeaponCHECK)) {
             workB[2][wsj[2]] = i;
             wsj[2]++;
-        } else if (global.ItemOBJ[i][1] == 61 && JobEquipItemSearch(global.ItemOBJ[i][2]) == 1) {
+        } else if (global.ItemOBJ[i][1] == 61 && checkIfClassCanWearEquipment(global.ItemOBJ[i][2]) == 1) {
             workB[3][wsj[3]] = i;
             wsj[3]++;
-        } else if (global.ItemOBJ[i][1] == 60 && JobEquipItemSearch(global.ItemOBJ[i][2]) == 1) {
+        } else if (global.ItemOBJ[i][1] == 60 && checkIfClassCanWearEquipment(global.ItemOBJ[i][2]) == 1) {
             workB[4][wsj[4]] = i;
             wsj[4]++;
-        } else if (global.ItemOBJ[i][1] == 62 && JobEquipItemSearch(global.ItemOBJ[i][2]) == 1) {
+        } else if (global.ItemOBJ[i][1] == 62 && checkIfClassCanWearEquipment(global.ItemOBJ[i][2]) == 1) {
             workB[5][wsj[5]] = i;
             wsj[5]++;
-        } else if (global.ItemOBJ[i][1] == 63 && JobEquipItemSearch(global.ItemOBJ[i][2]) == 1) {
+        } else if (global.ItemOBJ[i][1] == 63 && checkIfClassCanWearEquipment(global.ItemOBJ[i][2]) == 1) {
             workB[6][wsj[6]] = i;
             wsj[6]++;
-        } else if (global.ItemOBJ[i][1] == 64 && JobEquipItemSearch(global.ItemOBJ[i][2]) == 1) {
+        } else if (global.ItemOBJ[i][1] == 64 && checkIfClassCanWearEquipment(global.ItemOBJ[i][2]) == 1) {
             workB[7][wsj[7]] = i;
             wsj[7]++;
         }
@@ -1087,7 +1093,7 @@ function ItemSet() {
     }
 }
 
-function JobEquipItemSearch(nJEIS) {
+function checkIfClassCanWearEquipment(nJEIS) {
     if (isRebirth == 0) {
         if (global.ItemOBJ[i][11] == 200)
             return 0;
@@ -1556,10 +1562,15 @@ function refreshSaveSlotOptions() {
 }
 
 
-function LoadSave() {
-
-    let saveSlot = document.calcForm.A_SaveSlot.value;
+function LoadSave(saveSlot) {
+    if (!saveSlot) {
+        saveSlot = document.calcForm.A_SaveSlot.value;
+    }
     let json = JSON.parse(localStorage.getItem(saveSlot));
+    if (!json) {
+        Calculate();
+        return;
+    }
     document.calcForm.A_JOB.value = json.A_JOB;
     ClickJob(json.A_JOB);
     if (json.A_SUPPORTIVE_SKILLSW === "on") {
@@ -1846,4 +1857,11 @@ bindOnChangeActiveSkill();
 bindOnChangeStat();
 bindOnChangeCardShortcut();
 bindAutoCalculate()
-Calculate();
+
+if (document.getElementById("checkbox-auto-save").checked) {
+    LoadSave("autosave");
+} else {
+    Calculate();
+}
+
+
