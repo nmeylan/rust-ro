@@ -53,7 +53,7 @@ let NameCalc = [
     "Weapon Type: ",
     "Weapon & Armor / Cards",
     "Weapon: ",
-    "Attribute: ",
+    "Element: ",
     "Weapon: ",
     "Display",
     "Passive / Durration Skills",
@@ -1249,15 +1249,6 @@ function SetCardShortcut() {
 
         if (w == 9 || w == 10) {
             w = MonsterOBJ[eval(document.calcForm.B_Enemy.value)][3];
-
-            if (10 <= w && w <= 14)
-                document.calcForm.A_weapon1_card1.value = 204;
-            if ((20 <= w && w <= 24) || (80 <= w && w <= 94))
-                document.calcForm.A_weapon1_card1.value = 203;
-            if (30 <= w && w <= 34)
-                document.calcForm.A_weapon1_card1.value = 201;
-            if (40 <= w && w <= 44)
-                document.calcForm.A_weapon1_card1.value = 202;
         }
     } else {
         if (CardShort[w][2] != 0)
@@ -1291,15 +1282,6 @@ function SetCardShortLeft() {
 
     if (w == 9 || w == 10) {
         w = MonsterOBJ[eval(document.calcForm.B_Enemy.value)][3];
-
-        if (10 <= w && w <= 14)
-            document.calcForm.A_weapon2_card1.value = 204;
-        if ((20 <= w && w <= 24) || (80 <= w && w <= 94))
-            document.calcForm.A_weapon2_card1.value = 203;
-        if (30 <= w && w <= 34)
-            document.calcForm.A_weapon2_card1.value = 201;
-        if (40 <= w && w <= 44)
-            document.calcForm.A_weapon2_card1.value = 202;
     }
 }
 
@@ -1614,9 +1596,6 @@ let CardShort = [
     ["Size Type 2x", 3, 3, 0, 0],
     ["Size Type 3x", 3, 3, 3, 0],
     ["Size Type 4x", 3, 3, 3, 3],
-    ["Elemental + Star Crumb", 0, 106, 0, 0],
-    ["Elemental + Star Crumb 2x", 0, 106, 106, 0],
-    ["Star Crumb 3x", 106, 106, 106, 0],
     ["Andre 2x", 11, 11, 0, 0],
     ["Andre 3x", 11, 11, 11, 0],
     ["Andre 4x", 11, 11, 11, 11],
@@ -1746,6 +1725,11 @@ for (i = 0; i <= 16; i++)
 for (i = 0; i <= 9; i++)
     document.calcForm.A_Weapon_element.options[i] = new Option(EnName[i], i);
 
+document.calcForm.A_Weapon_element.options[10] = new Option("Water (Enchanted Stone)", 1);
+document.calcForm.A_Weapon_element.options[11] = new Option("Earth (Enchanted Stone)", 2);
+document.calcForm.A_Weapon_element.options[12] = new Option("Fire (Enchanted Stone)", 3);
+document.calcForm.A_Weapon_element.options[13] = new Option("Wind (Enchanted Stone)", 4);
+
 document.calcForm.A_SpeedPOT.options[0] = new Option(SpeedPotName[0], 0);
 document.calcForm.A_SpeedPOT.options[1] = new Option(SpeedPotName[1], 1);
 document.calcForm.A_SpeedPOT.options[2] = new Option(SpeedPotName[2], 2);
@@ -1768,7 +1752,6 @@ for (var i = 0; global.CardSortOBJ[1][i] != "NULL"; i++) {
     document.calcForm.A_weapon1_card3.options[i] = new Option(global.cardOBJ[global.CardSortOBJ[1][i]][2], global.cardOBJ[global.CardSortOBJ[1][i]][0]);
     document.calcForm.A_weapon1_card4.options[i] = new Option(global.cardOBJ[global.CardSortOBJ[1][i]][2], global.cardOBJ[global.CardSortOBJ[1][i]][0]);
 }
-document.calcForm.A_weapon1_card4.options[1] = new Option("Top 10 Ranked", 106);
 
 for (var i = 0; global.CardSortOBJ[2][i] != "NULL"; i++) {
     document.calcForm.A_head1_card.options[i] = new Option(global.cardOBJ[global.CardSortOBJ[2][i]][2], global.cardOBJ[global.CardSortOBJ[2][i]][0]);
@@ -1788,7 +1771,7 @@ for (var i = 0; global.CardSortOBJ[7][i] != "NULL"; i++) {
 }
 
 
-for (i = 0; i <= 38; i++)
+for (i = 0; i < CardShort.length; i++)
     document.calcForm.A_cardshort.options[i] = new Option(CardShort[i][0], i);
 
 for (i = 0; i <= 10; i++) {
@@ -1801,7 +1784,6 @@ for (i = 0; CardSortOBJ[1][i] != "NULL"; i++) {
     document.calcForm.A_weapon2_card3.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]);
     document.calcForm.A_weapon2_card4.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]);
 }
-document.calcForm.A_weapon2_card4.options[1] = new Option("Top 10 Rank", 106);
 document.calcForm.A_cardshortLeft.options[0] = new Option("Card Shortcuts (Left)", 0);
 for (i = 1; i <= 32; i++)
     document.calcForm.A_cardshortLeft.options[i] = new Option(CardShort[i][0], i);
