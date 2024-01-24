@@ -107,11 +107,6 @@ let NameCalc = [
     "Display",
 ];
 
-let JobName =
-    ["Novice", "Swordsman", "Thief", "Acolyte", "Archer", "Magician", "Merchant", "Knight", "Assassin", "Priest", "Hunter", "Wizard", "Blacksmith", "Crusader", "Rogue", "Monk", "Bard", "Dancer", "Sage", "Alchemist",
-        "Super Novice", "LordKnight", "AssassinCross", "HighPriest", "Sniper", "HighWizard", "Whitesmith", "Paladin", "Stalker", "Champion", "Clown", "Gypsy", "Professor", "Creator",
-        "High Novice", "High Swordsman", "High Thief", "High Acolyte", "High Archer", "High Magician", "High Merchant", "Taekwon Kid", "Taekwon Master", "Soul Linker", "Ninja", "Gunslinger"];
-
 
 let SpeedPotName = ["None", "Concentration Potion", "Awakening Potion", "Berserk Potion"];
 
@@ -571,7 +566,7 @@ function refreshEnemyStats(enemyStats) {
     }
     myInnerHtml("Enemy_Size", global.SizeOBJ[enemyStats.size], 0);
     myInnerHtml("Enemy_HP", enemyStats.hp, 0);
-    myInnerHtml("Enemy_ATK", enemyStats.atk, 0);
+    myInnerHtml("Enemy_ATK", enemyStats.atk1, 0);
     myInnerHtml("Enemy_ATK2", enemyStats.atk2, 0);
     myInnerHtml("Enemy_PerfectHit", enemyStats.perfectHit, 0);
     myInnerHtml("Enemey_PerfectDodge", enemyStats.perfectDodge, 0);
@@ -1218,7 +1213,7 @@ function ActiveSkillSetPlus() {
             w_ASSPch = 1
     }
     if (w_ASSPch) {
-
+        let k;
         for (k = 0; global.JobSkillActiveOBJ[n_A_JOB][k] != 999; k++) ;
         for (let i = k + 20; i >= k; i--)
             document.calcForm.A_ActiveSkill.options[i] = null;
@@ -1349,16 +1344,6 @@ function repopulateFormFromJSON(jsonData) {
                 element.value = value;
         }
     });
-}
-
-function removeNullValues(obj) {
-    for (let key in obj) {
-        if (obj[key] === null || Number.isNaN(obj[key]) || obj[key] === 0) {
-            delete obj[key];
-        } else if (typeof obj[key] === 'object') {
-            removeNullValues(obj[key]);
-        }
-    }
 }
 
 function Calculate() {
@@ -1506,7 +1491,6 @@ function GenerateTestCase() {
     // };
     let testCase = GetTestCase(getFormData(document));
     console.log(testCase);
-    removeNullValues(testCase);
     console.log(JSON.stringify(testCase));
     navigator.clipboard.writeText(JSON.stringify(testCase));
 }
@@ -1543,7 +1527,7 @@ function refreshSaveSlotOptions() {
         let json = JSON.parse(localStorage.getItem(k));
         const isSelected = document.calcForm.A_SaveSlot.value == k;
         if (json) {
-            document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": " + JobName[json.A_JOB], k, isSelected, isSelected );
+            document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": " + global.JobName[json.A_JOB], k, isSelected, isSelected );
         } else
             document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": no Save Data", k);
     }
@@ -1717,7 +1701,7 @@ for (i = 1; i <= 81; i++)
 
 
 for (i = 0; i <= 45; i++)
-    document.calcForm.A_JOB.options[i] = new Option(JobName[i], i);
+    document.calcForm.A_JOB.options[i] = new Option(global.JobName[i], i);
 
 for (i = 0; i <= 16; i++)
     document.calcForm.A_Arrow.options[i] = new Option(global.ArrowOBJ[i][2], i);
