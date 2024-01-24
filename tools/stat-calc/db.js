@@ -4025,6 +4025,11 @@ global.JobStatsBonusPerLevel[45]=[
     [4,1,1,2,9,7],
     [4,1,1,2,9,7],
 ];
+global.JobName =
+    ["Novice", "Swordsman", "Thief", "Acolyte", "Archer", "Magician", "Merchant", "Knight", "Assassin", "Priest", "Hunter", "Wizard", "Blacksmith", "Crusader", "Rogue", "Monk", "Bard", "Dancer", "Sage", "Alchemist",
+        "Super Novice", "LordKnight", "AssassinCross", "HighPriest", "Sniper", "HighWizard", "Whitesmith", "Paladin", "Stalker", "Champion", "Clown", "Gypsy", "Professor", "Creator",
+        "High Novice", "High Swordsman", "High Thief", "High Acolyte", "High Archer", "High Magician", "High Merchant", "Taekwon Kid", "Taekwon Master", "Soul Linker", "Ninja", "Gunslinger"];
+
 
 global.MonsterOBJ = [
     [0,"Arc Angeling",8,63,1,60,79523,80,65,74,65,105,669,1338,54,58,4152,2173,,1,0],
