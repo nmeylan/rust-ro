@@ -188,7 +188,7 @@ let JobEquipItemOBJ = [
     [0, 1, 59, 83, 999],
 ];
 
-let n_A_JOB, n_A_WeaponType, n_A_Weapon2Type, isRebirth, SuperNoviceFullWeaponCHECK;
+let n_A_JOB, n_A_WeaponType, n_A_Weapon2Type, isRebirth, SuperNoviceFullWeaponCHECK, loadedTestCase;
 let n_ECname = new Array();
 let n_A_Equip = new Array();
 for (i = 0; i <= 20; i++)
@@ -636,6 +636,71 @@ function refreshBattleResults(battleResults) {
     // myInnerHtml("AverageReceivedDamageIncludingDodge", battleResults.str, 0);
 }
 
+function refreshTestCases() {
+    let testcases = localStorage.getItem("testcases");
+    if (testcases) {
+       testcases = JSON.parse(testcases);
+        let tableBody = document.getElementById("testcases-table-body");
+        while (tableBody.hasChildNodes()) {
+            tableBody.removeChild(tableBody.lastChild);
+        }
+        for(let testcase of testcases) {
+            let row = tableBody.insertRow(-1);
+
+            var loadButton = document.createElement('input');
+            loadButton.type = "button"
+            loadButton.value = 'Load';
+            loadButton.addEventListener('click', function() {
+                const index = testcases.findIndex(testcase => testcase._id === localStorage.getItem("loadedTestCase"));
+                if (localStorage.getItem("autosave")) {
+                    testcases[index] = GetTestCase(JSON.parse(localStorage.getItem("autosave")));
+                    localStorage.setItem("testcases", JSON.stringify(testcases));
+                }
+                localStorage.setItem("loadedTestCase", testcase._id);
+                LoadForm(JSON.parse(atob(testcase.formData)));
+                refreshTestCases();
+            });
+            var copyButton = document.createElement('input');
+            copyButton.type = "button"
+            copyButton.value = 'Copy';
+            copyButton.addEventListener('click', function() {
+                const index = testcases.findIndex(testcase => testcase._id === row.id);
+                let formData = testcases[index].formData;
+                formData = JSON.parse(atob(formData));
+                delete formData._id;
+                let copiedTestCase = GetTestCase(formData);
+                testcases.push(copiedTestCase);
+                localStorage.setItem("testcases", JSON.stringify(testcases));
+                localStorage.setItem("loadedTestCase", copiedTestCase._id);
+                LoadForm(formData);
+                refreshTestCases();
+            });
+            row.id = testcase._id;
+            let firstCell = row.insertCell(-1);
+            firstCell.appendChild(loadButton);
+            firstCell.appendChild(copyButton);
+            row.insertCell(-1).appendChild(document.createTextNode(testcase._id));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.job));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.baseLevel + "/" + testcase.jobLevel));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.baseStr));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.baseAgi));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.baseVit));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.baseInt));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.baseDex));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.baseLuk));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.targetId));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.skillToUse.name));
+        }
+        for (const tr of tableBody.getElementsByTagName("tr")) {
+            tr.style.backgroundColor = "";
+        }
+        if (localStorage.getItem("loadedTestCase") && document.getElementById(localStorage.getItem("loadedTestCase"))) {
+            document.getElementById(localStorage.getItem("loadedTestCase")).style.backgroundColor = "#999";
+            document.getElementById("editing-testcase").textContent = "Editing " + localStorage.getItem("loadedTestCase");
+        }
+    }
+}
+
 function bindOnChangeEnemy() {
     let select = document.getElementById("enemy-select");
     select.addEventListener("change", (e) => {
@@ -807,6 +872,9 @@ function bindAutoCalculate() {
             }
             if (document.getElementById("checkbox-auto-save").checked) {
                 localStorage.setItem("autosave", serializeFormToJSON());
+                if (localStorage.getItem("loadedTestCase") != null) {
+                    document.getElementById(localStorage.getItem("loadedTestCase")).style.fontStyle = "italic";
+                }
             }
         });
     });
@@ -817,10 +885,45 @@ function bindAutoCalculate() {
             }
             if (document.getElementById("checkbox-auto-save").checked) {
                 localStorage.setItem("autosave", serializeFormToJSON());
+                if (localStorage.getItem("loadedTestCase") != null) {
+                    document.getElementById(localStorage.getItem("loadedTestCase")).style.fontStyle = "italic";
+                }
             }
         });
     });
 }
+function bindAddTestCase() {
+    function addTestCase() {
+        let newTestCase = GenerateTestCase();
+        let testcases = localStorage.getItem("testcases");
+        if (testcases) {
+            testcases = JSON.parse(testcases);
+        } else {
+            testcases = [];
+        }
+        testcases.push(newTestCase);
+        localStorage.setItem("testcases", JSON.stringify(testcases));
+        localStorage.setItem("loadedTestCase", newTestCase._id);
+        LoadSave(newTestCase._id);
+        refreshTestCases();
+    }
+
+    document.getElementById("btn-add-testcase").addEventListener("click", function () {
+        document.calcForm.reset();
+        addTestCase();
+    });
+    document.getElementById("btn-add-testcase-keep-current").addEventListener("click", function () {
+        addTestCase();
+    });
+}
+
+function bindUnloadTestCase() {
+    document.getElementById("btn-unload-testcase").addEventListener("click", function() {
+        localStorage.removeItem("loadedTestCase");
+        refreshTestCases();
+    });
+}
+
 function bindOnChangeExtendedInfo() {
     document.getElementById("extended-info-select").addEventListener("change", (e) => {
         ExtendedInfo()
@@ -857,11 +960,6 @@ function bindOnFoodBox() {
     });
 }
 
-function bindSave() {
-    document.getElementById("btn-save").addEventListener("click", (e) => {
-        SaveForm()
-    });
-}
 function bindCopyToClipboard() {
     document.getElementById("btn-copy-form").addEventListener("click", (e) => {
         let formData= getFormData(document);
@@ -869,15 +967,23 @@ function bindCopyToClipboard() {
     });
 }
 
-function bindLoad() {
-    document.getElementById("btn-load").addEventListener("click", (e) => {
-        LoadSave()
-    });
-}
-
 function bindGenerateTestCase() {
     document.getElementById("btn-generate-testcase").addEventListener("click", (e) => {
         GenerateTestCase()
+    });
+}
+function bindEditTestCases() {
+    let elem = document.getElementById("input-edit-testcases");
+    elem.addEventListener("change", (e) => {
+        if (elem.files.length == 1) {
+            let file = elem.files[0];
+            const reader = new FileReader();
+            reader.addEventListener('load', (event) => {
+                localStorage.setItem("testcases", reader.result);
+                refreshTestCases();
+            });
+            reader.readAsText(file);
+        }
     });
 }
 
@@ -913,10 +1019,10 @@ function OnChangeStat(nSC) {
         statusPoint = 100;
 
     if (nSC == 1 || document.calcForm.BLVauto.checked == 0) {
-        for (let i = 1; i < n_A_BaseLV; i++)
+        for (i = 1; i < n_A_BaseLV; i++)
             statusPoint += Math.floor((i) / 5) + 3;
     } else {
-        for (let i = 1; StPoint > statusPoint && i < 99; i++)
+        for (i = 1; StPoint > statusPoint && i < 99; i++)
             statusPoint += Math.floor((i) / 5) + 3;
     }
     if (i > 99) i = 99;
@@ -1305,6 +1411,7 @@ function getFormData(document) {
 function serializeFormToJSON() {
     var formObject = getFormData(document);
 
+    formObject._id = localStorage.getItem("loadedTestCase");
     return JSON.stringify(formObject);
 }
 
@@ -1358,141 +1465,9 @@ function Calculate() {
 }
 
 function GenerateTestCase() {
-    // const testCaseData = {};
-    //
-    // testCaseData.job = JobName[eval(document.calcForm.A_JOB.value)];
-    // testCaseData.base_level = eval(document.calcForm.A_BaseLV.value);
-    // testCaseData.job_level = eval(document.calcForm.A_JobLV.value);
-    // testCaseData.str = eval(document.calcForm.A_STR.value);
-    // testCaseData.agi = eval(document.calcForm.A_AGI.value);
-    // testCaseData.vit = eval(document.calcForm.A_VIT.value);
-    // testCaseData.dex = eval(document.calcForm.A_DEX.value);
-    // testCaseData.int = eval(document.calcForm.A_INT.value);
-    // testCaseData.luk = eval(document.calcForm.A_LUK.value);
-    //
-    // if (n_A_JobSearch() == 2 || n_A_JobSearch() == 4 || (n_A_JOB == 45 && n_A_WeaponType != WEAPON_TYPE_UNARMED)) {
-    //     testCaseData.ammo = eval(document.calcForm.A_Arrow.value);
-    // }
-    //
-    // testCaseData.speed_potion = eval(document.calcForm.A_SpeedPOT.value);
-    // testCaseData.weapon = aegis_item(eval(document.calcForm.A_weapon1.value));
-    // testCaseData.weapon_refinement = eval(document.calcForm.A_Weapon_ATKplus.value);
-    // testCaseData.weapon_card1 = card(eval(document.calcForm.A_weapon1_card1.value));
-    // testCaseData.weapon_card2 = card(eval(document.calcForm.A_weapon1_card2.value));
-    // testCaseData.weapon_card3 = card(eval(document.calcForm.A_weapon1_card3.value));
-    // testCaseData.weapon_card4 = card(eval(document.calcForm.A_weapon1_card4.value));
-    //
-    // if (document.calcForm.A_weapon2) {
-    //     testCaseData.weapon_left = aegis_item(eval(document.calcForm.A_weapon2.value));
-    //     testCaseData.weapon_left_refinement = eval(document.calcForm.A_Weapon2_ATKplus.value);
-    //     testCaseData.weapon_left_card1 = card(eval(document.calcForm.A_weapon2_card1.value));
-    //     testCaseData.weapon_left_card2 = card(eval(document.calcForm.A_weapon2_card2.value));
-    //     testCaseData.weapon_left_card3 = card(eval(document.calcForm.A_weapon2_card3.value));
-    //     testCaseData.weapon_left_card4 = card(eval(document.calcForm.A_weapon2_card4.value));
-    // }
-    //
-    // if (document.calcForm.A_Arrow && document.calcForm.A_Arrow.style["visibility"] !== "hidden") {
-    //     testCaseData.ammo = global.ArrowOBJ[document.calcForm.A_Arrow.value][2];
-    // }
-    //
-    //
-    // testCaseData.headgear_upper = aegis_item(eval(document.calcForm.A_head1.value));
-    // testCaseData.headgear_upper_card = card(eval(document.calcForm.A_head1_card.value));
-    // testCaseData.headgear_middle = aegis_item(eval(document.calcForm.A_head2.value));
-    // testCaseData.headgear_middle_card = card(eval(document.calcForm.A_head2_card.value));
-    // testCaseData.headgear_lower = aegis_item(eval(document.calcForm.A_head3.value))
-    //
-    // if (document.calcForm.A_left.value !== "305") {
-    //     testCaseData.shield = aegis_item(eval(document.calcForm.A_left.value));
-    // }
-    // testCaseData.shield_card = card(eval(document.calcForm.A_left_card.value));
-    // testCaseData.body = aegis_item(eval(document.calcForm.A_body.value));
-    // testCaseData.body_card = card(eval(document.calcForm.A_body_card.value));
-    // testCaseData.shoulder = aegis_item(eval(document.calcForm.A_shoulder.value));
-    // testCaseData.shoulder_card = card(eval(document.calcForm.A_shoulder_card.value));
-    // testCaseData.shoes = aegis_item(eval(document.calcForm.A_shoes.value));
-    // testCaseData.shoes_card = card(eval(document.calcForm.A_shoes_card.value));
-    // testCaseData.accessory_left = aegis_item(eval(document.calcForm.A_acces1.value));
-    // testCaseData.accessory_left_card = card(eval(document.calcForm.A_acces1_card.value));
-    // testCaseData.accessory_right = aegis_item(eval(document.calcForm.A_acces2.value));
-    // testCaseData.accessory_right_card = card(eval(document.calcForm.A_acces2_card.value));
-    //
-    // let {n_A_JOB, isRebirth} = n_A_JobSet();
-    // let w = n_A_JOB;
-    // var saveDataIndex = 45;
-    // var passiveSkills = [];
-    // for (var i = 0; i < 15; i++) {
-    //     if (global.JobSkillPassOBJ[w][i] == 999) break;
-    //     let skill_level = eval(document.calcForm["A_PASSIVE_SKILL" + i].value);
-    //     if (skill_level > 0) {
-    //         passiveSkills.push({skid: SkillOBJ[global.JobSkillPassOBJ[w][i]][3], level: skill_level})
-    //     }
-    // }
-    // testCaseData.passiveSkills = passiveSkills;
-    // testCaseData.weapon_element = eval(document.calcForm.A_Weapon_element.value);
-    //
-    // const supportiveSkillsIds = [
-    //     {skid: 34}, {skid: 29}, {skid: 66}, {skid: 75}, {skid: 33}, {skid: 361}, {skid: 111}, {skid: 112},
-    //     {skid: 486}, {skid: 383}, {state: 'Spirit Sphere'}, {skid: 7}, {state: 'Aloevera'}, {skid: 67}, {skid: 256}];
-    // var supportiveSkills = [];
-    // for (let i = 0; i <= 12; i++) {
-    //     let value = document.calcForm["A_SUPPORTIVE_SKILL" + i].value;
-    //     if (value === undefined || value === 0) {
-    //         continue;
-    //     }
-    //     if (value == true)
-    //         value = 1;
-    //     else if (value == false)
-    //         value = 0;
-    //     if (value > 0) {
-    //         supportiveSkills.push({...supportiveSkillsIds[i], value})
-    //     }
-    // }
-    // testCaseData.supportiveSkills = supportiveSkills;
-    //
-    // testCaseData.headgear_upper_refinement = eval(document.calcForm.A_HEAD_DEF_PLUS.value);
-    // testCaseData.body_refinement = eval(document.calcForm.A_BODY_DEF_PLUS.value);
-    // testCaseData.shield_refinement = eval(document.calcForm.A_LEFT_DEF_PLUS.value);
-    // testCaseData.shoulder_refinement = eval(document.calcForm.A_SHOULDER_DEF_PLUS.value);
-    // testCaseData.shoes_refinement = eval(document.calcForm.A_SHOES_DEF_PLUS.value);
-    // testCaseData.skill_to_use = {
-    //     skid: SkillOBJ[eval(document.calcForm.A_ActiveSkill.value)][3],
-    //     level: eval(document.calcForm.A_ActiveSkillLV.value)
-    // };
-    // testCaseData.target = MonsterIds[eval(document.calcForm.B_Enemy.value)][2];
-    // let crit_damages = document.querySelector("#CRIATK").textContent.split("~");
-    // let crit_rate = Number.parseFloat(document.querySelector("#CRInum").textContent);
-    // let min_dmg = Number.parseFloat(document.querySelector("#ATK_00").textContent);
-    // let max_dmg = Number.parseFloat(document.querySelector("#ATK_02").textContent);
-    // let avg_dmg = Number.parseFloat(document.querySelector("#ATK_01").textContent);
-    // let dps = Number.parseFloat(document.querySelector("#DPS").textContent);
-    // let aspd = Number.parseFloat(document.querySelector("#nm023").textContent);
-    //
-    // let targetStats = CalculateEnemyStats(formData, 0);
-    // let sourceStats = CalculateAllStats(formData, targetStats);
-    // let battleResult = CalculateBattle(sourceStats, targetStats, 0);
-    //
-    // testCaseData.expected = {
-    //     weapon_min_atk: weaponAttack[0],
-    //     weapon_avg_atk: weaponAttack[1],
-    //     weapon_max_atk: weaponAttack[2],
-    //     base_atk: baseATK,
-    //     hit_ratio: hitRate / 100.0,
-    //     critical_rate: crit_rate,
-    //     critical_damage_min: Number.parseFloat(crit_damages[0]),
-    //     critical_damage_max: crit_damages.length > 1 ? Number.parseFloat(crit_damages[1]) : Number.parseFloat(crit_damages[0]),
-    //     min_dmg: min_dmg,
-    //     avg_dmg: avg_dmg,
-    //     max_dmg: max_dmg,
-    //     dps: dps,
-    //     aspd: aspd,
-    //     stats_atk_left: ATK_LEFT,
-    //     stats_atk_right: ATK_RIGHT,
-    // };
     let testCase = GetTestCase(getFormData(document));
-    console.log(testCase);
-    console.log(JSON.stringify(testCase));
     navigator.clipboard.writeText(JSON.stringify(testCase));
+    return testCase;
 }
 
 function aegis_item(value) {
@@ -1509,40 +1484,7 @@ function card(value) {
     return global.CardIds[value][2]
 }
 
-function SaveForm() {
-    let saveId =  document.calcForm.A_SaveSlot.value;
-
-    localStorage.setItem(saveId, serializeFormToJSON());
-    refreshSaveSlotOptions();
-
-}
-
-function refreshSaveSlotOptions() {
-    for (let k = 1; k <= 19; k++) {
-        let saveLabel = "num0" + (k - 1);
-        if (k == 9)
-            saveLabel = "num0" + k;
-        if (k >= 10)
-            saveLabel = "num" + k;
-        let json = JSON.parse(localStorage.getItem(k));
-        const isSelected = document.calcForm.A_SaveSlot.value == k;
-        if (json) {
-            document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": " + global.JobName[json.A_JOB], k, isSelected, isSelected );
-        } else
-            document.calcForm.A_SaveSlot.options[k - 1] = new Option("Save" + k + ": no Save Data", k);
-    }
-}
-
-
-function LoadSave(saveSlot) {
-    if (!saveSlot) {
-        saveSlot = document.calcForm.A_SaveSlot.value;
-    }
-    let json = JSON.parse(localStorage.getItem(saveSlot));
-    if (!json) {
-        Calculate();
-        return;
-    }
+function LoadForm(json) {
     document.calcForm.A_JOB.value = json.A_JOB;
     ClickJob(json.A_JOB);
     if (json.A_SUPPORTIVE_SKILLSW === "on") {
@@ -1567,7 +1509,23 @@ function LoadSave(saveSlot) {
 
     ActiveSkillSetPlus();
     Calculate();
+    localStorage.setItem("autosave", serializeFormToJSON());
 }
+
+function LoadSave(saveSlot) {
+    if (saveSlot !== "autosave" && localStorage.getItem("testcases") && localStorage.getItem("loadedTestCase")) {
+        let testcases = JSON.parse(localStorage.getItem("testcases"));
+        let json = testcases
+            .find(testcase => testcase._id === localStorage.getItem("loadedTestCase"));
+        LoadForm(JSON.parse(atob(json.formData)));
+    } else if (localStorage.getItem("autosave")) {
+        localStorage.removeItem("loadedTestCase");
+        LoadForm(JSON.parse(localStorage.getItem("autosave")));
+    } else {
+        Calculate();
+    }
+}
+
 
 
 let CardShort = [
@@ -1816,14 +1774,13 @@ for (i = 0; i < sortedMonster.length; i++) {
 
 document.calcForm.A_JOB.value = 0;
 ClickJob(0);
-refreshSaveSlotOptions();
 
 bindSearchable(document.getElementById("enemy-select"))
 
-bindSave();
-bindLoad();
 bindCopyToClipboard();
 bindGenerateTestCase();
+bindAddTestCase();
+bindUnloadTestCase();
 bindOnChangeEnemy();
 bindOnChangeJob();
 bindOnClickCalculate();
@@ -1834,7 +1791,8 @@ bindOnChangeCard();
 bindOnChangeActiveSkill();
 bindOnChangeStat();
 bindOnChangeCardShortcut();
-bindAutoCalculate()
+bindAutoCalculate();
+refreshTestCases();
 
 if (document.getElementById("checkbox-auto-save").checked) {
     LoadSave("autosave");
@@ -1842,4 +1800,8 @@ if (document.getElementById("checkbox-auto-save").checked) {
     Calculate();
 }
 
+document.getElementById("btn-reset").addEventListener("click", function () {
+    localStorage.clear();
+    document.location.reload()
+});
 
