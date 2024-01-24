@@ -2404,7 +2404,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
     stats.critATK[0] += HitEDPplus(n_A_EDP_DMG[0]);
     stats.critATK[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
-    let battleResult999 = BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRate, n_A_DMG, n_A_EDP_DMG, w998B, w998E, w998G, w998I, w998L);
+    let battleResult999 = BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRate, n_A_DMG, n_A_EDP_DMG, w998B, w998E, w998G, w998I, w998L, impositioMagnus, sizeModifier);
     battleResult = Object.assign(battleResult, battleResult999);
     return battleResult;
 }
@@ -2735,15 +2735,15 @@ function BattleCalc3(stats, targetStats, w998, InWarOfEmperium, w998B, w998E, w9
 }
 
 
-function BattleCalc3left(w998) {
+function BattleCalc3left(stats, targetStats, hitRate, w998, InWarOfEmperium) {
 
-    wBC3L2 = 0;
+    let wBC3L2 = 0;
     wBC3L2 += 5 * stats.equipments.weaponLeftHand.starCrumb;
 
-    wBC3_Normal = w998 * hitRate / 100;
-    wBC3_Miss = wBC3L2 * (100 - hitRate) / 100;
+    let wBC3_Normal = w998 * hitRate / 100;
+    let wBC3_Miss = wBC3L2 * (100 - hitRate) / 100;
 
-    wBC3_X = wBC3_Normal + wBC3_Miss;
+    let wBC3_X = wBC3_Normal + wBC3_Miss;
 
     wBC3_X = tPlusDamCut(stats, targetStats, wBC3_X, InWarOfEmperium);
 
@@ -2807,7 +2807,7 @@ function BattleCalcEDP(stats, targetStats, wBCEDP, wBCEDP2) {
     return wBCEDPx + wBCEDPy;
 }
 
-function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRate, n_A_DMG, n_A_EDP_DMG, w998B, w998E, w998G, w998I, w998L) {
+function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRate, n_A_DMG, n_A_EDP_DMG, w998B, w998E, w998G, w998I, w998L, impositioMagnus, sizeModifier) {
     let skillModifier = 1;
     let wCast = 0;
     let wDelay = 0;
@@ -2884,54 +2884,51 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
         }
 
         if (stats.equipments.weaponLeftHand) {
-
-            if (!targetStats.isStaticPlant) {
+            let w_left_Maxatk = 1;
+            let w_left_Minatk = 1;
+            let w_left_Aveatk = 1;
                 TyouEnkakuSousa3dan = 0;
 
-                workDex = Math.floor(stats.dex * (1 + (stats.equipments.weaponLeftHand.level - 1) * 0.2));
+            let workDex = Math.floor(stats.dex * (1 + (stats.equipments.weaponLeftHand.level - 1) * 0.2));
+            w_left_Maxatk = 0;
+            if (workDex >= stats.equipments.weaponLeftHand.atk)
+                w_left_Maxatk = stats.baseATK + stats.equipments.weaponLeftHand.level_overUpgradeBonusATK + Math.floor((stats.equipments.weaponLeftHand.atk + impositioMagnus) * sizeModifier);
+            else
+                w_left_Maxatk = stats.baseATK + stats.equipments.weaponLeftHand.level_overUpgradeBonusATK + Math.floor((stats.equipments.weaponLeftHand.atk - 1 + impositioMagnus) * sizeModifier);
 
-                if (workDex >= stats.equipments.weaponLeftHand.atk)
-                    w_left_Maxatk = stats.baseATK + stats.equipments.weaponLeftHand.level_overUpgradeBonusATK + Math.floor((stats.equipments.weaponLeftHand.atk + impositioMagnus) * sizeModifier);
-                else
-                    w_left_Maxatk = stats.baseATK + stats.equipments.weaponLeftHand.level_overUpgradeBonusATK + Math.floor((stats.equipments.weaponLeftHand.atk - 1 + impositioMagnus) * sizeModifier);
+            w_left_Maxatk = BattleCalc4(stats, targetStats, w_left_Maxatk * skillModifier, 2, 1);
 
-                w_left_Maxatk = BattleCalc4(stats, targetStats, w_left_Maxatk * skillModifier, 2, 1);
-
-                if (w_left_Maxatk < 1) w_left_Maxatk = 1;
-                w_left_Maxatk = Math.floor(w_left_Maxatk * element[targetStats.element][stats.equipments.weaponLeftHand.element]);
-
-
-                w_left_star = 0;
-                if (stats.equipments.weaponLeftHand.starCrumb >= 3) {
-                    w_left_star += 40;
-                } else {
-                    w_left_star += 5 * stats.equipments.weaponLeftHand.starCrumb;
-                }
-                if (stats.equipments.weapon.craftedByTop10Smith)
-                    w_left_star += 10;
-
-                w_left_Maxatk += w_left_star;
-                w_left_Maxatk = w_left_Maxatk * (3 + SkillSearch("Lefthand Mastery", stats)) / 10;
-                w_left_Maxatk = Math.floor(w_left_Maxatk);
+            if (w_left_Maxatk < 1) w_left_Maxatk = 1;
+            w_left_Maxatk = Math.floor(w_left_Maxatk * element[targetStats.element][stats.equipments.weaponLeftHand.element]);
 
 
-                if (workDex > stats.equipments.weaponLeftHand.atk)
-                    workDex = stats.equipments.weaponLeftHand.atk;
-                w_left_Minatk = stats.baseATK + stats.equipments.weaponLeftHand.minPlus + Math.floor((workDex + impositioMagnus) * sizeModifier);
-                w_left_Minatk = BattleCalc4(stats, targetStats, w_left_Minatk * skillModifier, 0, 1);
-
-                if (w_left_Minatk < 1) w_left_Minatk = 1;
-                w_left_Minatk = Math.floor(w_left_Minatk * element[targetStats.element][stats.equipments.weaponLeftHand.element]);
-                w_left_Minatk += w_left_star;
-                w_left_Minatk *= (0.3 + SkillSearch("Lefthand Mastery", stats) / 10);
-                w_left_Minatk = Math.floor(w_left_Minatk);
-
-                w_left_Aveatk = (w_left_Maxatk + w_left_Minatk) / 2;
+            let w_left_star = 0;
+            if (stats.equipments.weaponLeftHand.starCrumb >= 3) {
+                w_left_star += 40;
             } else {
-                w_left_Maxatk = 1;
-                w_left_Minatk = 1;
-                w_left_Aveatk = 1;
+                w_left_star += 5 * stats.equipments.weaponLeftHand.starCrumb;
             }
+            if (stats.equipments.weapon.craftedByTop10Smith)
+                w_left_star += 10;
+
+            w_left_Maxatk += w_left_star;
+            w_left_Maxatk = w_left_Maxatk * (3 + SkillSearch("Lefthand Mastery", stats)) / 10;
+            w_left_Maxatk = Math.floor(w_left_Maxatk);
+
+
+            if (workDex > stats.equipments.weaponLeftHand.atk)
+                workDex = stats.equipments.weaponLeftHand.atk;
+            w_left_Minatk = stats.baseATK + stats.equipments.weaponLeftHand.minPlus + Math.floor((workDex + impositioMagnus) * sizeModifier);
+            w_left_Minatk = BattleCalc4(stats, targetStats, w_left_Minatk * skillModifier, 0, 1);
+
+            if (w_left_Minatk < 1) w_left_Minatk = 1;
+            w_left_Minatk = Math.floor(w_left_Minatk * element[targetStats.element][stats.equipments.weaponLeftHand.element]);
+            w_left_Minatk += w_left_star;
+            w_left_Minatk *= (0.3 + SkillSearch("Lefthand Mastery", stats) / 10);
+            w_left_Minatk = Math.floor(w_left_Minatk);
+
+            w_left_Aveatk = (w_left_Maxatk + w_left_Minatk) / 2;
+
 
             ApplySkillModifier(stats, n_A_DMG, skillModifier, 0);
 
@@ -2941,7 +2938,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
             battleResult.atk02 = finalDamages[2] + n_A_EDP_DMG[2] + "(" + w_left_Maxatk + ")";
 
             finalDamages[2] = BattleCalc3(stats, targetStats, finalDamages[2], InWarOfEmperium, w998B, w998E, w998G, w998I, w998L);
-            finalDamages[2] += BattleCalc3left(w_left_Maxatk);
+            finalDamages[2] += BattleCalc3left(stats, targetStats, hitRate, w_left_Maxatk, InWarOfEmperium);
             finalDamages[2] += HitEDPplus(n_A_EDP_DMG[2]);
 
             finalDamages[0] = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, n_A_DMG[0], 0, InWarOfEmperium);
@@ -2949,7 +2946,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
             battleResult.atk00 = finalDamages[0] + n_A_EDP_DMG[0] + "(" + w_left_Minatk + ")";
 
             finalDamages[0] = BattleCalc3(stats, targetStats, finalDamages[0], InWarOfEmperium, w998B, w998E, w998G, w998I, w998L);
-            finalDamages[0] += BattleCalc3left(w_left_Minatk);
+            finalDamages[0] += BattleCalc3left(stats, targetStats,hitRate,w_left_Minatk, InWarOfEmperium);
             finalDamages[0] += HitEDPplus(n_A_EDP_DMG[0]);
 
             finalDamages[1] = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, n_A_DMG[1], 1, InWarOfEmperium);
@@ -2957,7 +2954,7 @@ function BattleCalc999(stats, targetStats, InWarOfEmperium, hitRate, criticalRat
             battleResult.atk01 = finalDamages[1] + n_A_EDP_DMG[1] + "(" + w_left_Aveatk + ")";
 
             finalDamages[1] = BattleCalc3(stats, targetStats, finalDamages[1], InWarOfEmperium, w998B, w998E, w998G, w998I, w998L);
-            finalDamages[1] += BattleCalc3left(w_left_Aveatk);
+            finalDamages[1] += BattleCalc3left(stats, targetStats,hitRate,w_left_Aveatk, InWarOfEmperium);
             finalDamages[1] += HitEDPplus(n_A_EDP_DMG[1]);
 
             let battleVariousResult = BattleVariousResults(stats, targetStats, 0, 0, finalDamages, InWarOfEmperium);
@@ -5149,6 +5146,7 @@ function GetTestCase(formData) {
         ...battleResult,
         formData: btoa(JSON.stringify(formData))
     }
+    testCase._id = formData._id ? formData._id : Math.random().toString(36).substring(2, 6+2);
     testCase.job = JobName[testCase.job];
     delete testCase.minAtkNum;
     delete testCase.maxAtkNum;
@@ -5167,7 +5165,7 @@ function GetTestCase(formData) {
     delete testCase.luk;
     delete testCase.isRebirth;
     for(let entry of Object.entries(testCase.equipments)) {
-        if (entry[1].name.startsWith("(No")) {
+        if (entry[1].name && entry[1].name.startsWith("(No")) {
             delete testCase.equipments[entry[0]];
         }
     }

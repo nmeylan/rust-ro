@@ -448,3 +448,14 @@ td data {
     margin: 0;
     height: 20px;
 }
+
+.testcase-table th, .testcase-table td {
+    text-align: left;
+}
+.testcase-table {
+    border-collapse: collapse;
+}
+.testcase-table td {
+    border: solid 1px #e4e4e4;
+    padding: 2px;
+}

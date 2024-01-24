@@ -25,34 +25,50 @@
                 <div class="topic">
                     <h3>Stats & Stuff</h3>
                     <div>
-                        <button type="reset" value="Reset">Reset</button>
-                        <input type="button" value="Generate TestCase" id="btn-generate-testcase">
-                        <input type="button" value="Copy to clipboard" id="btn-copy-form">
-                        <input type="button" value="Save" id="btn-save">
-                        <input type="button" value="Load" id="btn-load">
-                        <select name="A_SaveSlot">
-                            <option value="0">Save1
-                            <option value="1">Save2
-                            <option value="2">Save3
-                            <option value="3">Save4
-                            <option value="4">Save5
-                            <option value="5">Save6
-                            <option value="6">Save7
-                            <option value="7">Save8
-                            <option value="8">Save9
-                            <option value="9">Save10
-                            <option value="10">Save11
-                            <option value="11">Save12
-                            <option value="12">Save13
-                            <option value="13">Save14
-                            <option value="14">Save15
-                            <option value="15">Save16
-                            <option value="16">Save17
-                            <option value="17">Save18
-                            <option value="18">Save19
-                        </select>
+                        <button type="reset" value="Reset" id="btn-reset">Reset</button>
+                        <input type="button" value="Copy TestCase to clipboard" id="btn-generate-testcase">
+                        <input type="button" value="Copy form to clipboard" id="btn-copy-form">
                         <span>Persist current session<input type="checkbox" id="checkbox-auto-save" checked/></span>
                     </div>
+
+                        <div class="container">
+                            <h2 class="subheader">Test cases
+                                <input type="file" value="Edit test cases" id="input-edit-testcases" accept=".json" />
+                                <span>
+                                    <span id="editing-testcase"></span>
+                                    <span id="not-saved-testcase"></span>
+                                </span>
+                            </h2>
+
+                            <div class="container-content">
+                                <table class="testcase-table">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="button" value="Add New" id="btn-add-testcase"/>
+                                            <input type="button" value="Add Current" id="btn-add-testcase-keep-current"/>
+                                            <input type="button" value="Unload" id="btn-unload-testcase"/>
+                                            <input type="button" value="Refresh" id="btn-refresh-testcase"/>
+                                        </th>
+                                        <th>id</th>
+                                        <th>job</th>
+                                        <th>level</th>
+                                        <th>str</th>
+                                        <th>agi</th>
+                                        <th>vit</th>
+                                        <th>int</th>
+                                        <th>dex</th>
+                                        <th>luk</th>
+                                        <th>target</th>
+                                        <th>skill</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="testcases-table-body">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
                     <table>
                         <tr>
