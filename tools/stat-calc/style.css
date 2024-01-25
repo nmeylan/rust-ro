@@ -452,6 +452,9 @@ td data {
 .testcase-table th, .testcase-table td {
     text-align: left;
 }
+.testcase-table th:first-child{
+    width: 275px;
+}
 .testcase-table {
     border-collapse: collapse;
 }

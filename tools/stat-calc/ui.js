@@ -865,16 +865,21 @@ function bindOnChangeCardShortcut() {
 }
 
 function bindAutoCalculate() {
+    function autosave() {
+        localStorage.setItem("autosave", serializeFormToJSON());
+        if (localStorage.getItem("loadedTestCase") != null) {
+            document.getElementById(localStorage.getItem("loadedTestCase")).style.fontStyle = "italic";
+
+        }
+    }
+
     document.querySelectorAll("input").forEach((input) => {
         input.addEventListener("change", (event) => {
             if (document.getElementById("checkbox-auto-calculate").checked) {
                 Calculate();
             }
             if (document.getElementById("checkbox-auto-save").checked) {
-                localStorage.setItem("autosave", serializeFormToJSON());
-                if (localStorage.getItem("loadedTestCase") != null) {
-                    document.getElementById(localStorage.getItem("loadedTestCase")).style.fontStyle = "italic";
-                }
+                autosave();
             }
         });
     });
@@ -884,10 +889,7 @@ function bindAutoCalculate() {
                 Calculate();
             }
             if (document.getElementById("checkbox-auto-save").checked) {
-                localStorage.setItem("autosave", serializeFormToJSON());
-                if (localStorage.getItem("loadedTestCase") != null) {
-                    document.getElementById(localStorage.getItem("loadedTestCase")).style.fontStyle = "italic";
-                }
+                autosave();
             }
         });
     });
