@@ -284,20 +284,18 @@ function bindSearchable(selectElement) {
 
 function ClickJob(n) {
 
-    if (global.n_SkillSW) {
-        document.calcForm.A_SUPPORTIVE_SKILL0.value = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL1.value = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL2.value = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL3.checked = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL4.value = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL5.checked = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL6.checked = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL7.checked = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL8.value = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL9.value = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL10.value = 0;
-        document.calcForm.A_SUPPORTIVE_SKILL11.checked = 0;
-    }
+    document.calcForm.A_SUPPORTIVE_SKILL0.value = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL1.value = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL2.value = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL3.checked = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL4.value = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL5.checked = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL6.checked = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL7.checked = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL8.value = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL9.value = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL10.value = 0;
+    document.calcForm.A_SUPPORTIVE_SKILL11.checked = 0;
 
     let {n_A_JOB, isRebirth} = n_A_JobSet();
     n = n_A_JOB;
@@ -555,6 +553,54 @@ function ClickActiveSkill(wAS) {
         document.calcForm.A_ActiveSkillLV.value = n_A_ActiveSkillLV;
     }
 
+    let label = document.getElementById("AASkillName");
+    let select = document.getElementById("SkillSubNum");
+    label.style.visibility = "visible";
+    select.style.visibility = "visible";
+    if (n_A_ActiveSkill == 66 || n_A_ActiveSkill == 326) {
+        label.textContent = "Card Weight: ";
+        select.min = 0;
+        select.max = 8000;
+        select.step = 500;
+    } else if (n_A_ActiveSkill == 112 || n_A_ActiveSkill == 113)  {
+        label.textContent = "Number of Stacked Monsters: ";
+        select.min = 1;
+        select.max = 20;
+        select.step = 1;
+    } else if (n_A_ActiveSkill == 131) {
+        label.textContent = "Number of Hits: ";
+        select.min = 1;
+        select.max = 15;
+        select.step = 1;
+    } else if (n_A_ActiveSkill == 88) {
+        label.textContent = "Poison React Level: ";
+        select.min = 1;
+        select.max = 10;
+        select.step = 1;
+    } else if (n_A_ActiveSkill == 197) {
+        label.textContent = "Remaining SP: ";
+        select.min = 1;
+        select.max = 99999;
+        select.step = 100;
+    } else if (n_A_ActiveSkill == 394) {
+        label.textContent = "";
+        for (i = 0; i <= 4; i++)
+            document.calcForm.SkillSubNum.options[i] = new Option(SyurikenOBJ[i][2], i);
+        document.calcForm.SkillSubNum.value = 0;
+    } else if (n_A_ActiveSkill == 395) {
+        label.textContent = "";
+        for (i = 0; i <= 4; i++)
+            document.calcForm.SkillSubNum.options[i] = new Option(KunaiOBJ[i][2], i);
+        document.calcForm.SkillSubNum.value = 0;
+    } else if (n_A_ActiveSkill == 405) {
+        label.textContent = "Remaining SP: ";
+        select.min = 1;
+        select.max = 99999;
+        select.step = 100;
+    } else {
+        label.style.visibility = "hidden";
+        select.style.visibility = "hidden";
+    }
 }
 
 
