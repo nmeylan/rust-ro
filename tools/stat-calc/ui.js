@@ -904,7 +904,6 @@ function bindAutoCalculate() {
                 document.getElementById(localStorage.getItem("loadedTestCase")).style.fontStyle = "italic";
             }
         }
-
     }
 
     document.querySelectorAll("input").forEach((input) => {
@@ -954,6 +953,24 @@ function bindUnloadTestCase() {
     document.getElementById("btn-unload-testcase").addEventListener("click", function() {
         localStorage.removeItem("loadedTestCase");
         refreshTestCases();
+    });
+}
+
+function bindSaveTestCases() {
+    document.getElementById('btn-save-testcases').addEventListener('click', function() {
+        var jsonData = JSON.stringify(testcases, null, 2);
+        var blob = new Blob([jsonData], {type: 'application/json'});
+
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'data.json'; // You can specify any file name
+
+        document.body.appendChild(a); // Append the anchor to body
+        a.click(); // Programmatically click the anchor to trigger the download
+
+        document.body.removeChild(a); // Remove the anchor from the body
+        URL.revokeObjectURL(url); // Free up memory by revoking the Blob URL
     });
 }
 
@@ -1012,7 +1029,8 @@ function bindUploadTestCases() {
             let file = elem.files[0];
             const reader = new FileReader();
             reader.addEventListener('load', (event) => {
-                localStorage.setItem("testcases", reader.result);
+                testcases = JSON.parse(reader.result);
+                localStorage.setItem("testcases", testcases);
                 refreshTestCases();
             });
             reader.readAsText(file);
@@ -1813,6 +1831,7 @@ bindCopyToClipboard();
 bindGenerateTestCase();
 bindAddTestCase();
 bindUnloadTestCase();
+bindSaveTestCases();
 bindOnChangeEnemy();
 bindOnChangeJob();
 bindOnClickCalculate();
