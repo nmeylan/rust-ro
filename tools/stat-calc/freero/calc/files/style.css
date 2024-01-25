@@ -1,0 +1,87 @@
+﻿body {background-color:#CDF; font-family: Tahoma, Arial, Verdana; font-size:0.75em; margin:7px auto; display:table;}
+table {width:100%; margin-right:4px;}
+td {padding:0 0 0 4px; margin:0; vertical-align:middle;}
+h1 {text-align:center;}
+h1, h2, h3 {margin:0; border-radius: 20px 20px 0 0;
+  background:linear-gradient(to bottom, #0FB91E , #326B2D); background-color:#466; padding-left:20px; height:52px;
+  font-family:Arial; font-size:1.65em; letter-spacing:1px; font-variant:small-caps; line-height:265%;
+  text-shadow: 0 0 0.03em white, -2px 0 1px white, 0 2px 1px white, 2px 0 1px white, 0 -2px 1px white, -2px -2px 1px white, 2px 2px 1px white;
+}
+input {margin:2px; padding-left:3px; padding-right:3px;}
+select {border:0 none; margin:1px; background-color:#FC8; border-radius:7px;}
+div {overflow:auto;}
+a {text-decoration:none;}
+p {color:#E00; font-weight:bold;}
+.links {background:linear-gradient(to bottom, #1BB028 , #17770D); background-color:#466; border-radius:20px; padding:20px; text-align:center; color:#FFF;}
+.links a {color:#FFF;}
+.links a:hover {color:#F00;}
+.main a {color:#E00;}
+.main a:hover {font-weight:bold;}
+.subheader input {border:0; margin:0 4px 0 4px; padding:0; background-color:#FFF; text-align:center;}
+.subheader select {margin:0; letter-spacing:0px; background-color:#FFF;}
+.subheader div {font-weight:100; letter-spacing:0px;}
+.subheader {padding:2px 6px 2px 6px; color:#FFF; line-height:1.7em; letter-spacing:1px; font-weight:bold; background-color:#466;}
+.thin select {height:16px;}
+.point {cursor:pointer;}
+.point:hover {text-decoration:underline;}
+.main {border:1px solid #999; background-color:#FFF; padding:10px;}
+.tborder {border:1px solid #999; border-collapse:collapse;}
+.tborderA {border:1px solid #999; border-collapse:collapse; width:auto;}
+.tequip td {padding:0; margin:0; vertical-align:top;}
+.data {border-right:1px dotted #999; padding-right:2px;font-weight:lighter;}
+.dotB {border-bottom:1px dotted #999; padding-bottom:2px;}
+.title {text-align:center; font-weight:bold; border-bottom:2px solid #000;}
+.center {text-align:center;}
+.right {float:right;}
+.manual input {border:1px solid #777; width:32px;}
+.mail {background:url(files/ce4.png) no-repeat; padding:0 58px;}
+#foot {line-height:185%; text-align:right;}
+
+#calcoptions {
+	background: linear-gradient(to bottom, #355 , #477);
+	border-bottom: 1px solid #999; border-right: 1px solid #999;
+	position:fixed; top:0; left:0;
+/*	display:block;*/
+	padding:5px;
+	/*width: 250px;*/
+	color:#FFF;
+}
+#calcoptions p {color:#FC8; text-align:center;}
+
+.p_overlay {
+	background:#000;
+	width:100%;
+	height:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:5000;
+	display:block;
+}
+.p_box {
+	background:#f2f2f2;
+	border:5px solid #FFF;
+	z-index:6000;
+	display:block;
+	width:300px;
+	position:relative;
+	margin:0 auto;
+	height:200px;
+	margin-top:100px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	-webkit-box-shadow:0 0 18px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow:0 0 18px rgba(0, 0, 0, 0.4);
+	box-shadow:0 0 18px rgba(0, 0, 0, 0.4);
+	padding:10px;
+}
+.p_close {
+	position:absolute;
+	right:10px;
+	top:5px;
+	text-indent:-9999px;
+	background:url(closebtnicon.png);
+	width:18px;
+	height:19px;
+}
