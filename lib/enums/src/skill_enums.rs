@@ -11,15 +11,15 @@ pub enum SkillEnum {
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super Novice Increase HP Recovery
+    // Swordsman Increase HP Recovery
     SmRecovery,
-    // Super Novice Bash
+    // Swordsman Bash
     SmBash,
-    // Super Novice Provoke
+    // Swordsman Provoke
     SmProvoke,
-    // Super Novice Magnum Break
+    // Swordsman Magnum Break
     SmMagnum,
-    // Super Novice Endure
+    // Swordsman Endure
     SmEndure,
     // Super Novice Increase SP Recovery
     MgSrecovery,
@@ -47,9 +47,9 @@ pub enum SkillEnum {
     MgLightningbolt,
     // Super Novice Thunderstorm
     MgThunderstorm,
-    // Super Novice Divine Protection
+    // Crusader Divine Protection
     AlDp,
-    // Super Novice Demon Bane
+    // Crusader Demon Bane
     AlDemonbane,
     // Super Novice Ruwach
     AlRuwach,
@@ -59,7 +59,7 @@ pub enum SkillEnum {
     AlTeleport,
     // Super Novice Warp Portal
     AlWarp,
-    // Super Novice Heal
+    // Crusader Heal
     AlHeal,
     // Super Novice Increase AGI
     AlIncagi,
@@ -73,7 +73,7 @@ pub enum SkillEnum {
     AlAngelus,
     // Super Novice Blessing
     AlBlessing,
-    // Super Novice Cure
+    // Crusader Cure
     AlCure,
     // Super Novice Enlarge Weight Limit
     McInccarry,
@@ -99,17 +99,17 @@ pub enum SkillEnum {
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Super Novice Double Attack
+    // Thief Double Attack
     TfDouble,
-    // Super Novice Improve Dodge
+    // Thief Improve Dodge
     TfMiss,
-    // Super Novice Steal
+    // Thief Steal
     TfSteal,
-    // Super Novice Hiding
+    // Thief Hiding
     TfHiding,
-    // Super Novice Envenom
+    // Thief Envenom
     TfPoison,
-    // Super Novice Detoxify
+    // Thief Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
