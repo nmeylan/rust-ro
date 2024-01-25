@@ -462,3 +462,15 @@ td data {
     border: solid 1px #e4e4e4;
     padding: 2px;
 }
+.testcase-table-container {
+    max-height: 150px;
+    overflow-y: scroll;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+.testcase-table thead {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}

@@ -188,7 +188,7 @@ let JobEquipItemOBJ = [
     [0, 1, 59, 83, 999],
 ];
 
-let n_A_JOB, n_A_WeaponType, n_A_Weapon2Type, isRebirth, SuperNoviceFullWeaponCHECK, loadedTestCase;
+let n_A_JOB, n_A_WeaponType, n_A_Weapon2Type, isRebirth, SuperNoviceFullWeaponCHECK, loadedTestCase, testcases;
 let n_ECname = new Array();
 let n_A_Equip = new Array();
 for (i = 0; i <= 20; i++)
@@ -637,9 +637,7 @@ function refreshBattleResults(battleResults) {
 }
 
 function refreshTestCases() {
-    let testcases = localStorage.getItem("testcases");
     if (testcases) {
-       testcases = JSON.parse(testcases);
         let tableBody = document.getElementById("testcases-table-body");
         while (tableBody.hasChildNodes()) {
             tableBody.removeChild(tableBody.lastChild);
@@ -660,6 +658,31 @@ function refreshTestCases() {
                 LoadForm(JSON.parse(atob(testcase.formData)));
                 refreshTestCases();
             });
+            var saveButton = document.createElement('input');
+            saveButton.type = "button"
+            saveButton.value = 'Save';
+            saveButton.addEventListener('click', function() {
+                const index = testcases.findIndex(testcase => testcase._id === localStorage.getItem("loadedTestCase"));
+                if (localStorage.getItem("autosave")) {
+                    testcases[index] = GetTestCase(JSON.parse(localStorage.getItem("autosave")));
+                    localStorage.setItem("testcases", JSON.stringify(testcases));
+                }
+                refreshTestCases();
+            });
+            var deleteButton = document.createElement('input');
+            deleteButton.type = "button"
+            deleteButton.value = 'Del';
+            deleteButton.addEventListener('click', function() {
+                const index = testcases.findIndex(testcase => testcase._id === row.id);
+                testcases.splice(index, 1);
+                localStorage.setItem("testcases", JSON.stringify(testcases));
+                if (localStorage.getItem("loadedTestCase") === row.id) {
+                    document.calcForm.reset();
+                    localStorage.removeItem("loadedTestCase");
+                }
+                refreshTestCases();
+            })
+
             var copyButton = document.createElement('input');
             copyButton.type = "button"
             copyButton.value = 'Copy';
@@ -679,6 +702,8 @@ function refreshTestCases() {
             let firstCell = row.insertCell(-1);
             firstCell.appendChild(loadButton);
             firstCell.appendChild(copyButton);
+            firstCell.appendChild(saveButton);
+            firstCell.appendChild(deleteButton);
             row.insertCell(-1).appendChild(document.createTextNode(testcase._id));
             row.insertCell(-1).appendChild(document.createTextNode(testcase.job));
             row.insertCell(-1).appendChild(document.createTextNode(testcase.baseLevel + "/" + testcase.jobLevel));
@@ -694,6 +719,7 @@ function refreshTestCases() {
         for (const tr of tableBody.getElementsByTagName("tr")) {
             tr.style.backgroundColor = "";
         }
+        document.getElementById("editing-testcase").textContent = "";
         if (localStorage.getItem("loadedTestCase") && document.getElementById(localStorage.getItem("loadedTestCase"))) {
             document.getElementById(localStorage.getItem("loadedTestCase")).style.backgroundColor = "#999";
             document.getElementById("editing-testcase").textContent = "Editing " + localStorage.getItem("loadedTestCase");
@@ -866,11 +892,19 @@ function bindOnChangeCardShortcut() {
 
 function bindAutoCalculate() {
     function autosave() {
-        localStorage.setItem("autosave", serializeFormToJSON());
+        let formData = getFormData(document);
+        localStorage.setItem("autosave", serializeFormToJSON(formData));
         if (localStorage.getItem("loadedTestCase") != null) {
-            document.getElementById(localStorage.getItem("loadedTestCase")).style.fontStyle = "italic";
-
+            if (document.getElementById("input-sync-testcase").checked) {
+                const index = testcases.findIndex(testcase => testcase._id === localStorage.getItem("loadedTestCase"));
+                testcases[index] = GetTestCase(formData);
+                localStorage.setItem("testcases", JSON.stringify(testcases));
+                refreshTestCases();
+            } else {
+                document.getElementById(localStorage.getItem("loadedTestCase")).style.fontStyle = "italic";
+            }
         }
+
     }
 
     document.querySelectorAll("input").forEach((input) => {
@@ -897,11 +931,8 @@ function bindAutoCalculate() {
 function bindAddTestCase() {
     function addTestCase() {
         let newTestCase = GenerateTestCase();
-        let testcases = localStorage.getItem("testcases");
-        if (testcases) {
-            testcases = JSON.parse(testcases);
-        } else {
-            testcases = [];
+        if (!testcases) {
+           testcases = [];
         }
         testcases.push(newTestCase);
         localStorage.setItem("testcases", JSON.stringify(testcases));
@@ -974,7 +1005,7 @@ function bindGenerateTestCase() {
         GenerateTestCase()
     });
 }
-function bindEditTestCases() {
+function bindUploadTestCases() {
     let elem = document.getElementById("input-edit-testcases");
     elem.addEventListener("change", (e) => {
         if (elem.files.length == 1) {
@@ -1410,8 +1441,7 @@ function getFormData(document) {
     return formObject;
 }
 
-function serializeFormToJSON() {
-    var formObject = getFormData(document);
+function serializeFormToJSON(formObject) {
 
     formObject._id = localStorage.getItem("loadedTestCase");
     return JSON.stringify(formObject);
@@ -1511,12 +1541,11 @@ function LoadForm(json) {
 
     ActiveSkillSetPlus();
     Calculate();
-    localStorage.setItem("autosave", serializeFormToJSON());
+    localStorage.setItem("autosave", serializeFormToJSON(getFormData(document)));
 }
 
 function LoadSave(saveSlot) {
-    if (saveSlot !== "autosave" && localStorage.getItem("testcases") && localStorage.getItem("loadedTestCase")) {
-        let testcases = JSON.parse(localStorage.getItem("testcases"));
+    if (saveSlot !== "autosave" && testcases && localStorage.getItem("loadedTestCase")) {
         let json = testcases
             .find(testcase => testcase._id === localStorage.getItem("loadedTestCase"));
         LoadForm(JSON.parse(atob(json.formData)));
@@ -1779,6 +1808,7 @@ ClickJob(0);
 
 bindSearchable(document.getElementById("enemy-select"))
 
+bindUploadTestCases();
 bindCopyToClipboard();
 bindGenerateTestCase();
 bindAddTestCase();
@@ -1801,6 +1831,13 @@ if (document.getElementById("checkbox-auto-save").checked) {
 } else {
     Calculate();
 }
+
+if (localStorage.getItem("testcases")) {
+    testcases = JSON.parse(localStorage.getItem("testcases"));
+    refreshTestCases();
+}
+
+
 
 document.getElementById("btn-reset").addEventListener("click", function () {
     localStorage.clear();
