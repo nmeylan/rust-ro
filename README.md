@@ -169,12 +169,10 @@ After that, exit pgsql and import our `/rust-ro/db/pg.sql` via cli with:
 
 So far, we have a few executables being compiled together with the project:
 
-- **maps:** TODO description
-- **maps-tool:** TODO description
-- **packets:** TODO description
-- **packets-tool:** TODO description
-- **server:** TODO description
-- **skills-enum-generator:** TODO description
+- **maps-tool:** Generate mapcache files from client data: `cargo run --bin maps-tool`
+- **packets-tool:** Generate packet struct from packetdb: `cargo run --bin packets-tool`
+- **server:** Run the server `export DATABASE_PASSWORD=XXXXX && cargo run --package server --bin server`
+- **skills-struct-generator:** Generate skills struct from skills configuration files
 
 To build, just go on the project root and run: 
 
@@ -212,6 +210,25 @@ INFO [server::server] Server listen on 0.0.0.0:6901
 The goal of the project is to run all packages from **packetver 20120307**, we decided to use [roBrowserLegacy](https://github.com/MrAntares/roBrowserLegacy). 
 
 If you have interest to contribute in a client with packetver 20120307, open a new issue and let's make it happen!
+
+#### 5.6 Running the Stat calculator/test case editor
+The stat calculator is a highly _customized*_  fork of from https://web.archive.org/web/20090319055622/http://rode.doddlercon.com/db/calc/index.php
+
+_*Customized_ :
+- Code has been de-obfuscated to make it comprehensive
+- Code has been reorganize so it at can work on both browser and node environment
+- Customize calculation behavior in order to get sub calculation output (e.g: get just the weapon attack before applying some modifier)
+- Build a test case editor to generate and edit fixtures for unit and integration tests
+
+The idea behind reusing stat calculator is to validate implementation of battle and status calculation.
+
+Output of stat calculator may be false and in this case we will check result against hercules or rathena.
+
+```
+cd tools/stat-calc
+npm run dev
+```
+![Stat calculator](.github/images/stat-calc.png)
 
 ## 6. Developer Notes
 

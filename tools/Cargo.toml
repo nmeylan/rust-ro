@@ -28,7 +28,7 @@ path = "packets/main.rs"
 name = "maps-tool"
 path = "map-cache/main.rs"
 [[bin]]
-name = "skills-enum-generator"
+name = "skills-struct-generator"
 path = "skills/main.rs"
 
 
