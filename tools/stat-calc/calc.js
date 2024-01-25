@@ -719,7 +719,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     }
 
     if (stats.job == 42 && stats.baseLevel >= 70) {
-        wKenseiHP = [3455, 3524, 3593, 3663, 3834, 3806, 3878, 3951, 4025, 4500];
+        let wKenseiHP = [3455, 3524, 3593, 3663, 3834, 3806, 3878, 3951, 4025, 4500];
         if (stats.baseLevel <= 79)
             stats.maxHp = Math.floor((2670 + 10 * (stats.baseLevel - 70)) * (100 + stats.vit) / 100);
         else if (stats.baseLevel <= 89)
