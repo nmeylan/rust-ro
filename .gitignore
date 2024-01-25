@@ -6,3 +6,4 @@ config.json
 .stignore
 .stfolder
 /docker/volumes/pgdata/
+tools/stat-calc/node_modules/
