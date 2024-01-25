@@ -191,6 +191,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     stats.skillToUse = {};
     stats.skillToUse.index = eval(FORM_DATA.A_ActiveSkill);
     stats.skillToUse.name = SkillOBJ[stats.skillToUse.index][2];
+    stats.skillToUse.skid = SkillOBJ[stats.skillToUse.index][3];
     if (stats.skillToUse.index > 100000)
         stats.skillToUse.index = Math.floor((stats.skillToUse.index % 100000) / 100);
     stats.skillToUse.additionalData = eval(FORM_DATA.SkillSubNum); // cart weight for cart revolution, remaining sp for asura strike...
@@ -618,7 +619,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     let baseATK_w;
 
-    if (isNonRangeWeapon()) {
+    if (isNonRangeWeapon(stats.equipments.weapon.type)) {
         baseATK_w = Math.round(Math.floor(stats.str / 10) * Math.floor(stats.str / 10));
         stats.baseATK = stats.str + baseATK_w + Math.floor(stats.dex / 5) + Math.floor(stats.luk / 5);
     } else {
@@ -1759,8 +1760,8 @@ function isNonRangeWeapon(weaponType) {
     return weaponType != WEAPON_TYPE_BOW && weaponType != WEAPON_TYPE_INSTRUMENT && weaponType != WEAPON_TYPE_WHIP && weaponType != WEAPON_TYPE_HANDGUN && weaponType != WEAPON_TYPE_RIFLE && weaponType != WEAPON_TYPE_SHOTGUN && weaponType != WEAPON_TYPE_GATLING_GUN && weaponType != WEAPON_TYPE_GRENADE_LAUNCHER;
 }
 
-function isRangedWeapon(weaponType) {
-    return !(isNonRangeWeapon(weaponType));
+function isRangedWeapon(n_A_WeaponType) {
+    return  n_A_WeaponType ==  WEAPON_TYPE_BOW || n_A_WeaponType ==  WEAPON_TYPE_HANDGUN || n_A_WeaponType ==  WEAPON_TYPE_RIFLE || n_A_WeaponType ==  WEAPON_TYPE_SHOTGUN || n_A_WeaponType ==  WEAPON_TYPE_GATLING_GUN || n_A_WeaponType ==  WEAPON_TYPE_GRENADE_LAUNCHER;
 }
 
 
