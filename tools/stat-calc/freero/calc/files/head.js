@@ -71,7 +71,7 @@ function BattleCalc999() {
             for (var i = 0; 2 >= i; i++) w_DMG[i] = BattleCalc(n_A_DMG[i], i), Last_DMG_A[i] = Last_DMG_B[i] = w_DMG[i] + EDP_DMG(i), InnStr[i] += Last_DMG_A[i];
             return w998G >= 100 && (w_DMG[0] = n_Min_DMG), w998G > 0 && (w_DMG[2] = n_Max_DMG), w_DMG[1] = BattleCalc3(w_DMG[1]), EDPplus(1), CastAndDelay(), void BattleCalc998()
         }
-        for (w_ActS = [6, 7, 19, 41, 44, 65, 71, 72, 73, 83, 84, 111, 158, 161, 169, 171, 176, 188, 189, 199, 207, 248, 260, 261, 264, 288, 289, 290, 292, 302, 303, 305, 306, 307, 308, 326, 317, 318, 331, 333, 335, 337, 339, 382, 388, 398, 400, 419, 423, 428, 430, 431, 432, 434, 435, 436, 437, "NULL"], iw = 0; w_ActS[iw] != n_A_ActiveSkill && "NULL" != w_ActS[iw]; iw++);
+        for (w_ActS = [6, 7, 19, 41, 44, 65, 71, 72, 73, 83, 84, 111, 158, 161, 169, 171, 176, 188, 189, 199, 207, 248, 260, 261, 264, 288, 289, 290, 292, 302, 303, 305, 306, 307, 308, 326, 317, 318, 331, 333, 335, 337, 339, 382, 388, 398, 400, 419, 423, 428, 430, 431, 432, 434, 435, 436, 437, "NULL"], iw = 0; w_ActS[iw] != n_A_ActiveSkill && "NULL" != w_ActS[iw]; iw++) ;
         if (n_A_ActiveSkill == w_ActS[iw]) {
             if (wActiveHitNum = 1, 6 == n_A_ActiveSkill) wbairitu += .3 * n_A_ActiveSkillLV;
             else if (7 == n_A_ActiveSkill) wbairitu += .2 * n_A_ActiveSkillLV, n_A_Weapon_zokusei = 3, n_Delay[2] = 2;
@@ -141,7 +141,11 @@ function BattleCalc999() {
             for (var i = 0; 2 >= i; i++) w_DMG[i] = BattleCalc(n_A_DMG[i], i), w_DMG[i] = Math.floor(w_DMG[i] * zokusei[n_B[3]][5]), Last_DMG_A[i] = Last_DMG_B[i] = w_DMG[i] + EDP_DMG(i), InnStr[i] += Last_DMG_A[i];
             w_DMG[1] = (w_DMG[1] * w_HIT + wINV * (100 - w_HIT)) / 100, EDPplus(1), CastAndDelay(), BattleCalc998()
         } else if (159 == n_A_ActiveSkill || 384 == n_A_ActiveSkill) {
-            if(n_PerHIT_DMG=0,n_Enekyori=1,n_A_Weapon_zokusei=0,n_Delay[2]=.7,wbairitu2=1+.3*n_A_ActiveSkillLV,384==n_A_ActiveSkill&&(n_Delay[2]=.35),SRV){wSBr=10*n_A_LEFT_DEF_PLUS,EquipNumSearch(620)||EquipNumSearch(409)||CardNumSearch(255)||EquipNumSearch(43)?(M_DEF1=n_B[14],M_DEF2=n_B_DEF2[0]):(EquipNumSearch(393)||EquipNumSearch(904))&&7==n_B[2]?(M_DEF1=n_B[14],M_DEF2=n_B_DEF2[0]):(EquipNumSearch(392)||EquipNumSearch(401))&&3==n_B[2]?(M_DEF1=n_B[14],M_DEF2=n_B_DEF2[0]):(EquipNumSearch(467)||EquipNumSearch(405)||EquipNumSearch(471))&&9==n_B[2]?(M_DEF1=n_B[14],M_DEF2=n_B_DEF2[0]):EquipNumSearch(394)&&6==n_B[2]?(M_DEF1=n_B[14],M_DEF2=n_B_DEF2[0]):(M_DEF1=0,M_DEF2=0);var SB_ATK=n_A_ATK+.05*n_A_ATK*n_A_Buf2[8];SkillSearch(12)&&(SB_ATK+=.32*SB_ATK),n_A_Buf6[5]&&(SB_ATK+=Math.floor((.02+.03*n_A_Buf6[5])*SB_ATK)),n_A_Buf6[5]&&n_A_Buf7[31]?SB_ATK+=0:n_A_Buf7[31]&&(SB_ATK+=Math.floor(.05*SB_ATK));for(var i=0;i<=2;i++)0<n_tok[23]?(n_A_ATK_IP=Math.round((SB_ATK+ItemOBJ[n_A_Equip[5]][6])*(n_B_DEF2[2-i]+n_B[14])/100),w_DMG[i]=n_A_ATK_IP*wbairitu):w_DMG[i]=(SB_ATK+ItemOBJ[n_A_Equip[5]][6])*wbairitu,w_DMG[i]=Math.floor(w_DMG[i]*wbairitu2),384==n_A_ActiveSkill&&(w_DMG[i]=Math.floor(2*w_DMG[i])),w_DMG[i]=w_DMG[i]*(100+StPlusCalc2(5384)+StPlusCard(5384))/100,w_DMG[i]=Math.floor(w_DMG[i]*(100-(n_B[14]-M_DEF1))/100-(n_B_DEF2[i]-M_DEF2)),w_DMG[i]=BaiCI(w_DMG[i])+wSBr,0!=M_DEF1&&(w_DMG[2]=w_DMG[1]=w_DMG[0]),w_DMG[i]<1&&(w_DMG[i]=1),305==ItemOBJ[n_A_Equip[5]][0]&&(w_DMG[i]=0),w_DMG[i]=Math.floor(w_DMG[i]*zokusei[n_B[3]][0]),Last_DMG_A[i]=Last_DMG_B[i]=w_DMG[i],InnStr[i]+=Last_DMG_A[i]
+            if (n_PerHIT_DMG = 0, n_Enekyori = 1, n_A_Weapon_zokusei = 0, n_Delay[2] = .7, wbairitu2 = 1 + .3 * n_A_ActiveSkillLV, 384 == n_A_ActiveSkill && (n_Delay[2] = .35), SRV) {
+                wSBr = 10 * n_A_LEFT_DEF_PLUS, EquipNumSearch(620) || EquipNumSearch(409) || CardNumSearch(255) || EquipNumSearch(43) ? (M_DEF1 = n_B[14], M_DEF2 = n_B_DEF2[0]) : (EquipNumSearch(393) || EquipNumSearch(904)) && 7 == n_B[2] ? (M_DEF1 = n_B[14], M_DEF2 = n_B_DEF2[0]) : (EquipNumSearch(392) || EquipNumSearch(401)) && 3 == n_B[2] ? (M_DEF1 = n_B[14], M_DEF2 = n_B_DEF2[0]) : (EquipNumSearch(467) || EquipNumSearch(405) || EquipNumSearch(471)) && 9 == n_B[2] ? (M_DEF1 = n_B[14], M_DEF2 = n_B_DEF2[0]) : EquipNumSearch(394) && 6 == n_B[2] ? (M_DEF1 = n_B[14], M_DEF2 = n_B_DEF2[0]) : (M_DEF1 = 0, M_DEF2 = 0);
+                var SB_ATK = n_A_ATK + .05 * n_A_ATK * n_A_Buf2[8];
+                SkillSearch(12) && (SB_ATK += .32 * SB_ATK), n_A_Buf6[5] && (SB_ATK += Math.floor((.02 + .03 * n_A_Buf6[5]) * SB_ATK)), n_A_Buf6[5] && n_A_Buf7[31] ? SB_ATK += 0 : n_A_Buf7[31] && (SB_ATK += Math.floor(.05 * SB_ATK));
+                for (var i = 0; i <= 2; i++) 0 < n_tok[23] ? (n_A_ATK_IP = Math.round((SB_ATK + ItemOBJ[n_A_Equip[5]][6]) * (n_B_DEF2[2 - i] + n_B[14]) / 100), w_DMG[i] = n_A_ATK_IP * wbairitu) : w_DMG[i] = (SB_ATK + ItemOBJ[n_A_Equip[5]][6]) * wbairitu, w_DMG[i] = Math.floor(w_DMG[i] * wbairitu2), 384 == n_A_ActiveSkill && (w_DMG[i] = Math.floor(2 * w_DMG[i])), w_DMG[i] = w_DMG[i] * (100 + StPlusCalc2(5384) + StPlusCard(5384)) / 100, w_DMG[i] = Math.floor(w_DMG[i] * (100 - (n_B[14] - M_DEF1)) / 100 - (n_B_DEF2[i] - M_DEF2)), w_DMG[i] = BaiCI(w_DMG[i]) + wSBr, 0 != M_DEF1 && (w_DMG[2] = w_DMG[1] = w_DMG[0]), w_DMG[i] < 1 && (w_DMG[i] = 1), 305 == ItemOBJ[n_A_Equip[5]][0] && (w_DMG[i] = 0), w_DMG[i] = Math.floor(w_DMG[i] * zokusei[n_B[3]][0]), Last_DMG_A[i] = Last_DMG_B[i] = w_DMG[i], InnStr[i] += Last_DMG_A[i]
             } else {
                 wSBr = 4 * n_A_LEFT_DEF_PLUS, n_A_ATK_w = Math.round(Math.floor(n_A_STR / 10) * Math.floor(n_A_STR / 10)), n_A_ATK = n_A_STR + n_A_ATK_w + Math.floor(n_A_DEX / 5) + Math.floor(n_A_LUK / 5);
                 for (var i = 0; 2 >= i; i++) w_DMG[i] = n_A_ATK * wbairitu + ItemOBJ[n_A_Equip[5]][6] + wSBr, w_DMG[i] = Math.floor(Math.floor(w_DMG[i] * (100 - n_B[14]) / 100 - n_B_DEF2[i]) * wbairitu2), w_DMG[i] = BaiCI(w_DMG[i]), w_DMG[i] < 1 && (w_DMG[i] = 1), w_DMG[i] = Math.floor(w_DMG[i] * zokusei[n_B[3]][0]), Last_DMG_A[i] = Last_DMG_B[i] = w_DMG[i], InnStr[i] += Last_DMG_A[i]
@@ -173,7 +177,7 @@ function BattleCalc999() {
             for (var i = 0; 2 >= i; i++) Last_DMG_A[i] = Last_DMG_B[i] = w_DMG[i], InnStr[i] += Last_DMG_A[i];
             w_HIT_HYOUJI = 100, CastAndDelay(), BattleCalc998()
         } else if (263 == n_A_ActiveSkill) {
-            not_use_card = 1, n_Enekyori = 1, wCast = .5 * n_A_CAST, n_Delay[2] = .8 + .2 * n_A_ActiveSkillLV, w_SBr = new Array, w = 5 * n_A_INT * n_A_ActiveSkillLV, w_SBr[2] = w + 1e3 - Math.floor((n_B[14] + n_B[15] + n_B_MDEF2 + n_B_DEF2[2]) / 2), w_SBr[1] = w + 750 - Math.floor((n_B[14] + n_B[15] + n_B_MDEF2 + n_B_DEF2[1]) / 2), w_SBr[0] = w + 500 - Math.floor((n_B[14] + n_B[15] + n_B_MDEF2 + n_B_DEF2[0]) / 2);
+            not_use_card = 1, n_Enekyori = 1, wCast = .5 * n_A_CAST, n_Delay[2] = .8 + .2 * n_A_ActiveSkillLV, w_SBr = [], w = 5 * n_A_INT * n_A_ActiveSkillLV, w_SBr[2] = w + 1e3 - Math.floor((n_B[14] + n_B[15] + n_B_MDEF2 + n_B_DEF2[2]) / 2), w_SBr[1] = w + 750 - Math.floor((n_B[14] + n_B[15] + n_B_MDEF2 + n_B_DEF2[1]) / 2), w_SBr[0] = w + 500 - Math.floor((n_B[14] + n_B[15] + n_B_MDEF2 + n_B_DEF2[0]) / 2);
             for (var i = 0; 2 >= i; i++) w_SBr[i] = tPlusDamCut(w_SBr[i]);
             for (var i = 0; 2 >= i; i++) w_DMG[i] = BattleCalc(n_A_DMG[i], i), w_DMG[i] *= n_A_ActiveSkillLV, Last_DMG_A[i] = Last_DMG_B[i] = w_DMG[i] + w_SBr[i], InnStr[i] += Last_DMG_A[i] + " (" + w_DMG[i] + " + " + w_SBr[i] + ")", w_DMG[i] = Last_DMG_A[i];
             var wX = BattleCalc2(0) * n_A_ActiveSkillLV;
@@ -292,7 +296,7 @@ function HealCalc(_, n) {
     var e = 100 + 2 * SkillSearch(269);
     wHeal = Math.floor(wHeal * e / 100);
     var i = 100 + n_tok[91];
-    return 1 == n && (i += n_tok[92]), EquipNumSearch(644) && (i += Math.floor(1.5 * n_A_Weapon_ATKplus)), EquipNumSearch(565) && n_A_HEAD_DEF_PLUS >= 7 && (i += 1 * EquipNumSearch(565)), EquipNumSearch(1277) && n_A_HEAD_DEF_PLUS >= 7 && (i += 3 * EquipNumSearch(1277)), EquipNumSearch(1813) && 3==n_A_JobClass() && (i += 5 * EquipNumSearch(1813)), wHeal = Math.floor(wHeal * (i / 100) * (1 - 20 * n_A_Buf6[18] / 100)), wHeal
+    return 1 == n && (i += n_tok[92]), EquipNumSearch(644) && (i += Math.floor(1.5 * n_A_Weapon_ATKplus)), EquipNumSearch(565) && n_A_HEAD_DEF_PLUS >= 7 && (i += 1 * EquipNumSearch(565)), EquipNumSearch(1277) && n_A_HEAD_DEF_PLUS >= 7 && (i += 3 * EquipNumSearch(1277)), EquipNumSearch(1813) && 3 == n_A_JobClass() && (i += 5 * EquipNumSearch(1813)), wHeal = Math.floor(wHeal * (i / 100) * (1 - 20 * n_A_Buf6[18] / 100)), wHeal
 }
 
 function BattleCalc998() {
@@ -340,37 +344,37 @@ function BattleHiDam() {
     if (n_B_AtkSkillLV = MonsterOBJ[n_B[0]][2 * document.calcForm.B_AtkSkill.selectedIndex + 22], BskillHitNum = 1, 444 == n_B_AtkSkill || 445 == n_B_AtkSkill)
         if (BskillHitNum = 3, n_B_rangedAtk = n_B_AtkSkill - 444, n_B_ignoreDef = 1, n_B_ignoreFlee = 1, CardNumSearch(126)) atkmod = 0;
         else switch (n_B_AtkSkillLV) {
-                case 1:
-                    atkmod += 200;
-                    break;
-                case 2:
-                    atkmod += 400;
-                    break;
-                case 3:
-                    atkmod += 500;
-                    break;
-                case 4:
-                    atkmod += 700;
-                    break;
-                case 5:
-                    atkmod += 900;
-                    break;
-                case 6:
-                    atkmod += 1100;
-                    break;
-                case 7:
-                    atkmod += 1200;
-                    break;
-                case 8:
-                    atkmod += 1400;
-                    break;
-                case 9:
-                    atkmod += 1500;
-                    break;
-                case 10:
-                    atkmod += 1700
-            } else if (446 == n_B_AtkSkill || 447 == n_B_AtkSkill) atkmod += 100 * n_B_AtkSkillLV, n_B_rangedAtk = n_B_AtkSkill - 446;
-            else if (448 == n_B_AtkSkill || 449 == n_B_AtkSkill) atkmod += 100 * n_B_AtkSkillLV - 100, n_B_rangedAtk = n_B_AtkSkill - 448;
+            case 1:
+                atkmod += 200;
+                break;
+            case 2:
+                atkmod += 400;
+                break;
+            case 3:
+                atkmod += 500;
+                break;
+            case 4:
+                atkmod += 700;
+                break;
+            case 5:
+                atkmod += 900;
+                break;
+            case 6:
+                atkmod += 1100;
+                break;
+            case 7:
+                atkmod += 1200;
+                break;
+            case 8:
+                atkmod += 1400;
+                break;
+            case 9:
+                atkmod += 1500;
+                break;
+            case 10:
+                atkmod += 1700
+        } else if (446 == n_B_AtkSkill || 447 == n_B_AtkSkill) atkmod += 100 * n_B_AtkSkillLV, n_B_rangedAtk = n_B_AtkSkill - 446;
+    else if (448 == n_B_AtkSkill || 449 == n_B_AtkSkill) atkmod += 100 * n_B_AtkSkillLV - 100, n_B_rangedAtk = n_B_AtkSkill - 448;
     else if (n_B_AtkSkill >= 450 && 459 >= n_B_AtkSkill) n_B_Weapon_zokusei = n_B_AtkSkill - 450, atkmod += 100 * n_B_AtkSkillLV - 100;
     else if (463 == n_B_AtkSkill) n_B_Weapon_zokusei = 7;
     else if (464 == n_B_AtkSkill) n_B_Weapon_zokusei = 7;
@@ -452,7 +456,7 @@ function BattleHiDam() {
         var w;
         w = eval(document.calcForm.SkillSubNum.value), atkmod += 100 * w
     } else 326 == n_B_AtkSkill ? atkmod += Math.floor(eval(document.calcForm.SkillSubNum.value) / (16 - n_B_AtkSkillLV) / 100 * 100) : 382 == n_B_AtkSkill ? atkmod += 200 : atkmod = 100;
-    if (atkmod = 0 == SRV && 0 == n_B_AtkSkill && 138 == n_A_card[11] ? atkmod : Math.floor(atkmod * zokusei[10 * n_A_BodyZokusei + 1][n_B_Weapon_zokusei]), w_HiDam = new Array, 0 == n_B_rangedMAtk ? (wBHD = n_B[13], w_HiDam[0] = atkmod / 100 * n_B[12], w_HiDam[1] = atkmod / 100 * (5 * n_B[12] + wBHD) / 6, w_HiDam[2] = atkmod / 100 * (4 * n_B[12] + 2 * wBHD) / 6, w_HiDam[3] = atkmod / 100 * (n_B[12] + wBHD) / 2, w_HiDam[4] = atkmod / 100 * (2 * n_B[12] + 4 * wBHD) / 6, w_HiDam[5] = atkmod / 100 * (n_B[12] + 5 * wBHD) / 6, w_HiDam[6] = atkmod / 100 * wBHD, n_B[12] == n_B[13] && (w_HiDam[6] = atkmod / 100 * wBHD - 1), 0 == n_B_ignoreDef && (w_HiDam[0] = w_HiDam[0] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[2], w_HiDam[1] = w_HiDam[1] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[2], w_HiDam[2] = w_HiDam[2] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[2], w_HiDam[3] = w_HiDam[3] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[1], w_HiDam[4] = w_HiDam[4] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[0], w_HiDam[5] = w_HiDam[5] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[0], w_HiDam[6] = w_HiDam[6] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[0])) : (wBHD = n_B_MATK[2], w_HiDam[0] = atkmod / 100 * n_B_MATK[0], w_HiDam[1] = atkmod / 100 * (5 * n_B_MATK[0] + wBHD) / 6, w_HiDam[2] = atkmod / 100 * (4 * n_B_MATK[0] + 2 * wBHD) / 6, w_HiDam[3] = atkmod / 100 * (n_B_MATK[0] + wBHD) / 2, w_HiDam[4] = atkmod / 100 * (2 * n_B_MATK[0] + 4 * wBHD) / 6, w_HiDam[5] = atkmod / 100 * (n_B_MATK[0] + 5 * wBHD) / 6, w_HiDam[6] = atkmod / 100 * wBHD, 0 == n_B_ignoreMDef && (w_HiDam[0] = w_HiDam[0] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[1] = w_HiDam[1] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[2] = w_HiDam[2] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[3] = w_HiDam[3] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[4] = w_HiDam[4] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[5] = w_HiDam[5] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[6] = w_HiDam[6] * (100 - n_A_MDEF) / 100 - n_A_softMDEF)), SkillSearch(23) && (n_B[3] >= 90 || 6 == n_B[2]))
+    if (atkmod = 0 == SRV && 0 == n_B_AtkSkill && 138 == n_A_card[11] ? atkmod : Math.floor(atkmod * zokusei[10 * n_A_BodyZokusei + 1][n_B_Weapon_zokusei]), w_HiDam = [], 0 == n_B_rangedMAtk ? (wBHD = n_B[13], w_HiDam[0] = atkmod / 100 * n_B[12], w_HiDam[1] = atkmod / 100 * (5 * n_B[12] + wBHD) / 6, w_HiDam[2] = atkmod / 100 * (4 * n_B[12] + 2 * wBHD) / 6, w_HiDam[3] = atkmod / 100 * (n_B[12] + wBHD) / 2, w_HiDam[4] = atkmod / 100 * (2 * n_B[12] + 4 * wBHD) / 6, w_HiDam[5] = atkmod / 100 * (n_B[12] + 5 * wBHD) / 6, w_HiDam[6] = atkmod / 100 * wBHD, n_B[12] == n_B[13] && (w_HiDam[6] = atkmod / 100 * wBHD - 1), 0 == n_B_ignoreDef && (w_HiDam[0] = w_HiDam[0] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[2], w_HiDam[1] = w_HiDam[1] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[2], w_HiDam[2] = w_HiDam[2] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[2], w_HiDam[3] = w_HiDam[3] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[1], w_HiDam[4] = w_HiDam[4] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[0], w_HiDam[5] = w_HiDam[5] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[0], w_HiDam[6] = w_HiDam[6] * (100 - n_A_totalDEF) / 100 - n_A_VITDEF[0])) : (wBHD = n_B_MATK[2], w_HiDam[0] = atkmod / 100 * n_B_MATK[0], w_HiDam[1] = atkmod / 100 * (5 * n_B_MATK[0] + wBHD) / 6, w_HiDam[2] = atkmod / 100 * (4 * n_B_MATK[0] + 2 * wBHD) / 6, w_HiDam[3] = atkmod / 100 * (n_B_MATK[0] + wBHD) / 2, w_HiDam[4] = atkmod / 100 * (2 * n_B_MATK[0] + 4 * wBHD) / 6, w_HiDam[5] = atkmod / 100 * (n_B_MATK[0] + 5 * wBHD) / 6, w_HiDam[6] = atkmod / 100 * wBHD, 0 == n_B_ignoreMDef && (w_HiDam[0] = w_HiDam[0] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[1] = w_HiDam[1] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[2] = w_HiDam[2] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[3] = w_HiDam[3] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[4] = w_HiDam[4] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[5] = w_HiDam[5] * (100 - n_A_MDEF) / 100 - n_A_softMDEF, w_HiDam[6] = w_HiDam[6] * (100 - n_A_MDEF) / 100 - n_A_softMDEF)), SkillSearch(23) && (n_B[3] >= 90 || 6 == n_B[2]))
         for (wBHD = Math.floor((3 + .04 * n_A_BaseLV) * SkillSearch(23)), i = 0; 6 >= i; i++) w_HiDam[i] -= wBHD;
     if (SkillSearch(355))
         for (wBHD = Math.floor((n_A_BaseLV + n_A_LUK + n_A_DEX) / 2), i = 0; 6 >= i; i++) w_HiDam[i] -= wBHD;
@@ -517,11 +521,11 @@ function BattleHiDam() {
         asm = 1;
     if (n_A_Buf2[14]) {
         var wRSnum = (10 + 3 * n_A_Buf2[14]) * asm,
-            wRef1 = new Array;
+            wRef1 = [];
         wRef1[0] = Math.floor(wBHD * wRSnum / 100), 0 == wRef1[0] && (wRef1[0] = 1), wRef1[1] = Math.floor(w_HiDam[0] * wRSnum / 100), 0 == wRef1[1] && (wRef1[1] = 1), wRef1[2] = Math.floor(w_HiDam[6] * wRSnum / 100), 0 == wRef1[2] && (wRef1[2] = 1), wRefStr1 += "<BR><B style='color:blue'>" + wRef1[1] + "</B>", wRefStr0 += "<BR><B style='color:blue'>" + wRef1[0] + "</B>", wRefStr2 += "<BR><B style='color:blue'>" + wRef1[2] + "</B>", name67 += "<BR><B style='color:blue'>Min Dmg Reflected (Shield Reflect)</B>", name65 += "<BR><B style='color:blue'>Avg Dmg Reflected (Shield Reflect)</B>", name68 += "<BR><B style='color:blue'>Max Dmg Reflected (Shield Reflect)</B>"
     }
     if (n_tok[71]) {
-        var wRef2 = new Array,
+        var wRef2 = [],
             w = n_tok[71] * asm;
         wRef2[0] = Math.floor(wBHD * w / 100), 0 == wRef2[0] && (wRef2[0] = 1), wRef2[1] = Math.floor(w_HiDam[0] * w / 100), 0 == wRef2[1] && (wRef2[1] = 1), wRef2[2] = Math.floor(w_HiDam[6] * w / 100), 0 == wRef2[2] && (wRef2[2] = 1), wRefStr1 += "<BR><B style='color:blue'>" + wRef2[1] + "</B>", wRefStr0 += "<BR><B style='color:blue'>" + wRef2[0] + "</B>", wRefStr2 += "<BR><B style='color:blue'>" + wRef2[2] + "</B>", name67 += "<BR><B style='color:blue'>Min Dmg Reflected (Equip/Cards)</B>", name65 += "<BR><B style='color:blue'>Avg Dmg Reflected (Equip/Cards)</B>", name68 += "<BR><B style='color:blue'>Max Dmg Reflected (Equip/Cards)</B>"
     }
@@ -535,14 +539,14 @@ function BattleMagicCalc(_) {
     0 == n_B[19] && CardNumSearch(424) && (n = 1), 0 != n && (wBMC_MDEF = 0, n_B_MDEF2 = 0), 122 == n_A_ActiveSkill ? wBMC2 = Math.floor(_ + 50) : wBMC2 = Math.floor(_ * (100 - wBMC_MDEF) / 100 - n_B_MDEF2), wBMC2 < 1 && (wBMC2 = 1), 104 == n_A_ActiveSkill && 6 != n_B[2] && n_B[3] < 90 && (wBMC2 = 0), wBMC2 = Math.floor(wBMC2 * zokusei[n_B[3]][n_A_Weapon_zokusei]), SRV ? n_B[3] > 89 && n_B[3] < 95 && 47 == n_A_ActiveSkill && (wBMC2 = Math.floor(wBMC2 * (1 + .05 * n_A_ActiveSkillLV))) : 90 <= n_B[3] && 47 == n_A_ActiveSkill && (wBMC2 = Math.floor(wBMC2 * (1 + .05 * n_A_ActiveSkillLV)));
     var e = n_tok[170 + n_B[2]];
     9 == n_B[2] && SkillSearch(234) && (e += 2 * SkillSearch(234)), wBMC2 = wBMC2 * (100 + e) / 100, wBMC2 = tPlusDamCut(wBMC2);
-    var e = n_tok[650 + Math.floor(n_B[3]/10)];
+    var e = n_tok[650 + Math.floor(n_B[3] / 10)];
     e && (wBMC2 = wBMC2 * (100 + e) / 100);
     var e = StPlusCalc2(5e3 + n_A_ActiveSkill) + StPlusCard(5e3 + n_A_ActiveSkill);
     return (46 == n_A_ActiveSkill || 47 == n_A_ActiveSkill || 277 == n_A_ActiveSkill) && 5 == n_A_JobClass() && (e += 20 * CardNumSearch(474)), (132 == n_A_ActiveSkill || 133 == n_A_ActiveSkill) && EquipNumSearch(1146) && (e += n_A_HEAD_DEF_PLUS), 131 == n_A_ActiveSkill && EquipNumSearch(1169) && (e += n_A_Weapon_ATKplus), (37 == n_A_ActiveSkill || 387 == n_A_ActiveSkill) && 3 == n_A_JobClass() && EquipNumSearch(1247) && (e += 5, n_A_HEAD_DEF_PLUS >= 7 && (e += 5)), wBMC2 = wBMC2 * (100 + e) / 100, n_A_Buf7[21] && MANUKU_MONSTER() && (wBMC2 = 110 * wBMC2 / 100), n_A_Buf7[24] && SUPURE_MONSTER() && (wBMC2 = 110 * wBMC2 / 100), 131 == n_A_ActiveSkill && n_B_IJYOU[4] && 0 == n_B[19] && n_B[3] < 90 && (wBMC2 = 0), wBMC2 = Math.floor(wBMC2), wBMC2
 }
 
 function ClickJob(n) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         myInnerHtml("A_KakutyouSel", "", 0), myInnerHtml("A_KakutyouData", "", 0), A_Kakutyou.value = 0, n_A_JobSet(), n = n_A_JOB;
         var len = A_JobLV.length;
         for (i = 0; len > i; i++) A_JobLV.options[0] = null;
@@ -594,7 +598,7 @@ function ClickJob(n) {
 }
 
 function Bskill() {
-    with(document.calcForm) {
+    with (document.calcForm) {
         var BskillLen = 0;
         for (B_AtkSkill.options.length = 0, B_AtkSkill.options[0] = new Option("Basic Attack", 0), i = 23; 0 != MonsterOBJ[B_Enemy.value][i]; i += 2) BskillLen++, B_AtkSkill.options[BskillLen] = new Option(SkillOBJ[MonsterOBJ[B_Enemy.value][i]][2] + " Lv " + MonsterOBJ[B_Enemy.value][i + 1], MonsterOBJ[B_Enemy.value][i]);
         myInnerHtml("BBSkill", "", 0), 957 == n_A_Equip[7] && calc()
@@ -602,7 +606,7 @@ function Bskill() {
 }
 
 function ClickWeaponType(n) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         n_A_JobSet(), A_Arrow.disabled = !1;
         for (var i = 0; 23 > i; i++) A_Arrow.options[0] = null;
         if (10 == n || 14 == n || 15 == n)
@@ -618,14 +622,14 @@ function ClickWeaponType(n) {
 }
 
 function ClickWeaponType2(n) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_A_JobSet(), 0 != n) {
             if (0 == n_Nitou) {
                 for (myInnerHtml("spanA_weapon2", '<select name="A_weapon2" onChange="StAllCalc()|ClickB_Item(this[this.selectedIndex].value) | restrictCardslot(1)"></select>', 0), myInnerHtml("spanA_weapon2seiren", 'Refine (Left): <select name="A_Weapon2_ATKplus" onChange = "StAllCalc()"></select>', 0), i = 0; 10 >= i; i++) A_Weapon2_ATKplus.options[i] = new Option("+" + i, i);
                 for (myInnerHtml("nA_weapon2_c1", '<select name="A_weapon2_card1" onChange="StAllCalc()|Card(this[this.selectedIndex].value)"></select>', 0), myInnerHtml("nA_weapon2_c2", '<select name="A_weapon2_card2" onChange="StAllCalc()|Card(this[this.selectedIndex].value)"></select>', 0), myInnerHtml("nA_weapon2_c3", '<select name="A_weapon2_card3" onChange="StAllCalc()|Card(this[this.selectedIndex].value)"></select>', 0), myInnerHtml("nA_weapon2_c4", '<select name="A_weapon2_card4" onChange="StAllCalc()|Card(this[this.selectedIndex].value)"></select>', 0), i = 0;
-                    "NULL" != CardSortOBJ[0][i]; i++) A_weapon2_card1.options[i] = new Option(cardOBJ[CardSortOBJ[0][i]][2], cardOBJ[CardSortOBJ[0][i]][0]);
+                     "NULL" != CardSortOBJ[0][i]; i++) A_weapon2_card1.options[i] = new Option(cardOBJ[CardSortOBJ[0][i]][2], cardOBJ[CardSortOBJ[0][i]][0]);
                 for (i = 0;
-                    "NULL" != CardSortOBJ[1][i]; i++) A_weapon2_card2.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]), A_weapon2_card3.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]), A_weapon2_card4.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]);
+                     "NULL" != CardSortOBJ[1][i]; i++) A_weapon2_card2.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]), A_weapon2_card3.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]), A_weapon2_card4.options[i] = new Option(cardOBJ[CardSortOBJ[1][i]][2], cardOBJ[CardSortOBJ[1][i]][0]);
                 A_weapon2_card4.options[4] = new Option("Top10", 106)
             }
             for (myInnerHtml("spanA_weapon2_CardShort", '<select name="A_cardshortLeft" onChange="SetCardShortLeft()|StAllCalc()|ActiveSkillSetPlus()"></select>', 0), A_cardshortLeft.options[0] = new Option("Card Shortcuts", 0), i = 1; 60 >= i; i++) A_cardshortLeft.options[i] = new Option(CardShort[i][0], i);
@@ -636,7 +640,7 @@ function ClickWeaponType2(n) {
 }
 
 function ClickActiveSkill() {
-    with(document.calcForm) {
+    with (document.calcForm) {
         n_A_ActiveSkill = eval(A_ActiveSkill.value), n_A_ActiveSkill >= 3e3 ? (n_A_ActiveSkillLV = InsertSkill[n_A_ActiveSkill - 3e3][3], n_A_ActiveSkill = InsertSkill[n_A_ActiveSkill - 3e3][2]) : n_A_ActiveSkill >= 2e3 ? (n_A_ActiveSkillLV = AutoSpellSkill[n_A_ActiveSkill - 2e3][3], n_A_ActiveSkill = AutoSpellSkill[n_A_ActiveSkill - 2e3][2]) : (n_A_ActiveSkillLV = SkillOBJ[n_A_ActiveSkill][1], 0 == SRV && (14 != n_A_JobClass2() || 128 != n_A_ActiveSkill && 133 != n_A_ActiveSkill || (n_A_ActiveSkillLV = 10)));
         var len = A_ActiveSkillLV.length;
         for (i = 0; len > i; i++) A_ActiveSkillLV.options[0] = null;
@@ -647,7 +651,7 @@ function ClickActiveSkill() {
 }
 
 function BClickAtkSkill() {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_B_AtkSkill = eval(B_AtkSkill.value), 444 == n_B_AtkSkill || 445 == n_B_AtkSkill)
             for (myInnerHtml("BBSkill", 'Players in Range: <select name="BSkillSubNum" onChange="calc()"></select>', 0), i = 1; 99 >= i; i++) BSkillSubNum.options[i - 1] = new Option(i, i);
         if (489 == n_B_AtkSkill) myInnerHtml("BBSkill", 'Enemy Remaining HP: <input type="text" name="BSkillSubNum" onkeyup="calc()" value="' + n_B[6] + '" size="7" class="center">', 0);
@@ -670,9 +674,8 @@ function BClickAtkSkill() {
 }
 
 function ClickActiveSkill2() {
-    with(document.calcForm) if (66 == n_A_ActiveSkill || 326 == n_A_ActiveSkill) myInnerHtml("AASkill", 'Cart Weight: <input type="text" name="SkillSubNum" value="8000" size=2 onkeyup="calc()">', 0);
-        else
-    if (131 == n_A_ActiveSkill) {
+    with (document.calcForm) if (66 == n_A_ActiveSkill || 326 == n_A_ActiveSkill) myInnerHtml("AASkill", 'Cart Weight: <input type="text" name="SkillSubNum" value="8000" size=2 onkeyup="calc()">', 0);
+    else if (131 == n_A_ActiveSkill) {
         for (myInnerHtml("AASkill", 'Hits: <select name="SkillSubNum" onChange="calc()"></select>', 0), i = 1; 15 >= i; i++) SkillSubNum.options[i - 1] = new Option(i, i);
         SkillSubNum.value = 3
     } else if (88 == n_A_ActiveSkill) {
@@ -736,7 +739,7 @@ function addCSSRule(_, n, e, i) {
 }
 
 function BufSW(v) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_SkillSW = v, n_SkillSW) {
             var str;
             for (str = '<table class="tborder">', str += '<TR><TD id="A2TD" ColSpan="6" class="subheader point" onclick="BufSW(0)">Supportive / Party Skills <span id="A2used"></span>', str += '<div class="right">(click to hide)</div></TD></TR>', str += '<TR class="center">', str += '<TD ColSpan="2" class="data"><B><U>Gospel Effects</U></B></TD>', str += '<TD ColSpan="2" class="data"><B><U>Acolyte Class Buffs</U></B></TD>', str += '<TD ColSpan="2"><B><U>Other Party Buffs</U></B></TD>', str += "</TR><TR>", str += '<TD id="EN50"></TD><TD id="" class="data"></TD>', str += '<TD id="AS0_1" class="center">Blessing</TD><TD id="AS0_2" class="data"></TD>', str += '<TD id="AS6_1" class="center">Andrenaline Rush</TD><TD id="AS6_2" class="data"></TD>', str += "</TR><TR>", str += '<TD id="EN51"></TD><TD id="" class="data"></TD>', str += '<TD id="AS1_1" class="center">Increase Agi</TD><TD id="AS1_2" class="data"></TD>', str += '<TD id="AS7_1" class="center">Weapon Perfection</TD><TD id="AS7_2"></TD>', str += "</TR><TR>", str += '<TD id="EN52"></TD><TD id="" class="data"></TD>', str += '<TD id="AS4_1" class="center">Angelus</TD><TD id="AS4_2" class="data"></TD>', str += '<TD id="AS8_1" class="center">Power Thrust</TD><TD id="AS8_2" class="data"></TD>', str += "</TR><TR>", str += '<TD id="EN53"></TD><TD id="" class="data"></TD>', str += '<TD id="AS2_1" class="center">Impositio Manus</TD><TD id="AS2_2" class="data"></TD>', str += '<TD id="AS9_1" class="center">Wind Walker</TD><TD id="AS9_2"></TD>', str += "</TR><TR>", str += '<TD id="EN55"></TD><TD id="" class="data"></TD>', str += '<TD id="AS3_1" class="center">Gloria</TD><TD id="AS3_2" class="data"></TD>', str += '<TD id="" class="center">Auto-Guard</TD><TD id="AS13_2" class="data"></TD>', str += "</TR><TR>", str += '<TD id="EN54"></TD><TD id="" class="data"></TD>', str += '<TD id="AS10_1" class="center">Suffragium</TD><TD id="AS10_2" class="data"></TD>', str += '<TD id="" class="center">Shield Reflect</TD><TD id="AS14_2" class="data"></TD>', str += "</TR><TR>", str += '<TD id=""></TD><TD id="" class="data"></TD>', str += '<TD id="AS5_1" class="center">Assumptio</TD><TD id="AS5_2" class="data"></TD>', str += '<TD id="" class="center">Defender</TD><TD id="AS15_2"></TD>', str += "</TR><TR>", str += '<TD id=""></TD><TD id="" class="data"></TD>', str += '<TD id="AS12_1" class="center"># of Spirit Spheres</TD><TD id="AS12_2" class="data"></TD>', str += '<TD id="AS11_1" class="center">Providence</TD><TD id="AS11_2"></TD>', str += "</TR></TABLE>", myInnerHtml("SIENSKILL", str, 0), myInnerHtml("AS0_2", '<select name="A2_Skill0" onChange="A2(1)"></select>', 0), myInnerHtml("AS1_2", '<select name="A2_Skill1" onChange="A2(1)"></select>', 0), myInnerHtml("AS2_2", '<select name="A2_Skill2" onChange="A2(1)"></select>', 0), myInnerHtml("AS3_2", '<input type="checkbox" name="A2_Skill3" onClick="A2(1)">', 0), myInnerHtml("AS4_2", '<select name="A2_Skill4" onChange="A2(1)"></select>', 0), myInnerHtml("AS5_2", '<input type="checkbox" name="A2_Skill5" onClick="A2(1)">', 0), myInnerHtml("AS6_2", '<select name="A2_Skill6" onChange="A2(1)"></select>', 0), myInnerHtml("AS7_2", '<input type="checkbox" name="A2_Skill7" onClick="A2(1)">', 0), myInnerHtml("AS8_2", '<input type="checkbox" name="A2_Skill8" onClick="A2(1)">', 0), myInnerHtml("AS9_2", '<select name="A2_Skill9" onChange="A2(1)"></select>', 0), myInnerHtml("AS10_2", '<select name="A2_Skill10" onChange="A2(1)"></select>', 0), myInnerHtml("AS11_2", '<select name="A2_Skill11" onChange="A2(1)"></select>', 0), myInnerHtml("AS12_2", '<select name="A2_Skill12" onChange="A2(1)"></select>', 0), myInnerHtml("AS13_2", '<select name="A2_Skill13" onChange="A2(1)"></select>', 0), myInnerHtml("AS14_2", '<select name="A2_Skill14" onChange="A2(1)"></select>', 0), myInnerHtml("AS15_2", '<select name="A2_Skill15" onChange="A2(1)"></select>', 0), myInnerHtml("EN50", '<input type="checkbox" name="A5_Skill0" onClick="A2(1)">All Stats +20', 0), myInnerHtml("EN51", '<input type="checkbox" name="A5_Skill1" onClick="A2(1)">HP +100%', 0), myInnerHtml("EN52", '<input type="checkbox" name="A5_Skill2" onClick="A2(1)">SP +100%', 0), myInnerHtml("EN53", '<input type="checkbox" name="A5_Skill3" onClick="A2(1)">ATK +100%', 0), myInnerHtml("EN54", '<input type="checkbox" name="A5_Skill4" onClick="A2(1)">HIT & FLEE +50', 0), myInnerHtml("EN55", '<input type="checkbox" name="A5_Skill5" onClick="A2(1)">DEF +25%', 0), i = 0; 10 >= i; i++) A2_Skill0.options[i] = new Option(i, i), A2_Skill1.options[i] = new Option(i, i), A2_Skill4.options[i] = new Option(i, i), A2_Skill9.options[i] = new Option(i, i), A2_Skill13.options[i] = new Option(i, i), A2_Skill14.options[i] = new Option(i, i);
@@ -763,7 +766,7 @@ function A2(_) {
 }
 
 function Buf3SW(v) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_Skill3SW = v, n_Skill3SW) {
             var str;
             for (str = '<table class="tborder">', str += '<TR><TD id="A3TD" ColSpan="6" class="subheader point" onclick="Buf3SW(0)">Music and Dance Skills <span id="A3used"></span>', str += '<div class="right">(click to hide)</div></TD></TR>', str += '<TR><TD id="EN0_1"></TD><TD id="EN0_2" class="data"></TD><TD id="EN0_3"></TD><TD id="EN0_4" class="data"></TD><TD id="EN0_5"></TD><TD id="EN0_6"></TD></TR>', str += '<TR><TD id="EN1_1"></TD><TD id="EN1_2" class="data"></TD><TD id="EN1_3"></TD><TD id="EN1_4" class="data"></TD><TD id="EN1_5"></TD><TD id="EN1_6"></TD></TR>', str += '<TR><TD id="EN2_1"></TD><TD id="EN2_2" class="data"></TD><TD id="EN2_3" style="line-height:165%;"></TD><TD id="EN2_4" class="data"></TD><TD id="EN2_5"></TD><TD id="EN2_6"></TD></TR>', str += '<TR><TD id="EN3_1"></TD><TD id="EN3_2" class="data"></TD><TD id="EN3_3"></TD><TD id="EN3_4" class="data"></TD><TD id="EN3_5"></TD><TD id="EN3_6"></TD></TR>', str += '<TR><TD id="EN4_1"></TD><TD id="EN4_2" class="data"></TD><TD id="EN4_3"></TD><TD id="EN4_4" class="data"></TD><TD id="EN4_5"></TD><TD id="EN4_6"></TD></TR>', str += '<TR><TD id="EN5_1"></TD><TD id="EN5_2" class="data"></TD><TD id="EN5_3"></TD><TD id="EN5_4" class="data"></TD><TD id="EN5_5"></TD><TD id="EN5_6"></TD></TR>', str += '<TR class="dotB"><TD id="EN6_1"></TD><TD id="EN6_2" class="data"></TD><TD id="EN6_3"></TD><TD id="EN6_4" class="data"></TD><TD id="EN6_5"></TD><TD id="EN6_6"></TD></TR>', str += '<TR><TD id="EN7_1"></TD><TD id="EN7_2" class="data"></TD><TD id="EN8_1" ColSpan="2"></TD><TD id="EN8_2"></TD><TD></TD></TR>', str += '<TR class="dotB"><TD id="EN9_1"></TD><TD id="EN9_2" class="data"></TD><TD id="EN10_1" ColSpan="2"></TD><TD id="EN10_2"></TD><TD></TD></TR>', str += '<TR><TD colspan=6><span id="EN11_1"></span><span id="EN11_2"></span><span id="EN11_1a"></span></TD></TR></TABLE>', myInnerHtml("SP_SIEN01", str, 0), SRV ? name_CS3SW_SKILL = ["A Whistle", "Assassin Cross of Sunset", "Poem of Bragi", "The Apple of Idun", "Humming", "Fortune's Kiss", "Service for You", "Invulnerable Siegfried", "Mr. Kim A Rich Man", "A Drum on the Battlefield", "The Ring of Nibelungen"] : name_CS3SW_SKILL = ["Perfect Tabulature", "Impressive Rift", "Magic Strings", "Song of Lutie", "Focus Ballet", "Lady Luck", "Gypsie's Kiss", "Acoustic Rhythm", "Mental Sensing", "Battle Theme", "Harmonic Lick"], i = 0; 10 >= i; i++) myInnerHtml("EN" + i + "_1", name_CS3SW_SKILL[i], 0);
@@ -780,7 +783,7 @@ function Buf3SW(v) {
 }
 
 function Skill3SW_2() {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_A_Buf3[0] = eval(A3_Skill0_1.value), n_A_Buf3[1] = eval(A3_Skill1_1.value), n_A_Buf3[2] = eval(A3_Skill2_1.value), n_A_Buf3[3] = eval(A3_Skill3_1.value), n_A_Buf3[4] = eval(A3_Skill4_1.value), n_A_Buf3[5] = eval(A3_Skill5_1.value), n_A_Buf3[6] = eval(A3_Skill6_1.value), n_A_Buf3[11] = eval(A3_Skill11.checked), 0 != n_A_Buf3[0]) {
             if (0 == SWs3sw[0]) {
                 for (0 == n_A_Buf3[20] && (n_A_Buf3[20] = 100, n_A_Buf3[30] = 10), myInnerHtml("EN0_3", "Bard's AGI", 0), myInnerHtml("EN0_4", '<select name="A3_Skill0_2" onChange="A3(1)"></select>', 0), myInnerHtml("EN0_5", "Musical Lessons", 0), myInnerHtml("EN0_6", '<select name="A3_Skill0_3" onChange="A3(1)"></select>', 0), i = 1; 200 >= i; i++) A3_Skill0_2.options[i - 1] = new Option(i, i);
@@ -852,7 +855,7 @@ function A3(_) {
 }
 
 function Buf4SW(v) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_Skill4SW = v, n_Skill4SW) {
             var str;
             for (str = '<table class="tborder">', str += '<TR><TD id="A4TD" ColSpan="2" class="subheader point" onclick="Buf4SW(0)">Guild Skills <span id="A4used"></span>', str += '<div class="right">(click to hide)</div></TD></TR>', str += '<TR><TD id="EN40_1" class="center"></TD><TD id="EN40_2"></TD></TR>', str += '<TR><TD id="EN41_1" class="center"></TD><TD id="EN41_2"></TD></TR>', str += '<TR><TD id="EN42_1" class="center"></TD><TD id="EN42_2"></TD></TR>', str += '<TR><TD id="EN43_1" class="center"></TD><TD id="EN43_2"></TD></TR>', str += '<TR><TD id="EN44_1" class="center"></TD><TD id="EN44_2"></TD></TR></TABLE>', myInnerHtml("SP_SIEN02", str, 0), name_CS4SW_SKILL = ["Battle Orders", "Great Leadership", "Wounds of Glory", "Soul of Cold", "Sharp Hawk Eyes"], i = 0; 4 >= i; i++) myInnerHtml("EN4" + i + "_1", name_CS4SW_SKILL[i], 0);
@@ -877,95 +880,95 @@ function A4(_) {
     0 == n ? (document.getElementById("A4TD").style.backgroundColor = sBGC[i], myInnerHtml("A4used", "", 0)) : (document.getElementById("A4TD").style.backgroundColor = saBGC[i], myInnerHtml("A4used", " <B>[Active]</B>", 0))
 }
 
-function Buf6SW(v){
-  with(document.calcForm){
-    if(n_Skill6SW=v,n_Skill6SW){
-      var str;
-      for(str='<TABLE class="tborder">',
-          str+='<TR><TD id="A6TD" ColSpan="4" class="subheader point" onclick="Buf6SW(0)">Miscellaneous Effects on Player<span id="A6used"></span>',
-          str+='<DIV class="right">(click to hide)</DIV></TD></TR>',
-          str+='<TR><TD id="EN60_1" class="center"></TD><TD id="EN60_2" class="data"></TD><TD class="center">Poison</TD><TD id="EN62_2"></TD></TR>',
-          str+='<TR><TD class="center">Provoke (self)</TD><TD id="EN63_2" class="data"></TD><TD class="center">Stun</TD><TD id="EN75_2"></TD></TR>',
-          str+='<TR><TD class="center">Mind Breaker (self)</TD><TD id="EN61_2" class="data"></TD><TD class="center">Freeze</TD><TD id="EN78_2"></TD></TR>',
-          str+='<TR><TD class="center">AGI Down</TD><TD id="EN66_2" class="data"></TD><TD class="center">Curse</TD><TD id="EN64_2"></TD></TR>',
-          str+='<TR><TD class="center">Quagmire</TD><TD id="EN68_2" class="data"></TD><TD class="center">Blind</TD><TD id="EN74_2"></TD></TR>',
-          str+='<TR><TD class="center">Wall of Fog</TD><TD id="EN70_2" class="data"></TD><TD class="center">Sleep</TD><TD id="EN77_2"></TD></TR>',
-          str+='<TR><TD class="center">Undead Attribute Change</TD><TD id="EN65_2" class="data"></TD><TD class="center">Stone</TD><TD id="EN76_2"></TD></TR>',
-          str+='<TR><TD class="center">Holy Armor [B.S.S.]</TD><TD id="EN67_2" class="data"></TD><TD class="center">Bleeding</TD><TD id="EN80_2"></TD></TR>',
-          str+='<TR><TD class="center">Magnum Break Bonus</TD><TD id="EN69_2" class="data"></TD><TD class="center">Lex Aeterna</TD><TD id="EN79_2"></TD></TR>',
-          str+='<TR><TD class="center">Set CRIT to 0%</TD><TD id="EN71_2" class="data"></TD><TD class="center">Critical Wounds</TD><TD id="EN81_2"></TD></TR>',
-          str+='<TR><TD id="EN72_1" class="center" colspan="3">All Stats +1 [SuperNovice Wife Undying Love Bonus]</TD><TD id="EN72_2"></TD></TR>',
-          str+='<TR><TD id="EN73_1" class="center" colspan="3">Quad Exp & Bonus to Stats</TD><TD id="EN73_2"></TD></TR>',
-          str+="</TABLE>",
-          myInnerHtml("SP_SIEN04",str,0),
-          myInnerHtml("EN60_1",'<select name="A6_Skill0" onChange="StAllCalc()"></select>',0),
-          myInnerHtml("EN60_2",'<select name="A6_Skill1" onChange="A6(1)"></select>',0),
-          myInnerHtml("EN61_2",'<select name="A6_Skill4" onChange="A6(1)"></select>',0),
-          myInnerHtml("EN62_2",'<input type="checkbox" name="A_IJYOU2" onClick="A6(1)">',0),
-          myInnerHtml("EN63_2",'<select name="A6_Skill5" onChange="A6(1)"></select>',0),
-          myInnerHtml("EN64_2",'<input type="checkbox" name="A_IJYOU3" onClick="A6(1)">',0),
-          myInnerHtml("EN65_2",'<input type="checkbox" name="A6_Skill8" onClick="A6(1)">',0),
-          myInnerHtml("EN66_2",'<select name="A_IJYOU1" onChange="A6(1)"></select>',0),
-          myInnerHtml("EN67_2",'<input type="checkbox" name="A6_Skill6" onClick="A6(1)">',0),
-          myInnerHtml("EN68_2",'<select name="A_IJYOU0" onChange="A6(1)"></select>',0),
-          myInnerHtml("EN69_2",'<input type="checkbox" name="A6_Skill7" onClick="A6(1)">',0),
-          myInnerHtml("EN70_2",'<input type="checkbox" name="A6_Skill3" onClick="A6(1)">',0),
-          myInnerHtml("EN71_2",'<input type="checkbox" name="A6_Skill9" onClick="A6(1)">',0),
-          myInnerHtml("EN72_2",'<input type="checkbox" name="A6_Skill10" onClick="A6(1)">',0),
-          myInnerHtml("EN73_2",'<select name="A6_Skill2" onChange="A6(1)"></select>',0),
-          myInnerHtml("EN74_2",'<input type="checkbox" name="A6_Skill11" onClick="A6(1)">',0),
-          myInnerHtml("EN75_2",'<input type="checkbox" name="A6_Skill12" onClick="A6(1)">',0),
-          myInnerHtml("EN76_2",'<input type="checkbox" name="A6_Skill13" onClick="A6(1)">',0),
-          myInnerHtml("EN77_2",'<input type="checkbox" name="A6_Skill14" onClick="A6(1)">',0),
-          myInnerHtml("EN78_2",'<input type="checkbox" name="A6_Skill15" onClick="A6(1)">',0),
-          myInnerHtml("EN79_2",'<input type="checkbox" name="A6_Skill16" onClick="A6(1)">',0),
-          myInnerHtml("EN80_2",'<input type="checkbox" name="A6_Skill17" onClick="A6(1)">',0),
-          myInnerHtml("EN81_2",'<select name="A6_Skill18" onChange="A6(1)"></select>',0),
-          A6_Skill0.options[0]=new Option("Volcano",0),
-          A6_Skill0.options[1]=new Option("Deluge",1),
-          A6_Skill0.options[2]=new Option("Violent Gale",2),
-          i=0;5>=i;i++
-         )A6_Skill1.options[i]=new Option(i, i);
-      A6_Skill2.options[0]=new Option("None",0);
-      A6_Skill2.options[1]=new Option("ALL+3",1);
-      A6_Skill2.options[2]=new Option("ALL+5",2);
-      for(i=0;5>=i;i++)A6_Skill4.options[i]=new Option(i,i),A6_Skill18.options[i]=new Option(i,i);
-      for(i=0;10>=i;i++)A6_Skill5.options[i]=new Option(i,i);
-      for(A_IJYOU0.options[0]=new Option("-",0),i=1;5>=i;i++) A_IJYOU0.options[i]=new Option("Lv"+i,i);
-      for(A_IJYOU1.options[0]=new Option("-",0),i=1;10>=i;i++) A_IJYOU1.options[i]=new Option("Lv"+i,i);
-      A_IJYOU1.options[11]=new Option("Lv46",46),
-      A6_Skill0.value=n_A_Buf6[0],
-      A6_Skill1.value=n_A_Buf6[1],
-      A6_Skill2.value=n_A_Buf6[2],
-      A6_Skill3.checked=n_A_Buf6[3],
-      A6_Skill4.value=n_A_Buf6[4],
-      A6_Skill5.value=n_A_Buf6[5],
-      A6_Skill6.checked=n_A_Buf6[6],
-      A6_Skill7.checked=n_A_Buf6[7],
-      A6_Skill8.checked=n_A_Buf6[8],
-      A6_Skill9.checked=n_A_Buf6[9],
-      A6_Skill10.checked=n_A_Buf6[10],
-      A6_Skill11.checked=n_A_Buf6[11],
-      A6_Skill12.checked=n_A_Buf6[12],
-      A6_Skill13.checked=n_A_Buf6[13],
-      A6_Skill14.checked=n_A_Buf6[14],
-      A6_Skill15.checked=n_A_Buf6[15],
-      A6_Skill16.checked=n_A_Buf6[16],
-      A6_Skill17.checked=n_A_Buf6[17],
-      A6_Skill18.value=n_A_Buf6[18],
-      A_IJYOU0.value=n_A_Buf6[19],
-      A_IJYOU1.value=n_A_Buf6[20],
-      A_IJYOU2.checked=n_A_Buf6[21],
-      A_IJYOU3.checked=n_A_Buf6[22]
-    }else{
-      var str;
-      str='<table class="tborder">',
-      str+='<TR><TD id="A6TD" class="subheader point" onclick="Buf6SW(1)">Miscellaneous Effects on Player<span id="A6used"></span>',
-      str+='<div class="right">(click to show)</div></TD></TR></TABLE>',
-      myInnerHtml("SP_SIEN04",str,0)
+function Buf6SW(v) {
+    with (document.calcForm) {
+        if (n_Skill6SW = v, n_Skill6SW) {
+            var str;
+            for (str = '<TABLE class="tborder">',
+                     str += '<TR><TD id="A6TD" ColSpan="4" class="subheader point" onclick="Buf6SW(0)">Miscellaneous Effects on Player<span id="A6used"></span>',
+                     str += '<DIV class="right">(click to hide)</DIV></TD></TR>',
+                     str += '<TR><TD id="EN60_1" class="center"></TD><TD id="EN60_2" class="data"></TD><TD class="center">Poison</TD><TD id="EN62_2"></TD></TR>',
+                     str += '<TR><TD class="center">Provoke (self)</TD><TD id="EN63_2" class="data"></TD><TD class="center">Stun</TD><TD id="EN75_2"></TD></TR>',
+                     str += '<TR><TD class="center">Mind Breaker (self)</TD><TD id="EN61_2" class="data"></TD><TD class="center">Freeze</TD><TD id="EN78_2"></TD></TR>',
+                     str += '<TR><TD class="center">AGI Down</TD><TD id="EN66_2" class="data"></TD><TD class="center">Curse</TD><TD id="EN64_2"></TD></TR>',
+                     str += '<TR><TD class="center">Quagmire</TD><TD id="EN68_2" class="data"></TD><TD class="center">Blind</TD><TD id="EN74_2"></TD></TR>',
+                     str += '<TR><TD class="center">Wall of Fog</TD><TD id="EN70_2" class="data"></TD><TD class="center">Sleep</TD><TD id="EN77_2"></TD></TR>',
+                     str += '<TR><TD class="center">Undead Attribute Change</TD><TD id="EN65_2" class="data"></TD><TD class="center">Stone</TD><TD id="EN76_2"></TD></TR>',
+                     str += '<TR><TD class="center">Holy Armor [B.S.S.]</TD><TD id="EN67_2" class="data"></TD><TD class="center">Bleeding</TD><TD id="EN80_2"></TD></TR>',
+                     str += '<TR><TD class="center">Magnum Break Bonus</TD><TD id="EN69_2" class="data"></TD><TD class="center">Lex Aeterna</TD><TD id="EN79_2"></TD></TR>',
+                     str += '<TR><TD class="center">Set CRIT to 0%</TD><TD id="EN71_2" class="data"></TD><TD class="center">Critical Wounds</TD><TD id="EN81_2"></TD></TR>',
+                     str += '<TR><TD id="EN72_1" class="center" colspan="3">All Stats +1 [SuperNovice Wife Undying Love Bonus]</TD><TD id="EN72_2"></TD></TR>',
+                     str += '<TR><TD id="EN73_1" class="center" colspan="3">Quad Exp & Bonus to Stats</TD><TD id="EN73_2"></TD></TR>',
+                     str += "</TABLE>",
+                     myInnerHtml("SP_SIEN04", str, 0),
+                     myInnerHtml("EN60_1", '<select name="A6_Skill0" onChange="StAllCalc()"></select>', 0),
+                     myInnerHtml("EN60_2", '<select name="A6_Skill1" onChange="A6(1)"></select>', 0),
+                     myInnerHtml("EN61_2", '<select name="A6_Skill4" onChange="A6(1)"></select>', 0),
+                     myInnerHtml("EN62_2", '<input type="checkbox" name="A_IJYOU2" onClick="A6(1)">', 0),
+                     myInnerHtml("EN63_2", '<select name="A6_Skill5" onChange="A6(1)"></select>', 0),
+                     myInnerHtml("EN64_2", '<input type="checkbox" name="A_IJYOU3" onClick="A6(1)">', 0),
+                     myInnerHtml("EN65_2", '<input type="checkbox" name="A6_Skill8" onClick="A6(1)">', 0),
+                     myInnerHtml("EN66_2", '<select name="A_IJYOU1" onChange="A6(1)"></select>', 0),
+                     myInnerHtml("EN67_2", '<input type="checkbox" name="A6_Skill6" onClick="A6(1)">', 0),
+                     myInnerHtml("EN68_2", '<select name="A_IJYOU0" onChange="A6(1)"></select>', 0),
+                     myInnerHtml("EN69_2", '<input type="checkbox" name="A6_Skill7" onClick="A6(1)">', 0),
+                     myInnerHtml("EN70_2", '<input type="checkbox" name="A6_Skill3" onClick="A6(1)">', 0),
+                     myInnerHtml("EN71_2", '<input type="checkbox" name="A6_Skill9" onClick="A6(1)">', 0),
+                     myInnerHtml("EN72_2", '<input type="checkbox" name="A6_Skill10" onClick="A6(1)">', 0),
+                     myInnerHtml("EN73_2", '<select name="A6_Skill2" onChange="A6(1)"></select>', 0),
+                     myInnerHtml("EN74_2", '<input type="checkbox" name="A6_Skill11" onClick="A6(1)">', 0),
+                     myInnerHtml("EN75_2", '<input type="checkbox" name="A6_Skill12" onClick="A6(1)">', 0),
+                     myInnerHtml("EN76_2", '<input type="checkbox" name="A6_Skill13" onClick="A6(1)">', 0),
+                     myInnerHtml("EN77_2", '<input type="checkbox" name="A6_Skill14" onClick="A6(1)">', 0),
+                     myInnerHtml("EN78_2", '<input type="checkbox" name="A6_Skill15" onClick="A6(1)">', 0),
+                     myInnerHtml("EN79_2", '<input type="checkbox" name="A6_Skill16" onClick="A6(1)">', 0),
+                     myInnerHtml("EN80_2", '<input type="checkbox" name="A6_Skill17" onClick="A6(1)">', 0),
+                     myInnerHtml("EN81_2", '<select name="A6_Skill18" onChange="A6(1)"></select>', 0),
+                     A6_Skill0.options[0] = new Option("Volcano", 0),
+                     A6_Skill0.options[1] = new Option("Deluge", 1),
+                     A6_Skill0.options[2] = new Option("Violent Gale", 2),
+                     i = 0; 5 >= i; i++
+            ) A6_Skill1.options[i] = new Option(i, i);
+            A6_Skill2.options[0] = new Option("None", 0);
+            A6_Skill2.options[1] = new Option("ALL+3", 1);
+            A6_Skill2.options[2] = new Option("ALL+5", 2);
+            for (i = 0; 5 >= i; i++) A6_Skill4.options[i] = new Option(i, i), A6_Skill18.options[i] = new Option(i, i);
+            for (i = 0; 10 >= i; i++) A6_Skill5.options[i] = new Option(i, i);
+            for (A_IJYOU0.options[0] = new Option("-", 0), i = 1; 5 >= i; i++) A_IJYOU0.options[i] = new Option("Lv" + i, i);
+            for (A_IJYOU1.options[0] = new Option("-", 0), i = 1; 10 >= i; i++) A_IJYOU1.options[i] = new Option("Lv" + i, i);
+            A_IJYOU1.options[11] = new Option("Lv46", 46),
+                A6_Skill0.value = n_A_Buf6[0],
+                A6_Skill1.value = n_A_Buf6[1],
+                A6_Skill2.value = n_A_Buf6[2],
+                A6_Skill3.checked = n_A_Buf6[3],
+                A6_Skill4.value = n_A_Buf6[4],
+                A6_Skill5.value = n_A_Buf6[5],
+                A6_Skill6.checked = n_A_Buf6[6],
+                A6_Skill7.checked = n_A_Buf6[7],
+                A6_Skill8.checked = n_A_Buf6[8],
+                A6_Skill9.checked = n_A_Buf6[9],
+                A6_Skill10.checked = n_A_Buf6[10],
+                A6_Skill11.checked = n_A_Buf6[11],
+                A6_Skill12.checked = n_A_Buf6[12],
+                A6_Skill13.checked = n_A_Buf6[13],
+                A6_Skill14.checked = n_A_Buf6[14],
+                A6_Skill15.checked = n_A_Buf6[15],
+                A6_Skill16.checked = n_A_Buf6[16],
+                A6_Skill17.checked = n_A_Buf6[17],
+                A6_Skill18.value = n_A_Buf6[18],
+                A_IJYOU0.value = n_A_Buf6[19],
+                A_IJYOU1.value = n_A_Buf6[20],
+                A_IJYOU2.checked = n_A_Buf6[21],
+                A_IJYOU3.checked = n_A_Buf6[22]
+        } else {
+            var str;
+            str = '<table class="tborder">',
+                str += '<TR><TD id="A6TD" class="subheader point" onclick="Buf6SW(1)">Miscellaneous Effects on Player<span id="A6used"></span>',
+                str += '<div class="right">(click to show)</div></TD></TR></TABLE>',
+                myInnerHtml("SP_SIEN04", str, 0)
+        }
+        A6(0)
     }
-  A6(0)
-  }
 }
 
 function A6(_) {
@@ -980,7 +983,7 @@ function A6(_) {
 }
 
 function Buf7SW(v) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_Skill7SW = v, n_Skill7SW) {
             var str;
             for (str = '<table class="tborder">', str += '<TR><TD id="A7TD" ColSpan="3" class="subheader point" onclick="Buf7SW(0)">Food / Speed Potions / other Items <span id="A7used"></span>', str += '<div class="right">(click to hide)</div></TD></TR>', str += '<TR><TD colspan="3" class="data dotB"><span id="EN73"></span><span id="EN74"></span><span id="EN75"></span><span id="EN76"></span><span id="EN77"></span><span id="EN78"></span></TD></TR>', str += '<TR><TD id="EN722" class="data"></TD><TD class="data"><Font size="2"><B>Battle Grounds Food</B></Font></TD><TD><Font size="2"><B>Elemental Resist Potions</B></Font></TD></TR>', str += '<TR><TD id="EN717" class="data"></TD><TD id="EN723" class="data"></TD><TD id="EN711"></TD></TR>', str += '<TR><TD id="EN720" class="data"></TD><TD id="EN724" class="data"></TD><TD id="EN712"></TD></TR>', str += '<TR><TD id="EN710" class="data"></TD><TD id="EN725" class="data"></TD><TD id="EN713"></TD></TR>', str += '<TR><TD id="EN79" class="data"></TD><TD id="EN726" class="dotB data"></TD><TD id="EN714" class="dotB"></TD></TR>', str += '<TR><TD id="EN70" class="data"></TD><TD colspan="2"><Font size="2"><B>New World Food</B></Font></TD></TR>', str += '<TR><TD id="EN71" class="data"></TD><TD colspan="2" id="EN727"></TD></TR>', str += '<TR><TD id="EN72" class="data"></TD><TD colspan="2" id="EN728"></TD></TR>', str += '<TR><TD id="EN715" class="data"></TD><TD colspan="2" id="EN729"></TD></TR>', str += '<TR><TD id="EN716" class="data"></TD><TD colspan="2" id="EN730"></TD></TR>', str += '<TR><TD id="EN718" class="data"></TD><TD colspan="2" id="EN731"></TD></TR>', str += '<TR><TD id="EN719" class="data"></TD><TD colspan="2" id="EN732"></TD></TR>', str += '<TR><TD id="EN721" class="data"></TD><TD colspan="2" id="EN733"></TD></TR>', str += '<TR><TD id="EN743" class="data"></TD><TD colspan="2" id="EN734"></TD></TR>', str += '<TR><TD id="EN738" class="data"></TD><TD colspan="2" id="EN735" class="dotB"></TD></TR>', str += '<TR><TD id="EN737" class="data"></TD><TD colspan="2"><Font size="2"><B>Stat+20 Food</B></Font></TD></TR>', str += '<TR><TD id="EN742" class="data"></TD><TD colspan="2" id="EN741"></TD></TR>', str += '<TR><TD id="EN746" class="data"></TD><TD colspan="2" id="EN747"></TD></TR>', str += '<TR><TD id="EN744" class="data"></TD><TD colspan="2" id="EN748"></TD></TR>', str += '<TR><TD id="EN745" class="data"></TD><TD colspan="2" id="EN749"></TD></TR>', str += '<TR><TD id="EN739" class="data"></TD><TD colspan="2" id="EN750"></TD></TR>', str += '<TR><TD id="EN740" class="data"></TD><TD colspan="2" id="EN751"></TD></TR>', str += "</TABLE>", myInnerHtml("SP_SIEN05", str, 0), myInnerHtml("EN70", '<input type="checkbox" name="A7_Skill0" onClick="A7(1)">Sesame Pastry [HIT +30]', 0), myInnerHtml("EN71", '<input type="checkbox" name="A7_Skill1" onClick="A7(1)">Honey Pastry [FLEE +30]', 0), myInnerHtml("EN72", '<input type="checkbox" name="A7_Skill2" onClick="A7(1)">Rainbow Cake [ATK/MATK +10]', 0), myInnerHtml("EN79", '<input type="checkbox" name="A7_Skill9" onClick="A7(1)">Box of Resentment [ATK +20]', 0), myInnerHtml("EN710", '<input type="checkbox" name="A7_Skill10" onClick="A7(1)">Box of Drowsiness [MATK +20]', 0), myInnerHtml("EN711", '<input type="checkbox" name="A7_Skill11" onClick="A7(1)">Coldproof Potion', 0), myInnerHtml("EN712", '<input type="checkbox" name="A7_Skill12" onClick="A7(1)">Earthproof Potion', 0), myInnerHtml("EN713", '<input type="checkbox" name="A7_Skill13" onClick="A7(1)">Fireproof Potion', 0), myInnerHtml("EN714", '<input type="checkbox" name="A7_Skill14" onClick="A7(1)">Thunderproof Potion', 0), myInnerHtml("EN715", '<input type="checkbox" name="A7_Skill26" onClick="A7(1)">Guarana Candy [ASPD +10%, HIT +5]', 0), myInnerHtml("EN716", '<input type="checkbox" name="A7_Skill16" onClick="A7(1)">Buche de Noel [HIT +3%, CRIT +7, MaxHP&SP +3%]', 0), myInnerHtml("EN717", '<input type="checkbox" name="A7_Skill31" onClick="A7(1)">Aloevera [Self Provoke Lv 1]', 0), myInnerHtml("EN718", '<input type="checkbox" name="A7_Skill32" onClick="A7(1)">Small/Big Defense Potion [DEF +3]', 0), myInnerHtml("EN719", '<input type="checkbox" name="A7_Skill33" onClick="A7(1)">Small/Big Magic Defense Potion [MDEF +3]', 0), myInnerHtml("EN720", '<input type="checkbox" name="A7_Skill34" onClick="A7(1)">Box of Gloom [Attention Concentrate Lv 1]', 0), myInnerHtml("EN721", '<input type="checkbox" name="A7_Skill36" onClick="A7(1)">Halo-Halo [All Stats +3]', 0), myInnerHtml("EN722", '<select name="A_SpeedPOT" onChange="A7(1)"><option value="0">(No Speed Potion)</option></select>', 0), myInnerHtml("EN723", '<input type="checkbox" name="A7_Skill27" onClick="A7(1)">Military Ration B [HIT +33]', 0), myInnerHtml("EN724", '<input type="checkbox" name="A7_Skill28" onClick="A7(1)">Military Ration C [FLEE +33]', 0), myInnerHtml("EN725", '<input type="checkbox" name="A7_Skill29" onClick="A7(1)">Tasty Pink Ration [ATK +15]', 0), myInnerHtml("EN726", '<input type="checkbox" name="A7_Skill30" onClick="A7(1)">Tasty White Ration [MATK +15]', 0), myInnerHtml("EN727", '<input type="checkbox" name="A7_Skill17" onClick="A7(1)">Rune Strawberry Cake [ATK, MATK +5%]', 0), myInnerHtml("EN728", '<input type="checkbox" name="A7_Skill18" onClick="A7(1)">Schwartzwald Pine Jubilee [HIT +10, FLEE +20]', 0), myInnerHtml("EN729", '<input type="checkbox" name="A7_Skill19" onClick="A7(1)">Arunafeltz Desert Sandwich [CRIT +7]', 0), myInnerHtml("EN730", '<input type="checkbox" name="A7_Skill20" onClick="A7(1)">Manuk\'s Sturdiness [ATK based damage on Manuk maps +10%]', 0), myInnerHtml("EN731", '<input type="checkbox" name="A7_Skill21" onClick="A7(1)">Manuk\'s Faith [MATK based damage on Manuk maps +10%]', 0), myInnerHtml("EN732", '<input type="checkbox" name="A7_Skill22" onClick="A7(1)">Manuk\'s Will [Received damage on Manuk maps -10%]', 0), myInnerHtml("EN733", '<input type="checkbox" name="A7_Skill23" onClick="A7(1)">Pinguicula\'s Fruit Jam [ATK based dmg on Splendide maps +10%]', 0), myInnerHtml("EN734", '<input type="checkbox" name="A7_Skill24" onClick="A7(1)">Cornus\' Tear [MATK based damage on Splendide maps +10%]', 0), myInnerHtml("EN735", '<input type="checkbox" name="A7_Skill25" onClick="A7(1)">Luciola\'s Honey Jam [Received damage on Splendide maps -10%]', 0), myInnerHtml("EN737", '<input type="checkbox" name="A7_Skill37" onClick="A7(1)">Lucky Rice Cake [LUK +21]', 0), myInnerHtml("EN738", '<input type="checkbox" name="A7_Skill38" onClick="A7(1)">Distilled Fighting Spirit [ATK +30]', 0), myInnerHtml("EN746", "<input type=checkbox name=A7_Skill46 onClick=A7(1)>Tyr's Blessing [FLEE +30, HIT +30, ATK +20, MATK +20]", 0), myInnerHtml("EN742", '<select name="A7_Skill42" onChange="A7(1)" style="width:175px;"><option value="0">(None)</option></select>', 0), myInnerHtml("EN743", '<input type="checkbox" name="A7_Skill43" onClick="A7(1)">Luxurious Western Food [All Stats +3]', 0), myInnerHtml("EN744", '<input type="checkbox" name="A7_Skill44" onClick="A7(1)">Ginger Bread [ASPD +% (same as Awakening Potion)]', 0), myInnerHtml("EN745", '<input type="checkbox" name="A7_Skill45" onClick="A7(1)">Regeneration Potion [Items/skills recover +20%]', 0), myInnerHtml("EN739", '<select name="A7_Skill39" onChange="A7(1)"><option value="0">(No HP Increase Potion)</option></select>', 0), myInnerHtml("EN740", '<select name="A7_Skill40" onChange="A7(1)"><option value="0">(No SP Increase Potion)</option></select>', 0), myInnerHtml("EN741", '<input type="checkbox" name="A7_Skill41" onClick="A7(1)">Savage BBQ [STR +20]', 0), myInnerHtml("EN747", '<input type="checkbox" name="A7_Skill47" onClick="A7(1)">Cocktail Warg Blood [AGI +20]', 0), myInnerHtml("EN748", '<input type="checkbox" name="A7_Skill48" onClick="A7(1)">Minor Stew [VIT +20]', 0), myInnerHtml("EN749", '<input type="checkbox" name="A7_Skill49" onClick="A7(1)">Siroma Iced Tea [INT +20]', 0), myInnerHtml("EN750", '<input type="checkbox" name="A7_Skill50" onClick="A7(1)">Drosera Herb Salad [DEX +20] (not saved via URL)', 0), myInnerHtml("EN751", '<input type="checkbox" name="A7_Skill51" onClick="A7(1)">Petite Tail Noodles [LUK +20] (not saved via URL)', 0), myInnerHtml("EN73", '<select name="A7_Skill3" onChange="A7(1)"></select> ', 0), myInnerHtml("EN74", '<select name="A7_Skill4" onChange="A7(1)"></select> ', 0), myInnerHtml("EN75", '<select name="A7_Skill5" onChange="A7(1)"></select> ', 0), myInnerHtml("EN76", '<select name="A7_Skill6" onChange="A7(1)"></select> ', 0), myInnerHtml("EN77", '<select name="A7_Skill7" onChange="A7(1)"></select> ', 0), myInnerHtml("EN78", '<select name="A7_Skill8" onChange="A7(1)"></select> ', 0), A7_Skill3.options[0] = new Option("STR+ food", 0), A7_Skill4.options[0] = new Option("AGI+ food", 0), A7_Skill5.options[0] = new Option("VIT+ food", 0), A7_Skill6.options[0] = new Option("INT+ food", 0), A7_Skill7.options[0] = new Option("DEX+ food", 0), A7_Skill8.options[0] = new Option("LUK+ food", 0), i = 1; 10 >= i; i++) A7_Skill3.options[i] = new Option("+" + i, i), A7_Skill4.options[i] = new Option("+" + i, i), A7_Skill5.options[i] = new Option("+" + i, i), A7_Skill6.options[i] = new Option("+" + i, i), A7_Skill7.options[i] = new Option("+" + i, i), A7_Skill8.options[i] = new Option("+" + i, i);
@@ -1007,7 +1010,7 @@ function A7(_) {
 }
 
 function Buf8SW(v) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_Skill8SW = v, n_Skill8SW) {
             var str;
             for (str = '<table class="tborder">', str += '<TR><TD id="A8TD" class="subheader point" onclick="Buf8SW(0)">Additional Effects <SPAN id="A8used"></SPAN>', str += '<div class="right">(click to hide)</div></TD></TR>', str += '<TR><TD><Font size="2"><B>Pets</B></Font></TD></TR>', str += '<TR><TD id="EN800" class="dotB"></TD></TR>', str += '<TR><TD id="EN809" class="dotB"></TD></TR>', str += '<TR><TD><Font size="2"><B>EXP Items & Variables</B></Font></TD></TR>', str += '<TR><TD id="EN803" class="data"></TD></TR>', str += '<TR><TD id="EN804" class="data"></TD></TR>', str += '<TR><TD id="EN805" class="data"></TD></TR>', str += '<TR><TD id="EN806" class="data"></TD></TR>', str += '<TR><TD id="EN801" class="data"></TD></TR>', str += '<TR><TD id="EN802" class="data"></TD></TR>', str += "</TABLE>", myInnerHtml("ID_ETC", str, 0), myInnerHtml("EN800", '<select name="A8_Skill0" onChange="A8(1)"></select>', 0), i = 0; i < PET_OBJ_SORT.length; i++) {
@@ -1043,7 +1046,7 @@ function A8(_) {
 }
 
 function Buf9SW(v) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_Skill9SW = v, n_Skill9SW) {
             var str;
             for (str = '<table class="tborder manual">', str += '<TR><TD id="A9TD" Colspan="4" class="subheader point" onclick="Buf9SW(0)">Additional Enchants & Manual Edits on Player <SPAN id="A9used"></SPAN>', str += '<div class="right">(click to hide)</div></TD></TR>', str += '<TR><TD colspan="4"><p class="center"><b>-- Anything here will ONLY be saved via Full Save --</b></p></TD></TR>', str += '<TR><TD colspan="4"><Font size="2"><B>Player Stats:</B></Font></TD></TR>', str += '<tr><TD id="EN965"></TD><TD id="EN967"></TD><TD id="EN969"></TD><td></td></tr>', str += '<tr><TD id="EN971"></TD><TD id="EN973"></TD><TD id="EN975"></TD><td></td></tr>', str += '<tr><TD id="EN931"></TD><TD id="EN933"></TD><TD id="EN935"></TD><TD id="EN937"></TD></tr>', str += '<tr><TD id="EN939"></TD><TD id="EN941"></TD><TD id="EN943"></TD><TD id="EN945"></TD></tr>', str += '<tr><TD id="EN951"></TD><TD id="EN953"></TD><TD id="EN947"></TD><TD id="EN949"></TD></tr>', str += '<tr><TD id="EN955"></TD><TD id="EN957"></TD><TD id="EN959"></TD><TD id="EN961"></TD></tr>', str += '<tr class="dotB"><TD id="EN963"></TD><td></td><td></td><td></td></tr>', str += '<TR><TD colspan="4"><Font size="2"><B>+% ATK based Damage:</B></Font></TD></TR>', str += '<tr><TD id="EN900" class="data"></TD><TD id="EN904" class="data"></TD><TD id="EN908" class="data"></TD><TD id="EN911"></TD></tr>', str += '<tr><TD id="EN901" class="data"></TD><TD id="EN905" class="data"></TD><TD id="EN909" class="data"></TD><TD id="EN912"></TD></tr>', str += '<tr><TD id="EN902" class="data"></TD><TD id="EN906" class="data"></TD><TD id="EN910" class="data"></TD><TD id="EN913"></TD></tr>', str += '<tr class="dotB"><TD id="EN903" class="data"></TD><TD id="EN907" class="data"></TD><td class="data"></td><TD id="EN914" class="data"></TD></tr>', str += '<TR><TD id="EN915" colspan="2"></TD><TD id="EN916" colspan="2"></TD></TR>', str += "</table>", myInnerHtml("ID_ARG", str, 0), i = 0; 10 > i; i++) myInnerHtml("EN90" + i, '+<input type="text" onkeyup="A9(1)" name="ARG_RC' + i + '" value="0" size="1" class="center">% vs<select name="A9_Skill' + i + '" onChange="A9(1)"></select>', 0);
@@ -1073,7 +1076,7 @@ function A9(_) {
 }
 
 function Buf10SW(v) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_Skill10SW = v, n_Skill10SW) {
             var str;
             for (str = '<table class="tborderA manual">', str += '<TR><TD id="A10TD" Colspan="4" class="subheader point" onclick="Buf10SW(0)">Manual Edits on Enemy <SPAN id="A10used"></SPAN>', str += '<div class="right">(click to hide)</div></TD></TR>', str += "<TR><TD colspan='4'><Font size='2'><B>Enemy's Stats:</B></Font></TD></TR>", str += '<tr><TD id="EN1065"></TD><TD id="EN1067"></TD><TD id="EN1069"></TD><td></td></tr>', str += '<tr><TD id="EN1071"></TD><TD id="EN1073"></TD><TD id="EN1075"></TD><td></td></tr>', str += '<tr><TD id="EN1031"></TD><TD id="EN1033"></TD><TD id="EN1035"></TD><TD id="EN1037"></TD></tr>', str += '<tr><TD id="EN1039"></TD><TD id="EN1041"></TD><TD id="EN1043"></TD><TD id="EN1045"></TD></tr>', str += '<tr><TD id="EN1051"></TD><TD id="EN1053"></TD><TD id="EN1047"></TD><TD id="EN1049"></TD></tr>', str += '<tr><TD id="EN1055"></TD><TD id="EN1057"></TD><TD id="EN1059"></TD><TD id="EN1061"></TD></tr>', str += '<tr class="dotB"><TD id="EN1063"></TD><td></td><td></td><td></td></tr>', str += "<TR><TD colspan='4'><Font size='2'><B>Enemy's Damage Reductions:</B></Font></TD></TR>", str += '<tr><TD id="EN1001"></TD><TD id="EN1000"></TD><TD id="EN1004"></TD><TD id="EN1011"></TD></tr>', str += '<tr><TD id="EN1002"></TD><TD id="EN1003"></TD><TD id="EN1010"></TD><TD id="EN1012"></TD></tr>', str += '<tr><TD id="EN1008"></TD><TD id="EN1006"></TD><TD id="EN1009"></TD><TD id="EN1013"></TD></tr>', str += '<tr class="dotB"><TD id="EN1005"></TD><TD id="EN1007"></TD><td></td><TD id="EN1014"></TD></tr>', str += '<TR class="dotB"><TD id="EN1015" colspan="2"></TD><TD id="EN1016" colspan="2"></TD></TR>', str += "</table>", myInnerHtml("B_MANUAL", str, 0), myInnerHtml("EN1000", '+<input type="text" onkeyup="A10(1)" name="BRG_RC0" value="0" size="1" class="center">% Racial Resistance', 0), myInnerHtml("EN1001", '+<input type="text" onkeyup="A10(1)" name="BRG_RC1" value="0" size="1" class="center">vs<select name="Bman1" onChange="A10(1)"></select>', 0), myInnerHtml("EN1002", '+<input type="text" onkeyup="A10(1)" name="BRG_RC2" value="0" size="1" class="center">vs<select name="Bman2" onChange="A10(1)"></select>', 0), myInnerHtml("EN1003", '+<input type="text" onkeyup="A10(1)" name="BRG_RC3" value="0" size="1" class="center">% Size Resistance', 0), myInnerHtml("EN1004", '+<input type="text" onkeyup="A10(1)" name="BRG_RC4" value="0" size="1" class="center">% Long-range Resistance', 0), myInnerHtml("EN1010", '+<input type="text" onkeyup="A10(1)" name="BRG_RC10" value="0" size="1" class="center">% Additional Reflect (Equip/Card)', 0), myInnerHtml("EN1011", "", 0), myInnerHtml("EN1012", "", 0), myInnerHtml("EN1013", "", 0), myInnerHtml("EN1014", "", 0), i = 0; 10 >= i; i++) document.calcForm.Bman1.options[i] = new Option(ZokuseiOBJ2[i], i), document.calcForm.Bman2.options[i] = new Option(ZokuseiOBJ2[i], i);
@@ -1099,7 +1102,7 @@ function A10(_) {
 }
 
 function IjyouSW(v) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_IjyouSW = v, n_IjyouSW) {
             var str;
             if (str = '<table class="tborder">', str += '<TR><TD id="AITD" ColSpan="4" class="subheader point" onClick="IjyouSW(0)">Debuffs on Enemy <span id="AIused"></span>', str += '<div class="right">(click to hide)</div></TD></TR>', str += '<TR><TD id="BI0_1" class="center">Provoke (Non Undead)</TD><TD id="BI0_2" class="data"></TD><TD id="BI2_1" class="center">Poison</TD><TD id="BI2_2"></TD></TR>', str += '<TR><TD id="BI4_1" class="center">Frozen (Non Undead)</TD><TD id="BI4_2" class="data"></TD><TD id="BI3_1" class="center">Blind</TD><TD id="BI3_2"></TD></TR>', str += '<TR><TD id="BI5_1" class="center">Blessing (Demon/Undead)</TD><TD id="BI5_2" class="data"></TD><TD id="BI10_1" class="center">Curse</TD><TD id="BI10_2"></TD></TR>', str += '<TR><TD id="BI6_1" class="center">Lex Aeterna</TD><TD id="BI6_2" class="data"></TD><TD id="BI7_1" class="center">Stun</TD><TD id="BI7_2"></TD></TR>', str += '<TR><TD id="BI11_1" class="center">Agility Down</TD><TD id="BI11_2" class="data"></TD><TD id="BI9_1" class="center">Stone</TD><TD id="BI9_2"></TD></TR>', str += '<TR><TD id="BI1_1" class="center">Quagmire</TD><TD id="BI1_2" class="data"></TD><TD id="BI8_1" class="center">Sleep</TD><TD id="BI8_2"></TD></TR>', str += '<TR><TD id="BI12_1" class="center">Signum Crucis</TD><TD id="BI12_2" class="data"></TD><TD id="BI19_1" class="center">Slow Grace</TD><TD id="BI19_2"></TD></TR>', str += '<TR><TD id="BI24_1" class="center">Flying</TD><TD id="BI24_2" class="data"></TD><TD id="BI20_1" class="center">Down Tempo</TD><TD id="BI20_2"></TD></TR>', str += '<TR class="dotB"><TD id="BI18_1" class="center">Mind Breaker</TD><TD id="BI18_2" class="data"></TD><TD id="BI17_1" class="center">Spider Web</TD><TD id="BI17_2"></TD></TR>', 0 == Taijin && (str += '<TR><TD class="center" ColSpan="4"><b>Monster Exclusive Debuffs</b></TD></TR>', str += '<TR><TD id="BI13_1" class="center">Strip Weapon</TD><TD id="BI13_2" class="data"></TD><TD id="BI14_1" class="center">Strip Shield</TD><TD id="BI14_2"></TD></TR>', str += '<TR><TD id="BI15_1" class="center">Strip Armor</TD><TD id="BI15_2" class="data"></TD><TD id="BI16_1" class="center">Strip Helm</TD><TD id="BI16_2"></TD></TR>', str += '<TR><TD id="BI21_1" class="center">Eska</TD><TD id="BI21_2" class="data"></TD><TD id="BI22_1" class="center">Eske</TD><TD id="BI22_2"></TD></TR>', str += '<TR><TD id="BI23_1" class="center" colspan="2">Elemental Change (Sage Skill)</TD><TD id="BI23_2" colspan="2"></TD></TR>'), str += "</TABLE>", myInnerHtml("MONSTER_IJYOU", str, 0), myInnerHtml("BI0_2", '<select name="B_IJYOU0" onChange="AI(1)"></select>', 0), myInnerHtml("BI1_2", '<select name="B_IJYOU1" onChange="AI(1)"></select>', 0), myInnerHtml("BI2_2", '<input type="checkbox" name="B_IJYOU2" onClick="AI(1)">', 0), myInnerHtml("BI3_2", '<input type="checkbox" name="B_IJYOU3" onClick="AI(1)">', 0), myInnerHtml("BI4_2", '<input type="checkbox" name="B_IJYOU4" onClick="AI(1)">', 0), myInnerHtml("BI5_2", '<input type="checkbox" name="B_IJYOU5" onClick="AI(1)">', 0), myInnerHtml("BI6_2", '<input type="checkbox" name="B_IJYOU6" onClick="AI(1)">', 0), myInnerHtml("BI7_2", '<input type="checkbox" name="B_IJYOU7" onClick="AI(1)">', 0), myInnerHtml("BI8_2", '<input type="checkbox" name="B_IJYOU8" onClick="AI(1)">', 0), myInnerHtml("BI9_2", '<input type="checkbox" name="B_IJYOU9" onClick="AI(1)">', 0), myInnerHtml("BI10_2", '<input type="checkbox" name="B_IJYOU10" onClick="AI(1)">', 0), myInnerHtml("BI11_2", '<select name="B_IJYOU11" onChange="AI(1)"></select>', 0), myInnerHtml("BI12_2", '<select name="B_IJYOU12" onChange="AI(1)"></select>', 0), myInnerHtml("BI17_2", '<input type="checkbox" name="B_IJYOU17" onClick="AI(1)">', 0), myInnerHtml("BI18_2", '<select name="B_IJYOU18" onChange="AI(1)"></select>', 0), myInnerHtml("BI19_2", '<input type="checkbox" name="B_IJYOU19" onClick="AI(1)">', 0), myInnerHtml("BI20_2", '<input type="checkbox" name="B_IJYOU20" onClick="AI(1)">', 0), myInnerHtml("BI24_2", '<select name="B_IJYOU24" onChange="AI(1)"></select>', 0), 0 == Taijin) {
@@ -1130,7 +1133,7 @@ function AI(_) {
 }
 
 function EnemyKyoukaSW(v) {
-    with(document.calcForm) {
+    with (document.calcForm) {
         if (n_KyoukaSW = v, n_KyoukaSW) {
             var str;
             for (str = '<table class="tborder">', str += '<TR><TD id="AKTD" colspan="4" class="subheader point" onClick="EnemyKyoukaSW(0)">Buffs on Enemy <span id="AKused"></span>', str += '<div class="right">(click to hide)</div></TD></TR>', str += '<TR><TD class="center">Increase AGI</TD><TD id="ID_Kb0" class="data"></TD><TD class="center">Assumptio</TD><TD id="ID_Kb1"></TD></TR>', str += '<TR><TD class="center">Angelus</TD><TD id="ID_Kb10" class="data"></TD><TD class="center">Maximize Power</TD><TD id="ID_Kb3"></TD></TR>', str += '<TR><TD class="center">Auto Guard</TD><TD id="ID_Kb11" class="data"></TD><TD class="center">Adrenaline Rush</TD><TD id="ID_Kb2"></TD></TR>', str += '<TR><TD class="center">Shield Reflect</TD><TD id="ID_Kb12" class="data"></TD><TD class="center">Defending Aura</TD><TD id="ID_Kb13"></TD></TR>', str += '<TR><TD class="center dotB">Energy Coat</TD><TD id="ID_Kb14" class="data dotB" colspan="3"></TD></TR>', str += '<TR><TD class="center" colspan="4"><b>Monster Exclusive buffs</b></TD></TR>', str += '<TR><TD class="center">Attrib. Change</TD><TD id="ID_Kb6" class="data"></TD><TD class="center">Stone Skin</TD><TD id="ID_Kb7"></TD></TR>', str += '<TR><TD class="center">Keeping</TD><TD id="ID_Kb9" class="data"></TD><TD class="center">Magic Mirror</TD><TD id="ID_Kb8"></TD></TR>', str += '<TR><TD class="center"></TD><TD id="ID_Kb15" class="data"></TD><TD class="center">Agi Up (AGI x3)</TD><TD id="ID_Kb5"></TD></TR>', str += '<TR><TD class="center" colspan="2">POWER UP (ATK x3, HIT x2)</TD><TD id="ID_Kb4" colspan="2"></TD></TR>', str += "</TABLE>", myInnerHtml("MONSTER_KYOUKA", str, 0), myInnerHtml("ID_Kb0", '<select name="B_KYOUKA0" onChange="AK(1)"></select>', 0), myInnerHtml("ID_Kb1", '<input type="checkbox" name="B_KYOUKA1" onClick="AK(1)">', 0), myInnerHtml("ID_Kb2", '<input type="checkbox" name="B_KYOUKA2" onClick="AK(1)">', 0), myInnerHtml("ID_Kb3", '<input type="checkbox" name="B_KYOUKA3" onClick="AK(1)">', 0), myInnerHtml("ID_Kb10", '<select name="B_buff10" onChange="AK(1)"></select>', 0), myInnerHtml("ID_Kb11", '<select name="B_buff11" onChange="AK(1)"></select>', 0), myInnerHtml("ID_Kb12", '<select name="B_buff12" onChange="AK(1)"></select>', 0), myInnerHtml("ID_Kb13", '<select name="B_buff13" onChange="AK(1)"></select>', 0), myInnerHtml("ID_Kb14", '<select name="B_buff14" onChange="AK(1)"></select>', 0), myInnerHtml("ID_Kb4", '<input type="checkbox" name="B_KYOUKA4" onClick="AK(1)">', 0), myInnerHtml("ID_Kb5", '<select name="B_KYOUKA5" onChange="AK(1)"></select>', 0), myInnerHtml("ID_Kb6", '<select name="B_KYOUKA6" onChange="AK(1)"></select>', 0), myInnerHtml("ID_Kb7", '<select name="B_KYOUKA7" onChange="AK(1)"></select>', 0), myInnerHtml("ID_Kb8", '<select name="B_KYOUKA8" onChange="AK(1)"></select>', 0), myInnerHtml("ID_Kb9", '<input type="checkbox" name="B_KYOUKA9" onClick="AK(1)">', 0), i = 0; 10 >= i; i++) B_KYOUKA0.options[i] = new Option(i, i), B_buff10.options[i] = new Option(i, i), B_buff11.options[i] = new Option(i, i), B_buff12.options[i] = new Option(i, i);
@@ -1161,8 +1164,8 @@ function AK(_) {
 }
 
 function ClickB_Enemy() {
-    with(document.calcForm) {
-        for (n_B = new Array, n_B2 = new Array, i = 0; 22 >= i; i++) n_B[i] = MonsterOBJ[B_Enemy.value][i], n_B2[i] = n_B[i];
+    with (document.calcForm) {
+        for (n_B = [], n_B2 = [], i = 0; 22 >= i; i++) n_B[i] = MonsterOBJ[B_Enemy.value][i], n_B2[i] = n_B[i];
         586 == n_B[0] ? Taijin = 1 : Taijin = 0, n_B[6] += n_B_manual[30], n_B[6] += Math.floor(n_B[6] * n_B_manual[31] / 100), n_B[7] += n_B_manual[49], n_B[8] += n_B_manual[48], n_B[9] += n_B_manual[50], n_B[10] += n_B_manual[51], n_B[11] += n_B_manual[52], n_B[12] += n_B_manual[40], n_B[12] += Math.floor(n_B[12] * n_B_manual[53] / 100), n_B[13] += n_B_manual[40], n_B[13] += Math.floor(n_B[13] * n_B_manual[53] / 100), n_B[14] += n_B_manual[34], n_B[15] += n_B_manual[35], 586 == n_B[0] ? (n_B[23] = Math.floor(.5 * n_B[7]) + Math.floor(.3 * n_B[7]), n_B[24] = Math.floor(.5 * n_B[7]) + Math.floor(n_B[7] * n_B[7] / 150) - 1, n_B[23] > n_B[24] && (n_B[24] = n_B[23])) : (n_B2[23] = n_B[7], n_B2[24] = n_B[7] + (Math.floor(n_B[7] / 20) * Math.floor(n_B[7] / 20) - 1), n_B2[23] > n_B2[24] && (n_B2[24] = n_B2[23])), myInnerHtml("B_6", n_B[6], 0), myInnerHtml("B_16", n_B[16], 0), myInnerHtml("B_12", n_B[12], 0), myInnerHtml("B_13", n_B[13], 0), myInnerHtml("B_17", n_B[17], 0), myInnerHtml("B_14", n_B[14], 0), myInnerHtml("B_23", n_B[23], 0), myInnerHtml("B_15", n_B[15], 0), myInnerHtml("B_vit", n_B[7], 0), myInnerHtml("B_agi", n_B[8], 0), myInnerHtml("B_int", n_B[9], 0), myInnerHtml("B_dex", n_B[10], 0), myInnerHtml("B_luk", n_B[11], 0), Taijin ? (n_B[23] = Math.floor(.5 * n_B[7]) + Math.floor(.3 * n_B[7]), n_B[24] = Math.floor(.5 * n_B[7]) + Math.floor(n_B[7] * n_B[7] / 150) - 1, n_B[23] > n_B[24] && (n_B[24] = n_B[23])) : (n_B2[23] = n_B[7], n_B2[24] = n_B[7] + (Math.floor(n_B[7] / 20) * Math.floor(n_B[7] / 20) - 1), n_B2[23] > n_B2[24] && (n_B2[24] = n_B2[23])), n_B2[25] = Math.floor(n_B[7] / 2) + n_B[9], n_B2[26] = n_B[5] + n_B[10], n_B2[27] = n_B[5] + n_B[8], n_IjyouSW && (n_B_IJYOU[0] = eval(B_IJYOU0.value), n_B_IJYOU[1] = eval(B_IJYOU1.value), n_B_IJYOU[2] = B_IJYOU2.checked, n_B_IJYOU[3] = B_IJYOU3.checked, n_B_IJYOU[4] = B_IJYOU4.checked, n_B_IJYOU[5] = B_IJYOU5.checked, n_B_IJYOU[6] = B_IJYOU6.checked, n_B_IJYOU[7] = B_IJYOU7.checked, n_B_IJYOU[8] = B_IJYOU8.checked, n_B_IJYOU[9] = B_IJYOU9.checked, n_B_IJYOU[10] = B_IJYOU10.checked, n_B_IJYOU[11] = eval(B_IJYOU11.value), n_B_IJYOU[12] = eval(B_IJYOU12.value), n_B_IJYOU[17] = B_IJYOU17.checked, n_B_IJYOU[18] = eval(B_IJYOU18.value), n_B_IJYOU[19] = B_IJYOU19.checked, n_B_IJYOU[20] = B_IJYOU20.checked, n_B_IJYOU[24] = eval(B_IJYOU24.value), 0 == Taijin && (n_B_IJYOU[13] = B_IJYOU13.checked, n_B_IJYOU[14] = B_IJYOU14.checked, n_B_IJYOU[15] = B_IJYOU15.checked, n_B_IJYOU[16] = B_IJYOU16.checked, n_B_IJYOU[21] = B_IJYOU21.checked, n_B_IJYOU[22] = B_IJYOU22.checked, n_B_IJYOU[23] = eval(B_IJYOU23.value))), n_KyoukaSW && (n_B_KYOUKA[0] = eval(B_KYOUKA0.value), n_B_KYOUKA[1] = B_KYOUKA1.checked, n_B_KYOUKA[2] = B_KYOUKA2.checked, n_B_KYOUKA[3] = B_KYOUKA3.checked, n_B_KYOUKA[4] = B_KYOUKA4.checked, n_B_KYOUKA[5] = eval(B_KYOUKA5.value), n_B_KYOUKA[6] = eval(B_KYOUKA6.value), n_B_KYOUKA[7] = eval(B_KYOUKA7.value), n_B_KYOUKA[8] = eval(B_KYOUKA8.value), n_B_KYOUKA[9] = B_KYOUKA9.checked, n_B_KYOUKA[10] = eval(B_buff10.value), n_B_KYOUKA[11] = eval(B_buff11.value), n_B_KYOUKA[12] = eval(B_buff12.value), n_B_KYOUKA[13] = eval(B_buff13.value), n_B_KYOUKA[14] = eval(B_buff14.value)), n_B_KYOUKA[6] && (n_B[3] = n_B_KYOUKA[6]), n_B_IJYOU[23] && (n_B[3] = 10 * n_B_IJYOU[23] + n_B[3] % 10), 0 == n_B[19] && n_B[3] < 90 && n_B_IJYOU[4] && (n_B[3] = 11), 0 == n_B[19] && n_B[3] < 90 && n_B_IJYOU[9] && (n_B[3] = 21), n_B_KYOUKA[3] && (n_B[12] = n_B[13]), 0 == n_B[19] && n_B_IJYOU[10] && (n_B[12] -= Math.floor(25 * n_B[12] / 100), n_B[13] -= Math.floor(25 * n_B[13] / 100));
         var wATK = 0;
         if (0 == n_B[19] && 0 != n_B_IJYOU[0] && n_B[3] < 90 && (wATK += 2 + 3 * n_B_IJYOU[0]), 0 == Taijin && n_B_IJYOU[22] && (wATK += 300), n_B_KYOUKA[4] && (wATK += 200), n_B[12] += Math.floor(n_B[12] * wATK / 100), n_B[13] += Math.floor(n_B[13] * wATK / 100), n_B_IJYOU[13] && 0 == Taijin && (n_B[12] -= Math.floor(25 * n_B[12] / 100), n_B[13] -= Math.floor(25 * n_B[13] / 100)), n_B_KYOUKA[0] && (n_B[8] += 2 + n_B_KYOUKA[0]), n_B_IJYOU[1]) {
@@ -1249,9 +1252,9 @@ function BattleCalc2(w999) {
 function BaiCI(_) {
     if (0 == wBCEDPch && 0 == not_use_card) {
         var n = 0;
-        n = n_tok[30 + n_B[2]], _ = Math.floor(_ * (100 + n) / 100), n = n_tok[40 + Math.floor(n_B[3] / 10)], _ = Math.floor(_ * (100 + n) / 100), n = n_tok[27 + n_B[4]], _ = Math.floor(_ * (100 + n) / 100), 1 == n_Enekyori && -1 != TyouEnkakuSousa3dan && (n = n_tok[25], _ = Math.floor(_ * (100 + n) / 100)), n = 0, 1 == n_B[19] && (n += n_tok[26]), n += n_tok[80], _ = Math.floor(_ * (100 + n) / 100), 1 == wCriTyuu && 401 != n_A_ActiveSkill && (_ = Math.floor(_ * (100 + n_tok[70]) / 100)), (108 <= n_B[0] && n_B[0] <= 115 || 319 == n_B[0]) && (_ = Math.floor(_ * (100 + n_tok[81]) / 100)), 116 <= n_B[0] && n_B[0] <= 120 && (_ = Math.floor(_ * (100 + n_tok[82]) / 100)), (49 <= n_B[0] && n_B[0] <= 52 || 55 == n_B[0] || 221 == n_B[0]) && (_ = Math.floor(_ * (100 + n_tok[83]) / 100)), (106 == n_B[0] || 152 == n_B[0] || 308 == n_B[0] || 32 == n_B[0] || 541 == n_B[0]) && (_ = Math.floor(_ * (100 + n_tok[84]) / 100)), _ = Math.floor(_ * (100 + StPlusCalc2(1e3 + n_B[0]) + StPlusCard(1e3 + n_B[0])) / 100), SkillSearch(258) && (_ = 2 * _), SkillSearch(266) && (_ = Math.floor(_ * (150 + 50 * SkillSearch(266)) / 100)), 86 == n_A_ActiveSkill && 50 <= n_B[3] && n_B[3] < 60 && (_ = Math.floor(_ * (100 + 30 * n_A_ActiveSkillLV) / 100)), 11 == n_A_WeaponType && SkillSearch(262) && (_ = Math.floor(_ * (110 + 2 * SkillSearch(262)) / 100)), n = 0, 0==Taijin?SkillSearch(354)&&SkillSearch(365)?n+=(n_A_BaseLV+n_A_STR+n_A_LUK+n_A_DEX)/(12-3*SkillSearch(354)):SkillSearch(354)&&2==n_B[4]&&17392<=n_B[6]?n+=(n_A_BaseLV+n_A_STR+n_A_LUK+n_A_DEX)/(12-3*SkillSearch(354)):SkillSearch(352)&&0==n_B[4]?n+=(n_A_BaseLV+n_A_LUK+n_A_DEX)/(12-3*SkillSearch(352)):SkillSearch(353)&&1==n_B[4]&&5218<=n_B[6]&&(n+=(n_A_BaseLV+n_A_LUK+n_A_DEX)/(12-3*SkillSearch(353))):SkillSearch(354)?n+=(n_A_BaseLV+n_A_STR+n_A_LUK+n_A_DEX)/(12-3*SkillSearch(354)):SkillSearch(352)?n+=(n_A_BaseLV+n_A_LUK+n_A_DEX)/(12-3*SkillSearch(352)):SkillSearch(353)&&(n+=(n_A_BaseLV+n_A_LUK+n_A_DEX)/(12-3*SkillSearch(353))),_=Math.floor(_*(100+n)/100);
+        n = n_tok[30 + n_B[2]], _ = Math.floor(_ * (100 + n) / 100), n = n_tok[40 + Math.floor(n_B[3] / 10)], _ = Math.floor(_ * (100 + n) / 100), n = n_tok[27 + n_B[4]], _ = Math.floor(_ * (100 + n) / 100), 1 == n_Enekyori && -1 != TyouEnkakuSousa3dan && (n = n_tok[25], _ = Math.floor(_ * (100 + n) / 100)), n = 0, 1 == n_B[19] && (n += n_tok[26]), n += n_tok[80], _ = Math.floor(_ * (100 + n) / 100), 1 == wCriTyuu && 401 != n_A_ActiveSkill && (_ = Math.floor(_ * (100 + n_tok[70]) / 100)), (108 <= n_B[0] && n_B[0] <= 115 || 319 == n_B[0]) && (_ = Math.floor(_ * (100 + n_tok[81]) / 100)), 116 <= n_B[0] && n_B[0] <= 120 && (_ = Math.floor(_ * (100 + n_tok[82]) / 100)), (49 <= n_B[0] && n_B[0] <= 52 || 55 == n_B[0] || 221 == n_B[0]) && (_ = Math.floor(_ * (100 + n_tok[83]) / 100)), (106 == n_B[0] || 152 == n_B[0] || 308 == n_B[0] || 32 == n_B[0] || 541 == n_B[0]) && (_ = Math.floor(_ * (100 + n_tok[84]) / 100)), _ = Math.floor(_ * (100 + StPlusCalc2(1e3 + n_B[0]) + StPlusCard(1e3 + n_B[0])) / 100), SkillSearch(258) && (_ = 2 * _), SkillSearch(266) && (_ = Math.floor(_ * (150 + 50 * SkillSearch(266)) / 100)), 86 == n_A_ActiveSkill && 50 <= n_B[3] && n_B[3] < 60 && (_ = Math.floor(_ * (100 + 30 * n_A_ActiveSkillLV) / 100)), 11 == n_A_WeaponType && SkillSearch(262) && (_ = Math.floor(_ * (110 + 2 * SkillSearch(262)) / 100)), n = 0, 0 == Taijin ? SkillSearch(354) && SkillSearch(365) ? n += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - 3 * SkillSearch(354)) : SkillSearch(354) && 2 == n_B[4] && 17392 <= n_B[6] ? n += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - 3 * SkillSearch(354)) : SkillSearch(352) && 0 == n_B[4] ? n += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - 3 * SkillSearch(352)) : SkillSearch(353) && 1 == n_B[4] && 5218 <= n_B[6] && (n += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - 3 * SkillSearch(353))) : SkillSearch(354) ? n += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - 3 * SkillSearch(354)) : SkillSearch(352) ? n += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - 3 * SkillSearch(352)) : SkillSearch(353) && (n += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - 3 * SkillSearch(353))), _ = Math.floor(_ * (100 + n) / 100);
     }
-    return _ = Math.floor(tPlusDamCut(_)), n = 0, 6 == n_A_ActiveSkill && n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch(362) && (n += 10), 76 == n_A_ActiveSkill && (2 == n_A_WeaponType || 3 == n_A_WeaponType) && (n += 25 * CardNumSearch(464)), 41 == n_A_ActiveSkill && 10 == n_A_WeaponType && (n += 50 * CardNumSearch(465)), 40 == n_A_ActiveSkill && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1089) && (n += 20), 428 == n_A_ActiveSkill && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1099) && (n += 2 * n_A_Weapon_ATKplus), 430 == n_A_ActiveSkill && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1100) && (n += 3 * n_A_Weapon_ATKplus), 436 == n_A_ActiveSkill && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1102) && (n += 2 * n_A_Weapon_ATKplus), 437 == n_A_ActiveSkill && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1103) && (n += 2 * n_A_Weapon_ATKplus), (6 == n_A_ActiveSkill || 76 == n_A_ActiveSkill) && 10 == n_A_ActiveSkillLV && EquipNumSearch(1159) && (n += 50), 65 == n_A_ActiveSkill && SU_LUK >= 90 && SU_DEX >= 90 && EquipNumSearch(1164) && (n += 15), 264 == n_A_ActiveSkill && EquipNumSearch(1176) && 10 == SkillSearch(81) && (n += 20), -1 == TyouEnkakuSousa3dan && EquipNumSearch(639) && (n += 15), 83 != n_A_ActiveSkill && 388 != n_A_ActiveSkill || !SkillSearch(381) || 0 != wBCEDPch || (n += 10), 384!=n_A_ActiveSkill&&159!=n_A_ActiveSkill&&(_=_*(100+StPlusCalc2(5e3+n_A_ActiveSkill)+StPlusCard(5e3+n_A_ActiveSkill)+n)/100), n_A_Buf7[20] && MANUKU_MONSTER() && (_ = 110 * _ / 100), n_A_Buf7[23] && SUPURE_MONSTER() && (_ = 110 * _ / 100), _
+    return _ = Math.floor(tPlusDamCut(_)), n = 0, 6 == n_A_ActiveSkill && n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch(362) && (n += 10), 76 == n_A_ActiveSkill && (2 == n_A_WeaponType || 3 == n_A_WeaponType) && (n += 25 * CardNumSearch(464)), 41 == n_A_ActiveSkill && 10 == n_A_WeaponType && (n += 50 * CardNumSearch(465)), 40 == n_A_ActiveSkill && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1089) && (n += 20), 428 == n_A_ActiveSkill && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1099) && (n += 2 * n_A_Weapon_ATKplus), 430 == n_A_ActiveSkill && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1100) && (n += 3 * n_A_Weapon_ATKplus), 436 == n_A_ActiveSkill && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1102) && (n += 2 * n_A_Weapon_ATKplus), 437 == n_A_ActiveSkill && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1103) && (n += 2 * n_A_Weapon_ATKplus), (6 == n_A_ActiveSkill || 76 == n_A_ActiveSkill) && 10 == n_A_ActiveSkillLV && EquipNumSearch(1159) && (n += 50), 65 == n_A_ActiveSkill && SU_LUK >= 90 && SU_DEX >= 90 && EquipNumSearch(1164) && (n += 15), 264 == n_A_ActiveSkill && EquipNumSearch(1176) && 10 == SkillSearch(81) && (n += 20), -1 == TyouEnkakuSousa3dan && EquipNumSearch(639) && (n += 15), 83 != n_A_ActiveSkill && 388 != n_A_ActiveSkill || !SkillSearch(381) || 0 != wBCEDPch || (n += 10), 384 != n_A_ActiveSkill && 159 != n_A_ActiveSkill && (_ = _ * (100 + StPlusCalc2(5e3 + n_A_ActiveSkill) + StPlusCard(5e3 + n_A_ActiveSkill) + n) / 100), n_A_Buf7[20] && MANUKU_MONSTER() && (_ = 110 * _ / 100), n_A_Buf7[23] && SUPURE_MONSTER() && (_ = 110 * _ / 100), _
 }
 
 function BattleCalc3(_) {
@@ -1287,7 +1290,8 @@ function EDPplus(_) {
     (SkillSearch(266) || n_A_Buf6[7]) && (w_DMG[2] += EDP_DMG(2) * _, w_DMG[1] += EDP_DMG(1) * _, 100 == w_HIT_EDP && (w_DMG[0] += EDP_DMG(0) * _), EDPhyouzi(_))
 }
 
-function EDPhyouzi(_) {}
+function EDPhyouzi(_) {
+}
 
 function EDP_DMG(_) {
     if (SkillSearch(266) || n_A_Buf6[7]) {
@@ -1319,7 +1323,7 @@ function tPlusDamCut(wPDC) {
 
 function tPlusEnemyClick() {
     if (Taijin) {
-        for (n_B = new Array, i = 0; 26 >= i; i++) n_B[i] = MonsterOBJ2[document.calcForm.B_Enemy.value][i];
+        for (n_B = [], i = 0; 26 >= i; i++) n_B[i] = MonsterOBJ2[document.calcForm.B_Enemy.value][i];
         document.calcForm.B_LV.value = n_B[5], document.calcForm.B_AGI.value = n_B[8], document.calcForm.B_VIT.value = n_B[7], document.calcForm.B_INT.value = n_B[9], document.calcForm.B_LUK.value = n_B[11], document.calcForm.B_DEF.value = n_B[14], document.calcForm.B_MDEF.value = n_B[15]
     }
 }
@@ -1336,7 +1340,7 @@ function tPlusTaiseiSyokia() {
         for (i = 0; 10 >= i; i++) document.calcForm.B_TAISEI10.options[i] = new Option(i, i);
         for (i = 0; 5 >= i; i++) document.calcForm.B_TAISEI13.options[i] = new Option(EnergyCoatOBJ[i], i);
         for (i = 0; 10 >= i; i++) document.calcForm.B_TAISEI14.options[i] = new Option(i, i);
-        for (n_B = new Array, i = 0; 26 >= i; i++) n_B[i] = MonsterOBJ2[document.calcForm.B_Enemy.value][i];
+        for (n_B = [], i = 0; 26 >= i; i++) n_B[i] = MonsterOBJ2[document.calcForm.B_Enemy.value][i];
         i = eval(document.calcForm.B_Enemy.value), document.calcForm.B_LV.value = MonsterOBJ2[i][5], document.calcForm.B_VIT.value = MonsterOBJ2[i][7], document.calcForm.B_AGI.value = MonsterOBJ2[i][8], document.calcForm.B_INT.value = MonsterOBJ2[i][9], document.calcForm.B_LUK.value = MonsterOBJ2[i][11], document.calcForm.B_DEF.value = MonsterOBJ2[i][14], document.calcForm.B_MDEF.value = MonsterOBJ2[i][15]
     }
 }
@@ -1348,16 +1352,17 @@ function tPlusLucky(_) {
 function tPlusAG() {
     2 != n_Enekyori && n_B_KYOUKA[11] > 0 && (wPAG = w_AG[n_B_KYOUKA[11]], w_DMG[0] *= wPAG / 100, w_DMG[1] *= wPAG / 100, w_DMG[2] *= wPAG / 100)
 }
+
 n_A_WeaponLV = 0, n_A_Weapon2LV = 0, n_Nitou = 0, n_Tensei = 0, n_Ses = 0, n_Enekyori = 0, w_AG = [100, 95, 90, 86, 82, 79, 76, 74, 72, 71, 70], n_FeatSW = 0, n_LogSW = 0, n_itemSW = 0, n_SkillSW = 0, n_Skill3SW = 0, n_Skill4SW = 0, n_Skill5SW = 0, n_Skill6SW = 0, n_Skill7SW = 0, n_Skill8SW = 0, n_Skill9SW = 0, n_Skill10SW = 0, n_IjyouSW = 0, n_KyoukaSW = 0, wBCEDPch = 0, wLAch = 0, wCriTyuu = 0, wBTw1 = 0, n_TAKA_DMG = 0, TyouEnkakuSousa3dan = 0, not_use_card = 0;
 var n_B_AtkSkill = 0,
     n_B_rangedAtk = 0,
     n_B_rangedMAtk = 0,
     BskillHitNum = 1,
     n_B_ignoreFlee = 0;
-str_bSUBname = "", str_bSUB = "", SuperNoviceFullWeaponCHECK = 0, cast_kotei = 0, b = 0, n_PerHIT_DMG = 0, n_Delay = [0, 0, 0, 0, 0, 0, 0], wDelay = 0, n_tok = new Array;
+str_bSUBname = "", str_bSUB = "", SuperNoviceFullWeaponCHECK = 0, cast_kotei = 0, b = 0, n_PerHIT_DMG = 0, n_Delay = [0, 0, 0, 0, 0, 0, 0], wDelay = 0, n_tok = [];
 for (var i = 0; 450 >= i; i++) n_tok[i] = 0;
 var first_check = 0;
-n_B = new Array, Last_DMG_A = [0, 0, 0], Last_DMG_B = [0, 0, 0], InnStr = new Array, SG_Special_HITnum = 0, SG_Special_DMG = [0, 0, 0], Item_or_Card = "Item", ItemCardNumberCheck = 142;
+n_B = [], Last_DMG_A = [0, 0, 0], Last_DMG_B = [0, 0, 0], InnStr = [], SG_Special_HITnum = 0, SG_Special_DMG = [0, 0, 0], Item_or_Card = "Item", ItemCardNumberCheck = 142;
 var SRV = 10,
     equip_restrict = 1,
     card_restrict = 0;
@@ -1465,7 +1470,7 @@ WeaponName = ["(Unarmed)", "Dagger", "Sword", "Two-handed Sword", "Spear", "Two-
     [800, 1e3, 200, 500, 1500, 800, 500, 800, 500, 1500, 200, 200, 200, 800, 800, 800, 800, 800, 800, 800, 50, 500, 2e3, 500, 50, 500, 200, 200, 1500, 500, 500, 200, 200, 500, 200, 500, 1e3, 500, 2e3, 1e3, 1e3, 2e3, 1500, 1500, 500, 1e3, 500, 1500, 1e3, 200, 200, 1e3, 800, 500, 2e3, 300],
     [13, 189, 229, 275, 184, 194, 193, 186, 205, 214, 329, 198, 466, 108, 109, 110, 111, 112, 113, 114, 115, 106, 398, 232, 23, 20, 345, 326, 311, 334, 283, 306, 299, 302, 216, 50, 262, 250, 238, 267, 271, 272, 320, 128, 73, 161, 167, 160, 153, 260, 123, 307, 129, 26, 399, 142]
 ], bBGC = ["#CDF", "#CCC", "#FDC", "#313", "#000", "#CDF"], hBGC1 = ["#355", "#57D", "#B44", "#622", "#444", "#0FB91E"], hBGC2 = ["#477", "#24A", "#A33", "#411", "#222", "#326B2D"], selBGC = ["#FC8", "#FC8", "#FC8", "#FC8", "#AAA", "#FC8"], ssBGC = ["#FFF", "#FFF", "#FFF", "#FC8", "#AAA", "#FFF"], sBGC = ["#466", "#36B", "#A33", "#626", "#000", "#466"], saBGC = ["#A52", "#811", "#3A3", "#A11", "#A11", "#A52"], mBGC = ["#FFF", "#FFF", "#FFF", "#C8F", "#444", "#FFF"], tBGC = ["#FFF", "#FFF", "#FFF", "#C8F", "#555", "#FFF"];
-var sheet = function() {
+var sheet = function () {
     var _ = document.createElement("style");
     return _.appendChild(document.createTextNode("")), document.head.appendChild(_),
         _.sheet

@@ -660,26 +660,30 @@ function refreshBattleResults(battleResults) {
     myInnerHtml("MaxWeaponAttackCalc", battleResults.maxWeaponAttackCalc, 0);
     myInnerHtml("BattleHIT", battleResults.battleHit, 0);
     myInnerHtml("BattleFLEE", battleResults.battleFlee, 0);
-    myInnerHtml("CRIATKname", battleResults.critAtkName, 0);
+    myInnerHtml("CRIATKname", battleResults.display.critAtkName, 0);
     myInnerHtml("CRIATK", battleResults.critAtk[0], 0);
-    myInnerHtml("CRInumname", battleResults.critChanceName, 0);
-    myInnerHtml("CRInum", battleResults.critChance, 0);
-    myInnerHtml("bSUBname", battleResults.bonusSubName, 0);
-    myInnerHtml("bSUB", battleResults.bonusSub, 0);
-    myInnerHtml("bSUB2name", battleResults.bonusSub2Name, 0);
-    myInnerHtml("bSUB2", battleResults.bonusSub2, 0);
-    myInnerHtml("ATK_00", battleResults.atk00, 0);
-    myInnerHtml("ATK_01", battleResults.atk01, 0);
-    myInnerHtml("ATK_02", battleResults.atk02, 0);
+    myInnerHtml("CRInumname", battleResults.display.critChanceName, 0);
+    myInnerHtml("CRInum", battleResults.critChance + "%", 0);
+    myInnerHtml("bSUBname", battleResults.display.bonusSubName, 0);
+    myInnerHtml("bSUB", battleResults.display.bonusSub, 0);
+    myInnerHtml("bSUB2name", battleResults.display.bonusSub2Name, 0);
+    myInnerHtml("bSUB2", battleResults.display.bonusSub2, 0);
+    myInnerHtml("delay", battleResults.afterCastDelay, 0);
+    myInnerHtml("casttime", battleResults.cast, 0);
+    myInnerHtml("ATK_00", battleResults.minAtk + battleResults.display.atk00, 0);
+    myInnerHtml("ATK_01", battleResults.avgAtk + battleResults.display.atk01, 0);
+    myInnerHtml("ATK_02", battleResults.maxAtk + battleResults.display.atk02, 0);
     myInnerHtml("DPS", battleResults.dps, 0);
-    myInnerHtml("MinATKnum", battleResults.minAtkNum, 0);
-    myInnerHtml("AveATKnum", battleResults.avgAtkNum, 0);
-    myInnerHtml("MaxATKnum", battleResults.maxAtkNum, 0);
-    myInnerHtml("BattleTime", battleResults.battleTime, 0);
+    myInnerHtml("MinATKnum", battleResults.display.minAtkNum, 0);
+    myInnerHtml("AveATKnum", battleResults.display.avgAtkNum, 0);
+    myInnerHtml("MaxATKnum", battleResults.display.maxAtkNum, 0);
+    myInnerHtml("BattleTime", battleResults.display.battleTime, 0);
     // myInnerHtml("AtkBaseExp", playerStats.str, 0);
     // myInnerHtml("AtkJobExp", playerStats.str, 0);
-    myInnerHtml("AverageReceivedDamage", battleResults.averageReceivedDamage, 0);
-    // myInnerHtml("AverageReceivedDamageIncludingDodge", battleResults.str, 0);
+    myInnerHtml("AverageReceivedDamage", battleResults.avgDamageReceived, 0);
+    myInnerHtml("MinimumReceivedDamage", battleResults.minDamageReceived, 0);
+    myInnerHtml("MaximumReceivedDamage", battleResults.maxDamageReceived, 0);
+    myInnerHtml("AverageReceivedDamageIncludingDodge", battleResults.averageReceivedDamage, 0);
 }
 
 function refreshTestCases() {
