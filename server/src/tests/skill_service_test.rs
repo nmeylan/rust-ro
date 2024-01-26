@@ -53,7 +53,7 @@ mod tests {
     use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
     use crate::tests::common;
-    use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item_from_name};
+    use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item_from_id, equip_item_from_name};
     use crate::tests::common::mob_helper::create_mob;
     use crate::tests::skill_service_test::before_each;
 
@@ -329,28 +329,28 @@ mod tests {
         for scenarii in scenario.iter() {
             i += 1;
             // if i != 2 { continue; }
-            let mut average = Vec::with_capacity(1001);
+            let mut average: Vec<u32> = Vec::with_capacity(1001);
             let mut min = u32::MAX;
             let mut max = u32::MIN;
             let mut character_status = Status::default();
             let job = JobName::from_string(scenarii.job().as_str());
             character_status.job = job.value() as u32;
-            character_status.str = scenarii.str();
-            character_status.agi = scenarii.agi();
-            character_status.vit = scenarii.vit();
-            character_status.dex = scenarii.dex();
-            character_status.int = scenarii.int();
-            character_status.luk = scenarii.luk();
+            character_status.str = scenarii.base_str();
+            character_status.agi = scenarii.base_agi();
+            character_status.vit = scenarii.base_vit();
+            character_status.dex = scenarii.base_dex();
+            character_status.int = scenarii.base_int();
+            character_status.luk = scenarii.base_luk();
             character_status.base_level = scenarii.base_level();
             character_status.job_level = scenarii.job_level();
             character_status.hp = 10000;
             character_status.sp = 10000;
             character.status = character_status;
-            equip_item_from_name(&mut character, scenarii.weapon().as_ref().unwrap().as_str());
+            equip_item_from_id(&mut character, scenarii.equipments().weapon().as_ref().unwrap().item_id());
             if let Some(ammo) = scenarii.ammo() {
                 equip_item_from_name(&mut character, ammo.as_str());
             }
-            let target = create_mob(1, scenarii.target());
+            let target = create_mob(1, scenarii.target().to_uppercase().as_str());
             let skill = skills::skill_enums::to_object(SkillEnum::from_id(scenarii.skill_to_use().skid()), scenarii.skill_to_use().level()).unwrap();
             for _ in 0..1000 {
                 let damage = context.skill_service.calculate_damage(status_snapshot!(context, character), &target.status, skill.as_offensive_skill().unwrap());
@@ -359,9 +359,9 @@ mod tests {
                 max = max.max(damage);
             }
             let _average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
-            // Then
-            assert!(scenarii.expected().min_dmg() - 1 <= min && min <= scenarii.expected().min_dmg() + 1, "Expected min damage to be {} but was {} with skill {} and stats {:?}", scenarii.expected().min_dmg(), min, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
-            assert!(scenarii.expected().max_dmg() - 1 <= max && max <= scenarii.expected().max_dmg() + 1, "Expected max damage to be {} but was {} with skill {} and stats {:?}", scenarii.expected().max_dmg(), max, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
+
+            assert!(scenarii.min_dmg() - 1 <= min && min <= scenarii.min_dmg() + 1, "Expected min damage to be {} but was {} with skill {} and stats {:?}", scenarii.min_dmg(), min, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
+            assert!(scenarii.max_dmg() - 1 <= max && max <= scenarii.max_dmg() + 1, "Expected max damage to be {} but was {} with skill {} and stats {:?}", scenarii.max_dmg(), max, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
 
         }
     }
