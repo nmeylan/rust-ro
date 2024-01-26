@@ -11,11 +11,11 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "console";
+const command = "convert";
 let formData, testCase, testCases;
 switch (command) {
     case "convert":
-        let file = "data.json";
+        let file = "data-with-stuff.json";
         testCases = JSON.parse(fs.readFileSync(path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/" + file)));
         let updatedTestCases = [];
         testCases.forEach(tc => {

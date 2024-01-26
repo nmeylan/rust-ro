@@ -1,87 +1,113 @@
 use std::{env, fs};
+use std::fmt::Formatter;
 use std::path::Path;
-use serde::{Deserialize};
+use serde::{Deserialize, Deserializer};
+use serde::de::{MapAccess, SeqAccess, Visitor};
+use crate::tests::common;
 
 #[derive(Deserialize, GettersAll, Debug)]
 pub struct BattleFixture {
     job: String,
+    #[serde(rename = "baseLevel")]
     base_level: u32,
+    #[serde(rename = "jobLevel")]
     job_level: u32,
-    str: u16,
-    agi: u16,
-    vit: u16,
-    dex: u16,
-    int: u16,
-    luk: u16,
-    #[serde(default)]
+    #[serde(rename = "baseStr")]
+    base_str: u16,
+    #[serde(rename = "baseAgi")]
+    base_agi: u16,
+    #[serde(rename = "baseVit")]
+    base_vit: u16,
+    #[serde(rename = "baseDex")]
+    base_dex: u16,
+    #[serde(rename = "baseInt")]
+    base_int: u16,
+    #[serde(rename = "baseLuk")]
+    base_luk: u16,
+    #[serde(rename = "equipments", deserialize_with = "deserialize_equipments")]
+    equipments: Equipments,
+    #[serde(default, rename = "speedPotion")]
     speed_potion: Option<u32>,
-    #[serde(default)]
-    weapon: Option<String>,
-    #[serde(default)]
-    weapon_refinement: u32,
-    #[serde(default)]
-    weapon_card1: Option<String>,
-    #[serde(default)]
-    weapon_card2: Option<String>,
-    #[serde(default)]
-    weapon_card3: Option<String>,
-    #[serde(default)]
-    weapon_card4: Option<String>,
-    #[serde(default)]
-    headgear_upper:Option<String>,
-    #[serde(default)]
-    headgear_upper_card: Option<String>,
-    #[serde(default)]
-    headgear_middle: Option<String>,
-    #[serde(default)]
-    headgear_middle_card: Option<String>,
-    #[serde(default)]
-    headgear_lower: Option<String>,
-    #[serde(default)]
-    shield: Option<String>,
-    #[serde(default)]
-    shield_card: Option<String>,
-    #[serde(default)]
-    body: Option<String>,
-    #[serde(default)]
-    body_card: Option<String>,
-    #[serde(default)]
-    shoulder: Option<String>,
-    #[serde(default)]
-    shoulder_card: Option<String>,
-    #[serde(default)]
-    shoes: Option<String>,
-    #[serde(default)]
-    shoes_card: Option<String>,
-    #[serde(default)]
-    accessory_left: Option<String>,
-    #[serde(default)]
-    accessory_left_card: Option<String>,
-    #[serde(default)]
-    accessory_right: Option<String>,
-    #[serde(default)]
-    accessory_right_card: Option<String>,
-    #[serde(default)]
-    passive_skills: Vec<SkillLevel>,
-    #[serde(default)]
-    weapon_element: Option<u32>,
-    #[serde(default)]
-    supportive_skills: Vec<SupportiveSkill>,
-    #[serde(default)]
-    headgear_upper_refinement: Option<u32>,
-    #[serde(default)]
-    body_refinement: Option<u32>,
-    #[serde(default)]
-    shield_refinement: Option<u32>,
-    #[serde(default)]
-    shoulder_refinement: Option<u32>,
-    #[serde(default)]
-    shoes_refinement: Option<u32>,
-    #[serde(default)]
-    ammo: Option<String>,
+    #[serde(rename = "skillToUse")]
     skill_to_use: SkillLevel,
-    expected: Expected,
-    target: String
+    #[serde(default, rename = "supportiveSkills")]
+    supportive_skills: Vec<SkillLevel>,
+    #[serde(rename = "arrow")]
+    ammo: Option<String>,
+    #[serde(rename = "targetName")]
+    target: String,
+    // Expectation
+    #[serde(rename = "maxHp")]
+    max_hp: u16,
+    #[serde(rename = "maxSp")]
+    max_sp: u16,
+    #[serde(rename = "bonusAgi")]
+    bonus_agi: u16,
+    #[serde(rename = "bonusVit")]
+    bonus_vit: u16,
+    #[serde(rename = "bonusDex")]
+    bonus_dex: u16,
+    #[serde(rename = "bonusInt")]
+    bonus_int: u16,
+    #[serde(rename = "bonusLuk")]
+    bonus_luk: u16,
+    hit: u16,
+    flee: u16,
+    #[serde(rename = "battleHit")]
+    battle_hit: u16,
+    #[serde(rename = "battleFlee")]
+    battle_flee: u16,
+    crit: f32,
+    #[serde(rename = "critATK")]
+    crit_atk: Vec<u16>,
+    #[serde(rename = "battleCritAtk")]
+    battle_crit_atk: Vec<u16>,
+    def: u16,
+    mdef: u16,
+    cast: f32,
+    #[serde(rename = "perfectDodge")]
+    perfect_dodge: f32,
+    aspd: f32,
+    #[serde(rename = "aspdForDisplay")]
+    aspd_displayed: f32,
+    #[serde(rename = "atkLeft")]
+    atk_left: u16,
+    #[serde(rename = "atkRight")]
+    atk_right: u16,
+    #[serde(rename = "baseATK")]
+    base_atk: u16,
+    #[serde(rename = "minWeaponAttackCalc")]
+    min_weapon_attack_calc: f32,
+    #[serde(rename = "avgWeaponAttackCalc")]
+    avg_weapon_attack_calc: f32,
+    #[serde(rename = "maxWeaponAttackCalc")]
+    max_weapon_attack_calc: f32,
+    #[serde(rename = "minDmg")]
+    min_dmg: u32,
+    #[serde(rename = "avgDmg")]
+    avg_dmg: f32,
+    #[serde(rename = "maxDmg")]
+    max_dmg: u32,
+    #[serde(rename = "minDamageReceived")]
+    min_dmg_received: f32,
+    #[serde(rename = "avgDamageReceived")]
+    avg_dmg_received: f32,
+    #[serde(rename = "maxDamageReceived")]
+    max_dmg_received: f32,
+}
+#[derive(GettersAll, Debug)]
+pub struct Equipments {
+    weapon: Option<Equipment>,
+    weapon_left: Option<Equipment>,
+    body: Option<Equipment>,
+    shield: Option<Equipment>,
+    shoes: Option<Equipment>,
+    shoulder: Option<Equipment>,
+    accessory1: Option<Equipment>,
+    accessory2: Option<Equipment>,
+    upper_headgear: Option<Equipment>,
+    middle_headgear: Option<Equipment>,
+    lower_headgear: Option<Equipment>,
 }
 
 impl BattleFixture {
@@ -102,30 +128,86 @@ pub struct SkillLevel {
 }
 
 #[derive(Deserialize, GettersAll, Debug)]
-pub struct SupportiveSkill {
-    #[serde(rename = "skid", skip_serializing_if = "Option::is_none")]
-    skid: Option<u32>,
-    #[serde(rename = "state", skip_serializing_if = "Option::is_none")]
-    state: Option<String>,
-    value: u32,
+pub struct Equipment {
+    #[serde(rename = "itemId")]
+    item_id: u32,
+    refinement: u8,
+    #[serde(default)]
+    cards: Vec<Card>,
 }
 
-
 #[derive(Deserialize, GettersAll, Debug)]
-pub struct Expected {
-    weapon_min_atk: u32,
-    weapon_avg_atk: f32,
-    weapon_max_atk: u32,
-    base_atk: u32,
-    hit_ratio: f32,
-    #[serde(default)]
-    critical_rate: Option<f32>,
-    #[serde(default)]
-    critical_damage_min: Option<u32>,
-    #[serde(default)]
-    critical_damage_max: Option<u32>,
-    min_dmg: u32,
-    avg_dmg: f32,
-    max_dmg: u32,
-    dps: f32,
+pub struct Card {
+    #[serde(rename = "itemId")]
+    item_id: u32,
+}
+
+fn deserialize_equipments<'de, D>(deserializer: D) -> Result<Equipments, D::Error>
+    where
+        D: Deserializer<'de>,
+{
+    deserializer.deserialize_map(EquipmentVisitor{})
+}
+
+struct EquipmentVisitor;
+impl <'de>Visitor<'de> for EquipmentVisitor {
+    type Value = Equipments;
+
+    fn expecting(&self, formatter: &mut Formatter) -> std::fmt::Result {
+        todo!()
+    }
+
+    fn visit_seq<A>(self, seq: A) -> Result<Equipments, A::Error> where A: SeqAccess<'de> {
+        todo!()
+        // while let Some(element) = seq.next_element()? {
+        //     println!("{:?}", element);
+        // }
+    }
+
+    fn visit_map<A>(self, mut map: A) -> Result<Equipments, A::Error> where A: MapAccess<'de> {
+        let mut weapon: Option<Equipment> = None;
+        let mut weapon_left: Option<Equipment> = None;
+        let mut body: Option<Equipment> = None;
+        let mut shield: Option<Equipment> = None;
+        let mut shoes: Option<Equipment> = None;
+        let mut shoulder: Option<Equipment> = None;
+        let mut accessory1: Option<Equipment> = None;
+        let mut accessory2: Option<Equipment> = None;
+        let mut upper_headgear: Option<Equipment> = None;
+        let mut middle_headgear: Option<Equipment> = None;
+        let mut lower_headgear: Option<Equipment> = None;
+        while let Some(key) = map.next_key::<String>()? {
+            match key.as_str() {
+                "accessory1" => accessory1 = map.next_value::<Option<Equipment>>()?,
+                "accessory2" => accessory2 = map.next_value::<Option<Equipment>>()?,
+                "weapon" => weapon = map.next_value::<Option<Equipment>>()?,
+                "weapon_left" => weapon_left = map.next_value::<Option<Equipment>>()?,
+                "body" => body = map.next_value::<Option<Equipment>>()?,
+                "shield" => shield = map.next_value::<Option<Equipment>>()?,
+                "upper_headgear" => upper_headgear = map.next_value::<Option<Equipment>>()?,
+                "middle_headgear" => middle_headgear = map.next_value::<Option<Equipment>>()?,
+                "lower_headgear" => lower_headgear = map.next_value::<Option<Equipment>>()?,
+                _ => { map.next_value::<Option<Equipment>>()?;}
+            }
+        }
+        Ok(Equipments{
+            weapon,
+            weapon_left,
+            body,
+            shield,
+            shoes,
+            shoulder,
+            accessory1,
+            accessory2,
+            upper_headgear,
+            middle_headgear,
+            lower_headgear,
+        })
+    }
+}
+
+#[test]
+fn test() {
+    let scenario = common::fixtures::battle_fixture::BattleFixture::load("./src/tests/common/fixtures/data/data-with-stuff.json");
+    println!("{:?}", scenario);
 }

@@ -46,7 +46,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         supportiveSkillsBattleChant: [],
         groundSupportiveSkills: [],
         foodBoxBonus: [],
-        equipments: [],
+        equipments: {},
         arrow: null,
         totalGearRefinement: 0,
         speedPotion: false,
@@ -2179,16 +2179,16 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         battleHit: 0, // BattleHit
         battleFlee: 0, // BattleFlee
         critChance: 0, // CRInum
-        critAtk: [],  // CRIATK
+        battleCritAtk: [],  // CRIATK
         baseAttackCalc: 0,  // BaseAttackCalc
         minWeaponAttackCalc: 0, // MinWeaponAttackCalc
         maxWeaponAttackCalc: 0,  // AvgWeaponAttackCalc
         avgWeaponAttackCalc: 0,  // MaxWeaponAttackCalc
         cast: 0,
         afterCastDelay: 0,
-        minAtk: 0,
-        maxAtk: 0,
-        avgAtk: 0,
+        minDmg: 0,
+        maxDmg: 0,
+        avgDmg: 0,
         dps: 0, // DPS
         averageReceivedDamage: 0, // AverageReceivedDamageIncludingDodge
         display: {
@@ -2424,26 +2424,26 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
     if (stats.equipments.weapon.type == WEAPON_TYPE_KATAR) {
         let wk = Math.floor(stats.critATK[1] * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
         let wk2 = Math.floor((stats.critATK[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
-        battleResult.critAtk = [];
+        battleResult.battleCritAtk = [];
         if (stats.equipments.weapon.minPlus == stats.equipments.weapon.overUpgradeBonusATK && n_A_EDP_DMG[0] == n_A_EDP_DMG[2]) {
-            battleResult.critAtk[0] = stats.critATK[1] + wk2 + n_A_EDP_DMG[1];
+            battleResult.battleCritAtk[0] = stats.critATK[1] + wk2 + n_A_EDP_DMG[1];
             // myInnerHtml("CRIATK", (stats.critATK[1] + wk2 + n_A_EDP_DMG[1]) + "(" + (stats.critATK[1] + n_A_EDP_DMG[1]) + "+" + wk2 + ")", 0);
         } else {
             let w1 = Math.floor((stats.critATK[0] + n_A_EDP_DMG[0]) * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
             let w2 = Math.floor((stats.critATK[2] + n_A_EDP_DMG[2]) * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
-            battleResult.critAtk[0] = stats.critATK[0] + w1 + n_A_EDP_DMG[0];
-            battleResult.critAtk[1] = stats.critATK[2] + w2 + n_A_EDP_DMG[2];
+            battleResult.battleCritAtk[0] = stats.critATK[0] + w1 + n_A_EDP_DMG[0];
+            battleResult.battleCritAtk[1] = stats.critATK[2] + w2 + n_A_EDP_DMG[2];
             // myInnerHtml("CRIATK", (stats.critATK[0] + w1 + n_A_EDP_DMG[0]) + " ~ " + (stats.critATK[2] + w2 + n_A_EDP_DMG[2]) + "(" + (stats.critATK[0] + n_A_EDP_DMG[0]) + " ~ " + (stats.critATK[2] + n_A_EDP_DMG[2]) + "+" + w1 + " ~ " + w2 + ")", 0);
         }
         stats.critATK[1] += wk;
     } else {
-        battleResult.critAtk = [];
+        battleResult.battleCritAtk = [];
         if (stats.equipments.weapon.minPlus == stats.equipments.weapon.overUpgradeBonusATK && n_A_EDP_DMG[0] == n_A_EDP_DMG[2]) {
-            battleResult.critAtk[0] = stats.critATK[1] + n_A_EDP_DMG[1];
+            battleResult.battleCritAtk[0] = stats.critATK[1] + n_A_EDP_DMG[1];
             //     myInnerHtml("CRIATK", stats.critATK[1] + n_A_EDP_DMG[1], 0);
         } else {
-            battleResult.critAtk[0] = stats.critATK[0] + n_A_EDP_DMG[0];
-            battleResult.critAtk[1] = stats.critATK[2] + n_A_EDP_DMG[2];
+            battleResult.battleCritAtk[0] = stats.critATK[0] + n_A_EDP_DMG[0];
+            battleResult.battleCritAtk[1] = stats.critATK[2] + n_A_EDP_DMG[2];
             //     myInnerHtml("CRIATK", (stats.critATK[0] + n_A_EDP_DMG[0]) + " ~ " + (stats.critATK[2] + n_A_EDP_DMG[2]), 0);
         }
     }
@@ -2568,7 +2568,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
 
             finalDamages[0] = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, n_A_DMG[0], 0, InWarOfEmperium);
             // myInnerHtml("ATK_00", finalDamages[0] + n_A_EDP_DMG[0] + "(" + w_left_Minatk + ")", 0);
-            battleResult.minAtk = finalDamages[0] + n_A_EDP_DMG[0];
+            battleResult.minDmg = finalDamages[0] + n_A_EDP_DMG[0];
             battleResult.display.atk00 = "(" + w_left_Minatk + ")";
 
             finalDamages[0] = BattleCalc3(stats, targetStats, finalDamages[0], InWarOfEmperium, w998B, w998E, w998G, w998I, w998L);
@@ -2577,7 +2577,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
 
             finalDamages[1] = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, n_A_DMG[1], 1, InWarOfEmperium);
             // myInnerHtml("ATK_01", finalDamages[1] + n_A_EDP_DMG[1] + "(" + w_left_Aveatk + ")", 0);
-            battleResult.avgAtk = finalDamages[1] + n_A_EDP_DMG[1];
+            battleResult.avgDmg = finalDamages[1] + n_A_EDP_DMG[1];
             battleResult.display.atk01 = "(" + w_left_Aveatk + ")";
 
             finalDamages[1] = BattleCalc3(stats, targetStats, finalDamages[1], InWarOfEmperium, w998B, w998E, w998G, w998I, w998L);
@@ -2597,7 +2597,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             let wk2 = Math.floor((finalDamages[2] + n_A_EDP_DMG[2]) * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
             // myInnerHtml("ATK_02", (finalDamages[2] + wk2 + n_A_EDP_DMG[2]) + "(" + (finalDamages[2] + n_A_EDP_DMG[2]) + "+" + wk2 + ")", 0);
 
-            battleResult.maxAtk = (finalDamages[2] + wk2 + n_A_EDP_DMG[2]);
+            battleResult.maxDmg = (finalDamages[2] + wk2 + n_A_EDP_DMG[2]);
             battleResult.display.atk02 = "(" + (finalDamages[2] + n_A_EDP_DMG[2]) + "+" + wk2 + ")";
 
             finalDamages[2] += wk;
@@ -2610,7 +2610,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             wk = Math.floor(finalDamages[0] * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
             wk2 = Math.floor((finalDamages[0] + n_A_EDP_DMG[0]) * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
             // myInnerHtml("ATK_00", (finalDamages[0] + wk2 + n_A_EDP_DMG[0]) + "(" + (finalDamages[0] + n_A_EDP_DMG[0]) + "+" + wk2 + ")", 0);
-            battleResult.minAtk = (finalDamages[0] + wk2 + n_A_EDP_DMG[0]);
+            battleResult.minDmg = (finalDamages[0] + wk2 + n_A_EDP_DMG[0]);
             battleResult.display.atk00 = "(" + (finalDamages[0] + n_A_EDP_DMG[0]) + "+" + wk2 + ")";
             finalDamages[0] += wk;
 
@@ -2621,7 +2621,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             wk = Math.floor(finalDamages[1] * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
             wk2 = Math.floor((finalDamages[1] + n_A_EDP_DMG[1]) * (0.01 + SkillSearch("Double Attack", stats) * 0.02));
             // myInnerHtml("ATK_01", (finalDamages[1] + wk2 + n_A_EDP_DMG[1]) + "(" + (finalDamages[1] + n_A_EDP_DMG[1]) + "+" + wk2 + ")", 0);
-            battleResult.avgAtk = (finalDamages[1] + wk2 + n_A_EDP_DMG[1]);
+            battleResult.avgDmg = (finalDamages[1] + wk2 + n_A_EDP_DMG[1]);
             battleResult.display.atk01 = "(" + (finalDamages[1] + n_A_EDP_DMG[1]) + "+" + wk2 + ")";
             finalDamages[1] += wk;
 
@@ -2683,7 +2683,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             if (SkillSearch("Raging Trifecta Blow", stats))
                 TyouEnkakuSousa3dan = san3;
 
-            battleResult.maxAtk = (finalDamages[2] + n_A_EDP_DMG[2]);
+            battleResult.maxDmg = (finalDamages[2] + n_A_EDP_DMG[2]);
             // myInnerHtml("ATK_02", (finalDamages[2] + n_A_EDP_DMG[2]), 0);
 
 
@@ -2693,7 +2693,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
 
             finalDamages[0] = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, n_A_DMG[0], 0, InWarOfEmperium);
             // myInnerHtml("ATK_00", finalDamages[0] + n_A_EDP_DMG[0], 0);
-            battleResult.minAtk = (finalDamages[0] + n_A_EDP_DMG[0]);
+            battleResult.minDmg = (finalDamages[0] + n_A_EDP_DMG[0]);
             if (SkillSearch("Raging Trifecta Blow", stats))
                 TyouEnkakuSousa3dan = san1;
 
@@ -2703,7 +2703,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
 
             finalDamages[1] = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, n_A_DMG[1], 1, InWarOfEmperium);
             // myInnerHtml("ATK_01", finalDamages[1] + n_A_EDP_DMG[1], 0);
-            battleResult.avgAtk = (finalDamages[1] + n_A_EDP_DMG[1]);
+            battleResult.avgDmg = (finalDamages[1] + n_A_EDP_DMG[1]);
             if (SkillSearch("Raging Trifecta Blow", stats))
                 TyouEnkakuSousa3dan = san2;
 
@@ -2755,9 +2755,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         n_A_EDP_DMG[1] = BattleCalcEDP(stats, targetStats, n_A_DMG[1], 3, InWarOfEmperium);
 
         // myInnerHtml("CRIATK", (stats.critATK[0] + n_A_EDP_DMG[0]) + " ~ " + (stats.critATK[2] + n_A_EDP_DMG[2]), 0);
-        battleResult.critAtk = [];
-        battleResult.critAtk[0] = stats.critATK[0] + n_A_EDP_DMG[0];
-        battleResult.critAtk[1] = stats.critATK[2] + n_A_EDP_DMG[2];
+        battleResult.battleCritAtk = [];
+        battleResult.battleCritAtk[0] = stats.critATK[0] + n_A_EDP_DMG[0];
+        battleResult.battleCritAtk[1] = stats.critATK[2] + n_A_EDP_DMG[2];
 
 
         stats.critATK[2] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[2], InWarOfEmperium, w998E, w998K, hitRate);
@@ -2768,7 +2768,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
 
         finalDamages[2] = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, n_A_DMG[2], 2, InWarOfEmperium);
         // myInnerHtml("ATK_02", (finalDamages[2] + n_A_EDP_DMG[2]), 0);
-        battleResult.maxAtk = (finalDamages[2] + n_A_EDP_DMG[2]);
+        battleResult.maxDmg = (finalDamages[2] + n_A_EDP_DMG[2]);
 
 
         finalDamages[2] = BattleCalc3(stats, targetStats, finalDamages[2], InWarOfEmperium, w998B, w998E, w998G, w998I, w998L);
@@ -2776,14 +2776,14 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
 
         finalDamages[0] = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, n_A_DMG[0], 0, InWarOfEmperium);
         // myInnerHtml("ATK_00", finalDamages[0] + n_A_EDP_DMG[0], 0);
-        battleResult.minAtk = (finalDamages[0] + n_A_EDP_DMG[0]);
+        battleResult.minDmg = (finalDamages[0] + n_A_EDP_DMG[0]);
 
         finalDamages[0] = BattleCalc3(stats, targetStats, finalDamages[0], InWarOfEmperium, w998B, w998E, w998G, w998I, w998L);
         finalDamages[0] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[0], InWarOfEmperium, w998E, w998K, hitRate);
 
         finalDamages[1] = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, n_A_DMG[1], 1, InWarOfEmperium);
         // myInnerHtml("ATK_01", finalDamages[1] + n_A_EDP_DMG[1], 0);
-        battleResult.avgAtk = (finalDamages[1] + n_A_EDP_DMG[1]);
+        battleResult.avgDmg = (finalDamages[1] + n_A_EDP_DMG[1]);
 
         finalDamages[1] = BattleCalc3(stats, targetStats, finalDamages[1], InWarOfEmperium, w998B, w998E, w998G, w998I, w998L);
         finalDamages[1] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[1], InWarOfEmperium, w998E, w998K, hitRate);
@@ -3063,9 +3063,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
-        battleResult.minAtk = (finalDamagesCopy[0] + n_A_EDP_DMG[0]);
-        battleResult.avgAtk = (finalDamagesCopy[1] + n_A_EDP_DMG[1]);
-        battleResult.maxAtk = (finalDamagesCopy[2] + n_A_EDP_DMG[2]);
+        battleResult.minDmg = (finalDamagesCopy[0] + n_A_EDP_DMG[0]);
+        battleResult.avgDmg = (finalDamagesCopy[1] + n_A_EDP_DMG[1]);
+        battleResult.maxDmg = (finalDamagesCopy[2] + n_A_EDP_DMG[2]);
 
         if (cast_kotei == 0) {
             let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
@@ -3103,9 +3103,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] = (finalDamages[b] * hitRate + (ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) + stats.equipments.weapon.upgradeBonusATK) * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
-        battleResult.minAtk = (finalDamagesCopy[0] + n_A_EDP_DMG[0]);
-        battleResult.avgAtk = (finalDamagesCopy[1] + n_A_EDP_DMG[1]);
-        battleResult.maxAtk = (finalDamagesCopy[2] + n_A_EDP_DMG[2]);
+        battleResult.minDmg = (finalDamagesCopy[0] + n_A_EDP_DMG[0]);
+        battleResult.avgDmg = (finalDamagesCopy[1] + n_A_EDP_DMG[1]);
+        battleResult.maxDmg = (finalDamagesCopy[2] + n_A_EDP_DMG[2]);
 
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
@@ -3185,16 +3185,16 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate) * hitCount;
         }
         if (targetStats.lexAeterna == 0 || !isBowlingBash) {
-            battleResult.minAtk = finalDamagesCopy[0] * hitCount;
-            battleResult.avgAtk = finalDamagesCopy[1] * hitCount;
-            battleResult.maxAtk = finalDamagesCopy[2] * hitCount;
+            battleResult.minDmg = finalDamagesCopy[0] * hitCount;
+            battleResult.avgDmg = finalDamagesCopy[1] * hitCount;
+            battleResult.maxDmg = finalDamagesCopy[2] * hitCount;
             battleResult.display.atk00 = "(" + finalDamagesCopy[0] + SubName[8] + hitCount + "hit)";
             battleResult.display.atk01 = "(" + finalDamagesCopy[1] + SubName[8] + hitCount + "hit)";
             battleResult.display.atk02 = "(" + finalDamagesCopy[2] + SubName[8] + hitCount + "hit)";
         } else {
-            battleResult.minAtk = finalDamagesCopy[0] * 3;
-            battleResult.avgAtk = finalDamagesCopy[1] * 3;
-            battleResult.maxAtk = finalDamagesCopy[2] * 3;
+            battleResult.minDmg = finalDamagesCopy[0] * 3;
+            battleResult.avgDmg = finalDamagesCopy[1] * 3;
+            battleResult.maxDmg = finalDamagesCopy[2] * 3;
             battleResult.display.atk00 = "(" + finalDamagesCopy[0] * 2 + " + " + finalDamagesCopy[0] + ")";
             battleResult.display.atk01 = "(" + finalDamagesCopy[1] * 2 + " + " + finalDamagesCopy[1] + ")";
             battleResult.display.atk02 = "(" + finalDamagesCopy[2] * 2 + " + " + finalDamagesCopy[2] + ")";
@@ -3232,9 +3232,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         // myInnerHtml("ATK_02", wBT, 0);
         // myInnerHtml("ATK_00", wBT, 0);
         // myInnerHtml("ATK_01", wBT, 0);
-        battleResult.minAtk = wBT;
-        battleResult.avgAtk = wBT;
-        battleResult.maxAtk = wBT;
+        battleResult.minDmg = wBT;
+        battleResult.avgDmg = wBT;
+        battleResult.maxDmg = wBT;
         finalDamages[0] = finalDamages[2] = finalDamages[1] = wBT;
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
@@ -3268,9 +3268,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] = (finalDamages[b] * hitRate + wINV * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
-        battleResult.minAtk = finalDamagesCopy[0] + n_A_EDP_DMG[0];
-        battleResult.avgAtk = finalDamagesCopy[1] + n_A_EDP_DMG[1];
-        battleResult.maxAtk = finalDamagesCopy[2] + n_A_EDP_DMG[2];
+        battleResult.minDmg = finalDamagesCopy[0] + n_A_EDP_DMG[0];
+        battleResult.avgDmg = finalDamagesCopy[1] + n_A_EDP_DMG[1];
+        battleResult.maxDmg = finalDamagesCopy[2] + n_A_EDP_DMG[2];
 
         // myInnerHtml("bSUBname", '<Font color="#0000FF">Poison Damage</Font>', 0);
         // myInnerHtml("bSUB", '<Font color="#0000FF">' + wINV + "</Font>", 0);
@@ -3314,9 +3314,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             // myInnerHtml("ATK_0" + b, finalDamages[b], 0);
             finalDamages[b] = (finalDamages[b] * hitRate) / 100;
         }
-        battleResult.minAtk = finalDamagesCopy[0];
-        battleResult.avgAtk = finalDamagesCopy[1];
-        battleResult.maxAtk = finalDamagesCopy[2];
+        battleResult.minDmg = finalDamagesCopy[0];
+        battleResult.avgDmg = finalDamagesCopy[1];
+        battleResult.maxDmg = finalDamagesCopy[2];
 
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
@@ -3363,9 +3363,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] *= 5;
             finalDamages[b] = (finalDamages[b] * hitRate) / 100;
         }
-        battleResult.minAtk = finalDamagesCopy[0] * 5;
-        battleResult.avgAtk = finalDamagesCopy[1] * 5;
-        battleResult.maxAtk = finalDamagesCopy[2] * 5;
+        battleResult.minDmg = finalDamagesCopy[0] * 5;
+        battleResult.avgDmg = finalDamagesCopy[1] * 5;
+        battleResult.maxDmg = finalDamagesCopy[2] * 5;
         battleResult.display.atk00 = "(" + finalDamagesCopy[0] + SubName[8] + "5hit)";
         battleResult.display.atk01 = "(" + finalDamagesCopy[1] + SubName[8] + "5hit)";
         battleResult.display.atk02 = "(" + finalDamagesCopy[2] + SubName[8] + "5hit)";
@@ -3398,9 +3398,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         // myInnerHtml("ATK_00", finalDamages[2] * 5 + "(" + finalDamages[2] + SubName[8] + 5 + "hit)", 0);
         // myInnerHtml("ATK_01", finalDamages[2] * 5 + "(" + finalDamages[2] + SubName[8] + 5 + "hit)", 0);
         // myInnerHtml("ATK_02", finalDamages[2] * 5 + "(" + finalDamages[2] + SubName[8] + 5 + "hit)", 0);
-        battleResult.minAtk = finalDamages[2] * 5;
-        battleResult.avgAtk = finalDamages[2] * 5;
-        battleResult.maxAtk = finalDamages[2] * 5;
+        battleResult.minDmg = finalDamages[2] * 5;
+        battleResult.avgDmg = finalDamages[2] * 5;
+        battleResult.maxDmg = finalDamages[2] * 5;
         battleResult.display.atk00 = "(" + finalDamages[2] + SubName[8] + 5 + "hit)";
         battleResult.display.atk01 = "(" + finalDamages[2] + SubName[8] + 5 + "hit)";
         battleResult.display.atk02 = "(" + finalDamages[2] + SubName[8] + 5 + "hit)";
@@ -3441,9 +3441,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
                 finalDamagesCopy[b] = finalDamages[b];
                 // myInnerHtml("ATK_0" + b, finalDamages[b], 0);
             }
-            battleResult.minAtk = finalDamagesCopy[0];
-            battleResult.avgAtk = finalDamagesCopy[1];
-            battleResult.maxAtk = finalDamagesCopy[2];
+            battleResult.minDmg = finalDamagesCopy[0];
+            battleResult.avgDmg = finalDamagesCopy[1];
+            battleResult.maxDmg = finalDamagesCopy[2];
         }
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
@@ -3480,9 +3480,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamagesCopy[b] = finalDamages[b];
             finalDamages[b] = ((finalDamages[b] + w_SBr[b]) * hitRate + (ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) + w_SBr[b]) * (100 - hitRate)) / 100;
         }
-        battleResult.minAtk = finalDamagesCopy[0] + w_SBr[0];
-        battleResult.avgAtk = finalDamagesCopy[1] + w_SBr[1];
-        battleResult.maxAtk = finalDamagesCopy[2] + w_SBr[2];
+        battleResult.minDmg = finalDamagesCopy[0] + w_SBr[0];
+        battleResult.avgDmg = finalDamagesCopy[1] + w_SBr[1];
+        battleResult.maxDmg = finalDamagesCopy[2] + w_SBr[2];
         battleResult.display.atk00 = "(" + finalDamagesCopy[0] + "+" + w_SBr[0] + ")";
         battleResult.display.atk01 = "(" + finalDamagesCopy[1] + "+" + w_SBr[1] + ")";
         battleResult.display.atk02 = "(" + finalDamagesCopy[2] + "+" + w_SBr[2] + ")";
@@ -3504,8 +3504,8 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         //
         // myInnerHtml("CRInumname", '<Font color="#FF0000">Reflect Damage</Font>', 0);
         battleResult.display.critAtkName = "HP Casting Cost";
-        battleResult.critAtk = [];
-        battleResult.critAtk[0] = Math.floor(stats.maxHp / 5);
+        battleResult.battleCritAtk = [];
+        battleResult.battleCritAtk[0] = Math.floor(stats.maxHp / 5);
         battleResult.display.critChanceName = "Reflect Damage";
 
 
@@ -3578,9 +3578,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
                 finalDamagesCopy[b] = finalDamages[b];
                 finalDamages[b] *= 3;
             }
-            battleResult.minAtk = finalDamages[0];
-            battleResult.avgAtk = finalDamages[1];
-            battleResult.maxAtk = finalDamages[2];
+            battleResult.minDmg = finalDamages[0];
+            battleResult.avgDmg = finalDamages[1];
+            battleResult.maxDmg = finalDamages[2];
             battleResult.display.atk00 = "(" + finalDamagesCopy[0] + SubName[8] + "3hit)";
             battleResult.display.atk01 = "(" + finalDamagesCopy[1] + SubName[8] + "3hit)";
             battleResult.display.atk02 = "(" + finalDamagesCopy[2] + SubName[8] + "3hit)";
@@ -3590,9 +3590,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
                 finalDamagesCopy[b] = finalDamages[b];
                 finalDamages[b] *= 4;
             }
-            battleResult.minAtk = finalDamages[0];
-            battleResult.avgAtk = finalDamages[1];
-            battleResult.maxAtk = finalDamages[2];
+            battleResult.minDmg = finalDamages[0];
+            battleResult.avgDmg = finalDamages[1];
+            battleResult.maxDmg = finalDamages[2];
             battleResult.display.atk00 = "(" + finalDamagesCopy[0] * 2 + " + " + finalDamagesCopy[0] + SubName[8] + "2hit)";
             battleResult.display.atk01 = "(" + finalDamagesCopy[1] * 2 + " + " + finalDamagesCopy[1] + SubName[8] + "2hit)";
             battleResult.display.atk02 = "(" + finalDamagesCopy[2] * 2 + " + " + finalDamagesCopy[2] + SubName[8] + "2hit)";
@@ -3641,9 +3641,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * 2 * (100 - hitRate)) / 100;
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStats.element][0]);
         }
-        battleResult.minAtk = finalDamagesCopy[0];
-        battleResult.avgAtk = finalDamagesCopy[1];
-        battleResult.maxAtk = finalDamagesCopy[2];
+        battleResult.minDmg = finalDamagesCopy[0];
+        battleResult.avgDmg = finalDamagesCopy[1];
+        battleResult.maxDmg = finalDamagesCopy[2];
 
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
@@ -3664,9 +3664,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         // myInnerHtml("ATK_02", finalDamages[2], 0);
         // myInnerHtml("ATK_00", finalDamages[0], 0);
         // myInnerHtml("ATK_01", finalDamages[1], 0);
-        battleResult.minAtk = finalDamages[0];
-        battleResult.avgAtk = finalDamages[1];
-        battleResult.maxAtk = finalDamages[2];
+        battleResult.minDmg = finalDamages[0];
+        battleResult.avgDmg = finalDamages[1];
+        battleResult.maxDmg = finalDamages[2];
 
         wCast = (1.5 + 0.5 * stats.skillToUse.level) * stats.cast;
         wDelay = 1.5 + stats.skillToUse.level * 0.5;
@@ -3691,8 +3691,8 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         // myInnerHtml("ATK_02", finalDamages[2], 0);
         // myInnerHtml("ATK_00", finalDamages[2], 0);
         // myInnerHtml("ATK_01", finalDamages[2], 0);
-        battleResult.minAtk = (finalDamages[2]);
-        battleResult.maxAtk = (finalDamages[2]);
+        battleResult.minDmg = (finalDamages[2]);
+        battleResult.maxDmg = (finalDamages[2]);
         battleResult.avg = (finalDamages[2]);
         finalDamages[0] = finalDamages[2];
         finalDamages[1] = finalDamages[2];
@@ -3729,9 +3729,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             // myInnerHtml("ATK_0" + b, finalDamages[b], 0);
             finalDamagesCopy[b] = finalDamages[b];
         }
-        battleResult.minAtk = finalDamagesCopy[0];
-        battleResult.avgAtk = finalDamagesCopy[1];
-        battleResult.maxAtk = finalDamagesCopy[2];
+        battleResult.minDmg = finalDamagesCopy[0];
+        battleResult.avgDmg = finalDamagesCopy[1];
+        battleResult.maxDmg = finalDamagesCopy[2];
 
         wCast = 1 * stats.cast;
         wDelay = 0.5;
@@ -3765,9 +3765,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             // myInnerHtml("ATK_0" + b, finalDamages[b], 0);
             finalDamagesCopy[b] = finalDamages[b];
         }
-        battleResult.minAtk = finalDamagesCopy[0];
-        battleResult.avgAtk = finalDamagesCopy[1];
-        battleResult.maxAtk = finalDamagesCopy[2];
+        battleResult.minDmg = finalDamagesCopy[0];
+        battleResult.avgDmg = finalDamagesCopy[1];
+        battleResult.maxDmg = finalDamagesCopy[2];
 
         wCast = (4.5 - 0.5 * stats.skillToUse.level) * stats.cast;
         wDelay = 3.5 - 0.5 * stats.skillToUse.level;
@@ -3799,9 +3799,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
-        battleResult.minAtk = finalDamagesCopy[0] + n_A_EDP_DMG[0];
-        battleResult.avgAtk = finalDamagesCopy[1] + n_A_EDP_DMG[1];
-        battleResult.maxAtk = finalDamagesCopy[2] + n_A_EDP_DMG[2];
+        battleResult.minDmg = finalDamagesCopy[0] + n_A_EDP_DMG[0];
+        battleResult.avgDmg = finalDamagesCopy[1] + n_A_EDP_DMG[1];
+        battleResult.maxDmg = finalDamagesCopy[2] + n_A_EDP_DMG[2];
 
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
@@ -3831,9 +3831,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] = (finalDamages[b] * 3 * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
-        battleResult.minAtk = finalDamages[0];
-        battleResult.avgAtk = finalDamages[1];
-        battleResult.maxAtk = finalDamages[2];
+        battleResult.minDmg = finalDamages[0];
+        battleResult.avgDmg = finalDamages[1];
+        battleResult.maxDmg = finalDamages[2];
         battleResult.display.atk00 = "(" + finalDamagesCopy[0] + SubName[8] + "3hit)";
         battleResult.display.atk01 = "(" + finalDamagesCopy[1] + SubName[8] + "3hit)";
         battleResult.display.atk02 = "(" + finalDamagesCopy[2] + SubName[8] + "3hit)";
@@ -3868,9 +3868,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
-        battleResult.minAtk = finalDamagesCopy[0] + n_A_EDP_DMG[0];
-        battleResult.avgAtk = finalDamagesCopy[1] + n_A_EDP_DMG[1];
-        battleResult.maxAtk = finalDamagesCopy[2] + n_A_EDP_DMG[2];
+        battleResult.minDmg = finalDamagesCopy[0] + n_A_EDP_DMG[0];
+        battleResult.avgDmg = finalDamagesCopy[1] + n_A_EDP_DMG[1];
+        battleResult.maxDmg = finalDamagesCopy[2] + n_A_EDP_DMG[2];
 
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
@@ -3898,9 +3898,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         finalDamages[0] = Math.floor(finalDamages[0] * element[targetStats.element][0]);
 
         finalDamages[2] = finalDamages[1] = finalDamages[0];
-        battleResult.minAtk = finalDamages[0];
-        battleResult.avgAtk = finalDamages[2];
-        battleResult.maxAtk = finalDamages[2];
+        battleResult.minDmg = finalDamages[0];
+        battleResult.avgDmg = finalDamages[2];
+        battleResult.maxDmg = finalDamages[2];
 
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
@@ -3927,9 +3927,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             // myInnerHtml("ATK_0" + b, finalDamages[b], 0);
             finalDamagesCopy[b] = finalDamages[b];
         }
-        battleResult.minAtk = finalDamagesCopy[0];
-        battleResult.avgAtk = finalDamagesCopy[1];
-        battleResult.maxAtk = finalDamagesCopy[2];
+        battleResult.minDmg = finalDamagesCopy[0];
+        battleResult.avgDmg = finalDamagesCopy[1];
+        battleResult.maxDmg = finalDamagesCopy[2];
 
         wCast = 1 * stats.cast;
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
@@ -3957,9 +3957,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         // myInnerHtml("ATK_02", finalDamages[2] * hitCount + "(" + finalDamages[2] + SubName[8] + hitCount + "hit)", 0);
         // myInnerHtml("ATK_00", finalDamages[2] * hitCount + "(" + finalDamages[2] + SubName[8] + hitCount + "hit)", 0);
         // myInnerHtml("ATK_01", finalDamages[2] * hitCount + "(" + finalDamages[2] + SubName[8] + hitCount + "hit)", 0);
-        battleResult.minAtk = finalDamages[2] * hitCount;
-        battleResult.avgAtk = finalDamages[2] * hitCount;
-        battleResult.maxAtk = finalDamages[2] * hitCount;
+        battleResult.minDmg = finalDamages[2] * hitCount;
+        battleResult.avgDmg = finalDamages[2] * hitCount;
+        battleResult.maxDmg = finalDamages[2] * hitCount;
         battleResult.display.atk00 = "(" + finalDamages[2] + SubName[8] + hitCount + "hit)";
         battleResult.display.atk01 = "(" + finalDamages[2] + SubName[8] + hitCount + "hit)";
         battleResult.display.atk02 = "(" + finalDamages[2] + SubName[8] + hitCount + "hit)";
@@ -4001,9 +4001,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         // myInnerHtml("ATK_02", finalDamages[2], 0);
         // myInnerHtml("ATK_00", finalDamages[0], 0);
         // myInnerHtml("ATK_01", finalDamages[1], 0);
-        battleResult.minAtk = finalDamages[0];
-        battleResult.avgAtk = finalDamages[1];
-        battleResult.maxAtk = finalDamages[2];
+        battleResult.minDmg = finalDamages[0];
+        battleResult.avgDmg = finalDamages[1];
+        battleResult.maxDmg = finalDamages[2];
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
         delete castAndDelayBattleResult.display;
@@ -4034,9 +4034,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         // myInnerHtml("ATK_02", finalDamages[2], 0);
         // myInnerHtml("ATK_00", finalDamages[0], 0);
         // myInnerHtml("ATK_01", finalDamages[1], 0);
-        battleResult.minAtk = finalDamages[0];
-        battleResult.avgAtk = finalDamages[1];
-        battleResult.maxAtk = finalDamages[2];
+        battleResult.minDmg = finalDamages[0];
+        battleResult.avgDmg = finalDamages[1];
+        battleResult.maxDmg = finalDamages[2];
 
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
@@ -4078,9 +4078,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         // myInnerHtml("ATK_02", finalDamages[2], 0);
         // myInnerHtml("ATK_00", finalDamages[0], 0);
         // myInnerHtml("ATK_01", finalDamages[1], 0);
-        battleResult.minAtk = finalDamages[0];
-        battleResult.avgAtk = finalDamages[1];
-        battleResult.maxAtk = finalDamages[2];
+        battleResult.minDmg = finalDamages[0];
+        battleResult.avgDmg = finalDamages[1];
+        battleResult.maxDmg = finalDamages[2];
 
         let castAndDelayBattleResult = CastAndDelay(stats, wCast, wDelay, swDelay);
         battleResult.display = Object.assign(battleResult.display, castAndDelayBattleResult.display);
@@ -4118,9 +4118,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         // myInnerHtml("ATK_02", Math.floor(finalDamages[2] * element[targetStats.element][6]) + "(Success Rate " + Math.round(w * 10000) / 100 + "%)", 0);
         // myInnerHtml("ATK_00", finalDamages[0] + "(Failure Damage)", 0);
         // myInnerHtml("ATK_01", finalDamages[1] + "(Certain One Hit Kill HP)", 0);
-        battleResult.minAtk = finalDamages[0];
-        battleResult.avgAtk = finalDamages[1];
-        battleResult.maxAtk = Math.floor(finalDamages[2] * element[targetStats.element][6]);
+        battleResult.minDmg = finalDamages[0];
+        battleResult.avgDmg = finalDamages[1];
+        battleResult.maxDmg = Math.floor(finalDamages[2] * element[targetStats.element][6]);
         battleResult.display.atk00 = "(Failure Damage)";
         battleResult.display.atk01 = "(Certain One Hit Kill HP)";
         battleResult.display.atk02 = "(Success Rate " + Math.round(w * 10000) / 100 + "%)";
@@ -4154,9 +4154,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         // myInnerHtml("ATK_02", wStrG, 0);
         // myInnerHtml("ATK_00", wStrG, 0);
         // myInnerHtml("ATK_01", wStrG, 0);
-        battleResult.minAtk = wStrG;
-        battleResult.avgAtk = wStrG;
-        battleResult.maxAtk = wStrG;
+        battleResult.minDmg = wStrG;
+        battleResult.avgDmg = wStrG;
+        battleResult.maxDmg = wStrG;
 
         finalDamages[2] = finalDamages[2] * hitCount;
         finalDamages[0] = finalDamages[2];
@@ -4420,9 +4420,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamagesCopy[b] = finalDamages[b];
             finalDamages[b] *= hitCount;
         }
-        battleResult.minAtk = finalDamages[0];
-        battleResult.avgAtk = finalDamages[1];
-        battleResult.maxAtk = finalDamages[2];
+        battleResult.minDmg = finalDamages[0];
+        battleResult.avgDmg = finalDamages[1];
+        battleResult.maxDmg = finalDamages[2];
         battleResult.display.atk00 = "(" + finalDamagesCopy[0] + SubName[8] + hitCount + "hit)";
         battleResult.display.atk01 = "(" + finalDamagesCopy[1] + SubName[8] + hitCount + "hit)";
         battleResult.display.atk02 = "(" + finalDamagesCopy[2] + SubName[8] + hitCount + "hit)";
@@ -4953,9 +4953,9 @@ function BattleVariousResults(stats, targetStats, cast, afterCastDelay, finalDam
             finalDamages[i] = 0;
             // myInnerHtml("ATK_0" + i, 0, 0);
         }
-        battleResult.minAtk = 0;
-        battleResult.maxAtk = 0;
-        battleResult.avgAtk = 0;
+        battleResult.minDmg = 0;
+        battleResult.maxDmg = 0;
+        battleResult.avgDmg = 0;
     }
 
     tPlusAG(InWarOfEmperium);
@@ -5410,11 +5410,15 @@ function GetTestCase(formData) {
     let testCase = {
         ...sourceStats,
         targetId: MonsterIds[targetStats.mobIndex][1],
+        targetName: MonsterOBJ[targetStats.mobIndex][1],
         ...battleResult,
         formData: btoa(JSON.stringify(formData))
     }
     testCase._id = formData._id ? formData._id : Math.random().toString(36).substring(2, 6 + 2);
     testCase.job = JobName[testCase.job];
+    if (testCase.arrow !== null) {
+        testCase.arrow = ArrowOBJ[testCase.arrow][2];
+    }
     delete testCase.display;
     delete testCase.performanceSkills;
     delete testCase.supportiveSkillsBattleChant;
@@ -5430,6 +5434,16 @@ function GetTestCase(formData) {
     for (let entry of Object.entries(testCase.equipments)) {
         if (entry[1].name && entry[1].name.startsWith("(No")) {
             delete testCase.equipments[entry[0]];
+        } else {
+            entry[1].cards = entry[1].cards.filter(c => c.index !== 0);
+            if (entry[1].cards.length === 0) {
+                delete entry[1].cards;
+            }
+        }
+    }
+    for(let entry of Object.entries(testCase.supportiveSkills)) {
+        if (entry[1].level === 0) {
+            delete testCase.supportiveSkills[entry[0]];
         }
     }
     RemoveNullValues(testCase);

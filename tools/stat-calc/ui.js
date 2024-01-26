@@ -661,7 +661,7 @@ function refreshBattleResults(battleResults) {
     myInnerHtml("BattleHIT", battleResults.battleHit, 0);
     myInnerHtml("BattleFLEE", battleResults.battleFlee, 0);
     myInnerHtml("CRIATKname", battleResults.display.critAtkName, 0);
-    myInnerHtml("CRIATK", battleResults.critAtk[0], 0);
+    myInnerHtml("CRIATK", battleResults.battleCritAtk[0], 0);
     myInnerHtml("CRInumname", battleResults.display.critChanceName, 0);
     myInnerHtml("CRInum", battleResults.critChance + "%", 0);
     myInnerHtml("bSUBname", battleResults.display.bonusSubName, 0);
@@ -670,9 +670,9 @@ function refreshBattleResults(battleResults) {
     myInnerHtml("bSUB2", battleResults.display.bonusSub2, 0);
     myInnerHtml("delay", battleResults.afterCastDelay, 0);
     myInnerHtml("casttime", battleResults.cast, 0);
-    myInnerHtml("ATK_00", battleResults.minAtk + battleResults.display.atk00, 0);
-    myInnerHtml("ATK_01", battleResults.avgAtk + battleResults.display.atk01, 0);
-    myInnerHtml("ATK_02", battleResults.maxAtk + battleResults.display.atk02, 0);
+    myInnerHtml("ATK_00", battleResults.minDmg + battleResults.display.atk00, 0);
+    myInnerHtml("ATK_01", battleResults.avgDmg + battleResults.display.atk01, 0);
+    myInnerHtml("ATK_02", battleResults.maxDmg + battleResults.display.atk02, 0);
     myInnerHtml("DPS", battleResults.dps, 0);
     myInnerHtml("MinATKnum", battleResults.display.minAtkNum, 0);
     myInnerHtml("AveATKnum", battleResults.display.avgAtkNum, 0);
