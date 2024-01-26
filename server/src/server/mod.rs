@@ -39,7 +39,7 @@ use crate::server::game_loop::GAME_TICK_RATE;
 use crate::server::model::events::client_notification::CharNotification;
 
 
-use crate::server::service::battle_service::BattleService;
+use crate::server::service::battle_service::{BattleResultMode, BattleService};
 use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::map_instance_service::MapInstanceService;
@@ -122,8 +122,8 @@ impl Server {
                             InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone()),
                             CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::new(GlobalConfigService::instance()), tasks_queue.clone()),
                             MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone()),
-                            BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),
-                            SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),
+                            BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::Normal),
+                            SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::Normal), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),
                             StatusService::new(GlobalConfigService::instance()),
         );
         Server {

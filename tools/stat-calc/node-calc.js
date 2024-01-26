@@ -15,7 +15,7 @@ const command = "convert";
 let formData, testCase, testCases;
 switch (command) {
     case "convert":
-        let file = "data-with-stuff.json";
+        let file = "battle-all-skills-no-stuff.json";
         testCases = JSON.parse(fs.readFileSync(path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/" + file)));
         let updatedTestCases = [];
         testCases.forEach(tc => {
