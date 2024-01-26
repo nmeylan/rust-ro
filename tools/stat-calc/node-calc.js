@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "convert";
+const command = "console";
 let formData, testCase, testCases;
 switch (command) {
     case "convert":
@@ -29,6 +29,7 @@ switch (command) {
     case "console":
         formData = JSON.parse(fs.readFileSync('./test-data.json', 'utf-8'))
         testCase = GetTestCase(formData);
+        console.log(testCase);
         break;
     case "debug":
         testCases = JSON.parse(fs.readFileSync(path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/data.json")));
