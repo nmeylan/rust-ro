@@ -30,6 +30,7 @@ pub struct SkillService {
     status_service: StatusService,
 }
 
+
 impl SkillService {
     pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: StatusService, configuration_service: &'static GlobalConfigService) -> SkillService {
         SkillService { client_notification_sender, persistence_event_sender, configuration_service, battle_service, status_service }

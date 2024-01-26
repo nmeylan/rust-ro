@@ -3,7 +3,7 @@
 
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
-use crate::server::service::battle_service::BattleService;
+use crate::server::service::battle_service::{BattleResultMode, BattleService};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::skill_service::SkillService;
 use crate::server::service::status_service::StatusService;
@@ -14,6 +14,8 @@ use crate::tests::common::sync_helper::CountDownLatch;
 struct SkillServiceTestContext {
     test_context: TestContext,
     skill_service: SkillService,
+    skill_min_service: SkillService,
+    skill_max_service: SkillService,
     status_service: StatusService,
 }
 
@@ -28,7 +30,9 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
     let count_down_latch = CountDownLatch::new(latch_size);
     SkillServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
-        skill_service: SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),
+        skill_service: SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::Normal), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),
+        skill_min_service: SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::TestMin), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),
+        skill_max_service: SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::TestMax), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance()),
         status_service: StatusService::new(GlobalConfigService::instance()),
     }
 }
@@ -330,8 +334,6 @@ mod tests {
             i += 1;
             // if i != 2 { continue; }
             let mut average: Vec<u32> = Vec::with_capacity(1001);
-            let mut min = u32::MAX;
-            let mut max = u32::MIN;
             let mut character_status = Status::default();
             let job = JobName::from_string(scenarii.job().as_str());
             character_status.job = job.value() as u32;
@@ -352,13 +354,8 @@ mod tests {
             }
             let target = create_mob(1, scenarii.target().to_uppercase().as_str());
             let skill = skills::skill_enums::to_object(SkillEnum::from_id(scenarii.skill_to_use().skid()), scenarii.skill_to_use().level()).unwrap();
-            for _ in 0..1000 {
-                let damage = context.skill_service.calculate_damage(status_snapshot!(context, character), &target.status, skill.as_offensive_skill().unwrap());
-                average.push(damage);
-                min = min.min(damage);
-                max = max.max(damage);
-            }
-            let _average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
+            let min = context.skill_min_service.calculate_damage(status_snapshot!(context, character), &target.status, skill.as_offensive_skill().unwrap());
+            let max = context.skill_max_service.calculate_damage(status_snapshot!(context, character), &target.status, skill.as_offensive_skill().unwrap());
 
             assert!(scenarii.min_dmg() - 1 <= min && min <= scenarii.min_dmg() + 1, "Expected min damage to be {} but was {} with skill {} and stats {:?}", scenarii.min_dmg(), min, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
             assert!(scenarii.max_dmg() - 1 <= max && max <= scenarii.max_dmg() + 1, "Expected max damage to be {} but was {} with skill {} and stats {:?}", scenarii.max_dmg(), max, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);

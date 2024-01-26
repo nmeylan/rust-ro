@@ -26,6 +26,13 @@ pub struct BattleService {
     client_notification_sender: SyncSender<Notification>,
     status_service: StatusService,
     configuration_service: &'static GlobalConfigService,
+    battle_result_mode: BattleResultMode
+}
+
+pub enum BattleResultMode {
+    TestMin,
+    TestMax,
+    Normal
 }
 
 impl BattleService {
@@ -33,13 +40,13 @@ impl BattleService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, status_service: StatusService, configuration_service: &'static GlobalConfigService) -> Self {
-        BattleService { client_notification_sender, status_service, configuration_service }
+    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, status_service: StatusService, configuration_service: &'static GlobalConfigService, battle_result_mode: BattleResultMode) -> Self {
+        BattleService { client_notification_sender, status_service, configuration_service, battle_result_mode }
     }
 
     pub fn init(client_notification_sender: SyncSender<Notification>, status_service: StatusService, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(BattleService::new(client_notification_sender, status_service, configuration_service));
+            SERVICE_INSTANCE = Some(BattleService::new(client_notification_sender, status_service, configuration_service, BattleResultMode::Normal));
         });
     }
 
@@ -139,7 +146,11 @@ impl BattleService {
             if weapon_min_attack > w { weapon_min_attack = w }
         }
 
-        rng.u32(weapon_min_attack..=weapon_max_attack)
+        match self.battle_result_mode {
+            BattleResultMode::TestMin => {weapon_min_attack}
+            BattleResultMode::TestMax => {weapon_max_attack}
+            BattleResultMode::Normal => {rng.u32(weapon_min_attack..=weapon_max_attack)}
+        }
     }
 
     #[inline]

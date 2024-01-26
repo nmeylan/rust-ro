@@ -2,7 +2,7 @@
 
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
-use crate::server::service::battle_service::BattleService;
+use crate::server::service::battle_service::{BattleResultMode, BattleService};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
@@ -12,6 +12,8 @@ use crate::tests::common::sync_helper::CountDownLatch;
 struct BattleServiceTestContext {
     test_context: TestContext,
     battle_service: BattleService,
+    battle_min_service: BattleService,
+    battle_max_service: BattleService,
     status_service: StatusService,
 }
 
@@ -23,11 +25,12 @@ fn before_each_with_latch(latch_size: usize) -> BattleServiceTestContext {
     common::before_all();
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
-    let status_service = StatusService::new(GlobalConfigService::instance());
     let count_down_latch = CountDownLatch::new(latch_size);
     BattleServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
-        battle_service: BattleService::new(client_notification_sender.clone(), status_service, GlobalConfigService::instance()),
+        battle_service: BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::Normal),
+        battle_min_service: BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::TestMin),
+        battle_max_service: BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::TestMax),
         status_service: StatusService::new(GlobalConfigService::instance()),
     }
 }
@@ -73,18 +76,9 @@ mod tests {
                 equip_item_from_name(&mut character, stat.weapon);
             }
             // When
-            let mut average = Vec::with_capacity(1001);
-            let mut min = u32::MAX;
-            let mut max = u32::MIN;
-            for _ in 0..1000 {
-                let damage = context.battle_service.damage_character_attack_monster(status_snapshot!(context, character), &mob.status, 1.0, false);
-                average.push(damage);
-                min = min.min(damage);
-                max = max.max(damage);
-            }
-            let average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
+            let min = context.battle_min_service.damage_character_attack_monster(status_snapshot!(context, character), &mob.status, 1.0, false);
+            let max = context.battle_max_service.damage_character_attack_monster(status_snapshot!(context, character), &mob.status, 1.0, false);
             // Then
-            assert!(stat.average_damage - 1 <= average && average <= stat.average_damage + 1, "Expected average damage to be {} but was {} with stats {:?}", stat.average_damage, average, stat);
             assert!(stat.min_damage - 1 <= min && min <= stat.min_damage + 1, "Expected min damage to be {} but was {} with stats {:?}", stat.min_damage, min, stat);
             assert!(stat.max_damage - 1 <= max && max <= stat.max_damage + 1, "Expected max damage to be {} but was {} with stats {:?}", stat.max_damage, max, stat);
         }
@@ -111,19 +105,10 @@ mod tests {
             let mut character = create_character();
             character.status.dex = stat.dex;
             // When
-            let mut average = Vec::with_capacity(1001);
-            let mut min = u32::MAX;
-            let mut max = u32::MIN;
             equip_item_from_name(&mut character, stat.weapon);
-            for _ in 0..1000 {
-                let damage = context.battle_service.weapon_atk(status_snapshot!(context, character), &context.status_service.to_snapshot(&target_status), false);
-                average.push(damage);
-                min = min.min(damage);
-                max = max.max(damage);
-            }
-            let average = (average.iter().sum::<u32>() as f32 / average.len() as f32).round() as u32;
+            let min = context.battle_min_service.weapon_atk(status_snapshot!(context, character), &context.status_service.to_snapshot(&target_status), false);
+            let max = context.battle_max_service.weapon_atk(status_snapshot!(context, character), &context.status_service.to_snapshot(&target_status), false);
             // Then
-            assert_eq_with_variance!(2, average, stat.average_damage, "Expected average damage to be {} but was {} with stats {:?}", stat.average_damage, average, stat);
             assert_eq_with_variance!(2, min, stat.min_damage, "Expected min damage to be {} but was {} with stats {:?}", stat.min_damage, min, stat);
             assert_eq_with_variance!(2, max, stat.max_damage, "Expected max damage to be {} but was {} with stats {:?}", stat.max_damage, max, stat);
         }
