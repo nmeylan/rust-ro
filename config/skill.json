@@ -3175,7 +3175,7 @@
     {
       "afterCastActDelay": 2000,
       "castCancel": true,
-      "description": "Thunderstorm",
+      "description": "Thunder Storm",
       "duration1": 100,
       "element": "Wind",
       "damageType": "MultiHit",
