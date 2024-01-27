@@ -96,8 +96,10 @@ pub enum JobName {
     #[value = 4045]
     SuperBaby,
     Taekwon,
+    #[value_string = "Star Gladiator"]
     StarGladiator,
     #[value = 4049]
+    #[value_string = "Soul Linker"]
     SoulLinker,
 }
 

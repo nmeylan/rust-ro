@@ -1415,7 +1415,7 @@ mod tests {
             Scenarii { level: 68, job: "Ninja", required_exp: 5123654 },
             Scenarii { level: 68, job: "Gunslinger", required_exp: 5123654 },
             Scenarii { level: 45, job: "Taekwon", required_exp: 2521910 },
-            Scenarii { level: 45, job: "SoulLinker", required_exp: 2521910 },
+            Scenarii { level: 45, job: "Soul Linker", required_exp: 2521910 },
         ];
         for scenarii in scenario {
             let mut character = create_character();

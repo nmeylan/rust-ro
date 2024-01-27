@@ -41,16 +41,18 @@ pub struct BattleFixture {
     max_hp: u16,
     #[serde(rename = "maxSp")]
     max_sp: u16,
+    #[serde(rename = "bonusStr")]
+    bonus_str: i16,
     #[serde(rename = "bonusAgi")]
-    bonus_agi: u16,
+    bonus_agi: i16,
     #[serde(rename = "bonusVit")]
-    bonus_vit: u16,
+    bonus_vit: i16,
     #[serde(rename = "bonusDex")]
-    bonus_dex: u16,
+    bonus_dex: i16,
     #[serde(rename = "bonusInt")]
-    bonus_int: u16,
+    bonus_int: i16,
     #[serde(rename = "bonusLuk")]
-    bonus_luk: u16,
+    bonus_luk: i16,
     hit: u16,
     flee: u16,
     #[serde(rename = "battleHit")]
@@ -89,11 +91,11 @@ pub struct BattleFixture {
     #[serde(rename = "maxDmg")]
     max_dmg: u32,
     #[serde(rename = "minDamageReceived")]
-    min_dmg_received: f32,
+    min_dmg_received: Option<f32>,
     #[serde(rename = "avgDamageReceived")]
-    avg_dmg_received: f32,
+    avg_dmg_received: Option<f32>,
     #[serde(rename = "maxDamageReceived")]
-    max_dmg_received: f32,
+    max_dmg_received: Option<f32>,
 }
 #[derive(GettersAll, Debug)]
 pub struct Equipments {
@@ -130,7 +132,7 @@ pub struct SkillLevel {
 #[derive(Deserialize, GettersAll, Debug)]
 pub struct Equipment {
     #[serde(rename = "itemId")]
-    item_id: u32,
+    item_id: i32,
     refinement: u8,
     #[serde(default)]
     cards: Vec<Card>,

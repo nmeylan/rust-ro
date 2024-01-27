@@ -1,6 +1,8 @@
 use std::sync::Mutex;
 use rand::RngCore;
 use enums::class::JobName;
+use enums::EnumWithMaskValueU64;
+use enums::item::{EquipmentLocation, ItemType};
 
 
 use models::status::{Look, Status};
@@ -96,6 +98,11 @@ pub fn equip_item(character: &mut Character, item: &ItemModel) -> usize {
     let index = character.add_in_inventory(inventory_item);
     character.wear_equip_item(index, item.location, item);
     index
+}
+
+pub fn takeoff_weapon(character: &mut Character) {
+    character.takeoff_equip_item(EquipmentLocation::HandRight.as_flag() as usize);
+    character.takeoff_equip_item(EquipmentLocation::HandLeft.as_flag() as usize);
 }
 
 pub fn add_item_in_inventory(character: &mut Character, aegis_name: &str) -> usize {
