@@ -11,11 +11,11 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "generate";
+const command = "convert";
 let formData, testCase, testCases;
 switch (command) {
     case "convert":
-        let file = "battle-all-skills-no-stuff.json";
+        let file = "battle-all-skills-weapon-no-passives.json";
         testCases = JSON.parse(fs.readFileSync(path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/" + file)));
         let updatedTestCases = [];
         testCases.forEach(tc => {
@@ -97,6 +97,9 @@ function generate() {
         21: "grenade"
     }
     for (let n = 1; n < JobName.length; n++) {
+        if (n >=34 && n <=40) {
+            continue;
+        }
         let formData = {};
         formData.A_JobLV = 1;
         formData.A_JOB = n;

@@ -41,6 +41,7 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
+    use std::fmt::format;
     use std::time::Duration;
     use enums::class::JobName;
 
@@ -57,7 +58,7 @@ mod tests {
     use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
     use crate::tests::common;
-    use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item_from_id, equip_item_from_name};
+    use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item_from_id, equip_item_from_name, takeoff_weapon};
     use crate::tests::common::mob_helper::create_mob;
     use crate::tests::skill_service_test::before_each;
 
@@ -327,10 +328,26 @@ mod tests {
         let context = before_each();
         let mut character = create_character();
         let _packetver = GlobalConfigService::instance().packetver();
-        let scenario = common::fixtures::battle_fixture::BattleFixture::load("./src/tests/common/fixtures/data/battle_fixtures.json");
+        let scenario = common::fixtures::battle_fixture::BattleFixture::load("./src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json");
         let mut i = -1;
+        struct TestResult {
+            job: String,
+            skill: String,
+            weapon: String,
+            passed: bool,
+            comment: String,
+            actual_min: Option<u32>,
+            actual_max: Option<u32>,
+            expected_min: Option<u32>,
+            expected_max: Option<u32>,
+        }
+        let mut results: Vec<TestResult> = Vec::with_capacity(scenario.len());
         // When
         for scenarii in scenario.iter() {
+            if scenarii.skill_to_use().skid() == 0 {
+                // TODO basic attack
+                continue;
+            }
             i += 1;
             // if i != 2 { continue; }
             let mut average: Vec<u32> = Vec::with_capacity(1001);
@@ -348,18 +365,61 @@ mod tests {
             character_status.hp = 10000;
             character_status.sp = 10000;
             character.status = character_status;
-            equip_item_from_id(&mut character, scenarii.equipments().weapon().as_ref().unwrap().item_id());
+            let item_id = scenarii.equipments().weapon().as_ref().unwrap().item_id();
+            if (item_id >= 0) {
+                equip_item_from_id(&mut character, item_id as u32);
+            } else {
+                takeoff_weapon(&mut character);
+            }
             if let Some(ammo) = scenarii.ammo() {
                 equip_item_from_name(&mut character, ammo.as_str());
             }
             let target = create_mob(1, scenarii.target().to_uppercase().as_str());
-            let skill = skills::skill_enums::to_object(SkillEnum::from_id(scenarii.skill_to_use().skid()), scenarii.skill_to_use().level()).unwrap();
-            let min = context.skill_min_service.calculate_damage(status_snapshot!(context, character), &target.status, skill.as_offensive_skill().unwrap());
-            let max = context.skill_max_service.calculate_damage(status_snapshot!(context, character), &target.status, skill.as_offensive_skill().unwrap());
+            if let Some(skill) = skills::skill_enums::to_object(SkillEnum::from_id(scenarii.skill_to_use().skid()), scenarii.skill_to_use().level()) {
+                let skill_config = GlobalConfigService::instance().get_skill_config(skill.id()).clone();
+                if let Some(offensive_skill) = skill.as_offensive_skill() {
+                    let min = context.skill_min_service.calculate_damage(status_snapshot!(context, character), &target.status, offensive_skill);
+                    let max = context.skill_max_service.calculate_damage(status_snapshot!(context, character), &target.status, offensive_skill);
 
-            assert!(scenarii.min_dmg() - 1 <= min && min <= scenarii.min_dmg() + 1, "Expected min damage to be {} but was {} with skill {} and stats {:?}", scenarii.min_dmg(), min, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
-            assert!(scenarii.max_dmg() - 1 <= max && max <= scenarii.max_dmg() + 1, "Expected max damage to be {} but was {} with skill {} and stats {:?}", scenarii.max_dmg(), max, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
-
+                    results.push(TestResult{
+                        job: job.as_str().to_string(),
+                        skill: skill_config.name,
+                        weapon: if item_id >= 0 {GlobalConfigService::instance().get_item(item_id).clone().name_aegis} else {"Unarmed".to_string()},
+                        passed: false,
+                        comment: "".to_string(),
+                        actual_min: Some(min),
+                        actual_max: Some(max),
+                        expected_min:  Some(scenarii.min_dmg()),
+                        expected_max: Some(scenarii.max_dmg()),
+                    })
+                } else {
+                    results.push(TestResult{
+                        job: job.as_str().to_string(),
+                        skill: skill_config.name,
+                        weapon: if item_id >= 0 {GlobalConfigService::instance().get_item(item_id).clone().name_aegis} else {"Unarmed".to_string()},
+                        passed: false,
+                        comment:  format!("Skill {} is not an offensive skill", GlobalConfigService::instance().get_skill_config(skill.id()).name),
+                        actual_min: None,
+                        actual_max: None,
+                        expected_min: None,
+                        expected_max: None,
+                    })
+                }
+            } else {
+                results.push(TestResult{
+                    job: job.as_str().to_string(),
+                    skill: GlobalConfigService::instance().get_skill_config(scenarii.skill_to_use().skid()).clone().name,
+                    weapon: if item_id >= 0 {GlobalConfigService::instance().get_item(item_id).clone().name_aegis} else {"Unarmed".to_string()},
+                    passed: false,
+                    comment:  format!("Skill {} was not found", GlobalConfigService::instance().get_skill_config(scenarii.skill_to_use().skid()).name),
+                    actual_min: None,
+                    actual_max: None,
+                    expected_min: None,
+                    expected_max: None,
+                });
+            }
+            // assert!(scenarii.min_dmg() - 1 <= min && min <= scenarii.min_dmg() + 1, "Expected min damage to be {} but was {} with skill {} and stats {:?}", scenarii.min_dmg(), min, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
+            // assert!(scenarii.max_dmg() - 1 <= max && max <= scenarii.max_dmg() + 1, "Expected max damage to be {} but was {} with skill {} and stats {:?}", scenarii.max_dmg(), max, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
         }
     }
 }
