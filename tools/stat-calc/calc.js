@@ -3819,7 +3819,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         ApplySkillModifier(stats, n_A_DMG, skillModifier, 0);
 
 
-        if (stats.equipments.weapon.element == 0 && stats.equipments.weapon.type != WEAPON_TYPE_UNARMED && GetCardStats(20) == 0)
+        if (stats.equipments.weapon.element == 0 && stats.equipments.weapon.type != WEAPON_TYPE_UNARMED && GetCardStats(20, stats) == 0)
             stats.equipments.weapon.element = KunaiOBJ[stats.skillToUse.additionalData][1];
 
         let finalDamagesCopy = [0, 0, 0];
