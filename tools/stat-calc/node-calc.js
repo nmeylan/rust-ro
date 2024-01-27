@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "convert";
+const command = "generate";
 let formData, testCase, testCases;
 switch (command) {
     case "convert":
@@ -42,10 +42,60 @@ switch (command) {
         break;
 }
 
+
 function generate() {
     let count = 0;
     let start = Date.now();
     let testcases = [];
+    let skills = JSON.parse(fs.readFileSync(path.join(process.cwd(), "../../config/skill.json")));
+    let defaultWeaponsPerType = {
+        0: 0,
+        1: 1,
+        2: 16,
+        3: 39,
+        4: 49,
+        5: 54,
+        6: 61,
+        7: 67,
+        8: 75,
+        9: 85,
+        10: 94,
+        11: 100,
+        12: 114,
+        13: 126,
+        14: 131,
+        15: 136,
+        16: 546,
+        17: 549,
+        18: 553,
+        19: 556,
+        20: 558,
+        21: 561
+    }
+    let skillsWeaponFlagsNamePerType = {
+        0: "fist",
+        1: "dagger",
+        2: "1hSword",
+        3: "2hSword",
+        4: "1hSpear",
+        5: "2hSpear",
+        6: "1hAxe",
+        7: "2hAxe",
+        8: "mace",
+        9: "staff",
+        10: "bow",
+        11: "katar",
+        12: "book",
+        13: "knuckle",
+        14: "musical",
+        15: "whip",
+        16: "huuma",
+        17: "revolver",
+        18: "rifle",
+        19: "shotgun",
+        20: "gatling",
+        21: "grenade"
+    }
     for (let n = 1; n < JobName.length; n++) {
         let formData = {};
         formData.A_JobLV = 1;
@@ -72,11 +122,27 @@ function generate() {
         formData.A_WeaponType = "0";
 
         formData.B_Enemy = 272;
-        for (let i = 0; i < JobSkillPassOBJ[n].length; i++) {
-            if (JobSkillPassOBJ[n][i] != 999) {
-                formData["A_PASSIVE_SKILL" + i] = SkillOBJ[JobSkillPassOBJ[n][i]][1];
+        // for (let i = 0; i < JobSkillPassOBJ[n].length; i++) {
+        //     if (JobSkillPassOBJ[n][i] != 999) {
+        //         formData["A_PASSIVE_SKILL" + i] = SkillOBJ[JobSkillPassOBJ[n][i]][1];
+        //     }
+        // }
+        let weaponTypes = [];
+        for (let i = 0; i <= 21; i++) {
+            if (JobASPD[n][i] != 0) {
+                weaponTypes.push(i);
             }
         }
+        let weapons = [];
+        for (let weaponType of weaponTypes) {
+            for (let i = 0; i < global.ItemOBJ.length; i++) {
+                if (global.ItemOBJ[i][1] === weaponType) {
+                    weapons.push({index: i, type: weaponType});
+                }
+            }
+        }
+        console.log("job", n, weaponTypes)
+
         for (let i = 0; i < JobSkillActiveOBJ[n].length && JobSkillActiveOBJ[n][i] != 999; i++) {
             formData.A_ActiveSkill = JobSkillActiveOBJ[n][i];
             switch (formData.A_ActiveSkill) {
@@ -134,34 +200,49 @@ function generate() {
 
 
             // *****************for each weapon type********************
-            // let weaponTypes = [];
-            // for (let i = 0; i <= 21; i++) {
-            //     if (JobASPD[n][i] != 0) {
-            //         weaponTypes.push(i);
-            //     }
-            // }
-            // let weapons = [];
-            // for(let weaponType of weaponTypes) {
-            //     for (let i = 0; i < global.ItemOBJ.length; i++) {
-            //         if (global.ItemOBJ[i][1] === weaponType) {
-            //             weapons.push({index: i, type: weaponType});
-            //             break;
-            //         }
-            //     }
-            // }
-            // for(let weapon of weapons) {
-            //
-            // }
+
 
             formData.A_ActiveSkillLV = SkillOBJ[JobSkillActiveOBJ[n][i]][1];
-            console.log("generate test case for job", n, "skill", i, "(", SkillOBJ[JobSkillActiveOBJ[n][i]][2], ")");
-            let testCase = GetTestCase(formData);
-            count += 1;
+            let skillId = SkillOBJ[JobSkillActiveOBJ[n][i]][3];
+            let skillFromDb = skills.skills.find(s => s.id === skillId);
+            if (SkillOBJ[JobSkillActiveOBJ[n][i]][2] === "Basic Attack") {
+                for (let type of weaponTypes) {
+                    let weapon = defaultWeaponsPerType[type];
+                    if (type === 10 || type === 14 || type === 15) {
+                        formData.A_Arrow = 0;
+                    }
+                    formData.A_weapon1 = weapon + "";
+                    formData.A_WeaponType = type + "";
+                    console.log("generate test case for job", n, "skill", i, "(", SkillOBJ[JobSkillActiveOBJ[n][i]][2], ")", "weapon", ItemIds[weapon][2]);
+                    let testCase = GetTestCase(formData);
+                    testcases.push(testCase);
+                    count += 1;
+                }
+            } else if (!!skillFromDb) {
+                for (let type of weaponTypes) {
+                    if (!skillFromDb.requires.weaponFlags || (skillFromDb.requires.weaponFlags && skillFromDb.requires.weaponFlags[skillsWeaponFlagsNamePerType[type]])) {
+                        let weapon = defaultWeaponsPerType[type];
+                        if (type === 10 || type === 14 || type === 15) {
+                            formData.A_Arrow = 0;
+                        }
+                        formData.A_weapon1 = weapon + "";
+                        formData.A_WeaponType = type + "";
+                        console.log("generate test case for job", n, "skill", i, "(", SkillOBJ[JobSkillActiveOBJ[n][i]][2], ")", "weapon", ItemIds[weapon][2]);
+                        let testCase = GetTestCase(formData);
+                        testcases.push(testCase);
+                        count += 1;
+                    }
+                }
+                // console.log("Can't find skill from db with id", skillId, "name", SkillOBJ[JobSkillActiveOBJ[n][i]][2])
+            }
+            // console.log("generate test case for job", n, "skill", i, "(", SkillOBJ[JobSkillActiveOBJ[n][i]][2], ")");
+            // let testCase = GetTestCase(formData);
             // console.log(testCase)
-            testcases.push(testCase)
+
+
         }
 
     }
     console.log("Generated", count, "test cases, in", (Date.now() - start) + "ms")
-    fs.writeFileSync(path.join(process.cwd(), "..\\..\\server\\src\\tests\\common\\fixtures\\data\\battle-all-skills-no-stuff.json"), JSON.stringify(testcases))
+    fs.writeFileSync(path.join(process.cwd(), "..\\..\\server\\src\\tests\\common\\fixtures\\data\\battle-all-skills-weapon-no-passives.json"), JSON.stringify(testcases))
 }
