@@ -126,6 +126,9 @@ pub trait SkillBase {
     fn _sp_cost(&self) -> u16;
     fn _target_type(&self) -> SkillTargetType;
     fn _is_ranged(&self) -> bool;
+
+    fn _is_magic(&self) -> bool;
+    fn _is_physical(&self) -> bool;
 }
 
 pub trait Skill: SkillBase {
@@ -254,7 +257,14 @@ pub trait Skill: SkillBase {
         self._after_cast_walk_delay()
     }
 
-
+    #[inline(always)]
+    fn is_magic(&self) -> bool {
+        self._is_magic()
+    }
+    #[inline(always)]
+    fn is_physical(&self) -> bool {
+        self._is_physical()
+    }
 }
 
 pub trait OffensiveSkillBase: Skill {

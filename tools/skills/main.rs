@@ -9,7 +9,7 @@ use regex::Regex;
 use serde::{Deserialize, Serialize};
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
-use enums::skill::{SkillTargetType, SkillFlags};
+use enums::skill::{SkillTargetType, SkillFlags, SkillType};
 use enums::weapon::WeaponType;
 
 lazy_static! {
@@ -423,6 +423,12 @@ fn generate_getters(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    }\n").unwrap();
     job_skills_file.write_all(b"    fn _target_type(&self) -> SkillTargetType {\n").unwrap();
     job_skills_file.write_all(format!("        SkillTargetType::{:?}\n", skill_config.target_type()).as_bytes()).unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    fn _is_magic(&self) -> bool {\n").unwrap();
+    job_skills_file.write_all(format!("        {}\n", matches!(skill_config.skill_type().unwrap_or(SkillType::Misc), SkillType::Magic)).as_bytes()).unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    fn _is_physical(&self) -> bool {\n").unwrap();
+    job_skills_file.write_all(format!("        {}\n", matches!(skill_config.skill_type().unwrap_or(SkillType::Misc), SkillType::Weapon)).as_bytes()).unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 

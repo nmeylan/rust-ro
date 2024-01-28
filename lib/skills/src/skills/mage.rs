@@ -102,13 +102,13 @@ impl Skill for LightningBolt {
 }
 impl OffensiveSkill for LightningBolt {
 }
-impl Skill for Thunderstorm {
+impl Skill for ThunderStorm {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if !(1..=10).contains(&level) { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl GroundSkill for Thunderstorm {
+impl GroundSkill for ThunderStorm {
 }
 impl Skill for EnergyCoat {
     fn new(level: u8) -> Option<Self> where Self : Sized {
