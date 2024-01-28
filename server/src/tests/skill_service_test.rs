@@ -456,7 +456,7 @@ mod tests {
             }
         }
 
-        result_file.write_all(b"# All results").unwrap();
+        result_file.write_all(b"# All results\n").unwrap();
         result_file.write_all(b"|Id|Job|Skill|Weapon|Passed|Comment|Min dmg (actual/expected)|Max dmg(actual/expected)|\n").unwrap();
         result_file.write_all(b"|-|-|-|-|-|-|-|-|\n").unwrap();
         for result in results.iter() {

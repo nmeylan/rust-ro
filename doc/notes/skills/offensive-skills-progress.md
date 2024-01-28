@@ -483,7 +483,8 @@
 |WZ_STORMGUST|false|
 |WZ_EARTHSPIKE|false|
 |WZ_HEAVENDRIVE|false|
-# All results|Id|Job|Skill|Weapon|Passed|Comment|Min dmg (actual/expected)|Max dmg(actual/expected)|
+# All results
+|Id|Job|Skill|Weapon|Passed|Comment|Min dmg (actual/expected)|Max dmg(actual/expected)|
 |-|-|-|-|-|-|-|-|
 |955xue|Swordsman|SM_BASH|Unarmed|**passed**| |379/379|379/379|
 |z8vhmv|Swordsman|SM_BASH|Knife|**passed**| |427/427|427/427|
