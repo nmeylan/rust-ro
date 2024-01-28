@@ -41,7 +41,7 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
-    use std::fmt::format;
+    use std::collections::{BTreeMap, HashMap};
     use std::fs::File;
     use std::io::Write;
     use std::path::Path;
@@ -334,6 +334,7 @@ mod tests {
         let fixture_file = "src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json";
         let scenario = common::fixtures::battle_fixture::BattleFixture::load(fixture_file);
         let mut i = -1;
+        #[derive(Clone)]
         struct TestResult {
             id: String,
             job: String,
@@ -434,7 +435,29 @@ mod tests {
         let path = Path::new("../doc/notes/skills/offensive-skills-progress.md");
         let mut result_file = File::create(path).unwrap();
         result_file.write_all(format!("{}/{} tests passed, fixture file was [{}](/server/{})\n\n", results.iter().filter(|r| r.passed).count(), results.len(), fixture_file, fixture_file).as_bytes()).unwrap();
-        result_file.write_all(b"|Id|Job|Skill|Weapon|Passed|Comment|min (actual/expected)|max(actual/expected)|\n").unwrap();
+        let mut result_per_jobs: BTreeMap<String, Vec<TestResult>> = BTreeMap::new();
+        for result in results.iter() {
+           if !result_per_jobs.contains_key(result.job.as_str()) {
+               result_per_jobs.insert(result.job.as_str().to_string(), vec![]);
+           }
+            let job_result = result_per_jobs.get_mut(result.job.as_str()).unwrap();
+            if let Some(existing_result) = job_result.iter_mut().find(|r| r.skill == result.skill) {
+                existing_result.passed = existing_result.passed && result.passed;
+            } else {
+                job_result.push(result.clone());
+            }
+        }
+        for (job, results) in result_per_jobs.iter() {
+            result_file.write_all(format!("# {}\n", job).as_bytes()).unwrap();
+            result_file.write_all(b"|Skill|Passed|\n").unwrap();
+            result_file.write_all(b"|-|-|\n").unwrap();
+            for result in results.iter() {
+                result_file.write_all(format!("|{}|{}|\n", result.skill, result.passed).as_bytes()).unwrap();
+            }
+        }
+
+        result_file.write_all(b"# All results").unwrap();
+        result_file.write_all(b"|Id|Job|Skill|Weapon|Passed|Comment|Min dmg (actual/expected)|Max dmg(actual/expected)|\n").unwrap();
         result_file.write_all(b"|-|-|-|-|-|-|-|-|\n").unwrap();
         for result in results.iter() {
             result_file.write_all(format!("|{}|{}|{}|{}|**{}**|{}|{}/{}|{}/{}|\n", result.id, result.job, result.skill, result.weapon,
