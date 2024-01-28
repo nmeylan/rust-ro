@@ -42,6 +42,9 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
     use std::fmt::format;
+    use std::fs::File;
+    use std::io::Write;
+    use std::path::Path;
     use std::time::Duration;
     use enums::class::JobName;
 
@@ -328,9 +331,11 @@ mod tests {
         let context = before_each();
         let mut character = create_character();
         let _packetver = GlobalConfigService::instance().packetver();
-        let scenario = common::fixtures::battle_fixture::BattleFixture::load("./src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json");
+        let fixture_file = "src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json";
+        let scenario = common::fixtures::battle_fixture::BattleFixture::load(fixture_file);
         let mut i = -1;
         struct TestResult {
+            id: String,
             job: String,
             skill: String,
             weapon: String,
@@ -381,12 +386,15 @@ mod tests {
                     let min = context.skill_min_service.calculate_damage(status_snapshot!(context, character), &target.status, offensive_skill);
                     let max = context.skill_max_service.calculate_damage(status_snapshot!(context, character), &target.status, offensive_skill);
 
+                    let assert_min = scenarii.min_dmg().max(1) - 1 <= min && min <= scenarii.min_dmg() + 1;
+                    let assert_max = scenarii.max_dmg().max(1) - 1 <= max && max <= scenarii.max_dmg() + 1;
                     results.push(TestResult{
+                        id: scenarii.id().clone(),
                         job: job.as_str().to_string(),
                         skill: skill_config.name,
                         weapon: if item_id >= 0 {GlobalConfigService::instance().get_item(item_id).clone().name_aegis} else {"Unarmed".to_string()},
-                        passed: false,
-                        comment: "".to_string(),
+                        passed: assert_min && assert_max,
+                        comment: " ".to_string(),
                         actual_min: Some(min),
                         actual_max: Some(max),
                         expected_min:  Some(scenarii.min_dmg()),
@@ -394,6 +402,7 @@ mod tests {
                     })
                 } else {
                     results.push(TestResult{
+                        id: scenarii.id().clone(),
                         job: job.as_str().to_string(),
                         skill: skill_config.name,
                         weapon: if item_id >= 0 {GlobalConfigService::instance().get_item(item_id).clone().name_aegis} else {"Unarmed".to_string()},
@@ -407,6 +416,7 @@ mod tests {
                 }
             } else {
                 results.push(TestResult{
+                    id: scenarii.id().clone(),
                     job: job.as_str().to_string(),
                     skill: GlobalConfigService::instance().get_skill_config(scenarii.skill_to_use().skid()).clone().name,
                     weapon: if item_id >= 0 {GlobalConfigService::instance().get_item(item_id).clone().name_aegis} else {"Unarmed".to_string()},
@@ -420,6 +430,20 @@ mod tests {
             }
             // assert!(scenarii.min_dmg() - 1 <= min && min <= scenarii.min_dmg() + 1, "Expected min damage to be {} but was {} with skill {} and stats {:?}", scenarii.min_dmg(), min, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
             // assert!(scenarii.max_dmg() - 1 <= max && max <= scenarii.max_dmg() + 1, "Expected max damage to be {} but was {} with skill {} and stats {:?}", scenarii.max_dmg(), max, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
+        }
+        let path = Path::new("../doc/notes/skills/offensive-skills-progress.md");
+        let mut result_file = File::create(path).unwrap();
+        result_file.write_all(format!("{}/{} tests passed, fixture file was [{}](/server/{})\n\n", results.iter().filter(|r| r.passed).count(), results.len(), fixture_file, fixture_file).as_bytes()).unwrap();
+        result_file.write_all(b"|Id|Job|Skill|Weapon|Passed|Comment|min (actual/expected)|max(actual/expected)|\n").unwrap();
+        result_file.write_all(b"|-|-|-|-|-|-|-|-|\n").unwrap();
+        for result in results.iter() {
+            result_file.write_all(format!("|{}|{}|{}|{}|**{}**|{}|{}/{}|{}/{}|\n", result.id, result.job, result.skill, result.weapon,
+                                          if result.passed {"passed"} else {"failed"}, result.comment,
+                                          result.actual_min.map(|r| r.to_string()).unwrap_or(String::new()),
+                                          result.expected_min.map(|r| r.to_string()).unwrap_or(String::new()),
+                                          result.actual_max.map(|r| r.to_string()).unwrap_or(String::new()),
+                                          result.expected_max.map(|r| r.to_string()).unwrap_or(String::new()),
+            ).as_bytes()).unwrap();
         }
     }
 }
