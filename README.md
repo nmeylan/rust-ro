@@ -3,54 +3,32 @@
 # Welcome to rust-ro!
 **rust-ro** is a Ragnarok MMO Server implementation written in Rust. 
 
-While it is a from scratch implemention it is heavily inspired by [herculesWS](https://github.com/HerculesWS/Hercules) and [rathena](https://github.com/rathena/rathena), for example this implementation support same scripting language for NPC meaning that existing scripts should work on this implementation and use the same database structure than rathena and some naming convention were kept.
+This project does **not** aim to compete with [herculesWS](https://github.com/HerculesWS/Hercules) or [rathena](https://github.com/rathena/rathena).
 
-**Table of Content**
+Although the architecture and technical decision of this project are very different than **rathena** or **hercules**, both projects are still a source of inspiration and remain source of truth for game behavior.
 
-- [Welcome to rust-ro!](#welcome-to-rust-ro)
-- [1. Ambition](#1-ambition)
-- [2. About Packet Version](#2-about-packet-version)
-- [3. Currently Working](#3-currently-working)
-- [4. Implementation details](#4-implementation-details)
-  - [4.1 Project files structure](#41-project-files-structure)
-- [5. Setup](#5-setup)
-  - [5.1 Config](#51-config)
-  - [5.2 Setup DB](#52-setup-db)
-    - [5.2.1 Setup DB: Docker](#521-setup-db-docker)
-    - [5.2.2 Setup DB: Locally](#522-setup-db-locally)
-  - [5.3 Building the Binaries](#53-building-the-binaries)
-  - [5.4 Running the Binaries](#54-running-the-binaries)
-    - [5.4.1 Running Servers](#541-running-servers)
-    - [5.4.2 Running the Game](#542-running-the-game)
-- [6. Developer Notes](#6-developer-notes)
-- [7. Progress Showcase (Compilation)](#7-progress-showcase-compilation)
-  - [7.1 Integration of the VM (showing instance and class(npc) variable)](#71-integration-of-the-vm-showing-instance-and-classnpc-variable)
-  - [7.2 Visual debugger](#72-visual-debugger)
-  - [7.3 Warps](#73-warps)
-  - [7.4 Mobs](#74-mobs)
-  - [7.5 Proxied packets](#75-proxied-packets)
-- [8. What has been done? ✔️](#8-what-has-been-done-️)
-  - [8.1 Tools](#81-tools)
-  - [8.2 Server](#82-server)
-- [9. Contribution](#9-contribution)
+In addition, this project kept some concept of existing implementations: for example this project support same scripting language for NPC meaning that existing scripts should work on this implementation and use the same database structure than rathena and some naming convention were kept.
 
+Architecture and technical decision are documented [here](/doc/adr)
 
 ## 1. Ambition
+
 The project started on August 2021 with the ambition to being able to connect on the server and navigate across maps to see monsters.
 
-Today February 2023 a lot of features have been added, see below. My ultimate goal would be to have a fully playable implementation for **PRE-RE**, supporting packet version **20120307**.
+Today February 2023 a lot of features have been added, at the end of readme. My ultimate goal would be to have a fully playable implementation for **PRE-RE**, supporting packet version **20120307**.
 
-I am working on this project for fun and also to provide a more accessible way than existing implementation to understand how Ragnarok game works for educational purpose. Each feature is covered with tests to provide internal documentation.
+I am working on this project for **fun** and also to provide a more accessible way than existing implementation to understand how Ragnarok game works for educational purpose. Each feature is covered with tests to provide internal documentation.
 
 ## 2. About Packet Version
-The packet [parser, builder and serializer](https://github.com/nmeylan/rust-ro/tree/master/lib/packets/src) are all taking packet version as parameter. The [packet db](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db) also support condition around packet [attributes](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db#L112) and [packet id](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db#L423)
+The packets [parser, builder and serializer](https://github.com/nmeylan/rust-ro/tree/master/lib/packets/src) are all taking packet version as parameter. The [packet db](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db) also support condition around packet [attributes](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db#L112) and [packet id](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db#L423)
 
 Although I mentioned above wanting to fully support packet version **20120307**, this implementation can support any packet version, it is just I am testing exclusively with a [robrowser client](https://github.com/MrAntares/roBrowserLegacy) using this packet version and thus i am implementing only packet in this version.
 
 ## 3. Currently Working
-Focus is now on [Skills](https://github.com/nmeylan/rust-ro/issues/11)
-
-Also see [Meta issue](https://github.com/nmeylan/rust-ro/issues/19)
+Below issues are under active development
+- [Skills issue](https://github.com/nmeylan/rust-ro/issues/11) - [Offensive skills progress](/doc/notes/skills/offensive-skills-progress.md)
+- [Status issue](https://github.com/nmeylan/rust-ro/issues/29)
+- [Stats and bonus issue](https://github.com/nmeylan/rust-ro/issues/35)
 
 
 ## 4. Implementation details
@@ -96,29 +74,9 @@ First, make a copy from `config.template.json` to `config.json`:
 cd rust-ro
 cp config.template.json config.json
 ```
-Inside this JSON, you will find **database related variables** and **game related variables** (exp_rate, drop_rate etc) as well. You can change in the way you want, but for now let's leave it with default values.
+Inside this JSON, you will find **database related variables**, **game related variables** (exp_rate, drop_rate etc) as well.
 
-```json
-// config.json
-[
-  "game": {
-    "default_char_speed": 150,
-    "drop_rate": 1.0,
-    "drop_rate_card": 1.0,
-    "drop_rate_mvp": 1.0,
-    "max_base_level": 99,
-    "max_inventory": 100,
-    "mob_density": 1.0,
-    "max_stat_level": 99,
-    "base_exp_rate": 1.0,
-    "job_exp_rate": 1.0,
-    "mob_dropped_item_locked_to_owner_duration_in_secs": 30,
-    "player_dropped_item_locked_to_owner_duration_in_secs": 60
-  }
-]
-```
 
-> TODO: make a small info for each variable, maybe a wiki?
 
 ### 5.2 Setup DB
 
