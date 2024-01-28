@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "convert";
+const command = "generate";
 let formData, testCase, testCases;
 switch (command) {
     case "convert":
@@ -60,7 +60,7 @@ function generate() {
         8: 75,
         9: 85,
         10: 94,
-        11: 100,
+        11: 110,
         12: 114,
         13: 126,
         14: 131,
