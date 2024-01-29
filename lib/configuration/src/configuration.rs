@@ -172,6 +172,7 @@ struct InternalJobConfig {
     inherit_hp: Option<String>,
     base_hp: Option<Vec<u32>>,
     base_sp: Option<Vec<u32>>,
+    bonus_stats: Option<Vec<HashMap<String, u16>>>,
     base_aspd: Option<HashMap<String, u32>>,
 }
 
@@ -183,6 +184,7 @@ pub struct JobConfig {
     base_hp: Vec<u32>,
     base_sp: Vec<u32>,
     base_aspd: HashMap<String, u32>,
+    bonus_stats: Vec<HashMap<String, u16>>,
     job_level: JobLevel,
 }
 
@@ -1975,6 +1977,16 @@ impl Config {
                 .unwrap_or_else(|| {
                     panic!("job config for class {name}: expected to find property base_sp")
                 }),
+                bonus_stats: Self::resolve_inherited_config(
+                    name,
+                    config,
+                    &internal_configs,
+                    "bonus_stats",
+                    |_conf| None,
+                    |conf| conf.bonus_stats.clone(),
+                ).unwrap_or_else(|| {
+                    panic!("job config for class {name}: expected to find property bonus_stats")
+                }),
                 base_aspd,
             });
         }
@@ -2045,6 +2057,9 @@ impl Config {
         F1: Fn(&InternalJobConfig) -> Option<&String>,
         F2: Fn(&InternalJobConfig) -> Option<T>,
     {
+        if defined_property_fn(current_config).is_some() {
+            return defined_property_fn(current_config);
+        }
         return if let Some(inherit) = current_config.inherit.as_ref() {
             let inherited_config = configs.jobs.get(inherit).unwrap_or_else(|| {
                 panic!("job config for class {name}: inherit \"{inherit}\" was not found")
