@@ -1,5 +1,5 @@
 use crate::item::{WearAmmo, WearGear, WearGearSnapshot, WearWeapon, Wearable, WearAmmoSnapshot, WearWeaponSnapshot};
-use accessor::{GettersAll,  SettersAll};
+use accessor::{GettersAll, SettersAll};
 use enums::bonus::BonusType;
 use enums::element::Element;
 use enums::item::EquipmentLocation;
@@ -41,20 +41,27 @@ pub struct Status {
     pub bonuses_temporary: Vec<TemporaryStatusBonus>,
 }
 
-#[derive(Clone, PartialEq, Debug, GettersAll, SettersAll)]
+#[derive(Clone, PartialEq, Debug, SettersAll, GettersAll)]
 pub struct StatusSnapshot {
     job: u32,
     hp: u32,
     max_hp: u32,
     sp: u32,
     max_sp: u32,
-    str: u16,
-    agi: u16,
-    vit: u16,
-    int: u16,
-    dex: u16,
-    luk: u16,
+    base_str: u16,
+    base_agi: u16,
+    base_vit: u16,
+    base_int: u16,
+    base_dex: u16,
+    base_luk: u16,
     base_atk: u16,
+    bonus_str: u16,
+    bonus_agi: u16,
+    bonus_vit: u16,
+    bonus_int: u16,
+    bonus_dex: u16,
+    bonus_luk: u16,
+    bonus_atk: u16,
     matk_min: u16,
     matk_max: u16,
     speed: u16,
@@ -99,13 +106,20 @@ impl StatusSnapshot {
             max_hp,
             sp,
             max_sp,
-            str,
-            agi,
-            vit,
-            int,
-            dex,
-            luk,
+            base_str: str,
+            base_agi: agi,
+            base_vit: vit,
+            base_int: int,
+            base_dex: dex,
+            base_luk: luk,
             base_atk: atk1,
+            bonus_str: 0,
+            bonus_agi: 0,
+            bonus_vit: 0,
+            bonus_int: 0,
+            bonus_dex: 0,
+            bonus_luk: 0,
+            bonus_atk: 0,
             matk_min: matk1,
             matk_max: matk2,
             speed,
@@ -139,19 +153,27 @@ impl StatusSnapshot {
     }
     pub fn from(status: &Status) -> Self {
         let int = status.int; // TODO add bonuses
+        let mut dex = status.dex;
         let mut snapshot = Self {
             job: status.job,
             hp: status.hp,
             max_hp: status.max_hp,
             sp: status.sp,
             max_sp: status.max_sp,
-            str: status.str,
-            agi: status.agi,
-            vit: status.vit,
-            int,
-            dex: status.dex,
-            luk: status.luk,
+            base_str: status.str,
+            base_agi: status.agi,
+            base_vit: status.vit,
+            base_int: int,
+            base_dex: dex,
+            base_luk: status.luk,
             base_atk: 0,
+            bonus_str: 0,
+            bonus_agi: 0,
+            bonus_vit: 0,
+            bonus_int: 0,
+            bonus_dex: 0,
+            bonus_luk: 0,
+            bonus_atk: 0,
             matk_min: int + ((int as f32 / 7.0).floor() as u16).pow(2),
             matk_max: int + ((int as f32 / 5.0).floor() as u16).pow(2),
             speed: status.speed,
@@ -225,6 +247,25 @@ impl StatusSnapshot {
 
     pub fn weapon_lvl(&self) -> Option<u16> {
         self.right_hand_weapon().map(|right_hand_weapon| right_hand_weapon.level() as u16)
+    }
+
+    pub fn str(&self) -> u16 {
+        self.base_str + self.bonus_str
+    }
+    pub fn agi(&self) -> u16 {
+        self.base_agi + self.bonus_agi
+    }
+    pub fn vit(&self) -> u16 {
+        self.base_vit + self.bonus_vit
+    }
+    pub fn dex(&self) -> u16 {
+        self.base_dex + self.bonus_dex
+    }
+    pub fn int(&self) -> u16 {
+        self.base_int + self.bonus_dex
+    }
+    pub fn luk(&self) -> u16 {
+        self.base_luk + self.bonus_luk
     }
 }
 
