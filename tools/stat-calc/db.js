@@ -4029,6 +4029,10 @@ global.JobName =
     ["Novice", "Swordsman", "Thief", "Acolyte", "Archer", "Mage", "Merchant", "Knight", "Assassin", "Priest", "Hunter", "Wizard", "Blacksmith", "Crusader", "Rogue", "Monk", "Bard", "Dancer", "Sage", "Alchemist",
         "Super Novice", "LordKnight", "AssassinCross", "HighPriest", "Sniper", "HighWizard", "Whitesmith", "Paladin", "Stalker", "Champion", "Clown", "Gypsy", "Professor", "Creator",
         "High Novice", "High Swordsman", "High Thief", "High Acolyte", "High Archer", "High Magician", "High Merchant", "Taekwon", "Star Gladiator", "Soul Linker", "Ninja", "Gunslinger"];
+global.JobIds =
+    [0, 1, 6, 4, 3, 2, 5, 7, 12, 8, 11, 9, 10, 14, 17, 15, 19, 20, 16, 18,
+        23, 4008, 4013, 4009, 4012, 4010, 4011, 4015, 4018, 4016, 4020, 4021, 4017, 4019,
+        4001, 4002, 4007, 4005, 4004, 4003, 4006, 4046, 4047, 4049, 25, 24];
 
 
 global.MonsterOBJ = [
