@@ -1,4 +1,4 @@
-444/1440 tests passed, fixture file was [src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json](/server/src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json)
+508/1440 tests passed, fixture file was [src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json](/server/src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json)
 
 # Acolyte
 |Skill|Passed|
@@ -41,15 +41,15 @@
 # Bard
 |Skill|Passed|
 |-|-|
-|AC_DOUBLE|false|
-|BA_MUSICALSTRIKE|false|
+|AC_DOUBLE|true|
+|BA_MUSICALSTRIKE|true|
 |AC_SHOWER|true|
-|AC_CHARGEARROW|false|
+|AC_CHARGEARROW|true|
 # Blacksmith
 |Skill|Passed|
 |-|-|
-|MC_MAMMONITE|false|
-|MC_CARTREVOLUTION|false|
+|MC_MAMMONITE|true|
+|MC_CARTREVOLUTION|true|
 # Champion
 |Skill|Passed|
 |-|-|
@@ -75,8 +75,8 @@
 # Creator
 |Skill|Passed|
 |-|-|
-|MC_MAMMONITE|false|
-|MC_CARTREVOLUTION|false|
+|MC_MAMMONITE|true|
+|MC_CARTREVOLUTION|true|
 |AM_ACIDTERROR|false|
 |AM_DEMONSTRATION|false|
 |CR_ACIDDEMONSTRATION|false|
@@ -103,23 +103,23 @@
 |GS_TRIPLEACTION|false|
 |GS_BULLSEYE|false|
 |GS_MAGICALBULLET|false|
-|GS_RAPIDSHOWER|false|
+|GS_RAPIDSHOWER|true|
 |GS_DESPERADO|false|
-|GS_TRACKING|false|
-|GS_DISARM|false|
+|GS_TRACKING|true|
+|GS_DISARM|true|
 |GS_PIERCINGSHOT|false|
-|GS_DUST|false|
+|GS_DUST|true|
 |GS_FULLBUSTER|false|
-|GS_SPREADATTACK|false|
+|GS_SPREADATTACK|true|
 |GS_GROUNDDRIFT|false|
 # Gypsy
 |Skill|Passed|
 |-|-|
-|AC_DOUBLE|false|
-|DC_THROWARROW|false|
+|AC_DOUBLE|true|
+|DC_THROWARROW|true|
 |AC_SHOWER|true|
-|AC_CHARGEARROW|false|
-|CG_ARROWVULCAN|false|
+|AC_CHARGEARROW|true|
+|CG_ARROWVULCAN|true|
 # HighPriest
 |Skill|Passed|
 |-|-|
@@ -155,9 +155,9 @@
 # Hunter
 |Skill|Passed|
 |-|-|
-|AC_DOUBLE|false|
+|AC_DOUBLE|true|
 |AC_SHOWER|true|
-|AC_CHARGEARROW|false|
+|AC_CHARGEARROW|true|
 |HT_BLITZBEAT|false|
 |HT_LANDMINE|false|
 |HT_BLASTMINE|false|
@@ -176,11 +176,11 @@
 # LordKnight
 |Skill|Passed|
 |-|-|
-|SM_BASH|false|
+|SM_BASH|true|
 |SM_MAGNUM|false|
 |KN_PIERCE|false|
 |KN_SPEARSTAB|false|
-|KN_SPEARBOOMERANG|false|
+|KN_SPEARBOOMERANG|true|
 |KN_BRANDISHSPEAR|false|
 |KN_BOWLINGBASH|false|
 |LK_SPIRALPIERCE|false|
@@ -339,9 +339,9 @@
 # Sniper
 |Skill|Passed|
 |-|-|
-|AC_DOUBLE|false|
+|AC_DOUBLE|true|
 |AC_SHOWER|true|
-|AC_CHARGEARROW|false|
+|AC_CHARGEARROW|true|
 |HT_BLITZBEAT|false|
 |HT_LANDMINE|false|
 |HT_BLASTMINE|false|
@@ -363,7 +363,7 @@
 |RG_RAID|false|
 |AC_DOUBLE|true|
 |TF_POISON|false|
-|SM_BASH|false|
+|SM_BASH|true|
 |SM_MAGNUM|false|
 |AL_HEAL|false|
 |KN_BOWLINGBASH|false|
@@ -425,10 +425,10 @@
 # Super Novice
 |Skill|Passed|
 |-|-|
-|SM_BASH|false|
+|SM_BASH|true|
 |SM_MAGNUM|false|
 |TF_POISON|false|
-|MC_MAMMONITE|false|
+|MC_MAMMONITE|true|
 |AL_HEAL|false|
 |MG_FIREBOLT|false|
 |MG_COLDBOLT|false|
@@ -459,8 +459,8 @@
 # Whitesmith
 |Skill|Passed|
 |-|-|
-|MC_MAMMONITE|false|
-|MC_CARTREVOLUTION|false|
+|MC_MAMMONITE|true|
+|MC_CARTREVOLUTION|true|
 # Wizard
 |Skill|Passed|
 |-|-|
@@ -644,9 +644,9 @@
 |560wvv|Priest|PR_SANCTUARY|Rod|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
 |vdn5u1|Priest|PR_SANCTUARY|Book|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
 |rs1s8z|Priest|PR_SANCTUARY|Claw|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
-|721s92|Hunter|AC_DOUBLE|Bow|**failed**| |366/370|506/510|
-|0f5omf|Hunter|AC_SHOWER|Bow|**passed**| |120/121|166/167|
-|7g8ba8|Hunter|AC_CHARGEARROW|Bow|**failed**| |144/146|200/201|
+|721s92|Hunter|AC_DOUBLE|Bow|**passed**| |370/370|510/510|
+|0f5omf|Hunter|AC_SHOWER|Bow|**passed**| |121/121|167/167|
+|7g8ba8|Hunter|AC_CHARGEARROW|Bow|**passed**| |146/146|201/201|
 |n8ufr7|Hunter|HT_BLITZBEAT|Unarmed|**failed**| |0/700|0/700|
 |430hsy|Hunter|HT_BLITZBEAT|Knife|**failed**| |0/700|0/700|
 |5qb2h8|Hunter|HT_BLITZBEAT|Bow|**failed**| |0/700|0/700|
@@ -659,7 +659,7 @@
 |7pu5e2|Hunter|HT_CLAYMORETRAP|Unarmed|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
 |twagpe|Hunter|HT_CLAYMORETRAP|Knife|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
 |e9s443|Hunter|HT_CLAYMORETRAP|Bow|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|l40t6e|Hunter|HT_POWER|Bow|**failed**| |94/0|132/0|
+|l40t6e|Hunter|HT_POWER|Bow|**failed**| |96/0|132/0|
 |h5kjzp|Wizard|MG_FIREBOLT|Unarmed|**passed**| |470/470|710/710|
 |d2p3ae|Wizard|MG_FIREBOLT|Knife|**passed**| |470/470|710/710|
 |11yv4j|Wizard|MG_FIREBOLT|Rod|**failed**| |470/540|710/820|
@@ -721,14 +721,14 @@
 |xz9yea|Blacksmith|MC_MAMMONITE|Knife|**passed**| |641/641|641/641|
 |q5vnhc|Blacksmith|MC_MAMMONITE|Sword|**passed**| |719/719|719/719|
 |tw56r6|Blacksmith|MC_MAMMONITE|Axe|**passed**| |737/737|737/737|
-|w5pudk|Blacksmith|MC_MAMMONITE|Two_Handed_Axe|**failed**| |881/887|1397/1397|
-|w8yidf|Blacksmith|MC_MAMMONITE|Chain|**failed**| |929/935|1067/1067|
+|w5pudk|Blacksmith|MC_MAMMONITE|Two_Handed_Axe|**passed**| |887/887|1397/1397|
+|w8yidf|Blacksmith|MC_MAMMONITE|Chain|**passed**| |935/935|1067/1067|
 |64dyzb|Blacksmith|MC_CARTREVOLUTION|Unarmed|**passed**| |236/235|236/235|
 |e4q4co|Blacksmith|MC_CARTREVOLUTION|Knife|**passed**| |266/265|266/265|
 |gkpc9i|Blacksmith|MC_CARTREVOLUTION|Sword|**passed**| |299/298|299/298|
 |yarno7|Blacksmith|MC_CARTREVOLUTION|Axe|**passed**| |306/305|306/305|
-|pmotyj|Blacksmith|MC_CARTREVOLUTION|Two_Handed_Axe|**failed**| |366/368|581/580|
-|4kpvni|Blacksmith|MC_CARTREVOLUTION|Chain|**failed**| |386/388|444/443|
+|pmotyj|Blacksmith|MC_CARTREVOLUTION|Two_Handed_Axe|**passed**| |369/368|581/580|
+|4kpvni|Blacksmith|MC_CARTREVOLUTION|Chain|**passed**| |389/388|444/443|
 |owzli5|Crusader|SM_BASH|Unarmed|**passed**| |379/379|379/379|
 |tux0a6|Crusader|SM_BASH|Knife|**passed**| |427/427|427/427|
 |j1dyts|Crusader|SM_BASH|Sword|**passed**| |479/479|479/479|
@@ -1038,14 +1038,14 @@
 |9nlxsp|Monk|AL_HOLYLIGHT|Chain|**passed**| |117/117|178/178|
 |1mplz0|Monk|AL_HOLYLIGHT|Rod|**failed**| |117/134|178/204|
 |73rtro|Monk|AL_HOLYLIGHT|Claw|**passed**| |117/117|178/178|
-|4r2pvv|Monk|MO_BALKYOUNG|Unarmed|**failed**| |94/287|94/287|
-|49q749|Monk|MO_BALKYOUNG|Chain|**failed**| |154/467|177/536|
-|dva230|Monk|MO_BALKYOUNG|Rod|**failed**| |109/332|109/332|
-|3faeoz|Monk|MO_BALKYOUNG|Claw|**failed**| |146/449|157/482|
-|qzwed7|Bard|AC_DOUBLE|Bow|**failed**| |366/370|506/510|
-|mj4m9p|Bard|BA_MUSICALSTRIKE|Lute|**failed**| |402/407|516/519|
-|fwbc1z|Bard|AC_SHOWER|Bow|**passed**| |120/121|166/167|
-|ka83xu|Bard|AC_CHARGEARROW|Bow|**failed**| |144/146|200/201|
+|4r2pvv|Monk|MO_BALKYOUNG|Unarmed|**failed**| |95/287|95/287|
+|49q749|Monk|MO_BALKYOUNG|Chain|**failed**| |155/467|178/536|
+|dva230|Monk|MO_BALKYOUNG|Rod|**failed**| |110/332|110/332|
+|3faeoz|Monk|MO_BALKYOUNG|Claw|**failed**| |147/449|158/482|
+|qzwed7|Bard|AC_DOUBLE|Bow|**passed**| |370/370|510/510|
+|mj4m9p|Bard|BA_MUSICALSTRIKE|Lute|**passed**| |407/407|519/519|
+|fwbc1z|Bard|AC_SHOWER|Bow|**passed**| |121/121|167/167|
+|ka83xu|Bard|AC_CHARGEARROW|Bow|**passed**| |146/146|201/201|
 |36xykh|Dancer|AC_DOUBLE|Bow|**passed**| |366/366|506/506|
 |j2l9ok|Dancer|DC_THROWARROW|Line|**passed**| |402/402|451/451|
 |5afkau|Dancer|AC_SHOWER|Bow|**passed**| |120/120|166/166|
@@ -1118,30 +1118,30 @@
 |29eyl5|Alchemist|AM_DEMONSTRATION|Axe|**failed**| |245/122|245/122|
 |ifn37u|Alchemist|AM_DEMONSTRATION|Two_Handed_Axe|**failed**| |293/146|465/232|
 |yxfbaq|Alchemist|AM_DEMONSTRATION|Chain|**failed**| |309/154|355/177|
-|j0im4z|Super Novice|SM_BASH|Unarmed|**failed**| |379/383|379/383|
-|1k8pk7|Super Novice|SM_BASH|Knife|**failed**| |427/431|427/431|
-|flob6z|Super Novice|SM_BASH|Sword|**failed**| |479/483|479/483|
-|qj5cxr|Super Novice|SM_BASH|Axe|**failed**| |491/495|491/495|
-|en25ri|Super Novice|SM_BASH|Chain|**failed**| |619/623|711/715|
-|y92d8k|Super Novice|SM_BASH|Rod|**failed**| |439/443|439/443|
-|9wz7s0|Super Novice|SM_MAGNUM|Unarmed|**failed**| |284/143|284/143|
-|gwdbty|Super Novice|SM_MAGNUM|Knife|**failed**| |320/161|320/161|
-|dyvpjq|Super Novice|SM_MAGNUM|Sword|**failed**| |359/181|359/181|
-|fw7mwg|Super Novice|SM_MAGNUM|Axe|**failed**| |368/185|368/185|
-|80tumg|Super Novice|SM_MAGNUM|Chain|**failed**| |464/233|533/268|
-|amvcut|Super Novice|SM_MAGNUM|Rod|**failed**| |329/166|329/166|
+|j0im4z|Super Novice|SM_BASH|Unarmed|**passed**| |383/383|383/383|
+|1k8pk7|Super Novice|SM_BASH|Knife|**passed**| |431/431|431/431|
+|flob6z|Super Novice|SM_BASH|Sword|**passed**| |483/483|483/483|
+|qj5cxr|Super Novice|SM_BASH|Axe|**passed**| |495/495|495/495|
+|en25ri|Super Novice|SM_BASH|Chain|**passed**| |623/623|715/715|
+|y92d8k|Super Novice|SM_BASH|Rod|**passed**| |443/443|443/443|
+|9wz7s0|Super Novice|SM_MAGNUM|Unarmed|**failed**| |287/143|287/143|
+|gwdbty|Super Novice|SM_MAGNUM|Knife|**failed**| |323/161|323/161|
+|dyvpjq|Super Novice|SM_MAGNUM|Sword|**failed**| |362/181|362/181|
+|fw7mwg|Super Novice|SM_MAGNUM|Axe|**failed**| |371/185|371/185|
+|80tumg|Super Novice|SM_MAGNUM|Chain|**failed**| |467/233|536/268|
+|amvcut|Super Novice|SM_MAGNUM|Rod|**failed**| |332/166|332/166|
 |9cz2eh|Super Novice|TF_POISON|Unarmed|**failed**| |94/245|94/245|
 |crneqz|Super Novice|TF_POISON|Knife|**failed**| |106/257|106/257|
 |o87jvh|Super Novice|TF_POISON|Sword|**failed**| |119/270|119/270|
 |wgzlk1|Super Novice|TF_POISON|Axe|**failed**| |122/273|122/273|
 |y90c9p|Super Novice|TF_POISON|Chain|**failed**| |154/305|177/328|
 |kttrcd|Super Novice|TF_POISON|Rod|**failed**| |109/260|109/260|
-|fv6qje|Super Novice|MC_MAMMONITE|Unarmed|**failed**| |569/575|569/575|
-|v3o33i|Super Novice|MC_MAMMONITE|Knife|**failed**| |641/647|641/647|
-|dpal0s|Super Novice|MC_MAMMONITE|Sword|**failed**| |719/725|719/725|
-|tn36vo|Super Novice|MC_MAMMONITE|Axe|**failed**| |737/743|737/743|
-|k9xpso|Super Novice|MC_MAMMONITE|Chain|**failed**| |929/935|1067/1073|
-|5bq6qf|Super Novice|MC_MAMMONITE|Rod|**failed**| |659/665|659/665|
+|fv6qje|Super Novice|MC_MAMMONITE|Unarmed|**passed**| |575/575|575/575|
+|v3o33i|Super Novice|MC_MAMMONITE|Knife|**passed**| |647/647|647/647|
+|dpal0s|Super Novice|MC_MAMMONITE|Sword|**passed**| |725/725|725/725|
+|tn36vo|Super Novice|MC_MAMMONITE|Axe|**passed**| |743/743|743/743|
+|k9xpso|Super Novice|MC_MAMMONITE|Chain|**passed**| |935/935|1073/1073|
+|5bq6qf|Super Novice|MC_MAMMONITE|Rod|**passed**| |665/665|665/665|
 |fszmv2|Super Novice|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
 |i20nim|Super Novice|AL_HEAL|Knife|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
 |zdj45y|Super Novice|AL_HEAL|Sword|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
@@ -1202,30 +1202,30 @@
 |5a2k8h|Super Novice|MG_SOULSTRIKE|Axe|**passed**| |470/470|710/710|
 |paoq6v|Super Novice|MG_SOULSTRIKE|Chain|**passed**| |470/470|710/710|
 |d7tn30|Super Novice|MG_SOULSTRIKE|Rod|**failed**| |470/535|710/815|
-|1skb0b|LordKnight|SM_BASH|Unarmed|**failed**| |379/383|379/383|
-|ps3932|LordKnight|SM_BASH|Knife|**failed**| |427/431|427/431|
-|toq39l|LordKnight|SM_BASH|Sword|**failed**| |479/483|479/483|
-|pnre1u|LordKnight|SM_BASH|Bastard_Sword|**failed**| |559/563|719/723|
-|xj5e17|LordKnight|SM_BASH|Spear|**failed**| |511/515|511/515|
-|gx8jyq|LordKnight|SM_BASH|Glaive|**failed**| |559/563|687/691|
-|jpu6tl|LordKnight|SM_BASH|Axe|**failed**| |491/495|491/495|
-|9em55b|LordKnight|SM_BASH|Two_Handed_Axe|**failed**| |587/591|931/935|
-|0mhru6|LordKnight|SM_BASH|Chain|**failed**| |619/623|711/715|
-|lg5yo4|LordKnight|SM_MAGNUM|Unarmed|**failed**| |284/143|284/143|
-|ezcjkn|LordKnight|SM_MAGNUM|Knife|**failed**| |320/161|320/161|
-|0k0sge|LordKnight|SM_MAGNUM|Sword|**failed**| |359/181|359/181|
-|yhn1nu|LordKnight|SM_MAGNUM|Bastard_Sword|**failed**| |419/211|539/271|
-|4qbjj3|LordKnight|SM_MAGNUM|Spear|**failed**| |383/193|383/193|
-|sk3xfv|LordKnight|SM_MAGNUM|Glaive|**failed**| |419/211|515/259|
-|nz6cs2|LordKnight|SM_MAGNUM|Axe|**failed**| |368/185|368/185|
-|k9i9qa|LordKnight|SM_MAGNUM|Two_Handed_Axe|**failed**| |440/221|698/350|
-|5dz9yv|LordKnight|SM_MAGNUM|Chain|**failed**| |464/233|533/268|
+|1skb0b|LordKnight|SM_BASH|Unarmed|**passed**| |383/383|383/383|
+|ps3932|LordKnight|SM_BASH|Knife|**passed**| |431/431|431/431|
+|toq39l|LordKnight|SM_BASH|Sword|**passed**| |483/483|483/483|
+|pnre1u|LordKnight|SM_BASH|Bastard_Sword|**passed**| |563/563|723/723|
+|xj5e17|LordKnight|SM_BASH|Spear|**passed**| |515/515|515/515|
+|gx8jyq|LordKnight|SM_BASH|Glaive|**passed**| |563/563|691/691|
+|jpu6tl|LordKnight|SM_BASH|Axe|**passed**| |495/495|495/495|
+|9em55b|LordKnight|SM_BASH|Two_Handed_Axe|**passed**| |591/591|935/935|
+|0mhru6|LordKnight|SM_BASH|Chain|**passed**| |623/623|715/715|
+|lg5yo4|LordKnight|SM_MAGNUM|Unarmed|**failed**| |287/143|287/143|
+|ezcjkn|LordKnight|SM_MAGNUM|Knife|**failed**| |323/161|323/161|
+|0k0sge|LordKnight|SM_MAGNUM|Sword|**failed**| |362/181|362/181|
+|yhn1nu|LordKnight|SM_MAGNUM|Bastard_Sword|**failed**| |422/211|542/271|
+|4qbjj3|LordKnight|SM_MAGNUM|Spear|**failed**| |386/193|386/193|
+|sk3xfv|LordKnight|SM_MAGNUM|Glaive|**failed**| |422/211|518/259|
+|nz6cs2|LordKnight|SM_MAGNUM|Axe|**failed**| |371/185|371/185|
+|k9i9qa|LordKnight|SM_MAGNUM|Two_Handed_Axe|**failed**| |443/221|701/350|
+|5dz9yv|LordKnight|SM_MAGNUM|Chain|**failed**| |467/233|536/268|
 |ehkskg|LordKnight|KN_PIERCE|Spear|**failed**| |252/514|252/514|
 |0ls339|LordKnight|KN_PIERCE|Glaive|**failed**| |276/562|339/690|
 |rsmtzh|LordKnight|KN_SPEARSTAB|Spear|**failed**| |383/386|383/386|
 |lqguts|LordKnight|KN_SPEARSTAB|Glaive|**failed**| |419/422|515/518|
-|47s3ii|LordKnight|KN_SPEARBOOMERANG|Spear|**failed**| |447/450|447/450|
-|qlclmq|LordKnight|KN_SPEARBOOMERANG|Glaive|**failed**| |489/492|601/604|
+|47s3ii|LordKnight|KN_SPEARBOOMERANG|Spear|**passed**| |450/450|450/450|
+|qlclmq|LordKnight|KN_SPEARBOOMERANG|Glaive|**passed**| |492/492|604/604|
 |a6wgox|LordKnight|KN_BRANDISHSPEAR|Spear|**failed**| |718/724|718/724|
 |u2dus0|LordKnight|KN_BRANDISHSPEAR|Glaive|**failed**| |785/792|965/972|
 |7eufdx|LordKnight|KN_BOWLINGBASH|Unarmed|**failed**| |474/1437|474/1437|
@@ -1307,9 +1307,9 @@
 |vmz6lo|HighPriest|PR_SANCTUARY|Rod|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
 |29re4r|HighPriest|PR_SANCTUARY|Book|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
 |ei0k5v|HighPriest|PR_SANCTUARY|Claw|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
-|pdci4e|Sniper|AC_DOUBLE|Bow|**failed**| |366/370|506/510|
-|17fj6k|Sniper|AC_SHOWER|Bow|**passed**| |120/121|166/167|
-|9znyj3|Sniper|AC_CHARGEARROW|Bow|**failed**| |144/146|200/201|
+|pdci4e|Sniper|AC_DOUBLE|Bow|**passed**| |370/370|510/510|
+|17fj6k|Sniper|AC_SHOWER|Bow|**passed**| |121/121|167/167|
+|9znyj3|Sniper|AC_CHARGEARROW|Bow|**passed**| |146/146|201/201|
 |w366a4|Sniper|HT_BLITZBEAT|Unarmed|**failed**| |0/700|0/700|
 |w7hfpe|Sniper|HT_BLITZBEAT|Knife|**failed**| |0/700|0/700|
 |m4xbes|Sniper|HT_BLITZBEAT|Bow|**failed**| |0/700|0/700|
@@ -1325,8 +1325,8 @@
 |58ihg1|Sniper|SN_SIGHT|Unarmed|**failed**|Skill SN_SIGHT is not an offensive skill|/|/|
 |i4dlfr|Sniper|SN_SIGHT|Knife|**failed**|Skill SN_SIGHT is not an offensive skill|/|/|
 |cqyn8c|Sniper|SN_SIGHT|Bow|**failed**|Skill SN_SIGHT is not an offensive skill|/|/|
-|187u75|Sniper|SN_SHARPSHOOTING|Bow|**failed**| |581/94|803/142|
-|qwycqe|Sniper|HT_POWER|Bow|**failed**| |94/0|132/0|
+|187u75|Sniper|SN_SHARPSHOOTING|Bow|**failed**| |587/94|809/142|
+|qwycqe|Sniper|HT_POWER|Bow|**failed**| |96/0|132/0|
 |a88nfz|HighWizard|MG_FIREBOLT|Unarmed|**passed**| |470/470|710/710|
 |go2b87|HighWizard|MG_FIREBOLT|Knife|**passed**| |470/470|710/710|
 |q4ff5n|HighWizard|MG_FIREBOLT|Rod|**failed**| |470/540|710/820|
@@ -1394,14 +1394,14 @@
 |pxxl9b|Whitesmith|MC_MAMMONITE|Knife|**passed**| |641/641|641/641|
 |b9b14m|Whitesmith|MC_MAMMONITE|Sword|**passed**| |719/719|719/719|
 |02gjkr|Whitesmith|MC_MAMMONITE|Axe|**passed**| |737/737|737/737|
-|2tg6y1|Whitesmith|MC_MAMMONITE|Two_Handed_Axe|**failed**| |881/887|1397/1397|
-|3x7bev|Whitesmith|MC_MAMMONITE|Chain|**failed**| |929/935|1067/1067|
+|2tg6y1|Whitesmith|MC_MAMMONITE|Two_Handed_Axe|**passed**| |887/887|1397/1397|
+|3x7bev|Whitesmith|MC_MAMMONITE|Chain|**passed**| |935/935|1067/1067|
 |pu6pmg|Whitesmith|MC_CARTREVOLUTION|Unarmed|**passed**| |236/235|236/235|
 |b7z4vp|Whitesmith|MC_CARTREVOLUTION|Knife|**passed**| |266/265|266/265|
 |12ue6g|Whitesmith|MC_CARTREVOLUTION|Sword|**passed**| |299/298|299/298|
 |uzw6g6|Whitesmith|MC_CARTREVOLUTION|Axe|**passed**| |306/305|306/305|
-|zbfxj2|Whitesmith|MC_CARTREVOLUTION|Two_Handed_Axe|**failed**| |366/368|581/580|
-|ss3nvt|Whitesmith|MC_CARTREVOLUTION|Chain|**failed**| |386/388|444/443|
+|zbfxj2|Whitesmith|MC_CARTREVOLUTION|Two_Handed_Axe|**passed**| |369/368|581/580|
+|ss3nvt|Whitesmith|MC_CARTREVOLUTION|Chain|**passed**| |389/388|444/443|
 |qzcybg|Paladin|SM_BASH|Unarmed|**passed**| |379/379|379/379|
 |142uu7|Paladin|SM_BASH|Knife|**passed**| |427/427|427/427|
 |dhz95f|Paladin|SM_BASH|Sword|**passed**| |479/479|479/479|
@@ -1492,26 +1492,26 @@
 |2b2l1r|Paladin|AL_HEAL|Axe|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
 |mr5it1|Paladin|AL_HEAL|Two_Handed_Axe|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
 |0lqdic|Paladin|AL_HEAL|Chain|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|t29sx7|Stalker|RG_BACKSTAP|Unarmed|**failed**| |664/671|664/671|
-|cbc3v1|Stalker|RG_BACKSTAP|Knife|**failed**| |748/755|748/755|
-|gsh9xn|Stalker|RG_BACKSTAP|Sword|**failed**| |839/846|839/846|
-|8l2hlj|Stalker|RG_BACKSTAP|Bow|**failed**| |678/339|937/468|
-|4uon0u|Stalker|RG_RAID|Unarmed|**failed**| |303/287|303/287|
-|6ql0fg|Stalker|RG_RAID|Knife|**failed**| |341/323|341/323|
-|8hyg9i|Stalker|RG_RAID|Sword|**failed**| |383/362|383/362|
-|6433cm|Stalker|RG_RAID|Bow|**failed**| |309/290|427/401|
+|t29sx7|Stalker|RG_BACKSTAP|Unarmed|**passed**| |671/671|671/671|
+|cbc3v1|Stalker|RG_BACKSTAP|Knife|**passed**| |755/755|755/755|
+|gsh9xn|Stalker|RG_BACKSTAP|Sword|**passed**| |846/846|846/846|
+|8l2hlj|Stalker|RG_BACKSTAP|Bow|**failed**| |685/339|944/468|
+|4uon0u|Stalker|RG_RAID|Unarmed|**failed**| |306/287|306/287|
+|6ql0fg|Stalker|RG_RAID|Knife|**failed**| |344/323|344/323|
+|8hyg9i|Stalker|RG_RAID|Sword|**failed**| |386/362|386/362|
+|6433cm|Stalker|RG_RAID|Bow|**failed**| |312/290|431/401|
 |yyuuhs|Stalker|AC_DOUBLE|Bow|**passed**| |366/366|506/506|
 |yvf4pm|Stalker|TF_POISON|Unarmed|**failed**| |94/245|94/245|
 |sfpty8|Stalker|TF_POISON|Knife|**failed**| |106/257|106/257|
 |d3upzw|Stalker|TF_POISON|Sword|**failed**| |119/270|119/270|
 |a9n235|Stalker|TF_POISON|Bow|**failed**| |96/246|133/283|
-|fdzo2u|Stalker|SM_BASH|Unarmed|**failed**| |379/383|379/383|
-|wncm7a|Stalker|SM_BASH|Knife|**failed**| |427/431|427/431|
-|joia99|Stalker|SM_BASH|Sword|**failed**| |479/483|479/483|
-|i5vfd1|Stalker|SM_MAGNUM|Unarmed|**failed**| |284/143|284/143|
-|el4zp1|Stalker|SM_MAGNUM|Knife|**failed**| |320/161|320/161|
-|b8g3iv|Stalker|SM_MAGNUM|Sword|**failed**| |359/181|359/181|
-|elp9p1|Stalker|SM_MAGNUM|Bow|**failed**| |290/145|401/200|
+|fdzo2u|Stalker|SM_BASH|Unarmed|**passed**| |383/383|383/383|
+|wncm7a|Stalker|SM_BASH|Knife|**passed**| |431/431|431/431|
+|joia99|Stalker|SM_BASH|Sword|**passed**| |483/483|483/483|
+|i5vfd1|Stalker|SM_MAGNUM|Unarmed|**failed**| |287/143|287/143|
+|el4zp1|Stalker|SM_MAGNUM|Knife|**failed**| |323/161|323/161|
+|b8g3iv|Stalker|SM_MAGNUM|Sword|**failed**| |362/181|362/181|
+|elp9p1|Stalker|SM_MAGNUM|Bow|**failed**| |293/145|404/200|
 |5fvcbj|Stalker|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
 |ds69hz|Stalker|AL_HEAL|Knife|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
 |h8pyko|Stalker|AL_HEAL|Sword|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
@@ -1520,10 +1520,10 @@
 |3e9bkd|Stalker|KN_BOWLINGBASH|Knife|**failed**| |534/1617|534/1617|
 |8fz6s0|Stalker|KN_BOWLINGBASH|Sword|**failed**| |599/1812|599/1812|
 |0sda3d|Stalker|KN_BOWLINGBASH|Bow|**failed**| |484/1452|669/2007|
-|yc693z|Stalker|MC_MAMMONITE|Unarmed|**failed**| |569/575|569/575|
-|8ppmpy|Stalker|MC_MAMMONITE|Knife|**failed**| |641/647|641/647|
-|932bdw|Stalker|MC_MAMMONITE|Sword|**failed**| |719/725|719/725|
-|0oqrgo|Stalker|MC_MAMMONITE|Bow|**passed**| |581/581|803/803|
+|yc693z|Stalker|MC_MAMMONITE|Unarmed|**passed**| |575/575|575/575|
+|8ppmpy|Stalker|MC_MAMMONITE|Knife|**passed**| |647/647|647/647|
+|932bdw|Stalker|MC_MAMMONITE|Sword|**passed**| |725/725|725/725|
+|0oqrgo|Stalker|MC_MAMMONITE|Bow|**failed**| |587/581|809/803|
 |82n44y|Stalker|CR_HOLYCROSS|Unarmed|**failed**| |426/431|426/431|
 |e1q33t|Stalker|CR_HOLYCROSS|Knife|**failed**| |480/485|480/485|
 |l9zx8p|Stalker|CR_HOLYCROSS|Sword|**failed**| |538/543|538/543|
@@ -1536,10 +1536,10 @@
 |enbju0|Stalker|CR_SHIELDCHARGE|Knife|**failed**| |213/215|213/215|
 |9t02g3|Stalker|CR_SHIELDCHARGE|Sword|**failed**| |239/241|239/241|
 |003fdh|Stalker|CR_SHIELDCHARGE|Bow|**passed**| |193/193|267/267|
-|thl4v8|Stalker|CR_SHIELDBOOMERANG|Unarmed|**failed**| |474/237|474/237|
-|kjlw5q|Stalker|CR_SHIELDBOOMERANG|Knife|**failed**| |534/237|534/237|
-|9t1p2a|Stalker|CR_SHIELDBOOMERANG|Sword|**failed**| |599/237|599/237|
-|h3ik93|Stalker|CR_SHIELDBOOMERANG|Bow|**failed**| |484/237|669/237|
+|thl4v8|Stalker|CR_SHIELDBOOMERANG|Unarmed|**failed**| |479/237|479/237|
+|kjlw5q|Stalker|CR_SHIELDBOOMERANG|Knife|**failed**| |539/237|539/237|
+|9t1p2a|Stalker|CR_SHIELDBOOMERANG|Sword|**failed**| |604/237|604/237|
+|h3ik93|Stalker|CR_SHIELDBOOMERANG|Bow|**failed**| |489/237|674/237|
 |qdg9jo|Stalker|MG_NAPALMBEAT|Unarmed|**passed**| |159/159|242/242|
 |ly2ry9|Stalker|MG_NAPALMBEAT|Knife|**passed**| |159/159|242/242|
 |brkafb|Stalker|MG_NAPALMBEAT|Sword|**passed**| |159/159|242/242|
@@ -1646,10 +1646,10 @@
 |qubwmc|Stalker|AM_DEMONSTRATION|Knife|**failed**| |213/107|213/107|
 |yn7a1g|Stalker|AM_DEMONSTRATION|Sword|**failed**| |239/120|239/120|
 |ecsq1y|Stalker|AM_DEMONSTRATION|Bow|**failed**| |193/96|267/133|
-|v5wylh|Stalker|TF_SPRINKLESAND|Unarmed|**passed**| |122/123|122/123|
-|svqppo|Stalker|TF_SPRINKLESAND|Knife|**passed**| |138/139|138/139|
-|3fll9x|Stalker|TF_SPRINKLESAND|Sword|**passed**| |155/156|155/156|
-|2q8o5m|Stalker|TF_SPRINKLESAND|Bow|**passed**| |125/125|173/173|
+|v5wylh|Stalker|TF_SPRINKLESAND|Unarmed|**passed**| |123/123|123/123|
+|svqppo|Stalker|TF_SPRINKLESAND|Knife|**passed**| |139/139|139/139|
+|3fll9x|Stalker|TF_SPRINKLESAND|Sword|**passed**| |156/156|156/156|
+|2q8o5m|Stalker|TF_SPRINKLESAND|Bow|**passed**| |126/125|174/173|
 |ahht8u|Stalker|MO_INVESTIGATE|Unarmed|**failed**| |901/9|901/9|
 |790n0q|Stalker|MO_INVESTIGATE|Knife|**failed**| |1015/10|1015/10|
 |opeh8c|Stalker|MO_INVESTIGATE|Sword|**failed**| |1139/11|1139/11|
@@ -1658,10 +1658,10 @@
 |j2113g|Stalker|MO_FINGEROFFENSIVE|Knife|**failed**| |365/0|365/0|
 |23qjak|Stalker|MO_FINGEROFFENSIVE|Sword|**failed**| |415/0|415/0|
 |61qb6u|Stalker|MO_FINGEROFFENSIVE|Bow|**failed**| |330/0|460/0|
-|b7jeqw|Stalker|MO_BALKYOUNG|Unarmed|**failed**| |94/287|94/287|
-|g1wcqy|Stalker|MO_BALKYOUNG|Knife|**failed**| |106/323|106/323|
-|85eshn|Stalker|MO_BALKYOUNG|Sword|**failed**| |119/362|119/362|
-|tjbaso|Stalker|MO_BALKYOUNG|Bow|**failed**| |96/290|133/401|
+|b7jeqw|Stalker|MO_BALKYOUNG|Unarmed|**failed**| |95/287|95/287|
+|g1wcqy|Stalker|MO_BALKYOUNG|Knife|**failed**| |107/323|107/323|
+|85eshn|Stalker|MO_BALKYOUNG|Sword|**failed**| |120/362|120/362|
+|tjbaso|Stalker|MO_BALKYOUNG|Bow|**failed**| |97/290|134/401|
 |3hfpqs|Stalker|NJ_KOUENKA|Unarmed|**passed**| |420/420|640/640|
 |jy5xf0|Stalker|NJ_KOUENKA|Knife|**passed**| |420/420|640/640|
 |z3xu7z|Stalker|NJ_KOUENKA|Sword|**passed**| |420/420|640/640|
@@ -1750,20 +1750,20 @@
 |3stuqx|Champion|CH_CHAINCRUSH|Chain|**failed**| |2165/2183|2490/2505|
 |komd60|Champion|CH_CHAINCRUSH|Rod|**failed**| |1535/1553|1535/1553|
 |0sbbwd|Champion|CH_CHAINCRUSH|Claw|**failed**| |2055/2099|2210/2253|
-|uk3mpl|Champion|MO_BALKYOUNG|Unarmed|**failed**| |94/287|94/287|
-|5qbgkl|Champion|MO_BALKYOUNG|Chain|**failed**| |154/467|177/536|
-|uedgwr|Champion|MO_BALKYOUNG|Rod|**failed**| |109/332|109/332|
-|v5q4oz|Champion|MO_BALKYOUNG|Claw|**failed**| |146/449|157/482|
+|uk3mpl|Champion|MO_BALKYOUNG|Unarmed|**failed**| |95/287|95/287|
+|5qbgkl|Champion|MO_BALKYOUNG|Chain|**failed**| |155/467|178/536|
+|uedgwr|Champion|MO_BALKYOUNG|Rod|**failed**| |110/332|110/332|
+|v5q4oz|Champion|MO_BALKYOUNG|Claw|**failed**| |147/449|158/482|
 |st57uc|Clown|AC_DOUBLE|Bow|**passed**| |366/366|506/506|
 |p5pen8|Clown|BA_MUSICALSTRIKE|Lute|**passed**| |402/402|516/516|
 |0pez1p|Clown|AC_SHOWER|Bow|**passed**| |120/120|166/166|
 |gibmw2|Clown|AC_CHARGEARROW|Bow|**passed**| |144/144|200/200|
 |hkty1e|Clown|CG_ARROWVULCAN|Lute|**passed**| |1854/1854|2385/2385|
-|pn6z8d|Gypsy|AC_DOUBLE|Bow|**failed**| |366/370|506/510|
-|78hnax|Gypsy|DC_THROWARROW|Line|**failed**| |402/407|451/454|
-|ebcwaf|Gypsy|AC_SHOWER|Bow|**passed**| |120/121|166/167|
-|09p4ue|Gypsy|AC_CHARGEARROW|Bow|**failed**| |144/146|200/201|
-|lfm3oq|Gypsy|CG_ARROWVULCAN|Line|**failed**| |1854/1881|2079/2097|
+|pn6z8d|Gypsy|AC_DOUBLE|Bow|**passed**| |370/370|510/510|
+|78hnax|Gypsy|DC_THROWARROW|Line|**passed**| |407/407|453/454|
+|ebcwaf|Gypsy|AC_SHOWER|Bow|**passed**| |121/121|167/167|
+|09p4ue|Gypsy|AC_CHARGEARROW|Bow|**passed**| |146/146|201/201|
+|lfm3oq|Gypsy|CG_ARROWVULCAN|Line|**passed**| |1881/1881|2097/2097|
 |ohqt0h|Professor|MG_FIREBOLT|Unarmed|**passed**| |470/470|710/710|
 |4kcs6j|Professor|MG_FIREBOLT|Knife|**passed**| |470/470|710/710|
 |lpj6lr|Professor|MG_FIREBOLT|Rod|**failed**| |470/540|710/820|
@@ -1812,26 +1812,26 @@
 |f5ms5y|Creator|MC_MAMMONITE|Knife|**passed**| |641/641|641/641|
 |ruhbfk|Creator|MC_MAMMONITE|Sword|**passed**| |719/719|719/719|
 |09q7r5|Creator|MC_MAMMONITE|Axe|**passed**| |737/737|737/737|
-|lokz9u|Creator|MC_MAMMONITE|Two_Handed_Axe|**failed**| |881/887|1397/1397|
-|9ong7h|Creator|MC_MAMMONITE|Chain|**failed**| |929/935|1067/1067|
+|lokz9u|Creator|MC_MAMMONITE|Two_Handed_Axe|**passed**| |887/887|1397/1397|
+|9ong7h|Creator|MC_MAMMONITE|Chain|**passed**| |935/935|1067/1067|
 |6nqp0x|Creator|MC_CARTREVOLUTION|Unarmed|**passed**| |236/235|236/235|
 |qdxswy|Creator|MC_CARTREVOLUTION|Knife|**passed**| |266/265|266/265|
 |pbz7af|Creator|MC_CARTREVOLUTION|Sword|**passed**| |299/298|299/298|
 |amx1dh|Creator|MC_CARTREVOLUTION|Axe|**passed**| |306/305|306/305|
-|jwacph|Creator|MC_CARTREVOLUTION|Two_Handed_Axe|**failed**| |366/368|581/580|
-|ce4fu2|Creator|MC_CARTREVOLUTION|Chain|**failed**| |386/388|444/443|
-|65usah|Creator|AM_ACIDTERROR|Unarmed|**failed**| |284/282|284/282|
-|s23a7w|Creator|AM_ACIDTERROR|Knife|**failed**| |320/318|320/318|
-|2rvl6y|Creator|AM_ACIDTERROR|Sword|**failed**| |359/357|359/357|
-|t7fhq6|Creator|AM_ACIDTERROR|Axe|**failed**| |368/366|368/366|
-|0qzwfk|Creator|AM_ACIDTERROR|Two_Handed_Axe|**failed**| |440/441|698/696|
-|2ddgd3|Creator|AM_ACIDTERROR|Chain|**failed**| |464/465|533/531|
-|kxnjjd|Creator|AM_DEMONSTRATION|Unarmed|**failed**| |189/94|189/94|
-|zuufd0|Creator|AM_DEMONSTRATION|Knife|**failed**| |213/106|213/106|
-|uhqmjb|Creator|AM_DEMONSTRATION|Sword|**failed**| |239/119|239/119|
-|p1h4ff|Creator|AM_DEMONSTRATION|Axe|**failed**| |245/122|245/122|
-|39fo5n|Creator|AM_DEMONSTRATION|Two_Handed_Axe|**failed**| |293/147|465/232|
-|jn9fv0|Creator|AM_DEMONSTRATION|Chain|**failed**| |309/155|355/177|
+|jwacph|Creator|MC_CARTREVOLUTION|Two_Handed_Axe|**passed**| |369/368|581/580|
+|ce4fu2|Creator|MC_CARTREVOLUTION|Chain|**passed**| |389/388|444/443|
+|65usah|Creator|AM_ACIDTERROR|Unarmed|**failed**| |287/282|287/282|
+|s23a7w|Creator|AM_ACIDTERROR|Knife|**failed**| |323/318|323/318|
+|2rvl6y|Creator|AM_ACIDTERROR|Sword|**failed**| |362/357|362/357|
+|t7fhq6|Creator|AM_ACIDTERROR|Axe|**failed**| |371/366|371/366|
+|0qzwfk|Creator|AM_ACIDTERROR|Two_Handed_Axe|**failed**| |446/441|701/696|
+|2ddgd3|Creator|AM_ACIDTERROR|Chain|**failed**| |470/465|536/531|
+|kxnjjd|Creator|AM_DEMONSTRATION|Unarmed|**failed**| |191/94|191/94|
+|zuufd0|Creator|AM_DEMONSTRATION|Knife|**failed**| |215/106|215/106|
+|uhqmjb|Creator|AM_DEMONSTRATION|Sword|**failed**| |241/119|241/119|
+|p1h4ff|Creator|AM_DEMONSTRATION|Axe|**failed**| |247/122|247/122|
+|39fo5n|Creator|AM_DEMONSTRATION|Two_Handed_Axe|**failed**| |297/147|467/232|
+|jn9fv0|Creator|AM_DEMONSTRATION|Chain|**failed**| |313/155|357/177|
 |4rcstm|Creator|CR_ACIDDEMONSTRATION|Unarmed|**failed**| |0/340|0/340|
 |nesejd|Creator|CR_ACIDDEMONSTRATION|Knife|**failed**| |0/340|0/340|
 |dl6j13|Creator|CR_ACIDDEMONSTRATION|Sword|**failed**| |0/340|0/340|
@@ -1896,33 +1896,33 @@
 |n31jso|Ninja|NJ_ISSEN|Unarmed|**failed**| |94/3350|94/3350|
 |zvk18x|Ninja|NJ_ISSEN|Knife|**failed**| |106/3350|106/3350|
 |wn6kjc|Ninja|NJ_ISSEN|Huuma_Blaze|**failed**| |174/3350|278/3350|
-|vxa9ja|Gunslinger|GS_TRIPLEACTION|Unarmed|**passed**| |423/423|423/423|
-|t625jo|Gunslinger|GS_TRIPLEACTION|Crimson_Bolt|**failed**| |513/519|735/738|
-|ryxi1i|Gunslinger|GS_TRIPLEACTION|The_Cyclone|**failed**| |747/756|1068/1071|
-|w1hyoo|Gunslinger|GS_TRIPLEACTION|Black_Rose|**failed**| |909/918|1338/1341|
-|muh453|Gunslinger|GS_TRIPLEACTION|Drifter|**failed**| |537/540|756/762|
-|xm5jni|Gunslinger|GS_TRIPLEACTION|Inferno|**failed**| |1179/1194|1788/1791|
-|pvqpcf|Gunslinger|GS_BULLSEYE|Unarmed|**failed**| |94/90|94/90|
-|8nlvro|Gunslinger|GS_BULLSEYE|Crimson_Bolt|**failed**| |114/115|163/160|
-|7aj1r4|Gunslinger|GS_BULLSEYE|The_Cyclone|**failed**| |166/165|237/235|
-|hix3xr|Gunslinger|GS_BULLSEYE|Black_Rose|**failed**| |202/200|297/295|
-|f4ifcv|Gunslinger|GS_BULLSEYE|Drifter|**failed**| |119/120|168/165|
-|fe1xdd|Gunslinger|GS_BULLSEYE|Inferno|**failed**| |262/265|397/395|
-|lgbr1z|Gunslinger|GS_MAGICALBULLET|Unarmed|**failed**| |94/188|94/188|
-|y1s4kc|Gunslinger|GS_MAGICALBULLET|Crimson_Bolt|**failed**| |114/209|163/258|
-|qybbi3|Gunslinger|GS_MAGICALBULLET|The_Cyclone|**failed**| |166/262|237/332|
-|b912gs|Gunslinger|GS_MAGICALBULLET|Black_Rose|**failed**| |202/298|297/392|
-|lb76xj|Gunslinger|GS_MAGICALBULLET|Drifter|**failed**| |119/214|168/263|
-|58rxbd|Gunslinger|GS_MAGICALBULLET|Inferno|**failed**| |262/359|397/492|
-|tyv131|Gunslinger|GS_RAPIDSHOWER|Crimson_Bolt|**failed**| |1145/1155|1635/1645|
+|vxa9ja|Gunslinger|GS_TRIPLEACTION|Unarmed|**failed**| |429/423|429/423|
+|t625jo|Gunslinger|GS_TRIPLEACTION|Crimson_Bolt|**passed**| |519/519|738/738|
+|ryxi1i|Gunslinger|GS_TRIPLEACTION|The_Cyclone|**passed**| |756/756|1071/1071|
+|w1hyoo|Gunslinger|GS_TRIPLEACTION|Black_Rose|**passed**| |918/918|1341/1341|
+|muh453|Gunslinger|GS_TRIPLEACTION|Drifter|**passed**| |540/540|762/762|
+|xm5jni|Gunslinger|GS_TRIPLEACTION|Inferno|**passed**| |1194/1194|1791/1791|
+|pvqpcf|Gunslinger|GS_BULLSEYE|Unarmed|**failed**| |95/90|95/90|
+|8nlvro|Gunslinger|GS_BULLSEYE|Crimson_Bolt|**failed**| |115/115|164/160|
+|7aj1r4|Gunslinger|GS_BULLSEYE|The_Cyclone|**failed**| |168/165|238/235|
+|hix3xr|Gunslinger|GS_BULLSEYE|Black_Rose|**failed**| |204/200|298/295|
+|f4ifcv|Gunslinger|GS_BULLSEYE|Drifter|**failed**| |120/120|169/165|
+|fe1xdd|Gunslinger|GS_BULLSEYE|Inferno|**failed**| |265/265|398/395|
+|lgbr1z|Gunslinger|GS_MAGICALBULLET|Unarmed|**failed**| |95/188|95/188|
+|y1s4kc|Gunslinger|GS_MAGICALBULLET|Crimson_Bolt|**failed**| |115/209|164/258|
+|qybbi3|Gunslinger|GS_MAGICALBULLET|The_Cyclone|**failed**| |168/262|238/332|
+|b912gs|Gunslinger|GS_MAGICALBULLET|Black_Rose|**failed**| |204/298|298/392|
+|lb76xj|Gunslinger|GS_MAGICALBULLET|Drifter|**failed**| |120/214|169/263|
+|58rxbd|Gunslinger|GS_MAGICALBULLET|Inferno|**failed**| |265/359|398/492|
+|tyv131|Gunslinger|GS_RAPIDSHOWER|Crimson_Bolt|**passed**| |1155/1155|1645/1645|
 |0fe8hs|Gunslinger|GS_DESPERADO|Crimson_Bolt|**failed**| |631/637|901/906|
-|w0g07b|Gunslinger|GS_TRACKING|Crimson_Bolt|**failed**| |1379/1391|1967/1979|
-|a6rnnb|Gunslinger|GS_TRACKING|The_Cyclone|**failed**| |2003/2027|2855/2867|
-|zve04j|Gunslinger|GS_DISARM|Crimson_Bolt|**passed**| |114/115|163/164|
-|3b3vtu|Gunslinger|GS_DISARM|The_Cyclone|**failed**| |166/168|237/238|
-|onqxwi|Gunslinger|GS_PIERCINGSHOT|Crimson_Bolt|**failed**| |344/232|491/330|
-|5dyiu7|Gunslinger|GS_PIERCINGSHOT|The_Cyclone|**failed**| |500/338|713/478|
-|kv7rhv|Gunslinger|GS_DUST|Black_Rose|**failed**| |1217/1229|1787/1793|
-|hlszm2|Gunslinger|GS_FULLBUSTER|Black_Rose|**failed**| |2232/2664|3277/3886|
-|eooea8|Gunslinger|GS_SPREADATTACK|Black_Rose|**failed**| |567/573|833/836|
-|5b4ntf|Gunslinger|GS_GROUNDDRIFT|Inferno|**failed**| |262/765|397/898|
+|w0g07b|Gunslinger|GS_TRACKING|Crimson_Bolt|**passed**| |1391/1391|1979/1979|
+|a6rnnb|Gunslinger|GS_TRACKING|The_Cyclone|**passed**| |2027/2027|2867/2867|
+|zve04j|Gunslinger|GS_DISARM|Crimson_Bolt|**passed**| |115/115|164/164|
+|3b3vtu|Gunslinger|GS_DISARM|The_Cyclone|**passed**| |168/168|238/238|
+|onqxwi|Gunslinger|GS_PIERCINGSHOT|Crimson_Bolt|**failed**| |347/232|494/330|
+|5dyiu7|Gunslinger|GS_PIERCINGSHOT|The_Cyclone|**failed**| |506/338|716/478|
+|kv7rhv|Gunslinger|GS_DUST|Black_Rose|**passed**| |1229/1229|1793/1793|
+|hlszm2|Gunslinger|GS_FULLBUSTER|Black_Rose|**failed**| |2254/2664|3288/3886|
+|eooea8|Gunslinger|GS_SPREADATTACK|Black_Rose|**passed**| |573/573|836/836|
+|5b4ntf|Gunslinger|GS_GROUNDDRIFT|Inferno|**failed**| |265/765|398/898|
