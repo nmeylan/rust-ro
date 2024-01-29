@@ -2,6 +2,7 @@ use std::mem;
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
 use enums::action::ActionType;
+use enums::element::Element;
 use enums::EnumWithMaskValueU64;
 use enums::size::Size;
 use enums::skill::SkillState;
@@ -26,13 +27,13 @@ pub struct BattleService {
     client_notification_sender: SyncSender<Notification>,
     status_service: StatusService,
     configuration_service: &'static GlobalConfigService,
-    battle_result_mode: BattleResultMode
+    battle_result_mode: BattleResultMode,
 }
 
 pub enum BattleResultMode {
     TestMin,
     TestMax,
-    Normal
+    Normal,
 }
 
 impl BattleService {
@@ -53,13 +54,12 @@ impl BattleService {
     /// (([((({(base_atk +
     /// + rnd(min(DEX,ATK), ATK)*SizeModifier) * SkillModifiers * (1 - DEF/100) - VitDEF + BaneSkill + UpgradeDamage}
     /// + MasterySkill + WeaponryResearchSkill + EnvenomSkill) * ElementalModifier) + Enhancements) * DamageBonusModifiers * DamageReductionModifiers] * NumberOfMultiHits) - KyrieEleisonEffect) / NumberOfMultiHits
-    pub fn damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool) -> u32 {
+    pub fn physical_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool) -> u32 {
         let _rng = fastrand::Rng::new();
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let _imposito_magnus: u32 = 0;
         let base_atk = self.status_service.fist_atk(source_status, is_ranged) as f32 + upgrade_bonus + source_status.base_atk() as f32;
 
-        let _size_modifier: f32 = self.size_modifier(source_status, target_status);
         let def: f32 = target_status.def() as f32 / 100.0;
         let vitdef: f32 = self.status_service.mob_vit_def(target_status.vit() as u32) as f32; // TODO set to 0 if critical hit
         let bane_skill: f32 = 0.0; // TODO Beast Bane, Daemon Bane, Draconology
@@ -126,7 +126,7 @@ impl BattleService {
         let weapon_over_upgrade_max: u32 = 0;
         let weapon_over_upgrade_min: u32 = 0;
         let mut weapon_min_attack: u32 = 0;
-        let size_modifier = self.size_modifier(source_status, target_status);
+        let size_modifier = Self::size_modifier(source_status, target_status);
         if work_dex >= weapon_attack { // todo || maximize power skill
             weapon_max_attack = weapon_over_upgrade_max + ((weapon_attack + imposito_magnus) as f32 * size_modifier).floor() as u32;
             weapon_min_attack = weapon_over_upgrade_min + ((weapon_attack + imposito_magnus) as f32 * size_modifier).floor() as u32;
@@ -147,14 +147,72 @@ impl BattleService {
         }
 
         match self.battle_result_mode {
-            BattleResultMode::TestMin => {weapon_min_attack}
-            BattleResultMode::TestMax => {weapon_max_attack}
-            BattleResultMode::Normal => {rng.u32(weapon_min_attack..=weapon_max_attack)}
+            BattleResultMode::TestMin => { weapon_min_attack }
+            BattleResultMode::TestMax => { weapon_max_attack }
+            BattleResultMode::Normal => { rng.u32(weapon_min_attack..=weapon_max_attack) }
         }
     }
 
+
+    /// {rnd(minMATK,maxMATK) * ItemModifier * SkillModifier * (1-MDEF/100) - INT - VIT/2} * Elemental Modifier
+    pub fn magic_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, element: &Element) -> u32 {
+        let mut rng = fastrand::Rng::new();
+        let matk = match self.battle_result_mode {
+            BattleResultMode::TestMin => { source_status.matk_min() }
+            BattleResultMode::TestMax => { source_status.matk_max() }
+            BattleResultMode::Normal => { rng.u16(source_status.matk_min()..=source_status.matk_max()) }
+        } as f32;
+        let item_modifier: f32 = 1.0; // TODO bMatkRate
+        let elemental_modifier: f32 = Self::element_modifier(&element, target_status);
+        let mdef = target_status.mdef() as f32 / 100.0;
+        // println!("({} * {} * {} * {} - {} - {}) * {}", matk, item_modifier, skill_modifier, (1.0 - mdef), target_status.int(), target_status.vit() as f32 / 2.0, elemental_modifier);
+        ((matk * item_modifier * skill_modifier * (1.0 - mdef)).floor() * elemental_modifier).floor() as u32
+    }
+
+    pub fn basic_attack(&self, character: &mut Character, target: MapItemSnapshot, source_status: &StatusSnapshot, target_status: &StatusSnapshot, tick: u128) -> Option<Damage> {
+        character.attack?;
+        let attack = character.attack();
+
+        let attack_motion = self.status_service.attack_motion(&source_status);
+
+        if tick < attack.last_attack_tick + attack_motion as u128 {
+            return None;
+        }
+        if !attack.repeat { // one shot attack
+            character.clear_attack();
+        } else {
+            character.update_last_attack_tick(tick);
+            character.update_last_attack_motion(attack_motion);
+        }
+        let mut packet_zc_notify_act3 = PacketZcNotifyAct::new(self.configuration_service.packetver());
+        packet_zc_notify_act3.set_target_gid(attack.target);
+        packet_zc_notify_act3.set_action(ActionType::Attack.value() as u8);
+        packet_zc_notify_act3.set_gid(character.char_id);
+        packet_zc_notify_act3.set_attack_mt(attack_motion as i32);
+        packet_zc_notify_act3.set_attacked_mt(attack_motion as i32);
+        let damage = if matches!(target.map_item.object_type(), MapItemType::Mob) {
+            let mob = self.configuration_service.get_mob(target.map_item.client_item_class() as i32);
+            packet_zc_notify_act3.set_attacked_mt(mob.damage_motion);
+            self.physical_damage_character_attack_monster(source_status, target_status, 1.0, source_status.right_hand_weapon_type().is_ranged())
+        } else {
+            0
+        };
+        packet_zc_notify_act3.set_damage(damage as i16);
+        packet_zc_notify_act3.set_count(1);
+        packet_zc_notify_act3.fill_raw();
+        self.client_notification_sender.send(
+            Notification::Area(AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(),
+                                                     AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_act3.raw_mut())))).expect("Failed to send notification to client");
+        Some(Damage {
+            target_id: attack.target,
+            attacker_id: character.char_id,
+            damage,
+            attacked_at: tick + attack_motion as u128,
+        })
+    }
+
     #[inline]
-    pub fn size_modifier(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot) -> f32 {
+    pub fn size_modifier(source_status: &StatusSnapshot, target_status: &StatusSnapshot) -> f32 {
         // Size Modifiers for Weapons
         // Size 	Fist 	Dagger 	1H Sword 	2H Sword 	Spear 	Spear+Peco 	Axe 	Mace 	Rod 	Bow 	Katar 	Book 	Claw 	Instrument 	Whip 	Gun 	Huuma Shuriken
         // Small 	100 	100 	75       	75       	75  	75 	        50  	75  	100 	100 	75  	100 	100 	75 	        75 	    100 	100
@@ -286,45 +344,531 @@ impl BattleService {
         }
     }
 
-    pub fn basic_attack(&self, character: &mut Character, target: MapItemSnapshot, source_status: &StatusSnapshot, target_status: &StatusSnapshot, tick: u128) -> Option<Damage> {
-        character.attack?;
-        let attack = character.attack();
-
-        let attack_motion = self.status_service.attack_motion(&source_status);
-
-        if tick < attack.last_attack_tick + attack_motion as u128 {
-            return None;
-        }
-        if !attack.repeat { // one shot attack
-            character.clear_attack();
+    #[inline]
+    pub fn element_modifier(element: &Element, target_status: &StatusSnapshot) -> f32 {
+        if target_status.element_level() == 1 || target_status.element_level() == 0 {
+            match target_status.element() {
+                Element::Neutral => {
+                    if matches!(element, Element::Ghost) {
+                        0.25
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Water => {
+                    if matches!(element, Element::Water) {
+                        0.25
+                    } else if matches!(element, Element::Fire) {
+                        0.5
+                    } else if matches!(element, Element::Wind) {
+                        1.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Earth => {
+                    if matches!(element, Element::Fire) {
+                        1.5
+                    } else if matches!(element, Element::Wind) {
+                        0.5
+                    } else if matches!(element, Element::Poison) {
+                        1.25
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Fire => {
+                    if matches!(element, Element::Water) {
+                        1.5
+                    } else if matches!(element, Element::Earth) {
+                        0.5
+                    } else if matches!(element, Element::Fire) {
+                        0.25
+                    } else if matches!(element, Element::Poison) {
+                        1.25
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Wind => {
+                    if matches!(element, Element::Water) {
+                        0.5
+                    } else if matches!(element, Element::Earth) {
+                        1.5
+                    } else if matches!(element, Element::Wind) {
+                        0.25
+                    } else if matches!(element, Element::Poison) {
+                        1.25
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Poison => {
+                    if matches!(element, Element::Dark) || matches!(element, Element::Undead) {
+                        0.25
+                    } else if matches!(element, Element::Poison) {
+                        0.0
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Holy => {
+                    if matches!(element, Element::Dark) {
+                        1.25
+                    } else if matches!(element, Element::Holy) {
+                        0.0
+                    } else if matches!(element, Element::Undead) || matches!(element, Element::Neutral) {
+                        1.0
+                    } else {
+                        0.75
+                    }
+                }
+                Element::Dark => {
+                    if matches!(element, Element::Dark) {
+                        0.0
+                    } else if matches!(element, Element::Holy) {
+                        1.25
+                    } else if matches!(element, Element::Poison) {
+                        0.5
+                    } else if matches!(element, Element::Ghost) {
+                        0.75
+                    } else if matches!(element, Element::Undead) {
+                        0.0
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Ghost => {
+                    if matches!(element, Element::Neutral) {
+                        0.25
+                    } else if matches!(element, Element::Ghost) {
+                        1.25
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Undead => {
+                    if matches!(element, Element::Fire) {
+                        1.25
+                    } else if matches!(element, Element::Holy) {
+                        1.5
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Dark) {
+                        -0.25
+                    } else if matches!(element, Element::Undead) {
+                        0.0
+                    } else {
+                        1.0
+                    }
+                }
+                _ => 1.0
+            }
+        } else if target_status.element_level() == 2 {
+            match target_status.element() {
+                Element::Neutral => {
+                    if matches!(element, Element::Ghost) {
+                        0.25
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Water => {
+                    if matches!(element, Element::Water) {
+                        0.0
+                    } else if matches!(element, Element::Fire) {
+                        0.25
+                    } else if matches!(element, Element::Wind) {
+                        1.75
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Earth => {
+                    if matches!(element, Element::Fire) {
+                        1.75
+                    } else if matches!(element, Element::Earth) {
+                        0.5
+                    } else if matches!(element, Element::Wind) {
+                        0.25
+                    } else if matches!(element, Element::Poison) {
+                        1.25
+                    } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Fire => {
+                    if matches!(element, Element::Water) {
+                        1.75
+                    } else if matches!(element, Element::Earth) {
+                        0.25
+                    } else if matches!(element, Element::Fire) {
+                        0.0
+                    } else if matches!(element, Element::Poison) {
+                        1.25
+                    } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Wind => {
+                    if matches!(element, Element::Water) {
+                        0.25
+                    } else if matches!(element, Element::Earth) {
+                        1.75
+                    } else if matches!(element, Element::Wind) {
+                        0.0
+                    } else if matches!(element, Element::Poison) {
+                        1.25
+                    } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Poison => {
+                    if matches!(element, Element::Dark) || matches!(element, Element::Undead) {
+                        0.25
+                    } else if matches!(element, Element::Poison) {
+                        0.0
+                    } else if matches!(element, Element::Ghost) {
+                        0.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Holy => {
+                    if matches!(element, Element::Dark) {
+                        1.5
+                    } else if matches!(element, Element::Holy) {
+                        -0.25
+                    } else if matches!(element, Element::Undead) {
+                        1.25
+                    } else if matches!(element, Element::Neutral) {
+                        1.0
+                    } else {
+                        0.5
+                    }
+                }
+                Element::Dark => {
+                    if matches!(element, Element::Dark) {
+                        -0.25
+                    } else if matches!(element, Element::Holy) {
+                        1.5
+                    } else if matches!(element, Element::Poison) {
+                        0.25
+                    } else if matches!(element, Element::Ghost) {
+                        0.5
+                    } else if matches!(element, Element::Undead) {
+                        0.0
+                    } else {
+                        0.75
+                    }
+                }
+                Element::Ghost => {
+                    if matches!(element, Element::Neutral) {
+                        0.25
+                    } else if matches!(element, Element::Poison) {
+                        0.75
+                    } else if matches!(element, Element::Ghost) {
+                        1.5
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Undead => {
+                    if matches!(element, Element::Fire) {
+                        1.5
+                    } else if matches!(element, Element::Holy) {
+                        1.75
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Dark) {
+                        -0.5
+                    } else if matches!(element, Element::Undead) {
+                        0.0
+                    } else if matches!(element, Element::Ghost) {
+                        1.25
+                    } else {
+                        1.0
+                    }
+                }
+                _ => 1.0
+            }
+        } else if target_status.element_level() == 3 {
+            match target_status.element() {
+                Element::Neutral => {
+                    if matches!(element, Element::Ghost) {
+                        0.0
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Water => {
+                    if matches!(element, Element::Water) {
+                        -0.25
+                    } else if matches!(element, Element::Fire) {
+                        0.0
+                    } else if matches!(element, Element::Wind) {
+                        2.0
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.5
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Earth => {
+                    if matches!(element, Element::Fire) {
+                        2.0
+                    } else if matches!(element, Element::Earth) {
+                        0.0
+                    } else if matches!(element, Element::Wind) {
+                        0.0
+                    } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.5
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Fire => {
+                    if matches!(element, Element::Water) {
+                        2.0
+                    } else if matches!(element, Element::Earth) {
+                        0.0
+                    } else if matches!(element, Element::Fire) {
+                        -0.25
+                    } else if matches!(element, Element::Poison) {
+                        1.0
+                    } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.5
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Wind => {
+                    if matches!(element, Element::Water) {
+                        0.0
+                    } else if matches!(element, Element::Earth) {
+                        2.0
+                    } else if matches!(element, Element::Wind) {
+                        -0.25
+                    } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.5
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Poison => {
+                    if matches!(element, Element::Undead) || matches!(element, Element::Dark) || matches!(element, Element::Poison) {
+                        0.0
+                    } else if matches!(element, Element::Ghost) {
+                        0.5
+                    } else if matches!(element, Element::Holy) {
+                        1.25
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Holy => {
+                    if matches!(element, Element::Dark) {
+                        1.75
+                    } else if matches!(element, Element::Holy) {
+                        -0.5
+                    } else if matches!(element, Element::Undead) {
+                        1.5
+                    } else if matches!(element, Element::Neutral) {
+                        1.0
+                    } else {
+                        0.25
+                    }
+                }
+                Element::Dark => {
+                    if matches!(element, Element::Dark) {
+                        -0.5
+                    } else if matches!(element, Element::Holy) {
+                        1.5
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Undead) {
+                        0.0
+                    } else if matches!(element, Element::Ghost) {
+                        0.25
+                    } else {
+                        0.5
+                    }
+                }
+                Element::Ghost => {
+                    if matches!(element, Element::Neutral) {
+                        0.0
+                    } else if matches!(element, Element::Poison) {
+                        0.5
+                    } else if matches!(element, Element::Ghost) {
+                        1.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Undead => {
+                    if matches!(element, Element::Fire) {
+                        1.75
+                    } else if matches!(element, Element::Water) {
+                        1.25
+                    } else if matches!(element, Element::Earth) {
+                        0.75
+                    } else if matches!(element, Element::Holy) {
+                        2.0
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Dark) {
+                        -0.75
+                    } else if matches!(element, Element::Undead) {
+                        0.0
+                    } else if matches!(element, Element::Ghost) {
+                        1.5
+                    } else {
+                        1.0
+                    }
+                }
+                _ => 1.0
+            }
+        } else if target_status.element_level() == 4 {
+            match target_status.element() {
+                Element::Neutral => {
+                    if matches!(element, Element::Ghost) {
+                        0.0
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Water => {
+                    if matches!(element, Element::Water) {
+                        -0.5
+                    } else if matches!(element, Element::Fire) {
+                        0.0
+                    } else if matches!(element, Element::Wind) {
+                        2.0
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.25
+                    } else if matches!(element, Element::Holy) || matches!(element, Element::Dark) {
+                        0.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Earth => {
+                    if matches!(element, Element::Fire) {
+                        2.0
+                    } else if matches!(element, Element::Earth) {
+                        0.25
+                    } else if matches!(element, Element::Wind) {
+                        0.0
+                    } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.25
+                    } else if matches!(element, Element::Holy) || matches!(element, Element::Dark) {
+                        0.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Fire => {
+                    if matches!(element, Element::Water) {
+                        2.0
+                    } else if matches!(element, Element::Earth) {
+                        0.0
+                    } else if matches!(element, Element::Fire) {
+                        -0.5
+                    } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.25
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Holy) || matches!(element, Element::Dark) {
+                        0.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Wind => {
+                    if matches!(element, Element::Water) {
+                        0.0
+                    } else if matches!(element, Element::Earth) {
+                        2.0
+                    } else if matches!(element, Element::Wind) {
+                        -0.5
+                    } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
+                        0.25
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Holy) || matches!(element, Element::Dark) {
+                        0.75
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Poison => {
+                    if matches!(element, Element::Undead) || matches!(element, Element::Dark) {
+                        -0.25
+                    } else if matches!(element, Element::Ghost) {
+                        0.5
+                    } else if matches!(element, Element::Holy) {
+                        1.25
+                    } else if matches!(element, Element::Poison) {
+                        0.0
+                    } else {
+                        0.75
+                    }
+                }
+                Element::Holy => {
+                    if matches!(element, Element::Dark) {
+                        2.0
+                    } else if matches!(element, Element::Holy) {
+                        -1.0
+                    } else if matches!(element, Element::Undead) {
+                        1.75
+                    } else if matches!(element, Element::Neutral) {
+                        1.0
+                    } else {
+                        0.0
+                    }
+                }
+                Element::Dark => {
+                    if matches!(element, Element::Dark) {
+                        -0.5
+                    } else if matches!(element, Element::Holy) {
+                        1.5
+                    } else if matches!(element, Element::Poison) {
+                        0.25
+                    } else if matches!(element, Element::Undead) || matches!(element, Element::Ghost) {
+                        0.0
+                    } else {
+                        0.25
+                    }
+                }
+                Element::Ghost => {
+                    if matches!(element, Element::Neutral) {
+                        0.0
+                    } else if matches!(element, Element::Poison) {
+                        0.25
+                    } else if matches!(element, Element::Ghost) {
+                        2.0
+                    } else {
+                        1.0
+                    }
+                }
+                Element::Undead => {
+                    if matches!(element, Element::Fire) || matches!(element, Element::Holy){
+                        2.0
+                    } else if matches!(element, Element::Water) {
+                        1.5
+                    } else if matches!(element, Element::Earth) {
+                        0.5
+                    } else if matches!(element, Element::Poison) || matches!(element, Element::Dark) {
+                        -1.0
+                    } else if matches!(element, Element::Undead) {
+                        0.0
+                    } else if matches!(element, Element::Ghost) {
+                        1.75
+                    } else {
+                        1.0
+                    }
+                }
+                _ => 1.0
+            }
         } else {
-            character.update_last_attack_tick(tick);
-            character.update_last_attack_motion(attack_motion);
+            1.0
         }
-        let mut packet_zc_notify_act3 = PacketZcNotifyAct::new(self.configuration_service.packetver());
-        packet_zc_notify_act3.set_target_gid(attack.target);
-        packet_zc_notify_act3.set_action(ActionType::Attack.value() as u8);
-        packet_zc_notify_act3.set_gid(character.char_id);
-        packet_zc_notify_act3.set_attack_mt(attack_motion as i32);
-        packet_zc_notify_act3.set_attacked_mt(attack_motion as i32);
-        let damage = if matches!(target.map_item.object_type(), MapItemType::Mob) {
-            let mob = self.configuration_service.get_mob(target.map_item.client_item_class() as i32);
-            packet_zc_notify_act3.set_attacked_mt(mob.damage_motion);
-            self.damage_character_attack_monster(source_status, target_status, 1.0, source_status.right_hand_weapon_type().is_ranged())
-        } else {
-            0
-        };
-        packet_zc_notify_act3.set_damage(damage as i16);
-        packet_zc_notify_act3.set_count(1);
-        packet_zc_notify_act3.fill_raw();
-        self.client_notification_sender.send(
-            Notification::Area(AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(),
-                                                     AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_act3.raw_mut())))).expect("Failed to send notification to client");
-        Some(Damage {
-            target_id: attack.target,
-            attacker_id: character.char_id,
-            damage,
-            attacked_at: tick + attack_motion as u128,
-        })
+
     }
 }

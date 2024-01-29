@@ -1,4 +1,5 @@
 use std::any::Any;
+use enums::element::Element;
 use enums::skill::{SkillTargetType, UseSkillFailure};
 use enums::status::StatusEffect;
 use enums::weapon::{AmmoType};
@@ -277,6 +278,12 @@ pub trait OffensiveSkillBase: Skill {
         None
     }
     #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element;
+    #[inline(always)]
     fn _inflict_status_effect(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {
         None
     }
@@ -291,6 +298,14 @@ pub trait OffensiveSkill: OffensiveSkillBase {
     #[inline(always)]
     fn dmg_atk(&self) -> Option<f32> {
         self._dmg_atk()
+    }
+    #[inline(always)]
+    fn dmg_matk(&self) -> Option<f32> {
+        self._dmg_matk()
+    }
+    #[inline(always)]
+    fn element(&self) -> Element {
+        self._element()
     }
     #[inline(always)]
     fn inflict_status_effect(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {

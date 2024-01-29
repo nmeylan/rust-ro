@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -288,6 +289,10 @@ impl OffensiveSkillBase for FalconAssault {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // SN_SHARPSHOOTING
 pub struct FocusedArrowStrike {
@@ -445,6 +450,10 @@ impl OffensiveSkillBase for FocusedArrowStrike {
             return Some(6.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // SN_WINDWALK

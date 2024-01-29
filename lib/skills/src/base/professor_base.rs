@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -257,6 +258,10 @@ impl OffensiveSkillBase for SoulExhale {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // PF_SOULBURN
 pub struct SoulSiphon {
@@ -371,6 +376,10 @@ impl OffensiveSkillBase for SoulSiphon {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // PF_MINDBREAKER
@@ -524,6 +533,10 @@ impl OffensiveSkillBase for MindBreaker {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // PF_MEMORIZE
@@ -783,6 +796,10 @@ impl OffensiveSkillBase for FiberLock {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // PF_DOUBLECASTING

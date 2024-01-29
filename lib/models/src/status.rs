@@ -1,6 +1,7 @@
 use crate::item::{WearAmmo, WearGear, WearGearSnapshot, WearWeapon, Wearable, WearAmmoSnapshot, WearWeaponSnapshot};
 use accessor::{GettersAll,  SettersAll};
 use enums::bonus::BonusType;
+use enums::element::Element;
 use enums::item::EquipmentLocation;
 use enums::size::Size;
 use enums::EnumWithMaskValueU64;
@@ -63,6 +64,8 @@ pub struct StatusSnapshot {
     def: u16,
     mdef: u16,
     size: Size,
+    element: Element,
+    element_level: u8,
     state: u64,
     zeny: u32,
     aspd: f32,
@@ -87,7 +90,9 @@ impl StatusSnapshot {
     pub fn new_for_mob(mob_id: u32, hp: u32, sp: u32, max_hp:u32, max_sp: u32,
                        str: u16, agi: u16, vit: u16, int: u16, dex: u16, luk: u16,
                        atk1: u16, atk2: u16, matk1: u16, matk2: u16, speed: u16, def: u16, mdef: u16,
-    size: Size) -> Self {
+                       size: Size,
+                       element: Element,
+                       element_level: u8) -> Self {
         Self {
             job: mob_id,
             hp,
@@ -110,6 +115,8 @@ impl StatusSnapshot {
             def,
             mdef,
             size,
+            element,
+            element_level,
             state: 0,
             zeny: 0,
             aspd: 0.0,
@@ -131,6 +138,7 @@ impl StatusSnapshot {
         }
     }
     pub fn from(status: &Status) -> Self {
+        let int = status.int; // TODO add bonuses
         let mut snapshot = Self {
             job: status.job,
             hp: status.hp,
@@ -140,12 +148,12 @@ impl StatusSnapshot {
             str: status.str,
             agi: status.agi,
             vit: status.vit,
-            int: status.int,
+            int,
             dex: status.dex,
             luk: status.luk,
             base_atk: 0,
-            matk_min: 0,
-            matk_max: 0,
+            matk_min: int + ((int as f32 / 7.0).floor() as u16).pow(2),
+            matk_max: int + ((int as f32 / 5.0).floor() as u16).pow(2),
             speed: status.speed,
             hit: 0,
             flee: 0,
@@ -153,6 +161,8 @@ impl StatusSnapshot {
             def: 0,
             mdef: 0,
             size: status.size,
+            element: Element::Neutral,
+            element_level: 1,
             state: status.state,
             zeny: status.zeny,
             aspd: 0.0,

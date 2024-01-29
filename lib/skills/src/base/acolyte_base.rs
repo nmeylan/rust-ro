@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -992,6 +993,10 @@ impl OffensiveSkillBase for DecreaseAgi {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // AL_HOLYWATER
 pub struct AquaBenedicta {
@@ -1642,5 +1647,13 @@ impl OffensiveSkillBase for HolyLight {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+       Some(1.250)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Holy
     }
 }

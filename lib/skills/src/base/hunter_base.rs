@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -653,6 +654,10 @@ impl OffensiveSkillBase for FreezingTrap {
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.000)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
     }
 }
 impl GroundSkillBase for FreezingTrap {
@@ -1372,6 +1377,10 @@ impl OffensiveSkillBase for BlitzBeat {
         }
         0
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // HT_DETECTING
 pub struct Detect {
@@ -1635,6 +1644,10 @@ impl OffensiveSkillBase for PhantasmicArrow {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // HT_POWER
 pub struct BeastStrafing {
@@ -1739,5 +1752,9 @@ impl OffensiveSkillBase for BeastStrafing {
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.000)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }

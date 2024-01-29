@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -342,6 +343,10 @@ impl OffensiveSkillBase for SpellBreaker {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // SA_FREECAST
@@ -1546,6 +1551,10 @@ impl OffensiveSkillBase for Dispell {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // SA_ABRACADABRA
 pub struct Hocuspocus {
@@ -1817,6 +1826,10 @@ impl OffensiveSkillBase for ElementalChangeWater {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
+    }
 }
 // SA_ELEMENTGROUND
 pub struct ElementalChangeEarth {
@@ -1917,6 +1930,10 @@ impl OffensiveSkillBase for ElementalChangeEarth {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Earth
     }
 }
 // SA_ELEMENTFIRE
@@ -2019,6 +2036,10 @@ impl OffensiveSkillBase for ElementalChangeFire {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Fire
+    }
 }
 // SA_ELEMENTWIND
 pub struct ElementalChangeWind {
@@ -2119,5 +2140,9 @@ impl OffensiveSkillBase for ElementalChangeWind {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Wind
     }
 }

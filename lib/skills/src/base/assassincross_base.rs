@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -466,6 +467,10 @@ impl OffensiveSkillBase for SoulDestroyer {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // ASC_METEORASSAULT
 pub struct MeteorAssault {
@@ -660,6 +665,10 @@ impl OffensiveSkillBase for MeteorAssault {
             return Some(4.400)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 impl SelfSkillBase for MeteorAssault {

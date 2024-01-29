@@ -1,6 +1,7 @@
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
 use configuration::configuration::GameConfig;
+use enums::element::Element;
 use enums::size::Size;
 use enums::EnumWithStringValue;
 use models::status::{KnownSkill, Look, Status, StatusSnapshot};
@@ -72,6 +73,8 @@ impl StatusFromDb {
             mob_model.def as u16,
             mob_model.mdef as u16,
             Size::from_string(&mob_model.size),
+            Element::from_string(mob_model.element.as_str()),
+            mob_model.element_level as u8
         )
     }
 }

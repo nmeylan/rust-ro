@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -428,6 +429,10 @@ impl OffensiveSkillBase for TornadoKick {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 impl SelfSkillBase for TornadoKick {
 }
@@ -670,6 +675,10 @@ impl OffensiveSkillBase for HeelDrop {
             return Some(3.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 impl SelfSkillBase for HeelDrop {
@@ -914,6 +923,10 @@ impl OffensiveSkillBase for RoundhouseKick {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 impl SelfSkillBase for RoundhouseKick {
 }
@@ -1157,6 +1170,10 @@ impl OffensiveSkillBase for CounterKick {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 impl SelfSkillBase for CounterKick {
 }
@@ -1399,6 +1416,10 @@ impl OffensiveSkillBase for FlyingKick {
             return Some(1.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 impl SupportiveSkillBase for FlyingKick {

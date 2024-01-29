@@ -7,19 +7,19 @@
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super Novice Sword Mastery
+    // Rogue Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super Novice Increase HP Recovery
+    // Super_Baby Increase HP Recovery
     SmRecovery,
-    // Super Novice Bash
+    // Super_Baby Bash
     SmBash,
-    // Super Novice Provoke
+    // Super_Baby Provoke
     SmProvoke,
-    // Super Novice Magnum Break
+    // Super_Baby Magnum Break
     SmMagnum,
-    // Super Novice Endure
+    // Super_Baby Endure
     SmEndure,
     // Mage Increase SP Recovery
     MgSrecovery,
@@ -75,19 +75,19 @@ pub enum SkillEnum {
     AlBlessing,
     // Acolyte Cure
     AlCure,
-    // Merchant Enlarge Weight Limit
+    // Super_Baby Enlarge Weight Limit
     McInccarry,
-    // Merchant Discount
+    // Super_Baby Discount
     McDiscount,
-    // Merchant Overcharge
+    // Super_Baby Overcharge
     McOvercharge,
-    // Merchant Pushcart
+    // Super_Baby Pushcart
     McPushcart,
-    // Merchant Item Appraisal
+    // Super_Baby Item Appraisal
     McIdentify,
-    // Merchant Vending
+    // Super_Baby Vending
     McVending,
-    // Merchant Mammonite
+    // Super_Baby Mammonite
     McMammonite,
     // Archer Owl's Eye
     AcOwl,
@@ -113,7 +113,7 @@ pub enum SkillEnum {
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Crusader Spear Mastery
+    // Knight Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +129,9 @@ pub enum SkillEnum {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Crusader Peco Peco Riding
+    // Knight Peco Peco Riding
     KnRiding,
-    // Crusader Cavalier Mastery
+    // Knight Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -181,13 +181,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Sage Earth Spike
+    // Wizard Earth Spike
     WzEarthspike,
-    // Sage Heaven's Drive
+    // Wizard Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Sage Sense
+    // Wizard Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -1821,13 +1821,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Merchant Open Buying Store
+    // Super_Baby Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Merchant Decorate Cart
+    // Super_Baby Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,

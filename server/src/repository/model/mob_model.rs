@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use sqlx::{Error, FromRow, Row};
 use sqlx::postgres::PgRow;
+use enums::element::Element;
+use enums::EnumWithStringValue;
 
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -53,7 +55,8 @@ pub struct MobModel {
     pub range3: i16,
     pub scale: i16,
     pub race: i16,
-    pub element: i8,
+    pub element: String,
+    pub element_level: i8,
     pub mode: i16,
     pub speed: i32,
     pub atk_delay: i32,
@@ -92,7 +95,8 @@ impl Default for MobModel {
             range3: 0,
             scale: 0,
             race: 0,
-            element: 0,
+            element: Element::Neutral.as_str().to_string(),
+            element_level: 0,
             mode: 0,
             speed: 0,
             atk_delay: 0,
@@ -133,7 +137,8 @@ impl<'r> FromRow<'r, PgRow> for MobModel {
         model.set_luk(row.try_get::<i32, _>("luk").unwrap_or(1));
         model.set_scale(row.try_get::<i16, _>("size").unwrap_or(0));
         model.set_race(row.try_get::<i16, _>("race").unwrap_or(0));
-        model.set_element(row.try_get::<i8, _>("element").unwrap_or(0));
+        model.set_element(row.get("element"));
+        model.set_element_level(row.try_get::<i16, _>("element_level").unwrap_or(0) as i8);
         // model.set_mode(row.get::<i32,_>("element_level")); TODO: collect all modes
         model.set_speed(row.try_get::<i32, _>("walk_speed").unwrap_or(0));
         model.set_atk_delay(row.try_get::<i32, _>("attack_delay").unwrap_or(0));

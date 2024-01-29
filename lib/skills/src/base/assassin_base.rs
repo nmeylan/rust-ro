@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -518,6 +519,10 @@ impl OffensiveSkillBase for SonicBlow {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // AS_GRIMTOOTH
 pub struct Grimtooth {
@@ -638,6 +643,10 @@ impl OffensiveSkillBase for Grimtooth {
             return Some(2.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // AS_ENCHANTPOISON
@@ -906,6 +915,10 @@ impl OffensiveSkillBase for PoisonReact {
             return Some(4.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 impl SelfSkillBase for PoisonReact {
@@ -1189,6 +1202,10 @@ impl OffensiveSkillBase for VenomSplasher {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // AS_SONICACCEL
 pub struct SonicAcceleration {
@@ -1358,5 +1375,9 @@ impl OffensiveSkillBase for ThrowVenomKnife {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }

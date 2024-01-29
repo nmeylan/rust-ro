@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -186,6 +187,10 @@ impl OffensiveSkillBase for GloriaDomini {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // PA_SACRIFICE
@@ -563,5 +568,9 @@ impl OffensiveSkillBase for ShieldChain {
             return Some(12.500)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }

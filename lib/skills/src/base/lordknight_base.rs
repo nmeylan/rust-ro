@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -676,6 +677,10 @@ impl OffensiveSkillBase for SpiralPierce {
     fn _hit_count(&self) -> i8 {
        5
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // LK_HEADCRUSH
 pub struct TraumaticBlow {
@@ -783,6 +788,10 @@ impl OffensiveSkillBase for TraumaticBlow {
             return Some(3.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // LK_JOINTBEAT
@@ -1038,5 +1047,9 @@ impl OffensiveSkillBase for VitalStrike {
             return Some(1.500)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }

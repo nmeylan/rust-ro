@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -647,6 +648,10 @@ impl OffensiveSkillBase for Mammonite {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // MC_CARTREVOLUTION
 pub struct CartRevolution {
@@ -744,6 +749,10 @@ impl OffensiveSkillBase for CartRevolution {
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(2.500)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // MC_CHANGECART

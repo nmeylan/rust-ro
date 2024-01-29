@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -184,6 +185,14 @@ impl OffensiveSkillBase for StaveCrasher {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+       Some(1.000)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // HW_MAGICPOWER
@@ -467,6 +476,29 @@ impl OffensiveSkillBase for NapalmVulcan {
             return 5
         }
         0
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(3.000)
+        }
+        if self.level == 4 {
+            return Some(4.000)
+        }
+        if self.level == 5 {
+            return Some(5.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Ghost
     }
 }
 // HW_GANBANTEIN
