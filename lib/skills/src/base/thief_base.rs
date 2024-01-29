@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -254,6 +255,10 @@ impl OffensiveSkillBase for Steal {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // TF_HIDING
 pub struct Hiding {
@@ -424,6 +429,10 @@ impl OffensiveSkillBase for Envenom {
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.000)
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Poison
+    }
 }
 // TF_DETOXIFY
 pub struct Detoxify {
@@ -593,6 +602,10 @@ impl OffensiveSkillBase for SandAttack {
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.300)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Earth
     }
 }
 // TF_BACKSLIDING
@@ -861,5 +874,9 @@ impl OffensiveSkillBase for StoneFling {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }

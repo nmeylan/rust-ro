@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -1307,6 +1308,10 @@ impl SkillBase for LexDivina {
     }
 }
 impl OffensiveSkillBase for LexDivina {
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // PR_TURNUNDEAD
 pub struct TurnUndead {
@@ -1400,6 +1405,10 @@ impl OffensiveSkillBase for TurnUndead {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Holy
+    }
 }
 // PR_LEXAETERNA
 pub struct LexAeterna {
@@ -1485,6 +1494,10 @@ impl SkillBase for LexAeterna {
     }
 }
 impl OffensiveSkillBase for LexAeterna {
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // PR_MAGNUS
 pub struct MagnusExorcismus {

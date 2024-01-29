@@ -42,6 +42,7 @@ mod tests {
     use models::status::Status;
     use crate::{assert_eq_with_variance, status_snapshot, status_snapshot_mob};
     use crate::server::model::map_item::{ToMapItemSnapshot};
+    use crate::server::service::battle_service::BattleService;
     use crate::tests::battle_service_test::before_each;
     use crate::tests::common::character_helper::{create_character, equip_item_from_name};
     use crate::tests::common::mob_helper::create_mob;
@@ -76,8 +77,8 @@ mod tests {
                 equip_item_from_name(&mut character, stat.weapon);
             }
             // When
-            let min = context.battle_min_service.damage_character_attack_monster(status_snapshot!(context, character), &mob.status, 1.0, false);
-            let max = context.battle_max_service.damage_character_attack_monster(status_snapshot!(context, character), &mob.status, 1.0, false);
+            let min = context.battle_min_service.physical_damage_character_attack_monster(status_snapshot!(context, character), &mob.status, 1.0, false);
+            let max = context.battle_max_service.physical_damage_character_attack_monster(status_snapshot!(context, character), &mob.status, 1.0, false);
             // Then
             assert!(stat.min_damage - 1 <= min && min <= stat.min_damage + 1, "Expected min damage to be {} but was {} with stats {:?}", stat.min_damage, min, stat);
             assert!(stat.max_damage - 1 <= max && max <= stat.max_damage + 1, "Expected max damage to be {} but was {} with stats {:?}", stat.max_damage, max, stat);
@@ -231,7 +232,7 @@ mod tests {
                 equip_item_from_name(&mut character, weapon);
             };
             target_status.size = scenarii.target_size;
-            let size_modifier = context.battle_service.size_modifier(status_snapshot!(context, character), &context.status_service.to_snapshot(&target_status));
+            let size_modifier = BattleService::size_modifier(status_snapshot!(context, character), &context.status_service.to_snapshot(&target_status));
             assert_eq!(size_modifier, scenarii.expected_modifier, "Expected size modifier to be {} but was {} when weapon is {:?} and target size {:?}", scenarii.expected_modifier, size_modifier, scenarii.weapon, target_status.size)
         }
     }

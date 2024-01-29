@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -734,6 +735,44 @@ impl OffensiveSkillBase for JupitelThunder {
         }
         0
     }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(3.000)
+        }
+        if self.level == 2 {
+            return Some(4.000)
+        }
+        if self.level == 3 {
+            return Some(5.000)
+        }
+        if self.level == 4 {
+            return Some(6.000)
+        }
+        if self.level == 5 {
+            return Some(7.000)
+        }
+        if self.level == 6 {
+            return Some(8.000)
+        }
+        if self.level == 7 {
+            return Some(9.000)
+        }
+        if self.level == 8 {
+            return Some(10.000)
+        }
+        if self.level == 9 {
+            return Some(11.000)
+        }
+        if self.level == 10 {
+            return Some(12.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Wind
+    }
 }
 // WZ_VERMILION
 pub struct LordofVermilion {
@@ -1100,6 +1139,44 @@ impl OffensiveSkillBase for WaterBall {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.300)
+        }
+        if self.level == 2 {
+            return Some(1.600)
+        }
+        if self.level == 3 {
+            return Some(1.900)
+        }
+        if self.level == 4 {
+            return Some(2.200)
+        }
+        if self.level == 5 {
+            return Some(2.500)
+        }
+        if self.level == 6 {
+            return Some(2.800)
+        }
+        if self.level == 7 {
+            return Some(3.100)
+        }
+        if self.level == 8 {
+            return Some(3.400)
+        }
+        if self.level == 9 {
+            return Some(3.700)
+        }
+        if self.level == 10 {
+            return Some(4.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
     }
 }
 // WZ_ICEWALL
@@ -1633,6 +1710,29 @@ impl OffensiveSkillBase for EarthSpike {
         }
         0
     }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(3.000)
+        }
+        if self.level == 4 {
+            return Some(4.000)
+        }
+        if self.level == 5 {
+            return Some(5.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Earth
+    }
 }
 // WZ_HEAVENDRIVE
 pub struct HeavensDrive {
@@ -1966,6 +2066,10 @@ impl OffensiveSkillBase for Sense {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // WZ_SIGHTBLASTER

@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -177,6 +178,10 @@ impl OffensiveSkillBase for Mug {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // RG_BACKSTAP
 pub struct BackStab {
@@ -299,6 +304,10 @@ impl OffensiveSkillBase for BackStab {
             return Some(7.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // RG_TUNNELDRIVE
@@ -498,6 +507,10 @@ impl OffensiveSkillBase for SightlessMind {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 impl SelfSkillBase for SightlessMind {
 }
@@ -623,6 +636,10 @@ impl OffensiveSkillBase for DivestWeapon {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // RG_STRIPSHIELD
 pub struct DivestShield {
@@ -745,6 +762,10 @@ impl OffensiveSkillBase for DivestShield {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // RG_STRIPARMOR
@@ -869,6 +890,10 @@ impl OffensiveSkillBase for DivestArmor {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // RG_STRIPHELM
 pub struct DivestHelm {
@@ -991,6 +1016,10 @@ impl OffensiveSkillBase for DivestHelm {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // RG_INTIMIDATE
@@ -1140,6 +1169,10 @@ impl OffensiveSkillBase for Snatch {
             return Some(4.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // RG_GRAFFITI
@@ -1707,5 +1740,9 @@ impl OffensiveSkillBase for CloseConfine {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }

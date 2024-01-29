@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -462,6 +463,10 @@ impl OffensiveSkillBase for RagingTrifectaBlow {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 impl PassiveSkillBase for RagingTrifectaBlow {
 }
@@ -764,6 +769,10 @@ impl OffensiveSkillBase for OccultImpaction {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // MO_FINGEROFFENSIVE
 pub struct ThrowSpiritSphere {
@@ -890,6 +899,10 @@ impl OffensiveSkillBase for ThrowSpiritSphere {
             return Some(3.500)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // MO_STEELBODY
@@ -1307,6 +1320,10 @@ impl OffensiveSkillBase for AsuraStrike {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // MO_CHAINCOMBO
 pub struct RagingQuadrupleBlow {
@@ -1457,6 +1474,10 @@ impl OffensiveSkillBase for RagingQuadrupleBlow {
             return Some(4.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 impl SelfSkillBase for RagingQuadrupleBlow {
@@ -1610,6 +1631,10 @@ impl OffensiveSkillBase for RagingThrust {
             return Some(5.400)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 impl SelfSkillBase for RagingThrust {
@@ -1794,5 +1819,9 @@ impl OffensiveSkillBase for KiExplosion {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }

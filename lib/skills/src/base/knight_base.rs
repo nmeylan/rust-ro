@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -219,6 +220,10 @@ impl OffensiveSkillBase for Pierce {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // KN_BRANDISHSPEAR
 pub struct BrandishSpear {
@@ -359,6 +364,10 @@ impl OffensiveSkillBase for BrandishSpear {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // KN_SPEARSTAB
 pub struct SpearStab {
@@ -486,6 +495,10 @@ impl OffensiveSkillBase for SpearStab {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // KN_SPEARBOOMERANG
 pub struct SpearBoomerang {
@@ -601,6 +614,10 @@ impl OffensiveSkillBase for SpearBoomerang {
             return Some(3.500)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // KN_TWOHANDQUICKEN
@@ -1024,6 +1041,10 @@ impl OffensiveSkillBase for BowlingBash {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // KN_RIDING
 pub struct PecoPecoRiding {
@@ -1266,6 +1287,10 @@ impl OffensiveSkillBase for ChargeAttack {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // KN_ONEHAND

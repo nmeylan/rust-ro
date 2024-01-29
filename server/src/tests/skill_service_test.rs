@@ -469,7 +469,7 @@ mod tests {
     }
     #[test]
     fn playground() {
-        let id = "dbofr6";
+        let id = "nmwiju";
         // Given
         let context = before_each();
         let mut character = create_character();

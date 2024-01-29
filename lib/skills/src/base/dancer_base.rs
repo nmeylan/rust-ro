@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -245,6 +246,10 @@ impl OffensiveSkillBase for SlingingArrow {
             return Some(2.600)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // DC_UGLYDANCE
@@ -1215,4 +1220,8 @@ impl SkillBase for WinkofCharm {
     }
 }
 impl OffensiveSkillBase for WinkofCharm {
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }

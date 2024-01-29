@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -355,6 +356,10 @@ impl OffensiveSkillBase for Smite {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // CR_SHIELDBOOMERANG
 pub struct ShieldBoomerang {
@@ -471,6 +476,10 @@ impl OffensiveSkillBase for ShieldBoomerang {
             return Some(5.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // CR_REFLECTSHIELD
@@ -801,6 +810,10 @@ impl OffensiveSkillBase for HolyCross {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Holy
+    }
 }
 // CR_GRANDCROSS
 pub struct GrandCross {
@@ -995,6 +1008,44 @@ impl OffensiveSkillBase for GrandCross {
             return Some(5.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.400)
+        }
+        if self.level == 2 {
+            return Some(1.800)
+        }
+        if self.level == 3 {
+            return Some(2.200)
+        }
+        if self.level == 4 {
+            return Some(2.600)
+        }
+        if self.level == 5 {
+            return Some(3.000)
+        }
+        if self.level == 6 {
+            return Some(3.400)
+        }
+        if self.level == 7 {
+            return Some(3.800)
+        }
+        if self.level == 8 {
+            return Some(4.200)
+        }
+        if self.level == 9 {
+            return Some(4.600)
+        }
+        if self.level == 10 {
+            return Some(5.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Holy
     }
 }
 impl SelfSkillBase for GrandCross {

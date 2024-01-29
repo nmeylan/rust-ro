@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -389,6 +390,44 @@ impl OffensiveSkillBase for NapalmBeat {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(0.800)
+        }
+        if self.level == 2 {
+            return Some(0.900)
+        }
+        if self.level == 3 {
+            return Some(1.000)
+        }
+        if self.level == 4 {
+            return Some(1.100)
+        }
+        if self.level == 5 {
+            return Some(1.200)
+        }
+        if self.level == 6 {
+            return Some(1.300)
+        }
+        if self.level == 7 {
+            return Some(1.400)
+        }
+        if self.level == 8 {
+            return Some(1.500)
+        }
+        if self.level == 9 {
+            return Some(1.600)
+        }
+        if self.level == 10 {
+            return Some(1.700)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Ghost
     }
 }
 // MG_SAFETYWALL
@@ -820,6 +859,44 @@ impl OffensiveSkillBase for SoulStrike {
         }
         0
     }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(1.000)
+        }
+        if self.level == 3 {
+            return Some(2.000)
+        }
+        if self.level == 4 {
+            return Some(2.000)
+        }
+        if self.level == 5 {
+            return Some(3.000)
+        }
+        if self.level == 6 {
+            return Some(3.000)
+        }
+        if self.level == 7 {
+            return Some(4.000)
+        }
+        if self.level == 8 {
+            return Some(4.000)
+        }
+        if self.level == 9 {
+            return Some(5.000)
+        }
+        if self.level == 10 {
+            return Some(5.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Ghost
+    }
 }
 // MG_COLDBOLT
 pub struct ColdBolt {
@@ -1097,6 +1174,44 @@ impl OffensiveSkillBase for ColdBolt {
         }
         0
     }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(3.000)
+        }
+        if self.level == 4 {
+            return Some(4.000)
+        }
+        if self.level == 5 {
+            return Some(5.000)
+        }
+        if self.level == 6 {
+            return Some(6.000)
+        }
+        if self.level == 7 {
+            return Some(7.000)
+        }
+        if self.level == 8 {
+            return Some(8.000)
+        }
+        if self.level == 9 {
+            return Some(9.000)
+        }
+        if self.level == 10 {
+            return Some(10.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
+    }
 }
 // MG_FROSTDIVER
 pub struct FrostDiver {
@@ -1249,6 +1364,44 @@ impl OffensiveSkillBase for FrostDiver {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.100)
+        }
+        if self.level == 2 {
+            return Some(1.200)
+        }
+        if self.level == 3 {
+            return Some(1.300)
+        }
+        if self.level == 4 {
+            return Some(1.400)
+        }
+        if self.level == 5 {
+            return Some(1.500)
+        }
+        if self.level == 6 {
+            return Some(1.600)
+        }
+        if self.level == 7 {
+            return Some(1.700)
+        }
+        if self.level == 8 {
+            return Some(1.800)
+        }
+        if self.level == 9 {
+            return Some(1.900)
+        }
+        if self.level == 10 {
+            return Some(2.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
     }
 }
 // MG_STONECURSE
@@ -1412,6 +1565,10 @@ impl OffensiveSkillBase for StoneCurse {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Earth
     }
 }
 // MG_FIREBALL
@@ -1599,6 +1756,44 @@ impl OffensiveSkillBase for FireBall {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(0.800)
+        }
+        if self.level == 2 {
+            return Some(0.900)
+        }
+        if self.level == 3 {
+            return Some(1.000)
+        }
+        if self.level == 4 {
+            return Some(1.100)
+        }
+        if self.level == 5 {
+            return Some(1.200)
+        }
+        if self.level == 6 {
+            return Some(1.300)
+        }
+        if self.level == 7 {
+            return Some(1.400)
+        }
+        if self.level == 8 {
+            return Some(1.500)
+        }
+        if self.level == 9 {
+            return Some(1.600)
+        }
+        if self.level == 10 {
+            return Some(1.700)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Fire
     }
 }
 // MG_FIREWALL
@@ -1992,6 +2187,44 @@ impl OffensiveSkillBase for FireBolt {
         }
         0
     }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(3.000)
+        }
+        if self.level == 4 {
+            return Some(4.000)
+        }
+        if self.level == 5 {
+            return Some(5.000)
+        }
+        if self.level == 6 {
+            return Some(6.000)
+        }
+        if self.level == 7 {
+            return Some(7.000)
+        }
+        if self.level == 8 {
+            return Some(8.000)
+        }
+        if self.level == 9 {
+            return Some(9.000)
+        }
+        if self.level == 10 {
+            return Some(10.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Fire
+    }
 }
 // MG_LIGHTNINGBOLT
 pub struct LightningBolt {
@@ -2268,6 +2501,44 @@ impl OffensiveSkillBase for LightningBolt {
             return 10
         }
         0
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(3.000)
+        }
+        if self.level == 4 {
+            return Some(4.000)
+        }
+        if self.level == 5 {
+            return Some(5.000)
+        }
+        if self.level == 6 {
+            return Some(6.000)
+        }
+        if self.level == 7 {
+            return Some(7.000)
+        }
+        if self.level == 8 {
+            return Some(8.000)
+        }
+        if self.level == 9 {
+            return Some(9.000)
+        }
+        if self.level == 10 {
+            return Some(10.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Wind
     }
 }
 // MG_THUNDERSTORM

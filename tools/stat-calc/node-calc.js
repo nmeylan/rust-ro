@@ -11,15 +11,16 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "generate";
-let formData, testCase, testCases;
+const command = "debug";
+let formData, testCase, testCases, file;
 switch (command) {
     case "convert":
-        let file = "battle-all-skills-weapon-no-passives.json";
+        file = "battle-all-skills-weapon-no-passives.json";
         testCases = JSON.parse(fs.readFileSync(path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/" + file)));
         let updatedTestCases = [];
         testCases.forEach(tc => {
             formData = JSON.parse(atob(tc.formData));
+            formData._id = tc._id;
             testCase = GetTestCase(formData);
             updatedTestCases.push(testCase)
         });
@@ -32,8 +33,9 @@ switch (command) {
         console.log(testCase);
         break;
     case "debug":
-        testCases = JSON.parse(fs.readFileSync(path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/data.json")));
-        const id = "oatiz7";
+        file = "battle-all-skills-weapon-no-passives.json";
+        testCases = JSON.parse(fs.readFileSync(path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/" + file)));
+        const id = "nmwiju";
         formData = JSON.parse(atob(testCases.find(testCase => testCase._id == id).formData));
         testCase = GetTestCase(formData);
         break;

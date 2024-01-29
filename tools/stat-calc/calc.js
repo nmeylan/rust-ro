@@ -1370,9 +1370,9 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         }
     }
 
-
-    if (stats.matk[0] != stats.matk[2])
-        stats.matk[2] -= 1;
+    // Commented as can't find this formula in wiki
+    // if (stats.matk[0] != stats.matk[2])
+    //     stats.matk[2] -= 1;
 
     stats.matk[1] = (stats.matk[2] + stats.matk[0]) / 2;
 

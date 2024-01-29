@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -161,6 +162,10 @@ impl OffensiveSkillBase for RagingPalmStrike {
             return Some(7.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // CH_TIGERFIST
@@ -489,6 +494,10 @@ impl OffensiveSkillBase for ChainCrushCombo {
             return Some(14.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 impl SelfSkillBase for ChainCrushCombo {

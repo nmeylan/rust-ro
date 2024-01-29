@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -181,6 +182,10 @@ impl OffensiveSkillBase for Fling {
     fn _hit_count(&self) -> i8 {
        1
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // GS_TRIPLEACTION
 pub struct TripleAction {
@@ -277,6 +282,10 @@ impl OffensiveSkillBase for TripleAction {
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(4.500)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // GS_BULLSEYE
@@ -378,6 +387,10 @@ impl OffensiveSkillBase for BullsEye {
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.000)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // GS_MADNESSCANCEL
@@ -731,6 +744,14 @@ impl OffensiveSkillBase for MagicalBullet {
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.000)
     }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+       Some(1.000)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Ghost
+    }
 }
 // GS_CRACKER
 pub struct Cracker {
@@ -827,6 +848,10 @@ impl OffensiveSkillBase for Cracker {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // GS_SINGLEACTION
@@ -1288,6 +1313,10 @@ impl OffensiveSkillBase for Tracking {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // GS_DISARM
 pub struct Disarm {
@@ -1422,6 +1451,10 @@ impl OffensiveSkillBase for Disarm {
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.000)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // GS_PIERCINGSHOT
@@ -1576,6 +1609,10 @@ impl OffensiveSkillBase for PiercingShot {
             return Some(3.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // GS_RAPIDSHOWER
@@ -1775,6 +1812,10 @@ impl OffensiveSkillBase for RapidShower {
             return Some(10.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // GS_DESPERADO
@@ -1982,6 +2023,10 @@ impl OffensiveSkillBase for Desperado {
             return Some(5.500)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 impl SelfSkillBase for Desperado {
@@ -2337,6 +2382,10 @@ impl OffensiveSkillBase for Dust {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // GS_FULLBUSTER
 pub struct FullBuster {
@@ -2592,6 +2641,10 @@ impl OffensiveSkillBase for FullBuster {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // GS_SPREADATTACK
 pub struct SpreadAttack {
@@ -2787,6 +2840,10 @@ impl OffensiveSkillBase for SpreadAttack {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // GS_GROUNDDRIFT
 pub struct GroundDrift {
@@ -2963,6 +3020,10 @@ impl OffensiveSkillBase for GroundDrift {
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.000)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 impl GroundSkillBase for GroundDrift {

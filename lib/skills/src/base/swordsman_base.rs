@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -434,6 +435,10 @@ impl OffensiveSkillBase for Bash {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // SM_PROVOKE
 pub struct Provoke {
@@ -578,6 +583,10 @@ impl OffensiveSkillBase for Provoke {
     #[inline(always)]
     fn _hit_count(&self) -> i8 {
        1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // SM_MAGNUM
@@ -743,6 +752,10 @@ impl OffensiveSkillBase for MagnumBreak {
             return Some(3.000)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Fire
     }
 }
 impl SelfSkillBase for MagnumBreak {

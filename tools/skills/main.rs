@@ -9,6 +9,7 @@ use regex::Regex;
 use serde::{Deserialize, Serialize};
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
+use enums::element::Element;
 use enums::skill::{SkillTargetType, SkillFlags, SkillType};
 use enums::weapon::WeaponType;
 
@@ -234,6 +235,7 @@ fn write_file_header(file: &mut File) {
     file.write_all(b"use enums::{EnumWithMaskValueU64, EnumWithNumberValue};\n").unwrap();
     file.write_all(b"use enums::skill::*;\n").unwrap();
     file.write_all(b"use enums::weapon::AmmoType;\n").unwrap();
+    file.write_all(b"use enums::element::Element;\n").unwrap();
     file.write_all(b"\nuse models::item::WearWeapon;\n").unwrap();
     file.write_all(b"\nuse models::status::StatusSnapshot;\n").unwrap();
     file.write_all(b"use models::item::NormalInventoryItem;\n").unwrap();
@@ -304,6 +306,8 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
         job_skills_file.write_all(format!("impl OffensiveSkillBase for {} {{\n", to_struct_name(skill_config)).as_bytes()).unwrap();
         generate_hit_count(job_skills_file, skill_config);
         generate_dmg_atk(job_skills_file, skill_config);
+        generate_dmg_matk(job_skills_file, skill_config);
+        generate_element(job_skills_file, skill_config);
         job_skills_file.write_all(b"}\n").unwrap();
     }
     if is_support(skill_config) {
@@ -589,6 +593,22 @@ fn generate_dmg_atk(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
     job_skills_file.write_all(b"    fn _dmg_atk(&self) -> Option<f32> {\n").unwrap();
     generate_return_per_level_option_f32(job_skills_file, skill_config.dmg_atk(), skill_config.dmg_atk_per_level());
+    job_skills_file.write_all(b"    }\n").unwrap();
+}
+fn generate_dmg_matk(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    if skill_config.dmg_matk().is_none() && skill_config.dmg_matk_per_level().is_none() {
+        return;
+    }
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+    job_skills_file.write_all(b"    fn _dmg_matk(&self) -> Option<f32> {\n").unwrap();
+    generate_return_per_level_option_f32(job_skills_file, skill_config.dmg_matk(), skill_config.dmg_matk_per_level());
+    job_skills_file.write_all(b"    }\n").unwrap();
+}
+
+fn generate_element(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+    job_skills_file.write_all(b"    fn _element(&self) -> Element {\n").unwrap();
+    job_skills_file.write_all(format!("        Element::{:?}\n", skill_config.element().unwrap_or(Element::Neutral)).as_bytes()).unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 

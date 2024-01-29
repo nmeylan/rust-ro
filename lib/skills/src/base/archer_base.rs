@@ -6,6 +6,7 @@
 use enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use enums::skill::*;
 use enums::weapon::AmmoType;
+use enums::element::Element;
 
 use models::item::WearWeapon;
 
@@ -445,6 +446,10 @@ impl OffensiveSkillBase for DoubleStrafe {
         }
         None
     }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // AC_SHOWER
 pub struct ArrowShower {
@@ -587,6 +592,10 @@ impl OffensiveSkillBase for ArrowShower {
             return Some(1.250)
         }
         None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 impl GroundSkillBase for ArrowShower {
@@ -788,5 +797,9 @@ impl OffensiveSkillBase for ArrowRepel {
     #[inline(always)]
     fn _dmg_atk(&self) -> Option<f32> {
        Some(1.500)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
