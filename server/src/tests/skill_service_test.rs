@@ -446,11 +446,11 @@ mod tests {
             }
         }
         for (job, results) in result_per_jobs.iter() {
-            result_file.write_all(format!("# {}\n", job).as_bytes()).unwrap();
+            result_file.write_all(format!("# {} ({}/{})\n", job, results.iter().filter(|r| r.passed).count(), results.len()).as_bytes()).unwrap();
             result_file.write_all(b"|Skill|Passed|\n").unwrap();
             result_file.write_all(b"|-|-|\n").unwrap();
             for result in results.iter() {
-                result_file.write_all(format!("|{}|{}|\n", result.skill, result.passed).as_bytes()).unwrap();
+                result_file.write_all(format!("|{}|**{}**|\n", result.skill, result.passed).as_bytes()).unwrap();
             }
         }
 
