@@ -33,6 +33,11 @@ resetlvl,0,2
 jobchange,0,3
 specialeffect2,0,3
 skill,2,3
+bonus,1,2
+bonus2,3,3
+bonus3,4,4
+bonus4,5,5
+bonus5,6,6
 
 // Custom: not part of rathena script lang spec
 warn,1,255
