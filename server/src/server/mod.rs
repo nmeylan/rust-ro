@@ -33,7 +33,7 @@ use rand::Rng;
 
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
-use crate::server::service::character::item_service::ItemService;
+use crate::server::service::item_service::ItemService;
 use script::skill::ScriptSkillService;
 use crate::server::game_loop::GAME_TICK_RATE;
 use crate::server::model::events::client_notification::CharNotification;

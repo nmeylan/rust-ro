@@ -27,7 +27,7 @@ use crate::server::Server;
 
 use crate::server::service::character::character_service::{CharacterService};
 use crate::server::service::character::inventory_service::InventoryService;
-use crate::server::service::character::item_service::{ItemService};
+use crate::server::service::item_service::{ItemService};
 use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 

@@ -40,6 +40,7 @@ mod global_variable_handler;
 pub mod constant;
 mod shop;
 pub mod skill;
+mod bonus;
 
 #[derive(Clone, Eq, Hash, PartialEq, Debug)]
 pub struct GlobalVariableEntry {

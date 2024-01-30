@@ -10,6 +10,7 @@ use tokio::sync::mpsc;
 
 use packets::packets::PacketZcUseItemAck2;
 use crate::repository::{ItemRepository, Repository};
+use crate::repository::model::item_model::ItemModel;
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::model::events::game_event::{CharacterUseItem};
@@ -111,5 +112,22 @@ impl ItemService {
         }
         // check if can use
         // check if potion has been created by famous (ranked) alch/creator, bonus + 50%
+    }
+
+    pub fn convert_script_into_bonuses(mut items: &Vec<ItemModel>) {
+        // for item in items.iter_mut() {
+        //     if let Some(Script) = item.script {
+        //         let script_result = Vm::repl(server_ref.vm.clone(), script,
+        //                                      Box::new(&PlayerScriptHandler {
+        //                                          client_notification_channel: self.client_notification_sender.clone(),
+        //                                          npc_id: 0,
+        //                                          server: server_ref.clone(),
+        //                                          player_action_receiver: RwLock::new(rx),
+        //                                          runtime: Runtime::new().unwrap(),
+        //                                          session,
+        //                                          configuration_service: self.configuration_service
+        //                                      }));
+        //     }
+        // }
     }
 }
