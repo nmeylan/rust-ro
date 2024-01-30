@@ -115,6 +115,9 @@ impl ItemService {
     }
 
     pub fn convert_script_into_bonuses(mut items: &Vec<ItemModel>) {
+        // if script is static -> set item.script = None; add all bonuses to item model
+        //
+
         // for item in items.iter_mut() {
         //     if let Some(Script) = item.script {
         //         let script_result = Vm::repl(server_ref.vm.clone(), script,

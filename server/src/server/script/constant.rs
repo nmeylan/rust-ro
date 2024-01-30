@@ -1,6 +1,8 @@
 use rathena_script_lang_interpreter::lang::value::Value;
 use enums::class::{JOB_2_1_MASK, JOB_2_2_MASK, JOB_BABY_MASK, JOB_BASE_MASK, JOB_TRANS_MASK, JobName};
+use enums::element::Element;
 use enums::look::LookType;
+use enums::mob::{MobClass, MobRace};
 use crate::enums::EnumWithNumberValue;
 use crate::enums::EnumWithStringValue;
 
@@ -1249,6 +1251,43 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
         "4_RAGFES_16" => Value::new_number(10506),
         "4_RAGFES_16_M" => Value::new_number(10507),
         "4_EXJOB_NINJA2" => Value::new_number(10508),
+        "Ele_Neutral" => Value::new_number(Element::Neutral.value() as i32),
+        "Ele_Water" => Value::new_number(Element::Water.value() as i32),
+        "Ele_Earth" => Value::new_number(Element::Earth.value() as i32),
+        "Ele_Fire" => Value::new_number(Element::Fire.value() as i32),
+        "Ele_Wind" => Value::new_number(Element::Wind.value() as i32),
+        "Ele_Poison" => Value::new_number(Element::Poison.value() as i32),
+        "Ele_Holy" => Value::new_number(Element::Holy.value() as i32),
+        "Ele_Dark" => Value::new_number(Element::Dark.value() as i32),
+        "Ele_Ghost" => Value::new_number(Element::Ghost.value() as i32),
+        "Ele_Undead" => Value::new_number(Element::Undead.value() as i32),
+        "Class_Normal" => Value::new_number(MobClass::Normal.value() as i32),
+        "Class_Boss" => Value::new_number(MobClass::Boss.value() as i32),
+        "Class_Guardian" => Value::new_number(MobClass::Guardian.value() as i32),
+        "Class_All" => Value::new_number(MobClass::All.value() as i32),
+        "RC2_Goblin" => Value::new_number(MobRace::Goblin.value() as i32),
+        "RC2_Kobold" => Value::new_number(MobRace::Kobold.value() as i32),
+        "RC2_Orc"  => Value::new_number(MobRace::Orc.value() as i32),
+        "RC2_Golem"  => Value::new_number(MobRace::Golem.value() as i32),
+        "RC2_Guardian" => Value::new_number(MobRace::Guardian.value() as i32),
+        "RC2_Ninja" => Value::new_number(MobRace::Ninja.value() as i32),
+        "RC2_GVG" => Value::new_number(MobRace::GVG.value() as i32),
+        "RC2_Battlefield" => Value::new_number(MobRace::Battlefield.value() as i32),
+        "RC2_Treasure" => Value::new_number(MobRace::Treasure.value() as i32),
+        "RC2_BioLab" => Value::new_number(MobRace::BioLab.value() as i32),
+        "RC2_Manuk" => Value::new_number(MobRace::Manuk.value() as i32),
+        "RC2_Splendide" => Value::new_number(MobRace::Splendide.value() as i32),
+        "RC2_Scaraba" => Value::new_number(MobRace::Scaraba.value() as i32),
+        "RC2_Clocktower" => Value::new_number(MobRace::Clocktower.value() as i32),
+        "RC2_Thanatos" => Value::new_number(MobRace::Thanatos.value() as i32),
+        "RC2_Faceworm" => Value::new_number(MobRace::Faceworm.value() as i32),
+        "RC2_Hearthunter" => Value::new_number(MobRace::Hearthunter.value() as i32),
+        "RC2_Rockridge" => Value::new_number(MobRace::Rockridge.value() as i32),
+        "RC2_Werner_Lab" => Value::new_number(MobRace::WernerLab.value() as i32),
+        "RC2_Temple_Demon" => Value::new_number(MobRace::TempleDemon.value() as i32),
+        "RC2_Illusion_Vampire" => Value::new_number(MobRace::IllusionVampire.value() as i32),
+        "RC2_Malangdo" => Value::new_number(MobRace::Malangdo.value() as i32),
+        "RC2_Rachel_Sanctuary" => Value::new_number(MobRace::RachelSanctuary.value() as i32),
         &_ => Value::Reference(None)
     };
 

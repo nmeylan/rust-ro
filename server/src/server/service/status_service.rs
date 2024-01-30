@@ -30,7 +30,7 @@ impl StatusService {
         let mut snapshot = StatusSnapshot::from(status);
         snapshot.set_aspd(self.aspd(&snapshot));
         self.configuration_service.get_job_config(snapshot.job()).bonus_stats()
-            .get((status.job_level - 1) as usize)
+            .get((status.job_level.max(1) - 1) as usize)
             .map(|bonus| {
                 snapshot.set_bonus_str(*bonus.get("str").unwrap_or(&0_u16));
                 snapshot.set_bonus_agi(*bonus.get("agi").unwrap_or(&0_u16));
