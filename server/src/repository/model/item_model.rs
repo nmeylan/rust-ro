@@ -39,40 +39,66 @@ pub struct ItemModel {
     pub name_english: String,
     #[serde(serialize_with = "serialize_string_enum", deserialize_with = "deserialize_string_enum")]
     pub item_type: ItemType,
-    #[serde(serialize_with = "serialize_optional_string_enum", deserialize_with = "deserialize_optional_string_enum", default)]
+    #[serde(serialize_with = "serialize_optional_string_enum", deserialize_with = "deserialize_optional_string_enum", default, skip_serializing_if = "Option::is_none")]
     pub weapon_type: Option<WeaponType>,
-    #[serde(serialize_with = "serialize_optional_string_enum", deserialize_with = "deserialize_optional_string_enum", default)]
+    #[serde(serialize_with = "serialize_optional_string_enum", deserialize_with = "deserialize_optional_string_enum", default, skip_serializing_if = "Option::is_none")]
     pub ammo_type: Option<AmmoType>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub price_buy: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub price_sell: Option<i32>,
     pub weight: i32,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub attack: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub defense: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub range: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub slots: Option<i16>,
     pub job_flags: u64,
     pub class_flags: u64,
     pub location: u64,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub gender: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub weapon_level: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub armor_level: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub equip_level_min: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub equip_level_max: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub refineable: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub view: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub alias_name: Option<String>,
     pub flags: u64,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub delay_duration: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub delay_status: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub stack_amount: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub stack_inventory: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub stack_cart: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub stack_storage: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub stack_guildstorage: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub nouse_override: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub nouse_sitting: Option<i16>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub trade_override: Option<i32>,
     pub trade_flags: u64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub script: Option<String>,
 }
 
 impl<'r> FromRow<'r, PgRow> for ItemModel {
@@ -197,6 +223,7 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         let nouse_override: Option<i32> = row.try_get("nouse_override").or_else(Self::map_error())?;
         let nouse_sitting: Option<i16> = row.try_get("nouse_sitting").or_else(Self::map_error())?;
         let trade_override: Option<i32> = row.try_get("trade_override").or_else(Self::map_error())?;
+        let script: Option<String> = row.try_get("script").or_else(Self::map_error())?;
 
         let mut trade_flags = vec![];
         row.try_get::<'r, Option<i16>, _>("trade_nodrop").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoDrop) }).or_else(Self::map_error())?;
@@ -247,6 +274,7 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
             trade_override,
             trade_flags,
             class_flags,
+            script,
         })
     }
 }
