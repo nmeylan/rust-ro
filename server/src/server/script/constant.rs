@@ -1,8 +1,11 @@
 use rathena_script_lang_interpreter::lang::value::Value;
 use enums::class::{JOB_2_1_MASK, JOB_2_2_MASK, JOB_BABY_MASK, JOB_BASE_MASK, JOB_TRANS_MASK, JobName};
 use enums::element::Element;
+use enums::item::ItemGroup;
 use enums::look::LookType;
 use enums::mob::{MobClass, MobGroup, MobRace};
+use enums::size::Size;
+use enums::status::StatusEffect;
 use crate::enums::EnumWithNumberValue;
 use crate::enums::EnumWithStringValue;
 
@@ -1301,6 +1304,49 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
         "RC_Player_Doram" => Value::new_number(MobRace::PlayerDoram.value() as i32),
         "RC_Undead" => Value::new_number(MobRace::Undead.value() as i32),
         "RC_All" => Value::new_number(MobRace::All.value() as i32),
+        "Eff_Bleeding" => Value::new_number(StatusEffect::Bleeding.value() as i32),
+        "Eff_Blind" => Value::new_number(StatusEffect::Blind.value() as i32),
+        "Eff_Burning" => Value::new_number(StatusEffect::Burning.value() as i32),
+        "Eff_Confusion" => Value::new_number(StatusEffect::Confuse.value() as i32),
+        "Eff_Curse" => Value::new_number(StatusEffect::Curse.value() as i32),
+        "Eff_Freeze" => Value::new_number(StatusEffect::Freeze.value() as i32),
+        "Eff_Poison" => Value::new_number(StatusEffect::Poison.value() as i32),
+        "Eff_Silence" => Value::new_number(StatusEffect::Silence.value() as i32),
+        "Eff_Sleep" => Value::new_number(StatusEffect::Sleep.value() as i32),
+        "Eff_Stone" => Value::new_number(StatusEffect::Stone.value() as i32),
+        "Eff_Stun" => Value::new_number(StatusEffect::Stun.value() as i32),
+        "IG_BLUEBOX" =>  Value::new_number(ItemGroup::Bluebox.value() as i32),
+        "IG_VIOLETBOX" =>  Value::new_number(ItemGroup::Violetbox.value() as i32),
+        "IG_CARDALBUM" =>  Value::new_number(ItemGroup::Cardalbum.value() as i32),
+        "IG_GIFTBOX" =>  Value::new_number(ItemGroup::Giftbox.value() as i32),
+        "IG_SCROLLBOX" =>  Value::new_number(ItemGroup::Scrollbox.value() as i32),
+        "IG_FINDINGORE" =>  Value::new_number(ItemGroup::Findingore.value() as i32),
+        "IG_COOKIEBAG" =>  Value::new_number(ItemGroup::Cookiebag.value() as i32),
+        "IG_FIRSTAID" =>  Value::new_number(ItemGroup::Firstaid.value() as i32),
+        "IG_HERB" =>  Value::new_number(ItemGroup::Herb.value() as i32),
+        "IG_FRUIT" =>  Value::new_number(ItemGroup::Fruit.value() as i32),
+        "IG_MEAT" =>  Value::new_number(ItemGroup::Meat.value() as i32),
+        "IG_CANDY" =>  Value::new_number(ItemGroup::Candy.value() as i32),
+        "IG_JUICE" =>  Value::new_number(ItemGroup::Juice.value() as i32),
+        "IG_FISH" =>  Value::new_number(ItemGroup::Fish.value() as i32),
+        "IG_BOX" =>  Value::new_number(ItemGroup::Box.value() as i32),
+        "IG_GEMSTONE" =>  Value::new_number(ItemGroup::Gemstone.value() as i32),
+        "IG_RESIST" =>  Value::new_number(ItemGroup::Resist.value() as i32),
+        "IG_ORE" =>  Value::new_number(ItemGroup::Ore.value() as i32),
+        "IG_FOOD" =>  Value::new_number(ItemGroup::Food.value() as i32),
+        "IG_RECOVERY" =>  Value::new_number(ItemGroup::Recovery.value() as i32),
+        "IG_MINERAL" =>  Value::new_number(ItemGroup::Mineral.value() as i32),
+        "IG_TAMING" =>  Value::new_number(ItemGroup::Taming.value() as i32),
+        "IG_SCROLL" =>  Value::new_number(ItemGroup::Scroll.value() as i32),
+        "IG_QUIVER" =>  Value::new_number(ItemGroup::Quiver.value() as i32),
+        "IG_MASK" =>  Value::new_number(ItemGroup::Mask.value() as i32),
+        "IG_ACCESORY" =>  Value::new_number(ItemGroup::Accesory.value() as i32),
+        "IG_JEWEL" =>  Value::new_number(ItemGroup::Jewel.value() as i32),
+        "IG_Potion" =>  Value::new_number(ItemGroup::Potion.value() as i32),
+        "Size_All" =>  Value::new_number(Size::All.value() as i32),
+        "Size_Medium" =>  Value::new_number(Size::Medium.value() as i32),
+        "Size_Small" =>  Value::new_number(Size::Small.value() as i32),
+        "Size_Large" =>  Value::new_number(Size::Large.value() as i32),
         &_ => Value::Reference(None)
     };
 

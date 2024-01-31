@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+
 use crate::item::ItemType::{DelayConsume, Usable};
 use crate::*;
 
@@ -94,6 +95,7 @@ pub enum ItemFlag {
     NoConsume,
     DropEffect,
 }
+
 #[derive(WithMaskValueU64)]
 pub enum ItemTradeFlag {
     #[mask_value = 1]
@@ -191,4 +193,37 @@ impl ItemType {
             ItemType::Etc | ItemType::Card | ItemType::Unknown2 | ItemType::Ammo | ItemType::Max
         )
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, WithNumberValue)]
+pub enum ItemGroup {
+    #[value = 0]
+    Bluebox,
+    Violetbox,
+    Cardalbum,
+    Giftbox,
+    Scrollbox,
+    Findingore,
+    Cookiebag,
+    Firstaid,
+    Herb,
+    Fruit,
+    Meat,
+    Candy,
+    Juice,
+    Fish,
+    Box,
+    Gemstone,
+    Resist,
+    Ore,
+    Food,
+    Recovery,
+    Mineral,
+    Taming,
+    Scroll,
+    Quiver,
+    Mask,
+    Accesory,
+    Jewel,
+    Potion,
 }
