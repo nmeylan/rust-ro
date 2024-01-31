@@ -8,12 +8,12 @@ use tokio::runtime::Runtime;
 use enums::bonus::BonusType;
 use enums::element::Element;
 use enums::EnumWithNumberValue;
-use enums::mob::MobClass;
+use enums::mob::{MobClass, MobRace};
 use crate::server::script::constant::load_constant;
 use crate::server::script::PlayerScriptHandler;
 
 pub struct BonusScriptHandler {
-    bonuses: RwLock<Vec<BonusType>>
+    bonuses: RwLock<Vec<BonusType>>,
 }
 
 macro_rules! bonus {
@@ -28,7 +28,7 @@ impl NativeMethodHandler for BonusScriptHandler {
             self.handle_bonus(params);
         } else if native.name.eq("bonus2") {
             self.handle_bonus2(params);
-        }  else if native.name.eq("bonus3") {
+        } else if native.name.eq("bonus3") {
             self.handle_bonus3(params);
         } else if native.name.eq("bonus4") {
             self.handle_bonus4(params);
@@ -48,19 +48,37 @@ impl BonusScriptHandler {
         let bonus = params[0].string_value().unwrap();
         if params.len() == 1 {
             match bonus.to_lowercase().as_str() {
-                "bintravision" => {}
-                "bnocastcancel" => {}
-                "bnogemstone" => {}
-                "bnoknockback" => {}
-                "bnosizefix" => {}
-                "bnowalkdelay" => {}
-                "brestartfullrecover" => {}
-                "bunbreakablearmor" => {}
-                "bunbreakablegarment" => {}
-                "bunbreakablehelm" => {}
-                "bunbreakableshield" => {}
-                "bunbreakableshoes" => {}
-                "bunbreakableweapon" => {}
+                "bintravision" => {
+                    bonus!(self, BonusType::EnableSeeHidden);
+                }
+                "bnocastcancel" => {
+                    bonus!(self, BonusType::EnableNoCancelCast);
+                }
+                "bnogemstone" => {
+                    bonus!(self, BonusType::EnableNoGemstoneRequired);
+                }
+                "bnoknockback" => {
+                    bonus!(self, BonusType::EnableNoKnockback);}
+                "bnosizefix" => {
+                    bonus!(self, BonusType::EnableIgnoreSizeModifier);}
+                "bnowalkdelay" => {
+                    bonus!(self, BonusType::EnableNoWalkDelay);
+                }
+                "brestartfullrecover" => {
+                    bonus!(self, BonusType::EnableFullHpSpRecoverOnResurrect);}
+                "bunbreakablearmor" => {
+                    bonus!(self, BonusType::UnbreakableArmor);
+                }
+                "bunbreakablegarment" => {
+                    bonus!(self, BonusType::UnbreakableShoulder);}
+                "bunbreakablehelm" => {
+                    bonus!(self, BonusType::UnbreakableHelm);}
+                "bunbreakableshield" => {
+                    bonus!(self, BonusType::UnbreakableShield);}
+                "bunbreakableshoes" => {
+                    bonus!(self, BonusType::UnbreakableShoes);}
+                "bunbreakableweapon" => {
+                    bonus!(self, BonusType::UnbreakableWeapon);}
                 _ => {}
             }
         } else {
@@ -73,7 +91,8 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::HpRegenFromItemPercentage(value));
                 }
                 "ballstats" => {
-                    bonus!(self, BonusType::AllStats(value));}
+                    bonus!(self, BonusType::AllStats(value));
+                }
                 "baspd" => {
                     bonus!(self, BonusType::Aspd(value));
                 }
@@ -93,7 +112,8 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::BreakArmorPercentage(value));
                 }
                 "bbreakweaponrate" => {
-                    bonus!(self, BonusType::BreakWeaponPercentage(value));}
+                    bonus!(self, BonusType::BreakWeaponPercentage(value));
+                }
                 "bcastrate" => {
                     bonus!(self, BonusType::CastTimePercentage(value));
                 }
@@ -129,51 +149,142 @@ impl BonusScriptHandler {
                         MobClass::Guardian => bonus!(self, BonusType::IncreaseDamageAgainstGuardianBaseOnDef),
                     }
                 }
-                "bdelayrate" => {}
+                "bdelayrate" => {
+                    bonus!(self, BonusType::SkillDelayIncDecPercentage(value));
+                }
                 "bdex" => {
                     bonus!(self, BonusType::Dex(value));
                 }
-                "bdoublerate" => {}
-                "bflee" => {}
-                "bflee2" => {}
-                "bhpdrainrate" => {}
-                "bhpgainvalue" => {}
-                "bhprecovrate" => {}
-                "bhealpower" => {}
-                "bhealpower2" => {}
-                "bhit" => {}
-                "bhitrate" => {}
-                "bignoredefclass" => {}
-                "bignoredefrace" => {}
-                "bint" => {}
-                "blongatkdef" => {}
-                "blongatkrate" => {}
-                "bluk" => {}
-                "bmatkrate" => {}
-                "bmagicdamagereturn" => {}
-                "bmagichpgainvalue" => {}
-                "bmagicspgainvalue" => {}
-                "bmatk" => {}
-                "bmaxhp" => {}
-                "bmaxhprate" => {}
-                "bmaxsp" => {}
-                "bmaxsprate" => {}
-                "bmdef" => {}
-                "bnomagicdamage" => {}
-                "bnoregen" => {}
-                "bperfecthitrate" => {}
-                "brestartfullrecover" => {}
-                "bspdrainvalue" => {}
-                "bspgainvalue" => {}
-                "bsprecovrate" => {}
-                "bshortweapondamagereturn" => {}
-                "bspeedaddrate" => {}
-                "bspeedrate" => {}
-                "bsplashrange" => {}
+                "bdoublerate" => {
+                    bonus!(self, BonusType::DoubleAttackChancePercentage(value));
+                }
+                "bflee" => {
+                    bonus!(self, BonusType::Flee(value));
+                }
+                "bflee2" => {
+                    bonus!(self, BonusType::PerfectDodge(value));
+                }
+                "bhpgainvalue" => {
+                    bonus!(self, BonusType::GainHpWhenKillingEnemy(value));
+                }
+                "bhprecovrate" => {
+                    bonus!(self, BonusType::NaturalHpRecoveryPercentage(value));
+                }
+                "bhealpower" => {
+                    bonus!(self, BonusType::HealSkillPercentage(value));
+                }
+                "bhealpower2" => {
+                    bonus!(self, BonusType::HpRegenFromSkillPercentage(value));
+                }
+                "bhit" => {
+                    bonus!(self, BonusType::Hit(value));
+                }
+                "bhitrate" => {
+                    bonus!(self, BonusType::HitPercentage(value));
+                }
+                "bignoredefclass" => {
+                    match MobClass::from_value(value as usize) {
+                        MobClass::Normal => bonus!(self, BonusType::IgnoreDefClassNormal),
+                        MobClass::All => bonus!(self, BonusType::IgnoreDefClassAll),
+                        MobClass::Boss => bonus!(self, BonusType::IgnoreDefClassBoss),
+                        MobClass::Guardian => bonus!(self, BonusType::IgnoreDefClassGuardian),
+                    }
+                }
+                "bignoredefrace" => {
+                    match MobRace::from_value(value as usize) {
+                        MobRace::All => bonus!(self, BonusType::IgnoreDefRaceAll),
+                        MobRace::Angel => bonus!(self, BonusType::IgnoreDefRaceAngel),
+                        MobRace::Brute => bonus!(self, BonusType::IgnoreDefRaceBrute),
+                        MobRace::DemiHuman => bonus!(self, BonusType::IgnoreDefRaceDemiHuman),
+                        MobRace::Demon => bonus!(self, BonusType::IgnoreDefRaceDemon),
+                        MobRace::Dragon => bonus!(self, BonusType::IgnoreDefRaceDragon),
+                        MobRace::Fish => bonus!(self, BonusType::IgnoreDefRaceFish),
+                        MobRace::Formless => bonus!(self, BonusType::IgnoreDefRaceFormless),
+                        MobRace::Insect => bonus!(self, BonusType::IgnoreDefRaceInsect),
+                        MobRace::Plant => bonus!(self, BonusType::IgnoreDefRacePlant),
+                        MobRace::PlayerHuman => bonus!(self, BonusType::IgnoreDefRacePlayerHuman),
+                        MobRace::PlayerDoram => bonus!(self, BonusType::IgnoreDefRacePlayerDoram),
+                        MobRace::Undead => bonus!(self, BonusType::IgnoreDefRaceUndead),
+                    }
+                }
+                "bint" => {
+                    bonus!(self, BonusType::Int(value));
+                }
+                "blongatkdef" => {
+                    bonus!(self, BonusType::ResistanceRangeAttack(value));
+                }
+                "blongatkrate" => {
+                    bonus!(self, BonusType::DamageRangedAtkPercentage(value));
+                }
+                "bluk" => {
+                    bonus!(self, BonusType::Luk(value));
+                }
+                "bmatkrate" => {
+                    bonus!(self, BonusType::MatkPercentage(value));
+                }
+                "bmagicdamagereturn" => {
+                    bonus!(self, BonusType::MagicAttackRelectChancePercentage(value));
+                }
+                "bmagichpgainvalue" => {
+                    bonus!(self, BonusType::GainHpWhenKillingEnemyWithMagicAttack(value));
+                }
+                "bmagicspgainvalue" => {
+                    bonus!(self, BonusType::GainSpWhenKillingEnemyWithMagicAttack(value));
+                }
+                "bmatk" => {
+                    bonus!(self, BonusType::Matk(value));
+                }
+                "bmaxhp" => {
+                    bonus!(self, BonusType::Maxhp(value));
+                }
+                "bmaxhprate" => {
+                    bonus!(self, BonusType::MaxhpPercentage(value));
+                }
+                "bmaxsp" => {
+                    bonus!(self, BonusType::Maxsp(value));
+                }
+                "bmaxsprate" => {
+                    bonus!(self, BonusType::MaxspPercentage(value));
+                }
+                "bmdef" => {
+                    bonus!(self, BonusType::Mdef(value));
+                }
+                "bnomagicdamage" => {
+                    bonus!(self, BonusType::ResistanceMagicAttackPercentage(value));
+                }
+                "bnoregen" => {
+                    if value == 1 {
+                        bonus!(self, BonusType::DisableHpRegen);
+                    } else if value == 2 {
+                        bonus!(self, BonusType::DisableSpRegen);
+                    }
+                }
+                "bperfecthitrate" => {
+                    bonus!(self, BonusType::PerfectHitPercentage(value));
+                }
+                "bspdrainvalue" => {
+                    bonus!(self, BonusType::GainSpWhenHittingEnemy(value));
+                }
+                "bspgainvalue" => {
+                    bonus!(self, BonusType::GainSpWhenKillingEnemy(value));
+                }
+                "bsprecovrate" => {
+                    bonus!(self, BonusType::NaturalSpRecoveryPercentage(value));
+                }
+                "bshortweapondamagereturn" => {
+                    bonus!(self, BonusType::MeleeAttackRelectChancePercentage(value));
+                }
+                "bspeedaddrate" | "bspeedrate" => {
+                    bonus!(self, BonusType::SpeedPercentage(value));
+                }
+                "bsplashrange" => {
+                    bonus!(self, BonusType::SplashRadius(value));
+                }
                 "bstr" => {
                     bonus!(self, BonusType::Str(value));
                 }
-                "busesprate" => {}
+                "busesprate" => {
+                    bonus!(self, BonusType::SpConsumption(value));}
                 "bvit" => {
                     bonus!(self, BonusType::Vit(value));
                 }
@@ -271,8 +382,8 @@ fn test_simple_bonus() {
     let script = "bonus bStr, 10;";
     let compilation_result = Compiler::compile_script(format!("test"), script, "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
     let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
-     // When
-    let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]), };
+    // When
+    let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
     Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(),
              Box::new(&script_handler));
     // Then
@@ -285,8 +396,8 @@ fn test_bonus_with_constant() {
     let script = "bonus bAtkEle,Ele_Water;";
     let compilation_result = Compiler::compile_script(format!("test"), script, "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
     let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::All.value()));
-     // When
-    let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]), };
+    // When
+    let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
     Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(),
              Box::new(&script_handler));
     // Then
