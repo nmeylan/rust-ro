@@ -259,8 +259,9 @@ pub enum StatusTypes {
     Statenorecoverrace,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, WithNumberValue)]
 pub enum StatusEffect {
+    #[value = 0]
     Poison,
     Stun,
     Freeze,
@@ -271,6 +272,9 @@ pub enum StatusEffect {
     Chaos,
     Bleeding,
     Stone,
+    Burning,
+    Confuse,
+    Coma,
     WeaponBreak,
     ArmorBreak,
 }

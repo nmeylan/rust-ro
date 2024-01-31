@@ -224,14 +224,16 @@ impl BattleService {
                 match target_status.size() {
                     Size::Small => 1.0,
                     Size::Medium => 1.0,
-                    Size::Large => 1.0
+                    Size::Large => 1.0,
+                    _ => 1.0
                 }
             }
             WeaponType::Dagger => {
                 match target_status.size() {
                     Size::Small => 1.0,
                     Size::Medium => 0.75,
-                    Size::Large => 0.5
+                    Size::Large => 0.5,
+                    _ => 1.0
                 }
             }
             WeaponType::Sword1H => {
@@ -239,13 +241,15 @@ impl BattleService {
                     Size::Small => 0.75,
                     Size::Medium => 1.0,
                     Size::Large => 0.75,
+                    _ => 1.0
                 }
             }
             WeaponType::Sword2H => {
                 match target_status.size() {
                     Size::Small => 0.75,
                     Size::Medium => 0.75,
-                    Size::Large => 1.0
+                    Size::Large => 1.0,
+                    _ => 1.0
                 }
             }
             WeaponType::Spear1H | WeaponType::Spear2H => {
@@ -253,13 +257,15 @@ impl BattleService {
                     match target_status.size() {
                         Size::Small => 0.75,
                         Size::Medium => 1.0,
-                        Size::Large => 1.0
+                        Size::Large => 1.0,
+                        _ => 1.0
                     }
                 } else {
                     match target_status.size() {
                         Size::Small => 0.75,
                         Size::Medium => 0.75,
-                        Size::Large => 1.0
+                        Size::Large => 1.0,
+                        _ => 1.0
                     }
                 }
             }
@@ -267,77 +273,88 @@ impl BattleService {
                 match target_status.size() {
                     Size::Small => 0.5,
                     Size::Medium => 0.75,
-                    Size::Large => 1.0
+                    Size::Large => 1.0,
+                    _ => 1.0
                 }
             }
             WeaponType::Mace | WeaponType::Mace2H => {
                 match target_status.size() {
                     Size::Small => 0.75,
                     Size::Medium => 1.0,
-                    Size::Large => 1.0
+                    Size::Large => 1.0,
+                    _ => 1.0
                 }
             }
             WeaponType::Staff | WeaponType::Staff2H => {
                 match target_status.size() {
                     Size::Small => 1.0,
                     Size::Medium => 1.0,
-                    Size::Large => 1.0
+                    Size::Large => 1.0,
+                    _ => 1.0
                 }
             }
             WeaponType::Bow => {
                 match target_status.size() {
                     Size::Small => 1.0,
                     Size::Medium => 1.0,
-                    Size::Large => 0.75
+                    Size::Large => 0.75,
+                    _ => 1.0
                 }
             }
             WeaponType::Knuckle => {
                 match target_status.size() {
                     Size::Small => 1.0,
                     Size::Medium => 0.75,
-                    Size::Large => 0.5
+                    Size::Large => 0.5,
+                    _ => 1.0
                 }
             }
             WeaponType::Musical => {
                 match target_status.size() {
                     Size::Small => 0.75,
                     Size::Medium => 1.0,
-                    Size::Large => 0.75
+                    Size::Large => 0.75,
+                    _ => 1.0
                 }
             }
             WeaponType::Whip => {
                 match target_status.size() {
                     Size::Small => 0.75,
                     Size::Medium => 1.0,
-                    Size::Large => 0.5
+                    Size::Large => 0.5,
+                    _ => 1.0
                 }
             }
             WeaponType::Book => {
                 match target_status.size() {
                     Size::Small => 1.0,
                     Size::Medium => 1.0,
-                    Size::Large => 0.5
+                    Size::Large => 0.5,
+                    _ => 1.0
                 }
             }
             WeaponType::Katar => {
                 match target_status.size() {
                     Size::Small => 0.75,
                     Size::Medium => 1.0,
-                    Size::Large => 0.75
+                    Size::Large => 0.75,
+                    _ => 1.0
                 }
             }
             WeaponType::Revolver | WeaponType::Rifle | WeaponType::Gatling | WeaponType::Shotgun | WeaponType::Grenade => {
                 match target_status.size() {
                     Size::Small => 1.0,
                     Size::Medium => 1.0,
-                    Size::Large => 1.0
+                    Size::Large => 1.0,
+                    _ => 1.0
                 }
             }
             WeaponType::Huuma | WeaponType::Shuriken => {
                 match target_status.size() {
                     Size::Small => 1.0,
                     Size::Medium => 1.0,
-                    Size::Large => 1.0
+                    Size::Large => 1.0,
+                    _ => 1.0
                 }
             }
             _ => 1.0
