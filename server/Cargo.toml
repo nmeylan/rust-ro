@@ -7,6 +7,8 @@ edition = "2021"
 byteorder = "1.5.0"
 lazy_static  = "1.4.0"
 hashbrown = "0.14"
+base64 = { version = "0.21.7", features = [] }
+fastmurmur3 = "0.2.0"
 regex = { version = "1.10.2", features = ["default"] }
 tokio = { version = "1.33.0", features = ["full", "tracing"] }
 futures = "0.3"
@@ -25,7 +27,7 @@ async-trait = "0.1.74"
 testcontainers = {  version= "0.15.0" }
 testcontainers-modules = { version = "0.2.1", features = ["postgres"] }
 
-rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "bf96506bf44a272b2a8bd6f0cb83fc4b0d768d12"}
+rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "8ec5de27d64bbf301ed8ceae3b0e490490ae9ee6"}
 
 configuration = { path = "../lib/configuration" }
 accessor = { path = "../lib/accessor" }
