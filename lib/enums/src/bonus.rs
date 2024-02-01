@@ -332,5 +332,5 @@ pub enum BonusType {
     HpRegenEveryMs(u16, u16), //amount, every ms
     SpLossEveryMs(u16, u16), //amount, every ms
     SpRegenEveryMs(u16, u16), //amount, every ms
-    SkillDamagePercentage(u32, i8)
+    SkillIdDamagePercentage(u32, i8)
 }

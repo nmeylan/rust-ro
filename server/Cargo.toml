@@ -25,7 +25,7 @@ async-trait = "0.1.74"
 testcontainers = {  version= "0.15.0" }
 testcontainers-modules = { version = "0.2.1", features = ["postgres"] }
 
-rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "8d9ff05b67cef7269d8e96eb9eb4dd9ea804675b"}
+rathena_script_lang_interpreter = { git = "https://github.com/nmeylan/rathena-script-lang-interpreter", rev = "bf96506bf44a272b2a8bd6f0cb83fc4b0d768d12"}
 
 configuration = { path = "../lib/configuration" }
 accessor = { path = "../lib/accessor" }

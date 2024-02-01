@@ -44,7 +44,7 @@ impl ItemRepository for Repository {
     }
 
     async fn get_all_items(&self) -> Result<Vec<ItemModel>, Error> {
-        sqlx::query_as("SELECT * FROM item_db")
+        sqlx::query_as("SELECT * FROM item_db WHERE id < 10000 OR type in ('Weapon')")
             .fetch_all(&self.pool).await
     }
 }
