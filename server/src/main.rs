@@ -64,6 +64,7 @@ use crate::server::model::script::Script;
 
 use self::server::script::ScriptHandler;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::service::item_service::ItemService;
 
 use crate::util::log_filter::LogFilter;
 
@@ -142,6 +143,7 @@ pub async fn main() {
     let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map, MOB_ROOT_PATH).join().unwrap() };
     let maps = MapLoader::load_maps(warps, mob_spawns, scripts, &mut map_item_ids, unsafe { MAP_DIR });
     info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
+    ItemService::convert_script_into_bonuses(&mut items, "native_functions_list.txt");
     unsafe {
         GlobalConfigService::init(CONFIGS.clone().unwrap(),
                                   items,

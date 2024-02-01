@@ -20,7 +20,7 @@ use crate::server::script::constant::load_constant;
 use crate::server::script::PlayerScriptHandler;
 
 pub struct BonusScriptHandler {
-    bonuses: RwLock<Vec<BonusType>>,
+    pub(crate) bonuses: RwLock<Vec<BonusType>>,
 }
 
 macro_rules! bonus {
@@ -53,6 +53,15 @@ impl NativeMethodHandler for BonusScriptHandler {
 }
 
 impl BonusScriptHandler {
+    pub fn new() -> Self {
+        Self {
+            bonuses: Default::default(),
+        }
+    }
+    pub fn drain(&self) -> Vec<BonusType> {
+        let mut write_guard = self.bonuses.write().unwrap();
+        write_guard.drain(0..).collect()
+    }
     pub fn clear(&self) {
         let mut write_guard = self.bonuses.write().unwrap();
         write_guard.clear();
@@ -938,30 +947,4 @@ fn test_bonus_with_constant() {
              Box::new(&script_handler));
     // Then
     assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::ElementWeapon(Element::Water)))
-}
-
-#[test]
-fn test_parse_all_items() {
-    // Given
-    let item_models: Vec<ItemModel> = serde_json::from_str::<ItemModels>(&fs::read_to_string("../config/items.json").unwrap()).unwrap().into();
-    let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
-    let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
-    let boxed_script_handler: Box<&dyn NativeMethodHandler> = Box::new(&script_handler);
-    let mut time_spent_compiling = 0_u128;
-    let mut time_spent_executing = 0_u128;
-    let mut script_count = 0;
-    // When
-    for item in item_models.iter() {
-        if let Some(script) = &item.script {
-            let start = Instant::now();
-            let compilation_result = Compiler::compile_script(format!("test"), script.as_str(), "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
-            time_spent_compiling += start.elapsed().as_millis();
-            let start = Instant::now();
-            Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(), boxed_script_handler.clone());
-            time_spent_executing += start.elapsed().as_millis();
-            script_count += 1;
-        }
-        script_handler.clear();
-    }
-    println!("{} scripts, Spent {}ms compiling, {}ms executing", script_count, time_spent_compiling, time_spent_executing);
 }

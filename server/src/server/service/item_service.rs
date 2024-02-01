@@ -1,16 +1,19 @@
 use std::collections::HashMap;
+use std::fs;
 use std::sync::{Arc, Once, RwLock};
 use std::sync::mpsc::SyncSender;
-use rathena_script_lang_interpreter::lang::chunk::ClassFile;
+use rathena_script_lang_interpreter::lang::chunk::{Chunk, ClassFile};
+use rathena_script_lang_interpreter::lang::chunk::OpCode::{CallNative, LoadConstant, LoadValue, LoadGlobal};
 use rathena_script_lang_interpreter::lang::compiler::{Compiler, DebugFlag};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
+use enums::bonus::BonusType;
 
 
 use packets::packets::PacketZcUseItemAck2;
 use crate::repository::{ItemRepository, Repository};
-use crate::repository::model::item_model::ItemModel;
+use crate::repository::model::item_model::{ItemModel, ItemModels};
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::model::events::game_event::{CharacterUseItem};
@@ -40,11 +43,11 @@ impl ItemService {
     }
     pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(ItemService{ client_notification_sender, persistence_event_sender, repository, configuration_service, item_script_cache: Default::default() });
+            SERVICE_INSTANCE = Some(ItemService { client_notification_sender, persistence_event_sender, repository, configuration_service, item_script_cache: Default::default() });
         });
     }
 
-    pub fn get_item_script(&self, item_id: i32,runtime: &Runtime) -> Option<MyRef<ClassFile>> {
+    pub fn get_item_script(&self, item_id: i32, runtime: &Runtime) -> Option<MyRef<ClassFile>> {
         if !self.item_script_cache.borrow().contains_key(&(item_id as u32)) {
             if let Ok(script) = runtime.block_on(async { self.repository.get_item_script(item_id).await }) {
                 let compilation_result = Compiler::compile_script(format!("item_script_{item_id}"), script.as_str(), "native_functions_list.txt", DebugFlag::None.value());
@@ -83,7 +86,7 @@ impl ItemService {
                                                      player_action_receiver: RwLock::new(rx),
                                                      runtime: Runtime::new().unwrap(),
                                                      session,
-                                                     configuration_service: self.configuration_service
+                                                     configuration_service: self.configuration_service,
                                                  }));
                     let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new(self.configuration_service.packetver());
                     packet_zc_use_item_ack.set_aid(character_user_item.char_id);
@@ -114,23 +117,45 @@ impl ItemService {
         // check if potion has been created by famous (ranked) alch/creator, bonus + 50%
     }
 
-    pub fn convert_script_into_bonuses(mut items: &Vec<ItemModel>) {
-        // if script is static -> set item.script = None; add all bonuses to item model
-        //
-
-        // for item in items.iter_mut() {
-        //     if let Some(Script) = item.script {
-        //         let script_result = Vm::repl(server_ref.vm.clone(), script,
-        //                                      Box::new(&PlayerScriptHandler {
-        //                                          client_notification_channel: self.client_notification_sender.clone(),
-        //                                          npc_id: 0,
-        //                                          server: server_ref.clone(),
-        //                                          player_action_receiver: RwLock::new(rx),
-        //                                          runtime: Runtime::new().unwrap(),
-        //                                          session,
-        //                                          configuration_service: self.configuration_service
-        //                                      }));
-        //     }
-        // }
+    pub fn convert_script_into_bonuses(items: &mut Vec<ItemModel>, native_function_file_path: &str) {
+        let vm = Arc::new(Vm::new(native_function_file_path, rathena_script_lang_interpreter::lang::vm::DebugFlag::None.value()));
+        let script_handler = crate::server::script::bonus::BonusScriptHandler::new();
+        for item in items.iter_mut() {
+            if let Some(script_compilation) = &item.script_compilation {
+                let script = base64::decode(script_compilation).unwrap();
+                let maybe_class = Compiler::from_binary(&script).unwrap().pop();
+                let class_file = maybe_class.as_ref().unwrap();
+                let script_main = class_file.functions().iter().find(|f| f.name == "_main").map(|f| f.chunk.clone()).unwrap();
+                let mut complex_script = false;
+                for op_code in script_main.op_codes.borrow().iter() {
+                    match op_code {
+                        LoadConstant(_) | LoadValue | CallNative { .. } | LoadGlobal => {}
+                        // When script contains those op code, it means script need to be executed each time the item is used
+                        // E.g Gibbet_card          Rybio_Card
+                        // if (getrefine()<6)       bonus2 bAddEffWhenHit,Eff_Stun,300+600*(readparam(bDex)>=77);
+                        //    bonus bMdef,5;
+                        _ => { complex_script = true }
+                    }
+                }
+                if !complex_script {
+                    Vm::repl(vm.clone(), &class_file, Box::new(&script_handler));
+                    item.bonuses = script_handler.drain();
+                    item.script_compilation = None;
+                } else {
+                    item.item_bonuses_are_dynamic = true;
+                }
+            }
+        }
     }
+}
+
+#[test]
+fn test_initialize_items_with_static_bonus() {
+    // Given
+    let mut item_models = serde_json::from_str::<ItemModels>(&fs::read_to_string("../config/items.json").unwrap()).unwrap().items;
+    // When
+    ItemService::convert_script_into_bonuses(&mut item_models, "../native_functions_list.txt");
+    // Then
+    let mantis_card = item_models.iter().find(|i| i.name_aegis == "Mantis_Card").unwrap();
+    assert!(matches!(mantis_card.bonuses[0], BonusType::Str(3)));
 }
