@@ -39,6 +39,8 @@ impl StatusService {
                 snapshot.set_bonus_int(*bonus.get("int").unwrap_or(&0_u16));
                 snapshot.set_bonus_luk(*bonus.get("luk").unwrap_or(&0_u16));
             });
+
+        // TODO add bonuses from item and cards snapshot.bonuses.push(...)
         snapshot
     }
 
