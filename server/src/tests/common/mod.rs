@@ -25,6 +25,7 @@ use packets::packets::Packet;
 
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
+use crate::server::service::item_service::ItemService;
 
 
 use crate::tests::common::mocked_repository::MockedRepository;
@@ -145,7 +146,8 @@ pub fn before_all() {
         let skills_config = Config::load_skills_config("..").unwrap();
 
         let item_models = serde_json::from_str::<ItemModels>(&fs::read_to_string("../config/items.json").unwrap());
-        let items: Vec<ItemModel> = item_models.unwrap().into();
+        let mut items: Vec<ItemModel> = item_models.unwrap().into();
+        ItemService::convert_script_into_bonuses(&mut items, "../native_functions_list.txt");
 
         let mob_models = serde_json::from_str::<MobModels>(&fs::read_to_string("../config/mobs.json").unwrap());
         let mobs: Vec<MobModel> = mob_models.unwrap().into();

@@ -11,6 +11,7 @@ use sqlx::postgres::PgRow;
 
 use enums::class::EquipClassFlag;
 use enums::{EnumWithMaskValueU64, EnumWithStringValue};
+use enums::bonus::BonusType;
 use enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
 use enums::weapon::{AmmoType, WeaponType};
 use models::item::{NormalInventoryItem, WearAmmo, WearGear, WearWeapon};
@@ -103,6 +104,11 @@ pub struct ItemModel {
     pub script_compilation: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub script_compilation_hash: Option<u128>,
+    #[serde(skip)]
+    pub bonuses: Vec<BonusType>,
+    #[serde(skip)]
+    pub item_bonuses_are_dynamic: bool
+
 }
 
 impl<'r> FromRow<'r, PgRow> for ItemModel {
@@ -285,6 +291,8 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
             script,
             script_compilation,
             script_compilation_hash,
+            bonuses: vec![],
+            item_bonuses_are_dynamic: false,
         })
     }
 }
