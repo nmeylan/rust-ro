@@ -41,7 +41,7 @@ pub struct Status {
     pub bonuses_temporary: Vec<TemporaryStatusBonus>,
 }
 
-#[derive(Clone, PartialEq, Debug, SettersAll, GettersAll)]
+#[derive(Clone, Debug, SettersAll, GettersAll)]
 pub struct StatusSnapshot {
     job: u32,
     hp: u32,
@@ -91,6 +91,7 @@ pub struct StatusSnapshot {
     ammo: Option<WearAmmoSnapshot>,
     effect: Option<StatusEffect>,
     known_skills: Vec<KnownSkill>,
+    bonuses: Vec<StatusBonus>,
 }
 
 impl StatusSnapshot {
@@ -149,6 +150,7 @@ impl StatusSnapshot {
             ammo: None,
             effect: None,
             known_skills: vec![],
+            bonuses: vec![],
         }
     }
     pub fn from(status: &Status) -> Self {
@@ -203,6 +205,7 @@ impl StatusSnapshot {
             ammo: status.equipped_ammo().map(|a| a.to_snapshot()),
             effect: status.effect.clone(),
             known_skills: status.known_skills.clone(),
+            bonuses: vec![],
         };
         for gear in status.equipped_gears() {
             let gear_snapshot = Some(gear.to_snapshot());
@@ -362,12 +365,9 @@ pub struct Look {
 #[derive(GettersAll, Debug, Clone, Copy)]
 pub struct StatusBonus {
     bonus: BonusType,
-    value: i32,
 }
 #[derive(GettersAll, Debug, Clone, Copy)]
 pub struct TemporaryStatusBonus {
     bonus: BonusType,
-    value: i32,
-    set_at_tick: u128,
-    expire_at_tick: u128,
+    expire_at: u128
 }
