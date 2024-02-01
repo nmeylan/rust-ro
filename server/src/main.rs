@@ -39,6 +39,7 @@ use crate::repository::{ItemRepository, Repository};
 use std::time::{Instant};
 use flexi_logger::{AdaptiveFormat, DeferredNow, Logger, TS_DASHES_BLANK_COLONS_DOT_BLANK};
 use log::Record;
+use rathena_script_lang_interpreter::lang::compiler::Compiler;
 use rathena_script_lang_interpreter::lang::value::Scope::Local;
 
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
@@ -91,13 +92,32 @@ pub async fn main() {
         .filter(Box::new(LogFilter::new(configs().server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
     let repository : Repository = Repository::new_pg(&configs().database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
-    let items =  repository_arc.get_all_items().await.unwrap();
+    let mut items =  repository_arc.get_all_items().await.unwrap();
+
+    let start = Instant::now();
+    let mut script_compilation_to_update: Vec<(i32, Vec<u8>, u128)> = vec![];
+    for item in items.iter_mut() {
+        if let Some(script) = &item.script {
+            let script_hash = fastmurmur3::hash(script.as_bytes());
+            if item.script_compilation_hash.is_none() || script_hash != item.script_compilation_hash.unwrap() {
+            let compilation_result = Compiler::compile_script_into_binary(format!("{}-{}", item.id, item.name_aegis), script.as_str(), "./native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
+                compilation_result.map(|res| {
+                    item.script_compilation_hash = Some(script_hash);
+                    item.script_compilation = Some(base64::encode(res.clone()));
+                    script_compilation_to_update.push((item.id, res, script_hash));
+            });
+            }
+        }
+    }
+    repository_arc.update_script_compilation(script_compilation_to_update).await.unwrap();
+    info!("Item scripts compiled in {}ms", start.elapsed().as_millis());
+
     let mobs =  repository_arc.get_all_mobs().await.unwrap();
     let mut map_item_ids = MapItems::new(300000, u32::MAX);
     #[cfg(feature = "static_db_update")]
     {
         // items.json is used in tests
-        let item_db: ItemModels = items.clone().into();
+        let mut item_db: ItemModels = items.clone().into();
         let json = serde_json::to_string_pretty(&item_db).unwrap();
         let output_path = Path::new("config");
         let mut file = File::create(output_path.join("items.json")).unwrap();

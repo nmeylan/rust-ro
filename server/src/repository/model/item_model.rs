@@ -17,7 +17,7 @@ use models::item::{NormalInventoryItem, WearAmmo, WearGear, WearWeapon};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ItemModels {
-    items: Vec<ItemModel>
+    pub items: Vec<ItemModel>
 }
 impl From<Vec<ItemModel>> for ItemModels {
     fn from(items: Vec<ItemModel>) -> Self {
@@ -97,8 +97,12 @@ pub struct ItemModel {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub trade_override: Option<i32>,
     pub trade_flags: u64,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip)]
     pub script: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub script_compilation: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub script_compilation_hash: Option<u128>,
 }
 
 impl<'r> FromRow<'r, PgRow> for ItemModel {
@@ -236,6 +240,10 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         row.try_get::<'r, Option<i16>, _>("trade_noauction").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoAuction) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<i16>, _>("trade_nomail").map(|v| if v.is_some() && v.unwrap() != 0 { trade_flags.push(ItemTradeFlag::NoMail) }).or_else(Self::map_error())?;
         let trade_flags = Self::enum_flags_into_u64(&trade_flags);
+        let mut script_compilation = None;
+        let mut script_compilation_hash = None;
+        row.try_get::<'r, Option<Vec<u8>>, _>("script_compilation").map(|v| if let Some(v) = v { script_compilation = Some(base64::encode(v)) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<Vec<u8>>, _>("script_compilation_hash").map(|v| if let Some(v) = v { let hash: [u8;16] = v.try_into().unwrap(); script_compilation_hash = Some(u128::from_le_bytes(hash)) }).or_else(Self::map_error())?;
 
         Ok(ItemModel {
             id,
@@ -275,6 +283,8 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
             trade_flags,
             class_flags,
             script,
+            script_compilation,
+            script_compilation_hash,
         })
     }
 }

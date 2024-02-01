@@ -81,4 +81,5 @@ pub trait ItemRepository {
     async fn get_item_script(&self, id: i32) -> Result<String, Error>;
     async fn get_weight(&self, ids: Vec<i32>) -> Result<Vec<(i32, i32)>, Error>;
     async fn get_all_items(&self) -> Result<Vec<ItemModel>, Error>;
+    async fn update_script_compilation(&self, to_update: Vec<(i32, Vec<u8>, u128)>) -> Result<(), Error>;
 }
