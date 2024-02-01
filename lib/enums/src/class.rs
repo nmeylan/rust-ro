@@ -57,6 +57,7 @@ pub enum JobName {
     MerchantHigh,
     #[value_string = "Thief High"]
     ThiefHigh,
+    #[value_string = "LordKnight"]
     LordKnight,
     HighPriest,
     HighWizard,
@@ -104,6 +105,9 @@ pub enum JobName {
 }
 
 impl JobName {
+    // pub fn try_from(value: &str) -> Result<JobName, String> {
+    //
+    // }
     pub fn is_rebirth(&self) -> bool {
         matches!(
             self,
