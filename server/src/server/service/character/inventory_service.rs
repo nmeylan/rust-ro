@@ -164,7 +164,7 @@ impl InventoryService {
 
     pub fn reload_inventory(&self, runtime: &Runtime, char_id: u32, character: &mut Character) {
         character.inventory = vec![];
-        let _items = runtime.block_on(async {
+        runtime.block_on(async {
             let items = self.repository.character_inventory_fetch(char_id as i32).await.unwrap();
             character.status.takeoff_all_equipment();
             character.add_items(items);

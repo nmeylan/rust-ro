@@ -1,7 +1,7 @@
 use std::ops::Deref;
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
-use std::time::{SystemTime, UNIX_EPOCH};
+
 use models::enums::vanish::VanishType;
 use models::enums::EnumWithNumberValue;
 use packets::packets::{PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyMove, PacketZcNotifyVanish};
@@ -10,7 +10,7 @@ use crate::server::model::map::Map;
 use crate::server::model::map_item::{MapItemSnapshot};
 
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
-use crate::server::{Server};
+
 use crate::server::game_loop::GAME_TICK_RATE;
 use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
 use crate::server::model::action::Damage;
@@ -18,7 +18,7 @@ use crate::server::model::events::game_event::{CharacterKillMonster, GameEvent};
 use crate::server::model::events::map_event::{CharacterDropItems, MapEvent, MobDropItems, MobLocation};
 use models::item::DroppedItem;
 use models::position::Position;
-use crate::server::model::movement::Movable;
+
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::mob_service::MobService;
@@ -165,7 +165,7 @@ impl MapInstanceService {
     pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32, delay: u128) {
         let spawn_id = {
             let instance_key = map_instance_state.key().clone();
-            let mob = map_instance_state.mobs_mut().get_mut(&id).expect(format!("can't find mob with id {}", id).as_str());
+            let mob = map_instance_state.mobs_mut().get_mut(&id).unwrap_or_else(|| panic!("can't find mob with id {}", id));
             let mob_model = self.configuration_service.get_mob(mob.mob_id as i32);
             self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster {
                 char_id: mob.attacker_with_higher_damage(),
@@ -189,7 +189,7 @@ impl MapInstanceService {
     pub fn remove_dead_mobs(&self, map_instance_state: &mut MapInstanceState) {
         let mobs_to_remove = {
             let mobs = map_instance_state.mobs_mut();
-            mobs.iter().filter(|(k, mob)| !mob.is_present()).map(|(k, _)| *k).collect::<Vec<u32>>()
+            mobs.iter().filter(|(_k, mob)| !mob.is_present()).map(|(k, _)| *k).collect::<Vec<u32>>()
         };
         mobs_to_remove.iter().for_each(|mob| {
             debug!("Remove dead mob {}", mob);

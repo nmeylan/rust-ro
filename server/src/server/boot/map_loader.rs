@@ -9,12 +9,12 @@ use byteorder::{LittleEndian, ReadBytesExt};
 use flate2::read::ZlibDecoder;
 use models::enums::cell::CellType;
 use crate::server::model::map::{Map, MAP_EXT};
-use crate::server::model::map_item::{MapItem, MapItems};
+use crate::server::model::map_item::{MapItems};
 use crate::server::model::mob_spawn::MobSpawn;
 use crate::server::model::script::Script;
 use crate::server::model::warp::Warp;
 use models::enums::EnumWithMaskValueU16;
-use crate::util::hasher::NoopHasherU32;
+
 
 pub struct MapLoader;
 

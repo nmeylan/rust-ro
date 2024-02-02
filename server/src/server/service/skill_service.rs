@@ -113,8 +113,8 @@ impl SkillService {
             damage = self.do_use_skill(character, target, source_status, target_status, tick);
         }
 
-        if validate_sp.unwrap() > 0 {}
-        return damage;
+        validate_sp.unwrap() > 0;
+        damage
     }
 
     pub fn do_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, source_status: &StatusSnapshot, target_status: Option<&StatusSnapshot>, tick: u128) -> Option<Damage> {
@@ -138,7 +138,7 @@ impl SkillService {
         packet_zc_notify_skill2.set_damage(damage as i32);
         packet_zc_notify_skill2.set_start_time(0);
 
-        let attack_motion = self.status_service.attack_motion(&source_status);
+        let attack_motion = self.status_service.attack_motion(source_status);
         packet_zc_notify_skill2.set_attack_mt(attack_motion as i32);
         packet_zc_notify_skill2.set_attacked_mt(attack_motion  as i32);
         packet_zc_notify_skill2.set_level(skill.level() as i16);

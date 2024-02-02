@@ -397,18 +397,16 @@ fn generate_getters(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn _is_ranged(&self) -> bool {\n").unwrap();
     if skill_config.range().is_none() {
         job_skills_file.write_all(b"        false\n").unwrap();
+    } else if let Some(range) = skill_config.range() {
+        if *range < -1 || *range > 1 {
+            job_skills_file.write_all(b"        true\n").unwrap();
+        } else {
+            job_skills_file.write_all(b"        false\n").unwrap();
+        }
+    } else if skill_config.range_per_level().is_some() {
+        job_skills_file.write_all(b"        true\n").unwrap();
     } else {
-       if let Some(range) = skill_config.range() {
-           if *range < -1 || *range > 1 {
-               job_skills_file.write_all(b"        true\n").unwrap();
-           } else {
-               job_skills_file.write_all(b"        false\n").unwrap();
-           }
-       } else if skill_config.range_per_level().is_some() {
-           job_skills_file.write_all(b"        true\n").unwrap();
-       } else {
-           job_skills_file.write_all(b"        false\n").unwrap();
-       }
+        job_skills_file.write_all(b"        false\n").unwrap();
     }
     job_skills_file.write_all(b"    }\n").unwrap();
     job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
@@ -517,7 +515,7 @@ fn generate_validate_item(job_skills_file: &mut File, skill_config: &SkillConfig
             job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
             job_skills_file.write_all(b"    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {\n").unwrap();
             job_skills_file.write_all(format!("        let required_items = vec![{}]; \n", requirements.item_cost().iter()
-                .map(|item| format!("(NormalInventoryItem {{item_id: {}, name_english: \"{}\".to_string(), amount: {}}})", item_name_ids.get(item.item()).expect(format!("Item {} not found", item.item()).as_str()), item.item(), item.amount())).collect::<Vec<String>>().join(",")).as_bytes()).unwrap();
+                .map(|item| format!("(NormalInventoryItem {{item_id: {}, name_english: \"{}\".to_string(), amount: {}}})", item_name_ids.get(item.item()).unwrap_or_else(|| panic!("Item {} not found", item.item())), item.item(), item.amount())).collect::<Vec<String>>().join(",")).as_bytes()).unwrap();
             for item in requirements.item_cost().iter() {
                 job_skills_file.write_all(format!("        if inventory.iter().find(|item| item.item_id == {} && item.amount >= {}).is_none() {{\n", item_name_ids.get(item.item()).unwrap(), item.amount()).as_bytes()).unwrap();
                 if item.item().eq("Red_Gemstone") {

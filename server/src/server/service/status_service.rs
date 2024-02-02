@@ -118,7 +118,7 @@ impl StatusService {
     /// UI right side atk in status info panel
     /// https://web.archive.org/web/20060717223009/http://rodatazone.simgaming.net/mechanics/substats.php
     /// https://web.archive.org/web/20060717222819/http://rodatazone.simgaming.net/items/upgrading.php
-    pub fn status_atk_right_side(&self, status: &StatusSnapshot) -> i32 {
+    pub fn status_atk_right_side(&self, _status: &StatusSnapshot) -> i32 {
         // TODO: it is refinement damage. do not mix with refinement bonus which refers to random additional atk for over upgrade
         // refinement
         //    Weapon Lv. 1 - Every +1 upgrade gives +2 ATK (+1~3 ATK for every overupgrade).

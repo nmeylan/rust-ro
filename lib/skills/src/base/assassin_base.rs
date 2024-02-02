@@ -996,7 +996,7 @@ impl SkillBase for VenomDust {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 716, name_english: "Red_Gemstone".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 716 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 716 && item.amount >= 1) {
             return Err(UseSkillFailure::RedGemstone);
         }
         Ok(Some(required_items))
@@ -1145,7 +1145,7 @@ impl SkillBase for VenomSplasher {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 716, name_english: "Red_Gemstone".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 716 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 716 && item.amount >= 1) {
             return Err(UseSkillFailure::RedGemstone);
         }
         Ok(Some(required_items))

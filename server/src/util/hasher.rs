@@ -44,6 +44,6 @@ impl Hasher for NoopHasherU64 {
 
     fn write(&mut self, bytes: &[u8]) {
         // Key is supposed to be hash already. we don't want to hash the hash.
-        self.hash = u64::from_ne_bytes(bytes.try_into().unwrap()) as u64;
+        self.hash = u64::from_ne_bytes(bytes.try_into().unwrap());
     }
 }

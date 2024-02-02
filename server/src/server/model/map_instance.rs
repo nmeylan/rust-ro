@@ -2,7 +2,7 @@
 use std::collections::HashMap;
 use std::sync::Arc;
 use crate::server::model::map::{Map, MAP_EXT};
-use crate::server::model::map_item::{MapItem, MapItems, ToMapItem};
+use crate::server::model::map_item::{MapItems, ToMapItem};
 use std::sync::mpsc::SyncSender;
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
@@ -20,7 +20,7 @@ use crate::server::model::warp::Warp;
 use crate::server::script::ScriptHandler;
 use crate::server::state::map_instance::{MapInstanceState, MobSpawnTrack};
 use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};
-use crate::util::hasher::NoopHasherU32;
+
 use crate::util::string::StringUtil;
 use crate::util::tick::delayed_tick;
 

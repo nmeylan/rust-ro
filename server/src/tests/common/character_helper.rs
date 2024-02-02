@@ -2,7 +2,7 @@ use std::sync::Mutex;
 use rand::RngCore;
 use models::enums::class::JobName;
 use models::enums::EnumWithMaskValueU64;
-use models::enums::item::{EquipmentLocation, ItemType};
+use models::enums::item::{EquipmentLocation};
 
 
 use models::status::{Look, Status};
