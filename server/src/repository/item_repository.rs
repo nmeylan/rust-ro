@@ -52,7 +52,7 @@ impl ItemRepository for Repository {
         let mut ids: Vec<i32> = Vec::with_capacity(to_update.len());
         let mut compilation_results: Vec<Vec<u8>> = Vec::with_capacity(to_update.len());
         let mut script_hashes: Vec<[u8; 16]> = Vec::with_capacity(to_update.len());
-        for ((id, compilation_result, script_hash)) in to_update {
+        for (id, compilation_result, script_hash) in to_update {
             ids.push(id);
             compilation_results.push(compilation_result);
             script_hashes.push(script_hash.to_le_bytes());

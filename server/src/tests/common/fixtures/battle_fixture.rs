@@ -3,8 +3,6 @@ use std::fmt::Formatter;
 use std::path::Path;
 use serde::{Deserialize, Deserializer};
 use serde::de::{MapAccess, SeqAccess, Visitor};
-use crate::tests::common;
-
 #[derive(Deserialize, GettersAll, Debug)]
 pub struct BattleFixture {
     #[serde(rename = "_id")]
@@ -157,11 +155,11 @@ struct EquipmentVisitor;
 impl <'de>Visitor<'de> for EquipmentVisitor {
     type Value = Equipments;
 
-    fn expecting(&self, formatter: &mut Formatter) -> std::fmt::Result {
+    fn expecting(&self, _formatter: &mut Formatter) -> std::fmt::Result {
         todo!()
     }
 
-    fn visit_seq<A>(self, seq: A) -> Result<Equipments, A::Error> where A: SeqAccess<'de> {
+    fn visit_seq<A>(self, _seq: A) -> Result<Equipments, A::Error> where A: SeqAccess<'de> {
         todo!()
         // while let Some(element) = seq.next_element()? {
         //     println!("{:?}", element);
@@ -173,8 +171,8 @@ impl <'de>Visitor<'de> for EquipmentVisitor {
         let mut weapon_left: Option<Equipment> = None;
         let mut body: Option<Equipment> = None;
         let mut shield: Option<Equipment> = None;
-        let mut shoes: Option<Equipment> = None;
-        let mut shoulder: Option<Equipment> = None;
+        let shoes: Option<Equipment> = None;
+        let shoulder: Option<Equipment> = None;
         let mut accessory1: Option<Equipment> = None;
         let mut accessory2: Option<Equipment> = None;
         let mut upper_headgear: Option<Equipment> = None;
@@ -208,10 +206,4 @@ impl <'de>Visitor<'de> for EquipmentVisitor {
             lower_headgear,
         })
     }
-}
-
-#[test]
-fn test() {
-    let scenario = common::fixtures::battle_fixture::BattleFixture::load("./src/tests/common/fixtures/data/data-with-stuff.json");
-    println!("{:?}", scenario);
 }

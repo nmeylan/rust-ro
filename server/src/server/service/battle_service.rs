@@ -100,7 +100,7 @@ impl BattleService {
     }
 
     //  rnd(min(DEX*(0.8+0.2*WeaponLevel),ATK), ATK)
-    pub fn weapon_atk(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, is_ranged: bool) -> u32 {
+    pub fn weapon_atk(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, _is_ranged: bool) -> u32 {
         let mut rng = fastrand::Rng::new();
         let weapon = source_status.right_hand_weapon().map(|weapon| self.configuration_service.get_item(weapon.item_id()));
         let imposito_magnus: u32 = 0; // TODO get from status
@@ -163,7 +163,7 @@ impl BattleService {
             BattleResultMode::Normal => { rng.u16(source_status.matk_min()..=source_status.matk_max()) }
         } as f32;
         let item_modifier: f32 = 1.0; // TODO bMatkRate
-        let elemental_modifier: f32 = Self::element_modifier(&element, target_status);
+        let elemental_modifier: f32 = Self::element_modifier(element, target_status);
         let mdef = target_status.mdef() as f32 / 100.0;
         // println!("({} * {} * {} * {} - {} - {}) * {}", matk, item_modifier, skill_modifier, (1.0 - mdef), target_status.int(), target_status.vit() as f32 / 2.0, elemental_modifier);
         ((matk * item_modifier * skill_modifier * (1.0 - mdef)).floor() * elemental_modifier).floor() as u32
@@ -173,7 +173,7 @@ impl BattleService {
         character.attack?;
         let attack = character.attack();
 
-        let attack_motion = self.status_service.attack_motion(&source_status);
+        let attack_motion = self.status_service.attack_motion(source_status);
 
         if tick < attack.last_attack_tick + attack_motion as u128 {
             return None;

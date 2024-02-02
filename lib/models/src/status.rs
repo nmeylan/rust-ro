@@ -97,7 +97,7 @@ pub struct StatusSnapshot {
 impl StatusSnapshot {
     pub fn new_for_mob(mob_id: u32, hp: u32, sp: u32, max_hp:u32, max_sp: u32,
                        str: u16, agi: u16, vit: u16, int: u16, dex: u16, luk: u16,
-                       atk1: u16, atk2: u16, matk1: u16, matk2: u16, speed: u16, def: u16, mdef: u16,
+                       atk1: u16, _atk2: u16, matk1: u16, matk2: u16, speed: u16, def: u16, mdef: u16,
                        size: Size,
                        element: Element,
                        element_level: u8) -> Self {
@@ -155,7 +155,7 @@ impl StatusSnapshot {
     }
     pub fn from(status: &Status) -> Self {
         let int = status.int; // TODO add bonuses
-        let mut dex = status.dex;
+        let dex = status.dex;
         let mut snapshot = Self {
             job: status.job,
             hp: status.hp,
@@ -203,7 +203,7 @@ impl StatusSnapshot {
             accessory_left: None,
             accessory_right: None,
             ammo: status.equipped_ammo().map(|a| a.to_snapshot()),
-            effect: status.effect.clone(),
+            effect: status.effect,
             known_skills: status.known_skills.clone(),
             bonuses: vec![],
         };

@@ -337,7 +337,7 @@ pub enum BonusType {
 }
 
 impl BonusType {
-    pub fn add_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
+    pub fn add_bonus_to_status(&self, _status_snapshot: &mut StatusSnapshot) {
 
     }
 }

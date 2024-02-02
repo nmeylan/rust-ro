@@ -1,9 +1,9 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashSet};
 use std::{env, fs, thread};
 use std::sync::{Arc, Mutex, Once};
 use flexi_logger::Logger;
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
-use testcontainers::{Container, RunnableImage};
+use testcontainers::{RunnableImage};
 use testcontainers_modules::{postgres::Postgres, testcontainers::clients::Cli};
 use tokio::runtime::Runtime;
 use configuration::configuration::{DatabaseConfig};
@@ -19,7 +19,7 @@ use crate::server::model::events::game_event::GameEvent::CharacterJoinGame;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map::Map;
 use crate::server::model::map_instance::MapInstanceKey;
-use crate::server::model::map_item::{MapItem, MapItems};
+use crate::server::model::map_item::{MapItems};
 use crate::server::model::status::StatusFromDb;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::Server;
@@ -27,7 +27,7 @@ use crate::server::service::server_service::ServerService;
 use crate::server::state::character::Character;
 use crate::tests::common;
 use crate::tests::common::{CONFIGS, create_mpsc};
-use crate::util::hasher::NoopHasherU32;
+
 use crate::util::log_filter::LogFilter;
 
 static INIT: Once = Once::new();
@@ -73,7 +73,7 @@ pub async fn before_all() -> Arc<Server> {
         unsafe {
             crate::GlobalConfigService::instance_mut().maps = maps;
         }
-        let (not_use_sender, not_use_receiver) = create_mpsc::<Notification>();
+        let (_not_use_sender, not_use_receiver) = create_mpsc::<Notification>();
         let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
         let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
         let server = Server::new(CONFIGS.as_ref().unwrap(), repository_arc.clone(), map_item_ids, vm, client_notification_sender, persistence_event_sender.clone());
@@ -83,12 +83,12 @@ pub async fn before_all() -> Arc<Server> {
             Server::start(SERVER.clone().unwrap(), not_use_receiver, persistence_event_receiver, persistence_event_sender, false);
         });
         thread::Builder::new().name("client_notification_thread".to_string()).spawn(move || {
-            for notification in client_notification_receiver.iter() {
+            for _notification in client_notification_receiver.iter() {
                 // println!("Sent client notification {:?}", notification);
             }
         }).unwrap();
     });
-    return server();
+    server()
 }
 
 pub fn server() -> Arc<Server> {

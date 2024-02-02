@@ -1,19 +1,19 @@
 use std::collections::HashMap;
-use std::fs;
 use std::sync::{Arc, Once, RwLock};
 use std::sync::mpsc::SyncSender;
-use rathena_script_lang_interpreter::lang::chunk::{Chunk, ClassFile};
+use base64::Engine;
+use base64::engine::general_purpose;
+use rathena_script_lang_interpreter::lang::chunk::{ClassFile};
 use rathena_script_lang_interpreter::lang::chunk::OpCode::{CallNative, LoadConstant, LoadValue, LoadGlobal};
 use rathena_script_lang_interpreter::lang::compiler::{Compiler, DebugFlag};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
-use models::enums::bonus::BonusType;
 
 
 use packets::packets::PacketZcUseItemAck2;
 use crate::repository::{ItemRepository, Repository};
-use crate::repository::model::item_model::{ItemModel, ItemModels};
+use crate::repository::model::item_model::{ItemModel};
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::model::events::game_event::{CharacterUseItem};
@@ -122,7 +122,7 @@ impl ItemService {
         let script_handler = crate::server::script::bonus::BonusScriptHandler::new();
         for item in items.iter_mut() {
             if let Some(script_compilation) = &item.script_compilation {
-                let script = base64::decode(script_compilation).unwrap();
+                let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
                 let maybe_class = Compiler::from_binary(&script).unwrap().pop();
                 let class_file = maybe_class.as_ref().unwrap();
                 let script_main = class_file.functions().iter().find(|f| f.name == "_main").map(|f| f.chunk.clone()).unwrap();
@@ -138,7 +138,7 @@ impl ItemService {
                     }
                 }
                 if !complex_script {
-                    Vm::repl(vm.clone(), &class_file, Box::new(&script_handler));
+                    Vm::repl(vm.clone(), class_file, Box::new(&script_handler));
                     item.bonuses = script_handler.drain();
                     item.script_compilation = None;
                 } else {
@@ -149,13 +149,21 @@ impl ItemService {
     }
 }
 
-#[test]
-fn test_initialize_items_with_static_bonus() {
-    // Given
-    let mut item_models = serde_json::from_str::<ItemModels>(&fs::read_to_string("../config/items.json").unwrap()).unwrap().items;
-    // When
-    ItemService::convert_script_into_bonuses(&mut item_models, "../native_functions_list.txt");
-    // Then
-    let mantis_card = item_models.iter().find(|i| i.name_aegis == "Mantis_Card").unwrap();
-    assert!(matches!(mantis_card.bonuses[0], BonusType::Str(3)));
+#[cfg(test)]
+mod tests {
+    use std::fs;
+    use models::enums::bonus::BonusType;
+    use crate::repository::model::item_model::ItemModels;
+    use crate::server::service::item_service::ItemService;
+
+    #[test]
+    fn test_initialize_items_with_static_bonus() {
+        // Given
+        let mut item_models = serde_json::from_str::<ItemModels>(&fs::read_to_string("../config/items.json").unwrap()).unwrap().items;
+        // When
+        ItemService::convert_script_into_bonuses(&mut item_models, "../native_functions_list.txt");
+        // Then
+        let mantis_card = item_models.iter().find(|i| i.name_aegis == "Mantis_Card").unwrap();
+        assert!(matches!(mantis_card.bonuses[0], BonusType::Str(3)));
+    }
 }

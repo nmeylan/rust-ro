@@ -50,7 +50,7 @@ impl CharacterRepository for MockedRepository {
         Ok(Default::default())
     }
 
-    async fn character_fetch(&self, account_id: u32, char_num: u8) -> Result<CharSelectModel, Error> {
+    async fn character_fetch(&self, _account_id: u32, _char_num: u8) -> Result<CharSelectModel, Error> {
         Ok(Default::default())
     }
 }

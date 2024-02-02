@@ -1424,7 +1424,7 @@ impl SkillBase for MirrorImage {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7524, name_english: "Shadow_Orb".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 7524 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 7524 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -1879,7 +1879,7 @@ impl SkillBase for CrimsonFireFormation {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7521, name_english: "Flame_Stone".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 7521 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 7521 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -2036,7 +2036,7 @@ impl SkillBase for RagingFireDragon {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7521, name_english: "Flame_Stone".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 7521 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 7521 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -2467,7 +2467,7 @@ impl SkillBase for HiddenWater {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7522, name_english: "Ice_Stone".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 7522 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 7522 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -2590,7 +2590,7 @@ impl SkillBase for IceMeteor {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7522, name_english: "Ice_Stone".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 7522 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 7522 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -2983,7 +2983,7 @@ impl SkillBase for LightningStrikeofDestruction {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7523, name_english: "Wind_Stone".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 7523 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 7523 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
@@ -3106,7 +3106,7 @@ impl SkillBase for Kamaitachi {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 7523, name_english: "Wind_Stone".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 7523 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 7523 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))

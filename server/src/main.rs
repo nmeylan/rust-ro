@@ -37,10 +37,12 @@ use std::sync::{Arc};
 use std::thread;
 use crate::repository::{ItemRepository, Repository};
 use std::time::{Instant};
-use flexi_logger::{AdaptiveFormat, DeferredNow, Logger, TS_DASHES_BLANK_COLONS_DOT_BLANK};
+use base64::Engine;
+use base64::engine::general_purpose;
+use flexi_logger::{DeferredNow, Logger, TS_DASHES_BLANK_COLONS_DOT_BLANK};
 use log::Record;
 use rathena_script_lang_interpreter::lang::compiler::Compiler;
-use rathena_script_lang_interpreter::lang::value::Scope::Local;
+
 
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use tokio::runtime::Runtime;
@@ -80,7 +82,7 @@ pub async fn main() {
 
     let logger= Logger::try_with_str(configs().server.log_level.as_ref().unwrap()).unwrap();
     logger.format(|w: &mut dyn std::io::Write, now: &mut DeferredNow, record: &Record| {
-        let level = record.level();
+        let _level = record.level();
         write!(
             w,
             "{} [{}] [{}]: {}",
@@ -104,7 +106,7 @@ pub async fn main() {
             let compilation_result = Compiler::compile_script_into_binary(format!("{}-{}", item.id, item.name_aegis), script.as_str(), "./native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
                 compilation_result.map(|res| {
                     item.script_compilation_hash = Some(script_hash);
-                    item.script_compilation = Some(base64::encode(res.clone()));
+                    item.script_compilation = Some(general_purpose::STANDARD.encode(res.clone()));
                     script_compilation_to_update.push((item.id, res, script_hash));
             });
             }
@@ -118,7 +120,7 @@ pub async fn main() {
     #[cfg(feature = "static_db_update")]
     {
         // items.json is used in tests
-        let mut item_db: ItemModels = items.clone().into();
+        let item_db: ItemModels = items.clone().into();
         let json = serde_json::to_string_pretty(&item_db).unwrap();
         let output_path = Path::new("config");
         let mut file = File::create(output_path.join("items.json")).unwrap();

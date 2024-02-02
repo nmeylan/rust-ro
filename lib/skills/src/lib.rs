@@ -281,7 +281,6 @@ pub trait OffensiveSkillBase: Skill {
     fn _dmg_matk(&self) -> Option<f32> {
         None
     }
-    #[inline(always)]
     fn _element(&self) -> Element;
     #[inline(always)]
     fn _inflict_status_effect(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {

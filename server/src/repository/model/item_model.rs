@@ -1,4 +1,5 @@
-
+use base64::Engine;
+use base64::engine::general_purpose;
 use serde::{Deserialize, Serialize};
 use sqlx::{Decode, Error, FromRow, Postgres, Row};
 use sqlx::database::HasValueRef;
@@ -248,7 +249,7 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
         let trade_flags = Self::enum_flags_into_u64(&trade_flags);
         let mut script_compilation = None;
         let mut script_compilation_hash = None;
-        row.try_get::<'r, Option<Vec<u8>>, _>("script_compilation").map(|v| if let Some(v) = v { script_compilation = Some(base64::encode(v)) }).or_else(Self::map_error())?;
+        row.try_get::<'r, Option<Vec<u8>>, _>("script_compilation").map(|v| if let Some(v) = v { script_compilation = Some(general_purpose::STANDARD.encode(v)) }).or_else(Self::map_error())?;
         row.try_get::<'r, Option<Vec<u8>>, _>("script_compilation_hash").map(|v| if let Some(v) = v { let hash: [u8;16] = v.try_into().unwrap(); script_compilation_hash = Some(u128::from_le_bytes(hash)) }).or_else(Self::map_error())?;
 
         Ok(ItemModel {

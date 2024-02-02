@@ -778,7 +778,7 @@ impl SkillBase for FiberLock {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 1025, name_english: "Spiderweb".to_string(), amount: 1})]; 
-        if inventory.iter().find(|item| item.item_id == 1025 && item.amount >= 1).is_none() {
+        if !inventory.iter().any(|item| item.item_id == 1025 && item.amount >= 1) {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))

@@ -1,12 +1,11 @@
-use std::fs;
-use std::sync::{Arc, RwLock};
-use std::time::Instant;
+use std::sync::{RwLock};
+
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
-use rathena_script_lang_interpreter::lang::compiler::{CompilationDetail, Compiler};
+use rathena_script_lang_interpreter::lang::compiler::{CompilationDetail};
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
-use rathena_script_lang_interpreter::lang::vm::{DebugFlag, NativeMethodHandler, Vm};
-use tokio::runtime::Runtime;
+use rathena_script_lang_interpreter::lang::vm::{NativeMethodHandler};
+
 use models::enums::bonus::BonusType;
 use models::enums::element::Element;
 use models::enums::EnumWithNumberValue;
@@ -15,9 +14,9 @@ use models::enums::mob::{MobClass, MobRace};
 use models::enums::size::Size;
 use models::enums::skill_enums::SkillEnum;
 use models::enums::status::StatusEffect;
-use crate::repository::model::item_model::{ItemModel, ItemModels};
+
 use crate::server::script::constant::load_constant;
-use crate::server::script::PlayerScriptHandler;
+
 
 pub struct BonusScriptHandler {
     pub(crate) bonuses: RwLock<Vec<BonusType>>,
@@ -30,7 +29,7 @@ macro_rules! bonus {
 }
 
 impl NativeMethodHandler for BonusScriptHandler {
-    fn handle(&self, native: &Native, params: Vec<Value>, execution_thread: &Thread, _call_frame: &CallFrame, source_line: &CompilationDetail, _class_name: String) {
+    fn handle(&self, native: &Native, params: Vec<Value>, execution_thread: &Thread, _call_frame: &CallFrame, _source_line: &CompilationDetail, _class_name: String) {
         if native.name.eq("bonus") {
             self.handle_bonus(params);
         } else if native.name.eq("bonus2") {
@@ -349,7 +348,7 @@ impl BonusScriptHandler {
         let bonus = params[0].string_value().unwrap();
         if params[1].is_string() {
             let value1 = params[1].string_value().unwrap();
-            let value2 = params[2].number_value().unwrap() as i32;
+            let value2 = params[2].number_value().unwrap();
             match bonus.to_lowercase().as_str() {
                 "bskillatk" => {
                     bonus!(self, BonusType::SkillIdDamagePercentage(SkillEnum::from_name(value1.as_str()).id(), value2 as i8));
@@ -366,8 +365,8 @@ impl BonusScriptHandler {
                 _ => {}
             }
         } else {
-            let value1 = params[1].number_value().unwrap() as i32;
-            let value2 = params[2].number_value().unwrap() as i32;
+            let value1 = params[1].number_value().unwrap();
+            let value2 = params[2].number_value().unwrap();
             match bonus.to_lowercase().as_str() {
                 "baddclass" => {
                     match MobClass::from_value(value1 as usize) {
@@ -921,30 +920,40 @@ impl BonusScriptHandler {
     }
 }
 
-#[test]
-fn test_simple_bonus() {
-    // Given
-    let script = "bonus bStr, 10;";
-    let compilation_result = Compiler::compile_script(format!("test"), script, "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
-    let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
-    // When
-    let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
-    Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(),
-             Box::new(&script_handler));
-    // Then
-    assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::Str(10)))
-}
+#[cfg(test)]
+mod tests {
+    use std::sync::{Arc, RwLock};
+    use rathena_script_lang_interpreter::lang::compiler::Compiler;
+    use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
+    use models::enums::bonus::BonusType;
+    use models::enums::element::Element;
+    use crate::server::script::bonus::BonusScriptHandler;
 
-#[test]
-fn test_bonus_with_constant() {
-    // Given
-    let script = "bonus bAtkEle,Ele_Water;";
-    let compilation_result = Compiler::compile_script(format!("test"), script, "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
-    let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
-    // When
-    let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
-    Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(),
-             Box::new(&script_handler));
-    // Then
-    assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::ElementWeapon(Element::Water)))
+    #[test]
+    fn test_simple_bonus() {
+        // Given
+        let script = "bonus bStr, 10;";
+        let compilation_result = Compiler::compile_script("test".to_string(), script, "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
+        let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
+        // When
+        let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
+        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(),
+                 Box::new(&script_handler));
+        // Then
+        assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::Str(10)))
+    }
+
+    #[test]
+    fn test_bonus_with_constant() {
+        // Given
+        let script = "bonus bAtkEle,Ele_Water;";
+        let compilation_result = Compiler::compile_script("test".to_string(), script, "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
+        let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
+        // When
+        let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
+        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(),
+                 Box::new(&script_handler));
+        // Then
+        assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::ElementWeapon(Element::Water)))
+    }
 }

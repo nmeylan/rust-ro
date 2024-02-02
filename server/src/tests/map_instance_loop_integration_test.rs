@@ -2,7 +2,7 @@
 #[cfg(test)]
 #[cfg(feature = "integration_tests")]
 mod tests {
-    use std::thread::sleep;
+    
     use std::time::Duration;
     use crate::server::model::events::map_event::MapEvent;
     use crate::tests::common::integration_test::{before_all, character_join_game};
