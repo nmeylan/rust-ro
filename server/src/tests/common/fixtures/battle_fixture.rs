@@ -96,6 +96,10 @@ pub struct BattleFixture {
     avg_dmg_received: Option<f32>,
     #[serde(rename = "maxDamageReceived")]
     max_dmg_received: Option<f32>,
+    #[serde(rename = "matkMin")]
+    matk_min: u16,
+    #[serde(rename = "matkMax")]
+    matk_max: u16
 }
 #[derive(GettersAll, Debug)]
 pub struct Equipments {

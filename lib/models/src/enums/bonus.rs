@@ -364,7 +364,7 @@ impl BonusType {
             BonusType::Hit(hit) => { status_snapshot.set_hit(status_snapshot.hit() + *hit as u16) }
             BonusType::HitPercentage(_) => {}
             BonusType::Flee(flee) => { status_snapshot.set_flee(status_snapshot.flee() + *flee as u16) }
-            BonusType::Crit(crit) => { status_snapshot.set_crit(status_snapshot.crit() + *crit as u16) }
+            BonusType::Crit(crit) => { status_snapshot.set_crit(status_snapshot.crit() + *crit as f32) }
             BonusType::PerfectDodge(_) => {}
             BonusType::Aspd(aspd) => { status_snapshot.set_aspd(status_snapshot.aspd() + *aspd as f32) }
             BonusType::AspdPercentage(_) => {}

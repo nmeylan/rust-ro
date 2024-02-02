@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "debug";
+const command = "generate";
 let formData, testCase, testCases, file;
 switch (command) {
     case "convert":
@@ -40,12 +40,13 @@ switch (command) {
         testCase = GetTestCase(formData);
         break;
     case "generate":
-        generate()
+        // generate_offensive_skills()
+        generate_job_level_stat_bonus();
         break;
 }
 
 
-function generate() {
+function generate_offensive_skills() {
     let count = 0;
     let start = Date.now();
     let testcases = [];
@@ -250,4 +251,55 @@ function generate() {
     }
     console.log("Generated", count, "test cases, in", (Date.now() - start) + "ms")
     fs.writeFileSync(path.join(process.cwd(), "..\\..\\server\\src\\tests\\common\\fixtures\\data\\battle-all-skills-weapon-no-passives.json"), JSON.stringify(testcases))
+}
+
+function generate_job_level_stat_bonus() {
+    let count = 0;
+    let start = Date.now();
+    let testcases = [];
+
+    for (let n = 1; n < JobName.length; n++) {
+        if (n >= 34 && n <= 40) {
+            continue;
+        }
+        let formData = {};
+        formData.A_JOB = n;
+        formData.A_BaseLV = 95;
+        formData.A_STR = 50;
+        formData.A_AGI = 50;
+        formData.A_VIT = 50;
+        formData.A_INT = 50;
+        formData.A_DEX = 50;
+        formData.A_LUK = 50;
+        formData.A_Arrow = 0;
+        formData.B_Enemy = 272;
+        formData.A_acces1 = "326";
+        formData.A_acces2 = "326";
+        formData.A_left = "305";
+        formData.A_body = "279";
+        formData.A_head1 = "142";
+        formData.A_head2 = "243";
+        formData.A_head3 = "268";
+        formData.A_shoes = "317";
+        formData.A_shoulder = "311";
+        formData.A_weapon1 = "0";
+        formData.A_WeaponType = "0";
+        formData.A_ActiveSkill = 0;
+        formData.A_ActiveSkillLV = 0;
+        let maxJobLvl = 0;
+        if (n == 0) maxJobLvl = 10;
+        else if (n <= 19 || (41 <= n && n <= 43)) maxJobLvl = 50;
+        else if (n == 20) maxJobLvl = 71;
+        else maxJobLvl = 70;
+        for(let i = 1; i <= maxJobLvl; i++) {
+            formData.A_JobLV = i;
+            let testCase = GetTestCase(formData);
+            testcases.push(testCase);
+            count += 1;
+        }
+    }
+
+    console.log("Generated", count, "test cases, in", (Date.now() - start) + "ms")
+    fs.writeFileSync(path.join(process.cwd(), "..\\..\\server\\src\\tests\\common\\fixtures\\data\\stats-for-each-job-level.json"), JSON.stringify(testcases))
+
 }
