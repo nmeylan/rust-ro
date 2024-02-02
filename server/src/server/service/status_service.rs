@@ -28,7 +28,6 @@ impl StatusService {
 
     pub fn to_snapshot(&self, status: &Status) -> StatusSnapshot {
         let mut snapshot = StatusSnapshot::from(status);
-        snapshot.set_aspd(self.aspd(&snapshot));
         self.configuration_service.get_job_config(snapshot.job()).bonus_stats()
             .get((status.job_level.max(1) - 1) as usize)
             .map(|bonus| {
@@ -47,6 +46,7 @@ impl StatusService {
                 item_model.bonuses.iter().for_each(|bonus| bonus.add_bonus_to_status(&mut snapshot))
             }
         }
+        snapshot.set_aspd(self.aspd(&snapshot));
         snapshot.set_matk_min(((snapshot.int() + ((snapshot.int() as f32 / 7.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
         snapshot.set_matk_max(((snapshot.int() + ((snapshot.int() as f32 / 5.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
         // TODO add bonuses from item and cards snapshot.bonuses.push(...)

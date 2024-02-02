@@ -5431,6 +5431,9 @@ function GetTestCase(formData) {
     delete testCase.int;
     delete testCase.luk;
     delete testCase.isRebirth;
+    testCase.matkMin = testCase.matk[0];
+    testCase.matkMax = testCase.matk[2];
+    delete testCase.matk;
     for (let entry of Object.entries(testCase.equipments)) {
         if (entry[1].name && entry[1].name.startsWith("(No")) {
             delete testCase.equipments[entry[0]];
