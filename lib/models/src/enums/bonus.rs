@@ -1,4 +1,5 @@
-use crate::element::Element;
+use crate::enums::element::Element;
+use crate::status::StatusSnapshot;
 
 #[derive(Debug, Clone, Copy)]
 pub enum BonusType {
@@ -333,4 +334,10 @@ pub enum BonusType {
     SpLossEveryMs(u16, u16), //amount, every ms
     SpRegenEveryMs(u16, u16), //amount, every ms
     SkillIdDamagePercentage(u32, i8)
+}
+
+impl BonusType {
+    pub fn add_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
+
+    }
 }

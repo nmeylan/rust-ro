@@ -6,7 +6,7 @@ use std::thread::{sleep};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use tokio::runtime::Runtime;
-use enums::skill_enums::SkillEnum;
+use models::enums::skill_enums::SkillEnum;
 
 
 use packets::packets::{Packet, PacketZcNotifyPlayermove};

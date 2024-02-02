@@ -1,14 +1,15 @@
 use std::sync::{Once};
 use std::sync::mpsc::SyncSender;
-use enums::class::JobName;
+use models::enums::class::JobName;
 
 
 use packets::packets::{PacketZcSkillinfoList, SKILLINFO};
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
-use crate::enums::EnumWithNumberValue;
+use models::enums::EnumWithNumberValue;
 use configuration::configuration::{SkillInTree};
+use models::enums::skill_enums::SkillEnum;
 use models::status::KnownSkill;
 use crate::util::string::StringUtil;
 
@@ -40,13 +41,13 @@ impl SkillTreeService {
         let skilltree = self.configuration_service.get_job_skilltree(JobName::from_value(character.status.job as usize));
         let mut skills = vec![];
 
-        let maybe_novice_basic = character.status.known_skills.iter().find(|s| s.value == enums::skill_enums::SkillEnum::NvBasic);
+        let maybe_novice_basic = character.status.known_skills.iter().find(|s| s.value == SkillEnum::NvBasic);
         let mut platinium_novice_skills = character.status.known_skills.iter().filter(|s| s.value.to_name().starts_with("NV") && s.value.is_platinium()).cloned().collect::<Vec<KnownSkill>>();
         if maybe_novice_basic.is_none() {
-            platinium_novice_skills.extend(vec![KnownSkill { value: enums::skill_enums::SkillEnum::NvBasic, level: 0 }]);
+            platinium_novice_skills.extend(vec![KnownSkill { value: SkillEnum::NvBasic, level: 0 }]);
             return platinium_novice_skills;
         } else if maybe_novice_basic.unwrap().level < 9 {
-            platinium_novice_skills.extend(vec![KnownSkill { value: enums::skill_enums::SkillEnum::NvBasic, level: maybe_novice_basic.unwrap().level }]);
+            platinium_novice_skills.extend(vec![KnownSkill { value: SkillEnum::NvBasic, level: maybe_novice_basic.unwrap().level }]);
             return platinium_novice_skills;
         }
         Self::available_skills_in_tree(character, skilltree.tree(), &mut skills);
@@ -89,11 +90,11 @@ impl SkillTreeService {
 
     fn available_skills_in_tree(character: &Character, skilltree: &Vec<SkillInTree>, skills: &mut Vec<KnownSkill>) {
         for skill_in_tree in skilltree.iter() {
-            let skill = enums::skill_enums::SkillEnum::from_name(skill_in_tree.name());
+            let skill = SkillEnum::from_name(skill_in_tree.name());
             let level = character.status.known_skills.iter().find(|s| s.value.id() == skill.id()).map_or(0, |s| s.level);
             if let Some(requirements) = skill_in_tree.requires() {
                 let fulfill_requirements = requirements.iter().all(|requirement| {
-                    let requirement_skill = enums::skill_enums::SkillEnum::from_name(requirement.name());
+                    let requirement_skill = SkillEnum::from_name(requirement.name());
                     character.status.known_skills.iter().any(|s| { s.value.id() == requirement_skill.id() && s.level >= requirement.level() })
                 });
                 if fulfill_requirements {

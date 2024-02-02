@@ -1,15 +1,15 @@
 use crate::serde_helper::*;
 use accessor::{GettersAll, Setters, SettersAll};
-use enums::class::JobName;
-use enums::element::Element;
-use enums::skill::{
+use models::enums::class::JobName;
+use models::enums::element::Element;
+use models::enums::skill::{
     SkillCastTimeDelayType, SkillCopyType, SkillDamageFlags, SkillDamageType, SkillFlags,
     SkillState, SkillTargetType, SkillType, SkillUnitType,
 };
-use enums::unit::UnitTargetType;
-use enums::weapon::{AmmoType, WeaponType};
-use enums::EnumWithNumberValue;
-use enums::{EnumWithMaskValueU64, EnumWithStringValue};
+use models::enums::unit::UnitTargetType;
+use models::enums::weapon::{AmmoType, WeaponType};
+use models::enums::EnumWithNumberValue;
+use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use serde::{Deserialize, Deserializer};
 use std::collections::HashMap;
 use std::path::Path;

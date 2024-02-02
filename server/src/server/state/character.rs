@@ -5,8 +5,8 @@ use std::sync::{Mutex};
 
 use accessor::Setters;
 
-use enums::item::{ItemType};
-use enums::look::LookType;
+use models::enums::item::{ItemType};
+use models::enums::look::LookType;
 use models::item::EquippedItem;
 
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};

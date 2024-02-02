@@ -9,11 +9,11 @@ use configuration::serde_helper::{*};
 
 use sqlx::postgres::PgRow;
 
-use enums::class::EquipClassFlag;
-use enums::{EnumWithMaskValueU64, EnumWithStringValue};
-use enums::bonus::BonusType;
-use enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
-use enums::weapon::{AmmoType, WeaponType};
+use models::enums::class::EquipClassFlag;
+use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
+use models::enums::bonus::BonusType;
+use models::enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
+use models::enums::weapon::{AmmoType, WeaponType};
 use models::item::{NormalInventoryItem, WearAmmo, WearGear, WearWeapon};
 
 #[derive(Debug, Serialize, Deserialize)]

@@ -2,8 +2,8 @@ use std::ops::Deref;
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use std::time::{SystemTime, UNIX_EPOCH};
-use enums::vanish::VanishType;
-use crate::enums::EnumWithNumberValue;
+use models::enums::vanish::VanishType;
+use models::enums::EnumWithNumberValue;
 use packets::packets::{PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyMove, PacketZcNotifyVanish};
 use crate::server::model::map::Map;
 

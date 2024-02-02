@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
 use sqlx::{Error, FromRow, Row};
 use sqlx::postgres::PgRow;
-use enums::element::Element;
-use enums::EnumWithStringValue;
+use models::enums::element::Element;
+use models::enums::EnumWithStringValue;
 
 
 #[derive(Debug, Serialize, Deserialize)]

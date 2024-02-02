@@ -3,11 +3,11 @@ use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
 use packets::packets::{CzPurchaseItem, CzSellItem, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcPcSellItemlist, PacketZcSelectDealtype, PurchaseItem, SellItem};
 use crate::server::script::PlayerScriptHandler;
-use enums::item::ItemType;
-use crate::enums::EnumWithNumberValue;
+use models::enums::item::ItemType;
+use models::enums::EnumWithNumberValue;
 
 use crate::repository::model::item_model::ItemModel;
-use crate::enums::EnumWithStringValue;
+use models::enums::EnumWithStringValue;
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
 use crate::server::service::global_config_service::GlobalConfigService;

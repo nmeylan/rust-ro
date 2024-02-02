@@ -7,7 +7,7 @@ extern crate log;
 #[macro_use]
 extern crate accessor;
 
-extern crate enums;
+extern crate models;
 extern crate packets;
 extern crate core;
 

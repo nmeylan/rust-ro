@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::sync::{Once};
-use enums::class::JobName;
-use crate::enums::EnumWithStringValue;
+use models::enums::class::JobName;
+use models::enums::EnumWithStringValue;
 use crate::repository::model::item_model::ItemModel;
 use crate::repository::model::mob_model::MobModel;
 use configuration::configuration::{Config, JobConfig, JobSkillTree, SkillConfig};

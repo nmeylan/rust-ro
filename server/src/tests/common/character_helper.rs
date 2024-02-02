@@ -1,8 +1,8 @@
 use std::sync::Mutex;
 use rand::RngCore;
-use enums::class::JobName;
-use enums::EnumWithMaskValueU64;
-use enums::item::{EquipmentLocation, ItemType};
+use models::enums::class::JobName;
+use models::enums::EnumWithMaskValueU64;
+use models::enums::item::{EquipmentLocation, ItemType};
 
 
 use models::status::{Look, Status};
@@ -10,7 +10,7 @@ use crate::repository::model::item_model::{DBItemType, InventoryItemModel, ItemM
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
-use crate::enums::EnumWithNumberValue;
+use models::enums::EnumWithNumberValue;
 
 pub fn create_character() -> Character {
     Character {

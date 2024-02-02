@@ -1,10 +1,10 @@
 use std::sync::{Arc, Once};
 use std::sync::mpsc::SyncSender;
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
-use enums::cell::CellType;
+use models::enums::cell::CellType;
 use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::state::map_instance::MapInstanceState;
-use crate::enums::EnumWithMaskValueU16;
+use models::enums::EnumWithMaskValueU16;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::map::Map;

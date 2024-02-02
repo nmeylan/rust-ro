@@ -1,4 +1,4 @@
-use crate::*;
+use crate::enums::*;
 
 #[derive(WithMaskValueU16)]
 pub enum CellType {

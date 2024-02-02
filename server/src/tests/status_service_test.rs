@@ -31,11 +31,11 @@ fn before_each_with_latch(latch_size: usize) -> StatusServiceTestContext {
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
     
-    use enums::class::JobName;
-    use enums::weapon::WeaponType;
+    use models::enums::class::JobName;
+    use models::enums::weapon::WeaponType;
     use models::status::StatusSnapshot;
-    use crate::enums::EnumWithStringValue;
-    use crate::enums::EnumWithNumberValue;
+    use models::enums::EnumWithStringValue;
+    use models::enums::EnumWithNumberValue;
     use crate::status_snapshot;
 
     use crate::tests::common::character_helper::{create_character, equip_item_from_name};

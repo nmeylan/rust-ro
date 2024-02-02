@@ -52,13 +52,13 @@ mod tests {
     use sqlx::Error;
     
     use tokio::runtime::Runtime;
-    use enums::class::JobName;
-    use enums::item::EquipmentLocation;
+    use models::enums::class::JobName;
+    use models::enums::item::EquipmentLocation;
     use packets::packets::{PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2, PacketZcItemThrowAck, PacketZcEquipArrow, PacketZcAttackRange};
     use packets::packets::PacketZcReqWearEquipAck2;
-    use crate::enums::EnumWithNumberValue;
-    use crate::enums::EnumWithMaskValueU64;
-    use crate::enums::EnumWithStringValue;
+    use models::enums::EnumWithNumberValue;
+    use models::enums::EnumWithMaskValueU64;
+    use models::enums::EnumWithStringValue;
     use crate::server::model::events::game_event::{CharacterRemoveItem, CharacterRemoveItems, CharacterZeny};
     use crate::repository::InventoryRepository;
     use crate::repository::model::item_model::InventoryItemModel;

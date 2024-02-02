@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use crate::*;
+use crate::enums::*;
 
 #[derive(Debug, WithNumberValue)]
 pub enum StatusTypes {

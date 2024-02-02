@@ -1,12 +1,12 @@
 use std::mem;
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
-use enums::action::ActionType;
-use enums::element::Element;
-use enums::EnumWithMaskValueU64;
-use enums::size::Size;
-use enums::skill::SkillState;
-use enums::weapon::WeaponType;
+use models::enums::action::ActionType;
+use models::enums::element::Element;
+use models::enums::EnumWithMaskValueU64;
+use models::enums::size::Size;
+use models::enums::skill::SkillState;
+use models::enums::weapon::WeaponType;
 use models::status::{StatusSnapshot};
 use packets::packets::PacketZcNotifyAct;
 use crate::server::model::map_item::{MapItemSnapshot, MapItemType};
@@ -16,7 +16,7 @@ use crate::server::model::events::client_notification::{AreaNotification, AreaNo
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
-use crate::enums::EnumWithNumberValue;
+use models::enums::EnumWithNumberValue;
 use crate::packets::packets::Packet;
 use crate::server::model::action::Damage;
 

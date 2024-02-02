@@ -1,5 +1,5 @@
 use enum_macro::{WithNumberValue, WithStringValue};
-use crate::{EnumWithNumberValue, EnumWithStringValue};
+use crate::enums::{EnumWithNumberValue, EnumWithStringValue};
 
 #[derive(WithStringValue, WithNumberValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum MobClass {

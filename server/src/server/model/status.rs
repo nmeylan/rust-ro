@@ -1,9 +1,9 @@
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::MobModel;
 use configuration::configuration::GameConfig;
-use enums::element::Element;
-use enums::size::Size;
-use enums::EnumWithStringValue;
+use models::enums::element::Element;
+use models::enums::size::Size;
+use models::enums::EnumWithStringValue;
 use models::status::{KnownSkill, Look, Status, StatusSnapshot};
 
 pub struct StatusFromDb;
