@@ -1,8 +1,8 @@
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
-use enums::skill_enums::SkillEnum;
-use enums::vanish::VanishType;
-use crate::enums::EnumWithNumberValue;
+use models::enums::skill_enums::SkillEnum;
+use models::enums::vanish::VanishType;
+use models::enums::EnumWithNumberValue;
 use packets::packets::PacketZcNotifyVanish;
 use crate::repository::Repository;
 use configuration::configuration::{Config, SkillConfig};

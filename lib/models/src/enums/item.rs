@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
-use crate::item::ItemType::{DelayConsume, Usable};
-use crate::*;
+use crate::enums::item::ItemType::{DelayConsume, Usable};
+use crate::enums::*;
 
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum ItemType {

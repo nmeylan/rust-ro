@@ -1,9 +1,9 @@
 use std::collections::HashMap;
-use enums::cell::CellType;
+use models::enums::cell::CellType;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::map_item::{MapItem, MapItems, ToMapItem};
 use crate::server::state::mob::Mob;
-use crate::enums::EnumWithMaskValueU16;
+use models::enums::EnumWithMaskValueU16;
 use models::item::DroppedItem;
 use crate::server::model::map::Map;
 

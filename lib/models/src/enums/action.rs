@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use crate::*;
+use crate::enums::*;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, WithNumberValue)]
 pub enum ActionType {

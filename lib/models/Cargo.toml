@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-enums = { path = "../enums" }
+enum_macro = { path = "../enum_macro" }
 accessor = { path = "../accessor" }

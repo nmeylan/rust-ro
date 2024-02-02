@@ -1,4 +1,4 @@
-use enums::EnumWithStringValue;
+use models::enums::EnumWithStringValue;
 use serde::{Deserialize, Deserializer, Serializer};
 
 pub fn deserialize_optional_string_enum<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>

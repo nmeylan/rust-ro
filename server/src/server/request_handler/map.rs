@@ -1,11 +1,11 @@
-use enums::map::MapPropertyFlags;
+use models::enums::map::MapPropertyFlags;
 use packets::packets::{Packet, PacketZcAckReqnameall2, PacketCzReqnameall2, PacketZcNotifyMapproperty2, PacketZcHatEffect, PacketCzReqname};
 use crate::server::Server;
 use crate::util::string::StringUtil;
 
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::request::Request;
-use enums::{EnumWithMaskValueU64};
+use models::enums::{EnumWithMaskValueU64};
 use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::util::packet::chain_packets;

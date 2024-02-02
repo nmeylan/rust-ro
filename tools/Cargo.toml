@@ -19,7 +19,7 @@ log = "0.4"
 flexi_logger = "0.19"
 
 configuration = { path = "../lib/configuration" }
-enums = { path = "../lib/enums" }
+models = { path = "../lib/models" }
 
 [[bin]]
 name = "packets-tool"

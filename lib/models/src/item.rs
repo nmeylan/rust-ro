@@ -1,8 +1,8 @@
 use accessor::GettersAll;
 use crate::position::Position;
-use enums::item::EquipmentLocation;
-use enums::weapon::{AmmoType, WeaponType};
-use enums::EnumWithMaskValueU64;
+use crate::enums::item::EquipmentLocation;
+use crate::enums::weapon::{AmmoType, WeaponType};
+use crate::enums::EnumWithMaskValueU64;
 
 pub struct EquippedItem {
     pub item_id: i32,

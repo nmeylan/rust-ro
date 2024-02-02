@@ -5,13 +5,14 @@ use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use tokio::runtime::Runtime;
 
-use enums::class::{JOB_BASE_MASK, JobName};
-use enums::effect::Effect;
+use models::enums::class::{JOB_BASE_MASK, JobName};
+use models::enums::effect::Effect;
 
-use enums::look::LookType;
-use enums::status::StatusTypes;
+use models::enums::look::LookType;
+use models::enums::status::StatusTypes;
 
-use crate::enums::EnumWithNumberValue;
+use models::enums::EnumWithNumberValue;
+use models::enums::skill_enums::SkillEnum;
 
 
 use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues};
@@ -422,7 +423,7 @@ impl CharacterService {
         true
     }
 
-    pub fn allocate_skill_point(&self, character: &mut Character, skill: enums::skill_enums::SkillEnum) -> bool {
+    pub fn allocate_skill_point(&self, character: &mut Character, skill: SkillEnum) -> bool {
         let skill_point = character.status.skill_point;
         if skill_point < 1 {
             return false

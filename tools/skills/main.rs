@@ -8,10 +8,10 @@ use std::collections::{HashMap, HashSet};
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
-use enums::{EnumWithMaskValueU64, EnumWithStringValue};
-use enums::element::Element;
-use enums::skill::{SkillTargetType, SkillFlags, SkillType};
-use enums::weapon::WeaponType;
+use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
+use models::enums::element::Element;
+use models::enums::skill::{SkillTargetType, SkillFlags, SkillType};
+use models::enums::weapon::WeaponType;
 
 lazy_static! {
     pub static ref SHORT_CLASS_NAME: HashMap<&'static str, &'static str> = HashMap::from([
@@ -86,7 +86,7 @@ pub fn main() {
     let path = Path::new("./config/skill.json");
     let skill_tree_path = Path::new("./config/skill_tree.json");
     let output_path = Path::new("lib/skills/src");
-    let output_enum_path = Path::new("lib/enums/src");
+    let output_enum_path = Path::new("lib/models/src/enums");
     if !path.exists() {
         panic!("config/skill.json file does not exists at {}", path.to_str().unwrap());
     }
@@ -232,10 +232,10 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
 
 fn write_file_header(file: &mut File) {
     write_file_header_comments(file);
-    file.write_all(b"use enums::{EnumWithMaskValueU64, EnumWithNumberValue};\n").unwrap();
-    file.write_all(b"use enums::skill::*;\n").unwrap();
-    file.write_all(b"use enums::weapon::AmmoType;\n").unwrap();
-    file.write_all(b"use enums::element::Element;\n").unwrap();
+    file.write_all(b"use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};\n").unwrap();
+    file.write_all(b"use models::enums::skill::*;\n").unwrap();
+    file.write_all(b"use models::enums::weapon::AmmoType;\n").unwrap();
+    file.write_all(b"use models::enums::element::Element;\n").unwrap();
     file.write_all(b"\nuse models::item::WearWeapon;\n").unwrap();
     file.write_all(b"\nuse models::status::StatusSnapshot;\n").unwrap();
     file.write_all(b"use models::item::NormalInventoryItem;\n").unwrap();
@@ -517,7 +517,7 @@ fn generate_validate_item(job_skills_file: &mut File, skill_config: &SkillConfig
             job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
             job_skills_file.write_all(b"    fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {\n").unwrap();
             job_skills_file.write_all(format!("        let required_items = vec![{}]; \n", requirements.item_cost().iter()
-                .map(|item| format!("(NormalInventoryItem {{item_id: {}, name_english: \"{}\".to_string(), amount: {}}})", item_name_ids.get(item.item()).unwrap(), item.item(), item.amount())).collect::<Vec<String>>().join(",")).as_bytes()).unwrap();
+                .map(|item| format!("(NormalInventoryItem {{item_id: {}, name_english: \"{}\".to_string(), amount: {}}})", item_name_ids.get(item.item()).expect(format!("Item {} not found", item.item()).as_str()), item.item(), item.amount())).collect::<Vec<String>>().join(",")).as_bytes()).unwrap();
             for item in requirements.item_cost().iter() {
                 job_skills_file.write_all(format!("        if inventory.iter().find(|item| item.item_id == {} && item.amount >= {}).is_none() {{\n", item_name_ids.get(item.item()).unwrap(), item.amount()).as_bytes()).unwrap();
                 if item.item().eq("Red_Gemstone") {
@@ -828,7 +828,7 @@ fn generate_skills_enum_to_object(output_path: &Path, skills: &Vec<SkillConfig>,
         file.write_all(format!("use crate::skills::{}::{{*}};\n", job).as_bytes()).unwrap();
         file.write_all(format!("use crate::base::{}_base::{{*}};\n", job).as_bytes()).unwrap();
     }
-    file.write_all("use enums::skill_enums::SkillEnum;\n\n".to_string().as_bytes()).unwrap();
+    file.write_all("use models::enums::skill_enums::SkillEnum;\n\n".to_string().as_bytes()).unwrap();
     file.write_all("use crate::Skill;\n\n".to_string().as_bytes()).unwrap();
 
 

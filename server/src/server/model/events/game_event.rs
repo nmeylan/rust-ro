@@ -1,5 +1,5 @@
-use enums::class::JobName;
-use enums::look::LookType;
+use models::enums::class::JobName;
+use models::enums::look::LookType;
 use crate::repository::model::item_model::InventoryItemModel;
 
 

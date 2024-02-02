@@ -4,9 +4,9 @@ use tokio::runtime::Runtime;
 use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat};
 use crate::server::model::session::Session;
 use regex::Regex;
-use enums::class::JobName;
-use enums::EnumWithStringValue;
-use crate::enums::EnumWithNumberValue;
+use models::enums::class::JobName;
+use models::enums::EnumWithStringValue;
+use models::enums::EnumWithNumberValue;
 use std::fmt::Write;
 use std::time::Instant;
 

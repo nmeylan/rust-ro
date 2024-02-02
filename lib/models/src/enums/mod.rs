@@ -1,3 +1,4 @@
+
 pub use enum_macro::*;
 
 pub mod action;
@@ -21,8 +22,8 @@ pub mod mob;
 
 pub trait EnumWithStringValue {
     fn try_from_string(value: &str) -> Result<Self, String>
-    where
-        Self: Sized;
+        where
+            Self: Sized;
     fn from_string(value: &str) -> Self;
     fn from_string_ignore_case(value: &str) -> Self;
     fn as_str(&self) -> &str;
@@ -44,7 +45,7 @@ enum_with_mask_trait!(EnumWithMaskValueU8, u8);
 pub trait EnumWithNumberValue {
     fn from_value(value: usize) -> Self;
     fn try_from_value(value: usize) -> Result<Self, String>
-    where
-        Self: Sized;
+        where
+            Self: Sized;
     fn value(&self) -> usize;
 }

@@ -1,6 +1,6 @@
 use std::sync::{Once};
 use models::status::{Status, StatusSnapshot};
-use crate::enums::EnumWithStringValue;
+use models::enums::EnumWithStringValue;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 

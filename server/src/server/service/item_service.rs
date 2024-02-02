@@ -8,7 +8,7 @@ use rathena_script_lang_interpreter::lang::compiler::{Compiler, DebugFlag};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
-use enums::bonus::BonusType;
+use models::enums::bonus::BonusType;
 
 
 use packets::packets::PacketZcUseItemAck2;

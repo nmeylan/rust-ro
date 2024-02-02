@@ -502,7 +502,7 @@ version = "0.1.0"
 dependencies = [
  "accessor",
  "byteorder",
- "enums",
+ "models",
  "serde",
  "serde_json",
 ]
@@ -856,13 +856,6 @@ version = "0.1.0"
 dependencies = [
  "quote",
  "syn 2.0.32",
-]
-
-[[package]]
-name = "enums"
-version = "0.1.0"
-dependencies = [
- "enum_macro",
 ]
 
 [[package]]
@@ -1669,7 +1662,7 @@ name = "models"
 version = "0.1.0"
 dependencies = [
  "accessor",
- "enums",
+ "enum_macro",
 ]
 
 [[package]]
@@ -2474,7 +2467,6 @@ dependencies = [
  "byteorder",
  "configuration",
  "eframe",
- "enums",
  "fastmurmur3",
  "fastrand",
  "flate2",
@@ -2580,7 +2572,6 @@ name = "skills"
 version = "0.1.0"
 dependencies = [
  "byteorder",
- "enums",
  "models",
 ]
 
@@ -3138,13 +3129,13 @@ dependencies = [
  "byteorder",
  "configuration",
  "convert_case",
- "enums",
  "flate2",
  "flexi_logger 0.19.6",
  "futures",
  "lazy_static",
  "log",
  "md5",
+ "models",
  "regex",
  "serde",
  "serde_json",

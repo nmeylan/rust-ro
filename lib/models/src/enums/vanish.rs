@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use crate::*;
+use crate::enums::*;
 
 #[derive(WithNumberValue, Debug, Copy, Clone)]
 pub enum VanishType {

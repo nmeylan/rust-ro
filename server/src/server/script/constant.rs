@@ -1,13 +1,13 @@
 use rathena_script_lang_interpreter::lang::value::Value;
-use enums::class::{JOB_2_1_MASK, JOB_2_2_MASK, JOB_BABY_MASK, JOB_BASE_MASK, JOB_TRANS_MASK, JobName};
-use enums::element::Element;
-use enums::item::ItemGroup;
-use enums::look::LookType;
-use enums::mob::{MobClass, MobGroup, MobRace};
-use enums::size::Size;
-use enums::status::StatusEffect;
-use crate::enums::EnumWithNumberValue;
-use crate::enums::EnumWithStringValue;
+use models::enums::class::{JOB_2_1_MASK, JOB_2_2_MASK, JOB_BABY_MASK, JOB_BASE_MASK, JOB_TRANS_MASK, JobName};
+use models::enums::element::Element;
+use models::enums::item::ItemGroup;
+use models::enums::look::LookType;
+use models::enums::mob::{MobClass, MobGroup, MobRace};
+use models::enums::size::Size;
+use models::enums::status::StatusEffect;
+use models::enums::EnumWithNumberValue;
+use models::enums::EnumWithStringValue;
 use crate::util::string::StringUtil;
 
 /*

@@ -1,12 +1,12 @@
 use std::mem;
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
-use enums::EnumWithNumberValue;
-use enums::skill::{UseSkillFailure, UseSkillFailureClientSideType};
+use models::enums::EnumWithNumberValue;
+use models::enums::skill::{UseSkillFailure, UseSkillFailureClientSideType};
 use models::item::NormalInventoryItem;
 use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseskillAck2};
 use skills::OffensiveSkill;
-use enums::skill_enums::SkillEnum;
+use models::enums::skill_enums::SkillEnum;
 use models::status::{StatusSnapshot};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;

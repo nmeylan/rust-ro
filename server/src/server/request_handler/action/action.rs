@@ -1,8 +1,8 @@
 use packets::packets::{PacketCzItemPickup, PacketCzRequestAct};
 use crate::server::Server;
 use crate::server::model::request::Request;
-use enums::EnumWithNumberValue;
-use enums::action::ActionType;
+use models::enums::EnumWithNumberValue;
+use models::enums::action::ActionType;
 use crate::server::model::events::game_event::{CharacterAttack, CharacterPickUpItem, GameEvent};
 
 pub fn handle_pickup_item(server: &Server, context: Request) {

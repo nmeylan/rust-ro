@@ -46,13 +46,13 @@ mod tests {
     use std::io::Write;
     use std::path::Path;
     use std::time::Duration;
-    use enums::class::JobName;
+    use models::enums::class::JobName;
 
-    use enums::{EnumWithNumberValue, EnumWithStringValue};
-    use enums::skill::UseSkillFailure;
+    use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+    use models::enums::skill::UseSkillFailure;
     use crate::tests::common::assert_helper::*;
     use models::position::Position;
-    use enums::skill_enums::SkillEnum;
+    use models::enums::skill_enums::SkillEnum;
     use models::status::{KnownSkill, Status};
     use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseskillAck2};
 

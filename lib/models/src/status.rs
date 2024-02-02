@@ -1,12 +1,12 @@
 use crate::item::{WearAmmo, WearGear, WearGearSnapshot, WearWeapon, Wearable, WearAmmoSnapshot, WearWeaponSnapshot};
 use accessor::{GettersAll, SettersAll};
-use enums::bonus::BonusType;
-use enums::element::Element;
-use enums::item::EquipmentLocation;
-use enums::size::Size;
-use enums::EnumWithMaskValueU64;
-use enums::status::StatusEffect;
-use enums::weapon::WeaponType;
+use crate::enums::bonus::BonusType;
+use crate::enums::element::Element;
+use crate::enums::item::EquipmentLocation;
+use crate::enums::size::Size;
+use crate::enums::EnumWithMaskValueU64;
+use crate::enums::status::StatusEffect;
+use crate::enums::weapon::WeaponType;
 
 #[derive(SettersAll, Debug, Default, Clone)]
 pub struct Status {
@@ -274,7 +274,7 @@ impl StatusSnapshot {
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct KnownSkill {
-    pub value: enums::skill_enums::SkillEnum,
+    pub value: crate::enums::skill_enums::SkillEnum,
     pub level: u8,
 }
 

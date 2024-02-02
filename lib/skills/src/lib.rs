@@ -1,8 +1,8 @@
 use std::any::Any;
-use enums::element::Element;
-use enums::skill::{SkillTargetType, UseSkillFailure};
-use enums::status::StatusEffect;
-use enums::weapon::{AmmoType};
+use models::enums::element::Element;
+use models::enums::skill::{SkillTargetType, UseSkillFailure};
+use models::enums::status::StatusEffect;
+use models::enums::weapon::{AmmoType};
 use models::item::{NormalInventoryItem};
 use models::status::{StatusSnapshot};
 

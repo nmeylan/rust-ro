@@ -1,6 +1,6 @@
 use std::collections::{HashMap};
-use enums::cell::CellType;
-use crate::enums::EnumWithMaskValueU16;
+use models::enums::cell::CellType;
+use models::enums::EnumWithMaskValueU16;
 use crate::server::model::path::{allowed_dirs, DIR_EAST, DIR_NORTH, DIR_SOUTH, DIR_WEST, is_direction};
 use crate::server::model::map_item::{MapItem, MapItems, ToMapItem};
 use crate::server::model::mob_spawn::MobSpawn;

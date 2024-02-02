@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use crate::*;
+use crate::enums::*;
 
 #[derive(WithMaskValueU64, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum MapPropertyFlags {

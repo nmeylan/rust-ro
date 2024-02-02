@@ -1,4 +1,4 @@
-use crate::*;
+use crate::enums::*;
 
 pub const JOB_BASE_MASK: u64 = 0xff;
 pub const JOB_UPPER_MASK: u64 = 0xfff;

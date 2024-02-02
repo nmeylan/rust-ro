@@ -4,9 +4,9 @@ use std::sync::atomic::Ordering::Relaxed;
 use std::sync::mpsc::SyncSender;
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
-use enums::action::ActionType;
+use models::enums::action::ActionType;
 
-use crate::enums::EnumWithNumberValue;
+use models::enums::EnumWithNumberValue;
 use packets::packets::{PacketZcNotifyAct};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::boot::map_loader::MapLoader;

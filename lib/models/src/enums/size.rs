@@ -1,4 +1,4 @@
-use crate::{EnumWithStringValue, EnumWithNumberValue};
+use crate::enums::{EnumWithStringValue, EnumWithNumberValue};
 use enum_macro::{WithNumberValue, WithStringValue};
 
 #[derive(WithStringValue, WithNumberValue, Debug, Copy, Clone, PartialEq, Eq)]
