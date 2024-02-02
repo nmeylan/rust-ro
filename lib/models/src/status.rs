@@ -64,6 +64,7 @@ pub struct StatusSnapshot {
     bonus_atk: u16,
     matk_min: u16,
     matk_max: u16,
+    matk_item_modifier: f32,
     speed: u16,
     hit: u16,
     flee: u16,
@@ -123,6 +124,7 @@ impl StatusSnapshot {
             bonus_atk: 0,
             matk_min: matk1,
             matk_max: matk2,
+            matk_item_modifier: 1.0,
             speed,
             hit: 0,
             flee: 0,
@@ -176,8 +178,9 @@ impl StatusSnapshot {
             bonus_dex: 0,
             bonus_luk: 0,
             bonus_atk: 0,
-            matk_min: int + ((int as f32 / 7.0).floor() as u16).pow(2),
-            matk_max: int + ((int as f32 / 5.0).floor() as u16).pow(2),
+            matk_min: 0,
+            matk_max: 0,
+            matk_item_modifier: 1.0,
             speed: status.speed,
             hit: 0,
             flee: 0,
@@ -265,7 +268,7 @@ impl StatusSnapshot {
         self.base_dex + self.bonus_dex
     }
     pub fn int(&self) -> u16 {
-        self.base_int + self.bonus_dex
+        self.base_int + self.bonus_int
     }
     pub fn luk(&self) -> u16 {
         self.base_luk + self.bonus_luk

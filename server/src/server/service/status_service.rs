@@ -39,7 +39,16 @@ impl StatusService {
                 snapshot.set_bonus_int(*bonus.get("int").unwrap_or(&0_u16));
                 snapshot.set_bonus_luk(*bonus.get("luk").unwrap_or(&0_u16));
             });
-
+        for equipment in status.all_equipped_items() {
+            let item_model = self.configuration_service.get_item(equipment.item_id());
+            if item_model.item_bonuses_are_dynamic {
+                // TODO
+            } else {
+                item_model.bonuses.iter().for_each(|bonus| bonus.add_bonus_to_status(&mut snapshot))
+            }
+        }
+        snapshot.set_matk_min(((snapshot.int() + ((snapshot.int() as f32 / 7.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
+        snapshot.set_matk_max(((snapshot.int() + ((snapshot.int() as f32 / 5.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
         // TODO add bonuses from item and cards snapshot.bonuses.push(...)
         snapshot
     }

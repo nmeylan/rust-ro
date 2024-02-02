@@ -162,11 +162,10 @@ impl BattleService {
             BattleResultMode::TestMax => { source_status.matk_max() }
             BattleResultMode::Normal => { rng.u16(source_status.matk_min()..=source_status.matk_max()) }
         } as f32;
-        let item_modifier: f32 = 1.0; // TODO bMatkRate
         let elemental_modifier: f32 = Self::element_modifier(element, target_status);
         let mdef = target_status.mdef() as f32 / 100.0;
         // println!("({} * {} * {} * {} - {} - {}) * {}", matk, item_modifier, skill_modifier, (1.0 - mdef), target_status.int(), target_status.vit() as f32 / 2.0, elemental_modifier);
-        ((matk * item_modifier * skill_modifier * (1.0 - mdef)).floor() * elemental_modifier).floor() as u32
+        ((matk * skill_modifier * (1.0 - mdef)).floor() * elemental_modifier).floor() as u32
     }
 
     pub fn basic_attack(&self, character: &mut Character, target: MapItemSnapshot, source_status: &StatusSnapshot, target_status: &StatusSnapshot, tick: u128) -> Option<Damage> {
