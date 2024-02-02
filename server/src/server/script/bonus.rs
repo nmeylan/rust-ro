@@ -691,7 +691,6 @@ impl BonusScriptHandler {
                             bonus!(self, BonusType::IgnoreMDefClassBossPercentage(value2 as i8));
                             bonus!(self, BonusType::IgnoreMDefClassGuardianPercentage(value2 as i8));
                         }
-                        _ => {}
                     }
                 }
                 "bmagicaddrace" => {
