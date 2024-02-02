@@ -117,9 +117,11 @@ impl ItemService {
         // check if potion has been created by famous (ranked) alch/creator, bonus + 50%
     }
 
-    pub fn convert_script_into_bonuses(items: &mut Vec<ItemModel>, native_function_file_path: &str) {
+    pub fn convert_script_into_bonuses(items: &mut Vec<ItemModel>, native_function_file_path: &str) -> (i32, i32) {
         let vm = Arc::new(Vm::new(native_function_file_path, rathena_script_lang_interpreter::lang::vm::DebugFlag::None.value()));
         let script_handler = crate::server::script::bonus::BonusScriptHandler::new();
+        let mut count_script_executed = 0;
+        let mut count_script_skipped = 0;
         for item in items.iter_mut() {
             if let Some(script_compilation) = &item.script_compilation {
                 let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
@@ -129,23 +131,32 @@ impl ItemService {
                 let mut complex_script = false;
                 for op_code in script_main.op_codes.borrow().iter() {
                     match op_code {
-                        LoadConstant(_) | LoadValue | CallNative { .. } | LoadGlobal => {}
+                        LoadConstant(_) | LoadValue |  LoadGlobal => {}
+                        CallNative { reference, .. } => {
+                            let native = vm.get_from_native_pool(*reference).unwrap();
+                            if !(native.name == "bonus" || native.name == "bonus2" || native.name == "bonus3" || native.name == "bonus4" || native.name == "bonus5") {
+                                complex_script = true; break;
+                            }
+                        }
                         // When script contains those op code, it means script need to be executed each time the item is used
                         // E.g Gibbet_card          Rybio_Card
                         // if (getrefine()<6)       bonus2 bAddEffWhenHit,Eff_Stun,300+600*(readparam(bDex)>=77);
                         //    bonus bMdef,5;
-                        _ => { complex_script = true }
+                        _ => { complex_script = true; break; }
                     }
                 }
                 if !complex_script {
                     Vm::repl(vm.clone(), class_file, Box::new(&script_handler));
                     item.bonuses = script_handler.drain();
                     item.script_compilation = None;
+                    count_script_executed += 1;
                 } else {
+                    count_script_skipped += 1;
                     item.item_bonuses_are_dynamic = true;
                 }
             }
         }
+        (count_script_executed, count_script_skipped)
     }
 }
 

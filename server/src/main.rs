@@ -99,21 +99,26 @@ pub async fn main() {
 
     let start = Instant::now();
     let mut script_compilation_to_update: Vec<(i32, Vec<u8>, u128)> = vec![];
+    let mut item_script_compiled = 0;
+    let mut item_script_skipped = 0;
     for item in items.iter_mut() {
         if let Some(script) = &item.script {
             let script_hash = fastmurmur3::hash(script.as_bytes());
             if item.script_compilation_hash.is_none() || script_hash != item.script_compilation_hash.unwrap() {
-            let compilation_result = Compiler::compile_script_into_binary(format!("{}-{}", item.id, item.name_aegis), script.as_str(), "./native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
-                compilation_result.map(|res| {
-                    item.script_compilation_hash = Some(script_hash);
-                    item.script_compilation = Some(general_purpose::STANDARD.encode(res.clone()));
-                    script_compilation_to_update.push((item.id, res, script_hash));
-            });
+                let compilation_result = Compiler::compile_script_into_binary(format!("{}-{}", item.id, item.name_aegis), script.as_str(), "./native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
+                    compilation_result.map(|res| {
+                        item_script_compiled += 1;
+                        item.script_compilation_hash = Some(script_hash);
+                        item.script_compilation = Some(general_purpose::STANDARD.encode(res.clone()));
+                        script_compilation_to_update.push((item.id, res, script_hash));
+                });
+            } else {
+                item_script_skipped += 1;
             }
         }
     }
     repository_arc.update_script_compilation(script_compilation_to_update).await.unwrap();
-    info!("Item scripts compiled in {}ms", start.elapsed().as_millis());
+    info!("Compiled {} item scripts compiled, skipped {} item scripts compilation (already compiled) in {}ms", item_script_compiled, item_script_skipped, start.elapsed().as_millis());
 
     let mobs =  repository_arc.get_all_mobs().await.unwrap();
     let mut map_item_ids = MapItems::new(300000, u32::MAX);
@@ -144,8 +149,10 @@ pub async fn main() {
     let mobs_map = mobs.clone().into_iter().map(|mob| (mob.id as u32, mob)).collect();
     let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map, MOB_ROOT_PATH).join().unwrap() };
     let maps = MapLoader::load_maps(warps, mob_spawns, scripts, &mut map_item_ids, unsafe { MAP_DIR });
-    info!("load {} map-cache in {} secs", maps.len(), start.elapsed().as_millis() as f32 / 1000.0);
-    ItemService::convert_script_into_bonuses(&mut items, "native_functions_list.txt");
+    info!("Loaded {} map-cache in {}ms", maps.len(), start.elapsed().as_millis());
+    let start = Instant::now();
+    let item_script_executed = ItemService::convert_script_into_bonuses(&mut items, "native_functions_list.txt");
+    info!("Executed {} item scripts, skipped {} item scripts (requiring runtime data) in {}ms", item_script_executed.0, item_script_executed.1, start.elapsed().as_millis());
     unsafe {
         GlobalConfigService::init(CONFIGS.clone().unwrap(),
                                   items,
