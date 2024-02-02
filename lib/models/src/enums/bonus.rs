@@ -305,9 +305,12 @@ pub enum BonusType {
     GainExpWhenKillingRaceDemiHumanPercentage(i8),
     GainExpWhenKillingRaceAngelPercentage(i8),
     GainExpWhenKillingRaceDragonPercentage(i8),
-    GainZenyWhenKillingMonster(u16, i8), // zeny, chance
-    HpDrainWhenAttackingPercentage(i8, i8), // hp percentage, chance
-    SpDrainWhenAttackingPercentage(i8, i8), // sp percentage, chance
+    GainZenyWhenKillingMonster(u16, i8),
+    // zeny, chance
+    HpDrainWhenAttackingPercentage(i8, i8),
+    // hp percentage, chance
+    SpDrainWhenAttackingPercentage(i8, i8),
+    // sp percentage, chance
     SpDrainWhenAttackingRaceFormless(u16),
     SpDrainWhenAttackingRaceUndead(u16),
     SpDrainWhenAttackingRaceBrute(u16),
@@ -328,16 +331,361 @@ pub enum BonusType {
     SpDrainWhenKillingRaceDemiHuman(u16),
     SpDrainWhenKillingRaceAngel(u16),
     SpDrainWhenKillingRaceDragon(u16),
-    SpBurnOnTargetWhenAttackingPercentage(i8, u16), // percentage, chance
-    HpLossEveryMs(u16, u16), //amount, every ms
-    HpRegenEveryMs(u16, u16), //amount, every ms
-    SpLossEveryMs(u16, u16), //amount, every ms
-    SpRegenEveryMs(u16, u16), //amount, every ms
-    SkillIdDamagePercentage(u32, i8)
+    SpBurnOnTargetWhenAttackingPercentage(i8, u16),
+    // percentage, chance
+    HpLossEveryMs(u16, u16),
+    //amount, every ms
+    HpRegenEveryMs(u16, u16),
+    //amount, every ms
+    SpLossEveryMs(u16, u16),
+    //amount, every ms
+    SpRegenEveryMs(u16, u16),
+    //amount, every ms
+    SkillIdDamagePercentage(u32, i8),
 }
 
 impl BonusType {
-    pub fn add_bonus_to_status(&self, _status_snapshot: &mut StatusSnapshot) {
-
+    pub fn add_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
+        match self {
+            BonusType::Str(str) => { status_snapshot.set_bonus_str(status_snapshot.bonus_str() + *str as u16) }
+            BonusType::Agi(agi) => { status_snapshot.set_bonus_agi(status_snapshot.bonus_agi() + *agi as u16) }
+            BonusType::Vit(vit) => { status_snapshot.set_bonus_vit(status_snapshot.bonus_vit() + *vit as u16) }
+            BonusType::Int(int) => { status_snapshot.set_bonus_int(status_snapshot.bonus_int() + *int as u16) }
+            BonusType::Dex(dex) => { status_snapshot.set_bonus_dex(status_snapshot.bonus_dex() + *dex as u16) }
+            BonusType::Luk(luk) => { status_snapshot.set_bonus_luk(status_snapshot.bonus_luk() + *luk as u16) }
+            BonusType::AllStats(all) => {
+                status_snapshot.set_bonus_str(status_snapshot.bonus_str() + *all as u16);
+                status_snapshot.set_bonus_agi(status_snapshot.bonus_agi() + *all as u16);
+                status_snapshot.set_bonus_vit(status_snapshot.bonus_vit() + *all as u16);
+                status_snapshot.set_bonus_int(status_snapshot.bonus_int() + *all as u16);
+                status_snapshot.set_bonus_dex(status_snapshot.bonus_dex() + *all as u16);
+                status_snapshot.set_bonus_luk(status_snapshot.bonus_luk() + *all as u16);
+            }
+            BonusType::Hit(hit) => { status_snapshot.set_hit(status_snapshot.hit() + *hit as u16) }
+            BonusType::HitPercentage(_) => {}
+            BonusType::Flee(flee) => { status_snapshot.set_flee(status_snapshot.flee() + *flee as u16) }
+            BonusType::Crit(crit) => { status_snapshot.set_crit(status_snapshot.crit() + *crit as u16) }
+            BonusType::PerfectDodge(_) => {}
+            BonusType::Aspd(aspd) => { status_snapshot.set_aspd(status_snapshot.aspd() + *aspd as f32) }
+            BonusType::AspdPercentage(_) => {}
+            BonusType::Maxhp(hp) => { status_snapshot.set_hp(status_snapshot.hp() + *hp as u32) }
+            BonusType::Maxsp(sp) => { status_snapshot.set_sp(status_snapshot.sp() + *sp as u32) }
+            BonusType::MaxhpPercentage(_) => {}
+            BonusType::MaxspPercentage(_) => {}
+            BonusType::Atk(_) => {}
+            BonusType::Def(_) => {}
+            BonusType::VitDefPercentage(_) => {}
+            BonusType::DefPercentage(_) => {}
+            BonusType::Mdef(mdef) => { status_snapshot.set_mdef(status_snapshot.mdef() + *mdef as u16) }
+            BonusType::Matk(matk) => {
+                status_snapshot.set_matk_min(status_snapshot.matk_min() + *matk as u16);
+                status_snapshot.set_matk_max(status_snapshot.matk_max() + *matk as u16);
+            }
+            BonusType::MatkBasedOnStaffPercentage(_) => {}
+            BonusType::MatkPercentage(matk_percentage) => {status_snapshot.set_matk_item_modifier(status_snapshot.matk_item_modifier() + (*matk_percentage as f32/100.0))}
+            BonusType::AtkPercentage(_) => {}
+            BonusType::PerfectHitPercentage(_) => {}
+            BonusType::ElementWeapon(_) => {}
+            BonusType::ElementDefense(_) => {}
+            BonusType::BypassDefenseOnRace => {}
+            BonusType::WeaponAtkIncreaseOnTargetDefense => {}
+            BonusType::ReduceDefense(_) => {}
+            BonusType::ReduceDefensePercentage(_) => {}
+            BonusType::CriticalDamagePercentage(_) => {}
+            BonusType::CastTimePercentage(_) => {}
+            BonusType::CastTimeWhenUsingSkillIdPercentage(_, _) => {}
+            BonusType::AfterCastDelayPercentage(_) => {}
+            BonusType::NaturalHpRecoveryPercentage(_) => {}
+            BonusType::NaturalSpRecoveryPercentage(_) => {}
+            BonusType::HpRegenPercentage(_) => {}
+            BonusType::SpRegenPercentage(_) => {}
+            BonusType::HpRegenFromItemPercentage(_) => {}
+            BonusType::HpRegenFromItemIDPercentage(_, _) => {}
+            BonusType::HpRegenFromHerbPercentage(_) => {}
+            BonusType::HpRegenFromFruitPercentage(_) => {}
+            BonusType::HpRegenFromMeatPercentage(_) => {}
+            BonusType::HpRegenFromCandyPercentage(_) => {}
+            BonusType::HpRegenFromJuicePercentage(_) => {}
+            BonusType::HpRegenFromFishPercentage(_) => {}
+            BonusType::HpRegenFromFoodPercentage(_) => {}
+            BonusType::HpRegenFromPotionPercentage(_) => {}
+            BonusType::GainHpWhenKillingEnemy(_) => {}
+            BonusType::GainHpWhenKillingEnemyWithMagicAttack(_) => {}
+            BonusType::GainSpWhenKillingEnemyWithMagicAttack(_) => {}
+            BonusType::HpRegenFromSkillPercentage(_) => {}
+            BonusType::DisableHpRegen => {}
+            BonusType::DisableSpRegen => {}
+            BonusType::GainSpWhenHittingEnemy(_) => {}
+            BonusType::GainSpWhenKillingEnemy(_) => {}
+            BonusType::SpConsumption(_) => {}
+            BonusType::ResistanceRangeAttackPercentage(_) => {}
+            BonusType::NormalAttackPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstSizeSmallPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstSizeMediumPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstSizeLargePercentage(_) => {}
+            BonusType::MagicalDamageAgainstSizeSmallPercentage(_) => {}
+            BonusType::MagicalDamageAgainstSizeMediumPercentage(_) => {}
+            BonusType::MagicalDamageAgainstSizeLargePercentage(_) => {}
+            BonusType::PhysicalDamageAgainstRaceFormlessPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstRaceUndeadPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstRaceBrutePercentage(_) => {}
+            BonusType::PhysicalDamageAgainstRacePlantPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstRaceInsectPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstRaceFishPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstRaceDemonPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstRaceDemiHumanPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstRaceAngelPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstRaceDragonPercentage(_) => {}
+            BonusType::MagicalDamageAgainstRacePercentage(_) => {}
+            BonusType::MagicalDamageAgainstRaceFormlessPercentage(_) => {}
+            BonusType::MagicalDamageAgainstRaceUndeadPercentage(_) => {}
+            BonusType::MagicalDamageAgainstRaceBrutePercentage(_) => {}
+            BonusType::MagicalDamageAgainstRacePlantPercentage(_) => {}
+            BonusType::MagicalDamageAgainstRaceInsectPercentage(_) => {}
+            BonusType::MagicalDamageAgainstRaceFishPercentage(_) => {}
+            BonusType::MagicalDamageAgainstRaceDemonPercentage(_) => {}
+            BonusType::MagicalDamageAgainstRaceDemiHumanPercentage(_) => {}
+            BonusType::MagicalDamageAgainstRaceAngelPercentage(_) => {}
+            BonusType::MagicalDamageAgainstRaceDragonPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstElementNeutralPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstElementWaterPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstElementEarthPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstElementFirePercentage(_) => {}
+            BonusType::PhysicalDamageAgainstElementWindPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstElementPoisonPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstElementHolyPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstElementDarkPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstElementGhostPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstElementUndeadPercentage(_) => {}
+            BonusType::LowerDefencePercentage(_) => {}
+            BonusType::CriticalAgainstRaceFormlessPercentage(_) => {}
+            BonusType::CriticalAgainstRaceUndeadPercentage(_) => {}
+            BonusType::CriticalAgainstRaceBrutePercentage(_) => {}
+            BonusType::CriticalAgainstRacePlantPercentage(_) => {}
+            BonusType::CriticalAgainstRaceInsectPercentage(_) => {}
+            BonusType::CriticalAgainstRaceFishPercentage(_) => {}
+            BonusType::CriticalAgainstRaceDemonPercentage(_) => {}
+            BonusType::CriticalAgainstRaceDemiHumanPercentage(_) => {}
+            BonusType::CriticalAgainstRaceAngelPercentage(_) => {}
+            BonusType::CriticalAgainstRaceDragonPercentage(_) => {}
+            BonusType::ChanceToInflictStatusPoisonOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusStunOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusFreezeOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusCurseOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusBlindOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusSleepOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusSilenceOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusBurningOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusChaosOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusBleedingOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusStoneOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusConfuseOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusWeaponBreakOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusArmorBreakOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackOnBossClassPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackOnNormalClassPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackOnGuardianClassPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackRaceFormlessPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackRaceUndeadPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackRaceBrutePercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackRacePlantPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackRaceInsectPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackRaceFishPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackRaceDemonPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackRaceDemiHumanPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackRaceAngelPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaOnAttackRaceDragonPercentage(_) => {}
+            BonusType::ChanceToInflictStatusPoisonToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusStunToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusFreezeToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusCurseToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusBlindToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusSleepToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusSilenceToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusBurningToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusChaosToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusBleedingToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusStoneToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusConfuseToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusWeaponBreakToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusArmorBreakToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaToSelfOnAttackPercentage(_) => {}
+            BonusType::ChanceToInflictStatusPoisonWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusStunWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusFreezeWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusCurseWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusBlindWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusSleepWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusSilenceWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusBurningWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusChaosWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusBleedingWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusStoneWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusConfuseWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusWeaponBreakWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusArmorBreakWhenHitPercentage(_) => {}
+            BonusType::ChanceToInflictStatusComaWhenHitPercentage(_) => {}
+            BonusType::ResistanceToStatusPoisonPercentage(_) => {}
+            BonusType::ResistanceToStatusStunPercentage(_) => {}
+            BonusType::ResistanceToStatusFreezePercentage(_) => {}
+            BonusType::ResistanceToStatusCursePercentage(_) => {}
+            BonusType::ResistanceToStatusConfusePercentage(_) => {}
+            BonusType::ResistanceToStatusBurningPercentage(_) => {}
+            BonusType::ResistanceToStatusBlindPercentage(_) => {}
+            BonusType::ResistanceToStatusSleepPercentage(_) => {}
+            BonusType::ResistanceToStatusSilencePercentage(_) => {}
+            BonusType::ResistanceToStatusChaosPercentage(_) => {}
+            BonusType::ResistanceToStatusBleedingPercentage(_) => {}
+            BonusType::ResistanceToStatusStonePercentage(_) => {}
+            BonusType::ResistanceToStatusWeaponBreakPercentage(_) => {}
+            BonusType::ResistanceToStatusArmorBreakPercentage(_) => {}
+            BonusType::BreakArmorPercentage(_) => {}
+            BonusType::BreakWeaponPercentage(_) => {}
+            BonusType::ClassChangePercentageOnHit(_) => {}
+            BonusType::CriticalChance(_) => {}
+            BonusType::LongRangeCriticalChance(_) => {}
+            BonusType::IncreaseDamageAgainstClassBossBaseOnDef => {}
+            BonusType::IncreaseDamageAgainstClassNormalBaseOnDef => {}
+            BonusType::IncreaseDamageAgainstClassGuardianBaseOnDef => {}
+            BonusType::PhysicalDamageAgainstClassBossPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstClassNormalPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstClassGuardianPercentage(_) => {}
+            BonusType::PhysicalDamageAgainstMobIdPercentage(_, _) => {}
+            BonusType::ResistanceDamageFromClassBossPercentage(_) => {}
+            BonusType::ResistanceDamageFromClassNormalPercentage(_) => {}
+            BonusType::ResistanceDamageFromClassGuardianPercentage(_) => {}
+            BonusType::ResistanceDamageFromElementNeutralPercentage(_) => {}
+            BonusType::ResistanceDamageFromElementWaterPercentage(_) => {}
+            BonusType::ResistanceDamageFromElementEarthPercentage(_) => {}
+            BonusType::ResistanceDamageFromElementFirePercentage(_) => {}
+            BonusType::ResistanceDamageFromElementWindPercentage(_) => {}
+            BonusType::ResistanceDamageFromElementPoisonPercentage(_) => {}
+            BonusType::ResistanceDamageFromElementHolyPercentage(_) => {}
+            BonusType::ResistanceDamageFromElementDarkPercentage(_) => {}
+            BonusType::ResistanceDamageFromElementGhostPercentage(_) => {}
+            BonusType::ResistanceDamageFromElementUndeadPercentage(_) => {}
+            BonusType::ResistanceDamageFromRaceFormlessPercentage(_) => {}
+            BonusType::ResistanceDamageFromRaceUndeadPercentage(_) => {}
+            BonusType::ResistanceDamageFromRaceBrutePercentage(_) => {}
+            BonusType::ResistanceDamageFromRacePlantPercentage(_) => {}
+            BonusType::ResistanceDamageFromRaceInsectPercentage(_) => {}
+            BonusType::ResistanceDamageFromRaceFishPercentage(_) => {}
+            BonusType::ResistanceDamageFromRaceDemonPercentage(_) => {}
+            BonusType::ResistanceDamageFromRaceDemiHumanPercentage(_) => {}
+            BonusType::ResistanceDamageFromRaceAngelPercentage(_) => {}
+            BonusType::ResistanceDamageFromRaceDragonPercentage(_) => {}
+            BonusType::ResistanceDamageFromSizeSmallPercentage(_) => {}
+            BonusType::ResistanceDamageFromSizeMediumPercentage(_) => {}
+            BonusType::ResistanceDamageFromSizeLargePercentage(_) => {}
+            BonusType::SkillDelayIncDecPercentage(_) => {}
+            BonusType::DoubleAttackChancePercentage(_) => {}
+            BonusType::HealSkillPercentage(_) => {}
+            BonusType::HealSkillIdPercentage(_, _) => {}
+            BonusType::IgnoreDefClassNormal => {}
+            BonusType::IgnoreDefClassBoss => {}
+            BonusType::IgnoreDefClassGuardian => {}
+            BonusType::IgnoreDefRaceAngel => {}
+            BonusType::IgnoreDefRaceBrute => {}
+            BonusType::IgnoreDefRaceDemiHuman => {}
+            BonusType::IgnoreDefRaceDemon => {}
+            BonusType::IgnoreDefRaceDragon => {}
+            BonusType::IgnoreDefRaceFish => {}
+            BonusType::IgnoreDefRaceFormless => {}
+            BonusType::IgnoreDefRaceInsect => {}
+            BonusType::IgnoreDefRacePlant => {}
+            BonusType::IgnoreDefRacePlayerHuman => {}
+            BonusType::IgnoreDefRacePlayerDoram => {}
+            BonusType::IgnoreDefRaceUndead => {}
+            BonusType::IgnoreDefRaceFormlessPercentage(_) => {}
+            BonusType::IgnoreDefRaceUndeadPercentage(_) => {}
+            BonusType::IgnoreDefRaceBrutePercentage(_) => {}
+            BonusType::IgnoreDefRacePlantPercentage(_) => {}
+            BonusType::IgnoreDefRaceInsectPercentage(_) => {}
+            BonusType::IgnoreDefRaceFishPercentage(_) => {}
+            BonusType::IgnoreDefRaceDemonPercentage(_) => {}
+            BonusType::IgnoreDefRaceDemiHumanPercentage(_) => {}
+            BonusType::IgnoreDefRaceAngelPercentage(_) => {}
+            BonusType::IgnoreDefRaceDragonPercentage(_) => {}
+            BonusType::IgnoreMDefRaceFormlessPercentage(_) => {}
+            BonusType::IgnoreMDefRaceUndeadPercentage(_) => {}
+            BonusType::IgnoreMDefRaceBrutePercentage(_) => {}
+            BonusType::IgnoreMDefRacePlantPercentage(_) => {}
+            BonusType::IgnoreMDefRaceInsectPercentage(_) => {}
+            BonusType::IgnoreMDefRaceFishPercentage(_) => {}
+            BonusType::IgnoreMDefRaceDemonPercentage(_) => {}
+            BonusType::IgnoreMDefRaceDemiHumanPercentage(_) => {}
+            BonusType::IgnoreMDefRaceAngelPercentage(_) => {}
+            BonusType::IgnoreMDefRaceDragonPercentage(_) => {}
+            BonusType::IgnoreMDefClassNormalPercentage(_) => {}
+            BonusType::IgnoreMDefClassBossPercentage(_) => {}
+            BonusType::IgnoreMDefClassGuardianPercentage(_) => {}
+            BonusType::ResistanceRangeAttack(_) => {}
+            BonusType::DamageRangedAtkPercentage(_) => {}
+            BonusType::ResistanceMagicAttackPercentage(_) => {}
+            BonusType::MagicAttackReflectChancePercentage(_) => {}
+            BonusType::MeleeAttackReflectChancePercentage(_) => {}
+            BonusType::SplashRadius(_) => {}
+            BonusType::SpeedPercentage(_) => {}
+            BonusType::EnableFullHpSpRecoverOnResurrect => {}
+            BonusType::EnableSeeHidden => {}
+            BonusType::EnableNoCancelCast => {}
+            BonusType::EnableNoGemstoneRequired => {}
+            BonusType::EnableIgnoreSizeModifier => {}
+            BonusType::EnableNoKnockback => {}
+            BonusType::EnableNoWalkDelay => {}
+            BonusType::UnbreakableArmor => {}
+            BonusType::UnbreakableShoulder => {}
+            BonusType::UnbreakableHelm => {}
+            BonusType::UnbreakableShield => {}
+            BonusType::UnbreakableShoes => {}
+            BonusType::UnbreakableWeapon => {}
+            BonusType::ResistancePhysicalAttackFromMobIdPercentage(_, _) => {}
+            BonusType::DropChanceItemIdPercentage(_, _) => {}
+            BonusType::DropChanceJewelPercentage(_) => {}
+            BonusType::DropChanceOrePercentage(_) => {}
+            BonusType::DropChanceRecoveryPercentage(_) => {}
+            BonusType::DropChanceFoodPercentage(_) => {}
+            BonusType::KnockbackWhenUsingSkillId(_, _) => {}
+            BonusType::GainExpWhenKillingRaceFormlessPercentage(_) => {}
+            BonusType::GainExpWhenKillingRaceUndeadPercentage(_) => {}
+            BonusType::GainExpWhenKillingRaceBrutePercentage(_) => {}
+            BonusType::GainExpWhenKillingRacePlantPercentage(_) => {}
+            BonusType::GainExpWhenKillingRaceInsectPercentage(_) => {}
+            BonusType::GainExpWhenKillingRaceFishPercentage(_) => {}
+            BonusType::GainExpWhenKillingRaceDemonPercentage(_) => {}
+            BonusType::GainExpWhenKillingRaceDemiHumanPercentage(_) => {}
+            BonusType::GainExpWhenKillingRaceAngelPercentage(_) => {}
+            BonusType::GainExpWhenKillingRaceDragonPercentage(_) => {}
+            BonusType::GainZenyWhenKillingMonster(_, _) => {}
+            BonusType::HpDrainWhenAttackingPercentage(_, _) => {}
+            BonusType::SpDrainWhenAttackingPercentage(_, _) => {}
+            BonusType::SpDrainWhenAttackingRaceFormless(_) => {}
+            BonusType::SpDrainWhenAttackingRaceUndead(_) => {}
+            BonusType::SpDrainWhenAttackingRaceBrute(_) => {}
+            BonusType::SpDrainWhenAttackingRacePlant(_) => {}
+            BonusType::SpDrainWhenAttackingRaceInsect(_) => {}
+            BonusType::SpDrainWhenAttackingRaceFish(_) => {}
+            BonusType::SpDrainWhenAttackingRaceDemon(_) => {}
+            BonusType::SpDrainWhenAttackingRaceDemiHuman(_) => {}
+            BonusType::SpDrainWhenAttackingRaceAngel(_) => {}
+            BonusType::SpDrainWhenAttackingRaceDragon(_) => {}
+            BonusType::SpDrainWhenKillingRaceFormless(_) => {}
+            BonusType::SpDrainWhenKillingRaceUndead(_) => {}
+            BonusType::SpDrainWhenKillingRaceBrute(_) => {}
+            BonusType::SpDrainWhenKillingRacePlant(_) => {}
+            BonusType::SpDrainWhenKillingRaceInsect(_) => {}
+            BonusType::SpDrainWhenKillingRaceFish(_) => {}
+            BonusType::SpDrainWhenKillingRaceDemon(_) => {}
+            BonusType::SpDrainWhenKillingRaceDemiHuman(_) => {}
+            BonusType::SpDrainWhenKillingRaceAngel(_) => {}
+            BonusType::SpDrainWhenKillingRaceDragon(_) => {}
+            BonusType::SpBurnOnTargetWhenAttackingPercentage(_, _) => {}
+            BonusType::HpLossEveryMs(_, _) => {}
+            BonusType::HpRegenEveryMs(_, _) => {}
+            BonusType::SpLossEveryMs(_, _) => {}
+            BonusType::SpRegenEveryMs(_, _) => {}
+            BonusType::SkillIdDamagePercentage(_, _) => {}
+        }
     }
 }
