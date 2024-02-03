@@ -13,8 +13,6 @@ pub struct Status {
     pub job: u32,
     pub hp: u32,
     pub sp: u32,
-    pub max_hp: u32,
-    pub max_sp: u32,
     pub str: u16,
     pub agi: u16,
     pub vit: u16,
@@ -155,15 +153,16 @@ impl StatusSnapshot {
             bonuses: vec![],
         }
     }
-    pub fn from(status: &Status) -> Self {
+    /// Do not use this method directly, use StatusService::to_snapshot instead
+    pub fn _from(status: &Status) -> Self {
         let int = status.int; // TODO add bonuses
         let dex = status.dex;
         let mut snapshot = Self {
             job: status.job,
             hp: status.hp,
-            max_hp: status.max_hp,
+            max_hp: 0,
             sp: status.sp,
-            max_sp: status.max_sp,
+            max_sp: 0,
             base_str: status.str,
             base_agi: status.agi,
             base_vit: status.vit,
