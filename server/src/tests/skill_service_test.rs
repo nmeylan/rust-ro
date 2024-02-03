@@ -430,7 +430,7 @@ mod tests {
             // assert!(scenarii.min_dmg() - 1 <= min && min <= scenarii.min_dmg() + 1, "Expected min damage to be {} but was {} with skill {} and stats {:?}", scenarii.min_dmg(), min, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
             // assert!(scenarii.max_dmg() - 1 <= max && max <= scenarii.max_dmg() + 1, "Expected max damage to be {} but was {} with skill {} and stats {:?}", scenarii.max_dmg(), max, SkillEnum::from_id(scenarii.skill_to_use().skid()).to_name(), scenarii);
         }
-        let path = Path::new("../doc/notes/skills/offensive-skills-progress.md");
+        let path = Path::new("../doc/progress/offensive-skills-progress.md");
         let mut result_file = File::create(path).unwrap();
         result_file.write_all(format!("{}/{} tests passed, fixture file was [{}](/server/{})\n\n", results.iter().filter(|r| r.passed).count(), results.len(), fixture_file, fixture_file).as_bytes()).unwrap();
         let mut result_per_jobs: BTreeMap<String, Vec<TestResult>> = BTreeMap::new();
