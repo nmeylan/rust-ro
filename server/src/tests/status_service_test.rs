@@ -183,14 +183,18 @@ mod tests {
             assert!(actual_vit >= *vit, "Expected actual_vit {} to be greater or equal to {}", actual_vit, vit);
         }
     }
-
     #[test]
     fn test_all_stats_when_job_level_change() {
+        let fixture_file = "src/tests/common/fixtures/data/stats-for-each-job-level.json";
+        let result_file_path = "../doc/progress/stats-for-each-job-level_progress.md";
+        stats_tests(fixture_file, result_file_path, "Stats for each job level");
+    }
+
+    fn stats_tests(fixture_file: &str, result_file_path: &str, title: &str) {
         // Given
         let context = before_each();
         let mut character = create_character();
         let _packetver = GlobalConfigService::instance().packetver();
-        let fixture_file = "src/tests/common/fixtures/data/stats-for-each-job-level.json";
         let scenario = common::fixtures::battle_fixture::BattleFixture::load(fixture_file);
         let mut i = -1;
         #[derive(Clone)]
@@ -332,10 +336,10 @@ mod tests {
                 if $passed {format!("**{}**", format!("{}+{}/{}+{}", $arg1, $arg2, $arg3, $arg4))} else {format!("*{}*", format!("{}+{}/{}+{}", $arg1, $arg2, $arg3, $arg4))}
           };
         }
-        let path = Path::new("../doc/notes/stats/stats-for-each-job-level.md");
+        let path = Path::new(result_file_path);
         let mut result_file = File::create(path).unwrap();
         result_file.write_all(format!("{}/{} tests passed, fixture file was [{}](/server/{})\n\n", results.iter().filter(|r| r.passed).count(), results.len(), fixture_file, fixture_file).as_bytes()).unwrap();
-        result_file.write_all(b"# All results\n").unwrap();
+        result_file.write_all(format!("# {}\n", title).as_bytes()).unwrap();
         result_file.write_all(b"|id|job|jobLv|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|\n").unwrap();
         result_file.write_all(b"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|\n").unwrap();
         for result in results.iter_mut() {

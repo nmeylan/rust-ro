@@ -1,6 +1,6 @@
 0/2221 tests passed, fixture file was [src/tests/common/fixtures/data/stats-for-each-job-level.json](/server/src/tests/common/fixtures/data/stats-for-each-job-level.json)
 
-# All results
+# Stats for each job level
 |id|job|jobLv|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|
 |-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
 |xsv6tf|Swordsman|1|*false*|**50+0/50+0**|**50+0/50+0**|**50+0/50+0**|**50+0/50+0**|**50+0/50+0**|**50+0/50+0**|**170/170**|**95/95**|**0/0**|**99/99**|**150/150**|**0/0**|**0/0**|*0/145*|*0/145*|*0/16*|*0/5559*|*0/300*|
