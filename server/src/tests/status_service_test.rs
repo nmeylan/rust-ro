@@ -320,7 +320,17 @@ mod tests {
             };
             let mut passed = false;
             results.push(result);
-
+        }
+        macro_rules! format_result {
+            ( $passed:expr, $arg1:expr ) => {
+                if $passed {format!("**{}**", format!("{}", $arg1))} else {format!("*{}*", format!("{}", $arg1))}
+          };
+            ( $passed:expr, $arg1:expr, $arg2:expr  ) => {
+                if $passed {format!("**{}**", format!("{}/{}", $arg1, $arg2))} else {format!("*{}*", format!("{}/{}", $arg1, $arg2))}
+          };
+            ( $passed:expr, $arg1:expr, $arg2:expr , $arg3:expr , $arg4:expr  ) => {
+                if $passed {format!("**{}**", format!("{}+{}/{}+{}", $arg1, $arg2, $arg3, $arg4))} else {format!("*{}*", format!("{}+{}/{}+{}", $arg1, $arg2, $arg3, $arg4))}
+          };
         }
         let path = Path::new("../doc/notes/stats/stats-for-each-job-level.md");
         let mut result_file = File::create(path).unwrap();
@@ -328,28 +338,50 @@ mod tests {
         result_file.write_all(b"# All results\n").unwrap();
         result_file.write_all(b"|id|job|jobLv|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|\n").unwrap();
         result_file.write_all(b"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|\n").unwrap();
-        for result in results.iter() {
-            result_file.write_all(format!("|{}|{}|{}|**{}**|{}+{}/{}+{}|{}+{}/{}+{}|{}+{}/{}+{}|{}+{}/{}+{}|{}+{}/{}+{}|{}+{}/{}+{}|{}/{}|{}/{}|{}/{}|{}/{}|{}/{}|{}/{}|{}/{}|{}/{}|{}/{}|{}/{}|{}/{}|{}/{}|\n",
-                                          result.id, result.job, result.job_level,result.passed,
-                                          result.actual_str, result.actual_bonus_str, result.expected_str, result.expected_bonus_str,
-                                          result.actual_agi, result.actual_bonus_agi, result.expected_agi, result.expected_bonus_agi,
-                                          result.actual_vit, result.actual_bonus_vit, result.expected_vit, result.expected_bonus_vit,
-                                          result.actual_dex, result.actual_bonus_dex, result.expected_dex, result.expected_bonus_dex,
-                                          result.actual_int, result.actual_bonus_int, result.expected_int, result.expected_bonus_int,
-                                          result.actual_luk, result.actual_bonus_luk, result.expected_luk, result.expected_bonus_luk,
-                                          result.actual_aspd, result.expected_aspd,
-                                          result.actual_atk_left,result.expected_atk_left,
-                                          result.actual_atk_right,result.expected_atk_right,
-                                          result.actual_matk_min, result.expected_matk_min,
-                                          result.actual_matk_max, result.expected_matk_max,
-                                          result.actual_def, result.expected_def,
-                                          result.actual_mdef, result.expected_mdef,
-                                          result.actual_hit, result.expected_hit,
-                                          result.actual_flee, result.expected_flee,
-                                          result.actual_crit, result.expected_crit,
-                                          result.actual_hp, result.expected_hp,
-                                          result.actual_sp, result.expected_sp,
+        for result in results.iter_mut() {
+            let str_passed = result.actual_str + result.actual_bonus_str == result.expected_str + result.expected_bonus_str;
+            let agi_passed = result.actual_agi + result.actual_bonus_agi == result.expected_agi + result.expected_bonus_agi;
+            let vit_passed = result.actual_vit + result.actual_bonus_vit == result.expected_vit + result.expected_bonus_vit;
+            let dex_passed = result.actual_dex + result.actual_bonus_dex == result.expected_dex + result.expected_bonus_dex;
+            let int_passed = result.actual_int + result.actual_bonus_int == result.expected_int + result.expected_bonus_int;
+            let luk_passed = result.actual_luk + result.actual_bonus_luk == result.expected_luk + result.expected_bonus_luk;
+            let aspd_passed = result.actual_aspd == result.expected_aspd;
+            let atk_left_passed = result.actual_atk_left == result.expected_atk_left;
+            let atk_right_passed = result.actual_atk_right == result.expected_atk_right;
+            let def_passed = result.actual_def == result.expected_def;
+            let mdef_passed = result.actual_mdef == result.expected_mdef;
+            let hit_passed = result.actual_hit == result.expected_hit;
+            let matk_min_passed = result.actual_matk_min == result.expected_matk_min;
+            let matk_max_passed = result.actual_matk_max == result.expected_matk_max;
+            let flee_passed = result.actual_flee == result.expected_flee;
+            let crit_passed = result.actual_crit == result.expected_crit;
+            let hp_passed = result.actual_hp == result.expected_hp;
+            let sp_passed = result.actual_sp == result.expected_sp;
+            result.passed = str_passed && agi_passed && vit_passed && dex_passed && int_passed && luk_passed && aspd_passed && atk_left_passed && atk_right_passed
+                && matk_max_passed && matk_min_passed && def_passed && mdef_passed && hit_passed && flee_passed && crit_passed
+                && hp_passed && sp_passed;
+            result_file.write_all(format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
+                                          result.id, result.job, result.job_level, format_result!(result.passed, result.passed),
+                                          format_result!(str_passed, result.actual_str, result.actual_bonus_str, result.expected_str, result.expected_bonus_str),
+                                          format_result!(agi_passed, result.actual_agi, result.actual_bonus_agi, result.expected_agi, result.expected_bonus_agi),
+                                          format_result!(vit_passed, result.actual_vit, result.actual_bonus_vit, result.expected_vit, result.expected_bonus_vit),
+                                          format_result!(dex_passed, result.actual_dex, result.actual_bonus_dex, result.expected_dex, result.expected_bonus_dex),
+                                          format_result!(int_passed, result.actual_int, result.actual_bonus_int, result.expected_int, result.expected_bonus_int),
+                                          format_result!(luk_passed, result.actual_luk, result.actual_bonus_luk, result.expected_luk, result.expected_bonus_luk),
+                                          format_result!(aspd_passed, result.actual_aspd, result.expected_aspd),
+                                          format_result!(atk_left_passed, result.actual_atk_left,result.expected_atk_left),
+                                          format_result!(atk_right_passed, result.actual_atk_right,result.expected_atk_right),
+                                          format_result!(matk_min_passed,result.actual_matk_min, result.expected_matk_min),
+                                          format_result!(matk_max_passed,result.actual_matk_max, result.expected_matk_max),
+                                          format_result!(def_passed, result.actual_def, result.expected_def),
+                                          format_result!(mdef_passed, result.actual_mdef, result.expected_mdef),
+                                          format_result!(hit_passed, result.actual_hit, result.expected_hit),
+                                          format_result!(flee_passed, result.actual_flee, result.expected_flee),
+                                          format_result!(crit_passed, result.actual_crit, result.expected_crit),
+                                          format_result!(hp_passed, result.actual_hp, result.expected_hp),
+                                          format_result!(sp_passed, result.actual_sp, result.expected_sp),
             ).as_bytes()).unwrap();
         }
     }
 }
+
