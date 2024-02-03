@@ -81,19 +81,20 @@ impl CharacterService {
     }
 
     pub fn print(&self, character: &Character) {
+        let status_snapshot = self.status_service.to_snapshot(&character.status);
         let mut stdout = io::stdout();
         writeln!(stdout, "************** {} - {} ****************", character.name, character.char_id).unwrap();
         writeln!(stdout, "Status:").unwrap();
-        writeln!(stdout, "  str: {}", character.status.str).unwrap();
-        writeln!(stdout, "  agi: {}", character.status.agi).unwrap();
-        writeln!(stdout, "  vit: {}", character.status.vit).unwrap();
-        writeln!(stdout, "  int: {}", character.status.int).unwrap();
-        writeln!(stdout, "  dex: {}", character.status.dex).unwrap();
-        writeln!(stdout, "  luk: {}", character.status.luk).unwrap();
-        writeln!(stdout, "  speed: {}", character.status.speed).unwrap();
-        writeln!(stdout, "  hp: {}/{}", character.status.hp, character.status.max_hp).unwrap();
-        writeln!(stdout, "  sp: {}/{}", character.status.sp, character.status.max_sp).unwrap();
-        writeln!(stdout, "  zeny: {}", character.status.zeny).unwrap();
+        writeln!(stdout, "  str: {}", status_snapshot.str()).unwrap();
+        writeln!(stdout, "  agi: {}", status_snapshot.agi()).unwrap();
+        writeln!(stdout, "  vit: {}", status_snapshot.vit()).unwrap();
+        writeln!(stdout, "  int: {}", status_snapshot.int()).unwrap();
+        writeln!(stdout, "  dex: {}", status_snapshot.dex()).unwrap();
+        writeln!(stdout, "  luk: {}", status_snapshot.luk()).unwrap();
+        writeln!(stdout, "  speed: {}", status_snapshot.speed()).unwrap();
+        writeln!(stdout, "  hp: {}/{}", status_snapshot.hp(), status_snapshot.max_hp()).unwrap();
+        writeln!(stdout, "  sp: {}/{}", status_snapshot.sp(), status_snapshot.max_sp()).unwrap();
+        writeln!(stdout, "  zeny: {}", status_snapshot.zeny()).unwrap();
         writeln!(stdout, "  weight: {}/{}", character.weight(), self.max_weight(character)).unwrap();
         writeln!(stdout, "Inventory:").unwrap();
         type PredicateClosure = Box<dyn Fn(&(usize, &InventoryItemModel)) -> bool>;
@@ -726,19 +727,19 @@ impl CharacterService {
         packet_attack_range.fill_raw();
         let mut packet_maxhp = PacketZcParChange::new(self.configuration_service.packetver());
         packet_maxhp.set_var_id(StatusTypes::Maxhp.value() as u16);
-        packet_maxhp.set_count(character.status.max_hp as i32);
+        packet_maxhp.set_count(character_status.max_hp() as i32);
         packet_maxhp.fill_raw();
         let mut packet_maxsp = PacketZcParChange::new(self.configuration_service.packetver());
         packet_maxsp.set_var_id(StatusTypes::Maxsp.value() as u16);
-        packet_maxsp.set_count(character.status.max_sp as i32);
+        packet_maxsp.set_count(character_status.max_sp() as i32);
         packet_maxsp.fill_raw();
         let mut packet_hp = PacketZcParChange::new(self.configuration_service.packetver());
         packet_hp.set_var_id(StatusTypes::Hp.value() as u16);
-        packet_hp.set_count(character.status.hp as i32);
+        packet_hp.set_count(character_status.hp() as i32);
         packet_hp.fill_raw();
         let mut packet_sp = PacketZcParChange::new(self.configuration_service.packetver());
         packet_sp.set_var_id(StatusTypes::Sp.value() as u16);
-        packet_sp.set_count(character.status.sp as i32);
+        packet_sp.set_count(character_status.sp() as i32);
         packet_sp.fill_raw();
         let mut packet_speed = PacketZcParChange::new(self.configuration_service.packetver());
         packet_speed.set_var_id(StatusTypes::Speed.value() as u16);
