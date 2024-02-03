@@ -32,7 +32,7 @@ fn before_each_with_latch(latch_size: usize) -> StatusServiceTestContext {
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
     use std::fs::File;
-    use std::io::Write;
+    use std::io::{Seek, SeekFrom, Write};
     use std::path::Path;
     use models::enums::class::JobName;
     use models::enums::weapon::WeaponType;
@@ -338,10 +338,12 @@ mod tests {
         }
         let path = Path::new(result_file_path);
         let mut result_file = File::create(path).unwrap();
-        result_file.write_all(format!("{}/{} tests passed, fixture file was [{}](/server/{})\n\n", results.iter().filter(|r| r.passed).count(), results.len(), fixture_file, fixture_file).as_bytes()).unwrap();
+        result_file.write_all(b"                              \n").unwrap();
+        result_file.write_all(format!("fixture file was [{}](/server/{})\n\n", fixture_file, fixture_file).as_bytes()).unwrap();
         result_file.write_all(format!("# {}\n", title).as_bytes()).unwrap();
         result_file.write_all(b"|id|job|jobLv|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|\n").unwrap();
         result_file.write_all(b"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|\n").unwrap();
+        let mut passed_count = 0;
         for result in results.iter_mut() {
             let str_passed = result.actual_str + result.actual_bonus_str == result.expected_str + result.expected_bonus_str;
             let agi_passed = result.actual_agi + result.actual_bonus_agi == result.expected_agi + result.expected_bonus_agi;
@@ -364,6 +366,9 @@ mod tests {
             result.passed = str_passed && agi_passed && vit_passed && dex_passed && int_passed && luk_passed && aspd_passed && atk_left_passed && atk_right_passed
                 && matk_max_passed && matk_min_passed && def_passed && mdef_passed && hit_passed && flee_passed && crit_passed
                 && hp_passed && sp_passed;
+            if result.passed {
+                passed_count += 1;
+            }
             result_file.write_all(format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
                                           result.id, result.job, result.job_level, format_result!(result.passed, result.passed),
                                           format_result!(str_passed, result.actual_str, result.actual_bonus_str, result.expected_str, result.expected_bonus_str),
@@ -386,6 +391,8 @@ mod tests {
                                           format_result!(sp_passed, result.actual_sp, result.expected_sp),
             ).as_bytes()).unwrap();
         }
+        result_file.seek(SeekFrom::Start(0));
+        result_file.write_all(format!("{}/{} tests passed\n", passed_count, results.len()).as_bytes()).unwrap();
     }
 }
 

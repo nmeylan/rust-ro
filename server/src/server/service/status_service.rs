@@ -56,11 +56,19 @@ impl StatusService {
         snapshot.set_max_hp((job_config.base_hp()[index_for_base_level] as f32 * (1.0 + snapshot.vit() as f32 / 100.0) * hp_rebirth_modifier).floor() as u32);
         // TODO https://irowiki.org/classic/Max_SP
         snapshot.set_max_sp((job_config.base_sp()[index_for_base_level] as f32 * (1.0 + snapshot.int() as f32 / 100.0) * hp_rebirth_modifier ).floor() as u32);
+        // TODO 1 + YourLUK*0.3 + Critical Increasing Cards)*CritModifier - TargetLUK/5
+        snapshot.set_crit(Self::truncate(snapshot.crit() + (1.0 + snapshot.luk() as f32 * 0.3), 1));
+        snapshot.set_hit(snapshot.hit() + status.base_level as u16 + snapshot.dex());
+        snapshot.set_flee(snapshot.flee() + status.base_level as u16 + snapshot.agi());
         snapshot.set_aspd(self.aspd(&snapshot));
         snapshot.set_matk_min(((snapshot.int() + ((snapshot.int() as f32 / 7.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
         snapshot.set_matk_max(((snapshot.int() + ((snapshot.int() as f32 / 5.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
         // TODO add bonuses from item and cards snapshot.bonuses.push(...)
         snapshot
+    }
+    fn truncate(x: f32, decimals: u32) -> f32 {
+        let y = 10i32.pow(decimals) as f32;
+        (x * y).round() / y
     }
 
     #[inline]
