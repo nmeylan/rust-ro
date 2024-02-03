@@ -1659,7 +1659,7 @@ function n_A_JobSet(FORM_DATA) {
     let job = eval(FORM_DATA.A_JOB);
     let isRebirth = 0;
     if (21 <= job && job <= 40) {
-        let isRebirth = 1;
+        isRebirth = 1;
         if (34 <= job && job <= 40)
             job -= 34;
     }
