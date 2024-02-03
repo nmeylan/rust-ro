@@ -11,21 +11,26 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "generate";
+const command = "convert";
 let formData, testCase, testCases, file;
 switch (command) {
     case "convert":
-        file = "battle-all-skills-weapon-no-passives.json";
-        testCases = JSON.parse(fs.readFileSync(path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/" + file)));
-        let updatedTestCases = [];
-        testCases.forEach(tc => {
-            formData = JSON.parse(atob(tc.formData));
-            formData._id = tc._id;
-            testCase = GetTestCase(formData);
-            updatedTestCases.push(testCase)
+        const dir = path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/");
+        fs.readdir(dir, (err, files) => {
+            files.forEach(file => {
+                testCases = JSON.parse(fs.readFileSync(path.join(dir,file)));
+                let updatedTestCases = [];
+                testCases.forEach(tc => {
+                    formData = JSON.parse(atob(tc.formData));
+                    formData._id = tc._id;
+                    testCase = GetTestCase(formData);
+                    updatedTestCases.push(testCase)
+                });
+
+                fs.writeFileSync(path.join(dir,file), JSON.stringify(updatedTestCases, null, 2))
+            });
         });
 
-        fs.writeFileSync(path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/" + file), JSON.stringify(updatedTestCases, null, 2))
         break;
     case "console":
         formData = JSON.parse(fs.readFileSync('./test-data.json', 'utf-8'))
