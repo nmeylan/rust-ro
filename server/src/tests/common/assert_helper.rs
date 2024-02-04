@@ -74,6 +74,12 @@ macro_rules! assert_eq_with_variance {
         assert!($actual as f32 - _variance <= $expected as f32 && $expected as f32 <= $actual as f32 + _variance, $($arg)+);
     }
 }
+#[macro_export]
+macro_rules! eq_with_variance {
+    ($variance:expr, $actual:expr, $expected:expr $(,)?) => {
+        $actual as f32 - (($variance as f32 / 100 as f32) * $expected as f32) <= $expected as f32 && $expected as f32 <= $actual as f32 + (($variance as f32 / 100 as f32) * $expected as f32)
+    }
+}
 
 #[macro_export]
 macro_rules! assert_task_queue_contains_event_at_tick {

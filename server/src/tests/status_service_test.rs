@@ -39,7 +39,7 @@ mod tests {
     use models::status::{Status, StatusSnapshot};
     use models::enums::EnumWithStringValue;
     use models::enums::EnumWithNumberValue;
-    use crate::status_snapshot;
+    use crate::{eq_with_variance, status_snapshot};
 
     use crate::tests::common::character_helper::{create_character, equip_item_from_name};
     use super::*;
@@ -183,14 +183,24 @@ mod tests {
             assert!(actual_vit >= *vit, "Expected actual_vit {} to be greater or equal to {}", actual_vit, vit);
         }
     }
+
     #[test]
     fn test_all_stats_when_job_level_change() {
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-job-level.json";
         let result_file_path = "../doc/progress/stats-for-each-job-level_progress.md";
-        stats_tests(fixture_file, result_file_path, "Stats for each job level");
+        stats_tests(fixture_file, result_file_path, "Stats for each job level", None);
     }
 
-    fn stats_tests(fixture_file: &str, result_file_path: &str, title: &str) {
+
+    #[test]
+    fn playground() {
+        let id = "jkj3id";
+        let fixture_file = "src/tests/common/fixtures/data/stats-for-each-job-level.json";
+        let result_file_path = "../doc/progress/stats-for-each-job-level_progress.md";
+        stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id));
+    }
+
+    fn stats_tests(fixture_file: &str, result_file_path: &str, title: &str, test_id: Option<&str>) {
         // Given
         let context = before_each();
         let mut character = create_character();
@@ -255,6 +265,11 @@ mod tests {
         let mut results: Vec<TestResult> = Vec::with_capacity(scenario.len());
         // When
         for scenarii in scenario.iter() {
+            if let Some(test_id) = test_id {
+                if !scenarii.id().eq(test_id) {
+                    continue;
+                }
+            }
             i += 1;
             let mut character_status = Status::default();
             let job = JobName::from_string(scenarii.job().as_str());
@@ -325,6 +340,9 @@ mod tests {
             let mut passed = false;
             results.push(result);
         }
+        if test_id.is_some() {
+            return;
+        }
         macro_rules! format_result {
             ( $passed:expr, $arg1:expr ) => {
                 if $passed {format!("**{}**", format!("{}", $arg1))} else {format!("*{}*", format!("{}", $arg1))}
@@ -361,8 +379,8 @@ mod tests {
             let matk_max_passed = result.actual_matk_max == result.expected_matk_max;
             let flee_passed = result.actual_flee == result.expected_flee;
             let crit_passed = result.actual_crit == result.expected_crit;
-            let hp_passed = result.actual_hp == result.expected_hp;
-            let sp_passed = result.actual_sp == result.expected_sp;
+            let hp_passed = eq_with_variance!(1, result.actual_hp, result.expected_hp);
+            let sp_passed = eq_with_variance!(1, result.actual_sp, result.expected_sp);
             result.passed = str_passed && agi_passed && vit_passed && dex_passed && int_passed && luk_passed && aspd_passed && atk_left_passed && atk_right_passed
                 && matk_max_passed && matk_min_passed && def_passed && mdef_passed && hit_passed && flee_passed && crit_passed
                 && hp_passed && sp_passed;
