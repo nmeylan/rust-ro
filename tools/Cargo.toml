@@ -28,6 +28,9 @@ path = "packets/main.rs"
 name = "maps-tool"
 path = "map-cache/main.rs"
 [[bin]]
+name = "job-config-tool"
+path = "job-config/main.rs"
+[[bin]]
 name = "skills-struct-generator"
 path = "skills/main.rs"
 
