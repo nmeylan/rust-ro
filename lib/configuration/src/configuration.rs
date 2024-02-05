@@ -10,8 +10,8 @@ use models::enums::unit::UnitTargetType;
 use models::enums::weapon::{AmmoType, WeaponType};
 use models::enums::EnumWithNumberValue;
 use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
-use serde::{Deserialize, Deserializer};
-use std::collections::HashMap;
+use serde::{Deserialize, Deserializer, Serialize};
+use std::collections::{BTreeMap, HashMap};
 use std::path::Path;
 use std::{env, fs};
 
@@ -149,13 +149,13 @@ pub struct ProxyConfig {
     pub local_map_server_port: u16,
 }
 
-#[derive(Deserialize, Debug, Clone)]
-struct InternalJobsConfig {
+#[derive(Deserialize, Serialize, Debug, Clone, GettersAll)]
+pub struct InternalJobsConfig {
     level: HashMap<String, JobLevel>,
-    jobs: HashMap<String, InternalJobConfig>,
+    pub jobs: BTreeMap<String, InternalJobConfig>,
 }
 
-#[derive(Deserialize, Debug, Clone, GettersAll)]
+#[derive(Deserialize, Serialize, Debug, Clone, GettersAll)]
 pub struct JobLevel {
     #[serde(rename = "maxJobLevel")]
     max_job_level: u8,
@@ -163,17 +163,25 @@ pub struct JobLevel {
     min_job_level_to_change_job: u8,
 }
 
-#[derive(Deserialize, Debug, Clone)]
-struct InternalJobConfig {
+#[derive(Deserialize, Serialize, Debug, Clone, SettersAll, GettersAll)]
+pub struct InternalJobConfig {
+    #[serde(skip_serializing_if = "Option::is_none")]
     base_weight: Option<u32>,
     id: Option<u32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     inherit: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     inherit_sp: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     inherit_hp: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     base_hp: Option<Vec<u32>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     base_sp: Option<Vec<u32>>,
-    bonus_stats: Option<Vec<HashMap<String, u16>>>,
-    base_aspd: Option<HashMap<String, u32>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    bonus_stats: Option<Vec<BTreeMap<String, u16>>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    base_aspd: Option<BTreeMap<String, u32>>,
 }
 
 #[derive(Deserialize, Debug, Clone, GettersAll)]
@@ -183,8 +191,8 @@ pub struct JobConfig {
     base_weight: u32,
     base_hp: Vec<u32>,
     base_sp: Vec<u32>,
-    base_aspd: HashMap<String, u32>,
-    bonus_stats: Vec<HashMap<String, u16>>,
+    base_aspd: BTreeMap<String, u32>,
+    bonus_stats: Vec<BTreeMap<String, u16>>,
     job_level: JobLevel,
 }
 
