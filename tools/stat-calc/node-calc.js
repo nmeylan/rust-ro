@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "convert";
+const command = "generate";
 let formData, testCase, testCases, file;
 switch (command) {
     case "convert":
@@ -46,7 +46,8 @@ switch (command) {
         break;
     case "generate":
         // generate_offensive_skills()
-        generate_job_level_stat_bonus();
+        // generate_job_level_stat_bonus();
+        generate_item_stat_bonus();
         break;
 }
 
@@ -146,8 +147,8 @@ function generate_offensive_skills() {
         }
         let weapons = [];
         for (let weaponType of weaponTypes) {
-            for (let i = 0; i < global.ItemOBJ.length; i++) {
-                if (global.ItemOBJ[i][1] === weaponType) {
+            for (let i = 0; i < ItemOBJ.length; i++) {
+                if (ItemOBJ[i][1] === weaponType) {
                     weapons.push({index: i, type: weaponType});
                 }
             }
@@ -182,18 +183,18 @@ function generate_offensive_skills() {
             }
             // *****************for each cards********************
             // for (let c = 0; c < 121; c++) {
-            //     formData.A_acces1_card = global.CardSortOBJ[7][c] && global.CardSortOBJ[7][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[7][c]][0] : cardOBJ[global.CardSortOBJ[7][0]][0]
-            //     formData.A_acces2_card = global.CardSortOBJ[7][c] && global.CardSortOBJ[7][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[7][c]][0] : cardOBJ[global.CardSortOBJ[7][0]][0]
-            //     formData.A_left_card = global.CardSortOBJ[3][c] && global.CardSortOBJ[3][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[3][c]][0] : cardOBJ[global.CardSortOBJ[3][0]][0]
-            //     formData.A_body_card = global.CardSortOBJ[4][c] && global.CardSortOBJ[4][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[4][c]][0] : cardOBJ[global.CardSortOBJ[4][0]][0]
-            //     formData.A_head1_card = global.CardSortOBJ[2][c] && global.CardSortOBJ[2][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[2][c]][0] : cardOBJ[global.CardSortOBJ[2][0]][0]
-            //     formData.A_head2_card = global.CardSortOBJ[2][c] && global.CardSortOBJ[2][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[2][c]][0] : cardOBJ[global.CardSortOBJ[2][0]][0]
-            //     formData.A_shoes_card = global.CardSortOBJ[6][c] && global.CardSortOBJ[6][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[6][c]][0] : cardOBJ[global.CardSortOBJ[6][0]][0]
-            //     formData.A_shoulder_card = global.CardSortOBJ[5][c] && global.CardSortOBJ[5][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[5][c]][0] : cardOBJ[global.CardSortOBJ[5][0]][0]
-            //     formData.A_weapon1_card1 = global.CardSortOBJ[1][c] && global.CardSortOBJ[1][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[0][c]][0] : cardOBJ[global.CardSortOBJ[0][0]][0]
-            //     formData.A_weapon1_card2 = global.CardSortOBJ[1][c] && global.CardSortOBJ[1][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[1][c]][0] : cardOBJ[global.CardSortOBJ[1][0]][0]
-            //     formData.A_weapon1_card3 = global.CardSortOBJ[1][c] && global.CardSortOBJ[1][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[1][c]][0] : cardOBJ[global.CardSortOBJ[1][0]][0]
-            //     formData.A_weapon1_card4 = global.CardSortOBJ[1][c] && global.CardSortOBJ[1][c] !== "NULL" ? cardOBJ[global.CardSortOBJ[1][c]][0] : cardOBJ[global.CardSortOBJ[1][0]][0]
+            //     formData.A_acces1_card = CardSortOBJ[7][c] && CardSortOBJ[7][c] !== "NULL" ? cardOBJ[CardSortOBJ[7][c]][0] : cardOBJ[CardSortOBJ[7][0]][0]
+            //     formData.A_acces2_card = CardSortOBJ[7][c] && CardSortOBJ[7][c] !== "NULL" ? cardOBJ[CardSortOBJ[7][c]][0] : cardOBJ[CardSortOBJ[7][0]][0]
+            //     formData.A_left_card = CardSortOBJ[3][c] && CardSortOBJ[3][c] !== "NULL" ? cardOBJ[CardSortOBJ[3][c]][0] : cardOBJ[CardSortOBJ[3][0]][0]
+            //     formData.A_body_card = CardSortOBJ[4][c] && CardSortOBJ[4][c] !== "NULL" ? cardOBJ[CardSortOBJ[4][c]][0] : cardOBJ[CardSortOBJ[4][0]][0]
+            //     formData.A_head1_card = CardSortOBJ[2][c] && CardSortOBJ[2][c] !== "NULL" ? cardOBJ[CardSortOBJ[2][c]][0] : cardOBJ[CardSortOBJ[2][0]][0]
+            //     formData.A_head2_card = CardSortOBJ[2][c] && CardSortOBJ[2][c] !== "NULL" ? cardOBJ[CardSortOBJ[2][c]][0] : cardOBJ[CardSortOBJ[2][0]][0]
+            //     formData.A_shoes_card = CardSortOBJ[6][c] && CardSortOBJ[6][c] !== "NULL" ? cardOBJ[CardSortOBJ[6][c]][0] : cardOBJ[CardSortOBJ[6][0]][0]
+            //     formData.A_shoulder_card = CardSortOBJ[5][c] && CardSortOBJ[5][c] !== "NULL" ? cardOBJ[CardSortOBJ[5][c]][0] : cardOBJ[CardSortOBJ[5][0]][0]
+            //     formData.A_weapon1_card1 = CardSortOBJ[1][c] && CardSortOBJ[1][c] !== "NULL" ? cardOBJ[CardSortOBJ[0][c]][0] : cardOBJ[CardSortOBJ[0][0]][0]
+            //     formData.A_weapon1_card2 = CardSortOBJ[1][c] && CardSortOBJ[1][c] !== "NULL" ? cardOBJ[CardSortOBJ[1][c]][0] : cardOBJ[CardSortOBJ[1][0]][0]
+            //     formData.A_weapon1_card3 = CardSortOBJ[1][c] && CardSortOBJ[1][c] !== "NULL" ? cardOBJ[CardSortOBJ[1][c]][0] : cardOBJ[CardSortOBJ[1][0]][0]
+            //     formData.A_weapon1_card4 = CardSortOBJ[1][c] && CardSortOBJ[1][c] !== "NULL" ? cardOBJ[CardSortOBJ[1][c]][0] : cardOBJ[CardSortOBJ[1][0]][0]
             //     formData.A_ActiveSkillLV = SkillOBJ[JobSkillActiveOBJ[n][i]][1];
             //     console.log("generate test case for job", n, "skill", i, "(", SkillOBJ[JobSkillActiveOBJ[n][i]][2], ")");
             //     let testCase = GetTestCase(formData);
@@ -307,4 +308,104 @@ function generate_job_level_stat_bonus() {
     console.log("Generated", count, "test cases, in", (Date.now() - start) + "ms")
     fs.writeFileSync(path.join(process.cwd(), "..\\..\\server\\src\\tests\\common\\fixtures\\data\\stats-for-each-job-level.json"), JSON.stringify(testcases))
 
+}
+
+function generate_item_stat_bonus() {
+    let count = 0;
+    let start = Date.now();
+    let testcases = [];
+    let items = [];
+    let isRebirth = 0;
+    for (let n = 7; n <= JobName.length; n++) {
+        if (n >= 34 && n <= 40) {
+            continue;
+        }
+        if(n >=21 && n <=40) {
+            isRebirth = 1;
+        }
+        let maxJobLvl = 0;
+        if (n == 0) maxJobLvl = 10;
+        else if (n <= 19 || (41 <= n && n <= 43)) maxJobLvl = 50;
+        else if (n == 20) maxJobLvl = 71;
+        else maxJobLvl = 70;
+        let formData = {};
+        formData.A_JOB = n;
+        formData.A_BaseLV = 95;
+        formData.A_JobLV = maxJobLvl;
+        formData.A_STR = 50;
+        formData.A_AGI = 50;
+        formData.A_VIT = 50;
+        formData.A_INT = 50;
+        formData.A_DEX = 50;
+        formData.A_LUK = 50;
+        formData.A_Arrow = 0;
+        formData.B_Enemy = 272;
+
+        formData.A_weapon1 = "0";
+        formData.A_WeaponType = "0";
+        formData.A_ActiveSkill = 0;
+        formData.A_ActiveSkillLV = 0;
+
+        for (let i = 0; i < ItemOBJ.length; i++) {
+            if (items.includes(i)) {
+                continue;
+            }
+            formData.A_acces1 = "326";
+            formData.A_acces2 = "326";
+            formData.A_left = "305";
+            formData.A_body = "279";
+            formData.A_head1 = "142";
+            formData.A_head2 = "243";
+            formData.A_head3 = "268";
+            formData.A_shoes = "317";
+            formData.A_shoulder = "311";
+            let canEquip = false;
+            if (ItemOBJ[i][1] == 50 && (checkIfClassCanWearEquipment(isRebirth, ItemOBJ[i][2], n, i) == 1)) {
+                formData.A_head1 = i;
+                canEquip = true;
+            } else if (ItemOBJ[i][1] == 51 && (checkIfClassCanWearEquipment(isRebirth, ItemOBJ[i][2], n, i) == 1)) {
+                formData.A_head2 = i;
+                canEquip = true;
+            } else if (ItemOBJ[i][1] == 52 && (checkIfClassCanWearEquipment(isRebirth, ItemOBJ[i][2], n, i) == 1)) {
+                formData.A_head3 = i;
+                canEquip = true;
+            } else if (ItemOBJ[i][1] == 61 && checkIfClassCanWearEquipment(isRebirth, ItemOBJ[i][2], n, i) == 1) {
+                formData.A_left = i;
+                canEquip = true;
+            } else if (ItemOBJ[i][1] == 60 && checkIfClassCanWearEquipment(isRebirth, ItemOBJ[i][2], n, i) == 1) {
+                formData.A_body = i;
+                canEquip = true;
+            } else if (ItemOBJ[i][1] == 62 && checkIfClassCanWearEquipment(isRebirth, ItemOBJ[i][2], n, i) == 1) {
+                formData.A_shoulder = i;
+                canEquip = true;
+            } else if (ItemOBJ[i][1] == 63 && checkIfClassCanWearEquipment(isRebirth, ItemOBJ[i][2], n, i) == 1) {
+                formData.A_shoes = i;
+                canEquip = true;
+            } else if (ItemOBJ[i][1] == 64 && checkIfClassCanWearEquipment(isRebirth, ItemOBJ[i][2], n, i) == 1) {
+                formData.A_acces1 = i;
+                canEquip = true;
+            }
+            if (canEquip) {
+                items.push(i);
+                let testCase = GetTestCase(formData);
+                testcases.push(testCase);
+                count += 1;
+            }
+        }
+    }
+
+    let p = path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/stats-for-items.json");
+    fs.writeFileSync(p, JSON.stringify(testcases));
+    console.log("Generated", count, "test cases, in", (Date.now() - start) + "ms", "at", p);
+}
+function checkIfClassCanWearEquipment(isRebirth, nJEIS, n, i) {
+    if (isRebirth == 0) {
+        if (ItemOBJ[i][11] == 200)
+            return 0;
+    }
+    for (let nJEISi = 0; JobEquipItemOBJ[n][nJEISi] != 999; nJEISi++) {
+        if (JobEquipItemOBJ[n][nJEISi] == nJEIS)
+            return 1;
+    }
+    return 0;
 }

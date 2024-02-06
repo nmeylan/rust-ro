@@ -463,7 +463,9 @@ td data {
     padding: 2px;
 }
 .testcase-table-container {
-    max-height: 150px;
+    min-height: 150px;
+    height: 150px;
+    resize: vertical;
     overflow-y: scroll;
     padding: 0;
     margin: 0;
