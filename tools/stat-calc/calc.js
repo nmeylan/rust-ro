@@ -929,7 +929,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         w += 30 * SkillSearch("Kaina", stats);
 
     if (stats.equipments.shoes.index == 536) {
-        wSPVS = n_A_JobSearch(stats.job);
+        let wSPVS = n_A_JobSearch(stats.job);
         if (wSPVS == 1 || wSPVS == 2 || wSPVS == 6)
             w += 2 * stats.jobLevel;
     }
@@ -5437,7 +5437,7 @@ function GetTestCase(formData) {
     for (let entry of Object.entries(testCase.equipments)) {
         if (entry[1].name && entry[1].name.startsWith("(No")) {
             delete testCase.equipments[entry[0]];
-        } else {
+        } else if (entry[1].cards) {
             entry[1].cards = entry[1].cards.filter(c => c.index !== 0);
             if (entry[1].cards.length === 0) {
                 delete entry[1].cards;
