@@ -31,9 +31,12 @@ fn before_each_with_latch(latch_size: usize) -> StatusServiceTestContext {
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
+    use std::fmt::format;
     use std::fs::File;
     use std::io::{Seek, SeekFrom, Write};
+    use std::mem;
     use std::path::Path;
+    use std::ptr::eq;
     use models::enums::class::JobName;
     use models::enums::weapon::WeaponType;
     use models::status::{Status, StatusSnapshot};
@@ -41,7 +44,7 @@ mod tests {
     use models::enums::EnumWithNumberValue;
     use crate::{eq_with_variance, status_snapshot};
 
-    use crate::tests::common::character_helper::{create_character, equip_item_from_name};
+    use crate::tests::common::character_helper::{create_character, equip_item_from_id, equip_item_from_name};
     use super::*;
 
     #[test]
@@ -188,7 +191,30 @@ mod tests {
     fn test_all_stats_when_job_level_change() {
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-job-level.json";
         let result_file_path = "../doc/progress/stats-for-each-job-level_progress.md";
-        stats_tests(fixture_file, result_file_path, "Stats for each job level", None);
+        stats_tests(fixture_file, result_file_path, "Stats for each job level", None, |result| format!("JobLvl {}", result.job_level));
+    }
+
+    #[test]
+    fn test_all_stats_when_equip_items() {
+        let context = before_each();
+        let fixture_file = "src/tests/common/fixtures/data/stats-for-items.json";
+        let result_file_path = "../doc/progress/stats-for-each-items_progress.md";
+        stats_tests(fixture_file, result_file_path, "Stats for each items", None, |result| {
+            let mut desc: Vec<String> = vec![];
+            if result.status.all_equipped_items().len() == 0 {
+                return "Can't find item with id".to_string();
+            }
+            result.status.all_equipped_items().iter().for_each(|wearable| {
+                let item = GlobalConfigService::instance().get_item(wearable.item_id());
+
+                desc.push(format!("{}({})", item.name_aegis, item.bonuses.iter().map(|b| format!("{:?}", b))
+                    .collect::<Vec<String>>()
+                    .join(",")));
+            });
+            desc.iter().map(|d| format!("{}", d))
+                .collect::<Vec<String>>()
+                .join("\n")
+        });
     }
 
 
@@ -197,71 +223,17 @@ mod tests {
         let id = "jkj3id";
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-job-level.json";
         let result_file_path = "../doc/progress/stats-for-each-job-level_progress.md";
-        stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id));
+        stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id), |result| format!("JobLvl {}", result.job_level));
     }
 
-    fn stats_tests(fixture_file: &str, result_file_path: &str, title: &str, test_id: Option<&str>) {
+    fn stats_tests<F>(fixture_file: &str, result_file_path: &str, title: &str, test_id: Option<&str>, description_fn : F)
+        where F: Fn(&TestResult) -> String {
         // Given
         let context = before_each();
-        let mut character = create_character();
         let _packetver = GlobalConfigService::instance().packetver();
         let scenario = common::fixtures::battle_fixture::BattleFixture::load(fixture_file);
         let mut i = -1;
-        #[derive(Clone)]
-        struct TestResult {
-            id: String,
-            job: String,
-            job_level: usize,
-            passed: bool,
-            actual_str: u16,
-            actual_bonus_str: u16,
-            actual_agi: u16,
-            actual_bonus_agi: u16,
-            actual_vit: u16,
-            actual_bonus_vit: u16,
-            actual_int: u16,
-            actual_bonus_int: u16,
-            actual_dex: u16,
-            actual_bonus_dex: u16,
-            actual_luk: u16,
-            actual_bonus_luk: u16,
-            actual_aspd: f32,
-            actual_atk_left: u16,
-            actual_atk_right: u16,
-            actual_matk_min: u16,
-            actual_matk_max: u16,
-            actual_def: u16,
-            actual_mdef: u16,
-            actual_hit: u16,
-            actual_flee: u16,
-            actual_hp: u16,
-            actual_sp: u16,
-            actual_crit: f32,
-            expected_str: u16,
-            expected_bonus_str: u16,
-            expected_agi: u16,
-            expected_bonus_agi: u16,
-            expected_vit: u16,
-            expected_bonus_vit: u16,
-            expected_int: u16,
-            expected_bonus_int: u16,
-            expected_dex: u16,
-            expected_bonus_dex: u16,
-            expected_luk: u16,
-            expected_bonus_luk: u16,
-            expected_aspd: f32,
-            expected_atk_left: u16,
-            expected_atk_right: u16,
-            expected_matk_min: u16,
-            expected_matk_max: u16,
-            expected_def: u16,
-            expected_mdef: u16,
-            expected_hit: u16,
-            expected_flee: u16,
-            expected_hp: u16,
-            expected_sp: u16,
-            expected_crit: f32,
-        }
+
         let mut results: Vec<TestResult> = Vec::with_capacity(scenario.len());
         // When
         for scenarii in scenario.iter() {
@@ -271,7 +243,10 @@ mod tests {
                 }
             }
             i += 1;
-            let mut character_status = Status::default();
+            let mut character = create_character();
+            scenarii.all_equipments().iter().for_each(|e| { equip_item_from_id(&mut character, e.item_id() as u32); });
+
+            let mut character_status = &mut character.status;
             let job = JobName::from_string(scenarii.job().as_str());
             character_status.job = job.value() as u32;
             character_status.job_level = scenarii.job_level();
@@ -282,24 +257,25 @@ mod tests {
             character_status.int = scenarii.base_int();
             character_status.luk = scenarii.base_luk();
             character_status.base_level = scenarii.base_level();
+
             let status_snapshot = context.status_service.to_snapshot(&character_status);
             let result = TestResult {
                 id: scenarii.id().clone(),
                 job: job.as_str().to_string(),
                 job_level: scenarii.job_level() as usize,
                 passed: false,
-                actual_str: status_snapshot.base_str(),
-                actual_bonus_str: status_snapshot.bonus_str(),
-                actual_agi: status_snapshot.base_agi(),
-                actual_bonus_agi: status_snapshot.bonus_agi(),
-                actual_vit: status_snapshot.base_vit(),
-                actual_bonus_vit: status_snapshot.bonus_vit(),
-                actual_int: status_snapshot.base_int(),
-                actual_bonus_int: status_snapshot.bonus_int(),
-                actual_dex: status_snapshot.base_dex(),
-                actual_bonus_dex: status_snapshot.bonus_dex(),
-                actual_luk: status_snapshot.base_luk(),
-                actual_bonus_luk: status_snapshot.bonus_luk(),
+                actual_str: status_snapshot.base_str() as i16,
+                actual_bonus_str: status_snapshot.bonus_str() as i16,
+                actual_agi: status_snapshot.base_agi() as i16,
+                actual_bonus_agi: status_snapshot.bonus_agi() as i16,
+                actual_vit: status_snapshot.base_vit() as i16,
+                actual_bonus_vit: status_snapshot.bonus_vit() as i16,
+                actual_int: status_snapshot.base_int() as i16,
+                actual_bonus_int: status_snapshot.bonus_int() as i16,
+                actual_dex: status_snapshot.base_dex() as i16,
+                actual_bonus_dex: status_snapshot.bonus_dex() as i16,
+                actual_luk: status_snapshot.base_luk() as i16,
+                actual_bonus_luk: status_snapshot.bonus_luk() as i16,
                 actual_aspd: status_snapshot.aspd() as f32,
                 actual_atk_left: context.status_service.status_atk_left_side(&status_snapshot) as u16,
                 actual_atk_right: context.status_service.status_atk_right_side(&status_snapshot) as u16,
@@ -312,18 +288,18 @@ mod tests {
                 actual_hp: status_snapshot.max_hp() as u16,
                 actual_sp: status_snapshot.max_sp() as u16,
                 actual_crit: status_snapshot.crit(),
-                expected_str: scenarii.base_str(),
-                expected_bonus_str: scenarii.bonus_str() as u16,
-                expected_agi: scenarii.base_agi(),
-                expected_bonus_agi: scenarii.bonus_agi() as u16,
-                expected_vit: scenarii.base_vit(),
-                expected_bonus_vit: scenarii.bonus_vit() as u16,
-                expected_int: scenarii.base_int(),
-                expected_bonus_int: scenarii.bonus_int() as u16,
-                expected_dex: scenarii.base_dex(),
-                expected_bonus_dex: scenarii.bonus_dex() as u16,
-                expected_luk: scenarii.base_luk(),
-                expected_bonus_luk: scenarii.bonus_luk() as u16,
+                expected_str: scenarii.base_str() as i16,
+                expected_bonus_str: scenarii.bonus_str(),
+                expected_agi: scenarii.base_agi() as i16,
+                expected_bonus_agi: scenarii.bonus_agi(),
+                expected_vit: scenarii.base_vit() as i16,
+                expected_bonus_vit: scenarii.bonus_vit(),
+                expected_int: scenarii.base_int() as i16,
+                expected_bonus_int: scenarii.bonus_int(),
+                expected_dex: scenarii.base_dex() as i16,
+                expected_bonus_dex: scenarii.bonus_dex(),
+                expected_luk: scenarii.base_luk() as i16,
+                expected_bonus_luk: scenarii.bonus_luk(),
                 expected_aspd: scenarii.aspd_displayed(),
                 expected_atk_left: scenarii.atk_left(),
                 expected_atk_right: scenarii.atk_right(),
@@ -336,6 +312,7 @@ mod tests {
                 expected_hp: scenarii.max_hp(),
                 expected_sp: scenarii.max_sp(),
                 expected_crit: scenarii.crit(),
+                status: mem::take(character_status),
             };
             let mut passed = false;
             results.push(result);
@@ -359,7 +336,7 @@ mod tests {
         result_file.write_all(b"                              \n").unwrap();
         result_file.write_all(format!("fixture file was [{}](/server/{})\n\n", fixture_file, fixture_file).as_bytes()).unwrap();
         result_file.write_all(format!("# {}\n", title).as_bytes()).unwrap();
-        result_file.write_all(b"|id|job|jobLv|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|\n").unwrap();
+        result_file.write_all(b"|id|job|context|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|\n").unwrap();
         result_file.write_all(b"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|\n").unwrap();
         let mut passed_count = 0;
         for result in results.iter_mut() {
@@ -388,7 +365,7 @@ mod tests {
                 passed_count += 1;
             }
             result_file.write_all(format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
-                                          result.id, result.job, result.job_level, format_result!(result.passed, result.passed),
+                                          result.id, result.job, description_fn(result), format_result!(result.passed, result.passed),
                                           format_result!(str_passed, result.actual_str, result.actual_bonus_str, result.expected_str, result.expected_bonus_str),
                                           format_result!(agi_passed, result.actual_agi, result.actual_bonus_agi, result.expected_agi, result.expected_bonus_agi),
                                           format_result!(vit_passed, result.actual_vit, result.actual_bonus_vit, result.expected_vit, result.expected_bonus_vit),
@@ -411,6 +388,63 @@ mod tests {
         }
         result_file.seek(SeekFrom::Start(0));
         result_file.write_all(format!("{}/{} tests passed\n", passed_count, results.len()).as_bytes()).unwrap();
+    }
+
+    #[derive(Clone)]
+    struct TestResult {
+        id: String,
+        job: String,
+        job_level: usize,
+        passed: bool,
+        actual_str: i16,
+        actual_bonus_str: i16,
+        actual_agi: i16,
+        actual_bonus_agi: i16,
+        actual_vit: i16,
+        actual_bonus_vit: i16,
+        actual_int: i16,
+        actual_bonus_int: i16,
+        actual_dex: i16,
+        actual_bonus_dex: i16,
+        actual_luk: i16,
+        actual_bonus_luk: i16,
+        actual_aspd: f32,
+        actual_atk_left: u16,
+        actual_atk_right: u16,
+        actual_matk_min: u16,
+        actual_matk_max: u16,
+        actual_def: u16,
+        actual_mdef: u16,
+        actual_hit: u16,
+        actual_flee: u16,
+        actual_hp: u16,
+        actual_sp: u16,
+        actual_crit: f32,
+        expected_str: i16,
+        expected_bonus_str: i16,
+        expected_agi: i16,
+        expected_bonus_agi: i16,
+        expected_vit: i16,
+        expected_bonus_vit: i16,
+        expected_int: i16,
+        expected_bonus_int: i16,
+        expected_dex: i16,
+        expected_bonus_dex: i16,
+        expected_luk: i16,
+        expected_bonus_luk: i16,
+        expected_aspd: f32,
+        expected_atk_left: u16,
+        expected_atk_right: u16,
+        expected_matk_min: u16,
+        expected_matk_max: u16,
+        expected_def: u16,
+        expected_mdef: u16,
+        expected_hit: u16,
+        expected_flee: u16,
+        expected_hp: u16,
+        expected_sp: u16,
+        expected_crit: f32,
+        status: Status
     }
 }
 

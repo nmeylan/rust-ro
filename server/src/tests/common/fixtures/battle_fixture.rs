@@ -1,8 +1,11 @@
 use std::{env, fs};
 use std::fmt::Formatter;
 use std::path::Path;
+use std::ptr::eq;
 use serde::{Deserialize, Deserializer};
 use serde::de::{MapAccess, SeqAccess, Visitor};
+use crate::tests::common::character_helper::equip_item_from_id;
+
 #[derive(Deserialize, GettersAll, Debug)]
 pub struct BattleFixture {
     #[serde(rename = "_id")]
@@ -125,6 +128,22 @@ impl BattleFixture {
         let fixtures: Vec<BattleFixture> = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
         fixtures
     }
+
+    pub fn all_equipments(&self) -> Vec<&Equipment> {
+        let mut equipments = vec![];
+        self.equipments.weapon().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        self.equipments.weapon_left().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        self.equipments.accessory1().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        self.equipments.accessory2().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        self.equipments.upper_headgear().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        self.equipments.middle_headgear().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        self.equipments.lower_headgear().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        self.equipments.body().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        self.equipments.shoulder().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        self.equipments.shoes().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        self.equipments.shield().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        equipments
+    }
 }
 
 #[derive(Deserialize, GettersAll, Debug)]
@@ -187,12 +206,12 @@ impl <'de>Visitor<'de> for EquipmentVisitor {
                 "accessory1" => accessory1 = map.next_value::<Option<Equipment>>()?,
                 "accessory2" => accessory2 = map.next_value::<Option<Equipment>>()?,
                 "weapon" => weapon = map.next_value::<Option<Equipment>>()?,
-                "weapon_left" => weapon_left = map.next_value::<Option<Equipment>>()?,
+                "weaponLeft" => weapon_left = map.next_value::<Option<Equipment>>()?,
                 "body" => body = map.next_value::<Option<Equipment>>()?,
                 "shield" => shield = map.next_value::<Option<Equipment>>()?,
-                "upper_headgear" => upper_headgear = map.next_value::<Option<Equipment>>()?,
-                "middle_headgear" => middle_headgear = map.next_value::<Option<Equipment>>()?,
-                "lower_headgear" => lower_headgear = map.next_value::<Option<Equipment>>()?,
+                "upperHeadgear" => upper_headgear = map.next_value::<Option<Equipment>>()?,
+                "middleHeadgear" => middle_headgear = map.next_value::<Option<Equipment>>()?,
+                "lowerHeadgear" => lower_headgear = map.next_value::<Option<Equipment>>()?,
                 _ => { map.next_value::<Option<Equipment>>()?;}
             }
         }
