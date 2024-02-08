@@ -373,10 +373,10 @@ impl BonusType {
             BonusType::MaxhpPercentage(_) => {}
             BonusType::MaxspPercentage(_) => {}
             BonusType::Atk(_) => {}
-            BonusType::Def(_) => {}
+            BonusType::Def(def) => { status_snapshot.set_def(status_snapshot.def() + *def as i16) }
             BonusType::VitDefPercentage(_) => {}
             BonusType::DefPercentage(_) => {}
-            BonusType::Mdef(mdef) => { status_snapshot.set_mdef(status_snapshot.mdef() + *mdef as u16) }
+            BonusType::Mdef(mdef) => { status_snapshot.set_mdef(status_snapshot.mdef() + *mdef as i16) }
             BonusType::Matk(matk) => {
                 status_snapshot.set_matk_min(status_snapshot.matk_min() + *matk as u16);
                 status_snapshot.set_matk_max(status_snapshot.matk_max() + *matk as u16);

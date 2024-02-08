@@ -45,6 +45,7 @@ impl StatusService {
             });
         for equipment in status.all_equipped_items() {
             let item_model = self.configuration_service.get_item(equipment.item_id());
+            item_model.defense.map(|def| snapshot.set_def(snapshot.def() + def));
             if item_model.item_bonuses_are_dynamic {
                 // TODO
             } else {

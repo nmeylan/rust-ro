@@ -1055,7 +1055,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
     }
     if (GetEquipmentStats(REDUCE_DEFENSE, stats)) {
         for (let i = 0; i <= 2; i++)
-            stats.vitDEF[i] = Math.floor(stats.vitDEF[i] / GetEquipmentStats(24), stats);
+            stats.vitDEF[i] = Math.floor(stats.vitDEF[i] / GetEquipmentStats(24, stats));
     }
     if (SkillSearch("Spear Dynamo", stats)) {
         for (let i = 0; i <= 2; i++)
@@ -5134,7 +5134,7 @@ function CalculateDamageReceived(stats, targetStats) {
     wBHD += GetEquipmentStats(DAMAGE_INC_DEC_SIZE_PERCENTAGE + targetStats.size, stats);
     if (targetStats.size == 1) {
         if (EquipNumSearch("Hurricane Fury", stats))
-            wBHD += weaponRefinementLevel;
+            wBHD += stats.equipments.weapon.refinement;
     }
 
     if (wBHD != 0) {

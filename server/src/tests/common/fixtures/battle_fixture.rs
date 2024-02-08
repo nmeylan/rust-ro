@@ -67,8 +67,8 @@ pub struct BattleFixture {
     crit_atk: Vec<u16>,
     #[serde(rename = "battleCritAtk")]
     battle_crit_atk: Vec<u16>,
-    def: u16,
-    mdef: u16,
+    def: i16,
+    mdef: i16,
     cast: f32,
     #[serde(rename = "perfectDodge")]
     perfect_dodge: f32,
