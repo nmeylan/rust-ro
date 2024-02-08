@@ -209,7 +209,7 @@ mod tests {
 
                 desc.push(format!("{}({})", item.name_aegis, item.bonuses.iter().map(|b| format!("{:?}", b))
                     .collect::<Vec<String>>()
-                    .join(",")));
+                    .join("<br>\t")));
             });
             desc.iter().map(|d| format!("{}", d))
                 .collect::<Vec<String>>()
