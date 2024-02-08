@@ -194,8 +194,8 @@ impl <'de>Visitor<'de> for EquipmentVisitor {
         let mut weapon_left: Option<Equipment> = None;
         let mut body: Option<Equipment> = None;
         let mut shield: Option<Equipment> = None;
-        let shoes: Option<Equipment> = None;
-        let shoulder: Option<Equipment> = None;
+        let mut shoes: Option<Equipment> = None;
+        let mut shoulder: Option<Equipment> = None;
         let mut accessory1: Option<Equipment> = None;
         let mut accessory2: Option<Equipment> = None;
         let mut upper_headgear: Option<Equipment> = None;
@@ -208,6 +208,8 @@ impl <'de>Visitor<'de> for EquipmentVisitor {
                 "weapon" => weapon = map.next_value::<Option<Equipment>>()?,
                 "weaponLeft" => weapon_left = map.next_value::<Option<Equipment>>()?,
                 "body" => body = map.next_value::<Option<Equipment>>()?,
+                "shoulder" => shoulder = map.next_value::<Option<Equipment>>()?,
+                "shoes" => shoes = map.next_value::<Option<Equipment>>()?,
                 "shield" => shield = map.next_value::<Option<Equipment>>()?,
                 "upperHeadgear" => upper_headgear = map.next_value::<Option<Equipment>>()?,
                 "middleHeadgear" => middle_headgear = map.next_value::<Option<Equipment>>()?,

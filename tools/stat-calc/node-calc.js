@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "convert";
+const command = "generate";
 let formData, testCase, testCases, file;
 switch (command) {
     case "convert":
@@ -48,6 +48,24 @@ switch (command) {
         // generate_offensive_skills()
         // generate_job_level_stat_bonus();
         generate_item_stat_bonus();
+        break;
+    case "db":
+        let array_index = [];
+        let array_name = [];
+        for(let item of ItemIds){
+            if (item[1] < 0 && !item[2].startsWith("(No")) {
+                // fromsql.filter(v => parseInt(v.rindex) == item[0])
+                //     .map(v => {
+                //         item[1] = v.id;
+                //         item[2] = v.name_aegis;
+                //     } )
+                console.log(item[0], item[2])
+                array_index.push("'"+item[0]+"'");
+                array_name.push("'"+item[2].replace("'", " ")+"'");
+            }
+        }
+        // console.log(JSON.stringify(ItemIds));
+        console.log("UNNEST(ARRAY["+array_index.join(",") +"],ARRAY["+array_name.join(",") +"])")
         break;
 }
 
