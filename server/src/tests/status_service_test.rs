@@ -37,6 +37,7 @@ mod tests {
     use std::mem;
     use std::path::Path;
     use std::ptr::eq;
+    use models::enums::bonus::BonusType;
     use models::enums::class::JobName;
     use models::enums::weapon::WeaponType;
     use models::status::{Status, StatusSnapshot};
@@ -207,14 +208,44 @@ mod tests {
             result.status.all_equipped_items().iter().for_each(|wearable| {
                 let item = GlobalConfigService::instance().get_item(wearable.item_id());
 
-                desc.push(format!("{}({})", item.name_aegis, item.bonuses.iter().map(|b| format!("{:?}", b))
+                desc.push(format!("**{}**({})", item.name_aegis, item.bonuses.iter().map(|b| format!("<br>\t*{:?}*", b))
                     .collect::<Vec<String>>()
-                    .join("<br>\t")));
+                    .join("")));
             });
             desc.iter().map(|d| format!("{}", d))
                 .collect::<Vec<String>>()
-                .join("\n")
+                .join("<br>")
         });
+        // For each item bonuses run a test
+    }
+
+    #[test]
+    fn test_each_stats() {
+        let context = before_each();
+        let fixture_file = "src/tests/common/fixtures/data/stats-for-each-stats.json";
+        let result_file_path = "../doc/progress/each-stats_progress.md";
+        let bonus = BonusType::Maxhp(1);
+        
+    }
+
+    #[test]
+    fn test_all_stats_when_card() {
+    }
+
+    #[test]
+    fn test_all_elements_modifier() {
+    }
+    #[test]
+    fn test_all_race_modifier() {
+    }
+    #[test]
+    fn test_all_mob_class_modifier() {
+    }
+    #[test]
+    fn test_all_mob_size_modifier() {
+    }
+    #[test]
+    fn test_all_resistance() {
     }
 
 
@@ -413,8 +444,8 @@ mod tests {
         actual_atk_right: u16,
         actual_matk_min: u16,
         actual_matk_max: u16,
-        actual_def: u16,
-        actual_mdef: u16,
+        actual_def: i16,
+        actual_mdef: i16,
         actual_hit: u16,
         actual_flee: u16,
         actual_hp: u16,
@@ -437,8 +468,8 @@ mod tests {
         expected_atk_right: u16,
         expected_matk_min: u16,
         expected_matk_max: u16,
-        expected_def: u16,
-        expected_mdef: u16,
+        expected_def: i16,
+        expected_mdef: i16,
         expected_hit: u16,
         expected_flee: u16,
         expected_hp: u16,

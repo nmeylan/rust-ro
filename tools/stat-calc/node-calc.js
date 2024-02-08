@@ -47,7 +47,8 @@ switch (command) {
     case "generate":
         // generate_offensive_skills()
         // generate_job_level_stat_bonus();
-        generate_item_stat_bonus();
+        // generate_item_stat_bonus();
+        generate_stats_test();
         break;
     case "db":
         let array_index = [];
@@ -328,7 +329,7 @@ function generate_job_level_stat_bonus() {
 
 }
 
-function generate_item_stat_bonus() {
+function generate_item_stat_bonus(itemsFilter) {
     let count = 0;
     let start = Date.now();
     let testcases = [];
@@ -365,7 +366,7 @@ function generate_item_stat_bonus() {
         formData.A_ActiveSkillLV = 0;
 
         for (let i = 0; i < ItemOBJ.length; i++) {
-            if (items.includes(i)) {
+            if (items.includes(i) || (itemsFilter && !itemsFilter.includes(i))) {
                 continue;
             }
             formData.A_acces1 = "326";
@@ -377,6 +378,8 @@ function generate_item_stat_bonus() {
             formData.A_head3 = "268";
             formData.A_shoes = "317";
             formData.A_shoulder = "311";
+            formData.A_weapon1 = "0";
+            formData.A_WeaponType = "0";
             let canEquip = false;
             if (ItemOBJ[i][1] == 50 && (checkIfClassCanWearEquipment(isRebirth, ItemOBJ[i][2], n, i) == 1)) {
                 formData.A_head1 = i;
@@ -402,6 +405,10 @@ function generate_item_stat_bonus() {
             } else if (ItemOBJ[i][1] == 64 && checkIfClassCanWearEquipment(isRebirth, ItemOBJ[i][2], n, i) == 1) {
                 formData.A_acces1 = i;
                 canEquip = true;
+            } else if (ItemOBJ[i][1] < 50 && JobASPD[n][ItemOBJ[i][1]] != 0) {
+                formData.A_weapon1 = i;
+                formData.A_WeaponType = ItemOBJ[i][1];
+                canEquip = true;
             }
             if (canEquip) {
                 items.push(i);
@@ -413,9 +420,37 @@ function generate_item_stat_bonus() {
     }
 
     let p = path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/stats-for-items.json");
+    if (itemsFilter != null) {
+        p = path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/stats-for-each-stats.json");
+    }
     fs.writeFileSync(p, JSON.stringify(testcases));
     console.log("Generated", count, "test cases, in", (Date.now() - start) + "ms", "at", p);
 }
+
+function generate_stats_test() {
+    let stats = {};
+    for(let item of ItemOBJ){
+        for (let itemStatIndex = 0; item[itemStatIndex + 11] != 0; itemStatIndex += 2) {
+            let bonus = item[itemStatIndex + 11];
+            if (item[itemStatIndex + 12] != 0 && item[8] !== 0) {
+                if (stats[bonusLabel[bonus]] === undefined) {
+                    stats[bonusLabel[bonus]] = [{name: item[8], index: item[0], id: ItemIds[item[0]][1], value: item[itemStatIndex + 12]}]
+                }
+
+            }
+        }
+    }
+    let items = new Set();
+    for (let bonus of Object.entries(bonusLabel)) {
+        if(!Object.keys(stats).includes(bonus[1])) {
+            console.log("missing stat", bonus[1])
+        } else {
+            items.add(stats[bonus[1]][0].index)
+        }
+    }
+    console.log(stats)
+}
+
 function checkIfClassCanWearEquipment(isRebirth, nJEIS, n, i) {
     if (isRebirth == 0) {
         if (ItemOBJ[i][11] == 200)
