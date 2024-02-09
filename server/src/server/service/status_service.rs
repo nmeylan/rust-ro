@@ -1,7 +1,8 @@
 use std::sync::{Once};
 use models::enums::class::JobName;
-use models::status::{Status, StatusSnapshot};
+use models::status::{Status, StatusBonus, StatusSnapshot};
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+use models::enums::bonus::BonusType;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 
@@ -36,22 +37,25 @@ impl StatusService {
         job_config.bonus_stats()
             .get(index_for_job_level)
             .map(|bonus| {
-                snapshot.set_bonus_str(*bonus.get("str").unwrap_or(&0_u16));
-                snapshot.set_bonus_agi(*bonus.get("agi").unwrap_or(&0_u16));
-                snapshot.set_bonus_dex(*bonus.get("dex").unwrap_or(&0_u16));
-                snapshot.set_bonus_vit(*bonus.get("vit").unwrap_or(&0_u16));
-                snapshot.set_bonus_int(*bonus.get("int").unwrap_or(&0_u16));
-                snapshot.set_bonus_luk(*bonus.get("luk").unwrap_or(&0_u16));
+                snapshot.set_bonus_str(*bonus.get("str").unwrap_or(&0_i16));
+                snapshot.set_bonus_agi(*bonus.get("agi").unwrap_or(&0_i16));
+                snapshot.set_bonus_dex(*bonus.get("dex").unwrap_or(&0_i16));
+                snapshot.set_bonus_vit(*bonus.get("vit").unwrap_or(&0_i16));
+                snapshot.set_bonus_int(*bonus.get("int").unwrap_or(&0_i16));
+                snapshot.set_bonus_luk(*bonus.get("luk").unwrap_or(&0_i16));
             });
+        let mut bonuses: Vec<BonusType> = vec![];
         for equipment in status.all_equipped_items() {
             let item_model = self.configuration_service.get_item(equipment.item_id());
             item_model.defense.map(|def| snapshot.set_def(snapshot.def() + def));
             if item_model.item_bonuses_are_dynamic {
                 // TODO
             } else {
-                item_model.bonuses.iter().for_each(|bonus| bonus.add_bonus_to_status(&mut snapshot))
+                item_model.bonuses.iter().for_each(|bonus| bonuses.push(bonus.clone()))
             }
         }
+        bonuses = BonusType::merge_bonuses(&bonuses);
+        bonuses.iter().for_each(|bonus| bonus.add_bonus_to_status(&mut snapshot));
         // TODO [([base_hp*(1 + VIT/100)* trans_mod]+HPAdditions)*ItemHPMultipliers] https://irowiki.org/classic/Max_HP
         let hp_rebirth_modifier: f32 = if job.is_rebirth() { 1.25 } else { 1.0 };
         snapshot.set_max_hp((job_config.base_hp()[index_for_base_level] as f32 * (1.0 + snapshot.vit() as f32 / 100.0) * hp_rebirth_modifier).floor() as u32);
@@ -59,12 +63,14 @@ impl StatusService {
         snapshot.set_max_sp((job_config.base_sp()[index_for_base_level] as f32 * (1.0 + snapshot.int() as f32 / 100.0) * hp_rebirth_modifier ).floor() as u32);
         // TODO 1 + YourLUK*0.3 + Critical Increasing Cards)*CritModifier - TargetLUK/5
         snapshot.set_crit(Self::truncate(snapshot.crit() + (1.0 + snapshot.luk() as f32 * 0.3), 1));
-        snapshot.set_hit(snapshot.hit() + status.base_level as u16 + snapshot.dex());
-        snapshot.set_flee(snapshot.flee() + status.base_level as u16 + snapshot.agi());
-        snapshot.set_aspd(self.aspd(&snapshot));
+        snapshot.set_hit((snapshot.hit() + status.base_level as i16 + snapshot.dex() as i16).max(0));
+        snapshot.set_flee((snapshot.flee() + status.base_level as i16 + snapshot.agi() as i16).max(0));
+        snapshot.set_aspd(snapshot.aspd() + self.aspd(&snapshot));
         snapshot.set_matk_min(((snapshot.int() + ((snapshot.int() as f32 / 7.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
         snapshot.set_matk_max(((snapshot.int() + ((snapshot.int() as f32 / 5.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
-        // TODO add bonuses from item and cards snapshot.bonuses.push(...)
+
+        bonuses.iter().for_each(|bonus| bonus.add_percentage_bonus_to_status(&mut snapshot));
+        snapshot.set_bonuses(bonuses.iter().map(|b| StatusBonus::new(b.clone())).collect::<Vec<StatusBonus>>());
         snapshot
     }
     fn truncate(x: f32, decimals: u32) -> f32 {

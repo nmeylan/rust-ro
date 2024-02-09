@@ -135,7 +135,7 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::AtkPercentage(value));
                 }
                 "bbaseatk" => {
-                    bonus!(self, BonusType::Atk(value));
+                    bonus!(self, BonusType::Atk(value as i16));
                 }
                 "bbreakarmorrate" => {
                     bonus!(self, BonusType::BreakArmorPercentage(value));
@@ -153,13 +153,13 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::CriticalDamagePercentage(value));
                 }
                 "bcritical" => {
-                    bonus!(self, BonusType::CriticalChance(value));
+                    bonus!(self, BonusType::Crit(value));
                 }
                 "bcriticallong" => {
                     bonus!(self, BonusType::LongRangeCriticalChance(value));
                 }
                 "bdef" => {
-                    bonus!(self, BonusType::Def(value));
+                    bonus!(self, BonusType::Def(value as i16));
                 }
                 "bdef2rate" => {
                     bonus!(self, BonusType::VitDefPercentage(value));
@@ -192,7 +192,7 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::DoubleAttackChancePercentage(value));
                 }
                 "bflee" => {
-                    bonus!(self, BonusType::Flee(value));
+                    bonus!(self, BonusType::Flee(value as i16));
                 }
                 "bflee2" => {
                     bonus!(self, BonusType::PerfectDodge(value));
@@ -210,7 +210,7 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::HpRegenFromSkillPercentage(value));
                 }
                 "bhit" => {
-                    bonus!(self, BonusType::Hit(value));
+                    bonus!(self, BonusType::Hit(value as i16));
                 }
                 "bhitrate" => {
                     bonus!(self, BonusType::HitPercentage(value));
@@ -282,22 +282,22 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::GainSpWhenKillingEnemyWithMagicAttack(value));
                 }
                 "bmatk" => {
-                    bonus!(self, BonusType::Matk(value));
+                    bonus!(self, BonusType::Matk(value as i16));
                 }
                 "bmaxhp" => {
-                    bonus!(self, BonusType::Maxhp(value));
+                    bonus!(self, BonusType::Maxhp(value as i32));
                 }
                 "bmaxhprate" => {
                     bonus!(self, BonusType::MaxhpPercentage(value));
                 }
                 "bmaxsp" => {
-                    bonus!(self, BonusType::Maxsp(value));
+                    bonus!(self, BonusType::Maxsp(value as i32));
                 }
                 "bmaxsprate" => {
                     bonus!(self, BonusType::MaxspPercentage(value));
                 }
                 "bmdef" => {
-                    bonus!(self, BonusType::Mdef(value));
+                    bonus!(self, BonusType::Mdef(value as i16));
                 }
                 "bnomagicdamage" => {
                     bonus!(self, BonusType::ResistanceMagicAttackPercentage(value));
@@ -940,6 +940,20 @@ mod tests {
                  Box::new(&script_handler));
         // Then
         assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::Str(10)))
+    }
+
+    #[test]
+    fn test_simple_bonus_negative() {
+        // Given
+        let script = "bonus bStr, -10;";
+        let compilation_result = Compiler::compile_script("test".to_string(), script, "../native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::All.value());
+        let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::All.value()));
+        // When
+        let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
+        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(),
+                 Box::new(&script_handler));
+        // Then
+        assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::Str(-10)))
     }
 
     #[test]

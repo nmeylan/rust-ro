@@ -53,19 +53,19 @@ pub struct StatusSnapshot {
     base_dex: u16,
     base_luk: u16,
     base_atk: u16,
-    bonus_str: u16,
-    bonus_agi: u16,
-    bonus_vit: u16,
-    bonus_int: u16,
-    bonus_dex: u16,
-    bonus_luk: u16,
+    bonus_str: i16,
+    bonus_agi: i16,
+    bonus_vit: i16,
+    bonus_int: i16,
+    bonus_dex: i16,
+    bonus_luk: i16,
     bonus_atk: u16,
     matk_min: u16,
     matk_max: u16,
     matk_item_modifier: f32,
     speed: u16,
-    hit: u16,
-    flee: u16,
+    hit: i16,
+    flee: i16,
     crit: f32,
     def: i16,
     mdef: i16,
@@ -255,22 +255,26 @@ impl StatusSnapshot {
     }
 
     pub fn str(&self) -> u16 {
-        self.base_str + self.bonus_str
+        (self.base_str as i16 + self.bonus_str).max(0) as u16
     }
     pub fn agi(&self) -> u16 {
-        self.base_agi + self.bonus_agi
+        (self.base_agi as i16 + self.bonus_agi).max(0) as u16
     }
     pub fn vit(&self) -> u16 {
-        self.base_vit + self.bonus_vit
+        (self.base_vit as i16 + self.bonus_vit).max(0) as u16
     }
     pub fn dex(&self) -> u16 {
-        self.base_dex + self.bonus_dex
+        (self.base_dex as i16 + self.bonus_dex).max(0) as u16
     }
     pub fn int(&self) -> u16 {
-        self.base_int + self.bonus_int
+        (self.base_int as i16 + self.bonus_int).max(0) as u16
     }
     pub fn luk(&self) -> u16 {
-        self.base_luk + self.bonus_luk
+        (self.base_luk as i16 + self.bonus_luk).max(0) as u16
+    }
+
+    pub fn bonuses_mut(&mut self) -> &mut Vec<StatusBonus> {
+        &mut self.bonuses
     }
 }
 
@@ -367,6 +371,13 @@ pub struct Look {
 #[derive(GettersAll, Debug, Clone, Copy)]
 pub struct StatusBonus {
     bonus: BonusType,
+}
+impl StatusBonus {
+    pub fn new(bonus: BonusType) -> StatusBonus {
+        Self {
+            bonus,
+        }
+    }
 }
 #[derive(GettersAll, Debug, Clone, Copy)]
 pub struct TemporaryStatusBonus {
