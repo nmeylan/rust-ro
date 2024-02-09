@@ -56,8 +56,8 @@ pub struct BattleFixture {
     bonus_int: i16,
     #[serde(rename = "bonusLuk")]
     bonus_luk: i16,
-    hit: u16,
-    flee: u16,
+    hit: i16,
+    flee: i16,
     #[serde(rename = "battleHit")]
     battle_hit: u16,
     #[serde(rename = "battleFlee")]

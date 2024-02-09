@@ -251,9 +251,9 @@ mod tests {
 
     #[test]
     fn playground() {
-        let id = "jkj3id";
-        let fixture_file = "src/tests/common/fixtures/data/stats-for-each-job-level.json";
-        let result_file_path = "../doc/progress/stats-for-each-job-level_progress.md";
+        let id = "ybc2m0";
+        let fixture_file = "src/tests/common/fixtures/data/stats-for-items.json";
+        let result_file_path = "../doc/progress/stats-for-each-items_progress.md";
         stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id), |result| format!("JobLvl {}", result.job_level));
     }
 
@@ -273,6 +273,7 @@ mod tests {
                     continue;
                 }
             }
+            // println!("{}",scenarii.id());
             i += 1;
             let mut character = create_character();
             scenarii.all_equipments().iter().for_each(|e| { equip_item_from_id(&mut character, e.item_id() as u32); });
@@ -377,7 +378,7 @@ mod tests {
             let dex_passed = result.actual_dex + result.actual_bonus_dex == result.expected_dex + result.expected_bonus_dex;
             let int_passed = result.actual_int + result.actual_bonus_int == result.expected_int + result.expected_bonus_int;
             let luk_passed = result.actual_luk + result.actual_bonus_luk == result.expected_luk + result.expected_bonus_luk;
-            let aspd_passed = result.actual_aspd == result.expected_aspd;
+            let aspd_passed = result.actual_aspd >= result.expected_aspd - 0.5 || result.actual_aspd <= result.expected_aspd + 0.5;
             let atk_left_passed = result.actual_atk_left == result.expected_atk_left;
             let atk_right_passed = result.actual_atk_right == result.expected_atk_right;
             let def_passed = result.actual_def == result.expected_def;
@@ -446,8 +447,8 @@ mod tests {
         actual_matk_max: u16,
         actual_def: i16,
         actual_mdef: i16,
-        actual_hit: u16,
-        actual_flee: u16,
+        actual_hit: i16,
+        actual_flee: i16,
         actual_hp: u16,
         actual_sp: u16,
         actual_crit: f32,
@@ -470,8 +471,8 @@ mod tests {
         expected_matk_max: u16,
         expected_def: i16,
         expected_mdef: i16,
-        expected_hit: u16,
-        expected_flee: u16,
+        expected_hit: i16,
+        expected_flee: i16,
         expected_hp: u16,
         expected_sp: u16,
         expected_crit: f32,

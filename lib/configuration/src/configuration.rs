@@ -179,7 +179,7 @@ pub struct InternalJobConfig {
     #[serde(skip_serializing_if = "Option::is_none")]
     base_sp: Option<Vec<u32>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    bonus_stats: Option<Vec<BTreeMap<String, u16>>>,
+    bonus_stats: Option<Vec<BTreeMap<String, i16>>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     base_aspd: Option<BTreeMap<String, u32>>,
 }
@@ -192,7 +192,7 @@ pub struct JobConfig {
     base_hp: Vec<u32>,
     base_sp: Vec<u32>,
     base_aspd: BTreeMap<String, u32>,
-    bonus_stats: Vec<BTreeMap<String, u16>>,
+    bonus_stats: Vec<BTreeMap<String, i16>>,
     job_level: JobLevel,
 }
 
