@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "bonus";
+const command = "generate";
 let formData, testCase, testCases, file;
 switch (command) {
     case "convert":
@@ -24,6 +24,7 @@ switch (command) {
                     formData = JSON.parse(atob(tc.formData));
                     formData._id = tc._id;
                     testCase = GetTestCase(formData);
+                    testCase.desc = tc.desc;
                     updatedTestCases.push(testCase)
                 });
 
@@ -342,7 +343,7 @@ function generate_job_level_stat_bonus() {
 
 }
 
-function generate_item_stat_bonus(itemsFilter) {
+function generate_item_stat_bonus(itemsFilter, descriptions) {
     let count = 0;
     let start = Date.now();
     let testcases = [];
@@ -426,6 +427,9 @@ function generate_item_stat_bonus(itemsFilter) {
             if (canEquip) {
                 items.push(i);
                 let testCase = GetTestCase(formData);
+                if (descriptions) {
+                    testCase.desc = descriptions[items.length - 1];
+                }
                 testcases.push(testCase);
                 count += 1;
             }
@@ -442,26 +446,31 @@ function generate_item_stat_bonus(itemsFilter) {
 
 function generate_stats_test() {
     let stats = {};
-    for(let item of ItemOBJ){
+    let items = [];
+    let descriptions = [];
+    a : for(let item of ItemOBJ) {
         for (let itemStatIndex = 0; item[itemStatIndex + 11] != 0; itemStatIndex += 2) {
+            if (items.includes(item[0])) {
+                continue a;
+            }
             let bonus = item[itemStatIndex + 11];
             if (item[itemStatIndex + 12] != 0 && item[8] !== 0) {
                 if (stats[bonusLabel[bonus]] === undefined) {
+                    items.push(item[0]);
+                    descriptions.push(bonusLabel[bonus]);
                     stats[bonusLabel[bonus]] = [{name: item[8], index: item[0], id: ItemIds[item[0]][1], value: item[itemStatIndex + 12]}]
                 }
 
             }
         }
     }
-    let items = new Set();
     for (let bonus of Object.entries(bonusLabel)) {
         if(!Object.keys(stats).includes(bonus[1])) {
             console.log("missing stat", bonus[1])
-        } else {
-            items.add(stats[bonus[1]][0].index)
         }
     }
-    console.log(stats)
+    // console.log(items)
+    generate_item_stat_bonus(items, descriptions);
 }
 
 function checkIfClassCanWearEquipment(isRebirth, nJEIS, n, i) {
