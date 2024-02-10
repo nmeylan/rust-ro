@@ -223,9 +223,9 @@ mod tests {
     fn test_each_stats() {
         let context = before_each();
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-stats.json";
-        let result_file_path = "../doc/progress/each-stats_progress.md";
-        let bonus = BonusType::Maxhp(1);
-        
+        let result_file_path = "../doc/progress/each-bonus_progress.md";
+        stats_tests(fixture_file, result_file_path, "Each item bonus", None, |result| format!("{}", result.desc.as_ref().unwrap_or(&"NA".to_string())));
+
     }
 
     #[test]
@@ -345,6 +345,7 @@ mod tests {
                 expected_sp: scenarii.max_sp(),
                 expected_crit: scenarii.crit(),
                 status: mem::take(character_status),
+                desc: scenarii.desc().clone(),
             };
             let mut passed = false;
             results.push(result);
@@ -476,7 +477,8 @@ mod tests {
         expected_hp: u16,
         expected_sp: u16,
         expected_crit: f32,
-        status: Status
+        status: Status,
+        desc: Option<String>
     }
 }
 

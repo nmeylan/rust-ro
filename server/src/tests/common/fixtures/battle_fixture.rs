@@ -11,6 +11,7 @@ pub struct BattleFixture {
     #[serde(rename = "_id")]
     id: String,
     job: String,
+    desc: Option<String>,
     #[serde(rename = "baseLevel")]
     base_level: u32,
     #[serde(rename = "jobLevel")]
