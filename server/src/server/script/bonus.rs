@@ -10,7 +10,7 @@ use models::enums::bonus::BonusType;
 use models::enums::element::Element;
 use models::enums::EnumWithNumberValue;
 use models::enums::item::ItemGroup;
-use models::enums::mob::{MobClass, MobRace};
+use models::enums::mob::{MobClass, MobGroup, MobRace};
 use models::enums::size::Size;
 use models::enums::skill_enums::SkillEnum;
 use models::enums::status::StatusEffect;
@@ -261,7 +261,7 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::Int(value));
                 }
                 "blongatkdef" => {
-                    bonus!(self, BonusType::ResistanceRangeAttack(value));
+                    bonus!(self, BonusType::ResistanceRangeAttackPercentage(value));
                 }
                 "blongatkrate" => {
                     bonus!(self, BonusType::DamageRangedAtkPercentage(value));
@@ -502,48 +502,13 @@ impl BonusScriptHandler {
                     }
                 }
                 "baddrace2" => {
-                    match MobRace::from_value(value1 as usize) {
-                        MobRace::Angel => {
-                            bonus!(self, BonusType::MagicalDamageAgainstRaceAngelPercentage(value2 as i8));
-                            bonus!(self, BonusType::PhysicalDamageAgainstRaceAngelPercentage(value2 as i8));
-                        }
-                        MobRace::Brute => {
-                            bonus!(self, BonusType::MagicalDamageAgainstRaceBrutePercentage(value2 as i8));
-                            bonus!(self, BonusType::PhysicalDamageAgainstRaceBrutePercentage(value2 as i8));
-                        }
-                        MobRace::DemiHuman => {
-                            bonus!(self, BonusType::MagicalDamageAgainstRaceDemiHumanPercentage(value2 as i8));
-                            bonus!(self, BonusType::PhysicalDamageAgainstRaceDemiHumanPercentage(value2 as i8));
-                        }
-                        MobRace::Demon => {
-                            bonus!(self, BonusType::MagicalDamageAgainstRaceDemonPercentage(value2 as i8));
-                            bonus!(self, BonusType::PhysicalDamageAgainstRaceDemonPercentage(value2 as i8));
-                        }
-                        MobRace::Dragon => {
-                            bonus!(self, BonusType::MagicalDamageAgainstRaceDragonPercentage(value2 as i8));
-                            bonus!(self, BonusType::PhysicalDamageAgainstRaceDragonPercentage(value2 as i8));
-                        }
-                        MobRace::Fish => {
-                            bonus!(self, BonusType::MagicalDamageAgainstRaceFishPercentage(value2 as i8));
-                            bonus!(self, BonusType::PhysicalDamageAgainstRaceFishPercentage(value2 as i8));
-                        }
-                        MobRace::Formless => {
-                            bonus!(self, BonusType::MagicalDamageAgainstRaceFormlessPercentage(value2 as i8));
-                            bonus!(self, BonusType::PhysicalDamageAgainstRaceFormlessPercentage(value2 as i8));
-                        }
-                        MobRace::Insect => {
-                            bonus!(self, BonusType::MagicalDamageAgainstRaceInsectPercentage(value2 as i8));
-                            bonus!(self, BonusType::PhysicalDamageAgainstRaceInsectPercentage(value2 as i8));
-                        }
-                        MobRace::Plant => {
-                            bonus!(self, BonusType::MagicalDamageAgainstRacePlantPercentage(value2 as i8));
-                            bonus!(self, BonusType::PhysicalDamageAgainstRacePlantPercentage(value2 as i8));
-                        }
-                        MobRace::Undead => {
-                            bonus!(self, BonusType::MagicalDamageAgainstRaceUndeadPercentage(value2 as i8));
-                            bonus!(self, BonusType::PhysicalDamageAgainstRaceUndeadPercentage(value2 as i8));
-                        }
-                        _ => {}
+                    match MobGroup::from_value(value1 as usize) {
+                        MobGroup::Goblin => bonus!(self, BonusType::DamageAgainstMobGroupGoblinPercentage(value2 as i8)),
+                        MobGroup::Kobold => bonus!(self, BonusType::DamageAgainstMobGroupKoboldPercentage(value2 as i8)),
+                        MobGroup::Orc => bonus!(self, BonusType::DamageAgainstMobGroupOrcPercentage(value2 as i8)),
+                        MobGroup::Golem => bonus!(self, BonusType::DamageAgainstMobGroupGolemPercentage(value2 as i8)),
+                        MobGroup::Guardian => bonus!(self, BonusType::DamageAgainstMobGroupGuardianPercentage(value2 as i8)),
+                       _ => {}
                     }
                 }
                 "baddsize" => {

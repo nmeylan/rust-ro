@@ -33,10 +33,6 @@ pub enum BonusType {
     PerfectHitPercentage(i8),
     ElementWeapon(Element),
     ElementDefense(Element),
-    BypassDefenseOnRace,
-    WeaponAtkIncreaseOnTargetDefense,
-    ReduceDefense(i8),
-    ReduceDefensePercentage(i8),
     CriticalDamagePercentage(i8),
     CastTimePercentage(i8),
     CastTimeWhenUsingSkillIdPercentage(u32, i8),
@@ -64,7 +60,6 @@ pub enum BonusType {
     GainSpWhenHittingEnemy(i8),
     GainSpWhenKillingEnemy(i8),
     SpConsumption(i8),
-    ResistanceRangeAttackPercentage(i8),
     NormalAttackPercentage(i8),
     PhysicalDamageAgainstSizeSmallPercentage(i8),
     PhysicalDamageAgainstSizeMediumPercentage(i8),
@@ -82,7 +77,6 @@ pub enum BonusType {
     PhysicalDamageAgainstRaceDemiHumanPercentage(i8),
     PhysicalDamageAgainstRaceAngelPercentage(i8),
     PhysicalDamageAgainstRaceDragonPercentage(i8),
-    MagicalDamageAgainstRacePercentage(i8),
     MagicalDamageAgainstRaceFormlessPercentage(i8),
     MagicalDamageAgainstRaceUndeadPercentage(i8),
     MagicalDamageAgainstRaceBrutePercentage(i8),
@@ -103,7 +97,11 @@ pub enum BonusType {
     PhysicalDamageAgainstElementDarkPercentage(i8),
     PhysicalDamageAgainstElementGhostPercentage(i8),
     PhysicalDamageAgainstElementUndeadPercentage(i8),
-    LowerDefencePercentage(i8),
+    DamageAgainstMobGroupGoblinPercentage(i8),
+    DamageAgainstMobGroupKoboldPercentage(i8),
+    DamageAgainstMobGroupOrcPercentage(i8),
+    DamageAgainstMobGroupGolemPercentage(i8),
+    DamageAgainstMobGroupGuardianPercentage(i8),
     CriticalAgainstRaceFormlessPercentage(i8),
     CriticalAgainstRaceUndeadPercentage(i8),
     CriticalAgainstRaceBrutePercentage(i8),
@@ -189,7 +187,8 @@ pub enum BonusType {
     BreakArmorPercentage(i8),
     BreakWeaponPercentage(i8),
     ClassChangePercentageOnHit(i8),
-    LongRangeCriticalChance(i8), // Only when attacking with ranged weapon
+    LongRangeCriticalChance(i8),
+    // Only when attacking with ranged weapon
     IncreaseDamageAgainstClassBossBaseOnDef,
     IncreaseDamageAgainstClassNormalBaseOnDef,
     IncreaseDamageAgainstClassGuardianBaseOnDef,
@@ -267,7 +266,7 @@ pub enum BonusType {
     IgnoreMDefClassBossPercentage(i8),
     IgnoreMDefClassGuardianPercentage(i8),
 
-    ResistanceRangeAttack(i8),
+    ResistanceRangeAttackPercentage(i8),
     DamageRangedAtkPercentage(i8),
     ResistanceMagicAttackPercentage(i8),
     MagicAttackReflectChancePercentage(i8),
@@ -376,20 +375,16 @@ impl BonusType {
             BonusType::PerfectHitPercentage(val) => val as i32,
             BonusType::ElementWeapon(val) => val as i32,
             BonusType::ElementDefense(val) => val as i32,
-            BonusType::BypassDefenseOnRace => 0_i32,
-            BonusType::WeaponAtkIncreaseOnTargetDefense => 0_i32,
-            BonusType::ReduceDefense(val) => val as i32,
-            BonusType::ReduceDefensePercentage(val) => val as i32,
             BonusType::CriticalDamagePercentage(val) => val as i32,
             BonusType::CastTimePercentage(val) => val as i32,
-            BonusType::CastTimeWhenUsingSkillIdPercentage(val,_) => val as i32,
+            BonusType::CastTimeWhenUsingSkillIdPercentage(val, _) => val as i32,
             BonusType::AfterCastDelayPercentage(val) => val as i32,
             BonusType::NaturalHpRecoveryPercentage(val) => val as i32,
             BonusType::NaturalSpRecoveryPercentage(val) => val as i32,
             BonusType::HpRegenPercentage(val) => val as i32,
             BonusType::SpRegenPercentage(val) => val as i32,
             BonusType::HpRegenFromItemPercentage(val) => val as i32,
-            BonusType::HpRegenFromItemIDPercentage(val,_) => val as i32,
+            BonusType::HpRegenFromItemIDPercentage(val, _) => val as i32,
             BonusType::HpRegenFromHerbPercentage(val) => val as i32,
             BonusType::HpRegenFromFruitPercentage(val) => val as i32,
             BonusType::HpRegenFromMeatPercentage(val) => val as i32,
@@ -425,7 +420,6 @@ impl BonusType {
             BonusType::PhysicalDamageAgainstRaceDemiHumanPercentage(val) => val as i32,
             BonusType::PhysicalDamageAgainstRaceAngelPercentage(val) => val as i32,
             BonusType::PhysicalDamageAgainstRaceDragonPercentage(val) => val as i32,
-            BonusType::MagicalDamageAgainstRacePercentage(val) => val as i32,
             BonusType::MagicalDamageAgainstRaceFormlessPercentage(val) => val as i32,
             BonusType::MagicalDamageAgainstRaceUndeadPercentage(val) => val as i32,
             BonusType::MagicalDamageAgainstRaceBrutePercentage(val) => val as i32,
@@ -446,7 +440,6 @@ impl BonusType {
             BonusType::PhysicalDamageAgainstElementDarkPercentage(val) => val as i32,
             BonusType::PhysicalDamageAgainstElementGhostPercentage(val) => val as i32,
             BonusType::PhysicalDamageAgainstElementUndeadPercentage(val) => val as i32,
-            BonusType::LowerDefencePercentage(val) => val as i32,
             BonusType::CriticalAgainstRaceFormlessPercentage(val) => val as i32,
             BonusType::CriticalAgainstRaceUndeadPercentage(val) => val as i32,
             BonusType::CriticalAgainstRaceBrutePercentage(val) => val as i32,
@@ -539,7 +532,7 @@ impl BonusType {
             BonusType::PhysicalDamageAgainstClassBossPercentage(val) => val as i32,
             BonusType::PhysicalDamageAgainstClassNormalPercentage(val) => val as i32,
             BonusType::PhysicalDamageAgainstClassGuardianPercentage(val) => val as i32,
-            BonusType::PhysicalDamageAgainstMobIdPercentage(val,_) => val as i32,
+            BonusType::PhysicalDamageAgainstMobIdPercentage(val, _) => val as i32,
             BonusType::ResistanceDamageFromClassBossPercentage(val) => val as i32,
             BonusType::ResistanceDamageFromClassNormalPercentage(val) => val as i32,
             BonusType::ResistanceDamageFromClassGuardianPercentage(val) => val as i32,
@@ -569,7 +562,7 @@ impl BonusType {
             BonusType::SkillDelayIncDecPercentage(val) => val as i32,
             BonusType::DoubleAttackChancePercentage(val) => val as i32,
             BonusType::HealSkillPercentage(val) => val as i32,
-            BonusType::HealSkillIdPercentage(val,_) => val as i32,
+            BonusType::HealSkillIdPercentage(val, _) => val as i32,
             BonusType::IgnoreDefClassNormal => 0_i32,
             BonusType::IgnoreDefClassBoss => 0_i32,
             BonusType::IgnoreDefClassGuardian => 0_i32,
@@ -608,7 +601,6 @@ impl BonusType {
             BonusType::IgnoreMDefClassNormalPercentage(val) => val as i32,
             BonusType::IgnoreMDefClassBossPercentage(val) => val as i32,
             BonusType::IgnoreMDefClassGuardianPercentage(val) => val as i32,
-            BonusType::ResistanceRangeAttack(val) => val as i32,
             BonusType::DamageRangedAtkPercentage(val) => val as i32,
             BonusType::ResistanceMagicAttackPercentage(val) => val as i32,
             BonusType::MagicAttackReflectChancePercentage(val) => val as i32,
@@ -628,13 +620,13 @@ impl BonusType {
             BonusType::UnbreakableShield => 0_i32,
             BonusType::UnbreakableShoes => 0_i32,
             BonusType::UnbreakableWeapon => 0_i32,
-            BonusType::ResistancePhysicalAttackFromMobIdPercentage(val,_) => val as i32,
-            BonusType::DropChanceItemIdPercentage(val,_) => val as i32,
+            BonusType::ResistancePhysicalAttackFromMobIdPercentage(val, _) => val as i32,
+            BonusType::DropChanceItemIdPercentage(val, _) => val as i32,
             BonusType::DropChanceJewelPercentage(val) => val as i32,
             BonusType::DropChanceOrePercentage(val) => val as i32,
             BonusType::DropChanceRecoveryPercentage(val) => val as i32,
             BonusType::DropChanceFoodPercentage(val) => val as i32,
-            BonusType::KnockbackWhenUsingSkillId(val,_) => val as i32,
+            BonusType::KnockbackWhenUsingSkillId(val, _) => val as i32,
             BonusType::GainExpWhenKillingRaceFormlessPercentage(val) => val as i32,
             BonusType::GainExpWhenKillingRaceUndeadPercentage(val) => val as i32,
             BonusType::GainExpWhenKillingRaceBrutePercentage(val) => val as i32,
@@ -645,9 +637,9 @@ impl BonusType {
             BonusType::GainExpWhenKillingRaceDemiHumanPercentage(val) => val as i32,
             BonusType::GainExpWhenKillingRaceAngelPercentage(val) => val as i32,
             BonusType::GainExpWhenKillingRaceDragonPercentage(val) => val as i32,
-            BonusType::GainZenyWhenKillingMonster(val,_) => val as i32,
-            BonusType::HpDrainWhenAttackingPercentage(val,_) => val as i32,
-            BonusType::SpDrainWhenAttackingPercentage(val,_) => val as i32,
+            BonusType::GainZenyWhenKillingMonster(val, _) => val as i32,
+            BonusType::HpDrainWhenAttackingPercentage(val, _) => val as i32,
+            BonusType::SpDrainWhenAttackingPercentage(val, _) => val as i32,
             BonusType::SpDrainWhenAttackingRaceFormless(val) => val as i32,
             BonusType::SpDrainWhenAttackingRaceUndead(val) => val as i32,
             BonusType::SpDrainWhenAttackingRaceBrute(val) => val as i32,
@@ -668,12 +660,17 @@ impl BonusType {
             BonusType::SpDrainWhenKillingRaceDemiHuman(val) => val as i32,
             BonusType::SpDrainWhenKillingRaceAngel(val) => val as i32,
             BonusType::SpDrainWhenKillingRaceDragon(val) => val as i32,
-            BonusType::SpBurnOnTargetWhenAttackingPercentage(val,_) => val as i32,
-            BonusType::HpLossEveryMs(val,_) => val as i32,
-            BonusType::HpRegenEveryMs(val,_) => val as i32,
-            BonusType::SpLossEveryMs(val,_) => val as i32,
-            BonusType::SpRegenEveryMs(val,_) => val as i32,
-            BonusType::SkillIdDamagePercentage(val,_) => val as i32,
+            BonusType::SpBurnOnTargetWhenAttackingPercentage(val, _) => val as i32,
+            BonusType::HpLossEveryMs(val, _) => val as i32,
+            BonusType::HpRegenEveryMs(val, _) => val as i32,
+            BonusType::SpLossEveryMs(val, _) => val as i32,
+            BonusType::SpRegenEveryMs(val, _) => val as i32,
+            BonusType::SkillIdDamagePercentage(val, _) => val as i32,
+            BonusType::DamageAgainstMobGroupGoblinPercentage(val) => val as i32,
+            BonusType::DamageAgainstMobGroupKoboldPercentage(val) => val as i32,
+            BonusType::DamageAgainstMobGroupOrcPercentage(val) => val as i32,
+            BonusType::DamageAgainstMobGroupGolemPercentage(val) => val as i32,
+            BonusType::DamageAgainstMobGroupGuardianPercentage(val) => val as i32,
         }
     }
     pub fn add_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
@@ -698,8 +695,8 @@ impl BonusType {
             BonusType::Aspd(aspd) => { status_snapshot.set_aspd(status_snapshot.aspd() + *aspd as f32) }
             BonusType::Maxhp(hp) => { status_snapshot.set_hp(status_snapshot.hp() + *hp as u32) }
             BonusType::Maxsp(sp) => { status_snapshot.set_sp(status_snapshot.sp() + *sp as u32) }
-            BonusType::MatkPercentage(matk_percentage) => {status_snapshot.set_matk_item_modifier(status_snapshot.matk_item_modifier() + (*matk_percentage as f32/100.0))}
-            BonusType::Atk(atk) => {status_snapshot.set_bonus_atk(status_snapshot.bonus_atk() + *atk as u16)}
+            BonusType::MatkPercentage(matk_percentage) => { status_snapshot.set_matk_item_modifier(status_snapshot.matk_item_modifier() + (*matk_percentage as f32 / 100.0)) }
+            BonusType::Atk(atk) => { status_snapshot.set_bonus_atk(status_snapshot.bonus_atk() + *atk as u16) }
             BonusType::Def(def) => { status_snapshot.set_def(status_snapshot.def() + *def as i16) }
             BonusType::Mdef(mdef) => { status_snapshot.set_mdef(status_snapshot.mdef() + *mdef as i16) }
             BonusType::Matk(matk) => {
@@ -709,20 +706,19 @@ impl BonusType {
             _ => {}
         }
     }
-    
+
     pub fn add_percentage_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
         match self {
-            BonusType::HitPercentage(value) => { status_snapshot.set_hit((status_snapshot.hit() as f32 * (1.0 + *value as f32 / 100.0)).floor() as i16); },
-            BonusType::AspdPercentage(value) => { status_snapshot.set_aspd((status_snapshot.aspd() + ((200.0 - status_snapshot.aspd()) * (*value as f32 / 100.0)))); },
-            BonusType::MaxhpPercentage(value) => { status_snapshot.set_max_hp((status_snapshot.max_hp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32); },
-            BonusType::MaxspPercentage(value) => { status_snapshot.set_max_sp((status_snapshot.max_sp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32); },
+            BonusType::HitPercentage(value) => { status_snapshot.set_hit((status_snapshot.hit() as f32 * (1.0 + *value as f32 / 100.0)).floor() as i16); }
+            BonusType::AspdPercentage(value) => { status_snapshot.set_aspd((status_snapshot.aspd() + ((200.0 - status_snapshot.aspd()) * (*value as f32 / 100.0)))); }
+            BonusType::MaxhpPercentage(value) => { status_snapshot.set_max_hp((status_snapshot.max_hp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32); }
+            BonusType::MaxspPercentage(value) => { status_snapshot.set_max_sp((status_snapshot.max_sp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32); }
             BonusType::VitDefPercentage(_) => {}
-            BonusType::DefPercentage(value) => { status_snapshot.set_def((status_snapshot.def() as f32 * (1.0 + *value as f32 / 100.0)).floor() as i16); },
+            BonusType::DefPercentage(value) => { status_snapshot.set_def((status_snapshot.def() as f32 * (1.0 + *value as f32 / 100.0)).floor() as i16); }
             BonusType::MatkBasedOnStaffPercentage(_) => {}
-            BonusType::AtkPercentage(value) => { status_snapshot.set_bonus_atk((status_snapshot.bonus_atk() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u16); },
+            BonusType::AtkPercentage(value) => { status_snapshot.set_bonus_atk((status_snapshot.bonus_atk() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u16); }
             BonusType::PerfectHitPercentage(_) => {}
-            BonusType::ReduceDefensePercentage(_) => {}
-            BonusType::CriticalDamagePercentage(value) => { status_snapshot.set_bonus_atk((status_snapshot.bonus_atk() as f32 * (1.0 +*value as f32 / 100.0)).floor() as u16); },
+            BonusType::CriticalDamagePercentage(value) => { status_snapshot.set_bonus_atk((status_snapshot.bonus_atk() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u16); }
             BonusType::CastTimePercentage(_) => {}
             BonusType::CastTimeWhenUsingSkillIdPercentage(_, _) => {}
             BonusType::AfterCastDelayPercentage(_) => {}
@@ -731,15 +727,15 @@ impl BonusType {
             _ => {}
         };
     }
-    
-    pub fn merge_bonuses(bonuses: &Vec<BonusType>) -> Vec<BonusType>{
+
+    pub fn merge_bonuses(bonuses: &Vec<BonusType>) -> Vec<BonusType> {
         let mut merged_bonuses: Vec<BonusType> = Vec::with_capacity(bonuses.len());
         for bonus in bonuses.iter() {
             Self::get_bonus_sum(bonus, &bonuses).map(|b| merged_bonuses.push(b));
         }
         merged_bonuses
     }
-    pub fn get_bonus_sum(bonus: &BonusType, bonuses: &Vec<BonusType>) -> Option<BonusType>{
+    pub fn get_bonus_sum(bonus: &BonusType, bonuses: &Vec<BonusType>) -> Option<BonusType> {
         let val: i32 = bonuses.into_iter().filter_map(|b| match (bonus, b) {
             (BonusType::Str(_), BonusType::Str(val)) => Some(*val as i32),
             (BonusType::Agi(_), BonusType::Agi(val)) => Some(*val as i32),
@@ -772,8 +768,6 @@ impl BonusType {
             (BonusType::PerfectHitPercentage(_), BonusType::PerfectHitPercentage(val)) => Some(*val as i32),
             (BonusType::ElementWeapon(_), BonusType::ElementWeapon(val)) => Some(*val as i32),
             (BonusType::ElementDefense(_), BonusType::ElementDefense(val)) => Some(*val as i32),
-            (BonusType::ReduceDefense(_), BonusType::ReduceDefense(val)) => Some(*val as i32),
-            (BonusType::ReduceDefensePercentage(_), BonusType::ReduceDefensePercentage(val)) => Some(*val as i32),
             (BonusType::CriticalDamagePercentage(_), BonusType::CriticalDamagePercentage(val)) => Some(*val as i32),
             (BonusType::CastTimePercentage(_), BonusType::CastTimePercentage(val)) => Some(*val as i32),
             (BonusType::AfterCastDelayPercentage(_), BonusType::AfterCastDelayPercentage(val)) => Some(*val as i32),
@@ -815,7 +809,6 @@ impl BonusType {
             (BonusType::PhysicalDamageAgainstRaceDemiHumanPercentage(_), BonusType::PhysicalDamageAgainstRaceDemiHumanPercentage(val)) => Some(*val as i32),
             (BonusType::PhysicalDamageAgainstRaceAngelPercentage(_), BonusType::PhysicalDamageAgainstRaceAngelPercentage(val)) => Some(*val as i32),
             (BonusType::PhysicalDamageAgainstRaceDragonPercentage(_), BonusType::PhysicalDamageAgainstRaceDragonPercentage(val)) => Some(*val as i32),
-            (BonusType::MagicalDamageAgainstRacePercentage(_), BonusType::MagicalDamageAgainstRacePercentage(val)) => Some(*val as i32),
             (BonusType::MagicalDamageAgainstRaceFormlessPercentage(_), BonusType::MagicalDamageAgainstRaceFormlessPercentage(val)) => Some(*val as i32),
             (BonusType::MagicalDamageAgainstRaceUndeadPercentage(_), BonusType::MagicalDamageAgainstRaceUndeadPercentage(val)) => Some(*val as i32),
             (BonusType::MagicalDamageAgainstRaceBrutePercentage(_), BonusType::MagicalDamageAgainstRaceBrutePercentage(val)) => Some(*val as i32),
@@ -836,7 +829,6 @@ impl BonusType {
             (BonusType::PhysicalDamageAgainstElementDarkPercentage(_), BonusType::PhysicalDamageAgainstElementDarkPercentage(val)) => Some(*val as i32),
             (BonusType::PhysicalDamageAgainstElementGhostPercentage(_), BonusType::PhysicalDamageAgainstElementGhostPercentage(val)) => Some(*val as i32),
             (BonusType::PhysicalDamageAgainstElementUndeadPercentage(_), BonusType::PhysicalDamageAgainstElementUndeadPercentage(val)) => Some(*val as i32),
-            (BonusType::LowerDefencePercentage(_), BonusType::LowerDefencePercentage(val)) => Some(*val as i32),
             (BonusType::CriticalAgainstRaceFormlessPercentage(_), BonusType::CriticalAgainstRaceFormlessPercentage(val)) => Some(*val as i32),
             (BonusType::CriticalAgainstRaceUndeadPercentage(_), BonusType::CriticalAgainstRaceUndeadPercentage(val)) => Some(*val as i32),
             (BonusType::CriticalAgainstRaceBrutePercentage(_), BonusType::CriticalAgainstRaceBrutePercentage(val)) => Some(*val as i32),
@@ -978,7 +970,6 @@ impl BonusType {
             (BonusType::IgnoreMDefClassNormalPercentage(_), BonusType::IgnoreMDefClassNormalPercentage(val)) => Some(*val as i32),
             (BonusType::IgnoreMDefClassBossPercentage(_), BonusType::IgnoreMDefClassBossPercentage(val)) => Some(*val as i32),
             (BonusType::IgnoreMDefClassGuardianPercentage(_), BonusType::IgnoreMDefClassGuardianPercentage(val)) => Some(*val as i32),
-            (BonusType::ResistanceRangeAttack(_), BonusType::ResistanceRangeAttack(val)) => Some(*val as i32),
             (BonusType::DamageRangedAtkPercentage(_), BonusType::DamageRangedAtkPercentage(val)) => Some(*val as i32),
             (BonusType::ResistanceMagicAttackPercentage(_), BonusType::ResistanceMagicAttackPercentage(val)) => Some(*val as i32),
             (BonusType::MagicAttackReflectChancePercentage(_), BonusType::MagicAttackReflectChancePercentage(val)) => Some(*val as i32),
@@ -1051,8 +1042,6 @@ impl BonusType {
             BonusType::MatkPercentage(_) => Some(BonusType::MatkPercentage(val as i8)),
             BonusType::AtkPercentage(_) => Some(BonusType::AtkPercentage(val as i8)),
             BonusType::PerfectHitPercentage(_) => Some(BonusType::PerfectHitPercentage(val as i8)),
-            BonusType::ReduceDefense(_) => Some(BonusType::ReduceDefense(val as i8)),
-            BonusType::ReduceDefensePercentage(_) => Some(BonusType::ReduceDefensePercentage(val as i8)),
             BonusType::CriticalDamagePercentage(_) => Some(BonusType::CriticalDamagePercentage(val as i8)),
             BonusType::CastTimePercentage(_) => Some(BonusType::CastTimePercentage(val as i8)),
             BonusType::AfterCastDelayPercentage(_) => Some(BonusType::AfterCastDelayPercentage(val as i8)),
@@ -1094,7 +1083,6 @@ impl BonusType {
             BonusType::PhysicalDamageAgainstRaceDemiHumanPercentage(_) => Some(BonusType::PhysicalDamageAgainstRaceDemiHumanPercentage(val as i8)),
             BonusType::PhysicalDamageAgainstRaceAngelPercentage(_) => Some(BonusType::PhysicalDamageAgainstRaceAngelPercentage(val as i8)),
             BonusType::PhysicalDamageAgainstRaceDragonPercentage(_) => Some(BonusType::PhysicalDamageAgainstRaceDragonPercentage(val as i8)),
-            BonusType::MagicalDamageAgainstRacePercentage(_) => Some(BonusType::MagicalDamageAgainstRacePercentage(val as i8)),
             BonusType::MagicalDamageAgainstRaceFormlessPercentage(_) => Some(BonusType::MagicalDamageAgainstRaceFormlessPercentage(val as i8)),
             BonusType::MagicalDamageAgainstRaceUndeadPercentage(_) => Some(BonusType::MagicalDamageAgainstRaceUndeadPercentage(val as i8)),
             BonusType::MagicalDamageAgainstRaceBrutePercentage(_) => Some(BonusType::MagicalDamageAgainstRaceBrutePercentage(val as i8)),
@@ -1115,7 +1103,6 @@ impl BonusType {
             BonusType::PhysicalDamageAgainstElementDarkPercentage(_) => Some(BonusType::PhysicalDamageAgainstElementDarkPercentage(val as i8)),
             BonusType::PhysicalDamageAgainstElementGhostPercentage(_) => Some(BonusType::PhysicalDamageAgainstElementGhostPercentage(val as i8)),
             BonusType::PhysicalDamageAgainstElementUndeadPercentage(_) => Some(BonusType::PhysicalDamageAgainstElementUndeadPercentage(val as i8)),
-            BonusType::LowerDefencePercentage(_) => Some(BonusType::LowerDefencePercentage(val as i8)),
             BonusType::CriticalAgainstRaceFormlessPercentage(_) => Some(BonusType::CriticalAgainstRaceFormlessPercentage(val as i8)),
             BonusType::CriticalAgainstRaceUndeadPercentage(_) => Some(BonusType::CriticalAgainstRaceUndeadPercentage(val as i8)),
             BonusType::CriticalAgainstRaceBrutePercentage(_) => Some(BonusType::CriticalAgainstRaceBrutePercentage(val as i8)),
@@ -1257,7 +1244,6 @@ impl BonusType {
             BonusType::IgnoreMDefClassNormalPercentage(_) => Some(BonusType::IgnoreMDefClassNormalPercentage(val as i8)),
             BonusType::IgnoreMDefClassBossPercentage(_) => Some(BonusType::IgnoreMDefClassBossPercentage(val as i8)),
             BonusType::IgnoreMDefClassGuardianPercentage(_) => Some(BonusType::IgnoreMDefClassGuardianPercentage(val as i8)),
-            BonusType::ResistanceRangeAttack(_) => Some(BonusType::ResistanceRangeAttack(val as i8)),
             BonusType::DamageRangedAtkPercentage(_) => Some(BonusType::DamageRangedAtkPercentage(val as i8)),
             BonusType::ResistanceMagicAttackPercentage(_) => Some(BonusType::ResistanceMagicAttackPercentage(val as i8)),
             BonusType::MagicAttackReflectChancePercentage(_) => Some(BonusType::MagicAttackReflectChancePercentage(val as i8)),
@@ -1301,7 +1287,7 @@ impl BonusType {
             _ => Self::get_bonus(bonus, bonuses)
         }
     }
-    
+
     pub fn get_bonus(bonus: &BonusType, bonuses: &Vec<BonusType>) -> Option<BonusType> {
         match bonus {
             BonusType::Str(_) => bonuses.iter().find(|b| matches!(b, BonusType::Str(_))).map(|b| b.clone()),
@@ -1334,10 +1320,6 @@ impl BonusType {
             BonusType::PerfectHitPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::PerfectHitPercentage(_))).map(|b| b.clone()),
             BonusType::ElementWeapon(_) => bonuses.iter().find(|b| matches!(b, BonusType::ElementWeapon(_))).map(|b| b.clone()),
             BonusType::ElementDefense(_) => bonuses.iter().find(|b| matches!(b, BonusType::ElementDefense(_))).map(|b| b.clone()),
-            BonusType::BypassDefenseOnRace => bonuses.iter().find(|b| matches!(b, BonusType::BypassDefenseOnRace)).map(|b| b.clone()),
-            BonusType::WeaponAtkIncreaseOnTargetDefense => bonuses.iter().find(|b| matches!(b, BonusType::WeaponAtkIncreaseOnTargetDefense)).map(|b| b.clone()),
-            BonusType::ReduceDefense(_) => bonuses.iter().find(|b| matches!(b, BonusType::ReduceDefense(_))).map(|b| b.clone()),
-            BonusType::ReduceDefensePercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::ReduceDefensePercentage(_))).map(|b| b.clone()),
             BonusType::CriticalDamagePercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::CriticalDamagePercentage(_))).map(|b| b.clone()),
             BonusType::CastTimePercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::CastTimePercentage(_))).map(|b| b.clone()),
             BonusType::CastTimeWhenUsingSkillIdPercentage(_, _) => bonuses.iter().find(|b| matches!(b, BonusType::CastTimeWhenUsingSkillIdPercentage(_, _))).map(|b| b.clone()),
@@ -1383,7 +1365,6 @@ impl BonusType {
             BonusType::PhysicalDamageAgainstRaceDemiHumanPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::PhysicalDamageAgainstRaceDemiHumanPercentage(_))).map(|b| b.clone()),
             BonusType::PhysicalDamageAgainstRaceAngelPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::PhysicalDamageAgainstRaceAngelPercentage(_))).map(|b| b.clone()),
             BonusType::PhysicalDamageAgainstRaceDragonPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::PhysicalDamageAgainstRaceDragonPercentage(_))).map(|b| b.clone()),
-            BonusType::MagicalDamageAgainstRacePercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::MagicalDamageAgainstRacePercentage(_))).map(|b| b.clone()),
             BonusType::MagicalDamageAgainstRaceFormlessPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::MagicalDamageAgainstRaceFormlessPercentage(_))).map(|b| b.clone()),
             BonusType::MagicalDamageAgainstRaceUndeadPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::MagicalDamageAgainstRaceUndeadPercentage(_))).map(|b| b.clone()),
             BonusType::MagicalDamageAgainstRaceBrutePercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::MagicalDamageAgainstRaceBrutePercentage(_))).map(|b| b.clone()),
@@ -1404,7 +1385,6 @@ impl BonusType {
             BonusType::PhysicalDamageAgainstElementDarkPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::PhysicalDamageAgainstElementDarkPercentage(_))).map(|b| b.clone()),
             BonusType::PhysicalDamageAgainstElementGhostPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::PhysicalDamageAgainstElementGhostPercentage(_))).map(|b| b.clone()),
             BonusType::PhysicalDamageAgainstElementUndeadPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::PhysicalDamageAgainstElementUndeadPercentage(_))).map(|b| b.clone()),
-            BonusType::LowerDefencePercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::LowerDefencePercentage(_))).map(|b| b.clone()),
             BonusType::CriticalAgainstRaceFormlessPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::CriticalAgainstRaceFormlessPercentage(_))).map(|b| b.clone()),
             BonusType::CriticalAgainstRaceUndeadPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::CriticalAgainstRaceUndeadPercentage(_))).map(|b| b.clone()),
             BonusType::CriticalAgainstRaceBrutePercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::CriticalAgainstRaceBrutePercentage(_))).map(|b| b.clone()),
@@ -1566,7 +1546,6 @@ impl BonusType {
             BonusType::IgnoreMDefClassNormalPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::IgnoreMDefClassNormalPercentage(_))).map(|b| b.clone()),
             BonusType::IgnoreMDefClassBossPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::IgnoreMDefClassBossPercentage(_))).map(|b| b.clone()),
             BonusType::IgnoreMDefClassGuardianPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::IgnoreMDefClassGuardianPercentage(_))).map(|b| b.clone()),
-            BonusType::ResistanceRangeAttack(_) => bonuses.iter().find(|b| matches!(b, BonusType::ResistanceRangeAttack(_))).map(|b| b.clone()),
             BonusType::DamageRangedAtkPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::DamageRangedAtkPercentage(_))).map(|b| b.clone()),
             BonusType::ResistanceMagicAttackPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::ResistanceMagicAttackPercentage(_))).map(|b| b.clone()),
             BonusType::MagicAttackReflectChancePercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::MagicAttackReflectChancePercentage(_))).map(|b| b.clone()),
@@ -1632,6 +1611,11 @@ impl BonusType {
             BonusType::SpLossEveryMs(_, _) => bonuses.iter().find(|b| matches!(b, BonusType::SpLossEveryMs(_, _))).map(|b| b.clone()),
             BonusType::SpRegenEveryMs(_, _) => bonuses.iter().find(|b| matches!(b, BonusType::SpRegenEveryMs(_, _))).map(|b| b.clone()),
             BonusType::SkillIdDamagePercentage(_, _) => bonuses.iter().find(|b| matches!(b, BonusType::SkillIdDamagePercentage(_, _))).map(|b| b.clone()),
+            BonusType::DamageAgainstMobGroupGoblinPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::DamageAgainstMobGroupGoblinPercentage(_))).map(|b| b.clone()),
+            BonusType::DamageAgainstMobGroupKoboldPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::DamageAgainstMobGroupKoboldPercentage(_))).map(|b| b.clone()),
+            BonusType::DamageAgainstMobGroupOrcPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::DamageAgainstMobGroupOrcPercentage(_))).map(|b| b.clone()),
+            BonusType::DamageAgainstMobGroupGolemPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::DamageAgainstMobGroupGolemPercentage(_))).map(|b| b.clone()),
+            BonusType::DamageAgainstMobGroupGuardianPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::DamageAgainstMobGroupGuardianPercentage(_))).map(|b| b.clone()),
         }
     }
 }

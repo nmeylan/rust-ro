@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "convert";
+const command = "bonus";
 let formData, testCase, testCases, file;
 switch (command) {
     case "convert":
@@ -67,6 +67,19 @@ switch (command) {
         }
         // console.log(JSON.stringify(ItemIds));
         console.log("UNNEST(ARRAY["+array_index.join(",") +"],ARRAY["+array_name.join(",") +"])")
+        break;
+    case "bonus":
+        let orderedItems = [];
+        for(let item of ItemOBJ){
+            orderedItems.push(item[8]);
+            for (let itemStatIndex = 0;  item[itemStatIndex + 11] != 0; itemStatIndex += 2) {
+                let bonus = item[itemStatIndex + 11];
+                if (bonus === BYPASS_DEFENSE_ON_RACE) {
+                    console.log(item)
+                }
+            }
+        }
+        console.log(JSON.stringify(orderedItems));
         break;
 }
 
