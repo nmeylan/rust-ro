@@ -155,8 +155,9 @@ mod tests {
             if !stat.weapon.is_empty() {
                 equip_item_from_name(&mut character, stat.weapon);
             }
+            let status_snapshot = status_snapshot!(context, character);
             // When
-            let status_atk = context.status_service.status_atk_left_side(status_snapshot!(context, character));
+            let status_atk = status_snapshot.atk_left_side();
             // Then
             assert_eq!(status_atk, stat.expected_status_atk, "Expected status atk1 to be {} but was {} with stats {:?}", stat.expected_status_atk, status_atk, stat);
         }
@@ -225,7 +226,6 @@ mod tests {
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-stats.json";
         let result_file_path = "../doc/progress/each-bonus_progress.md";
         stats_tests(fixture_file, result_file_path, "Each item bonus", None, |result| format!("{}", result.desc.as_ref().unwrap_or(&"NA".to_string())));
-
     }
 
     #[test]
@@ -309,8 +309,8 @@ mod tests {
                 actual_luk: status_snapshot.base_luk() as i16,
                 actual_bonus_luk: status_snapshot.bonus_luk() as i16,
                 actual_aspd: status_snapshot.aspd() as f32,
-                actual_atk_left: context.status_service.status_atk_left_side(&status_snapshot) as u16,
-                actual_atk_right: context.status_service.status_atk_right_side(&status_snapshot) as u16,
+                actual_atk_left: status_snapshot.atk_left_side() as u16,
+                actual_atk_right: status_snapshot.atk_right_side() as u16,
                 actual_matk_min: status_snapshot.matk_min(),
                 actual_matk_max: status_snapshot.matk_max(),
                 actual_def: status_snapshot.def(),

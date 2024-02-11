@@ -692,11 +692,11 @@ impl CharacterService {
         packet_aspd.fill_raw();
         let mut packet_atk = PacketZcParChange::new(self.configuration_service.packetver());
         packet_atk.set_var_id(StatusTypes::Atk1.value() as u16);
-        packet_atk.set_count(StatusService::instance().status_atk_left_side(&character_status));
+        packet_atk.set_count(character_status.atk_left_side());
         packet_atk.fill_raw();
         let mut packet_atk2 = PacketZcParChange::new(self.configuration_service.packetver());
         packet_atk2.set_var_id(StatusTypes::Atk2.value() as u16);
-        packet_atk2.set_count(StatusService::instance().status_atk_right_side(&character_status));
+        packet_atk2.set_count(character_status.atk_right_side());
         packet_atk2.fill_raw();
         let mut packet_def = PacketZcParChange::new(self.configuration_service.packetver());
         packet_def.set_var_id(StatusTypes::Def1.value() as u16);

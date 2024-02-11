@@ -62,6 +62,9 @@ pub struct StatusSnapshot {
     bonus_atk: u16,
     matk_min: u16,
     matk_max: u16,
+    atk_left_side: i32,
+    atk_right_side: i32,
+    fist_atk: u16,
     matk_item_modifier: f32,
     speed: u16,
     hit: i16,
@@ -122,6 +125,9 @@ impl StatusSnapshot {
             bonus_atk: 0,
             matk_min: matk1,
             matk_max: matk2,
+            atk_left_side: 0,
+            atk_right_side: 0,
+            fist_atk: 0,
             matk_item_modifier: 1.0,
             speed,
             hit: 0,
@@ -155,8 +161,6 @@ impl StatusSnapshot {
     }
     /// Do not use this method directly, use StatusService::to_snapshot instead
     pub fn _from(status: &Status) -> Self {
-        let int = status.int; // TODO add bonuses
-        let dex = status.dex;
         let mut snapshot = Self {
             job: status.job,
             hp: status.hp,
@@ -166,8 +170,8 @@ impl StatusSnapshot {
             base_str: status.str,
             base_agi: status.agi,
             base_vit: status.vit,
-            base_int: int,
-            base_dex: dex,
+            base_int: status.int,
+            base_dex: status.dex,
             base_luk: status.luk,
             base_atk: 0,
             bonus_str: 0,
@@ -179,6 +183,9 @@ impl StatusSnapshot {
             bonus_atk: 0,
             matk_min: 0,
             matk_max: 0,
+            atk_left_side: 0,
+            atk_right_side: 0,
+            fist_atk: 0,
             matk_item_modifier: 1.0,
             speed: status.speed,
             hit: 0,
