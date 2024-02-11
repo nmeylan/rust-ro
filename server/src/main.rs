@@ -50,8 +50,8 @@ use server::Server;
 
 
 use configuration::configuration::{Config};
-use crate::repository::model::item_model::ItemModels;
-use crate::repository::model::mob_model::MobModels;
+use crate::repository::model::item_model::{ItemModel, ItemModels};
+use crate::repository::model::mob_model::{MobModel, MobModels};
 use crate::server::model::map::Map;
 use self::server::model::events::client_notification::Notification;
 use self::server::model::events::persistence_event::PersistenceEvent;
@@ -76,103 +76,60 @@ pub static mut MOB_ROOT_PATH: &str = "./config/npc";
 pub static mut MAP_DIR: &str = "./config/maps/pre-re";
 #[tokio::main]
 pub async fn main() {
+    let _start = Instant::now();
     unsafe {
         CONFIGS = Some(Config::load().unwrap());
     }
 
-    let logger= Logger::try_with_str(configs().server.log_level.as_ref().unwrap()).unwrap();
-    logger.format(|w: &mut dyn std::io::Write, now: &mut DeferredNow, record: &Record| {
-        let _level = record.level();
-        write!(
-            w,
-            "{} [{}] [{}]: {}",
-            now.format(TS_DASHES_BLANK_COLONS_DOT_BLANK),
-            thread::current().name().unwrap_or("<unnamed>"),
-            record.level(),
-            &record.args()
-        )
-    })
-        .filter(Box::new(LogFilter::new(configs().server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
+    setup_logger();
     let repository : Repository = Repository::new_pg(&configs().database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
+    // Load all items in memory, it takes only few mb
     let mut items =  repository_arc.get_all_items().await.unwrap();
-
-    let start = Instant::now();
-    let mut script_compilation_to_update: Vec<(i32, Vec<u8>, u128)> = vec![];
-    let mut item_script_compiled = 0;
-    let mut item_script_skipped = 0;
-    for item in items.iter_mut() {
-        if let Some(script) = &item.script {
-            let script_hash = fastmurmur3::hash(script.as_bytes());
-            if item.script_compilation_hash.is_none() || script_hash != item.script_compilation_hash.unwrap() {
-                let compilation_result = Compiler::compile_script_into_binary(format!("{}-{}", item.id, item.name_aegis), script.as_str(), "./native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
-                    compilation_result.map(|res| {
-                        item_script_compiled += 1;
-                        item.script_compilation_hash = Some(script_hash);
-                        item.script_compilation = Some(general_purpose::STANDARD.encode(res.clone()));
-                        script_compilation_to_update.push((item.id, res, script_hash));
-                });
-            } else {
-                item_script_skipped += 1;
-            }
-        }
-    }
-    repository_arc.update_script_compilation(script_compilation_to_update).await.unwrap();
-    info!("Compiled {} item scripts compiled, skipped {} item scripts compilation (already compiled) in {}ms", item_script_compiled, item_script_skipped, start.elapsed().as_millis());
-
+    // Compiling item scripts into script VM bytecode, if needed (previous compilation are stored in db, recompilation occurs when script has changed)
+    compile_item_scripts(&repository_arc, &mut items).await;
+    // Load all mobs in memory, it takes only few mb
     let mobs =  repository_arc.get_all_mobs().await.unwrap();
+    // Initializing global id pool
     let mut map_item_ids = MapItems::new(300000, u32::MAX);
-    #[cfg(feature = "static_db_update")]
-    {
-        // items.json is used in tests
-        let item_db: ItemModels = items.clone().into();
-        let json = serde_json::to_string_pretty(&item_db).unwrap();
-        let output_path = Path::new("config");
-        let mut file = File::create(output_path.join("items.json")).unwrap();
-        file.write_all(json.as_bytes()).unwrap();
-        // mobs.json is used in tests
-        let mob_db: MobModels = mobs.clone().into();
-        let json = serde_json::to_string_pretty(&mob_db).unwrap();
-        let output_path = Path::new("config");
-        let mut file = File::create(output_path.join("mobs.json")).unwrap();
-        file.write_all(json.as_bytes()).unwrap();
-    }
-    let skills_config = Config::load_skills_config(".").unwrap();
-    let job_configs = Config::load_jobs_config(".").unwrap();
-    let job_skills_tree = Config::load_jobs_skill_tree(".").unwrap();
+    // Unit Tests needs items and mob db,to avoid starting an actual db, we dump items and mob db into json files
+    update_item_and_mob_static_db(&mut items, &mobs);
 
+
+    // Setup script virtual machine for NPC
     let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
     let scripts = load_scripts(vm.clone());
 
+    // Loading configs
+    let skills_config = Config::load_skills_config(".").unwrap();
+    let job_configs = Config::load_jobs_config(".").unwrap();
+    let job_skills_tree = Config::load_jobs_skill_tree(".").unwrap();
+    // Loading map-cache and warps
     let start = Instant::now();
     let warps = unsafe { WarpLoader::load_warps(CONFIGS.as_ref().unwrap()).await };
     let mobs_map = mobs.clone().into_iter().map(|mob| (mob.id as u32, mob)).collect();
     let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map, MOB_ROOT_PATH).join().unwrap() };
     let maps = MapLoader::load_maps(warps, mob_spawns, scripts, &mut map_item_ids, unsafe { MAP_DIR });
     info!("Loaded {} map-cache in {}ms", maps.len(), start.elapsed().as_millis());
+    // Executing items' script and cache result when possible (e.g: script like `bonus bStr, 3;` result will be cached and item will have a bonus +3 str associated)
     let start = Instant::now();
     let item_script_executed = ItemService::convert_script_into_bonuses(&mut items, "native_functions_list.txt");
-    info!("Executed {} item scripts, skipped {} item scripts (requiring runtime data) in {}ms", item_script_executed.0, item_script_executed.1, start.elapsed().as_millis());
-    unsafe {
-        GlobalConfigService::init(CONFIGS.clone().unwrap(),
-                                  items,
-                                  mobs,
-                                  job_configs,
-                                  job_skills_tree,
-                                  skills_config,
-                                  maps
-        );
-    }
-    // let mob_spawns = Default::default();
+    info!("Executed and cached {} item scripts, skipped {} item scripts (requiring runtime data) in {}ms", item_script_executed.0, item_script_executed.1, start.elapsed().as_millis());
 
-    // let scripts = Default::default();
-    // let class_files = Default::default();
+    // Creating global config instance, used by all services
+    unsafe {
+        GlobalConfigService::init(CONFIGS.clone().unwrap(), items, mobs, job_configs, job_skills_tree, skills_config, maps);
+    }
+    // Init channel for inter-thread communication
     let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(2048);
     let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(2048);
+    // Create server
     let server = Server::new(configs(), repository_arc.clone(), map_item_ids, vm, client_notification_sender, persistence_event_sender.clone());
     let server_ref = Arc::new(server);
     let server_ref_clone = server_ref;
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
+
+    // Create proxies for other emulator (rathena/hercules). TODO: add a configuration to disable this.
     let char_proxy = CharProxy::new(&configs().proxy);
     let map_proxy = MapProxy::new(&configs().proxy);
     let _ = &handles.push(char_proxy.proxy(configs().server.packetver));
@@ -188,11 +145,71 @@ pub async fn main() {
             warn!("Visual debugger has been enable in configuration, but feature has not been compiled. Please consider enabling \"visual-debugger\" feature.");
         }
     }
+    info!("Server started in {}ms", _start.elapsed().as_millis());
     Server::start(server_ref_clone, single_client_notification_receiver, persistence_event_receiver, persistence_event_sender, true);
 
     for handle in handles {
         handle.join().expect("Failed await server and proxy threads");
     }
+}
+
+fn update_item_and_mob_static_db(items: &mut Vec<ItemModel>, mobs: &Vec<MobModel>) {
+    #[cfg(feature = "static_db_update")]
+    {
+        // items.json is used in tests
+        let item_db: ItemModels = items.clone().into();
+        let json = serde_json::to_string_pretty(&item_db).unwrap();
+        let output_path = Path::new("config");
+        let mut file = File::create(output_path.join("items.json")).unwrap();
+        file.write_all(json.as_bytes()).unwrap();
+        // mobs.json is used in tests
+        let mob_db: MobModels = mobs.clone().into();
+        let json = serde_json::to_string_pretty(&mob_db).unwrap();
+        let output_path = Path::new("config");
+        let mut file = File::create(output_path.join("mobs.json")).unwrap();
+        file.write_all(json.as_bytes()).unwrap();
+    }
+}
+
+async fn compile_item_scripts(repository_arc: &Arc<Repository>, items: &mut Vec<ItemModel>) {
+    let start = Instant::now();
+    let mut script_compilation_to_update: Vec<(i32, Vec<u8>, u128)> = vec![];
+    let mut item_script_compiled = 0;
+    let mut item_script_skipped = 0;
+    for item in items.iter_mut() {
+        if let Some(script) = &item.script {
+            let script_hash = fastmurmur3::hash(script.as_bytes());
+            if item.script_compilation_hash.is_none() || script_hash != item.script_compilation_hash.unwrap() {
+                let compilation_result = Compiler::compile_script_into_binary(format!("{}-{}", item.id, item.name_aegis), script.as_str(), "./native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
+                compilation_result.map(|res| {
+                    item_script_compiled += 1;
+                    item.script_compilation_hash = Some(script_hash);
+                    item.script_compilation = Some(general_purpose::STANDARD.encode(res.clone()));
+                    script_compilation_to_update.push((item.id, res, script_hash));
+                });
+            } else {
+                item_script_skipped += 1;
+            }
+        }
+    }
+    repository_arc.update_script_compilation(script_compilation_to_update).await.unwrap();
+    info!("Compiled {} item scripts compiled, skipped {} item scripts compilation (already compiled) in {}ms", item_script_compiled, item_script_skipped, start.elapsed().as_millis());
+}
+
+fn setup_logger() {
+    let logger = Logger::try_with_str(configs().server.log_level.as_ref().unwrap()).unwrap();
+    logger.format(|w: &mut dyn std::io::Write, now: &mut DeferredNow, record: &Record| {
+        let _level = record.level();
+        write!(
+            w,
+            "{} [{}] [{}]: {}",
+            now.format(TS_DASHES_BLANK_COLONS_DOT_BLANK),
+            thread::current().name().unwrap_or("<unnamed>"),
+            record.level(),
+            &record.args()
+        )
+    })
+        .filter(Box::new(LogFilter::new(configs().server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
 }
 
 pub fn load_scripts(vm: Arc<Vm>) -> HashMap<String, Vec<Script>> {
@@ -204,7 +221,7 @@ pub fn load_scripts(vm: Arc<Vm>) -> HashMap<String, Vec<Script>> {
             error!("{}", compilation_error);
         }
     }
-    info!("load {} scripts in {} secs", scripts.len(), start.elapsed().as_millis() as f32 / 1000.0);
+    info!("load {} scripts in {}ms", scripts.len(), start.elapsed().as_millis());
 
     Vm::bootstrap(vm, class_files, Box::new(&ScriptHandler {}));
     scripts

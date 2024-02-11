@@ -153,13 +153,18 @@ DATABASE_PASSWORD=ragnarok cargo run --bin=server
 If everything goes right, you should receive something like this output:
 
 ```
-INFO [server] load 39 scripts in 0.126 secs
-INFO [server::server::boot::warps_loader] load 2781 warps in 0.007 secs
-INFO [server::server::boot::mob_spawn_loader] load 3391 mob spawns in 0.022 secs
-INFO [server] load 897 map-cache in 0.05 secs
-INFO [server::proxy] Start proxy for Char proxy, 6123:6121
-INFO [server::proxy] Start proxy for map proxy, 6124:5121
-INFO [server::server] Server listen on 0.0.0.0:6901
+2024-02-11 13:45:53.695168 +01:00 [main] [INFO]: Compiled 0 item scripts compiled, skipped 2492 item scripts compilation (already compiled) in 73ms
+2024-02-11 13:45:54.976721 +01:00 [main] [INFO]: load 39 scripts in 1104ms
+2024-02-11 13:45:55.110070 +01:00 [tokio-runtime-worker] [WARN]: Not able to load boot script: pre-re/warps/other/sign.txt, due to No such file or directory (os error 2)
+2024-02-11 13:45:55.113409 +01:00 [main] [INFO]: load 2782 warps in 6ms
+2024-02-11 13:45:55.134622 +01:00 [<unnamed>] [INFO]: load 3392 mob spawns in 19ms
+2024-02-11 13:45:55.152271 +01:00 [main] [INFO]: Loaded 897 map-cache in 44ms
+2024-02-11 13:45:55.378476 +01:00 [main] [INFO]: Executed and cached 1601 item scripts, skipped 891 item scripts (requiring runtime data) in 226ms
+2024-02-11 13:45:55.388987 +01:00 [<unnamed>] [INFO]: Start proxy for map proxy, 6124:5121
+2024-02-11 13:45:55.389135 +01:00 [<unnamed>] [INFO]: Start proxy for Char proxy, 6123:6121
+2024-02-11 13:45:55.389212 +01:00 [main] [WARN]: Visual debugger has been enable in configuration, but feature has not been compiled. Please consider enabling "visual-debugger" feature.
+2024-02-11 13:45:55.389241 +01:00 [main] [INFO]: Server started in 2347ms
+2024-02-11 13:45:55.389292 +01:00 [main] [INFO]: Server listen on 0.0.0.0:6901
 ```
 
 #### 5.5 Running the Game

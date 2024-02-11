@@ -60,7 +60,7 @@ impl WarpLoader {
             parallel_execution: PARALLEL_EXECUTIONS,
         };
         let warps = npc_loader.load_npc::<Warp, WarpLoader>(config).await;
-        info!("load {} warps in {} secs", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
+        info!("load {} warps in {}ms", warps.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis());
         warps
     }
 }

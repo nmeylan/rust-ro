@@ -101,7 +101,7 @@ impl MobSpawnLoader {
                 });
             });
 
-            info!("load {} mob spawns in {} secs", mob_spawns.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis() as f32 / 1000.0);
+            info!("load {} mob spawns in {}ms", mob_spawns.iter().fold(0, |memo, curr| memo + curr.1.len()), start.elapsed().as_millis());
             mob_spawns
         })
     }
