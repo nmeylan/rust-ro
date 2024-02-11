@@ -68,7 +68,9 @@ impl StatusService {
         snapshot.set_aspd(snapshot.aspd() + self.aspd(&snapshot));
         snapshot.set_matk_min(((snapshot.int() + ((snapshot.int() as f32 / 7.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
         snapshot.set_matk_max(((snapshot.int() + ((snapshot.int() as f32 / 5.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
-
+        snapshot.set_fist_atk(self.fist_atk(&snapshot, snapshot.right_hand_weapon_type().is_ranged()));
+        snapshot.set_atk_left_side(self.status_atk_left_side(&snapshot));
+        snapshot.set_atk_right_side(self.status_atk_right_side(&snapshot));
         bonuses.iter().for_each(|bonus| bonus.add_percentage_bonus_to_status(&mut snapshot));
         snapshot.set_bonuses(bonuses.iter().map(|b| StatusBonus::new(b.clone())).collect::<Vec<StatusBonus>>());
         snapshot
@@ -118,11 +120,11 @@ impl StatusService {
     ///For weapons, the true value is equal to: STR + [STR/10]^2 + [DEX/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
     ///For missile weapons, the true value is equal to: DEX + [DEX/10]^2 + [STR/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
     ///Not counting the value of WeaponAtk and AtkBonusCards, this true value is often referred to as the base damage. This base damage is basically the your Atk with bare fists.
-    pub fn status_atk_left_side(&self, status: &StatusSnapshot) -> i32 {
+    fn status_atk_left_side(&self, status: &StatusSnapshot) -> i32 {
         let imposito_magnus = 0;
         let _upgrade_damage = 0;
         let _atk_cards = 0;
-        (self.fist_atk(status, status.right_hand_weapon_type().is_ranged()) + status.weapon_atk() + imposito_magnus + status.weapon_upgrade_damage() + status.base_atk()) as i32
+        (status.fist_atk() + status.weapon_atk() + imposito_magnus + status.weapon_upgrade_damage() + status.base_atk()) as i32
     }
 
     pub(crate) fn fist_atk(&self, status: &StatusSnapshot, is_ranged: bool) -> u16 {
