@@ -1,6 +1,6 @@
 ![build](https://github.com/nmeylan/rust-ro/actions/workflows/rust.yml/badge.svg)
 
-![Discord](https://discord.gg/AJkR8mhdFJ)
+[Discord](https://discord.gg/AJkR8mhdFJ)
 
 # Welcome to rust-ro!
 **rust-ro** is a Ragnarok MMO Server implementation written in Rust. 
