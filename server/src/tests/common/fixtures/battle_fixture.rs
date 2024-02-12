@@ -6,7 +6,7 @@ use serde::{Deserialize, Deserializer};
 use serde::de::{MapAccess, SeqAccess, Visitor};
 use crate::tests::common::character_helper::equip_item_from_id;
 
-#[derive(Deserialize, GettersAll, Debug)]
+#[derive(Deserialize, GettersAll, Debug, Clone, Default)]
 pub struct BattleFixture {
     #[serde(rename = "_id")]
     id: String,
@@ -105,7 +105,7 @@ pub struct BattleFixture {
     #[serde(rename = "matkMax")]
     matk_max: u16
 }
-#[derive(GettersAll, Debug)]
+#[derive(GettersAll, Debug, Clone, Default)]
 pub struct Equipments {
     weapon: Option<Equipment>,
     weapon_left: Option<Equipment>,
@@ -147,13 +147,13 @@ impl BattleFixture {
     }
 }
 
-#[derive(Deserialize, GettersAll, Debug)]
+#[derive(Deserialize, GettersAll, Debug, Clone, Default)]
 pub struct SkillLevel {
     level: u8,
     skid: u32,
 }
 
-#[derive(Deserialize, GettersAll, Debug)]
+#[derive(Deserialize, GettersAll, Debug, Clone, Default)]
 pub struct Equipment {
     #[serde(rename = "itemId")]
     item_id: i32,
@@ -162,7 +162,7 @@ pub struct Equipment {
     cards: Vec<Card>,
 }
 
-#[derive(Deserialize, GettersAll, Debug)]
+#[derive(Deserialize, GettersAll, Debug, Clone, Default)]
 pub struct Card {
     #[serde(rename = "itemId")]
     item_id: u32,
