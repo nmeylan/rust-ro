@@ -192,16 +192,16 @@ mod tests {
         context.inventory_service.add_items_in_inventory(&runtime, character_add_items, &mut character);
         equip_item_from_name(&mut character, "Knife");
         equip_item_from_name(&mut character, "Hat");
-        assert_eq!(character.status.equipped_weapons()[0].item_id, create_inventory_item("Knife", 1).item_id);
-        assert_eq!(character.status.equipped_gears()[0].item_id, create_inventory_item("Hat", 1).item_id);
+        assert_eq!(character.status.equipped_weapons()[0].item_id(), create_inventory_item("Knife", 1).item_id);
+        assert_eq!(character.status.equipped_gears()[0].item_id(), create_inventory_item("Hat", 1).item_id);
         // When
         context.inventory_service.reload_inventory(&runtime, character.char_id, &mut character);
         // Then
         assert_eq!(character.inventory.len(), 3); // potion is not in inventory anymore
         assert_eq!(character.status.equipped_gears().len(), 1);
-        assert_eq!(character.status.equipped_gears()[0].item_id, create_inventory_item("Beret", 1).item_id);
+        assert_eq!(character.status.equipped_gears()[0].item_id(), create_inventory_item("Beret", 1).item_id);
         assert_eq!(character.status.equipped_weapons().len(), 1);
-        assert_eq!(character.status.equipped_weapons()[0].item_id, create_inventory_item("Bow", 1).item_id);
+        assert_eq!(character.status.equipped_weapons()[0].item_id(), create_inventory_item("Bow", 1).item_id);
         assert_eq!(character.status.equipped_ammo().unwrap().item_id, create_inventory_item("Arrow", 1).item_id);
         assert!(inventory_repository.has_fetched_items.load(Ordering::Relaxed));
     }

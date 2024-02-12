@@ -169,7 +169,7 @@ pub struct Equipment {
 #[derive(Deserialize, GettersAll, Debug, Clone, Default)]
 pub struct Card {
     #[serde(rename = "itemId")]
-    item_id: u32,
+    item_id: i16,
 }
 
 fn deserialize_equipments<'de, D>(deserializer: D) -> Result<Equipments, D::Error>

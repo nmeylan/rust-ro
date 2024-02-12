@@ -41,14 +41,14 @@ pub struct NormalInventoryItem {
     pub name_english: String,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, GettersAll)]
 pub struct WearWeapon {
     pub item_id: i32,
     pub attack: u32,
     pub level: u8,
     pub weapon_type: WeaponType,
     pub location: u64,
-    pub refine: i16,
+    pub refine: u8,
     pub card0: i16,
     pub card1: i16,
     pub card2: i16,
@@ -80,19 +80,19 @@ pub struct WearWeaponSnapshot {
     attack: u32,
     level: u8,
     weapon_type: WeaponType,
-    refine: i16,
+    refine: u8,
     card0: i16,
     card1: i16,
     card2: i16,
     card3: i16,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, GettersAll)]
 pub struct WearGear {
     pub item_id: i32,
     pub level: u8,
     pub location: u64,
-    pub refine: i16,
+    pub refine: u8,
     pub card0: i16,
     pub def: i16,
     pub inventory_index: usize,
@@ -114,7 +114,7 @@ impl WearGear {
 pub struct WearGearSnapshot {
     item_id: i32,
     level: u8,
-    refine: i16,
+    refine: u8,
     card0: i16,
     def: i16,
 }

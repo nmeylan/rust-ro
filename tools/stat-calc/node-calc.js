@@ -11,14 +11,14 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "convert";
+const command = "generate";
 let formData, testCase, testCases, file;
 switch (command) {
     case "convert":
         const dir = path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/");
         fs.readdir(dir, (err, files) => {
             files.forEach(file => {
-                testCases = JSON.parse(fs.readFileSync(path.join(dir,file)));
+                testCases = JSON.parse(fs.readFileSync(path.join(dir, file)));
                 let updatedTestCases = [];
                 testCases.forEach(tc => {
                     formData = JSON.parse(atob(tc.formData));
@@ -28,7 +28,7 @@ switch (command) {
                     updatedTestCases.push(testCase)
                 });
 
-                fs.writeFileSync(path.join(dir,file), JSON.stringify(updatedTestCases, null, 2))
+                fs.writeFileSync(path.join(dir, file), JSON.stringify(updatedTestCases, null, 2))
             });
         });
 
@@ -49,12 +49,13 @@ switch (command) {
         // generate_offensive_skills()
         // generate_job_level_stat_bonus();
         // generate_item_stat_bonus();
-        generate_stats_test();
+        // generate_stats_test();
+        generate_card_stat_bonus();
         break;
     case "db":
         let array_index = [];
         let array_name = [];
-        for(let item of ItemIds){
+        for (let item of ItemIds) {
             if (item[1] < 0 && !item[2].startsWith("(No")) {
                 // fromsql.filter(v => parseInt(v.rindex) == item[0])
                 //     .map(v => {
@@ -62,18 +63,18 @@ switch (command) {
                 //         item[2] = v.name_aegis;
                 //     } )
                 console.log(item[0], item[2])
-                array_index.push("'"+item[0]+"'");
-                array_name.push("'"+item[2].replace("'", " ")+"'");
+                array_index.push("'" + item[0] + "'");
+                array_name.push("'" + item[2].replace("'", " ") + "'");
             }
         }
         // console.log(JSON.stringify(ItemIds));
-        console.log("UNNEST(ARRAY["+array_index.join(",") +"],ARRAY["+array_name.join(",") +"])")
+        console.log("UNNEST(ARRAY[" + array_index.join(",") + "],ARRAY[" + array_name.join(",") + "])")
         break;
     case "bonus":
         let orderedItems = [];
-        for(let item of ItemOBJ){
+        for (let item of ItemOBJ) {
             orderedItems.push(item[8]);
-            for (let itemStatIndex = 0;  item[itemStatIndex + 11] != 0; itemStatIndex += 2) {
+            for (let itemStatIndex = 0; item[itemStatIndex + 11] != 0; itemStatIndex += 2) {
                 let bonus = item[itemStatIndex + 11];
                 if (bonus === BYPASS_DEFENSE_ON_RACE) {
                     console.log(item)
@@ -139,7 +140,7 @@ function generate_offensive_skills() {
         21: "grenade"
     }
     for (let n = 1; n < JobName.length; n++) {
-        if (n >=34 && n <=40) {
+        if (n >= 34 && n <= 40) {
             continue;
         }
         let formData = {};
@@ -330,7 +331,7 @@ function generate_job_level_stat_bonus() {
         else if (n <= 19 || (41 <= n && n <= 43)) maxJobLvl = 50;
         else if (n == 20) maxJobLvl = 71;
         else maxJobLvl = 70;
-        for(let i = 1; i <= maxJobLvl; i++) {
+        for (let i = 1; i <= maxJobLvl; i++) {
             formData.A_JobLV = i;
             let testCase = GetTestCase(formData);
             testcases.push(testCase);
@@ -353,7 +354,7 @@ function generate_item_stat_bonus(itemsFilter, descriptions) {
         if (n >= 34 && n <= 40) {
             continue;
         }
-        if(n >=21 && n <=40) {
+        if (n >= 21 && n <= 40) {
             isRebirth = 1;
         }
         let maxJobLvl = 0;
@@ -444,11 +445,113 @@ function generate_item_stat_bonus(itemsFilter, descriptions) {
     console.log("Generated", count, "test cases, in", (Date.now() - start) + "ms", "at", p);
 }
 
+
+function generate_card_stat_bonus(itemsFilter, descriptions) {
+    let count = 0;
+    let start = Date.now();
+    let testcases = [];
+    let items = [];
+    let isRebirth = 0;
+    let n = 7;
+    let maxJobLvl = 50;
+    let formData = {};
+    formData.A_JOB = n;
+    formData.A_BaseLV = 95;
+    formData.A_JobLV = maxJobLvl;
+    formData.A_STR = 50;
+    formData.A_AGI = 50;
+    formData.A_VIT = 50;
+    formData.A_INT = 50;
+    formData.A_DEX = 50;
+    formData.A_LUK = 50;
+    formData.A_Arrow = 0;
+    formData.B_Enemy = 272;
+
+    formData.A_weapon1 = "16";
+    formData.A_WeaponType = "2";
+    formData.A_ActiveSkill = 0;
+    formData.A_ActiveSkillLV = 0;
+    formData.A_acces1 = "339";
+    formData.A_acces2 = "326";
+    formData.A_left = "308";
+    formData.A_body = "298";
+    formData.A_head1 = "241";
+    formData.A_head2 = "243";
+    formData.A_head3 = "268";
+    formData.A_shoes = "321";
+    formData.A_shoulder = "312";
+
+    for (let i = 4; i < CardSortOBJ[1].length - 1; i++) {
+        if (CardSortOBJ[1][i] === 106 || CardSortOBJ[1][i] === 156 || CardSortOBJ[1][i] === 154 || CardSortOBJ[1][i] === 155) continue;
+        if(CardSortOBJ[1][i] >= 201 && CardSortOBJ[1][i] <= 211) continue;
+        formData.A_weapon1_card1 = CardSortOBJ[1][i];
+        console.log(CardSortOBJ[1][i])
+        let testCase = GetTestCase(formData);
+        testcases.push(testCase);
+        count += 1;
+    }
+    formData.A_weapon1_card1 = "0";
+    for (let i = 0; i < CardSortOBJ[2].length - 1; i++) {
+        if(CardSortOBJ[2][i] >= 201 && CardSortOBJ[2][i] <= 211) continue;
+        formData.A_head1_card = CardSortOBJ[2][i];
+        let testCase = GetTestCase(formData);
+        testcases.push(testCase);
+        count += 1;
+    }
+    formData.A_head1_card = "0";
+    for (let i = 0; i < CardSortOBJ[3].length - 1; i++) {
+        if(CardSortOBJ[3][i] >= 201 && CardSortOBJ[3][i] <= 211) continue;
+        formData.A_left_card = CardSortOBJ[3][i];
+        let testCase = GetTestCase(formData);
+        testcases.push(testCase);
+        count += 1;
+    }
+    formData.A_left_card = "0";
+    for (let i = 0; i < CardSortOBJ[4].length - 1; i++) {
+        if(CardSortOBJ[4][i] >= 201 && CardSortOBJ[4][i] <= 211) continue;
+        formData.A_body_card = CardSortOBJ[4][i];
+        let testCase = GetTestCase(formData);
+        testcases.push(testCase);
+        count += 1;
+    }
+    formData.A_body_card = "0";
+    for (let i = 0; i < CardSortOBJ[5].length - 1; i++) {
+        if(CardSortOBJ[5][i] >= 201 && CardSortOBJ[5][i] <= 211) continue;
+        formData.A_shoulder_card = CardSortOBJ[5][i];
+        let testCase = GetTestCase(formData);
+        testcases.push(testCase);
+        count += 1;
+    }
+    formData.A_shoulder_card = "0";
+    for (let i = 0; i < CardSortOBJ[6].length - 1; i++) {
+        if(CardSortOBJ[6][i] >= 201 && CardSortOBJ[6][i] <= 211) continue;
+        formData.A_shoes_card = CardSortOBJ[6][i];
+        let testCase = GetTestCase(formData);
+        testcases.push(testCase);
+        count += 1;
+    }
+    formData.A_shoes_card = "0";
+    for (let i = 0; i < CardSortOBJ[7].length - 1; i++) {
+        if(CardSortOBJ[7][i] >= 201 && CardSortOBJ[7][i] <= 211) continue;
+        formData.A_acces1_card = CardSortOBJ[7][i];
+        let testCase = GetTestCase(formData);
+        testcases.push(testCase);
+        count += 1;
+    }
+    formData.A_acces1_card = "0";
+
+
+    let p = path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/stats-for-cards.json");
+
+    fs.writeFileSync(p, JSON.stringify(testcases));
+    console.log("Generated", count, "test cases, in", (Date.now() - start) + "ms", "at", p);
+}
+
 function generate_stats_test() {
     let stats = {};
     let items = [];
     let descriptions = [];
-    a : for(let item of ItemOBJ) {
+    a : for (let item of ItemOBJ) {
         for (let itemStatIndex = 0; item[itemStatIndex + 11] != 0; itemStatIndex += 2) {
             if (items.includes(item[0])) {
                 continue a;
@@ -458,14 +561,19 @@ function generate_stats_test() {
                 if (stats[bonusLabel[bonus]] === undefined) {
                     items.push(item[0]);
                     descriptions.push(bonusLabel[bonus]);
-                    stats[bonusLabel[bonus]] = [{name: item[8], index: item[0], id: ItemIds[item[0]][1], value: item[itemStatIndex + 12]}]
+                    stats[bonusLabel[bonus]] = [{
+                        name: item[8],
+                        index: item[0],
+                        id: ItemIds[item[0]][1],
+                        value: item[itemStatIndex + 12]
+                    }]
                 }
 
             }
         }
     }
     for (let bonus of Object.entries(bonusLabel)) {
-        if(!Object.keys(stats).includes(bonus[1])) {
+        if (!Object.keys(stats).includes(bonus[1])) {
             console.log("missing stat", bonus[1])
         }
     }
