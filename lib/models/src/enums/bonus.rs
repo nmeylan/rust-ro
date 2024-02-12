@@ -703,6 +703,7 @@ impl BonusType {
                 status_snapshot.set_matk_min(status_snapshot.matk_min() + *matk as u16);
                 status_snapshot.set_matk_max(status_snapshot.matk_max() + *matk as u16);
             }
+            BonusType::ElementDefense(element) => { status_snapshot.set_element(element.clone()) }
             _ => {}
         }
     }

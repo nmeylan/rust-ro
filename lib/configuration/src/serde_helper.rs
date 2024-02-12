@@ -1,4 +1,4 @@
-use models::enums::EnumWithStringValue;
+use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use serde::{Deserialize, Deserializer, Serializer};
 
 pub fn deserialize_optional_string_enum<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
@@ -15,12 +15,21 @@ where
 }
 
 pub fn deserialize_string_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
-where
-    D: Deserializer<'de>,
-    T: EnumWithStringValue,
+    where
+        D: Deserializer<'de>,
+        T: EnumWithStringValue,
 {
     let s: String = Deserialize::deserialize(deserializer)?;
     Ok(T::from_string(s.as_str()))
+}
+
+pub fn deserialize_number_enum<'de, D, T>(deserializer: D) -> Result<T, D::Error>
+    where
+        D: Deserializer<'de>,
+        T: EnumWithNumberValue,
+{
+    let s: usize = Deserialize::deserialize(deserializer)?;
+    Ok(T::from_value(s))
 }
 
 pub fn serialize_string_enum<S, T>(field: &T, serializer: S) -> Result<S::Ok, S::Error>
