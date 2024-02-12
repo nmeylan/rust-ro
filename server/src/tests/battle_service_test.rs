@@ -236,4 +236,20 @@ mod tests {
             assert_eq!(size_modifier, scenarii.expected_modifier, "Expected size modifier to be {} but was {} when weapon is {:?} and target size {:?}", scenarii.expected_modifier, size_modifier, scenarii.weapon, target_status.size)
         }
     }
+    #[test]
+    fn test_all_elements_modifier() {
+    }
+    #[test]
+    fn test_all_race_modifier() {
+    }
+    #[test]
+    fn test_all_mob_class_modifier() {
+    }
+    #[test]
+    fn test_all_mob_size_modifier() {
+    }
+    #[test]
+    fn test_all_resistance() {
+    }
+
 }

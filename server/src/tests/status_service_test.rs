@@ -46,6 +46,7 @@ mod tests {
     use crate::{eq_with_variance, status_snapshot};
 
     use crate::tests::common::character_helper::{create_character, equip_item_from_id, equip_item_from_name};
+    use crate::tests::common::fixtures::battle_fixture::BattleFixture;
     use super::*;
 
     #[test]
@@ -232,21 +233,6 @@ mod tests {
     fn test_all_stats_when_card() {
     }
 
-    #[test]
-    fn test_all_elements_modifier() {
-    }
-    #[test]
-    fn test_all_race_modifier() {
-    }
-    #[test]
-    fn test_all_mob_class_modifier() {
-    }
-    #[test]
-    fn test_all_mob_size_modifier() {
-    }
-    #[test]
-    fn test_all_resistance() {
-    }
 
 
     #[test]
@@ -267,7 +253,7 @@ mod tests {
 
         let mut results: Vec<TestResult> = Vec::with_capacity(scenario.len());
         // When
-        for scenarii in scenario.iter() {
+        for mut scenarii in scenario {
             if let Some(test_id) = test_id {
                 if !scenarii.id().eq(test_id) {
                     continue;
@@ -296,56 +282,10 @@ mod tests {
                 job: job.as_str().to_string(),
                 job_level: scenarii.job_level() as usize,
                 passed: false,
-                actual_str: status_snapshot.base_str() as i16,
-                actual_bonus_str: status_snapshot.bonus_str() as i16,
-                actual_agi: status_snapshot.base_agi() as i16,
-                actual_bonus_agi: status_snapshot.bonus_agi() as i16,
-                actual_vit: status_snapshot.base_vit() as i16,
-                actual_bonus_vit: status_snapshot.bonus_vit() as i16,
-                actual_int: status_snapshot.base_int() as i16,
-                actual_bonus_int: status_snapshot.bonus_int() as i16,
-                actual_dex: status_snapshot.base_dex() as i16,
-                actual_bonus_dex: status_snapshot.bonus_dex() as i16,
-                actual_luk: status_snapshot.base_luk() as i16,
-                actual_bonus_luk: status_snapshot.bonus_luk() as i16,
-                actual_aspd: status_snapshot.aspd() as f32,
-                actual_atk_left: status_snapshot.atk_left_side() as u16,
-                actual_atk_right: status_snapshot.atk_right_side() as u16,
-                actual_matk_min: status_snapshot.matk_min(),
-                actual_matk_max: status_snapshot.matk_max(),
-                actual_def: status_snapshot.def(),
-                actual_mdef: status_snapshot.mdef(),
-                actual_hit: status_snapshot.hit(),
-                actual_flee: status_snapshot.flee(),
-                actual_hp: status_snapshot.max_hp() as u16,
-                actual_sp: status_snapshot.max_sp() as u16,
-                actual_crit: status_snapshot.crit(),
-                expected_str: scenarii.base_str() as i16,
-                expected_bonus_str: scenarii.bonus_str(),
-                expected_agi: scenarii.base_agi() as i16,
-                expected_bonus_agi: scenarii.bonus_agi(),
-                expected_vit: scenarii.base_vit() as i16,
-                expected_bonus_vit: scenarii.bonus_vit(),
-                expected_int: scenarii.base_int() as i16,
-                expected_bonus_int: scenarii.bonus_int(),
-                expected_dex: scenarii.base_dex() as i16,
-                expected_bonus_dex: scenarii.bonus_dex(),
-                expected_luk: scenarii.base_luk() as i16,
-                expected_bonus_luk: scenarii.bonus_luk(),
-                expected_aspd: scenarii.aspd_displayed(),
-                expected_atk_left: scenarii.atk_left(),
-                expected_atk_right: scenarii.atk_right(),
-                expected_matk_min: scenarii.matk_min(),
-                expected_matk_max: scenarii.matk_max(),
-                expected_def: scenarii.def(),
-                expected_mdef: scenarii.mdef(),
-                expected_hit: scenarii.hit(),
-                expected_flee: scenarii.flee(),
-                expected_hp: scenarii.max_hp(),
-                expected_sp: scenarii.max_sp(),
-                expected_crit: scenarii.crit(),
-                status: mem::take(character_status),
+                actual: status_snapshot,
                 desc: scenarii.desc().clone(),
+                expected: mem::take(&mut scenarii),
+                status: mem::take(character_status),
             };
             let mut passed = false;
             results.push(result);
@@ -373,24 +313,24 @@ mod tests {
         result_file.write_all(b"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|\n").unwrap();
         let mut passed_count = 0;
         for result in results.iter_mut() {
-            let str_passed = result.actual_str + result.actual_bonus_str == result.expected_str + result.expected_bonus_str;
-            let agi_passed = result.actual_agi + result.actual_bonus_agi == result.expected_agi + result.expected_bonus_agi;
-            let vit_passed = result.actual_vit + result.actual_bonus_vit == result.expected_vit + result.expected_bonus_vit;
-            let dex_passed = result.actual_dex + result.actual_bonus_dex == result.expected_dex + result.expected_bonus_dex;
-            let int_passed = result.actual_int + result.actual_bonus_int == result.expected_int + result.expected_bonus_int;
-            let luk_passed = result.actual_luk + result.actual_bonus_luk == result.expected_luk + result.expected_bonus_luk;
-            let aspd_passed = result.actual_aspd >= result.expected_aspd - 0.5 || result.actual_aspd <= result.expected_aspd + 0.5;
-            let atk_left_passed = result.actual_atk_left == result.expected_atk_left;
-            let atk_right_passed = result.actual_atk_right == result.expected_atk_right;
-            let def_passed = result.actual_def == result.expected_def;
-            let mdef_passed = result.actual_mdef == result.expected_mdef;
-            let hit_passed = result.actual_hit == result.expected_hit;
-            let matk_min_passed = result.actual_matk_min == result.expected_matk_min;
-            let matk_max_passed = result.actual_matk_max == result.expected_matk_max;
-            let flee_passed = result.actual_flee == result.expected_flee;
-            let crit_passed = result.actual_crit == result.expected_crit;
-            let hp_passed = eq_with_variance!(1, result.actual_hp, result.expected_hp);
-            let sp_passed = eq_with_variance!(1, result.actual_sp, result.expected_sp);
+            let str_passed = result.actual.str() as i16 == result.expected.bonus_str() + result.expected.base_str() as i16;
+            let agi_passed = result.actual.agi() as i16 == result.expected.bonus_agi() + result.expected.base_agi() as i16;
+            let vit_passed = result.actual.vit() as i16 == result.expected.bonus_vit() + result.expected.base_vit() as i16;
+            let dex_passed = result.actual.dex() as i16 == result.expected.bonus_dex() + result.expected.base_dex() as i16;
+            let int_passed = result.actual.int() as i16 == result.expected.bonus_int() + result.expected.base_int() as i16;
+            let luk_passed =result.actual.luk() as i16 == result.expected.bonus_luk() + result.expected.base_luk() as i16;
+            let aspd_passed = result.actual.aspd() >= result.expected.aspd() - 0.5 || result.actual.aspd() <= result.expected.aspd() + 0.5;
+            let atk_left_passed = result.actual.atk_left_side() as u16 == result.expected.atk_left();
+            let atk_right_passed = result.actual.atk_right_side() as u16 == result.expected.atk_right();
+            let def_passed = result.actual.def() == result.expected.def();
+            let mdef_passed = result.actual.mdef() == result.expected.mdef();
+            let hit_passed = result.actual.hit() == result.expected.hit();
+            let matk_min_passed = result.actual.matk_min() == result.expected.matk_min();
+            let matk_max_passed = result.actual.matk_max() == result.expected.matk_max();
+            let flee_passed = result.actual.flee() == result.expected.flee();
+            let crit_passed = result.actual.crit() == result.expected.crit();
+            let hp_passed = eq_with_variance!(1, result.actual.max_hp(), result.expected.max_hp());
+            let sp_passed = eq_with_variance!(1, result.actual.max_sp(), result.expected.max_sp());
             result.passed = str_passed && agi_passed && vit_passed && dex_passed && int_passed && luk_passed && aspd_passed && atk_left_passed && atk_right_passed
                 && matk_max_passed && matk_min_passed && def_passed && mdef_passed && hit_passed && flee_passed && crit_passed
                 && hp_passed && sp_passed;
@@ -399,24 +339,24 @@ mod tests {
             }
             result_file.write_all(format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
                                           result.id, result.job, description_fn(result), format_result!(result.passed, result.passed),
-                                          format_result!(str_passed, result.actual_str, result.actual_bonus_str, result.expected_str, result.expected_bonus_str),
-                                          format_result!(agi_passed, result.actual_agi, result.actual_bonus_agi, result.expected_agi, result.expected_bonus_agi),
-                                          format_result!(vit_passed, result.actual_vit, result.actual_bonus_vit, result.expected_vit, result.expected_bonus_vit),
-                                          format_result!(dex_passed, result.actual_dex, result.actual_bonus_dex, result.expected_dex, result.expected_bonus_dex),
-                                          format_result!(int_passed, result.actual_int, result.actual_bonus_int, result.expected_int, result.expected_bonus_int),
-                                          format_result!(luk_passed, result.actual_luk, result.actual_bonus_luk, result.expected_luk, result.expected_bonus_luk),
-                                          format_result!(aspd_passed, result.actual_aspd, result.expected_aspd),
-                                          format_result!(atk_left_passed, result.actual_atk_left,result.expected_atk_left),
-                                          format_result!(atk_right_passed, result.actual_atk_right,result.expected_atk_right),
-                                          format_result!(matk_min_passed,result.actual_matk_min, result.expected_matk_min),
-                                          format_result!(matk_max_passed,result.actual_matk_max, result.expected_matk_max),
-                                          format_result!(def_passed, result.actual_def, result.expected_def),
-                                          format_result!(mdef_passed, result.actual_mdef, result.expected_mdef),
-                                          format_result!(hit_passed, result.actual_hit, result.expected_hit),
-                                          format_result!(flee_passed, result.actual_flee, result.expected_flee),
-                                          format_result!(crit_passed, result.actual_crit, result.expected_crit),
-                                          format_result!(hp_passed, result.actual_hp, result.expected_hp),
-                                          format_result!(sp_passed, result.actual_sp, result.expected_sp),
+                                          format_result!(str_passed, result.actual.base_str(), result.actual.bonus_str(), result.expected.base_str(), result.expected.bonus_str()),
+                                          format_result!(agi_passed, result.actual.base_agi(), result.actual.bonus_agi(), result.expected.base_agi(), result.expected.bonus_agi()),
+                                          format_result!(vit_passed, result.actual.base_vit(), result.actual.bonus_vit(), result.expected.base_vit(), result.expected.bonus_vit()),
+                                          format_result!(dex_passed, result.actual.base_dex(), result.actual.bonus_dex(), result.expected.base_dex(), result.expected.bonus_dex()),
+                                          format_result!(int_passed, result.actual.base_int(), result.actual.bonus_int(), result.expected.base_int(), result.expected.bonus_int()),
+                                          format_result!(luk_passed, result.actual.base_luk(), result.actual.bonus_luk(), result.expected.base_luk(), result.expected.bonus_luk()),
+                                          format_result!(aspd_passed, result.actual.aspd(), result.expected.aspd_displayed()),
+                                          format_result!(atk_left_passed, result.actual.atk_left_side(),result.expected.atk_left()),
+                                          format_result!(atk_right_passed, result.actual.atk_right_side(),result.expected.atk_right()),
+                                          format_result!(matk_min_passed,result.actual.matk_min(), result.expected.matk_min()),
+                                          format_result!(matk_max_passed,result.actual.matk_max(), result.expected.matk_max()),
+                                          format_result!(def_passed, result.actual.def(), result.expected.def()),
+                                          format_result!(mdef_passed, result.actual.mdef(), result.expected.mdef()),
+                                          format_result!(hit_passed, result.actual.hit(), result.expected.hit()),
+                                          format_result!(flee_passed, result.actual.flee(), result.expected.flee()),
+                                          format_result!(crit_passed, result.actual.crit(), result.expected.crit()),
+                                          format_result!(hp_passed, result.actual.max_hp(), result.expected.max_hp()),
+                                          format_result!(sp_passed, result.actual.max_sp(), result.expected.max_sp()),
             ).as_bytes()).unwrap();
         }
         result_file.seek(SeekFrom::Start(0));
@@ -429,54 +369,8 @@ mod tests {
         job: String,
         job_level: usize,
         passed: bool,
-        actual_str: i16,
-        actual_bonus_str: i16,
-        actual_agi: i16,
-        actual_bonus_agi: i16,
-        actual_vit: i16,
-        actual_bonus_vit: i16,
-        actual_int: i16,
-        actual_bonus_int: i16,
-        actual_dex: i16,
-        actual_bonus_dex: i16,
-        actual_luk: i16,
-        actual_bonus_luk: i16,
-        actual_aspd: f32,
-        actual_atk_left: u16,
-        actual_atk_right: u16,
-        actual_matk_min: u16,
-        actual_matk_max: u16,
-        actual_def: i16,
-        actual_mdef: i16,
-        actual_hit: i16,
-        actual_flee: i16,
-        actual_hp: u16,
-        actual_sp: u16,
-        actual_crit: f32,
-        expected_str: i16,
-        expected_bonus_str: i16,
-        expected_agi: i16,
-        expected_bonus_agi: i16,
-        expected_vit: i16,
-        expected_bonus_vit: i16,
-        expected_int: i16,
-        expected_bonus_int: i16,
-        expected_dex: i16,
-        expected_bonus_dex: i16,
-        expected_luk: i16,
-        expected_bonus_luk: i16,
-        expected_aspd: f32,
-        expected_atk_left: u16,
-        expected_atk_right: u16,
-        expected_matk_min: u16,
-        expected_matk_max: u16,
-        expected_def: i16,
-        expected_mdef: i16,
-        expected_hit: i16,
-        expected_flee: i16,
-        expected_hp: u16,
-        expected_sp: u16,
-        expected_crit: f32,
+        actual: StatusSnapshot,
+        expected: BattleFixture,
         status: Status,
         desc: Option<String>
     }
