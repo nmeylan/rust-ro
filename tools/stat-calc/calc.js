@@ -240,6 +240,11 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     SetCardCombo(stats);
 
+    stats.element = GetCardStats(ARMOR_ELEMENT, stats);
+    if (stats.element === 0) {
+        stats.element = GetEquipmentStats(ARMOR_ELEMENT, stats);
+    }
+
 
     if (stats.equipments.weapon.element == 0) {
         for (let j = 0; ItemOBJ[stats.equipments.weapon.index][j + 11] != 0; j += 2) {

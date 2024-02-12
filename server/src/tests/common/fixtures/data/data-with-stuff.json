@@ -56,25 +56,25 @@
             "index": 31,
             "name": "Abysmal Knight",
             "itemId": 4140,
-            "increase_damage_against_boss_percentage": 25
+            "PhysicalDamageAgainstClassBossPercentage": 25
           },
           {
             "index": 31,
             "name": "Abysmal Knight",
             "itemId": 4140,
-            "increase_damage_against_boss_percentage": 25
+            "PhysicalDamageAgainstClassBossPercentage": 25
           },
           {
             "index": 31,
             "name": "Abysmal Knight",
             "itemId": 4140,
-            "increase_damage_against_boss_percentage": 25
+            "PhysicalDamageAgainstClassBossPercentage": 25
           },
           {
             "index": 31,
             "name": "Abysmal Knight",
             "itemId": 4140,
-            "increase_damage_against_boss_percentage": 25
+            "PhysicalDamageAgainstClassBossPercentage": 25
           }
         ],
         "atk": 25,
@@ -97,12 +97,12 @@
             "index": 221,
             "name": "Arc Angeling",
             "itemId": 4241,
-            "maxhp": 300
+            "Maxhp": 300
           }
         ],
         "def": 0,
-        "str": 1,
-        "increase_damage_race_demihuman_percentage": 10,
+        "Str": 1,
+        "PhysicalDamageAgainstRaceDemiHumanPercentage": 10,
         "is_impossible_to_refine": 1
       },
       "middleHeadgear": {
@@ -111,8 +111,8 @@
         "refinement": 0,
         "itemId": 5104,
         "def": 0,
-        "resistance_to_status_blind_percentage": 100,
-        "resistance_to_status_stun_percentage": 2
+        "ResistanceToStatusBlindPercentage": 100,
+        "ResistanceToStatusStunPercentage": 2
       },
       "lowerHeadgear": {
         "index": 775,
@@ -161,16 +161,16 @@
             "index": 394,
             "name": "Deviling",
             "itemId": 4174,
-            "damage_inc_dec_element_neutral_percentage": 50,
-            "damage_inc_dec_element_water_percentage": -50,
-            "damage_inc_dec_element_earth_percentage": -50,
-            "damage_inc_dec_element_fire_percentage": -50,
-            "damage_inc_dec_element_wind_percentage": -50,
-            "damage_inc_dec_element_poison_percentage": -50,
-            "damage_inc_dec_element_holy_percentage": -50,
-            "damage_inc_dec_element_dark_percentage": -50,
-            "damage_inc_dec_element_ghost_percentage": -50,
-            "damage_inc_dec_element_undead_percentage": -50
+            "ResistanceDamageFromElementNeutralPercentage": 50,
+            "ResistanceDamageFromElementWaterPercentage": -50,
+            "ResistanceDamageFromElementEarthPercentage": -50,
+            "ResistanceDamageFromElementFirePercentage": -50,
+            "ResistanceDamageFromElementWindPercentage": -50,
+            "ResistanceDamageFromElementPoisonPercentage": -50,
+            "ResistanceDamageFromElementHolyPercentage": -50,
+            "ResistanceDamageFromElementDarkPercentage": -50,
+            "ResistanceDamageFromElementGhostPercentage": -50,
+            "ResistanceDamageFromElementUndeadPercentage": -50
           }
         ],
         "def": 1
@@ -185,12 +185,12 @@
             "index": 228,
             "name": "Amon Ra",
             "itemId": 4236,
-            "all_stats": 1,
+            "AllStats": 1,
             "autospell_skill": 69809810
           }
         ],
         "def": 3,
-        "agi": 2,
+        "Agi": 2,
         "is_part_of_combo": 743
       },
       "accessory1": {
@@ -203,7 +203,7 @@
             "index": 230,
             "name": "Alligator",
             "itemId": 4252,
-            "resistance_range_attack_percentage": 5
+            "ResistanceRangeAttackPercentage": 5
           }
         ],
         "def": 0
@@ -218,7 +218,7 @@
             "index": 230,
             "name": "Alligator",
             "itemId": 4252,
-            "resistance_range_attack_percentage": 5
+            "ResistanceRangeAttackPercentage": 5
           }
         ],
         "def": 0
@@ -227,6 +227,7 @@
     "arrow": "Arrow",
     "totalGearRefinement": 0,
     "speedPotion": 0,
+    "element": 0,
     "mdef": 0,
     "targetId": 1002,
     "targetName": "Poring",

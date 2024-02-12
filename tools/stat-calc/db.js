@@ -155,6 +155,7 @@ global.DAMAGE_INC_DEC_SIZE_LARGE_PERCENTAGE = 192;
 global.IS_IMPOSSIBLE_TO_REFINE = 193;
 global.IS_INDESTRUCTIBLE = 194;
 global.HAS_BONUS_WHEN_REFINED = 195;
+global.ARMOR_ELEMENT = 198;
 global.IS_REBIRTH_ONLY = 200;
 global.ENABLE_SKILL = 220;
 global.AUTOSPELL_SKILL = 221;
@@ -1828,10 +1829,10 @@ global.ItemOBJ = [
     [424, 13, 1, 120, 4, "0 / 1", 36, 46, "Berserk", "", 0, 12, 12, 0],
     [425, 15, 1, 100, 4, 0, 40, 44, "Lairat Whip", "", 0, 5, 5, 2, 1, 0],
     [426, 15, 1, 115, 4, 0, 30, 44, "Rapture Rose", "", 0, 20, 5, 130, 50, 0],
-    [427, 60, 70, 4, 0, 0, 220, 45, "Claytos Cracking Earth Armor", "", "Earth Elemental Armor", 0],
-    [428, 60, 70, 4, 0, 0, 220, 45, "Lucius's Fierce Armor of Volcano", "", "Fire Elemental Armor", 0],
-    [429, 60, 70, 4, 0, 0, 220, 45, "Saphien's Armor of Ocean", "", "Water Elemental Armor", 0],
-    [430, 60, 70, 4, 0, 0, 220, 45, "Abecee's Raging Typhoon Armor", "", "Wind Elemental Armor", 0],
+    [427,60,70,4,0,0,220,45,"Claytos Cracking Earth Armor",0,"",198,2,0],
+    [428,60,70,4,0,0,220,45,"Luciu's Fierce Armor of Volcano",0,"",198,3,0],
+    [429,60,70,4,0,0,220,45,"Saphien's Armor of Ocean",0,"",198,1,0],
+    [430,60,70,4,0,0,220,45,"Aebecee's Raging Typhoon Armor",0,"",198,4,0],
     [431, 60, 65, 5, 0, "0 / 1", 110, 75, "Casting Robe", "", 0, 19, 4, 73, -3, 0],
     [432, 60, 1, 7, 0, 1, 250, 60, "Glittering Clothes", "", 0, 19, 5, 134, 3, 0],
     [433, 61, 113, 6, 0, 0, 160, 83, "Sacred Mission", "", 0, 3, 3, 4, 2, 19, 3, 194, 1, 0],
@@ -2004,10 +2005,10 @@ global.ItemOBJ = [
     [600, 50, 0, 2, 0, 1, 20, 10, "Holy Marching Hat", "", 0, 19, 2, 1, 2, 231, 69803005, 0],
     [601, 50, 0, 1, 0, 1, 20, 30, "Resort Hat", "", 0, 3, 1, 0],
     [602, 50, 0, 0, 0, 1, 20, 30, "Lily Crown", "", 0, 2, 1, 5, 1, 75, 5, 76, 3, 0],
-    [603, 60, 1, 4, 0, 1, 220, 45, "Claytos Cracking Earth Armor [1]", "", "Earth Elemental Armor", 0],
-    [604, 60, 1, 4, 0, 1, 220, 45, "Lucius's Fierce Armor of Volcano [1]", "", "Fire Elemental Armor", 0],
-    [605, 60, 1, 4, 0, 1, 220, 45, "Saphien's Armor of Ocean [1]", "", "Water Elemental Armor", 0],
-    [606, 60, 1, 4, 0, 1, 220, 45, "Aebecee's Raging Typhoon Armor [1]", "", "Wind Elemental Armor", 0],
+    [603, 60, 1, 4, 0, 1, 220, 45, "Claytos Cracking Earth Armor [1]",0,"",198,2,0],
+    [604, 60, 1, 4, 0, 1, 220, 45, "Lucius's Fierce Armor of Volcano [1]", 0,"",198,3,0],
+    [605, 60, 1, 4, 0, 1, 220, 45, "Saphien's Armor of Ocean [1]", 0,"",198,1,0],
+    [606, 60, 1, 4, 0, 1, 220, 45, "Aebecee's Raging Typhoon Armor [1]",0,"",198,4,0],
     [607, 1, 1, 70, 4, 1, 60, 36, "Icepick [1]", "", 0, 23, 1, 0],
     [608, 50, 1, 4, 0, 1, 40, 45, "Crown [1]", "", 0, 4, 1, 0],
     [609, 50, 1, 4, 0, 1, 40, 45, "Tiara [1]", "", 0, 4, 1, 0],

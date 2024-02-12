@@ -4,6 +4,8 @@ use std::path::Path;
 use std::ptr::eq;
 use serde::{Deserialize, Deserializer};
 use serde::de::{MapAccess, SeqAccess, Visitor};
+use models::enums::element::Element;
+use configuration::serde_helper::deserialize_number_enum;
 use crate::tests::common::character_helper::equip_item_from_id;
 
 #[derive(Deserialize, GettersAll, Debug, Clone, Default)]
@@ -103,7 +105,9 @@ pub struct BattleFixture {
     #[serde(rename = "matkMin")]
     matk_min: u16,
     #[serde(rename = "matkMax")]
-    matk_max: u16
+    matk_max: u16,
+    #[serde(deserialize_with = "deserialize_number_enum")]
+    element: Element
 }
 #[derive(GettersAll, Debug, Clone, Default)]
 pub struct Equipments {

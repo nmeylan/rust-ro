@@ -309,8 +309,8 @@ mod tests {
         result_file.write_all(b"                              \n").unwrap();
         result_file.write_all(format!("fixture file was [{}](/server/{})\n\n", fixture_file, fixture_file).as_bytes()).unwrap();
         result_file.write_all(format!("# {}\n", title).as_bytes()).unwrap();
-        result_file.write_all(b"|id|job|context|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|\n").unwrap();
-        result_file.write_all(b"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|\n").unwrap();
+        result_file.write_all(b"|id|job|context|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|Armor element|\n").unwrap();
+        result_file.write_all(b"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|\n").unwrap();
         let mut passed_count = 0;
         for result in results.iter_mut() {
             let str_passed = result.actual.str() as i16 == result.expected.bonus_str() + result.expected.base_str() as i16;
@@ -331,13 +331,14 @@ mod tests {
             let crit_passed = result.actual.crit() == result.expected.crit();
             let hp_passed = eq_with_variance!(1, result.actual.max_hp(), result.expected.max_hp());
             let sp_passed = eq_with_variance!(1, result.actual.max_sp(), result.expected.max_sp());
+            let armor_element_passed = result.actual.element() == result.expected.element();
             result.passed = str_passed && agi_passed && vit_passed && dex_passed && int_passed && luk_passed && aspd_passed && atk_left_passed && atk_right_passed
                 && matk_max_passed && matk_min_passed && def_passed && mdef_passed && hit_passed && flee_passed && crit_passed
-                && hp_passed && sp_passed;
+                && hp_passed && sp_passed && armor_element_passed;
             if result.passed {
                 passed_count += 1;
             }
-            result_file.write_all(format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
+            result_file.write_all(format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
                                           result.id, result.job, description_fn(result), format_result!(result.passed, result.passed),
                                           format_result!(str_passed, result.actual.base_str(), result.actual.bonus_str(), result.expected.base_str(), result.expected.bonus_str()),
                                           format_result!(agi_passed, result.actual.base_agi(), result.actual.bonus_agi(), result.expected.base_agi(), result.expected.bonus_agi()),
@@ -357,6 +358,7 @@ mod tests {
                                           format_result!(crit_passed, result.actual.crit(), result.expected.crit()),
                                           format_result!(hp_passed, result.actual.max_hp(), result.expected.max_hp()),
                                           format_result!(sp_passed, result.actual.max_sp(), result.expected.max_sp()),
+                                          format_result!(armor_element_passed, result.actual.element(), result.expected.element()),
             ).as_bytes()).unwrap();
         }
         result_file.seek(SeekFrom::Start(0));
