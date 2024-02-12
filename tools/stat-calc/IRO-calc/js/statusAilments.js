@@ -1,0 +1,23 @@
+{ // Status Ailments [AilmentsOBJ]
+AilmentsOBJ = [
+ ["","Poison"]
+,["","Stun"]
+,["","Freeze"]
+,["","Curse"]
+,["ï¿?","Blind"]
+,["","Sleep"]
+,["ï¿½ï¿½","Silence"]
+,["","Chaos"]
+,["ï¿?","Bleeding"]
+,["","Stone"]
+,["","Weapon Break"]
+,["","Armor Break"]
+,["","Deep Sleep"]
+,["","Venom Impress"]
+,["","Marsh of Abyss"]
+,["","Burning"]
+,["","Cristallization"]
+,["","Gloomy Day"]
+,["","Dark Claw"]
+];
+}
