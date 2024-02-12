@@ -107,9 +107,9 @@ impl CharacterService {
         inventory_print(Box::new(|(_, item)| item.item_type().is_equipment()));
         inventory_print(Box::new(|(_, item)| item.item_type().is_etc()));
         writeln!(stdout, "Equipped items:").unwrap();
-        character.status.equipped_gears().iter().for_each(|item| writeln!(stdout, " [{}] - {}  at {:?}", item.inventory_index, item.item_id, item.location).unwrap());
+        character.status.equipped_gears().iter().for_each(|item| writeln!(stdout, " [{}] - {}  at {:?}", item.inventory_index(), item.item_id(), item.location()).unwrap());
         writeln!(stdout, "Equipped weapon:").unwrap();
-        character.status.equipped_weapons().iter().for_each(|item| writeln!(stdout, " [{}] - {} ({:?}) at {:?}", item.inventory_index, item.item_id, item.weapon_type, item.location).unwrap());
+        character.status.equipped_weapons().iter().for_each(|item| writeln!(stdout, " [{}] - {} ({:?}) at {:?}", item.inventory_index(), item.item_id(), item.weapon_type(), item.location()).unwrap());
         stdout.flush().unwrap();
     }
 

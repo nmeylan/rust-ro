@@ -200,7 +200,7 @@ impl StatusSnapshot {
             zeny: status.zeny,
             aspd: 0.0,
             right_hand_weapon: status.right_hand_weapon().map(|w| w.to_snapshot()),
-            right_hand_weapon_type: status.right_hand_weapon().map(|w| w.weapon_type).unwrap_or(WeaponType::Fist),
+            right_hand_weapon_type: status.right_hand_weapon().map(|w| *w.weapon_type()).unwrap_or(WeaponType::Fist),
             left_hand_weapon: None,
             upper_headgear: None,
             middle_headgear: None,
@@ -218,31 +218,31 @@ impl StatusSnapshot {
         };
         for gear in status.equipped_gears() {
             let gear_snapshot = Some(gear.to_snapshot());
-            if gear.location & EquipmentLocation::HeadTop.as_flag() > 0 {
+            if gear.location() & EquipmentLocation::HeadTop.as_flag() > 0 {
                 snapshot.upper_headgear = gear_snapshot;
             }
-            if gear.location & EquipmentLocation::HeadMid.as_flag() > 0 {
+            if gear.location() & EquipmentLocation::HeadMid.as_flag() > 0 {
                 snapshot.middle_headgear = gear_snapshot;
             }
-            if gear.location & EquipmentLocation::HeadLow.as_flag() > 0 {
+            if gear.location() & EquipmentLocation::HeadLow.as_flag() > 0 {
                 snapshot.lower_headgear = gear_snapshot;
             }
-            if gear.location & EquipmentLocation::Armor.as_flag() > 0 {
+            if gear.location() & EquipmentLocation::Armor.as_flag() > 0 {
                 snapshot.body = gear_snapshot;
             }
-            if gear.location & EquipmentLocation::Shoes.as_flag() > 0 {
+            if gear.location() & EquipmentLocation::Shoes.as_flag() > 0 {
                 snapshot.shoes = gear_snapshot;
             }
-            if gear.location & EquipmentLocation::HandLeft.as_flag() > 0 {
+            if gear.location() & EquipmentLocation::HandLeft.as_flag() > 0 {
                 snapshot.shield = gear_snapshot;
             }
-            if gear.location & EquipmentLocation::Garment.as_flag() > 0 {
+            if gear.location() & EquipmentLocation::Garment.as_flag() > 0 {
                 snapshot.shoulder = gear_snapshot;
             }
-            if gear.location & EquipmentLocation::AccessoryLeft.as_flag() > 0 {
+            if gear.location() & EquipmentLocation::AccessoryLeft.as_flag() > 0 {
                 snapshot.accessory_left = gear_snapshot;
             }
-            if gear.location & EquipmentLocation::AccessoryRight.as_flag() > 0 {
+            if gear.location() & EquipmentLocation::AccessoryRight.as_flag() > 0 {
                 snapshot.accessory_right = gear_snapshot;
             }
         }
@@ -295,7 +295,7 @@ impl Status {
     pub fn right_hand_weapon(&self) -> Option<&WearWeapon> {
         self.weapons
             .iter()
-            .find(|w| w.location & EquipmentLocation::HandRight.as_flag() > 0)
+            .find(|w| w.location() & EquipmentLocation::HandRight.as_flag() > 0)
     }
 
     pub fn equipped_gears(&self) -> &Vec<WearGear> {
@@ -311,7 +311,7 @@ impl Status {
 
     pub fn takeoff_weapon(&mut self, inventory_index: usize) {
         self.weapons
-            .retain(|w| w.inventory_index != inventory_index);
+            .retain(|w| w.inventory_index() != inventory_index);
     }
 
     pub fn wear_weapon(&mut self, wear_weapon: WearWeapon) {
@@ -325,7 +325,7 @@ impl Status {
     }
     pub fn takeoff_equipment(&mut self, inventory_index: usize) {
         self.equipments
-            .retain(|w| w.inventory_index != inventory_index);
+            .retain(|w| w.inventory_index() != inventory_index);
     }
 
     pub fn wear_equipment(&mut self, wear_weapon: WearGear) {
@@ -357,7 +357,7 @@ impl Status {
     }
 
     pub fn attack_range(&self) -> u8 {
-        self.right_hand_weapon().map(|w| w.range).unwrap_or(1_u8)
+        self.right_hand_weapon().map(|w| w.range()).unwrap_or(1_u8)
     }
 }
 

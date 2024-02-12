@@ -45,7 +45,7 @@ mod tests {
     use models::enums::EnumWithNumberValue;
     use crate::{eq_with_variance, status_snapshot};
 
-    use crate::tests::common::character_helper::{create_character, equip_item_from_id, equip_item_from_name};
+    use crate::tests::common::character_helper::{create_character, equip_item_from_id, equip_item_from_id_with_cards, equip_item_from_name};
     use crate::tests::common::fixtures::battle_fixture::BattleFixture;
     use super::*;
 
@@ -194,7 +194,9 @@ mod tests {
     fn test_all_stats_when_job_level_change() {
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-job-level.json";
         let result_file_path = "../doc/progress/stats-for-each-job-level_progress.md";
-        stats_tests(fixture_file, result_file_path, "Stats for each job level", None, |result| format!("JobLvl {}", result.job_level));
+        stats_tests(fixture_file, result_file_path, "Stats for each job level", None,
+                    |result: &TestResult| format!("{}", result.job),
+                    |result: &TestResult| format!("JobLvl {}", result.job_level));
     }
 
     #[test]
@@ -202,23 +204,34 @@ mod tests {
         let context = before_each();
         let fixture_file = "src/tests/common/fixtures/data/stats-for-items.json";
         let result_file_path = "../doc/progress/stats-for-each-items_progress.md";
-        stats_tests(fixture_file, result_file_path, "Stats for each items", None, |result| {
-            let mut desc: Vec<String> = vec![];
-            if result.status.all_equipped_items().len() == 0 {
-                return "Can't find item with id".to_string();
-            }
-            result.status.all_equipped_items().iter().for_each(|wearable| {
-                let item = GlobalConfigService::instance().get_item(wearable.item_id());
+        stats_tests(fixture_file, result_file_path, "Stats for each items", None,
+                    |result: &TestResult| {
+                        let mut desc: Vec<String> = vec![];
+                        if result.status.all_equipped_items().len() == 0 {
+                            return "Can't find item with id".to_string();
+                        }
+                        result.status.all_equipped_items().iter().for_each(|wearable| {
+                            let item = GlobalConfigService::instance().get_item(wearable.item_id());
+                            desc.push(item.name_aegis.clone());
+                        });
+                        desc.iter().map(|d| format!("{}", d))
+                            .collect::<Vec<String>>()
+                            .join("<br>")
+                    },
+                    |result: &TestResult| {
+                        let mut desc: Vec<String> = vec![];
 
-                desc.push(format!("**{}**({})", item.name_aegis, item.bonuses.iter().map(|b| format!("<br>\t*{:?}*", b))
-                    .collect::<Vec<String>>()
-                    .join("")));
-            });
-            desc.iter().map(|d| format!("{}", d))
-                .collect::<Vec<String>>()
-                .join("<br>")
-        });
-        // For each item bonuses run a test
+                        result.status.all_equipped_items().iter().for_each(|wearable| {
+                            let item = GlobalConfigService::instance().get_item(wearable.item_id());
+
+                            desc.push(format!("{}", item.bonuses.iter().map(|b| format!("<br>*{:?}*", b))
+                                .collect::<Vec<String>>()
+                                .join("")));
+                        });
+                        desc.iter().map(|d| format!("{}", d))
+                            .collect::<Vec<String>>()
+                            .join("<br>")
+                    });
     }
 
     #[test]
@@ -226,13 +239,62 @@ mod tests {
         let context = before_each();
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-stats.json";
         let result_file_path = "../doc/progress/each-bonus_progress.md";
-        stats_tests(fixture_file, result_file_path, "Each item bonus", None, |result| format!("{}", result.desc.as_ref().unwrap_or(&"NA".to_string())));
+        stats_tests(fixture_file, result_file_path, "Each item bonus", None,
+                    |result| format!("{}", result.desc.as_ref().unwrap_or(&"NA".to_string())),
+                    |result| format!("{}", result.desc.as_ref().unwrap_or(&"NA".to_string())));
     }
 
     #[test]
     fn test_all_stats_when_card() {
-    }
+        let context = before_each();
+        let fixture_file = "src/tests/common/fixtures/data/stats-for-cards.json";
+        let result_file_path = "../doc/progress/stats-for-each-card_progress.md";
+        stats_tests(fixture_file, result_file_path, "Stats for each cards", None,
+                    |result: &TestResult| {
+                        let mut desc: Vec<String> = vec![];
+                        if result.status.all_equipped_items().len() == 0 {
+                            return "Can't find item with id".to_string();
+                        }
+                        result.status.equipped_gears().iter().for_each(|equipment| {
+                            if equipment.card0() > 0 {
+                                let card = GlobalConfigService::instance().get_item(equipment.card0() as i32);
+                                desc.push(card.name_aegis.clone());
+                            }
+                        });
+                        result.status.equipped_weapons().iter().for_each(|weapon| {
+                            if weapon.card0() > 0 {
+                                let card = GlobalConfigService::instance().get_item(weapon.card0() as i32);
+                                desc.push(card.name_aegis.clone());
+                            }
+                        });
+                        desc.iter().map(|d| format!("{}", d))
+                            .collect::<Vec<String>>()
+                            .join("<br>")
+                    },
+                    |result: &TestResult| {
+                        let mut desc: Vec<String> = vec![];
 
+                        result.status.equipped_gears().iter().for_each(|equipment| {
+                            if equipment.card0() > 0 {
+                                let card = GlobalConfigService::instance().get_item(equipment.card0() as i32);
+                                desc.push(format!("{}", card.bonuses.iter().map(|b| format!("<br>*{:?}*", b))
+                                    .collect::<Vec<String>>()
+                                    .join("")));
+                            }
+                        });
+                        result.status.equipped_weapons().iter().for_each(|weapon| {
+                            if weapon.card0() > 0 {
+                                let card = GlobalConfigService::instance().get_item(weapon.card0() as i32);
+                                desc.push(format!("{}", card.bonuses.iter().map(|b| format!("<br>*{:?}*", b))
+                                    .collect::<Vec<String>>()
+                                    .join("")));
+                            }
+                        });
+                        desc.iter().map(|d| format!("{}", d))
+                            .collect::<Vec<String>>()
+                            .join("<br>")
+                    });
+    }
 
 
     #[test]
@@ -240,11 +302,14 @@ mod tests {
         let id = "ybc2m0";
         let fixture_file = "src/tests/common/fixtures/data/stats-for-items.json";
         let result_file_path = "../doc/progress/stats-for-each-items_progress.md";
-        stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id), |result| format!("JobLvl {}", result.job_level));
+        stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id), |result| format!("{}", result.job), |result| format!("JobLvl {}", result.job_level));
     }
 
-    fn stats_tests<F>(fixture_file: &str, result_file_path: &str, title: &str, test_id: Option<&str>, description_fn : F)
-        where F: Fn(&TestResult) -> String {
+    fn stats_tests<F1, F2>(fixture_file: &str, result_file_path: &str, title: &str, test_id: Option<&str>, column1_fn: F1, column2_fn: F2)
+        where
+            F1: Fn(&TestResult) -> String,
+            F2: Fn(&TestResult) -> String
+    {
         // Given
         let context = before_each();
         let _packetver = GlobalConfigService::instance().packetver();
@@ -262,7 +327,9 @@ mod tests {
             // println!("{}",scenarii.id());
             i += 1;
             let mut character = create_character();
-            scenarii.all_equipments().iter().for_each(|e| { equip_item_from_id(&mut character, e.item_id() as u32); });
+            scenarii.all_equipments().iter().for_each(|e| {
+                equip_item_from_id_with_cards(&mut character, e.item_id() as u32, e.cards().iter().map(|c| c.item_id()).collect::<Vec<i16>>());
+            });
 
             let mut character_status = &mut character.status;
             let job = JobName::from_string(scenarii.job().as_str());
@@ -309,7 +376,7 @@ mod tests {
         result_file.write_all(b"                              \n").unwrap();
         result_file.write_all(format!("fixture file was [{}](/server/{})\n\n", fixture_file, fixture_file).as_bytes()).unwrap();
         result_file.write_all(format!("# {}\n", title).as_bytes()).unwrap();
-        result_file.write_all(b"|id|job|context|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|Armor element|\n").unwrap();
+        result_file.write_all(b"|id|column1|column2|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|Armor element|\n").unwrap();
         result_file.write_all(b"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|\n").unwrap();
         let mut passed_count = 0;
         for result in results.iter_mut() {
@@ -318,7 +385,7 @@ mod tests {
             let vit_passed = result.actual.vit() as i16 == result.expected.bonus_vit() + result.expected.base_vit() as i16;
             let dex_passed = result.actual.dex() as i16 == result.expected.bonus_dex() + result.expected.base_dex() as i16;
             let int_passed = result.actual.int() as i16 == result.expected.bonus_int() + result.expected.base_int() as i16;
-            let luk_passed =result.actual.luk() as i16 == result.expected.bonus_luk() + result.expected.base_luk() as i16;
+            let luk_passed = result.actual.luk() as i16 == result.expected.bonus_luk() + result.expected.base_luk() as i16;
             let aspd_passed = result.actual.aspd() >= result.expected.aspd() - 0.5 || result.actual.aspd() <= result.expected.aspd() + 0.5;
             let atk_left_passed = result.actual.atk_left_side() as u16 == result.expected.atk_left();
             let atk_right_passed = result.actual.atk_right_side() as u16 == result.expected.atk_right();
@@ -335,11 +402,12 @@ mod tests {
             result.passed = str_passed && agi_passed && vit_passed && dex_passed && int_passed && luk_passed && aspd_passed && atk_left_passed && atk_right_passed
                 && matk_max_passed && matk_min_passed && def_passed && mdef_passed && hit_passed && flee_passed && crit_passed
                 && hp_passed && sp_passed && armor_element_passed;
+
             if result.passed {
                 passed_count += 1;
             }
             result_file.write_all(format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
-                                          result.id, result.job, description_fn(result), format_result!(result.passed, result.passed),
+                                          result.id, column1_fn(result), column2_fn(result), format_result!(result.passed, result.passed),
                                           format_result!(str_passed, result.actual.base_str(), result.actual.bonus_str(), result.expected.base_str(), result.expected.bonus_str()),
                                           format_result!(agi_passed, result.actual.base_agi(), result.actual.bonus_agi(), result.expected.base_agi(), result.expected.bonus_agi()),
                                           format_result!(vit_passed, result.actual.base_vit(), result.actual.bonus_vit(), result.expected.base_vit(), result.expected.bonus_vit()),
@@ -374,7 +442,7 @@ mod tests {
         actual: StatusSnapshot,
         expected: BattleFixture,
         status: Status,
-        desc: Option<String>
+        desc: Option<String>,
     }
 }
 
