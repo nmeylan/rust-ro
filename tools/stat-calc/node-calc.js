@@ -74,14 +74,15 @@ switch (command) {
         let orderedItems = [];
         for (let item of ItemOBJ) {
             orderedItems.push(item[8]);
+            if (item[10] !== 0) {
+                item[10] = item[10].replace(/[^\x00-\x7F]/g, "");
+            }
             for (let itemStatIndex = 0; item[itemStatIndex + 11] != 0; itemStatIndex += 2) {
                 let bonus = item[itemStatIndex + 11];
-                if (bonus === BYPASS_DEFENSE_ON_RACE) {
-                    console.log(item)
-                }
+                item[itemStatIndex + 11] = "bonusValue." + bonusLabel[item[itemStatIndex + 11]];
             }
         }
-        console.log(JSON.stringify(orderedItems));
+        console.log(JSON.stringify(ItemOBJ).replaceAll(/"(bonusValue\.[a-zA-Z_]*)"/g, "$1"));
         break;
 }
 

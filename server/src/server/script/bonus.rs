@@ -35,7 +35,7 @@ impl NativeMethodHandler for BonusScriptHandler {
             let skill = SkillEnum::from_name(skill_name.as_str());
             let skill_level = params[1].number_value().unwrap() as u8;
             bonus!(self, BonusType::EnableSkillId(skill.id(), skill_level))
-        } if native.name.eq("bonus") {
+        } else if native.name.eq("bonus") {
             self.handle_bonus(params);
         } else if native.name.eq("bonus2") {
             self.handle_bonus2(params);
@@ -116,64 +116,64 @@ impl BonusScriptHandler {
                 _ => {}
             }
         } else {
-            let value = params[1].number_value().unwrap() as i8;
+            let value = params[1].number_value().unwrap() as i32;
             match bonus.to_lowercase().as_str() {
                 "bagi" => {
-                    bonus!(self, BonusType::Agi(value));
+                    bonus!(self, BonusType::Agi(value as i8));
                 }
                 "badditemhealrate" => {
-                    bonus!(self, BonusType::HpRegenFromItemPercentage(value));
+                    bonus!(self, BonusType::HpRegenFromItemPercentage(value as i8));
                 }
                 "ballstats" => {
-                    bonus!(self, BonusType::AllStats(value));
+                    bonus!(self, BonusType::AllStats(value as i8));
                 }
                 "baspd" => {
-                    bonus!(self, BonusType::Aspd(value));
+                    bonus!(self, BonusType::Aspd(value as i8));
                 }
                 "baspdrate" => {
-                    bonus!(self, BonusType::AspdPercentage(value));
+                    bonus!(self, BonusType::AspdPercentage(value as i8));
                 }
                 "batkele" => {
                     bonus!(self, BonusType::ElementWeapon(Element::from_value(value as usize)));
                 }
                 "batkrate" => {
-                    bonus!(self, BonusType::AtkPercentage(value));
+                    bonus!(self, BonusType::AtkPercentage(value as i8));
                 }
                 "bbaseatk" => {
                     bonus!(self, BonusType::Atk(value as i16));
                 }
                 "bbreakarmorrate" => {
-                    bonus!(self, BonusType::BreakArmorPercentage(value));
+                    bonus!(self, BonusType::BreakArmorPercentage((value / 100) as i8));
                 }
                 "bbreakweaponrate" => {
-                    bonus!(self, BonusType::BreakWeaponPercentage(value));
+                    bonus!(self, BonusType::BreakWeaponPercentage((value / 100) as i8));
                 }
                 "bcastrate" => {
-                    bonus!(self, BonusType::CastTimePercentage(value));
+                    bonus!(self, BonusType::CastTimePercentage(value as i8));
                 }
                 "bclasschange" => {
-                    bonus!(self, BonusType::ClassChangePercentageOnHit(value));
+                    bonus!(self, BonusType::ClassChangePercentageOnHit((value / 100) as i8));
                 }
                 "bcritatkrate" => {
-                    bonus!(self, BonusType::CriticalDamagePercentage(value));
+                    bonus!(self, BonusType::CriticalDamagePercentage(value as i8));
                 }
                 "bcritical" => {
-                    bonus!(self, BonusType::Crit(value));
+                    bonus!(self, BonusType::Crit(value as i8));
                 }
                 "bcriticallong" => {
-                    bonus!(self, BonusType::LongRangeCriticalChance(value));
+                    bonus!(self, BonusType::LongRangeCriticalChance(value as i8));
                 }
                 "bdef" => {
                     bonus!(self, BonusType::Def(value as i16));
                 }
                 "bdef2rate" => {
-                    bonus!(self, BonusType::VitDefPercentage(value));
+                    bonus!(self, BonusType::VitDefPercentage(value as i8));
                 }
                 "bdefele" => {
                     bonus!(self, BonusType::ElementDefense(Element::from_value(value as usize)));
                 }
                 "bdefrate" => {
-                    bonus!(self, BonusType::DefPercentage(value));
+                    bonus!(self, BonusType::DefPercentage(value as i8));
                 }
                 "bdefratioatkclass" => {
                     match MobClass::from_value(value as usize) {
@@ -188,37 +188,37 @@ impl BonusScriptHandler {
                     }
                 }
                 "bdelayrate" => {
-                    bonus!(self, BonusType::SkillDelayIncDecPercentage(value));
+                    bonus!(self, BonusType::SkillDelayIncDecPercentage(value as i8));
                 }
                 "bdex" => {
-                    bonus!(self, BonusType::Dex(value));
+                    bonus!(self, BonusType::Dex(value as i8));
                 }
                 "bdoublerate" => {
-                    bonus!(self, BonusType::DoubleAttackChancePercentage(value));
+                    bonus!(self, BonusType::DoubleAttackChancePercentage(value as i8));
                 }
                 "bflee" => {
                     bonus!(self, BonusType::Flee(value as i16));
                 }
                 "bflee2" => {
-                    bonus!(self, BonusType::PerfectDodge(value));
+                    bonus!(self, BonusType::PerfectDodge(value as i8));
                 }
                 "bhpgainvalue" => {
-                    bonus!(self, BonusType::GainHpWhenKillingEnemy(value));
+                    bonus!(self, BonusType::GainHpWhenKillingEnemy(value as i8));
                 }
                 "bhprecovrate" => {
-                    bonus!(self, BonusType::NaturalHpRecoveryPercentage(value));
+                    bonus!(self, BonusType::NaturalHpRecoveryPercentage(value as i8));
                 }
                 "bhealpower" => {
-                    bonus!(self, BonusType::HealSkillPercentage(value));
+                    bonus!(self, BonusType::HealSkillPercentage(value as i8));
                 }
                 "bhealpower2" => {
-                    bonus!(self, BonusType::HpRegenFromSkillPercentage(value));
+                    bonus!(self, BonusType::HpRegenFromSkillPercentage(value as i8));
                 }
                 "bhit" => {
                     bonus!(self, BonusType::Hit(value as i16));
                 }
                 "bhitrate" => {
-                    bonus!(self, BonusType::HitPercentage(value));
+                    bonus!(self, BonusType::HitPercentage(value as i8));
                 }
                 "bignoredefclass" => {
                     match MobClass::from_value(value as usize) {
@@ -263,28 +263,28 @@ impl BonusScriptHandler {
                     }
                 }
                 "bint" => {
-                    bonus!(self, BonusType::Int(value));
+                    bonus!(self, BonusType::Int(value as i8));
                 }
                 "blongatkdef" => {
-                    bonus!(self, BonusType::ResistanceRangeAttackPercentage(value));
+                    bonus!(self, BonusType::ResistanceRangeAttackPercentage(value as i8));
                 }
                 "blongatkrate" => {
-                    bonus!(self, BonusType::DamageRangedAtkPercentage(value));
+                    bonus!(self, BonusType::DamageRangedAtkPercentage(value as i8));
                 }
                 "bluk" => {
-                    bonus!(self, BonusType::Luk(value));
+                    bonus!(self, BonusType::Luk(value as i8));
                 }
                 "bmatkrate" => {
-                    bonus!(self, BonusType::MatkPercentage(value));
+                    bonus!(self, BonusType::MatkPercentage(value as i8));
                 }
                 "bmagicdamagereturn" => {
-                    bonus!(self, BonusType::MagicAttackReflectChancePercentage(value));
+                    bonus!(self, BonusType::MagicAttackReflectChancePercentage(value as i8));
                 }
                 "bmagichpgainvalue" => {
-                    bonus!(self, BonusType::GainHpWhenKillingEnemyWithMagicAttack(value));
+                    bonus!(self, BonusType::GainHpWhenKillingEnemyWithMagicAttack(value as i8));
                 }
                 "bmagicspgainvalue" => {
-                    bonus!(self, BonusType::GainSpWhenKillingEnemyWithMagicAttack(value));
+                    bonus!(self, BonusType::GainSpWhenKillingEnemyWithMagicAttack(value as i8));
                 }
                 "bmatk" => {
                     bonus!(self, BonusType::Matk(value as i16));
@@ -293,19 +293,19 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::Maxhp(value as i32));
                 }
                 "bmaxhprate" => {
-                    bonus!(self, BonusType::MaxhpPercentage(value));
+                    bonus!(self, BonusType::MaxhpPercentage(value as i8));
                 }
                 "bmaxsp" => {
                     bonus!(self, BonusType::Maxsp(value as i32));
                 }
                 "bmaxsprate" => {
-                    bonus!(self, BonusType::MaxspPercentage(value));
+                    bonus!(self, BonusType::MaxspPercentage(value as i8));
                 }
                 "bmdef" => {
                     bonus!(self, BonusType::Mdef(value as i16));
                 }
                 "bnomagicdamage" => {
-                    bonus!(self, BonusType::ResistanceMagicAttackPercentage(value));
+                    bonus!(self, BonusType::ResistanceMagicAttackPercentage(value as i8));
                 }
                 "bnoregen" => {
                     if value == 1 {
@@ -315,34 +315,34 @@ impl BonusScriptHandler {
                     }
                 }
                 "bperfecthitrate" => {
-                    bonus!(self, BonusType::PerfectHitPercentage(value));
+                    bonus!(self, BonusType::PerfectHitPercentage(value as i8));
                 }
                 "bspdrainvalue" => {
-                    bonus!(self, BonusType::GainSpWhenHittingEnemy(value));
+                    bonus!(self, BonusType::GainSpWhenHittingEnemy(value as i8));
                 }
                 "bspgainvalue" => {
-                    bonus!(self, BonusType::GainSpWhenKillingEnemy(value));
+                    bonus!(self, BonusType::GainSpWhenKillingEnemy(value as i8));
                 }
                 "bsprecovrate" => {
-                    bonus!(self, BonusType::NaturalSpRecoveryPercentage(value));
+                    bonus!(self, BonusType::NaturalSpRecoveryPercentage(value as i8));
                 }
                 "bshortweapondamagereturn" => {
-                    bonus!(self, BonusType::MeleeAttackReflectChancePercentage(value));
+                    bonus!(self, BonusType::MeleeAttackReflectChancePercentage(value as i8));
                 }
                 "bspeedaddrate" | "bspeedrate" => {
-                    bonus!(self, BonusType::SpeedPercentage(value));
+                    bonus!(self, BonusType::SpeedPercentage(value as i8));
                 }
                 "bsplashrange" => {
-                    bonus!(self, BonusType::SplashRadius(value));
+                    bonus!(self, BonusType::SplashRadius(value as i8));
                 }
                 "bstr" => {
-                    bonus!(self, BonusType::Str(value));
+                    bonus!(self, BonusType::Str(value as i8));
                 }
                 "busesprate" => {
-                    bonus!(self, BonusType::SpConsumption(value));
+                    bonus!(self, BonusType::SpConsumption(value as i8));
                 }
                 "bvit" => {
-                    bonus!(self, BonusType::Vit(value));
+                    bonus!(self, BonusType::Vit(value as i8));
                 }
                 _ => {}
             }
@@ -393,59 +393,59 @@ impl BonusScriptHandler {
                 }
                 "baddeff" => {
                     match StatusEffect::from_value(value1 as usize) {
-                        StatusEffect::Poison => bonus!(self, BonusType::ChanceToInflictStatusPoisonOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Stun => bonus!(self, BonusType::ChanceToInflictStatusStunOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Freeze => bonus!(self, BonusType::ChanceToInflictStatusFreezeOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Curse => bonus!(self, BonusType::ChanceToInflictStatusCurseOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Blind => bonus!(self, BonusType::ChanceToInflictStatusBlindOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Sleep => bonus!(self, BonusType::ChanceToInflictStatusSleepOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Silence => bonus!(self, BonusType::ChanceToInflictStatusSilenceOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Chaos => bonus!(self, BonusType::ChanceToInflictStatusChaosOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Bleeding => bonus!(self, BonusType::ChanceToInflictStatusBleedingOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Stone => bonus!(self, BonusType::ChanceToInflictStatusStoneOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Burning => bonus!(self, BonusType::ChanceToInflictStatusBurningOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Confuse => bonus!(self, BonusType::ChanceToInflictStatusConfuseOnAttackPercentage(value2 as i8)),
-                        StatusEffect::WeaponBreak => bonus!(self, BonusType::ChanceToInflictStatusWeaponBreakOnAttackPercentage(value2 as i8)),
-                        StatusEffect::ArmorBreak => bonus!(self, BonusType::ChanceToInflictStatusArmorBreakOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Coma => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackPercentage(value2 as i8)),
+                        StatusEffect::Poison => bonus!(self, BonusType::ChanceToInflictStatusPoisonOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Stun => bonus!(self, BonusType::ChanceToInflictStatusStunOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Freeze => bonus!(self, BonusType::ChanceToInflictStatusFreezeOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Curse => bonus!(self, BonusType::ChanceToInflictStatusCurseOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Blind => bonus!(self, BonusType::ChanceToInflictStatusBlindOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Sleep => bonus!(self, BonusType::ChanceToInflictStatusSleepOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Silence => bonus!(self, BonusType::ChanceToInflictStatusSilenceOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Chaos => bonus!(self, BonusType::ChanceToInflictStatusChaosOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Bleeding => bonus!(self, BonusType::ChanceToInflictStatusBleedingOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Stone => bonus!(self, BonusType::ChanceToInflictStatusStoneOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Burning => bonus!(self, BonusType::ChanceToInflictStatusBurningOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Confuse => bonus!(self, BonusType::ChanceToInflictStatusConfuseOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::WeaponBreak => bonus!(self, BonusType::ChanceToInflictStatusWeaponBreakOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::ArmorBreak => bonus!(self, BonusType::ChanceToInflictStatusArmorBreakOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Coma => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackPercentage(value2 as f32 / 100.0)),
                     }
                 }
                 "baddeff2" => {
                     match StatusEffect::from_value(value1 as usize) {
-                        StatusEffect::Poison => bonus!(self, BonusType::ChanceToInflictStatusPoisonToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Stun => bonus!(self, BonusType::ChanceToInflictStatusStunToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Freeze => bonus!(self, BonusType::ChanceToInflictStatusFreezeToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Curse => bonus!(self, BonusType::ChanceToInflictStatusCurseToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Blind => bonus!(self, BonusType::ChanceToInflictStatusBlindToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Sleep => bonus!(self, BonusType::ChanceToInflictStatusSleepToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Silence => bonus!(self, BonusType::ChanceToInflictStatusSilenceToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Chaos => bonus!(self, BonusType::ChanceToInflictStatusChaosToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Bleeding => bonus!(self, BonusType::ChanceToInflictStatusBleedingToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Stone => bonus!(self, BonusType::ChanceToInflictStatusStoneToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Burning => bonus!(self, BonusType::ChanceToInflictStatusBurningToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Confuse => bonus!(self, BonusType::ChanceToInflictStatusConfuseToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::WeaponBreak => bonus!(self, BonusType::ChanceToInflictStatusWeaponBreakToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::ArmorBreak => bonus!(self, BonusType::ChanceToInflictStatusArmorBreakToSelfOnAttackPercentage(value2 as i8)),
-                        StatusEffect::Coma => bonus!(self, BonusType::ChanceToInflictStatusComaToSelfOnAttackPercentage(value2 as i8)),
+                        StatusEffect::Poison => bonus!(self, BonusType::ChanceToInflictStatusPoisonToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Stun => bonus!(self, BonusType::ChanceToInflictStatusStunToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Freeze => bonus!(self, BonusType::ChanceToInflictStatusFreezeToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Curse => bonus!(self, BonusType::ChanceToInflictStatusCurseToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Blind => bonus!(self, BonusType::ChanceToInflictStatusBlindToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Sleep => bonus!(self, BonusType::ChanceToInflictStatusSleepToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Silence => bonus!(self, BonusType::ChanceToInflictStatusSilenceToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Chaos => bonus!(self, BonusType::ChanceToInflictStatusChaosToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Bleeding => bonus!(self, BonusType::ChanceToInflictStatusBleedingToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Stone => bonus!(self, BonusType::ChanceToInflictStatusStoneToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Burning => bonus!(self, BonusType::ChanceToInflictStatusBurningToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Confuse => bonus!(self, BonusType::ChanceToInflictStatusConfuseToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::WeaponBreak => bonus!(self, BonusType::ChanceToInflictStatusWeaponBreakToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::ArmorBreak => bonus!(self, BonusType::ChanceToInflictStatusArmorBreakToSelfOnAttackPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Coma => bonus!(self, BonusType::ChanceToInflictStatusComaToSelfOnAttackPercentage(value2 as f32 / 100.0)),
                     }
                 }
                 "baddeffwhenhit" => {
                     match StatusEffect::from_value(value1 as usize) {
-                        StatusEffect::Poison => bonus!(self, BonusType::ChanceToInflictStatusPoisonWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Stun => bonus!(self, BonusType::ChanceToInflictStatusStunWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Freeze => bonus!(self, BonusType::ChanceToInflictStatusFreezeWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Curse => bonus!(self, BonusType::ChanceToInflictStatusCurseWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Blind => bonus!(self, BonusType::ChanceToInflictStatusBlindWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Sleep => bonus!(self, BonusType::ChanceToInflictStatusSleepWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Silence => bonus!(self, BonusType::ChanceToInflictStatusSilenceWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Chaos => bonus!(self, BonusType::ChanceToInflictStatusChaosWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Bleeding => bonus!(self, BonusType::ChanceToInflictStatusBleedingWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Stone => bonus!(self, BonusType::ChanceToInflictStatusStoneWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Burning => bonus!(self, BonusType::ChanceToInflictStatusBurningWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Confuse => bonus!(self, BonusType::ChanceToInflictStatusConfuseWhenHitPercentage(value2 as i8)),
-                        StatusEffect::WeaponBreak => bonus!(self, BonusType::ChanceToInflictStatusWeaponBreakWhenHitPercentage(value2 as i8)),
-                        StatusEffect::ArmorBreak => bonus!(self, BonusType::ChanceToInflictStatusArmorBreakWhenHitPercentage(value2 as i8)),
-                        StatusEffect::Coma => bonus!(self, BonusType::ChanceToInflictStatusComaWhenHitPercentage(value2 as i8)),
+                        StatusEffect::Poison => bonus!(self, BonusType::ChanceToInflictStatusPoisonWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Stun => bonus!(self, BonusType::ChanceToInflictStatusStunWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Freeze => bonus!(self, BonusType::ChanceToInflictStatusFreezeWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Curse => bonus!(self, BonusType::ChanceToInflictStatusCurseWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Blind => bonus!(self, BonusType::ChanceToInflictStatusBlindWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Sleep => bonus!(self, BonusType::ChanceToInflictStatusSleepWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Silence => bonus!(self, BonusType::ChanceToInflictStatusSilenceWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Chaos => bonus!(self, BonusType::ChanceToInflictStatusChaosWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Bleeding => bonus!(self, BonusType::ChanceToInflictStatusBleedingWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Stone => bonus!(self, BonusType::ChanceToInflictStatusStoneWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Burning => bonus!(self, BonusType::ChanceToInflictStatusBurningWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Confuse => bonus!(self, BonusType::ChanceToInflictStatusConfuseWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::WeaponBreak => bonus!(self, BonusType::ChanceToInflictStatusWeaponBreakWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::ArmorBreak => bonus!(self, BonusType::ChanceToInflictStatusArmorBreakWhenHitPercentage(value2 as f32 / 100.0)),
+                        StatusEffect::Coma => bonus!(self, BonusType::ChanceToInflictStatusComaWhenHitPercentage(value2 as f32 / 100.0)),
                     }
                 }
                 "baddele" => {
@@ -530,28 +530,28 @@ impl BonusScriptHandler {
                 }
                 "bcomaclass" => {
                     match MobClass::from_value(value1 as usize) {
-                        MobClass::Boss => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnBossClassPercentage((value2 / 100_i32) as i8)),
-                        MobClass::Normal => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnNormalClassPercentage((value2 / 100_i32) as i8)),
-                        MobClass::Guardian => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnGuardianClassPercentage((value2 / 100_i32) as i8)),
+                        MobClass::Boss => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnBossClassPercentage(value2 as f32 / 100.0)),
+                        MobClass::Normal => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnNormalClassPercentage(value2 as f32 / 100.0)),
+                        MobClass::Guardian => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnGuardianClassPercentage(value2 as f32 / 100.0)),
                         MobClass::All => {
-                            bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnBossClassPercentage((value2 / 100_i32) as i8));
-                            bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnNormalClassPercentage((value2 / 100_i32) as i8));
-                            bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnGuardianClassPercentage((value2 / 100_i32) as i8));
+                            bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnBossClassPercentage(value2 as f32 / 100.0));
+                            bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnNormalClassPercentage(value2 as f32 / 100.0));
+                            bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackOnGuardianClassPercentage(value2 as f32 / 100.0));
                         }
                     }
                 }
                 "bcomarace" => {
                     match MobRace::from_value(value1 as usize) {
-                        MobRace::Angel => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceAngelPercentage((value2 / 100_i32) as i8)),
-                        MobRace::Brute => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceBrutePercentage((value2 / 100_i32) as i8)),
-                        MobRace::DemiHuman => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceDemiHumanPercentage((value2 / 100_i32) as i8)),
-                        MobRace::Demon => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceDemonPercentage((value2 / 100_i32) as i8)),
-                        MobRace::Dragon => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceDragonPercentage((value2 / 100_i32) as i8)),
-                        MobRace::Fish => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceFishPercentage((value2 / 100_i32) as i8)),
-                        MobRace::Formless => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceFormlessPercentage((value2 / 100_i32) as i8)),
-                        MobRace::Insect => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceInsectPercentage((value2 / 100_i32) as i8)),
-                        MobRace::Plant => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRacePlantPercentage((value2 / 100_i32) as i8)),
-                        MobRace::Undead => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceUndeadPercentage((value2 / 100_i32) as i8)),
+                        MobRace::Angel => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceAngelPercentage(value2 as f32 / 100.0)),
+                        MobRace::Brute => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceBrutePercentage(value2 as f32 / 100.0)),
+                        MobRace::DemiHuman => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceDemiHumanPercentage(value2 as f32 / 100.0)),
+                        MobRace::Demon => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceDemonPercentage(value2 as f32 / 100.0)),
+                        MobRace::Dragon => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceDragonPercentage(value2 as f32 / 100.0)),
+                        MobRace::Fish => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceFishPercentage(value2 as f32 / 100.0)),
+                        MobRace::Formless => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceFormlessPercentage(value2 as f32 / 100.0)),
+                        MobRace::Insect => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceInsectPercentage(value2 as f32 / 100.0)),
+                        MobRace::Plant => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRacePlantPercentage(value2 as f32 / 100.0)),
+                        MobRace::Undead => bonus!(self, BonusType::ChanceToInflictStatusComaOnAttackRaceUndeadPercentage(value2 as f32 / 100.0)),
                         _ => {}
                     }
                 }
@@ -692,17 +692,17 @@ impl BonusScriptHandler {
                 }
                 "breseff" => {
                     match StatusEffect::from_value(value1 as usize) {
-                        StatusEffect::Poison => bonus!(self, BonusType::ResistanceToStatusPoisonPercentage(value2 as i8)),
-                        StatusEffect::Bleeding => bonus!(self, BonusType::ResistanceToStatusBleedingPercentage(value2 as i8)),
-                        StatusEffect::Blind => bonus!(self, BonusType::ResistanceToStatusBlindPercentage(value2 as i8)),
-                        StatusEffect::Burning => bonus!(self, BonusType::ResistanceToStatusBurningPercentage(value2 as i8)),
-                        StatusEffect::Confuse => bonus!(self, BonusType::ResistanceToStatusConfusePercentage(value2 as i8)),
-                        StatusEffect::Curse => bonus!(self, BonusType::ResistanceToStatusCursePercentage(value2 as i8)),
-                        StatusEffect::Freeze => bonus!(self, BonusType::ResistanceToStatusFreezePercentage(value2 as i8)),
-                        StatusEffect::Silence => bonus!(self, BonusType::ResistanceToStatusSilencePercentage(value2 as i8)),
-                        StatusEffect::Sleep => bonus!(self, BonusType::ResistanceToStatusSleepPercentage(value2 as i8)),
-                        StatusEffect::Stone => bonus!(self, BonusType::ResistanceToStatusStonePercentage(value2 as i8)),
-                        StatusEffect::Stun => bonus!(self, BonusType::ResistanceToStatusStunPercentage(value2 as i8)),
+                        StatusEffect::Poison => bonus!(self, BonusType::ResistanceToStatusPoisonPercentage((value2 / 100) as i8)),
+                        StatusEffect::Bleeding => bonus!(self, BonusType::ResistanceToStatusBleedingPercentage((value2 / 100) as i8)),
+                        StatusEffect::Blind => bonus!(self, BonusType::ResistanceToStatusBlindPercentage((value2 / 100) as i8)),
+                        StatusEffect::Burning => bonus!(self, BonusType::ResistanceToStatusBurningPercentage((value2 / 100) as i8)),
+                        StatusEffect::Confuse => bonus!(self, BonusType::ResistanceToStatusConfusePercentage((value2 / 100) as i8)),
+                        StatusEffect::Curse => bonus!(self, BonusType::ResistanceToStatusCursePercentage((value2 / 100) as i8)),
+                        StatusEffect::Freeze => bonus!(self, BonusType::ResistanceToStatusFreezePercentage((value2 / 100) as i8)),
+                        StatusEffect::Silence => bonus!(self, BonusType::ResistanceToStatusSilencePercentage((value2 / 100) as i8)),
+                        StatusEffect::Sleep => bonus!(self, BonusType::ResistanceToStatusSleepPercentage((value2 / 100) as i8)),
+                        StatusEffect::Stone => bonus!(self, BonusType::ResistanceToStatusStonePercentage((value2 / 100) as i8)),
+                        StatusEffect::Stun => bonus!(self, BonusType::ResistanceToStatusStunPercentage((value2 / 100) as i8)),
                         _ => {}
                     }
                 }

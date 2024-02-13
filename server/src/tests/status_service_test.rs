@@ -303,15 +303,16 @@ mod tests {
         result_file.write_all(b"|id|character|stats computed|stats from fixtures|passed|str|agi|vit|dex|int|luk|aspd|atk left|atk right|matk min|matk max|def|mdef|hit|flee|crit|hp|sp|Armor element|\n").unwrap();
         result_file.write_all(b"|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|\n").unwrap();
         let mut passed_count = 0;
+        let mut markdown_rows_passed = vec![];
+        let mut markdown_rows_failed = vec![];
         for result in results.iter_mut() {
-
             let mut bonuses_desc = vec![];
             let mut fixtures_bonuses_desc = vec![];
             let mut actual_bonuses = vec![];
             let mut expected_bonuses = vec![];
 
             let mut equipped_gears = result.status.equipped_weapons().iter().collect::<Vec<&WearWeapon>>();
-            equipped_gears.sort_by(|a,b| a.item_id.cmp(&b.item_id));
+            equipped_gears.sort_by(|a, b| a.item_id.cmp(&b.item_id));
             equipped_gears.iter().for_each(|weapon| {
                 let item = GlobalConfigService::instance().get_item(weapon.item_id() as i32);
                 if weapon.card0() > 0 {
@@ -338,7 +339,7 @@ mod tests {
                 }
             });
             let mut equipped_gears = result.status.equipped_gears().iter().collect::<Vec<&WearGear>>();
-            equipped_gears.sort_by(|a,b| a.item_id.cmp(&b.item_id));
+            equipped_gears.sort_by(|a, b| a.item_id.cmp(&b.item_id));
             equipped_gears.iter().for_each(|equipment| {
                 let item = GlobalConfigService::instance().get_item(equipment.item_id() as i32);
                 if equipment.card0() > 0 {
@@ -367,7 +368,7 @@ mod tests {
 
 
             let mut fixture_equipments = result.expected.all_equipments().iter().cloned().collect::<Vec<&Equipment>>();
-            fixture_equipments.sort_by(|a,b| a.item_id().cmp(&b.item_id()));
+            fixture_equipments.sort_by(|a, b| a.item_id().cmp(&b.item_id()));
             fixture_equipments.iter().for_each(|e| {
                 fixtures_bonuses_desc.push(format!("{}<ul>{}</ul>", e.name(), e.bonuses().iter().map(|b| {
                     expected_bonuses.push(b.0.clone());
@@ -429,29 +430,36 @@ mod tests {
                 passed_count += 1;
             }
 
-            result_file.write_all(format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
-                                          result.id, job, format_result!(stat_passed, format!("<ul>{}</ul>",bonuses_desc)), format_result!(stat_passed, format!("<ul>{}</ul>",fixtures_bonuses_desc)), format_result!(result.passed, result.passed),
-                                          format_result!(str_passed, result.actual.base_str(), result.actual.bonus_str(), result.expected.base_str(), result.expected.bonus_str()),
-                                          format_result!(agi_passed, result.actual.base_agi(), result.actual.bonus_agi(), result.expected.base_agi(), result.expected.bonus_agi()),
-                                          format_result!(vit_passed, result.actual.base_vit(), result.actual.bonus_vit(), result.expected.base_vit(), result.expected.bonus_vit()),
-                                          format_result!(dex_passed, result.actual.base_dex(), result.actual.bonus_dex(), result.expected.base_dex(), result.expected.bonus_dex()),
-                                          format_result!(int_passed, result.actual.base_int(), result.actual.bonus_int(), result.expected.base_int(), result.expected.bonus_int()),
-                                          format_result!(luk_passed, result.actual.base_luk(), result.actual.bonus_luk(), result.expected.base_luk(), result.expected.bonus_luk()),
-                                          format_result!(aspd_passed, result.actual.aspd(), result.expected.aspd_displayed()),
-                                          format_result!(atk_left_passed, result.actual.atk_left_side(),result.expected.atk_left()),
-                                          format_result!(atk_right_passed, result.actual.atk_right_side(),result.expected.atk_right()),
-                                          format_result!(matk_min_passed,result.actual.matk_min(), result.expected.matk_min()),
-                                          format_result!(matk_max_passed,result.actual.matk_max(), result.expected.matk_max()),
-                                          format_result!(def_passed, result.actual.def(), result.expected.def()),
-                                          format_result!(mdef_passed, result.actual.mdef(), result.expected.mdef()),
-                                          format_result!(hit_passed, result.actual.hit(), result.expected.hit()),
-                                          format_result!(flee_passed, result.actual.flee(), result.expected.flee()),
-                                          format_result!(crit_passed, result.actual.crit(), result.expected.crit()),
-                                          format_result!(hp_passed, result.actual.max_hp(), result.expected.max_hp()),
-                                          format_result!(sp_passed, result.actual.max_sp(), result.expected.max_sp()),
-                                          format_result!(armor_element_passed, result.actual.element(), result.expected.element()),
-            ).as_bytes()).unwrap();
+            let text = format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
+                               result.id, job, format_result!(stat_passed, format!("<ul>{}</ul>",bonuses_desc)), format_result!(stat_passed, format!("<ul>{}</ul>",fixtures_bonuses_desc)), format_result!(result.passed, result.passed),
+                               format_result!(str_passed, result.actual.base_str(), result.actual.bonus_str(), result.expected.base_str(), result.expected.bonus_str()),
+                               format_result!(agi_passed, result.actual.base_agi(), result.actual.bonus_agi(), result.expected.base_agi(), result.expected.bonus_agi()),
+                               format_result!(vit_passed, result.actual.base_vit(), result.actual.bonus_vit(), result.expected.base_vit(), result.expected.bonus_vit()),
+                               format_result!(dex_passed, result.actual.base_dex(), result.actual.bonus_dex(), result.expected.base_dex(), result.expected.bonus_dex()),
+                               format_result!(int_passed, result.actual.base_int(), result.actual.bonus_int(), result.expected.base_int(), result.expected.bonus_int()),
+                               format_result!(luk_passed, result.actual.base_luk(), result.actual.bonus_luk(), result.expected.base_luk(), result.expected.bonus_luk()),
+                               format_result!(aspd_passed, result.actual.aspd(), result.expected.aspd_displayed()),
+                               format_result!(atk_left_passed, result.actual.atk_left_side(),result.expected.atk_left()),
+                               format_result!(atk_right_passed, result.actual.atk_right_side(),result.expected.atk_right()),
+                               format_result!(matk_min_passed,result.actual.matk_min(), result.expected.matk_min()),
+                               format_result!(matk_max_passed,result.actual.matk_max(), result.expected.matk_max()),
+                               format_result!(def_passed, result.actual.def(), result.expected.def()),
+                               format_result!(mdef_passed, result.actual.mdef(), result.expected.mdef()),
+                               format_result!(hit_passed, result.actual.hit(), result.expected.hit()),
+                               format_result!(flee_passed, result.actual.flee(), result.expected.flee()),
+                               format_result!(crit_passed, result.actual.crit(), result.expected.crit()),
+                               format_result!(hp_passed, result.actual.max_hp(), result.expected.max_hp()),
+                               format_result!(sp_passed, result.actual.max_sp(), result.expected.max_sp()),
+                               format_result!(armor_element_passed, result.actual.element(), result.expected.element()),
+            );
+            if result.passed {
+                markdown_rows_passed.push(text);
+            } else {
+                markdown_rows_failed.push(text);
+            }
         }
+        markdown_rows_failed.iter().for_each(|r| { result_file.write(r.as_bytes()).unwrap(); });
+        markdown_rows_passed.iter().for_each(|r| { result_file.write(r.as_bytes()).unwrap(); });
         result_file.seek(SeekFrom::Start(0));
         result_file.write_all(format!("{}/{} tests passed\n", passed_count, results.len()).as_bytes()).unwrap();
     }

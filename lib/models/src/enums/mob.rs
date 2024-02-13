@@ -53,10 +53,10 @@ pub enum MobGroup {
     Goblin,
     #[value_string = "RC2_Kobold"]
     Kobold,
-    #[value_string = "RC2_Orc"]
-    Orc,
     #[value_string = "RC2_Golem"]
     Golem,
+    #[value_string = "RC2_Orc"]
+    Orc,
     #[value_string = "RC2_Guardian"]
     Guardian,
     #[value_string = "RC2_Ninja"]

@@ -5395,6 +5395,9 @@ function addBonuses(equipment_or_card, item, STP2j, index) {
         let value = item[STP2j + index + 1];
         let skillIndex = Math.floor((value - 100000) / 100);
         let skillLevel = Math.floor((value - 100000) % 100);
+        if (SkillOBJ[skillIndex] === undefined) {
+            console.log(skillIndex)
+        }
         equipment_or_card.bonuses.push({"bonus": "EnableSkill", value: SkillOBJ[skillIndex][3], value2: skillLevel});
         return;
     }

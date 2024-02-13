@@ -134,7 +134,7 @@ impl ItemService {
                         LoadConstant(_) | LoadValue |  LoadGlobal => {}
                         CallNative { reference, .. } => {
                             let native = vm.get_from_native_pool(*reference).unwrap();
-                            if !(native.name == "bonus" || native.name == "bonus2" || native.name == "bonus3" || native.name == "bonus4" || native.name == "bonus5") {
+                            if !(native.name == "bonus" || native.name == "bonus2" || native.name == "bonus3" || native.name == "bonus4" || native.name == "bonus5" || native.name == "skill") {
                                 complex_script = true; break;
                             }
                         }

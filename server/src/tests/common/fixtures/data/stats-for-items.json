@@ -1479,9 +1479,9 @@
     "crit": 17.2,
     "def": 0,
     "vitDEF": [
-      24,
-      25,
-      26
+      -1,
+      -2,
+      -2
     ],
     "cast": 0,
     "atkLeft": 284,
@@ -1519,7 +1519,7 @@
           },
           {
             "bonus": "DefPercentage",
-            "value": 2
+            "value": -50
           }
         ],
         "atk": 180,
@@ -1554,10 +1554,10 @@
     "maxDmg": 237,
     "avgDmg": 204,
     "dps": 282.45,
-    "averageReceivedDamage": -0.51,
-    "avgDamageReceived": 1,
-    "minDamageReceived": 1,
-    "maxDamageReceived": 1,
+    "averageReceivedDamage": -5.05,
+    "avgDamageReceived": 10,
+    "minDamageReceived": 9,
+    "maxDamageReceived": 11,
     "formData": "eyJBX0pPQiI6NywiQV9CYXNlTFYiOjk1LCJBX0pvYkxWIjo1MCwiQV9TVFIiOjUwLCJBX0FHSSI6NTAsIkFfVklUIjo1MCwiQV9JTlQiOjUwLCJBX0RFWCI6NTAsIkFfTFVLIjo1MCwiQV9BcnJvdyI6MCwiQl9FbmVteSI6MjcyLCJBX3dlYXBvbjEiOjE1LCJBX1dlYXBvblR5cGUiOjEsIkFfQWN0aXZlU2tpbGwiOjAsIkFfQWN0aXZlU2tpbGxMViI6MCwiQV9hY2NlczEiOiIzMjYiLCJBX2FjY2VzMiI6IjMyNiIsIkFfbGVmdCI6IjMwNSIsIkFfYm9keSI6IjI3OSIsIkFfaGVhZDEiOiIxNDIiLCJBX2hlYWQyIjoiMjQzIiwiQV9oZWFkMyI6IjI2OCIsIkFfc2hvZXMiOiIzMTciLCJBX3Nob3VsZGVyIjoiMzExIiwiX2lkIjoiZjJpZGY0In0=",
     "_id": "f2idf4",
     "matkMin": 99,
@@ -4607,9 +4607,9 @@
     "crit": 17.2,
     "def": 0,
     "vitDEF": [
-      16,
-      16,
-      17
+      -1,
+      -1,
+      -1
     ],
     "cast": 0,
     "atkLeft": 299,
@@ -4647,7 +4647,7 @@
           },
           {
             "bonus": "DefPercentage",
-            "value": 3
+            "value": -67
           }
         ],
         "atk": 200,
@@ -4682,10 +4682,10 @@
     "maxDmg": 247,
     "avgDmg": 206,
     "dps": 273.02,
-    "averageReceivedDamage": -0.72,
-    "avgDamageReceived": 1,
-    "minDamageReceived": 1,
-    "maxDamageReceived": 1,
+    "averageReceivedDamage": -7.21,
+    "avgDamageReceived": 10,
+    "minDamageReceived": 8,
+    "maxDamageReceived": 11,
     "formData": "eyJBX0pPQiI6NywiQV9CYXNlTFYiOjk1LCJBX0pvYkxWIjo1MCwiQV9TVFIiOjUwLCJBX0FHSSI6NTAsIkFfVklUIjo1MCwiQV9JTlQiOjUwLCJBX0RFWCI6NTAsIkFfTFVLIjo1MCwiQV9BcnJvdyI6MCwiQl9FbmVteSI6MjcyLCJBX3dlYXBvbjEiOjQ3LCJBX1dlYXBvblR5cGUiOjMsIkFfQWN0aXZlU2tpbGwiOjAsIkFfQWN0aXZlU2tpbGxMViI6MCwiQV9hY2NlczEiOiIzMjYiLCJBX2FjY2VzMiI6IjMyNiIsIkFfbGVmdCI6IjMwNSIsIkFfYm9keSI6IjI3OSIsIkFfaGVhZDEiOiIxNDIiLCJBX2hlYWQyIjoiMjQzIiwiQV9oZWFkMyI6IjI2OCIsIkFfc2hvZXMiOiIzMTciLCJBX3Nob3VsZGVyIjoiMzExIiwiX2lkIjoiMmx1dTl1In0=",
     "_id": "2luu9u",
     "matkMin": 99,
@@ -5139,7 +5139,7 @@
             "value": 4
           },
           {
-            "bonus": "HitPercentage",
+            "bonus": "PerfectHitPercentage",
             "value": 25
           }
         ],
@@ -6755,7 +6755,7 @@
         "index": 69,
         "name": "Light Epsilon",
         "refinement": 0,
-        "itemId": 1315,
+        "itemId": 1366,
         "bonuses": [
           {
             "bonus": "ElementWeapon",
@@ -24001,7 +24001,7 @@
             "value": 10
           },
           {
-            "bonus": "SpRegenPercentage",
+            "bonus": "NaturalSpRecoveryPercentage",
             "value": 15
           }
         ],
@@ -24909,7 +24909,7 @@
         "index": 328,
         "name": "Earing [1]",
         "refinement": 0,
-        "itemId": 2602,
+        "itemId": 2622,
         "bonuses": [
           {
             "bonus": "Int",
@@ -30181,7 +30181,7 @@
         "index": 381,
         "name": "Evil Wing Ears",
         "refinement": 0,
-        "itemId": 5044,
+        "itemId": 5068,
         "bonuses": [
           {
             "bonus": "Str",
@@ -30747,7 +30747,7 @@
     "maxSp": 442,
     "hit": 151,
     "flee": 147,
-    "crit": 47.2,
+    "crit": 17.2,
     "def": 0,
     "vitDEF": [
       48,
@@ -30781,8 +30781,8 @@
         "itemId": 1305,
         "bonuses": [
           {
-            "bonus": "Crit",
-            "value": 30
+            "bonus": "ResistanceDamageFromRaceDemiHumanPercentage",
+            "value": 5
           }
         ],
         "atk": 75,
@@ -30804,7 +30804,7 @@
     "targetName": "Poring",
     "battleHit": 100,
     "battleFlee": 95,
-    "critChance": 41.1,
+    "critChance": 11.1,
     "battleCritAtk": [
       160
     ],
@@ -31083,7 +31083,7 @@
         "itemId": 1224,
         "bonuses": [
           {
-            "bonus": "ChanceToInflictStatusWeaponBreakOnAttackPercentage",
+            "bonus": "BreakWeaponPercentage",
             "value": 5
           }
         ],
@@ -31182,7 +31182,7 @@
         "itemId": 1225,
         "bonuses": [
           {
-            "bonus": "ChanceToInflictStatusArmorBreakOnAttackPercentage",
+            "bonus": "BreakArmorPercentage",
             "value": 5
           }
         ],
@@ -33638,7 +33638,7 @@
         "itemId": 1305,
         "bonuses": [
           {
-            "bonus": "PhysicalDamageAgainstRaceDemiHumanPercentage",
+            "bonus": "ResistanceDamageFromRaceDemiHumanPercentage",
             "value": 5
           }
         ],
@@ -33935,7 +33935,7 @@
         "index": 418,
         "name": "Tomahawk",
         "refinement": 0,
-        "itemId": 1314,
+        "itemId": 1374,
         "bonuses": [
           {
             "bonus": "ElementWeapon",
@@ -33943,7 +33943,7 @@
           },
           {
             "bonus": "EnableSkill",
-            "value": 0,
+            "value": 337,
             "value2": 1
           }
         ],
@@ -39967,7 +39967,7 @@
             "value": 3
           },
           {
-            "bonus": "SpRegenPercentage",
+            "bonus": "NaturalSpRecoveryPercentage",
             "value": 5
           }
         ],
@@ -43015,7 +43015,7 @@
           },
           {
             "bonus": "EnableSkill",
-            "value": 0,
+            "value": 337,
             "value2": 1
           }
         ],
@@ -44952,11 +44952,11 @@
             "value": 1
           },
           {
-            "bonus": "HpRegenPercentage",
+            "bonus": "NaturalHpRecoveryPercentage",
             "value": 5
           },
           {
-            "bonus": "SpRegenPercentage",
+            "bonus": "NaturalSpRecoveryPercentage",
             "value": 3
           }
         ],
@@ -60709,18 +60709,6 @@
         "name": "Barrage Fist",
         "refinement": 0,
         "itemId": 1822,
-        "bonuses": [
-          {
-            "bonus": "SkillIdDamagePercentage",
-            "value": 272,
-            "value2": 15
-          },
-          {
-            "bonus": "SkillIdDamagePercentage",
-            "value": 273,
-            "value2": 20
-          }
-        ],
         "atk": 30,
         "type": 13,
         "level": 3,
@@ -66836,18 +66824,6 @@
         "name": "Oriental Lute",
         "refinement": 0,
         "itemId": 1918,
-        "bonuses": [
-          {
-            "bonus": "SkillIdDamagePercentage",
-            "value": 316,
-            "value2": 10
-          },
-          {
-            "bonus": "SkillIdDamagePercentage",
-            "value": 394,
-            "value2": 10
-          }
-        ],
         "atk": 150,
         "type": 14,
         "level": 4,
@@ -67040,7 +67016,7 @@
             "value": 100
           },
           {
-            "bonus": "HpRegenPercentage",
+            "bonus": "NaturalHpRecoveryPercentage",
             "value": -100
           }
         ],
@@ -68503,18 +68479,6 @@
         "name": "Queen's WHip",
         "refinement": 0,
         "itemId": 1970,
-        "bonuses": [
-          {
-            "bonus": "SkillIdDamagePercentage",
-            "value": 324,
-            "value2": 10
-          },
-          {
-            "bonus": "SkillIdDamagePercentage",
-            "value": 394,
-            "value2": 10
-          }
-        ],
         "atk": 150,
         "type": 15,
         "level": 4,
@@ -70173,7 +70137,7 @@
         "itemId": 5125,
         "bonuses": [
           {
-            "bonus": "SpRegenPercentage",
+            "bonus": "NaturalSpRecoveryPercentage",
             "value": 3
           }
         ],
@@ -70491,7 +70455,7 @@
         "itemId": 2521,
         "bonuses": [
           {
-            "bonus": "HpRegenPercentage",
+            "bonus": "NaturalHpRecoveryPercentage",
             "value": 5
           }
         ],
@@ -74678,13 +74642,6 @@
         "name": "Huuma Morning Star Shuriken",
         "refinement": 0,
         "itemId": -1,
-        "bonuses": [
-          {
-            "bonus": "SkillIdDamagePercentage",
-            "value": 525,
-            "value2": 30
-          }
-        ],
         "atk": 112,
         "type": 16,
         "level": 3,
