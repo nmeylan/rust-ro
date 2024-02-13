@@ -273,7 +273,6 @@ mod tests {
                     },
                     |result: &TestResult| {
                         let mut desc: Vec<String> = vec![];
-
                         result.status.equipped_gears().iter().for_each(|equipment| {
                             if equipment.card0() > 0 {
                                 let card = GlobalConfigService::instance().get_item(equipment.card0() as i32);

@@ -1,4 +1,5 @@
 use crate::enums::element::Element;
+use crate::enums::skill_enums::SkillEnum;
 use crate::status::{StatusBonus, StatusSnapshot};
 
 #[derive(Debug, Clone, Copy)]
@@ -340,6 +341,7 @@ pub enum BonusType {
     SpRegenEveryMs(u16, u16),
     //amount, every ms
     SkillIdDamagePercentage(u32, i8),
+    EnableSkillId(u32, u8),
 }
 
 impl BonusType {
@@ -671,6 +673,7 @@ impl BonusType {
             BonusType::DamageAgainstMobGroupOrcPercentage(val) => val as i32,
             BonusType::DamageAgainstMobGroupGolemPercentage(val) => val as i32,
             BonusType::DamageAgainstMobGroupGuardianPercentage(val) => val as i32,
+            BonusType::EnableSkillId(_, _) => 0_i32,
         }
     }
     pub fn add_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
@@ -733,6 +736,10 @@ impl BonusType {
         let mut merged_bonuses: Vec<BonusType> = Vec::with_capacity(bonuses.len());
         for bonus in bonuses.iter() {
             Self::get_bonus_sum(bonus, &bonuses).map(|b| merged_bonuses.push(b));
+            match bonus {
+                BonusType::EnableSkillId(_, _) => { merged_bonuses.push(bonus.clone()) }
+                _ => {}
+            }
         }
         merged_bonuses
     }
@@ -1285,6 +1292,7 @@ impl BonusType {
             BonusType::SpDrainWhenKillingRaceDemiHuman(_) => Some(BonusType::SpDrainWhenKillingRaceDemiHuman(val as u16)),
             BonusType::SpDrainWhenKillingRaceAngel(_) => Some(BonusType::SpDrainWhenKillingRaceAngel(val as u16)),
             BonusType::SpDrainWhenKillingRaceDragon(_) => Some(BonusType::SpDrainWhenKillingRaceDragon(val as u16)),
+            BonusType::EnableSkillId(_, _) => None,
             _ => Self::get_bonus(bonus, bonuses)
         }
     }
@@ -1617,6 +1625,14 @@ impl BonusType {
             BonusType::DamageAgainstMobGroupOrcPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::DamageAgainstMobGroupOrcPercentage(_))).map(|b| b.clone()),
             BonusType::DamageAgainstMobGroupGolemPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::DamageAgainstMobGroupGolemPercentage(_))).map(|b| b.clone()),
             BonusType::DamageAgainstMobGroupGuardianPercentage(_) => bonuses.iter().find(|b| matches!(b, BonusType::DamageAgainstMobGroupGuardianPercentage(_))).map(|b| b.clone()),
+            BonusType::EnableSkillId(_, _) => None,
+        }
+    }
+
+    pub fn get_bonuses(bonus: &BonusType, bonuses: &Vec<BonusType>) -> Vec<BonusType> {
+        match bonus {
+            BonusType::EnableSkillId(_, _) => bonuses.iter().filter(|b| matches!(b, BonusType::EnableSkillId(_, _))).cloned().collect::<Vec<BonusType>>(),
+            _ => Vec::new()
         }
     }
 }

@@ -4143,8 +4143,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -4423,8 +4428,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -4703,8 +4713,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -5541,8 +5556,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -5821,8 +5841,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -6101,8 +6126,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -6381,8 +6411,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -6661,8 +6696,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -6941,8 +6981,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -7221,8 +7266,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -7501,8 +7551,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -7781,8 +7836,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -8061,8 +8121,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -14299,8 +14364,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -14765,8 +14835,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -14859,8 +14934,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -14953,8 +15033,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -15424,8 +15509,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -15895,8 +15985,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -16366,8 +16461,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -16646,8 +16746,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -16833,8 +16938,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -17113,8 +17223,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -17300,8 +17415,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -17580,8 +17700,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -17767,8 +17892,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -18047,8 +18177,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -18234,8 +18369,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -18514,8 +18654,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -18701,8 +18846,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -18981,8 +19131,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -19168,8 +19323,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -21222,8 +21382,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -21502,8 +21667,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -21782,8 +21952,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -22062,8 +22237,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -22342,8 +22522,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -22622,8 +22807,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -22902,8 +23092,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -23182,8 +23377,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -23462,8 +23662,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -23742,8 +23947,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -24022,8 +24232,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -24302,8 +24517,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -24582,8 +24802,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -24862,8 +25087,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -25142,8 +25372,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -25422,8 +25657,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -25702,8 +25942,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -25985,8 +26230,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -26268,8 +26518,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -26551,8 +26806,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -55600,8 +55860,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -55694,8 +55959,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -55974,8 +56244,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -56068,8 +56343,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -56348,8 +56628,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -56442,8 +56727,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -56722,8 +57012,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -56816,8 +57111,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -57096,8 +57396,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -57190,8 +57495,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -57473,8 +57783,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -57568,8 +57883,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -57851,8 +58171,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -57946,8 +58271,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -58229,8 +58559,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -58324,8 +58659,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -58607,8 +58947,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -58702,8 +59047,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -58985,8 +59335,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -59080,8 +59435,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -60848,8 +61208,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -61221,8 +61586,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -61594,8 +61964,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -61967,8 +62342,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -62340,8 +62720,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -62713,8 +63098,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -63086,8 +63476,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -63459,8 +63854,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -63832,8 +64232,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -64205,8 +64610,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -64578,8 +64988,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -64951,8 +65366,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -68411,8 +68831,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -68970,8 +69395,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -69529,8 +69959,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -70088,8 +70523,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -70647,8 +71087,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -71206,8 +71651,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -71765,8 +72215,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -72324,8 +72779,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -72883,8 +73343,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -73442,8 +73907,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -74001,8 +74471,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -74560,8 +75035,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -75119,8 +75599,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -75678,8 +76163,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -76237,8 +76727,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -82004,8 +82499,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -82470,8 +82970,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -82564,8 +83069,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -82658,8 +83168,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -83129,8 +83644,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -83600,8 +84120,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -84071,8 +84596,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -84542,8 +85072,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -85013,8 +85548,13 @@
         "name": "Katar",
         "refinement": 0,
         "itemId": 1252,
+        "bonuses": [
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 148,
-        "Dex": 1,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -85293,8 +85833,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -85480,8 +86025,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -85760,8 +86310,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -85947,8 +86502,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -86227,8 +86787,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -86414,8 +86979,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -86694,8 +87264,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -86881,8 +87456,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -87161,8 +87741,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -87348,8 +87933,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -87628,8 +88218,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -87815,8 +88410,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -90245,8 +90845,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -90525,8 +91130,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -90805,8 +91415,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -91085,8 +91700,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -91365,8 +91985,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -91645,8 +92270,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -91925,8 +92555,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -92205,8 +92840,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -92485,8 +93125,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -92765,8 +93410,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -93045,8 +93695,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -93325,8 +93980,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -93605,8 +94265,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -93885,8 +94550,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -94165,8 +94835,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -94445,8 +95120,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -94725,8 +95405,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -95008,8 +95693,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -95291,8 +95981,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -95574,8 +96269,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -95857,8 +96557,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -96140,8 +96845,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -127700,8 +128410,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -127794,8 +128509,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -128074,8 +128794,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -128168,8 +128893,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -128448,8 +129178,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -128542,8 +129277,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -128822,8 +129562,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -128916,8 +129661,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -129196,8 +129946,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -129290,8 +130045,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -129573,8 +130333,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -129668,8 +130433,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -129951,8 +130721,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -130046,8 +130821,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -130329,8 +131109,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -130424,8 +131209,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -130707,8 +131497,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -130802,8 +131597,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -131085,8 +131885,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -131180,8 +131985,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -131463,8 +132273,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -131558,8 +132373,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -131841,8 +132661,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -131936,8 +132761,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -132219,8 +133049,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -132314,8 +133149,13 @@
         "name": "Claw",
         "refinement": 0,
         "itemId": 1809,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          }
+        ],
         "atk": 86,
-        "Str": 2,
         "type": 13,
         "level": 3,
         "starCrumb": 0,
@@ -134268,8 +135108,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -134641,8 +135486,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -135014,8 +135864,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -135387,8 +136242,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -135760,8 +136620,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -136133,8 +136998,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -136506,8 +137376,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -136879,8 +137754,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -137252,8 +138132,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -137625,8 +138510,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -137998,8 +138888,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -138371,8 +139266,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -143511,8 +144411,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -143791,8 +144696,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -144071,8 +144981,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -144351,8 +145266,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -144631,8 +145551,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -144911,10 +145836,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -145193,10 +146125,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -145475,10 +146414,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -145757,10 +146703,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -146039,10 +146992,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -146321,10 +147281,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -146603,10 +147570,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -146885,10 +147859,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -147167,10 +148148,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -147452,10 +148440,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -147549,10 +148544,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -147834,10 +148836,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -148119,10 +149128,17 @@
         "name": "Huuma Blaze Shuriken",
         "refinement": 0,
         "itemId": 13303,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Dex",
+            "value": -2
+          }
+        ],
         "atk": 185,
-        "ElementWeapon": 3,
-        "Dex": -2,
-        "autospell_skill": 19705205,
         "type": 16,
         "level": 4,
         "starCrumb": 0,
@@ -148308,8 +149324,13 @@
         "name": "Crimson Bolt",
         "refinement": 0,
         "itemId": 13102,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": -10
+          }
+        ],
         "atk": 45,
-        "Hit": -10,
         "type": 17,
         "level": 2,
         "starCrumb": 0,
@@ -148402,9 +149423,17 @@
         "name": "Cyclone",
         "refinement": 0,
         "itemId": 13151,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": 10
+          },
+          {
+            "bonus": "Crit",
+            "value": 10
+          }
+        ],
         "atk": 120,
-        "Hit": 10,
-        "Crit": 10,
         "type": 18,
         "level": 2,
         "starCrumb": 0,
@@ -148869,8 +149898,13 @@
         "name": "Crimson Bolt",
         "refinement": 0,
         "itemId": 13102,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": -10
+          }
+        ],
         "atk": 45,
-        "Hit": -10,
         "type": 17,
         "level": 2,
         "starCrumb": 0,
@@ -148963,9 +149997,17 @@
         "name": "Cyclone",
         "refinement": 0,
         "itemId": 13151,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": 10
+          },
+          {
+            "bonus": "Crit",
+            "value": 10
+          }
+        ],
         "atk": 120,
-        "Hit": 10,
-        "Crit": 10,
         "type": 18,
         "level": 2,
         "starCrumb": 0,
@@ -149430,8 +150472,13 @@
         "name": "Crimson Bolt",
         "refinement": 0,
         "itemId": 13102,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": -10
+          }
+        ],
         "atk": 45,
-        "Hit": -10,
         "type": 17,
         "level": 2,
         "starCrumb": 0,
@@ -149524,9 +150571,17 @@
         "name": "Cyclone",
         "refinement": 0,
         "itemId": 13151,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": 10
+          },
+          {
+            "bonus": "Crit",
+            "value": 10
+          }
+        ],
         "atk": 120,
-        "Hit": 10,
-        "Crit": 10,
         "type": 18,
         "level": 2,
         "starCrumb": 0,
@@ -149991,8 +151046,13 @@
         "name": "Crimson Bolt",
         "refinement": 0,
         "itemId": 13102,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": -10
+          }
+        ],
         "atk": 45,
-        "Hit": -10,
         "type": 17,
         "level": 2,
         "starCrumb": 0,
@@ -150085,9 +151145,17 @@
         "name": "Cyclone",
         "refinement": 0,
         "itemId": 13151,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": 10
+          },
+          {
+            "bonus": "Crit",
+            "value": 10
+          }
+        ],
         "atk": 120,
-        "Hit": 10,
-        "Crit": 10,
         "type": 18,
         "level": 2,
         "starCrumb": 0,
@@ -150459,8 +151527,13 @@
         "name": "Crimson Bolt",
         "refinement": 0,
         "itemId": 13102,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": -10
+          }
+        ],
         "atk": 45,
-        "Hit": -10,
         "type": 17,
         "level": 2,
         "starCrumb": 0,
@@ -150553,8 +151626,13 @@
         "name": "Crimson Bolt",
         "refinement": 0,
         "itemId": 13102,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": -10
+          }
+        ],
         "atk": 45,
-        "Hit": -10,
         "type": 17,
         "level": 2,
         "starCrumb": 0,
@@ -150647,8 +151725,13 @@
         "name": "Crimson Bolt",
         "refinement": 0,
         "itemId": 13102,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": -10
+          }
+        ],
         "atk": 45,
-        "Hit": -10,
         "type": 17,
         "level": 2,
         "starCrumb": 0,
@@ -150738,9 +151821,17 @@
         "name": "Cyclone",
         "refinement": 0,
         "itemId": 13151,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": 10
+          },
+          {
+            "bonus": "Crit",
+            "value": 10
+          }
+        ],
         "atk": 120,
-        "Hit": 10,
-        "Crit": 10,
         "type": 18,
         "level": 2,
         "starCrumb": 0,
@@ -150830,8 +151921,13 @@
         "name": "Crimson Bolt",
         "refinement": 0,
         "itemId": 13102,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": -10
+          }
+        ],
         "atk": 45,
-        "Hit": -10,
         "type": 17,
         "level": 2,
         "starCrumb": 0,
@@ -150924,9 +152020,17 @@
         "name": "Cyclone",
         "refinement": 0,
         "itemId": 13151,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": 10
+          },
+          {
+            "bonus": "Crit",
+            "value": 10
+          }
+        ],
         "atk": 120,
-        "Hit": 10,
-        "Crit": 10,
         "type": 18,
         "level": 2,
         "starCrumb": 0,
@@ -151019,8 +152123,13 @@
         "name": "Crimson Bolt",
         "refinement": 0,
         "itemId": 13102,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": -10
+          }
+        ],
         "atk": 45,
-        "Hit": -10,
         "type": 17,
         "level": 2,
         "starCrumb": 0,
@@ -151113,9 +152222,17 @@
         "name": "Cyclone",
         "refinement": 0,
         "itemId": 13151,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": 10
+          },
+          {
+            "bonus": "Crit",
+            "value": 10
+          }
+        ],
         "atk": 120,
-        "Hit": 10,
-        "Crit": 10,
         "type": 18,
         "level": 2,
         "starCrumb": 0,

@@ -51,9 +51,17 @@
         "name": "Poison Knife",
         "refinement": 0,
         "itemId": 1239,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 5
+          },
+          {
+            "bonus": "ChanceToInflictStatusPoisonOnAttackPercentage",
+            "value": 30
+          }
+        ],
         "atk": 64,
-        "ElementWeapon": 5,
-        "ChanceToInflictStatusPoisonOnAttackPercentage": 30,
         "type": 1,
         "level": 3,
         "starCrumb": 0,
@@ -147,8 +155,12 @@
         "name": "Damascus",
         "refinement": 0,
         "itemId": 1222,
+        "bonuses": [
+          {
+            "bonus": "UnbreakableWeapon"
+          }
+        ],
         "atk": 118,
-        "is_indestructible": 1,
         "type": 1,
         "level": 3,
         "starCrumb": 0,
@@ -242,8 +254,13 @@
         "name": "Moonlight Dagger",
         "refinement": 0,
         "itemId": 1234,
+        "bonuses": [
+          {
+            "bonus": "MaxspPercentage",
+            "value": 10
+          }
+        ],
         "atk": 50,
-        "MaxspPercentage": 10,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -337,9 +354,17 @@
         "name": "Fortune Sword",
         "refinement": 0,
         "itemId": 1223,
+        "bonuses": [
+          {
+            "bonus": "Luk",
+            "value": 5
+          },
+          {
+            "bonus": "PerfectDodge",
+            "value": 20
+          }
+        ],
         "atk": 90,
-        "Luk": 5,
-        "PerfectDodge": 20,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -433,11 +458,25 @@
         "name": "Assassin Dagger",
         "refinement": 0,
         "itemId": 1232,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 7
+          },
+          {
+            "bonus": "AspdPercentage",
+            "value": 2
+          },
+          {
+            "bonus": "MaxhpPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "MaxspPercentage",
+            "value": 15
+          }
+        ],
         "atk": 140,
-        "ElementWeapon": 7,
-        "AspdPercentage": 2,
-        "MaxhpPercentage": 20,
-        "MaxspPercentage": 15,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -531,10 +570,20 @@
         "name": "Sucsamad",
         "refinement": 0,
         "itemId": 1236,
+        "bonuses": [
+          {
+            "bonus": "PhysicalDamageAgainstElementEarthPercentage",
+            "value": 10
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementWindPercentage",
+            "value": 10
+          },
+          {
+            "bonus": "UnbreakableWeapon"
+          }
+        ],
         "atk": 140,
-        "PhysicalDamageAgainstElementEarthPercentage": 10,
-        "PhysicalDamageAgainstElementWindPercentage": 10,
-        "is_indestructible": 1,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -628,10 +677,21 @@
         "name": "Grimtooth",
         "refinement": 0,
         "itemId": 1237,
+        "bonuses": [
+          {
+            "bonus": "Flee",
+            "value": 10
+          },
+          {
+            "bonus": "PerfectDodge",
+            "value": 5
+          },
+          {
+            "bonus": "DefPercentage",
+            "value": 2
+          }
+        ],
         "atk": 180,
-        "Flee": 10,
-        "PerfectDodge": 5,
-        "reduce_defense": 2,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -725,8 +785,13 @@
         "name": "Haedonggum",
         "refinement": 0,
         "itemId": 1123,
+        "bonuses": [
+          {
+            "bonus": "Int",
+            "value": 3
+          }
+        ],
         "atk": 120,
-        "Int": 3,
         "type": 2,
         "level": 3,
         "starCrumb": 0,
@@ -820,9 +885,17 @@
         "name": "Holy Avenger",
         "refinement": 0,
         "itemId": 1145,
+        "bonuses": [
+          {
+            "bonus": "Vit",
+            "value": 2
+          },
+          {
+            "bonus": "ElementWeapon",
+            "value": 6
+          }
+        ],
         "atk": 125,
-        "Vit": 2,
-        "ElementWeapon": 6,
         "type": 2,
         "level": 3,
         "starCrumb": 0,
@@ -916,10 +989,18 @@
         "name": "Ice Falchion",
         "refinement": 0,
         "itemId": 1131,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 1
+          },
+          {
+            "bonus": "EnableSkill",
+            "value": 14,
+            "value2": 3
+          }
+        ],
         "atk": 100,
-        "ElementWeapon": 1,
-        "enable_skill": 105403,
-        "autospell_skill": 11005403,
         "type": 2,
         "level": 4,
         "starCrumb": 0,
@@ -1013,10 +1094,18 @@
         "name": "Fireblend",
         "refinement": 0,
         "itemId": 1133,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "EnableSkill",
+            "value": 19,
+            "value2": 3
+          }
+        ],
         "atk": 100,
-        "ElementWeapon": 3,
-        "enable_skill": 105103,
-        "autospell_skill": 11005103,
         "type": 2,
         "level": 4,
         "starCrumb": 0,
@@ -1110,10 +1199,22 @@
         "name": "Cutlus",
         "refinement": 0,
         "itemId": 1135,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 2
+          },
+          {
+            "bonus": "Def",
+            "value": 1
+          },
+          {
+            "bonus": "EnableSkill",
+            "value": 5,
+            "value2": 5
+          }
+        ],
         "atk": 150,
-        "Str": 2,
-        "Def": 1,
-        "enable_skill": 100605,
         "type": 2,
         "level": 4,
         "starCrumb": 0,
@@ -1207,11 +1308,21 @@
         "name": "Mysteltainn",
         "refinement": 0,
         "itemId": 1138,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 7
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementGhostPercentage",
+            "value": 15
+          },
+          {
+            "bonus": "Dex",
+            "value": 3
+          }
+        ],
         "atk": 160,
-        "ElementWeapon": 7,
-        "PhysicalDamageAgainstElementGhostPercentage": 15,
-        "Dex": 3,
-        "autospell_skill": 10104901,
         "type": 2,
         "level": 4,
         "starCrumb": 0,
@@ -1305,8 +1416,13 @@
         "name": "Broad Sword",
         "refinement": 0,
         "itemId": 1160,
+        "bonuses": [
+          {
+            "bonus": "Def",
+            "value": 5
+          }
+        ],
         "atk": 140,
-        "Def": 5,
         "type": 3,
         "level": 3,
         "starCrumb": 0,
@@ -1400,11 +1516,24 @@
         "name": "Executioner",
         "refinement": 0,
         "itemId": 1169,
+        "bonuses": [
+          {
+            "bonus": "PhysicalDamageAgainstRaceDemiHumanPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromRaceDemiHumanPercentage",
+            "value": -10
+          },
+          {
+            "bonus": "IgnoreDefRaceDemiHuman"
+          },
+          {
+            "bonus": "ElementWeapon",
+            "value": 7
+          }
+        ],
         "atk": 155,
-        "PhysicalDamageAgainstRaceDemiHumanPercentage": 20,
-        "ResistanceDamageFromRaceDemiHumanPercentage": -10,
-        "BypassDefenseOnRace": 7,
-        "ElementWeapon": 7,
         "type": 3,
         "level": 4,
         "starCrumb": 0,
@@ -1498,9 +1627,17 @@
         "name": "Muramasa",
         "refinement": 0,
         "itemId": 1164,
+        "bonuses": [
+          {
+            "bonus": "Crit",
+            "value": 30
+          },
+          {
+            "bonus": "AspdPercentage",
+            "value": 8
+          }
+        ],
         "atk": 155,
-        "Crit": 30,
-        "AspdPercentage": 8,
         "type": 3,
         "level": 4,
         "starCrumb": 0,
@@ -1594,10 +1731,21 @@
         "name": "Masamune",
         "refinement": 0,
         "itemId": 1165,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": -5
+          },
+          {
+            "bonus": "Flee",
+            "value": 30
+          },
+          {
+            "bonus": "DefPercentage",
+            "value": 3
+          }
+        ],
         "atk": 200,
-        "Str": -5,
-        "Flee": 30,
-        "reduce_defense": 3,
         "type": 3,
         "level": 4,
         "starCrumb": 0,
@@ -1691,10 +1839,21 @@
         "name": "Pole Axe",
         "refinement": 0,
         "itemId": 1417,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 1
+          },
+          {
+            "bonus": "Int",
+            "value": 2
+          },
+          {
+            "bonus": "Dex",
+            "value": 1
+          }
+        ],
         "atk": 160,
-        "Str": 1,
-        "Int": 2,
-        "Dex": 1,
         "type": 4,
         "level": 3,
         "starCrumb": 0,
@@ -1788,10 +1947,21 @@
         "name": "Gungnir",
         "refinement": 0,
         "itemId": 1413,
+        "bonuses": [
+          {
+            "bonus": "Hit",
+            "value": 30
+          },
+          {
+            "bonus": "ElementWeapon",
+            "value": 4
+          },
+          {
+            "bonus": "HitPercentage",
+            "value": 25
+          }
+        ],
         "atk": 120,
-        "Hit": 30,
-        "ElementWeapon": 4,
-        "HitPercentage": 25,
         "type": 4,
         "level": 4,
         "starCrumb": 0,
@@ -1885,10 +2055,22 @@
         "name": "Light Epsilon",
         "refinement": 0,
         "itemId": 1315,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 6
+          },
+          {
+            "bonus": "PhysicalDamageAgainstRaceDemonPercentage",
+            "value": 3
+          },
+          {
+            "bonus": "EnableSkill",
+            "value": 28,
+            "value2": 3
+          }
+        ],
         "atk": 180,
-        "ElementWeapon": 6,
-        "PhysicalDamageAgainstRaceDemonPercentage": 3,
-        "enable_skill": 102503,
         "type": 7,
         "level": 4,
         "starCrumb": 0,
@@ -1982,8 +2164,13 @@
         "name": "Great Axe",
         "refinement": 0,
         "itemId": 1364,
+        "bonuses": [
+          {
+            "bonus": "ChanceToInflictStatusStunOnAttackPercentage",
+            "value": 15
+          }
+        ],
         "atk": 187,
-        "ChanceToInflictStatusStunOnAttackPercentage": 15,
         "type": 7,
         "level": 4,
         "starCrumb": 0,
@@ -2077,8 +2264,13 @@
         "name": "Golden Mace",
         "refinement": 0,
         "itemId": 1524,
+        "bonuses": [
+          {
+            "bonus": "PhysicalDamageAgainstRaceUndeadPercentage",
+            "value": 10
+          }
+        ],
         "atk": 110,
-        "increase_damage_element_undead_percentage": 10,
         "type": 8,
         "level": 4,
         "starCrumb": 0,
@@ -2172,8 +2364,13 @@
         "name": "Long Mace",
         "refinement": 0,
         "itemId": 1525,
+        "bonuses": [
+          {
+            "bonus": "ResistanceRangeAttackPercentage",
+            "value": 10
+          }
+        ],
         "atk": 135,
-        "ResistanceRangeAttackPercentage": 10,
         "type": 8,
         "level": 4,
         "starCrumb": 0,
@@ -2267,12 +2464,25 @@
         "name": "Mjolnir",
         "refinement": 0,
         "itemId": 1530,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 4
+          },
+          {
+            "bonus": "Str",
+            "value": 15
+          },
+          {
+            "bonus": "Dex",
+            "value": 40
+          },
+          {
+            "bonus": "AspdPercentage",
+            "value": 10
+          }
+        ],
         "atk": 250,
-        "is_impossible_to_refine": 1,
-        "ElementWeapon": 4,
-        "Str": 15,
-        "Dex": 40,
-        "AspdPercentage": 10,
         "type": 8,
         "level": 4,
         "starCrumb": 0,
@@ -2381,9 +2591,13 @@
         "name": "Poo Poo Hat",
         "refinement": 0,
         "itemId": 2289,
-        "def": 0,
-        "ResistanceDamageFromRaceDemiHumanPercentage": 10,
-        "is_impossible_to_refine": 1
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromRaceDemiHumanPercentage",
+            "value": 10
+          }
+        ],
+        "def": 0
       }
     },
     "arrow": "Arrow",
@@ -2484,8 +2698,13 @@
         "name": "Wedding Veil",
         "refinement": 0,
         "itemId": 2206,
-        "def": 0,
-        "Mdef": 5
+        "bonuses": [
+          {
+            "bonus": "Mdef",
+            "value": 5
+          }
+        ],
+        "def": 0
       }
     },
     "arrow": "Arrow",
@@ -2586,9 +2805,13 @@
         "name": "Halo",
         "refinement": 0,
         "itemId": 2282,
-        "def": 0,
-        "ResistanceDamageFromElementHolyPercentage": 15,
-        "is_impossible_to_refine": 1
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromElementHolyPercentage",
+            "value": 15
+          }
+        ],
+        "def": 0
       }
     },
     "arrow": "Arrow",
@@ -2689,9 +2912,13 @@
         "name": "Fancy Flower",
         "refinement": 0,
         "itemId": 2207,
-        "def": 0,
-        "ResistanceDamageFromRacePlantPercentage": 10,
-        "is_impossible_to_refine": 1
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromRacePlantPercentage",
+            "value": 10
+          }
+        ],
+        "def": 0
       }
     },
     "arrow": "Arrow",
@@ -2792,9 +3019,17 @@
         "name": "Ghost Bandana",
         "refinement": 0,
         "itemId": 2274,
-        "def": 0,
-        "Agi": 2,
-        "ResistanceDamageFromElementGhostPercentage": 10
+        "bonuses": [
+          {
+            "bonus": "Agi",
+            "value": 2
+          },
+          {
+            "bonus": "ResistanceDamageFromElementGhostPercentage",
+            "value": 10
+          }
+        ],
+        "def": 0
       }
     },
     "arrow": "Arrow",
@@ -2895,9 +3130,13 @@
         "name": "Sunflower",
         "refinement": 0,
         "itemId": 2253,
-        "def": 1,
-        "ResistanceDamageFromRaceInsectPercentage": 10,
-        "is_impossible_to_refine": 1
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromRaceInsectPercentage",
+            "value": 10
+          }
+        ],
+        "def": 1
       }
     },
     "arrow": "Arrow",
@@ -2997,11 +3236,25 @@
         "name": "Angel Wing",
         "refinement": 0,
         "itemId": 2254,
-        "def": 2,
-        "Agi": 1,
-        "Luk": 1,
-        "Mdef": 3,
-        "ResistanceDamageFromRaceDemonPercentage": 3
+        "bonuses": [
+          {
+            "bonus": "Agi",
+            "value": 1
+          },
+          {
+            "bonus": "Luk",
+            "value": 1
+          },
+          {
+            "bonus": "Mdef",
+            "value": 3
+          },
+          {
+            "bonus": "ResistanceDamageFromRaceDemonPercentage",
+            "value": 3
+          }
+        ],
+        "def": 2
       }
     },
     "arrow": "Arrow",
@@ -3102,8 +3355,13 @@
         "name": "Headset",
         "refinement": 0,
         "itemId": 5001,
-        "def": 3,
-        "ResistanceToStatusCursePercentage": 10
+        "bonuses": [
+          {
+            "bonus": "ResistanceToStatusCursePercentage",
+            "value": 10
+          }
+        ],
+        "def": 3
       }
     },
     "arrow": "Arrow",
@@ -3204,10 +3462,21 @@
         "name": "Evil Wing",
         "refinement": 0,
         "itemId": 2255,
-        "def": 3,
-        "Str": 1,
-        "Mdef": 2,
-        "ResistanceDamageFromRaceAngelPercentage": 3
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 1
+          },
+          {
+            "bonus": "Mdef",
+            "value": 2
+          },
+          {
+            "bonus": "ResistanceDamageFromRaceAngelPercentage",
+            "value": 3
+          }
+        ],
+        "def": 3
       }
     },
     "arrow": "Arrow",
@@ -3308,9 +3577,13 @@
         "name": "Munak Hat",
         "refinement": 0,
         "itemId": 2264,
-        "def": 5,
-        "ResistanceDamageFromRaceUndeadPercentage": 10,
-        "is_impossible_to_refine": 1
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromRaceUndeadPercentage",
+            "value": 10
+          }
+        ],
+        "def": 5
       }
     },
     "arrow": "Arrow",
@@ -3411,8 +3684,13 @@
         "name": "Bone Helm",
         "refinement": 0,
         "itemId": 5017,
-        "def": 7,
-        "ResistanceDamageFromElementDarkPercentage": -15
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromElementDarkPercentage",
+            "value": -15
+          }
+        ],
+        "def": 7
       }
     },
     "arrow": "Arrow",
@@ -3513,8 +3791,13 @@
         "name": "Sunglasses",
         "refinement": 0,
         "itemId": 2201,
-        "def": 0,
-        "ResistanceToStatusBlindPercentage": 5
+        "bonuses": [
+          {
+            "bonus": "ResistanceToStatusBlindPercentage",
+            "value": 5
+          }
+        ],
+        "def": 0
       }
     },
     "arrow": "Arrow",
@@ -3615,8 +3898,13 @@
         "name": "Gangster Mask",
         "refinement": 0,
         "itemId": 2265,
-        "def": 0,
-        "ResistanceToStatusSilencePercentage": 15
+        "bonuses": [
+          {
+            "bonus": "ResistanceToStatusSilencePercentage",
+            "value": 15
+          }
+        ],
+        "def": 0
       }
     },
     "arrow": "Arrow",
@@ -3717,8 +4005,7 @@
         "name": "Pantie",
         "refinement": 0,
         "itemId": 2339,
-        "def": 4,
-        "is_part_of_combo": 738
+        "def": 4
       }
     },
     "arrow": "Arrow",
@@ -3819,12 +4106,25 @@
         "name": "Slepnir",
         "refinement": 0,
         "itemId": 2410,
-        "def": 5,
-        "is_impossible_to_refine": 1,
-        "MaxhpPercentage": 20,
-        "MaxspPercentage": 20,
-        "Mdef": 10,
-        "SpRegenPercentage": 15
+        "bonuses": [
+          {
+            "bonus": "MaxhpPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "MaxspPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "Mdef",
+            "value": 10
+          },
+          {
+            "bonus": "SpRegenPercentage",
+            "value": 15
+          }
+        ],
+        "def": 5
       }
     },
     "arrow": "Arrow",
@@ -3925,8 +4225,13 @@
         "name": "Lazy Smokie",
         "refinement": 0,
         "itemId": 5084,
-        "def": 1,
-        "ResistanceToStatusSleepPercentage": 20
+        "bonuses": [
+          {
+            "bonus": "ResistanceToStatusSleepPercentage",
+            "value": 20
+          }
+        ],
+        "def": 1
       }
     },
     "arrow": "Arrow",
@@ -4027,8 +4332,13 @@
         "name": "Blue Fish",
         "refinement": 0,
         "itemId": 5065,
-        "def": 2,
-        "PhysicalDamageAgainstRaceFishPercentage": 10
+        "bonuses": [
+          {
+            "bonus": "PhysicalDamageAgainstRaceFishPercentage",
+            "value": 10
+          }
+        ],
+        "def": 2
       }
     },
     "arrow": "Arrow",
@@ -4114,8 +4424,18 @@
         "name": "Ice Pick",
         "refinement": 0,
         "itemId": 1230,
+        "bonuses": [
+          {
+            "bonus": "IncreaseDamageAgainstClassBossBaseOnDef"
+          },
+          {
+            "bonus": "IncreaseDamageAgainstClassNormalBaseOnDef"
+          },
+          {
+            "bonus": "IncreaseDamageAgainstClassGuardianBaseOnDef"
+          }
+        ],
         "atk": 80,
-        "WeaponAtkIncreaseOnTargetDefense": 1,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -4209,8 +4529,13 @@
         "name": "Princess Knife",
         "refinement": 0,
         "itemId": 1240,
+        "bonuses": [
+          {
+            "bonus": "AllStats",
+            "value": 1
+          }
+        ],
         "atk": 84,
-        "AllStats": 1,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -4304,8 +4629,13 @@
         "name": "Swordbreaker",
         "refinement": 0,
         "itemId": 1224,
+        "bonuses": [
+          {
+            "bonus": "ChanceToInflictStatusWeaponBreakOnAttackPercentage",
+            "value": 5
+          }
+        ],
         "atk": 70,
-        "ChanceToInflictStatusWeaponBreakOnAttackPercentage": 5,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -4399,8 +4729,13 @@
         "name": "Mailbreaker",
         "refinement": 0,
         "itemId": 1225,
+        "bonuses": [
+          {
+            "bonus": "ChanceToInflictStatusArmorBreakOnAttackPercentage",
+            "value": 5
+          }
+        ],
         "atk": 70,
-        "ChanceToInflictStatusArmorBreakOnAttackPercentage": 5,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -4494,10 +4829,20 @@
         "name": "Weeder Knife",
         "refinement": 0,
         "itemId": 1227,
+        "bonuses": [
+          {
+            "bonus": "IgnoreDefRacePlant"
+          },
+          {
+            "bonus": "PhysicalDamageAgainstRacePlantPercentage",
+            "value": 15
+          },
+          {
+            "bonus": "ResistanceDamageFromRacePlantPercentage",
+            "value": 15
+          }
+        ],
         "atk": 80,
-        "BypassDefenseOnRace": 3,
-        "PhysicalDamageAgainstRacePlantPercentage": 15,
-        "ResistanceDamageFromRacePlantPercentage": 15,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -4591,10 +4936,21 @@
         "name": "Bazerald",
         "refinement": 0,
         "itemId": 1231,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 3
+          },
+          {
+            "bonus": "Int",
+            "value": 5
+          },
+          {
+            "bonus": "MatkPercentage",
+            "value": 10
+          }
+        ],
         "atk": 70,
-        "ElementWeapon": 3,
-        "Int": 5,
-        "MatkPercentage": 10,
         "type": 1,
         "level": 4,
         "starCrumb": 0,
@@ -4688,8 +5044,13 @@
         "name": "Edge",
         "refinement": 0,
         "itemId": 1132,
+        "bonuses": [
+          {
+            "bonus": "ChanceToInflictStatusCurseOnAttackPercentage",
+            "value": 3
+          }
+        ],
         "atk": 115,
-        "ChanceToInflictStatusCurseOnAttackPercentage": 3,
         "type": 2,
         "level": 4,
         "starCrumb": 0,
@@ -4783,9 +5144,16 @@
         "name": "Ceaser's Sword",
         "refinement": 0,
         "itemId": 1134,
+        "bonuses": [
+          {
+            "bonus": "PhysicalDamageAgainstRacePlantPercentage",
+            "value": 25
+          },
+          {
+            "bonus": "IgnoreDefRacePlant"
+          }
+        ],
         "atk": 140,
-        "PhysicalDamageAgainstRacePlantPercentage": 25,
-        "BypassDefenseOnRace": 3,
         "type": 2,
         "level": 4,
         "starCrumb": 0,
@@ -4879,10 +5247,21 @@
         "name": "Byeollungum",
         "refinement": 0,
         "itemId": 1140,
+        "bonuses": [
+          {
+            "bonus": "AllStats",
+            "value": 2
+          },
+          {
+            "bonus": "PhysicalDamageAgainstClassBossPercentage",
+            "value": 50
+          },
+          {
+            "bonus": "ResistanceDamageFromClassNormalPercentage",
+            "value": -10
+          }
+        ],
         "atk": 150,
-        "AllStats": 2,
-        "PhysicalDamageAgainstClassBossPercentage": 50,
-        "normal_attack_percentage": -10,
         "type": 2,
         "level": 4,
         "starCrumb": 0,
@@ -4976,10 +5355,16 @@
         "name": "Dragon Slayer",
         "refinement": 0,
         "itemId": 1166,
+        "bonuses": [
+          {
+            "bonus": "PhysicalDamageAgainstRaceDragonPercentage",
+            "value": 15
+          },
+          {
+            "bonus": "IgnoreDefRaceDragon"
+          }
+        ],
         "atk": 150,
-        "PhysicalDamageAgainstRaceDragonPercentage": 15,
-        "BypassDefenseOnRace": 9,
-        "is_part_of_combo": 755,
         "type": 3,
         "level": 4,
         "starCrumb": 0,
@@ -5073,10 +5458,21 @@
         "name": "Gelerdria",
         "refinement": 0,
         "itemId": 1414,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 2
+          },
+          {
+            "bonus": "Maxhp",
+            "value": 800
+          },
+          {
+            "bonus": "Maxsp",
+            "value": -50
+          }
+        ],
         "atk": 145,
-        "ElementWeapon": 2,
-        "Maxhp": 800,
-        "Maxsp": -50,
         "type": 4,
         "level": 4,
         "starCrumb": 0,
@@ -5170,9 +5566,16 @@
         "name": "Brocca",
         "refinement": 0,
         "itemId": 1415,
+        "bonuses": [
+          {
+            "bonus": "PhysicalDamageAgainstElementNeutralPercentage",
+            "value": 25
+          },
+          {
+            "bonus": "IgnoreDefClassNormal"
+          }
+        ],
         "atk": 100,
-        "PhysicalDamageAgainstElementNeutralPercentage": 25,
-        "BypassDefenseOnRace": 99,
         "type": 4,
         "level": 4,
         "starCrumb": 0,
@@ -5266,9 +5669,17 @@
         "name": "Bill Guisarme",
         "refinement": 0,
         "itemId": 1467,
+        "bonuses": [
+          {
+            "bonus": "PhysicalDamageAgainstRaceBrutePercentage",
+            "value": 10
+          },
+          {
+            "bonus": "PhysicalDamageAgainstRaceDemiHumanPercentage",
+            "value": 5
+          }
+        ],
         "atk": 183,
-        "PhysicalDamageAgainstRaceBrutePercentage": 10,
-        "PhysicalDamageAgainstRaceDemiHumanPercentage": 5,
         "type": 5,
         "level": 4,
         "starCrumb": 0,
@@ -5362,10 +5773,21 @@
         "name": "Longinus's Spear",
         "refinement": 0,
         "itemId": 1469,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 7
+          },
+          {
+            "bonus": "PhysicalDamageAgainstRaceDemiHumanPercentage",
+            "value": 10
+          },
+          {
+            "bonus": "PhysicalDamageAgainstRaceAngelPercentage",
+            "value": 10
+          }
+        ],
         "atk": 180,
-        "ElementWeapon": 7,
-        "PhysicalDamageAgainstRaceDemiHumanPercentage": 10,
-        "PhysicalDamageAgainstRaceAngelPercentage": 10,
         "type": 5,
         "level": 4,
         "starCrumb": 0,
@@ -5474,9 +5896,17 @@
         "name": "Glittering Clothes",
         "refinement": 0,
         "itemId": 2319,
-        "def": 7,
-        "Mdef": 5,
-        "ChanceToInflictStatusBlindOnAttackPercentage": 3
+        "bonuses": [
+          {
+            "bonus": "Mdef",
+            "value": 5
+          },
+          {
+            "bonus": "ChanceToInflictStatusBlindOnAttackPercentage",
+            "value": 3
+          }
+        ],
+        "def": 7
       }
     },
     "arrow": "Arrow",
@@ -5577,10 +6007,21 @@
         "name": "Nekomimi",
         "refinement": 0,
         "itemId": 5099,
-        "def": 1,
-        "Luk": 2,
-        "Mdef": 10,
-        "ResistanceDamageFromRaceBrutePercentage": 5
+        "bonuses": [
+          {
+            "bonus": "Luk",
+            "value": 2
+          },
+          {
+            "bonus": "Mdef",
+            "value": 10
+          },
+          {
+            "bonus": "ResistanceDamageFromRaceBrutePercentage",
+            "value": 5
+          }
+        ],
+        "def": 1
       }
     },
     "arrow": "Arrow",
@@ -5681,8 +6122,13 @@
         "name": "Winter Hat",
         "refinement": 0,
         "itemId": 5115,
-        "def": 3,
-        "ResistanceToStatusFreezePercentage": 10
+        "bonuses": [
+          {
+            "bonus": "ResistanceToStatusFreezePercentage",
+            "value": 10
+          }
+        ],
+        "def": 3
       }
     },
     "arrow": "Arrow",
@@ -5783,10 +6229,21 @@
         "name": "Maiden's Twin Ribbon",
         "refinement": 0,
         "itemId": 5187,
-        "def": 0,
-        "Maxsp": 30,
-        "Mdef": 3,
-        "SpRegenPercentage": 5
+        "bonuses": [
+          {
+            "bonus": "Maxsp",
+            "value": 30
+          },
+          {
+            "bonus": "Mdef",
+            "value": 3
+          },
+          {
+            "bonus": "SpRegenPercentage",
+            "value": 5
+          }
+        ],
+        "def": 0
       }
     },
     "arrow": "Arrow",
@@ -5887,10 +6344,21 @@
         "name": "Bird's Nest",
         "refinement": 0,
         "itemId": 5129,
-        "def": 2,
-        "Agi": 1,
-        "Dex": 1,
-        "ResistanceToStatusStunPercentage": 10
+        "bonuses": [
+          {
+            "bonus": "Agi",
+            "value": 1
+          },
+          {
+            "bonus": "Dex",
+            "value": 1
+          },
+          {
+            "bonus": "ResistanceToStatusStunPercentage",
+            "value": 10
+          }
+        ],
+        "def": 2
       }
     },
     "arrow": "Arrow",
@@ -5976,9 +6444,17 @@
         "name": "Murasame",
         "refinement": 0,
         "itemId": 13012,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 1
+          },
+          {
+            "bonus": "CriticalAgainstRaceDemiHumanPercentage",
+            "value": 10
+          }
+        ],
         "atk": 95,
-        "ElementWeapon": 1,
-        "CriticalAgainstRaceDemiHumanPercentage": 10,
         "type": 1,
         "level": 2,
         "starCrumb": 0,
@@ -6087,11 +6563,25 @@
         "name": "Lily Crown",
         "refinement": 0,
         "itemId": 5284,
-        "def": 0,
-        "Agi": 1,
-        "Dex": 1,
-        "HpRegenPercentage": 5,
-        "SpRegenPercentage": 3
+        "bonuses": [
+          {
+            "bonus": "Agi",
+            "value": 1
+          },
+          {
+            "bonus": "Dex",
+            "value": 1
+          },
+          {
+            "bonus": "HpRegenPercentage",
+            "value": 5
+          },
+          {
+            "bonus": "SpRegenPercentage",
+            "value": 3
+          }
+        ],
+        "def": 0
       }
     },
     "arrow": "Arrow",
@@ -6177,14 +6667,33 @@
         "name": "Phantom Spear",
         "refinement": 0,
         "itemId": 1477,
+        "bonuses": [
+          {
+            "bonus": "PhysicalDamageAgainstRaceUndeadPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "PhysicalDamageAgainstRaceDemonPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementDarkPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "PhysicalDamageAgainstRaceUndeadPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromRaceUndeadPercentage",
+            "value": 10
+          },
+          {
+            "bonus": "ResistanceDamageFromRaceDemonPercentage",
+            "value": 10
+          }
+        ],
         "atk": 170,
-        "PhysicalDamageAgainstRaceUndeadPercentage": 20,
-        "PhysicalDamageAgainstRaceDemonPercentage": 20,
-        "PhysicalDamageAgainstElementDarkPercentage": 20,
-        "increase_damage_element_undead_percentage": 20,
-        "ResistanceDamageFromRaceUndeadPercentage": 10,
-        "ResistanceDamageFromRaceDemonPercentage": 10,
-        "is_part_of_combo": 766,
         "type": 5,
         "level": 4,
         "starCrumb": 0,
@@ -6278,9 +6787,17 @@
         "name": "Bardiche",
         "refinement": 0,
         "itemId": 1417,
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromSizeMediumPercentage",
+            "value": 13
+          },
+          {
+            "bonus": "ResistanceDamageFromSizeLargePercentage",
+            "value": 15
+          }
+        ],
         "atk": 200,
-        "ResistanceDamageFromSizeMediumPercentage": 13,
-        "ResistanceDamageFromSizeLargePercentage": 15,
         "type": 7,
         "level": 3,
         "starCrumb": 0,
@@ -6389,8 +6906,13 @@
         "name": "Dragon Skull",
         "refinement": 0,
         "itemId": 5292,
-        "def": 5,
-        "ResistanceDamageFromRaceDragonPercentage": 5
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromRaceDragonPercentage",
+            "value": 5
+          }
+        ],
+        "def": 5
       }
     },
     "arrow": "Arrow",
@@ -6491,9 +7013,13 @@
         "name": "Stone Buckler",
         "refinement": 0,
         "itemId": 2114,
-        "def": 3,
-        "ResistanceDamageFromSizeLargePercentage": 5,
-        "is_part_of_combo": 742
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromSizeLargePercentage",
+            "value": 5
+          }
+        ],
+        "def": 3
       }
     },
     "arrow": "Arrow",
@@ -6594,13 +7120,29 @@
         "name": "Valkyrian Shield",
         "refinement": 0,
         "itemId": 2115,
-        "def": 3,
-        "Mdef": 5,
-        "ResistanceDamageFromElementWaterPercentage": 20,
-        "ResistanceDamageFromElementFirePercentage": 20,
-        "ResistanceDamageFromElementDarkPercentage": 20,
-        "ResistanceDamageFromElementUndeadPercentage": 20,
-        "is_part_of_combo": 767
+        "bonuses": [
+          {
+            "bonus": "Mdef",
+            "value": 5
+          },
+          {
+            "bonus": "ResistanceDamageFromElementWaterPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementFirePercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementDarkPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementUndeadPercentage",
+            "value": 20
+          }
+        ],
+        "def": 3
       }
     },
     "arrow": "Arrow",
@@ -6686,11 +7228,25 @@
         "name": "Infiltrator",
         "refinement": 0,
         "itemId": 1261,
+        "bonuses": [
+          {
+            "bonus": "PhysicalDamageAgainstRaceDemiHumanPercentage",
+            "value": 50
+          },
+          {
+            "bonus": "Def",
+            "value": 3
+          },
+          {
+            "bonus": "Flee",
+            "value": 5
+          },
+          {
+            "bonus": "PerfectDodge",
+            "value": 2
+          }
+        ],
         "atk": 140,
-        "PhysicalDamageAgainstRaceDemiHumanPercentage": 50,
-        "Def": 3,
-        "Flee": 5,
-        "PerfectDodge": 2,
         "type": 11,
         "level": 4,
         "starCrumb": 0,
@@ -6784,8 +7340,13 @@
         "name": "Loki's Nail",
         "refinement": 0,
         "itemId": 1262,
+        "bonuses": [
+          {
+            "bonus": "ChanceToInflictStatusBleedingOnAttackPercentage",
+            "value": 3
+          }
+        ],
         "atk": 115,
-        "ChanceToInflictStatusBleedingOnAttackPercentage": 3,
         "type": 11,
         "level": 3,
         "starCrumb": 0,
@@ -6879,8 +7440,13 @@
         "name": "Rod",
         "refinement": 0,
         "itemId": 1601,
+        "bonuses": [
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 15,
-        "MatkBasedOnStaffPercentage": 15,
         "type": 9,
         "level": 1,
         "starCrumb": 0,
@@ -6974,12 +7540,21 @@
         "name": "Staff of Soul",
         "refinement": 0,
         "itemId": 1472,
+        "bonuses": [
+          {
+            "bonus": "Int",
+            "value": 5
+          },
+          {
+            "bonus": "Agi",
+            "value": 2
+          },
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 25,
-        "Int": 5,
-        "Agi": 2,
-        "MatkBasedOnStaffPercentage": 15,
-        "has_bonus_when_refined": 1,
-        "is_part_of_combo": 750,
         "type": 9,
         "level": 3,
         "starCrumb": 0,
@@ -7073,12 +7648,21 @@
         "name": "Wizardry Staff",
         "refinement": 0,
         "itemId": 1473,
+        "bonuses": [
+          {
+            "bonus": "Int",
+            "value": 6
+          },
+          {
+            "bonus": "Dex",
+            "value": 2
+          },
+          {
+            "bonus": "MatkBasedOnStaffPercentage",
+            "value": 15
+          }
+        ],
         "atk": 120,
-        "Int": 6,
-        "Dex": 2,
-        "MatkBasedOnStaffPercentage": 15,
-        "has_bonus_when_refined": 1,
-        "is_part_of_combo": 770,
         "type": 9,
         "level": 4,
         "starCrumb": 0,
@@ -7266,12 +7850,29 @@
         "name": "Book of the Appocalypse",
         "refinement": 0,
         "itemId": 1557,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 7
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementWaterPercentage",
+            "value": 7
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementEarthPercentage",
+            "value": 7
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementFirePercentage",
+            "value": 7
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementWindPercentage",
+            "value": 7
+          }
+        ],
         "atk": 120,
-        "ElementWeapon": 7,
-        "PhysicalDamageAgainstElementWaterPercentage": 7,
-        "PhysicalDamageAgainstElementEarthPercentage": 7,
-        "PhysicalDamageAgainstElementFirePercentage": 7,
-        "PhysicalDamageAgainstElementWindPercentage": 7,
         "type": 12,
         "level": 4,
         "starCrumb": 0,
@@ -7365,13 +7966,33 @@
         "name": "Kaizer Knuckle",
         "refinement": 0,
         "itemId": 1813,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 4
+          },
+          {
+            "bonus": "PhysicalDamageAgainstRaceUndeadPercentage",
+            "value": 5
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementWaterPercentage",
+            "value": 10
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementEarthPercentage",
+            "value": 10
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementFirePercentage",
+            "value": 10
+          },
+          {
+            "bonus": "PhysicalDamageAgainstElementWindPercentage",
+            "value": 10
+          }
+        ],
         "atk": 110,
-        "ElementWeapon": 4,
-        "increase_damage_element_undead_percentage": 5,
-        "PhysicalDamageAgainstElementWaterPercentage": 10,
-        "PhysicalDamageAgainstElementEarthPercentage": 10,
-        "PhysicalDamageAgainstElementFirePercentage": 10,
-        "PhysicalDamageAgainstElementWindPercentage": 10,
         "type": 13,
         "level": 4,
         "starCrumb": 0,
@@ -7465,14 +8086,43 @@
         "name": "Rudra's Bow",
         "refinement": 0,
         "itemId": 1720,
+        "bonuses": [
+          {
+            "bonus": "Int",
+            "value": 5
+          },
+          {
+            "bonus": "ResistanceToStatusPoisonPercentage",
+            "value": 50
+          },
+          {
+            "bonus": "ResistanceToStatusCursePercentage",
+            "value": 50
+          },
+          {
+            "bonus": "ResistanceToStatusBlindPercentage",
+            "value": 50
+          },
+          {
+            "bonus": "ResistanceToStatusSilencePercentage",
+            "value": 50
+          },
+          {
+            "bonus": "ResistanceToStatusChaosPercentage",
+            "value": 50
+          },
+          {
+            "bonus": "EnableSkill",
+            "value": 28,
+            "value2": 1
+          },
+          {
+            "bonus": "EnableSkill",
+            "value": 35,
+            "value2": 1
+          }
+        ],
         "atk": 150,
-        "Int": 5,
-        "ResistanceToStatusPoisonPercentage": 50,
-        "ResistanceToStatusCursePercentage": 50,
-        "ResistanceToStatusBlindPercentage": 50,
-        "ResistanceToStatusSilencePercentage": 50,
-        "ResistanceToStatusChaosPercentage": 50,
-        "enable_skill": 102601,
         "type": 10,
         "level": 4,
         "starCrumb": 0,
@@ -7581,8 +8231,13 @@
         "name": "Bow Thimble",
         "refinement": 0,
         "itemId": 2619,
-        "def": 0,
-        "reduce_defense_percentage": 3
+        "bonuses": [
+          {
+            "bonus": "DamageRangedAtkPercentage",
+            "value": 3
+          }
+        ],
+        "def": 0
       }
     },
     "arrow": "Arrow",
@@ -7683,9 +8338,17 @@
         "name": "Mage Hat",
         "refinement": 0,
         "itemId": 5027,
-        "def": 1,
-        "Int": 2,
-        "Maxsp": 150
+        "bonuses": [
+          {
+            "bonus": "Int",
+            "value": 2
+          },
+          {
+            "bonus": "Maxsp",
+            "value": 150
+          }
+        ],
+        "def": 1
       }
     },
     "arrow": "Arrow",
@@ -7786,9 +8449,17 @@
         "name": "Casting Robe",
         "refinement": 0,
         "itemId": 2343,
-        "def": 5,
-        "Mdef": 4,
-        "CastTimePercentage": -3
+        "bonuses": [
+          {
+            "bonus": "Mdef",
+            "value": 4
+          },
+          {
+            "bonus": "CastTimePercentage",
+            "value": -3
+          }
+        ],
+        "def": 5
       }
     },
     "arrow": "Arrow",
@@ -7889,8 +8560,13 @@
         "name": "�n�ڃ}�X�N",
         "refinement": 0,
         "itemId": 7961,
-        "def": 2,
-        "ResistanceDamageFromElementFirePercentage": 10
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromElementFirePercentage",
+            "value": 10
+          }
+        ],
+        "def": 2
       }
     },
     "arrow": "Arrow",
@@ -7976,9 +8652,17 @@
         "name": "Rapture Rose",
         "refinement": 0,
         "itemId": 1963,
+        "bonuses": [
+          {
+            "bonus": "ElementWeapon",
+            "value": 5
+          },
+          {
+            "bonus": "ChanceToInflictStatusPoisonOnAttackPercentage",
+            "value": 50
+          }
+        ],
         "atk": 115,
-        "ElementWeapon": 5,
-        "ChanceToInflictStatusPoisonOnAttackPercentage": 50,
         "type": 15,
         "level": 4,
         "starCrumb": 0,
@@ -8087,16 +8771,45 @@
         "name": "Novice Shield",
         "refinement": 0,
         "itemId": 2113,
-        "def": 3,
-        "ResistanceDamageFromElementWaterPercentage": 20,
-        "ResistanceDamageFromElementEarthPercentage": 20,
-        "ResistanceDamageFromElementFirePercentage": 20,
-        "ResistanceDamageFromElementWindPercentage": 20,
-        "ResistanceDamageFromElementPoisonPercentage": 20,
-        "ResistanceDamageFromElementHolyPercentage": 20,
-        "ResistanceDamageFromElementDarkPercentage": 20,
-        "ResistanceDamageFromElementGhostPercentage": 20,
-        "ResistanceDamageFromElementUndeadPercentage": 20
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromElementWaterPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementEarthPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementFirePercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementWindPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementPoisonPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementHolyPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementDarkPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementGhostPercentage",
+            "value": 20
+          },
+          {
+            "bonus": "ResistanceDamageFromElementUndeadPercentage",
+            "value": 20
+          }
+        ],
+        "def": 3
       }
     },
     "arrow": "Arrow",
@@ -8197,8 +8910,13 @@
         "name": "Novice Manteau",
         "refinement": 0,
         "itemId": 2512,
-        "def": 2,
-        "ResistanceDamageFromElementNeutralPercentage": 10
+        "bonuses": [
+          {
+            "bonus": "ResistanceDamageFromElementNeutralPercentage",
+            "value": 10
+          }
+        ],
+        "def": 2
       }
     },
     "arrow": "Arrow",
@@ -8299,10 +9017,21 @@
         "name": "Vesper Core 02",
         "refinement": 0,
         "itemId": 2660,
-        "def": 1,
-        "Str": 3,
-        "Atk": 10,
-        "Mdef": 3
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 3
+          },
+          {
+            "bonus": "Atk",
+            "value": 10
+          },
+          {
+            "bonus": "Mdef",
+            "value": 3
+          }
+        ],
+        "def": 1
       }
     },
     "arrow": "Arrow",
@@ -8403,11 +9132,16 @@
         "name": "Valkyrian Armor",
         "refinement": 0,
         "itemId": 2357,
-        "def": 6,
-        "is_rebirth_only": 1,
-        "AllStats": 1,
-        "is_indestructible": 1,
-        "is_part_of_combo": 749
+        "bonuses": [
+          {
+            "bonus": "AllStats",
+            "value": 1
+          },
+          {
+            "bonus": "UnbreakableArmor"
+          }
+        ],
+        "def": 6
       }
     },
     "arrow": "Arrow",
@@ -8508,13 +9242,29 @@
         "name": "Divine Clothes",
         "refinement": 0,
         "itemId": 2366,
-        "def": 6,
-        "is_rebirth_only": 1,
-        "ResistanceToStatusCursePercentage": 5,
-        "ResistanceToStatusSilencePercentage": 5,
-        "ResistanceToStatusStunPercentage": 5,
-        "ResistanceToStatusSleepPercentage": 5,
-        "ResistanceToStatusStonePercentage": 5
+        "bonuses": [
+          {
+            "bonus": "ResistanceToStatusCursePercentage",
+            "value": 5
+          },
+          {
+            "bonus": "ResistanceToStatusSilencePercentage",
+            "value": 5
+          },
+          {
+            "bonus": "ResistanceToStatusStunPercentage",
+            "value": 5
+          },
+          {
+            "bonus": "ResistanceToStatusSleepPercentage",
+            "value": 5
+          },
+          {
+            "bonus": "ResistanceToStatusStonePercentage",
+            "value": 5
+          }
+        ],
+        "def": 6
       }
     },
     "arrow": "Arrow",
@@ -8615,10 +9365,21 @@
         "name": "Sniping Suit",
         "refinement": 0,
         "itemId": 2367,
-        "def": 5,
-        "Mdef": 5,
-        "Crit": 6,
-        "AfterCastDelayPercentage": 23
+        "bonuses": [
+          {
+            "bonus": "Mdef",
+            "value": 5
+          },
+          {
+            "bonus": "Crit",
+            "value": 6
+          },
+          {
+            "bonus": "AfterCastDelayPercentage",
+            "value": 23
+          }
+        ],
+        "def": 5
       }
     },
     "arrow": "Arrow",
@@ -8704,8 +9465,13 @@
         "name": "Butcher",
         "refinement": 0,
         "itemId": 13158,
+        "bonuses": [
+          {
+            "bonus": "CriticalAgainstRaceBrutePercentage",
+            "value": 10
+          }
+        ],
         "atk": 75,
-        "CriticalAgainstRaceBrutePercentage": 10,
         "type": 20,
         "level": 3,
         "starCrumb": 0,
