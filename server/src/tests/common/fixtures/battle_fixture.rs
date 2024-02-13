@@ -163,6 +163,7 @@ pub struct SkillLevel {
 pub struct Equipment {
     #[serde(rename = "itemId")]
     item_id: i32,
+    name: String,
     refinement: u8,
     #[serde(default)]
     cards: Vec<Card>,
@@ -174,12 +175,13 @@ pub struct Equipment {
 pub struct Card {
     #[serde(rename = "itemId")]
     item_id: i16,
+    name: String,
     #[serde(default)]
     bonuses: Vec<BonusTypeWrapper>
 }
 
 #[derive(Debug, Clone)]
-pub struct BonusTypeWrapper(BonusType);
+pub struct BonusTypeWrapper(pub(crate) BonusType);
 
 impl Default for BonusTypeWrapper {
     fn default() -> Self {
