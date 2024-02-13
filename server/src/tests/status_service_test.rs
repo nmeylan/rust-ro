@@ -307,8 +307,8 @@ mod tests {
 
             let mut bonuses_desc = vec![];
             let mut fixtures_bonuses_desc = vec![];
-            let mut actual_bonus = vec![];
-            let mut expected_bonus = vec![];
+            let mut actual_bonuses = vec![];
+            let mut expected_bonuses = vec![];
 
             let mut equipped_gears = result.status.equipped_weapons().iter().collect::<Vec<&WearWeapon>>();
             equipped_gears.sort_by(|a,b| a.item_id.cmp(&b.item_id));
@@ -317,20 +317,20 @@ mod tests {
                 if weapon.card0() > 0 {
                     let card = GlobalConfigService::instance().get_item(weapon.card0() as i32);
                     bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), item.bonuses.iter().map(|b| {
-                        actual_bonus.push(b.clone());
+                        actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
                         .collect::<Vec<String>>()
                         .join("")));
                     bonuses_desc.push(format!("{}<ul>{}</ul>", card.name_aegis.clone(), card.bonuses.iter().map(|b| {
-                        actual_bonus.push(b.clone());
+                        actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
                         .collect::<Vec<String>>()
                         .join("")));
                 } else {
                     bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), item.bonuses.iter().map(|b| {
-                        actual_bonus.push(b.clone());
+                        actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
                         .collect::<Vec<String>>()
@@ -344,20 +344,20 @@ mod tests {
                 if equipment.card0() > 0 {
                     let card = GlobalConfigService::instance().get_item(equipment.card0() as i32);
                     bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), item.bonuses.iter().map(|b| {
-                        actual_bonus.push(b.clone());
+                        actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
                         .collect::<Vec<String>>()
                         .join("")));
                     bonuses_desc.push(format!("{}<ul>{}</ul>", card.name_aegis.clone(), card.bonuses.iter().map(|b| {
-                        actual_bonus.push(b.clone());
+                        actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
                         .collect::<Vec<String>>()
                         .join("")));
                 } else {
                     bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), item.bonuses.iter().map(|b| {
-                        actual_bonus.push(b.clone());
+                        actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
                         .collect::<Vec<String>>()
@@ -370,14 +370,14 @@ mod tests {
             fixture_equipments.sort_by(|a,b| a.item_id().cmp(&b.item_id()));
             fixture_equipments.iter().for_each(|e| {
                 fixtures_bonuses_desc.push(format!("{}<ul>{}</ul>", e.name(), e.bonuses().iter().map(|b| {
-                    expected_bonus.push(b.0.clone());
+                    expected_bonuses.push(b.0.clone());
                     format!("<li>*{:?}*</li>", b.0)
                 })
                     .collect::<Vec<String>>()
                     .join("")));
                 e.cards().iter().for_each(|c| {
                     fixtures_bonuses_desc.push(format!("{}<ul>{}</ul>", c.name(), c.bonuses().iter().map(|b| {
-                        expected_bonus.push(b.0.clone());
+                        expected_bonuses.push(b.0.clone());
                         format!("<li>*{:?}*</li>", b.0)
                     })
                         .collect::<Vec<String>>()
@@ -412,17 +412,25 @@ mod tests {
             let sp_passed = eq_with_variance!(1, result.actual.max_sp(), result.expected.max_sp());
             let armor_element_passed = result.actual.element() == result.expected.element();
 
+            let mut found_count = 0;
+            for bonus in expected_bonuses.iter() {
+                if let Some(index) = actual_bonuses.iter().position(|actual_bonus| actual_bonus.clone() == bonus.clone()) {
+                    found_count += 1;
+                    actual_bonuses.swap_remove(index);
+                }
+            }
+            let stat_passed = found_count == expected_bonuses.len();
 
             result.passed = str_passed && agi_passed && vit_passed && dex_passed && int_passed && luk_passed && aspd_passed && atk_left_passed && atk_right_passed
                 && matk_max_passed && matk_min_passed && def_passed && mdef_passed && hit_passed && flee_passed && crit_passed
-                && hp_passed && sp_passed && armor_element_passed;
+                && hp_passed && sp_passed && armor_element_passed && stat_passed;
 
             if result.passed {
                 passed_count += 1;
             }
 
             result_file.write_all(format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
-                                          result.id, job, format!("<ul>{}</ul>",bonuses_desc), format!("<ul>{}</ul>",fixtures_bonuses_desc), format_result!(result.passed, result.passed),
+                                          result.id, job, format_result!(stat_passed, format!("<ul>{}</ul>",bonuses_desc)), format_result!(stat_passed, format!("<ul>{}</ul>",fixtures_bonuses_desc)), format_result!(result.passed, result.passed),
                                           format_result!(str_passed, result.actual.base_str(), result.actual.bonus_str(), result.expected.base_str(), result.expected.bonus_str()),
                                           format_result!(agi_passed, result.actual.base_agi(), result.actual.bonus_agi(), result.expected.base_agi(), result.expected.bonus_agi()),
                                           format_result!(vit_passed, result.actual.base_vit(), result.actual.bonus_vit(), result.expected.base_vit(), result.expected.bonus_vit()),
