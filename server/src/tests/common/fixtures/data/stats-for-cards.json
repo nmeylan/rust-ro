@@ -5824,7 +5824,7 @@
             "itemId": 4367,
             "bonuses": [
               {
-                "bonus": "HpRegenPercentage",
+                "bonus": "NaturalHpRecoveryPercentage",
                 "value": -100
               }
             ]
@@ -16685,7 +16685,7 @@
                 "value": -3
               },
               {
-                "bonus": "SpRegenPercentage",
+                "bonus": "NaturalSpRecoveryPercentage",
                 "value": -20
               }
             ]
@@ -17433,7 +17433,7 @@
             "itemId": 4336,
             "bonuses": [
               {
-                "bonus": "HpRegenPercentage",
+                "bonus": "NaturalHpRecoveryPercentage",
                 "value": 10
               },
               {
@@ -21176,7 +21176,7 @@
                 "value": 100
               },
               {
-                "bonus": "SpRegenPercentage",
+                "bonus": "NaturalSpRecoveryPercentage",
                 "value": -100
               }
             ]
@@ -30376,7 +30376,7 @@
             "itemId": 4259,
             "bonuses": [
               {
-                "bonus": "HpRegenPercentage",
+                "bonus": "NaturalHpRecoveryPercentage",
                 "value": 30
               },
               {
@@ -32987,7 +32987,7 @@
                 "value": 8
               },
               {
-                "bonus": "HpRegenPercentage",
+                "bonus": "NaturalHpRecoveryPercentage",
                 "value": -25
               }
             ]
@@ -33577,7 +33577,7 @@
                 "value": -3
               },
               {
-                "bonus": "HpRegenPercentage",
+                "bonus": "NaturalHpRecoveryPercentage",
                 "value": -20
               }
             ]
@@ -39762,7 +39762,7 @@
                 "value": 500
               },
               {
-                "bonus": "HpRegenPercentage",
+                "bonus": "NaturalHpRecoveryPercentage",
                 "value": 10
               }
             ]
@@ -46653,7 +46653,7 @@
             "itemId": 4070,
             "bonuses": [
               {
-                "bonus": "SpRegenPercentage",
+                "bonus": "NaturalSpRecoveryPercentage",
                 "value": 15
               }
             ]
@@ -48589,7 +48589,7 @@
                 "value": 15
               },
               {
-                "bonus": "SpRegenPercentage",
+                "bonus": "NaturalSpRecoveryPercentage",
                 "value": 3
               }
             ]
@@ -48737,7 +48737,7 @@
             "itemId": 4038,
             "bonuses": [
               {
-                "bonus": "HpRegenPercentage",
+                "bonus": "NaturalHpRecoveryPercentage",
                 "value": 20
               }
             ]
@@ -49476,11 +49476,11 @@
             "itemId": 4199,
             "bonuses": [
               {
-                "bonus": "HpRegenPercentage",
+                "bonus": "NaturalHpRecoveryPercentage",
                 "value": 10
               },
               {
-                "bonus": "SpRegenPercentage",
+                "bonus": "NaturalSpRecoveryPercentage",
                 "value": 10
               }
             ]
@@ -59866,7 +59866,7 @@
             "itemId": 4036,
             "bonuses": [
               {
-                "bonus": "HpRegenPercentage",
+                "bonus": "NaturalHpRecoveryPercentage",
                 "value": 10
               }
             ]
