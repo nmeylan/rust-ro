@@ -41,10 +41,11 @@ global.ATK = 17;
 global.DEF = 18;
 global.MDEF = 19;
 global.ELEMENT_WEAPON = 20;
+global.BYPASS_DEFENSE_ON_CLASS = 21;
 global.BYPASS_DEFENSE_ON_RACE = 22;
 global.WEAPON_ATK_INCREASE_ON_TARGET_DEFENSE = 23;
-global.REDUCE_DEFENSE = 24;
-global.REDUCE_DEFENSE_PERCENTAGE = 25;
+global.DEFENSE_PERCENTAGE = 24;
+global.RANGED_ATTACK_DAMAGE_PERCENTAGE = 25;
 global.INCREASE_DAMAGE_AGAINST_BOSS_PERCENTAGE = 26;
 global.INCREASE_DAMAGE_AGAINST_SIZE_PERCENTAGE = 27;
 global.INCREASE_DAMAGE_AGAINST_SIZE_SMALL_PERCENTAGE = 27;
@@ -183,10 +184,11 @@ global.bonusLabel = {
     18: "Def",
     19: "Mdef",
     20: "ElementWeapon",
+    21: "BypassDefenseOnClass", // does not exists in db
     22: "BypassDefenseOnRace", // does not exists in db
     23: "WeaponAtkIncreaseOnTargetDefense", // does not exists in db
-    24: "reduce_defense", // does not exists in db
-    25: "reduce_defense_percentage", // does not exists in db
+    24: "DefPercentage", // does not exists in db
+    25: "DamageRangedAtkPercentage", // does not exists in db
     26: "PhysicalDamageAgainstClassBossPercentage",
     27: "increase_damage_against_size_percentage",
     27: "PhysicalDamageAgainstSizeSmallPercentage",
@@ -213,7 +215,7 @@ global.bonusLabel = {
     46: "PhysicalDamageAgainstElementHolyPercentage",
     47: "PhysicalDamageAgainstElementDarkPercentage",
     48: "PhysicalDamageAgainstElementGhostPercentage",
-    49: "increase_damage_element_undead_percentage",
+    49: "PhysicalDamageAgainstRaceUndeadPercentage",
     50: "damage_inc_dec_race_percentage",
     50: "ResistanceDamageFromRaceFormlessPercentage",
     51: "ResistanceDamageFromRaceUndeadPercentage",
@@ -241,8 +243,9 @@ global.bonusLabel = {
     74: "AfterCastDelayPercentage",
     75: "HpRegenPercentage",
     76: "SpRegenPercentage",
+    77: "ResistanceDamageFromClassBossPercentage",
     78: "ResistanceRangeAttackPercentage",
-    79: "normal_attack_percentage",
+    79: "ResistanceDamageFromClassNormalPercentage",
     81: "DamageAgainstMobGroupGoblinPercentage",
     82: "DamageAgainstMobGroupKoboldPercentage",
     83: "DamageAgainstMobGroupOrcPercentage",
@@ -297,13 +300,13 @@ global.bonusLabel = {
     193: "is_impossible_to_refine",
     194: "is_indestructible",
     195: "has_bonus_when_refined",
-    198: "armor_element",
+    198: "ElementDefense",
     200: "is_rebirth_only",
-    220: "enable_skill",
+    220: "EnableSkill",
     221: "autospell_skill",
-    230: "enable_skill",
+    230: "EnableSkill",
     231: "autospell_skill",
-    5000: "increase_skill_damage",
+    5000: "SkillIdDamagePercentage",
 }
 
 global.WEAPON_NAME = [
@@ -614,7 +617,7 @@ global.cardOBJ = [
     [163, 1, "Breeze", 0, 17, 5, 138, 5, 0],
     [164, 1, "Lady Solace", "When equipped by a priest:<BR>When attacking physically, adds a chance to autocast [Grand Cross] Lv 5.", 0],
     [165, 1, "Maero of Thanatos", 0, 17, 5, 231, 19802803, 0],
-    [166, 1, "Memory of Thanatos", "When attacking physically, drains 1sp from you.", 23, 1, 85, 30, 9, -30, 0],
+    [166, 1, "Memory of Thanatos", "When attacking physically, drains 1sp from you.", 23, 1, 18, -30, 9, -30, 0],
     [167, 1, "Hill Wind", "When un equipping the weapon with this card, drains 50 sp from you.", 5057, 5, 5126, 5, 5127, 5, 0],
     [168, 1, "Laurell Weinder", "When un equipping the weapon with this card, drains 50 sp from you.", 5130, 3, 5131, 3, 0],
     [169, 1, "Death Word", "When un equipping the weapon with this card, drains 50 sp from you.", 5046, 5, 5057, 5, 5277, 5, 0],
@@ -679,7 +682,7 @@ global.cardOBJ = [
     [228, 6, "Amon Ra", "If you have base INT of 99, the chance to autocast [Kyrie Ellison] increases substantially.", 7, 1, 231, 69809810, 0],
     [229, 6, "Alarm", 0, 3, 1, 13, 300, 0],
     [230, 7, "Alligator", 0, 78, 5, 0],
-    [231, 3, "Alice", "Modifies your resistance to boss monsters by + 40%.", 79, -40, 0],
+    [231, 3, "Alice", "Modifies your resistance to boss monsters by + 40%.", 77, 40, 79, -40, 0],
     [232, 4, "Anthony", 0, 231, 69803501, 0],
     [233, 1, "The Paper", "When attacking physically, drains 1SP with every attack.", 70, 20, 0],
     [234, 2, "Incubus", 0, 14, 150, 4, -3, 76, -20, 0],
@@ -703,7 +706,7 @@ global.cardOBJ = [
     [252, 1, "Orc Lady", 0, 83, 30, 0],
     [253, 1, "Fur Seal", "When equipped by an Acolyte type class, gain +9 critical versus undead and demon monsters.", 8, 10, 9, 3, 0],
     [254, 1, "Shellfish", 0, 1072, 30, 0],
-    [255, 1, "Samurai Specter", "Bypasses defense of normal monsters.<BR>Reduces HP recovery by 100%, and drains 666HP every 10 seconds.<BR>When un equipping this card, you lose 999 hp.", 0],
+    [255, 1, "Samurai Specter", "Bypasses defense of normal monsters.<BR>Reduces HP recovery by 100%, and drains 666HP every 10 seconds.<BR>When un equipping this card, you lose 999 hp.", 21, 1, 0],
     [256, 7, "Gargoyle", "When killing an insect type monster, gain a chance to obtain [Box of Thunder] as a drop.", 0],
     [257, 6, "Gajomart", 0, 123, 10, 53, -20, 0],
     [258, 5, "Kappa", "If refined to +5 or less, gain MDEF+8.", 0],
@@ -1811,7 +1814,7 @@ global.ItemOBJ = [
     [406, 3, 1, 160, 4, 0, 160, 48, "Schweizer Sabel", "", 0, 18, 1, 20, 4, 221, 11005603, 0],
     [407, 3, 1, 250, 4, 0, 100, 48, "Balmung", "", 0, 4, 20, 6, 20, 0],
     [408, 4, 1, 145, 4, 0, 70, 48, "Gelerdria", "", 0, 20, 2, 13, 800, 14, -50, 0],
-    [409, 4, 1, 100, 4, 0, 85, 48, "Brocca", "", 0, 40, 25, 22, 99, 0],
+    [409, 4, 1, 100, 4, 0, 85, 48, "Brocca", "", 0, 40, 25, 21, 1, 0],
     [410, 4, 1, 95, 4, 0, 100, 48, "Tjungkuletti", "", "�U�����Ƃ�SP1����<BR>�G��|��������SP5����", 0],
     [411, 5, 1, 183, 4, 0, 100, 48, "Bill Guisarme", "", 0, 32, 10, 37, 5, 0],
     [412, 5, 1, 180, 4, 0, 250, 48, "Longinus's Spear", "", 0, 20, 7, 37, 10, 38, 10, 0],
@@ -2022,7 +2025,7 @@ global.ItemOBJ = [
     [617, 4, 1, 140, 4, 1, 90, 65, "Battle Hook", "", 0, 200, 1, 37, 20, 131, 5, 220, 107003, 0],
     [618, 4, 1, 180, 4, 1, 420, 60, "Hunting Spear", "", "When you kill a brute type monster, there is a chance to obtain meat as a drop.", 200, 1, 22, 2, 221, 19826103, 0],
     [619, 5, 1, 170, 4, 0, 200, 75, "Phantom Spear", "", "Recover 50 HP when you kill a monster.<BR>When you attack there is a chance to cause [Chaos] on yourself.", 31, 20, 36, 20, 47, 20, 49, 20, 51, 10, 56, 10, 0],
-    [620, 5, 61, 120, 4, 0, 100, 65, "Ahlspiess", "", 0, 22, 99, 37, 10, 221, 19807005, 0],
+    [620, 5, 61, 120, 4, 0, 100, 65, "Ahlspiess", "", 0, 21, 1, 21, 2, 37, 10, 221, 19807005, 0],
     [621, 7, 1, 10, 4, "0 / 1", 600, 80, "Doom Slayer", "", "�fSTR95�ȏ�̎� ATK + 340�B<BR>�X�ɁA�U���������X�^�[�ɃX�^����������m��30% ����<BR>�Z��j�󂷂�m������������B<BR>�U�����x 40% ����(aspd - 40%?)<BR>�X�L���g�p���ASP��2�{����B", 0],
     [622, 7, 1, 200, 3, 2, 250, 70, "Bardiche", "", 0, 191, 13, 192, 15, 0],
     [623, 7, 1, 175, 4, 1, 200, 70, "Heart Breaker", "", "���B�l�ɂ���Ă���ɃN���e�B�J���m�������B<BR>�z���C�g�X�~�X�A �N���G�C�^�[���������A�U�������m���ŃI�[�g�X�y���n���}�[�t�H�[��Lv3�����B", 10, 20, 12, 5, 0],

@@ -30,7 +30,12 @@ macro_rules! bonus {
 
 impl NativeMethodHandler for BonusScriptHandler {
     fn handle(&self, native: &Native, params: Vec<Value>, execution_thread: &Thread, _call_frame: &CallFrame, _source_line: &CompilationDetail, _class_name: String) {
-        if native.name.eq("bonus") {
+        if native.name.eq("skill") {
+            let skill_name = params[0].string_value().unwrap();
+            let skill = SkillEnum::from_name(skill_name.as_str());
+            let skill_level = params[1].number_value().unwrap() as u8;
+            bonus!(self, BonusType::EnableSkillId(skill.id(), skill_level))
+        } if native.name.eq("bonus") {
             self.handle_bonus(params);
         } else if native.name.eq("bonus2") {
             self.handle_bonus2(params);

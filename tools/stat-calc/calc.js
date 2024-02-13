@@ -1018,8 +1018,8 @@ function CalculateAllStats(FORM_DATA, targetStats) {
 
     stats.totalDef = stats.def + Math.round(stats.totalGearRefinement * 7 / 10);
 
-    if (GetEquipmentStats(REDUCE_DEFENSE, stats) + GetCardStats(REDUCE_DEFENSE, stats))
-        stats.totalDef = Math.floor(stats.totalDef / GetEquipmentStats(REDUCE_DEFENSE, stats), stats);
+    if (GetEquipmentStats(DEFENSE_PERCENTAGE, stats) + GetCardStats(DEFENSE_PERCENTAGE, stats))
+        stats.totalDef = Math.floor(stats.totalDef / GetEquipmentStats(DEFENSE_PERCENTAGE, stats), stats);
     if (GetEquipmentStats(LOWER_DEFENCE_PERCENTAGE, stats) + GetCardStats(LOWER_DEFENCE_PERCENTAGE, stats))
         stats.totalDef -= Math.floor(stats.totalDef * (GetEquipmentStats(LOWER_DEFENCE_PERCENTAGE, stats) + GetCardStats(LOWER_DEFENCE_PERCENTAGE, stats)) / 100, stats);
 
@@ -1058,7 +1058,7 @@ function CalculateAllStats(FORM_DATA, targetStats) {
                 stats.vitDEF[i] = Math.floor(stats.vitDEF[i] * 0.9);
         }
     }
-    if (GetEquipmentStats(REDUCE_DEFENSE, stats)) {
+    if (GetEquipmentStats(DEFENSE_PERCENTAGE, stats)) {
         for (let i = 0; i <= 2; i++)
             stats.vitDEF[i] = Math.floor(stats.vitDEF[i] / GetEquipmentStats(24, stats));
     }
@@ -4651,8 +4651,8 @@ function BaiCI(stats, targetStats, wBaiCI, InWarOfEmperium) {
         if (n_Enekyori == 1) {
             if (TyouEnkakuSousa3dan != -1) {
                 w1 = 0;
-                w1 += GetCardStats(REDUCE_DEFENSE_PERCENTAGE, stats);
-                w1 += GetEquipmentStats(REDUCE_DEFENSE_PERCENTAGE, stats);
+                w1 += GetCardStats(RANGED_ATTACK_DAMAGE_PERCENTAGE, stats);
+                w1 += GetEquipmentStats(RANGED_ATTACK_DAMAGE_PERCENTAGE, stats);
                 wBaiCI = Math.floor(wBaiCI * (100 + w1) / 100);
             }
         }
@@ -4803,7 +4803,7 @@ function BattleCalc4(stats, targetStats, wBC4, wBC4_2, wBC4_3) {
             return wBC4 + wBC4_3;
         if (GetEquipmentStats(BYPASS_DEFENSE_ON_RACE, stats) == targetStats.race && targetStats.race != 0)
             return wBC4 + wBC4_3;
-        if (GetEquipmentStats(BYPASS_DEFENSE_ON_RACE, stats) == 99 && targetStats.isNormal)
+        if (GetEquipmentStats(BYPASS_DEFENSE_ON_CLASS, stats) == 1 && targetStats.isNormal)
             return wBC4 + wBC4_3;
         if (SkillSearch("Solar, Lunar, and Stellar Union", stats))
             return wBC4 + wBC4_3;
@@ -5351,6 +5351,7 @@ function buildEquipment(equipmentIndex, isWeapon, refinement) {
         name: item[8],
         refinement: refinement ? refinement : 0,
         itemId: ItemIds[equipmentIndex][1],
+        bonuses: [],
         cards: []
     }
     if (isWeapon) {
@@ -5359,16 +5360,7 @@ function buildEquipment(equipmentIndex, isWeapon, refinement) {
         equipment.def = item[3];
     }
     for (let STP2j = 0; item[STP2j + 11] != 0; STP2j += 2) {
-        let bonus = bonusLabel[item[STP2j + 11]];
-        if (bonus === undefined) {
-            if (item[STP2j + 11] > 5000) {
-                equipment[bonusLabel[5000]] = item[STP2j + 12];
-            } else {
-                console.log("Item bonus is undefined for item", item[8], "value", item[STP2j + 11], "at index", STP2j + 11)
-            }
-        } else {
-            equipment[bonus] = item[STP2j + 12];
-        }
+        addBonuses(equipment, item, STP2j, 11);
     }
     return equipment;
 }
@@ -5378,21 +5370,116 @@ function buildCard(cardIndex) {
         cardIndex = 0;
     }
     let item = cardOBJ[cardIndex];
-    let card = {index: cardIndex, name: item[2], itemId: CardIds[cardIndex][1]}
+    let card = {index: cardIndex, name: item[2], itemId: CardIds[cardIndex][1], bonuses: []}
 
     for (let STP2j = 0; item[STP2j + 4] != 0; STP2j += 2) {
-        let bonus = bonusLabel[item[STP2j + 4]];
-        if (bonus === undefined) {
-            if (item[STP2j + 4] > 5000) {
-                card[bonusLabel[5000]] = item[STP2j + 5];
-            } else {
-                console.log("Card bonus is undefined for card", item[2], "value", item[STP2j + 4], "at index", STP2j + 4)
-            }
-        } else {
-            card[bonus] = item[STP2j + 5];
-        }
+        addBonuses(card, item, STP2j, 4);
     }
     return card;
+}
+
+function addBonuses(equipment_or_card, item, STP2j, index) {
+    let bonus = bonusLabel[item[STP2j + index]];
+    if (bonus === "is_part_of_combo" || bonus === "is_impossible_to_refine" || bonus === "is_rebirth_only" || bonus === "has_bonus_when_refined") return;
+    if (bonus === "autospell_skill") {
+        console.log("TODO handle autospell_skill")
+        return;
+    }
+    if (bonus === "WeaponAtkIncreaseOnTargetDefense") {
+        equipment_or_card.bonuses.push({"bonus": "IncreaseDamageAgainstClassBossBaseOnDef"});
+        equipment_or_card.bonuses.push({"bonus": "IncreaseDamageAgainstClassNormalBaseOnDef"});
+        equipment_or_card.bonuses.push({"bonus": "IncreaseDamageAgainstClassGuardianBaseOnDef"});
+        return;
+    }
+    if (bonus === "EnableSkill") {
+        let value = item[STP2j + index + 1];
+        let skillIndex = Math.floor((value - 100000) / 100);
+        let skillLevel = Math.floor((value - 100000) % 100);
+        equipment_or_card.bonuses.push({"bonus": "EnableSkill", value: SkillOBJ[skillIndex][3], value2: skillLevel});
+        return;
+    }
+    if (bonus === "BypassDefenseOnRace") {
+        let value = item[STP2j + index + 1];
+        switch (value) {
+            case 0:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefRaceFormless"});
+                return;
+            case 1:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefRaceUndead"});
+                return;
+            case 2:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefRaceBrute"});
+                return;
+            case 3:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefRacePlant"});
+                return;
+            case 4:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefRaceInsect"});
+                return;
+            case 5:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefRaceFish"});
+                return;
+            case 6:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefRaceDemon"});
+                return;
+            case 7:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefRaceDemiHuman"});
+                return;
+            case 8:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefRaceAngel"});
+                return;
+            case 9:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefRaceDragon"});
+                return;
+        }
+    }
+    if (bonus === "BypassDefenseOnClass") {
+        let value = item[STP2j + index + 1];
+        switch (value) {
+            case 1:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefClassNormal"});
+                return;
+            case 2:
+                equipment_or_card.bonuses.push({"bonus": "IgnoreDefClassBoss"});
+                return;
+        }
+    }
+    if (bonus === "is_indestructible") {
+        if (ItemOBJ[equipment_or_card.index][1] == 50) {
+            equipment_or_card.bonuses.push({"bonus": "UnbreakableHelm"});
+            return;
+        }
+        if (ItemOBJ[equipment_or_card.index][1] == 61) {
+            equipment_or_card.bonuses.push({"bonus": "UnbreakableShield"});
+            return;
+        }
+        if (ItemOBJ[equipment_or_card.index][1] == 60) {
+            equipment_or_card.bonuses.push({"bonus": "UnbreakableArmor"});
+            return;
+        }
+        if (ItemOBJ[equipment_or_card.index][1] == 62) {
+            equipment_or_card.bonuses.push({"bonus": "UnbreakableShoulder"});
+            return;
+        }
+        if (ItemOBJ[equipment_or_card.index][1] == 63) {
+            equipment_or_card.bonuses.push({"bonus": "UnbreakableShoes"});
+            return;
+        }
+        if (ItemOBJ[equipment_or_card.index][1] < 50) {
+            equipment_or_card.bonuses.push({"bonus": "UnbreakableWeapon"});
+            return;
+        }
+        return;
+    }
+    if (bonus === undefined) {
+        if (item[STP2j + index] > 5000) {
+            equipment_or_card.bonuses.push({"bonus": bonusLabel[5000], value: SkillOBJ[item[STP2j + index] - 5000][3], value2: item[STP2j + index + 1]});
+        } else {
+            console.log("Card bonus is undefined for card", item[2], "value", item[STP2j + index], "at index", STP2j + index)
+        }
+    } else {
+        equipment_or_card.bonuses.push({"bonus": bonus, value: item[STP2j + index + 1]});
+    }
 }
 
 function addPassiveSkill(FORM_DATA, stats, index) {

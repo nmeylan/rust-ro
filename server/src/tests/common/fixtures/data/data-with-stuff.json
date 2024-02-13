@@ -56,25 +56,45 @@
             "index": 31,
             "name": "Abysmal Knight",
             "itemId": 4140,
-            "PhysicalDamageAgainstClassBossPercentage": 25
+            "bonuses": [
+              {
+                "bonus": "PhysicalDamageAgainstClassBossPercentage",
+                "value": 25
+              }
+            ]
           },
           {
             "index": 31,
             "name": "Abysmal Knight",
             "itemId": 4140,
-            "PhysicalDamageAgainstClassBossPercentage": 25
+            "bonuses": [
+              {
+                "bonus": "PhysicalDamageAgainstClassBossPercentage",
+                "value": 25
+              }
+            ]
           },
           {
             "index": 31,
             "name": "Abysmal Knight",
             "itemId": 4140,
-            "PhysicalDamageAgainstClassBossPercentage": 25
+            "bonuses": [
+              {
+                "bonus": "PhysicalDamageAgainstClassBossPercentage",
+                "value": 25
+              }
+            ]
           },
           {
             "index": 31,
             "name": "Abysmal Knight",
             "itemId": 4140,
-            "PhysicalDamageAgainstClassBossPercentage": 25
+            "bonuses": [
+              {
+                "bonus": "PhysicalDamageAgainstClassBossPercentage",
+                "value": 25
+              }
+            ]
           }
         ],
         "atk": 25,
@@ -92,27 +112,47 @@
         "name": "Alice Doll",
         "refinement": 0,
         "itemId": 5137,
+        "bonuses": [
+          {
+            "bonus": "Str",
+            "value": 1
+          },
+          {
+            "bonus": "PhysicalDamageAgainstRaceDemiHumanPercentage",
+            "value": 10
+          }
+        ],
         "cards": [
           {
             "index": 221,
             "name": "Arc Angeling",
             "itemId": 4241,
-            "Maxhp": 300
+            "bonuses": [
+              {
+                "bonus": "Maxhp",
+                "value": 300
+              }
+            ]
           }
         ],
-        "def": 0,
-        "Str": 1,
-        "PhysicalDamageAgainstRaceDemiHumanPercentage": 10,
-        "is_impossible_to_refine": 1
+        "def": 0
       },
       "middleHeadgear": {
         "index": 643,
         "name": "Dark Blinder",
         "refinement": 0,
         "itemId": 5104,
-        "def": 0,
-        "ResistanceToStatusBlindPercentage": 100,
-        "ResistanceToStatusStunPercentage": 2
+        "bonuses": [
+          {
+            "bonus": "ResistanceToStatusBlindPercentage",
+            "value": 100
+          },
+          {
+            "bonus": "ResistanceToStatusStunPercentage",
+            "value": 2
+          }
+        ],
+        "def": 0
       },
       "lowerHeadgear": {
         "index": 775,
@@ -131,7 +171,16 @@
             "index": 231,
             "name": "Alice",
             "itemId": 4253,
-            "normal_attack_percentage": -40
+            "bonuses": [
+              {
+                "bonus": "ResistanceDamageFromClassBossPercentage",
+                "value": 40
+              },
+              {
+                "bonus": "ResistanceDamageFromClassNormalPercentage",
+                "value": -40
+              }
+            ]
           }
         ],
         "def": 4
@@ -146,7 +195,7 @@
             "index": 224,
             "name": "Anolian",
             "itemId": 4234,
-            "autospell_skill": 69804201
+            "bonuses": []
           }
         ],
         "def": 8
@@ -161,16 +210,48 @@
             "index": 394,
             "name": "Deviling",
             "itemId": 4174,
-            "ResistanceDamageFromElementNeutralPercentage": 50,
-            "ResistanceDamageFromElementWaterPercentage": -50,
-            "ResistanceDamageFromElementEarthPercentage": -50,
-            "ResistanceDamageFromElementFirePercentage": -50,
-            "ResistanceDamageFromElementWindPercentage": -50,
-            "ResistanceDamageFromElementPoisonPercentage": -50,
-            "ResistanceDamageFromElementHolyPercentage": -50,
-            "ResistanceDamageFromElementDarkPercentage": -50,
-            "ResistanceDamageFromElementGhostPercentage": -50,
-            "ResistanceDamageFromElementUndeadPercentage": -50
+            "bonuses": [
+              {
+                "bonus": "ResistanceDamageFromElementNeutralPercentage",
+                "value": 50
+              },
+              {
+                "bonus": "ResistanceDamageFromElementWaterPercentage",
+                "value": -50
+              },
+              {
+                "bonus": "ResistanceDamageFromElementEarthPercentage",
+                "value": -50
+              },
+              {
+                "bonus": "ResistanceDamageFromElementFirePercentage",
+                "value": -50
+              },
+              {
+                "bonus": "ResistanceDamageFromElementWindPercentage",
+                "value": -50
+              },
+              {
+                "bonus": "ResistanceDamageFromElementPoisonPercentage",
+                "value": -50
+              },
+              {
+                "bonus": "ResistanceDamageFromElementHolyPercentage",
+                "value": -50
+              },
+              {
+                "bonus": "ResistanceDamageFromElementDarkPercentage",
+                "value": -50
+              },
+              {
+                "bonus": "ResistanceDamageFromElementGhostPercentage",
+                "value": -50
+              },
+              {
+                "bonus": "ResistanceDamageFromElementUndeadPercentage",
+                "value": -50
+              }
+            ]
           }
         ],
         "def": 1
@@ -180,18 +261,26 @@
         "name": "Fricco's Shoes",
         "refinement": 0,
         "itemId": 2417,
+        "bonuses": [
+          {
+            "bonus": "Agi",
+            "value": 2
+          }
+        ],
         "cards": [
           {
             "index": 228,
             "name": "Amon Ra",
             "itemId": 4236,
-            "AllStats": 1,
-            "autospell_skill": 69809810
+            "bonuses": [
+              {
+                "bonus": "AllStats",
+                "value": 1
+              }
+            ]
           }
         ],
-        "def": 3,
-        "Agi": 2,
-        "is_part_of_combo": 743
+        "def": 3
       },
       "accessory1": {
         "index": 339,
@@ -203,7 +292,12 @@
             "index": 230,
             "name": "Alligator",
             "itemId": 4252,
-            "ResistanceRangeAttackPercentage": 5
+            "bonuses": [
+              {
+                "bonus": "ResistanceRangeAttackPercentage",
+                "value": 5
+              }
+            ]
           }
         ],
         "def": 0
@@ -218,7 +312,12 @@
             "index": 230,
             "name": "Alligator",
             "itemId": 4252,
-            "ResistanceRangeAttackPercentage": 5
+            "bonuses": [
+              {
+                "bonus": "ResistanceRangeAttackPercentage",
+                "value": 5
+              }
+            ]
           }
         ],
         "def": 0
