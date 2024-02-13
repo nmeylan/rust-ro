@@ -3,6 +3,8 @@ use models::enums::class::JobName;
 use models::status::{Status, StatusBonus, StatusSnapshot};
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use models::enums::bonus::BonusType;
+use models::item::WearWeapon;
+use crate::repository::model::item_model::ItemModel;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 
@@ -45,16 +47,40 @@ impl StatusService {
                 snapshot.set_bonus_luk(*bonus.get("luk").unwrap_or(&0_i16));
             });
         let mut bonuses: Vec<BonusType> = vec![];
-        for equipment in status.all_equipped_items() {
+
+        for equipment in status.equipped_weapons().iter() {
             let item_model = self.configuration_service.get_item(equipment.item_id());
-            item_model.defense.map(|def| snapshot.set_def(snapshot.def() + def));
-            // TODO combo
-            if item_model.item_bonuses_are_dynamic {
-                // TODO
-            } else {
-                item_model.bonuses.iter().for_each(|bonus| bonuses.push(bonus.clone()))
+            if equipment.card0 > 0 {
+                let item_model = self.configuration_service.get_item(equipment.card0 as i32);
+                Self::collect_bonuses(&mut bonuses, item_model);
             }
+            if equipment.card1 > 0 {
+                let item_model = self.configuration_service.get_item(equipment.card1 as i32);
+                Self::collect_bonuses(&mut bonuses, item_model);
+            }
+            if equipment.card2 > 0 {
+                let item_model = self.configuration_service.get_item(equipment.card2 as i32);
+                Self::collect_bonuses(&mut bonuses, item_model);
+            }
+            if equipment.card3 > 0 {
+                let item_model = self.configuration_service.get_item(equipment.card3 as i32);
+                Self::collect_bonuses(&mut bonuses, item_model);
+            }
+            Self::collect_bonuses(&mut bonuses, item_model);
         }
+
+        for equipment in status.equipped_gears().iter() {
+            let item_model = self.configuration_service.get_item(equipment.item_id());
+            if equipment.card0 > 0 {
+                let item_model = self.configuration_service.get_item(equipment.card0 as i32);
+                Self::collect_bonuses(&mut bonuses, item_model);
+            }
+            item_model.defense.map(|def| snapshot.set_def(snapshot.def() + def));
+            Self::collect_bonuses(&mut bonuses, item_model);
+        }
+
+        // TODO card and item combo
+
         bonuses = BonusType::merge_bonuses(&bonuses);
         bonuses.iter().for_each(|bonus| bonus.add_bonus_to_status(&mut snapshot));
         // TODO [([base_hp*(1 + VIT/100)* trans_mod]+HPAdditions)*ItemHPMultipliers] https://irowiki.org/classic/Max_HP
@@ -75,6 +101,14 @@ impl StatusService {
         bonuses.iter().for_each(|bonus| bonus.add_percentage_bonus_to_status(&mut snapshot));
         snapshot.set_bonuses(bonuses.iter().map(|b| StatusBonus::new(b.clone())).collect::<Vec<StatusBonus>>());
         snapshot
+    }
+
+    fn collect_bonuses(mut bonuses: &mut Vec<BonusType>, item_model: &ItemModel) {
+        if item_model.item_bonuses_are_dynamic {
+            // TODO
+        } else {
+            item_model.bonuses.iter().for_each(|bonus| bonuses.push(bonus.clone()))
+        }
     }
     fn truncate(x: f32, decimals: u32) -> f32 {
         let y = 10i32.pow(decimals) as f32;
