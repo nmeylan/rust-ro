@@ -2,7 +2,7 @@ use crate::enums::element::Element;
 use crate::enums::skill_enums::SkillEnum;
 use crate::status::{StatusBonus, StatusSnapshot};
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum BonusType {
     Str(i8),
     Agi(i8),
