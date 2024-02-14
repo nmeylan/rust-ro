@@ -24,7 +24,7 @@ fn before_each_with_latch(latch_size: usize) -> StatusServiceTestContext {
     let count_down_latch = CountDownLatch::new(latch_size);
     StatusServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
-        status_service: StatusService::new(GlobalConfigService::instance()),
+        status_service: StatusService::new(GlobalConfigService::instance(), "../native_functions_list.txt"),
     }
 }
 

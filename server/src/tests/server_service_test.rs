@@ -40,6 +40,7 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
     let server_task_queue = Arc::new(TasksQueue::new());
     let movement_task_queue = Arc::new(TasksQueue::new());
     let count_down_latch = CountDownLatch::new(latch_size);
+    StatusService::init(GlobalConfigService::instance(), "../native_functions_list.txt");
     ServerServiceTestContext {
         client_notification_sender: client_notification_sender.clone(),
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
@@ -48,11 +49,11 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
         server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue, Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())),
                                            InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository), GlobalConfigService::instance(), server_task_queue.clone()),
                                            CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository), GlobalConfigService::instance(),
-                                                                 SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::new(GlobalConfigService::instance()), server_task_queue.clone()),
+                                                                 SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::instance(), server_task_queue.clone()),
                                            MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue),
-                                           BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::Normal),
-                                           SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::Normal), StatusService::new(GlobalConfigService::instance()),GlobalConfigService::instance()),
-                                           StatusService::new(GlobalConfigService::instance()),
+                                           BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal),
+                                           SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal), StatusService::instance(),GlobalConfigService::instance()),
+                                           StatusService::instance(),
         ),
     }
 }

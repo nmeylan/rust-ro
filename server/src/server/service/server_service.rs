@@ -55,7 +55,7 @@ pub struct ServerService {
     map_instance_service: MapInstanceService,
     skill_service: SkillService,
     battle_service: BattleService,
-    status_service: StatusService,
+    status_service: &'static StatusService,
 }
 
 impl ServerService {
@@ -64,12 +64,12 @@ impl ServerService {
     }
 
     pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>, movement_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>,
-                      inventory_service: InventoryService, character_service: CharacterService, map_instance_service: MapInstanceService, battle_service: BattleService, skill_service: SkillService, status_service: StatusService) -> Self {
+                      inventory_service: InventoryService, character_service: CharacterService, map_instance_service: MapInstanceService, battle_service: BattleService, skill_service: SkillService, status_service: &'static StatusService) -> Self {
         ServerService { client_notification_sender, configuration_service, server_task_queue, movement_task_queue, vm, inventory_service, character_service, map_instance_service, battle_service, skill_service, status_service }
     }
 
     pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>, movement_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>,
-                inventory_service: InventoryService, character_service: CharacterService, map_instance_service: MapInstanceService, battle_service: BattleService, skill_service: SkillService, status_service: StatusService) {
+                inventory_service: InventoryService, character_service: CharacterService, map_instance_service: MapInstanceService, battle_service: BattleService, skill_service: SkillService, status_service: &'static StatusService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
             SERVICE_INSTANCE = Some(ServerService::new(client_notification_sender, configuration_service, server_task_queue, movement_task_queue, vm, inventory_service, character_service, map_instance_service, battle_service, skill_service, status_service));
         });
