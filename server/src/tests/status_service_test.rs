@@ -226,8 +226,8 @@ mod tests {
 
     #[test]
     fn playground() {
-        let id = "ybc2m0";
-        let fixture_file = "src/tests/common/fixtures/data/stats-for-items.json";
+        let id = "0g3rud";
+        let fixture_file = "src/tests/common/fixtures/data/stats-for-cards.json";
         let result_file_path = "../doc/progress/stats-for-each-items_progress.md";
         stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id));
     }

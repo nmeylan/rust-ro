@@ -29,7 +29,7 @@ impl StatusService {
             SERVICE_INSTANCE = Some(StatusService::new(configuration_service));
         });
     }
-
+    //#[metrics::elapsed]
     pub fn to_snapshot(&self, status: &Status) -> StatusSnapshot {
         let mut snapshot = StatusSnapshot::_from(status);
         let job = JobName::from_value(status.job as usize);
@@ -212,6 +212,4 @@ impl StatusService {
     pub fn character_vit_def(&self, _vit: u32) -> u32 {
         0
     }
-
-
 }

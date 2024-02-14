@@ -17,6 +17,8 @@ use std::{fs, thread};
 use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
 use std::sync::{Arc, Mutex, Once};
+use flexi_logger::{DeferredNow, Logger, TS_DASHES_BLANK_COLONS_DOT_BLANK};
+use log::Record;
 
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
@@ -26,10 +28,12 @@ use packets::packets::Packet;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::service::item_service::ItemService;
+use crate::{configs, setup_logger};
 
 
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
+use crate::util::log_filter::LogFilter;
 
 
 static mut CONFIGS: Option<Config> = None;
@@ -130,6 +134,19 @@ pub fn create_mpsc<T>() -> (SyncSender<T>, Receiver<T>) {
 
 pub fn before_all() {
     INIT.call_once(|| {
+        let logger = Logger::try_with_str("info").unwrap();
+        logger.format(|w: &mut dyn std::io::Write, now: &mut DeferredNow, record: &Record| {
+            let _level = record.level();
+            write!(
+                w,
+                "{} [{}] [{}]: {}",
+                now.format(TS_DASHES_BLANK_COLONS_DOT_BLANK),
+                thread::current().name().unwrap_or("<unnamed>"),
+                record.level(),
+                &record.args()
+            )
+        })
+            .start().unwrap();
         unsafe {
             let mut config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
             let file_path = "../config/status_point_reward.json";
