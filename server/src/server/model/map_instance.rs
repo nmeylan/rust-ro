@@ -17,7 +17,7 @@ use crate::server::map_instance_loop::MAP_LOOP_TICK_RATE;
 use crate::server::model::script::Script;
 use crate::server::model::warp::Warp;
 
-use crate::server::script::ScriptHandler;
+use crate::server::script::MapScriptHandler;
 use crate::server::state::map_instance::{MapInstanceState, MobSpawnTrack};
 use crate::util::cell::{MyRef, MyRefMut, MyUnsafeCell};
 
@@ -76,7 +76,7 @@ impl MapInstance {
     pub fn from_map(vm: Arc<Vm>, map: &'static Map, id: u8, cells: Vec<u16>, client_notification_channel: SyncSender<Notification>, mut map_items: MapItems, tasks_queue: Arc<TasksQueue<MapEvent>>) -> MapInstance {
         let mut scripts = vec![];
         map.scripts().iter().for_each(|script| {
-            let (_, instance_reference) = Vm::create_instance(vm.clone(), script.class_name.clone(), Box::new(&ScriptHandler), script.constructor_args.clone()).unwrap();
+            let (_, instance_reference) = Vm::create_instance(vm.clone(), script.class_name.clone(), Box::new(&MapScriptHandler), script.constructor_args.clone()).unwrap();
             let mut script = script.clone();
             script.set_instance_reference(instance_reference);
             let script_arc = Arc::new(script);

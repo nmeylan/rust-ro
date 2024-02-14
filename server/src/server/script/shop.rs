@@ -2,7 +2,7 @@ use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
 use packets::packets::{CzPurchaseItem, CzSellItem, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcPcSellItemlist, PacketZcSelectDealtype, PurchaseItem, SellItem};
-use crate::server::script::PlayerScriptHandler;
+use crate::server::script::{PlayerInteractionScriptHandler, VM_THREAD_CONSTANT_INDEX_NPC_ID, VM_THREAD_CONSTANT_INDEX_CHAR_ID};
 use models::enums::item::ItemType;
 use models::enums::EnumWithNumberValue;
 
@@ -12,19 +12,19 @@ use crate::server::model::events::client_notification::{CharNotification, Notifi
 use crate::server::script::{GlobalVariableEntry, GlobalVariableScope};
 use crate::server::service::global_config_service::GlobalConfigService;
 
-impl PlayerScriptHandler {
-    pub fn handle_shop(&self, native: &Native, params: Vec<Value>, execution_thread: &Thread, _call_frame: &CallFrame) -> bool {
+impl PlayerInteractionScriptHandler {
+    pub fn handle_shop(&self, native: &Native, params: &Vec<Value>, execution_thread: &Thread, _call_frame: &CallFrame) -> bool {
         if native.name.eq("callshop") {
             let mut packet_zc_select_deal_type = PacketZcSelectDealtype::new(GlobalConfigService::instance().packetver());
-            packet_zc_select_deal_type.naid = self.npc_id;
+            packet_zc_select_deal_type.naid = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_NPC_ID);
             packet_zc_select_deal_type.fill_raw();
-            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_select_deal_type);
+            self.send_packet_to_char(execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID), &mut packet_zc_select_deal_type);
             let input_value = self.block_recv().unwrap(); // Selection: buy or sell
             let input_value = input_value[0] as i32;
             execution_thread.push_constant_on_stack(Value::new_number(input_value));
             return true;
         } else if native.name.eq("sendcharinventory") {
-            let char_id = self.session.char_id();
+            let char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
             let character = self.server.state().get_character_unsafe(char_id);
             let mut packet_zc_pc_sell_itemlist = PacketZcPcSellItemlist::new(self.configuration_service.packetver());
             let mut packets_sell_items = vec![];
@@ -48,7 +48,7 @@ impl PlayerScriptHandler {
             packet_zc_pc_sell_itemlist.set_item_list(packets_sell_items.clone());
             packet_zc_pc_sell_itemlist.fill_raw();
             self.client_notification_channel.send(Notification::Char(CharNotification::new(char_id, packet_zc_pc_sell_itemlist.raw))).unwrap();
-            self.await_player_click_on_sell(&mut packets_sell_items);
+            self.await_player_click_on_sell(&mut packets_sell_items, execution_thread);
             return true;
 
         } else if native.name.eq("senditemlist") {
@@ -92,9 +92,9 @@ impl PlayerScriptHandler {
             packet_zc_pc_purchase_itemlist.set_item_list(items_list.clone());
             packet_zc_pc_purchase_itemlist.set_packet_length((PacketZcPcPurchaseItemlist::base_len(self.server.packetver()) + PurchaseItem::base_len(self.server.packetver()) * array_items.len()) as i16);
             packet_zc_pc_purchase_itemlist.fill_raw();
-            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_pc_purchase_itemlist);
+            self.send_packet_to_char(execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID), &mut packet_zc_pc_purchase_itemlist);
             // Wait for player click on "buy"
-            self.await_player_click_on_buy(&mut items_list);
+            self.await_player_click_on_buy(&mut items_list, execution_thread);
             return true;
         } else if native.name.eq("closeshop") {
             let result = if !params.is_empty() {
@@ -105,7 +105,7 @@ impl PlayerScriptHandler {
             let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(GlobalConfigService::instance().packetver());
             packet_zc_pc_purchase_result.set_result(result as u8);
             packet_zc_pc_purchase_result.fill_raw();
-            self.send_packet_to_char(self.session.char_id(), &mut packet_zc_pc_purchase_result);
+            self.send_packet_to_char(execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID), &mut packet_zc_pc_purchase_result);
             return true;
         }
         false
@@ -113,11 +113,11 @@ impl PlayerScriptHandler {
 
     /// We feed character global variable for the shop script.
     /// We could execute get item logic here but we may want more flexibility for shop script, so instead we just feed global variables
-    fn await_player_click_on_buy(&self, items_list: &mut [PurchaseItem]) {
+    fn await_player_click_on_buy(&self, items_list: &mut [PurchaseItem], execution_thread: &Thread) {
         let mut items = self.block_recv().unwrap();
         // Once we receive player purchased items
         let items_count = items.remove(0); // first bytes contains number of purchased items
-        let char_id = self.session.char_id();
+        let char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
         let character = self.server.state().get_character_unsafe(char_id);
         let mut script_variable_store = character.script_variable_store.lock().unwrap();
         for i in 0..items_count {
@@ -143,11 +143,11 @@ impl PlayerScriptHandler {
 
     /// We feed character global variable for the shop script.
     /// We could execute remove item from inventory logic here but we may want more flexibility for shop script, so instead we just feed global variables
-    fn await_player_click_on_sell(&self, items_list: &mut [SellItem]) {
+    fn await_player_click_on_sell(&self, items_list: &mut [SellItem], execution_thread: &Thread) {
         let mut items = self.block_recv().unwrap();
         // Once we receive player sold items
         let items_count = items.remove(0); // first bytes contains number of purchased items
-        let char_id = self.session.char_id();
+        let char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
         let character = self.server.state().get_character_unsafe(char_id);
         let mut script_variable_store = character.script_variable_store.lock().unwrap();
         for i in 0..items_count {
