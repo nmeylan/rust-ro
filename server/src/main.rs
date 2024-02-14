@@ -64,7 +64,8 @@ use crate::server::boot::warps_loader::WarpLoader;
 use crate::server::model::map_item::MapItems;
 use crate::server::model::script::Script;
 
-use self::server::script::ScriptHandler;
+use self::server::script::MapScriptHandler;
+use crate::server::script::PlayerScriptHandler;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::item_service::ItemService;
 
@@ -126,6 +127,7 @@ pub async fn main() {
     // Create server
     let server = Server::new(configs(), repository_arc.clone(), map_item_ids, vm, client_notification_sender, persistence_event_sender.clone());
     let server_ref = Arc::new(server);
+    PlayerScriptHandler::init(GlobalConfigService::instance(), server_ref.clone());
     let server_ref_clone = server_ref;
     let mut handles: Vec<JoinHandle<()>> = Vec::new();
 
@@ -223,7 +225,7 @@ pub fn load_scripts(vm: Arc<Vm>) -> HashMap<String, Vec<Script>> {
     }
     info!("load {} scripts in {}ms", scripts.len(), start.elapsed().as_millis());
 
-    Vm::bootstrap(vm, class_files, Box::new(&ScriptHandler {}));
+    Vm::bootstrap(vm, class_files, Box::new(&MapScriptHandler {}));
     scripts
 }
 

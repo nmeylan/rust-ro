@@ -906,8 +906,7 @@ mod tests {
         let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
         // When
         let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
-        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(),
-                 Box::new(&script_handler));
+        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(), Box::new(&script_handler), vec![]);
         // Then
         assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::Str(10)))
     }
@@ -920,8 +919,7 @@ mod tests {
         let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::All.value()));
         // When
         let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
-        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(),
-                 Box::new(&script_handler));
+        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(), Box::new(&script_handler), vec![]);
         // Then
         assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::Str(-10)))
     }
@@ -934,8 +932,7 @@ mod tests {
         let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
         // When
         let script_handler = BonusScriptHandler { bonuses: RwLock::new(vec![]) };
-        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(),
-                 Box::new(&script_handler));
+        Vm::repl(vm.clone(), compilation_result.unwrap().pop().as_ref().unwrap(), Box::new(&script_handler), vec![]);
         // Then
         assert!(matches!(script_handler.bonuses.read().unwrap()[0], BonusType::ElementWeapon(Element::Water)))
     }

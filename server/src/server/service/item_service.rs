@@ -18,7 +18,7 @@ use crate::repository::model::item_model::{ItemModel};
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::model::events::game_event::{CharacterUseItem};
 use crate::server::model::events::persistence_event::{DeleteItems, PersistenceEvent};
-use crate::server::script::{PlayerScriptHandler};
+use crate::server::script::{PlayerInteractionScriptHandler, PlayerScriptHandler};
 use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
@@ -72,6 +72,7 @@ impl ItemService {
         if let Some(item) = character.get_item_from_inventory(character_user_item.index) {
             if item.item_type().is_consumable() {
                 // TODO check if char can use (class restriction, level restriction)
+                //TODO rework, this is deprecated, items script are now compiled. In addition it is not efficient to instantiate PlayerScriptHandler each time
                 let maybe_script_ref = ItemService::instance().get_item_script(item.item_id, runtime);
                 if maybe_script_ref.is_some() {
                     let script = maybe_script_ref.as_ref().unwrap();
@@ -79,15 +80,7 @@ impl ItemService {
                     let session = server_ref.state().get_session(character.account_id);
                     session.set_script_handler_channel_sender(tx);
                     let script_result = Vm::repl(server_ref.vm.clone(), script,
-                                                 Box::new(&PlayerScriptHandler {
-                                                     client_notification_channel: self.client_notification_sender.clone(),
-                                                     npc_id: 0,
-                                                     server: server_ref.clone(),
-                                                     player_action_receiver: RwLock::new(rx),
-                                                     runtime: Runtime::new().unwrap(),
-                                                     session,
-                                                     configuration_service: self.configuration_service,
-                                                 }));
+                                                 Box::new(PlayerScriptHandler::instance()), vec![0, character.char_id, character.account_id]);
                     let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new(self.configuration_service.packetver());
                     packet_zc_use_item_ack.set_aid(character_user_item.char_id);
                     packet_zc_use_item_ack.set_index(character_user_item.index as u16);
@@ -146,7 +139,7 @@ impl ItemService {
                     }
                 }
                 if !complex_script {
-                    Vm::repl(vm.clone(), class_file, Box::new(&script_handler));
+                    Vm::repl(vm.clone(), class_file, Box::new(&script_handler), vec![]);
                     item.bonuses = script_handler.drain();
                     item.script_compilation = None;
                     count_script_executed += 1;

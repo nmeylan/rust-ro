@@ -245,12 +245,11 @@ checksum = "349f9b6a179ed607305526ca489b34ad0a41aed5f7980fa90eb03160b69598fb"
 
 [[package]]
 name = "bitcode"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a278afe77ea4781c806c23d1fa50b5f3c38282247ac78c3f85caa11c325bee1"
+checksum = "e8a733ab290c6e6b2859bba3e68fd1a4ca3eee0577f21ea46049a3529e500627"
 dependencies = [
  "bitcode_derive",
- "bitintr",
  "bytemuck",
  "from_bytes_or_zeroed",
  "residua-zigzag",
@@ -284,12 +283,6 @@ checksum = "327762f6e5a765692301e5bb513e0d9fef63be86bbc14528052b1cd3e6f03e07"
 dependencies = [
  "serde",
 ]
-
-[[package]]
-name = "bitintr"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ba5a5c4df8ac8673f22698f443ef1ce3853d7f22d5a15ebf66b9a7553b173dd"
 
 [[package]]
 name = "block"
@@ -2151,7 +2144,7 @@ dependencies = [
 [[package]]
 name = "rathena_script_lang_interpreter"
 version = "0.1.0"
-source = "git+https://github.com/nmeylan/rathena-script-lang-interpreter?rev=afb25ccef013548f88badc899501e94c7490606f#afb25ccef013548f88badc899501e94c7490606f"
+source = "git+https://github.com/nmeylan/rathena-script-lang-interpreter?rev=da2c74a79a37c303a615bab1a10cdcefc8f7f82a#da2c74a79a37c303a615bab1a10cdcefc8f7f82a"
 dependencies = [
  "antlr-rust",
  "bitcode",
