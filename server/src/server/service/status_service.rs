@@ -1,10 +1,12 @@
-use std::sync::{Once};
+use std::sync::{Once, Arc};
+use rathena_script_lang_interpreter::lang::vm::Vm;
 use models::enums::class::JobName;
 use models::status::{Status, StatusBonus, StatusSnapshot};
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use models::enums::bonus::BonusType;
 use models::item::WearWeapon;
 use crate::repository::model::item_model::ItemModel;
+use crate::server::script::DynamicItemScriptHandler;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 
@@ -14,19 +16,20 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 #[allow(dead_code)]
 pub struct StatusService {
     configuration_service: &'static GlobalConfigService,
+    vm: Arc<Vm>,
 }
 
 impl StatusService {
-    pub fn new(configuration_service: &'static GlobalConfigService) -> StatusService {
-        StatusService { configuration_service }
+    pub fn new(configuration_service: &'static GlobalConfigService, native_function_file_path: &str) -> StatusService {
+        StatusService { configuration_service, vm: Arc::new(Vm::new(native_function_file_path, rathena_script_lang_interpreter::lang::vm::DebugFlag::None.value())) }
     }
     pub fn instance() -> &'static StatusService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn init(configuration_service: &'static GlobalConfigService) {
+    pub fn init(configuration_service: &'static GlobalConfigService, native_function_file_path: &str) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(StatusService::new(configuration_service));
+            SERVICE_INSTANCE = Some(StatusService::new(configuration_service, native_function_file_path));
         });
     }
     //#[metrics::elapsed]
@@ -52,31 +55,31 @@ impl StatusService {
             let item_model = self.configuration_service.get_item(equipment.item_id());
             if equipment.card0 > 0 {
                 let item_model = self.configuration_service.get_item(equipment.card0 as i32);
-                Self::collect_bonuses(&mut bonuses, item_model);
+                self.collect_bonuses(status, &mut bonuses, item_model);
             }
             if equipment.card1 > 0 {
                 let item_model = self.configuration_service.get_item(equipment.card1 as i32);
-                Self::collect_bonuses(&mut bonuses, item_model);
+                self.collect_bonuses(status, &mut bonuses, item_model);
             }
             if equipment.card2 > 0 {
                 let item_model = self.configuration_service.get_item(equipment.card2 as i32);
-                Self::collect_bonuses(&mut bonuses, item_model);
+                self.collect_bonuses(status, &mut bonuses, item_model);
             }
             if equipment.card3 > 0 {
                 let item_model = self.configuration_service.get_item(equipment.card3 as i32);
-                Self::collect_bonuses(&mut bonuses, item_model);
+                self.collect_bonuses(status, &mut bonuses, item_model);
             }
-            Self::collect_bonuses(&mut bonuses, item_model);
+            self.collect_bonuses(status, &mut bonuses, item_model);
         }
 
         for equipment in status.equipped_gears().iter() {
             let item_model = self.configuration_service.get_item(equipment.item_id());
             if equipment.card0 > 0 {
                 let item_model = self.configuration_service.get_item(equipment.card0 as i32);
-                Self::collect_bonuses(&mut bonuses, item_model);
+                self.collect_bonuses(status, &mut bonuses, item_model);
             }
             item_model.defense.map(|def| snapshot.set_def(snapshot.def() + def));
-            Self::collect_bonuses(&mut bonuses, item_model);
+            self.collect_bonuses(status, &mut bonuses, item_model);
         }
 
         // TODO card and item combo
@@ -103,8 +106,9 @@ impl StatusService {
         snapshot
     }
 
-    fn collect_bonuses(mut bonuses: &mut Vec<BonusType>, item_model: &ItemModel) {
+    fn collect_bonuses(&self, status: &Status, mut bonuses: &mut Vec<BonusType>, item_model: &ItemModel) {
         if item_model.item_bonuses_are_dynamic {
+            let dynamic_item_script_handler = DynamicItemScriptHandler::new(self.configuration_service, status);
             // TODO
         } else {
             item_model.bonuses.iter().for_each(|bonus| bonuses.push(bonus.clone()))

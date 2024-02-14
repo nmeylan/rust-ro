@@ -54,7 +54,7 @@ pub struct CharacterService {
     configuration_service: &'static GlobalConfigService,
     skill_tree_service: SkillTreeService,
     server_task_queue: Arc<TasksQueue<GameEvent>>,
-    status_service: StatusService,
+    status_service: &'static StatusService,
 }
 
 impl CharacterService {
@@ -62,10 +62,10 @@ impl CharacterService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, skill_tree_service: SkillTreeService, status_service: StatusService, server_task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
+    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, skill_tree_service: SkillTreeService, status_service: &'static StatusService, server_task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
         Self { client_notification_sender, persistence_event_sender, repository, configuration_service, skill_tree_service, server_task_queue, status_service }
     }
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, skill_tree_service: SkillTreeService, status_service: StatusService, server_task_queue: Arc<TasksQueue<GameEvent>>) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, skill_tree_service: SkillTreeService, status_service: &'static StatusService, server_task_queue: Arc<TasksQueue<GameEvent>>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
             SERVICE_INSTANCE = Some(CharacterService { client_notification_sender, persistence_event_sender, repository, configuration_service, skill_tree_service, server_task_queue, status_service });
         });

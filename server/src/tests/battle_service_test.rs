@@ -14,7 +14,7 @@ struct BattleServiceTestContext {
     battle_service: BattleService,
     battle_min_service: BattleService,
     battle_max_service: BattleService,
-    status_service: StatusService,
+    status_service: &'static StatusService,
 }
 
 fn before_each() -> BattleServiceTestContext {
@@ -26,12 +26,13 @@ fn before_each_with_latch(latch_size: usize) -> BattleServiceTestContext {
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     let count_down_latch = CountDownLatch::new(latch_size);
+    StatusService::init(GlobalConfigService::instance(), "../native_functions_list.txt");
     BattleServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
-        battle_service: BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::Normal),
-        battle_min_service: BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::TestMin),
-        battle_max_service: BattleService::new(client_notification_sender.clone(), StatusService::new(GlobalConfigService::instance()), GlobalConfigService::instance(), BattleResultMode::TestMax),
-        status_service: StatusService::new(GlobalConfigService::instance()),
+        battle_service: BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal),
+        battle_min_service: BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::TestMin),
+        battle_max_service: BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::TestMax),
+        status_service: StatusService::instance(),
     }
 }
 

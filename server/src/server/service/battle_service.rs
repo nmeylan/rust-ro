@@ -25,7 +25,7 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 
 pub struct BattleService {
     client_notification_sender: SyncSender<Notification>,
-    status_service: StatusService,
+    status_service: &'static StatusService,
     configuration_service: &'static GlobalConfigService,
     battle_result_mode: BattleResultMode,
 }
@@ -41,11 +41,11 @@ impl BattleService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, status_service: StatusService, configuration_service: &'static GlobalConfigService, battle_result_mode: BattleResultMode) -> Self {
+    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService, battle_result_mode: BattleResultMode) -> Self {
         BattleService { client_notification_sender, status_service, configuration_service, battle_result_mode }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, status_service: StatusService, configuration_service: &'static GlobalConfigService) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
             SERVICE_INSTANCE = Some(BattleService::new(client_notification_sender, status_service, configuration_service, BattleResultMode::Normal));
         });

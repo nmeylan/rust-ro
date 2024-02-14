@@ -11,6 +11,7 @@ use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 use sprintf::{Printf, vsprintf};
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc::Receiver;
+use models::status::Status;
 use models::enums::class::JobName;
 use models::enums::look::LookType;
 use models::enums::EnumWithNumberValue;
@@ -34,6 +35,7 @@ use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::script_service::ScriptService;
 use crate::server::service::server_service::ServerService;
+use crate::server::state::server::ServerState;
 use crate::util::string::StringUtil;
 
 mod global_variable_handler;
@@ -150,6 +152,26 @@ impl PlayerScriptHandler {
                 configuration_service,
             });
         });
+    }
+}
+
+pub struct DynamicItemScriptHandler<'character> {
+    pub status: &'character Status,
+    pub configuration_service: &'static GlobalConfigService,
+}
+
+impl <'character> DynamicItemScriptHandler<'character>  {
+    pub fn new(configuration_service: &'static GlobalConfigService, status: &'character Status) -> Self {
+        Self {
+            status,
+            configuration_service,
+        }
+    }
+}
+
+impl <'character>NativeMethodHandler for DynamicItemScriptHandler<'character> {
+    fn handle(&self, native: &Native, params: Vec<value::Value>, execution_thread: &Thread, call_frame: &CallFrame, source_line: &CompilationDetail, class_name: String) {
+
     }
 }
 

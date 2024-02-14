@@ -27,19 +27,19 @@ pub struct SkillService {
     persistence_event_sender: SyncSender<PersistenceEvent>,
     configuration_service: &'static GlobalConfigService,
     battle_service: BattleService,
-    status_service: StatusService,
+    status_service: &'static StatusService,
 }
 
 
 impl SkillService {
-    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: StatusService, configuration_service: &'static GlobalConfigService) -> SkillService {
+    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService) -> SkillService {
         SkillService { client_notification_sender, persistence_event_sender, configuration_service, battle_service, status_service }
     }
     pub fn instance() -> &'static SkillService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: StatusService, configuration_service: &'static GlobalConfigService) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
             SERVICE_INSTANCE = Some(SkillService::new(client_notification_sender, persistence_event_sender, battle_service, status_service, configuration_service));
         });
