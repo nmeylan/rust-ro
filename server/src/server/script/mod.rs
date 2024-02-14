@@ -142,6 +142,7 @@ impl PlayerScriptHandler {
     pub fn instance() -> &'static PlayerScriptHandler {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
+
     pub fn init(configuration_service: &'static GlobalConfigService, server: Arc<Server>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
             SERVICE_INSTANCE = Some(crate::server::script::PlayerScriptHandler {
