@@ -2144,10 +2144,11 @@ dependencies = [
 [[package]]
 name = "rathena_script_lang_interpreter"
 version = "0.1.0"
-source = "git+https://github.com/nmeylan/rathena-script-lang-interpreter?rev=da2c74a79a37c303a615bab1a10cdcefc8f7f82a#da2c74a79a37c303a615bab1a10cdcefc8f7f82a"
+source = "git+https://github.com/nmeylan/rathena-script-lang-interpreter?rev=1093a08c0975431fc1be572c09c26c79f06b5f1e#1093a08c0975431fc1be572c09c26c79f06b5f1e"
 dependencies = [
  "antlr-rust",
  "bitcode",
+ "fastrand",
  "serde",
 ]
 

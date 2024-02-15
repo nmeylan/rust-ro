@@ -185,7 +185,7 @@ async fn compile_item_scripts(repository_arc: &Arc<Repository>, items: &mut Vec<
         if let Some(script) = &item.script {
             let script_hash = fastmurmur3::hash(script.as_bytes());
             if item.script_compilation_hash.is_none() || script_hash != item.script_compilation_hash.unwrap() {
-                let compilation_result = Compiler::compile_script_into_binary(format!("{}-{}", item.id, item.name_aegis), script.as_str(), "./native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
+                let compilation_result = Compiler::compile_script_into_binary(format!("itemscript{}", item.id), script.as_str(), "./native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
                 compilation_result.map(|res| {
                     item_script_compiled += 1;
                     item.script_compilation_hash = Some(script_hash);
