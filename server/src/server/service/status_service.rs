@@ -121,15 +121,21 @@ impl StatusService {
    #[inline]
     fn collect_dynamic_script(&self, status: &Status, bonuses: &mut &mut Vec<BonusType>, item_model: &&ItemModel) {
         let dynamic_item_script_handler = DynamicItemScriptHandler::new(self.configuration_service, status);
-        if let Some(script_compilation) = &item_model.script_compilation {
-            let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
-            let maybe_class = Compiler::from_binary(&script).unwrap().pop();
-            let class_file = maybe_class.as_ref().unwrap();
-            let script_main = class_file.functions().iter().find(|f| f.name == "_main").map(|f| f.chunk.clone()).unwrap();
-            Vm::repl(self.vm.clone(), class_file, Box::new(&dynamic_item_script_handler), vec![]);
-            bonuses.extend(dynamic_item_script_handler.drain());
+        if self.vm.contains_class(format!("itemscript{}", item_model.id).as_str()) {
+            Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
+                .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e));
+        } else{
+            if let Some(script_compilation) = &item_model.script_compilation {
+                let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
+                let maybe_class = Compiler::from_binary(&script).unwrap().pop();
+                Vm::bootstrap_without_init(self.vm.clone(), vec![maybe_class.unwrap()]);
+                Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
+                    .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e.message));
+            }
         }
+       bonuses.extend(dynamic_item_script_handler.drain());
     }
+
     fn truncate(x: f32, decimals: u32) -> f32 {
         let y = 10i32.pow(decimals) as f32;
         (x * y).round() / y

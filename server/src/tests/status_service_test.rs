@@ -232,7 +232,9 @@ mod tests {
         stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id));
     }
 
+    // #[test]
     #[bench]
+    // fn fullstuff_bench() {
     fn fullstuff_bench(bencher: &mut test::Bencher) {
         let id = "ve5tmv";
         let context = before_each();
