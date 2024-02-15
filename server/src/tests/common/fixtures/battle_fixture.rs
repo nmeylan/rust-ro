@@ -161,9 +161,11 @@ pub struct SkillLevel {
 
 #[derive(Deserialize, GettersAll, Debug, Clone, Default)]
 pub struct Equipment {
-    #[serde(rename = "itemId")]
+    #[serde(default, rename = "itemId")]
     item_id: i32,
+    #[serde(default)]
     name: String,
+    #[serde(default)]
     refinement: u8,
     #[serde(default)]
     cards: Vec<Card>,

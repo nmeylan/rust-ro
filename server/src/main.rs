@@ -2,6 +2,9 @@
 #![feature(stmt_expr_attributes)]
 #![feature(proc_macro_hygiene)]
 
+#![feature(test)]
+extern crate test;
+
 #[macro_use]
 extern crate log;
 #[macro_use]

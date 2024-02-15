@@ -453,7 +453,7 @@ global.bonusValue = {
     autospell_skill: 231,
     SkillIdDamagePercentage: 5000,
 }
-
+bonusValue = global.bonusValue;
 global.WEAPON_NAME = [
     "Unarmed",
     "Dagger",

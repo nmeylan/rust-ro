@@ -8,12 +8,12 @@ use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
 use crate::tests::common::sync_helper::CountDownLatch;
 
-struct StatusServiceTestContext {
+pub struct StatusServiceTestContext {
     test_context: TestContext,
-    status_service: StatusService,
+    pub status_service: StatusService,
 }
 
-fn before_each() -> StatusServiceTestContext {
+pub fn before_each() -> StatusServiceTestContext {
     before_each_with_latch(0)
 }
 
@@ -232,12 +232,41 @@ mod tests {
         stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id));
     }
 
+    #[bench]
+    fn fullstuff_bench(bencher: &mut test::Bencher) {
+        let id = "ve5tmv";
+        let context = before_each();
+        let fixture_file = "src/tests/common/fixtures/data/fullstuff.json";
+        let scenario = BattleFixture::load(fixture_file);
+        let scenarii = scenario.iter().find(|s| s.id() == id).unwrap();
+        let mut character = create_character();
+        scenarii.all_equipments().iter().for_each(|e| {
+            equip_item_from_id_with_cards(&mut character, e.item_id() as u32, e.cards().iter().map(|c| c.item_id()).collect::<Vec<i16>>());
+        });
+        let mut character_status = &mut character.status;
+        let job = JobName::from_string(scenarii.job().as_str());
+        character_status.job = job.value() as u32;
+        character_status.job_level = scenarii.job_level();
+        character_status.str = scenarii.base_str();
+        character_status.agi = scenarii.base_agi();
+        character_status.vit = scenarii.base_vit();
+        character_status.dex = scenarii.base_dex();
+        character_status.int = scenarii.base_int();
+        character_status.luk = scenarii.base_luk();
+        character_status.base_level = scenarii.base_level();
+
+        bencher.iter(|| {
+            context.status_service.to_snapshot(&character_status);
+        });
+    }
+
+
     fn stats_tests(fixture_file: &str, result_file_path: &str, title: &str, test_id: Option<&str>)
     {
         // Given
         let context = before_each();
         let _packetver = GlobalConfigService::instance().packetver();
-        let scenario = common::fixtures::battle_fixture::BattleFixture::load(fixture_file);
+        let scenario = crate::tests::common::fixtures::battle_fixture::BattleFixture::load(fixture_file);
         let mut i = -1;
 
         let mut results: Vec<TestResult> = Vec::with_capacity(scenario.len());
