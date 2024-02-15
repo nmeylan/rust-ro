@@ -1,4 +1,7 @@
 use std::sync::{Once, Arc};
+use base64::engine::general_purpose;
+use base64::Engine;
+use rathena_script_lang_interpreter::lang::compiler::Compiler;
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use models::enums::class::JobName;
 use models::status::{Status, StatusBonus, StatusSnapshot};
@@ -106,12 +109,25 @@ impl StatusService {
         snapshot
     }
 
-    fn collect_bonuses(&self, status: &Status, mut bonuses: &mut Vec<BonusType>, item_model: &ItemModel) {
+    #[inline]
+    pub fn collect_bonuses(&self, status: &Status, mut bonuses: &mut Vec<BonusType>, item_model: &ItemModel) {
         if item_model.item_bonuses_are_dynamic {
-            let dynamic_item_script_handler = DynamicItemScriptHandler::new(self.configuration_service, status);
-            // TODO
+            self.collect_dynamic_script(status, &mut bonuses, &item_model);
         } else {
             item_model.bonuses.iter().for_each(|bonus| bonuses.push(bonus.clone()))
+        }
+    }
+   // #[metrics::elapsed]
+   #[inline]
+    fn collect_dynamic_script(&self, status: &Status, bonuses: &mut &mut Vec<BonusType>, item_model: &&ItemModel) {
+        let dynamic_item_script_handler = DynamicItemScriptHandler::new(self.configuration_service, status);
+        if let Some(script_compilation) = &item_model.script_compilation {
+            let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
+            let maybe_class = Compiler::from_binary(&script).unwrap().pop();
+            let class_file = maybe_class.as_ref().unwrap();
+            let script_main = class_file.functions().iter().find(|f| f.name == "_main").map(|f| f.chunk.clone()).unwrap();
+            Vm::repl(self.vm.clone(), class_file, Box::new(&dynamic_item_script_handler), vec![]);
+            bonuses.extend(dynamic_item_script_handler.drain());
         }
     }
     fn truncate(x: f32, decimals: u32) -> f32 {
