@@ -1364,6 +1364,9 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
                 return Some(Value::new_number(job.value() as i32));
             }
         }
+        if constant_name.starts_with("Job_Swordman") { // yeah in addition to lack of consistency, there are typo in job name
+            return Some(Value::new_number(JobName::Swordsman.value() as i32));
+        }
         None
     } else {
         Some(constant_value)

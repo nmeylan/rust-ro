@@ -2,7 +2,10 @@ use lazy_static::lazy_static;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::Value;
 use regex::Regex;
+use models::enums::class::JobName;
+use crate::models::enums::EnumWithNumberValue;
 use crate::server::state::character::Character;
+use models::status::Status;
 use crate::server::model::events::game_event::CharacterZeny;
 use crate::server::model::events::game_event::GameEvent::CharacterUpdateZeny;
 use crate::server::script::{VM_THREAD_CONSTANT_INDEX_CHAR_ID, VM_THREAD_CONSTANT_INDEX_ACCOUNT_ID};
@@ -75,7 +78,7 @@ impl PlayerScriptHandler {
                 }
                 let char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
                 let character = self.server.state().get_character_unsafe(char_id);
-                if let Some(value) = Self::load_special_char_variable(character, variable_name) {
+                if let Some(value) = Self::load_special_char_variable(&character.status, variable_name) {
                     execution_thread.push_constant_on_stack(value);
                     return;
                 }
@@ -269,14 +272,14 @@ impl PlayerScriptHandler {
         execution_thread.push_constant_on_stack(Value::Number(Some((count * 2) as i32)));
     }
 
-    fn load_special_char_variable(char: &Character, special_variable_name: &str) -> Option<Value> {
+    pub fn load_special_char_variable(status: &Status, special_variable_name: &str) -> Option<Value> {
         match special_variable_name {
-            "Zeny" => Some(Value::new_number(char.get_zeny() as i32)),
-            "Class" => Some(Value::new_number(char.get_job() as i32)),
-            "BaseLevel" => Some(Value::new_number(char.get_base_level() as i32)),
-            "JobLevel" => Some(Value::new_number(char.get_job_level() as i32)),
-            "SkillPoint" => Some(Value::new_number(char.get_skill_point() as i32)),
-            "BaseClass   " => Some(Value::new_number(char.get_job() as i32)),
+            "Zeny" => Some(Value::new_number(status.zeny() as i32)),
+            "Class" => Some(Value::new_number(status.job() as i32)),
+            "BaseLevel" => Some(Value::new_number(status.base_level() as i32)),
+            "JobLevel" => Some(Value::new_number(status.job_level() as i32)),
+            "SkillPoint" => Some(Value::new_number(status.skill_point() as i32)),
+            "BaseClass" | "BaseJob" => Some(Value::new_number(JobName::from_value(status.job() as usize).mask() as i32)),
             &_ => None
         }
     }

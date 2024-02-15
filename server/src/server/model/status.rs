@@ -40,6 +40,7 @@ impl StatusFromDb {
             base_exp: char_model.base_exp as u32,
             job_exp: char_model.job_exp as u32,
             state: 0,
+            is_male: char_model.sex != "F",
             size: Default::default(),
             weapons: vec![],
             equipments: vec![],
