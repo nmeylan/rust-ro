@@ -22,6 +22,7 @@ pub struct BonusScriptHandler {
     pub(crate) bonuses: RwLock<Vec<BonusType>>,
 }
 
+#[macro_export]
 macro_rules! bonus {
     ( $self:ident, $bonus:expr ) => {
        $self.bonuses.write().unwrap().push($bonus)

@@ -317,20 +317,26 @@ mod tests {
                 let item = GlobalConfigService::instance().get_item(weapon.item_id() as i32);
                 if weapon.card0() > 0 {
                     let card = GlobalConfigService::instance().get_item(weapon.card0() as i32);
-                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), item.bonuses.iter().map(|b| {
+                    let mut bonuses = vec![];
+                    context.status_service.collect_bonuses(&result.status, &mut bonuses, item);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), bonuses.iter().map(|b| {
                         actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
                         .collect::<Vec<String>>()
                         .join("")));
-                    bonuses_desc.push(format!("{}<ul>{}</ul>", card.name_aegis.clone(), card.bonuses.iter().map(|b| {
+                    let mut bonuses = vec![];
+                    context.status_service.collect_bonuses(&result.status, &mut bonuses, card);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", card.name_aegis.clone(), bonuses.iter().map(|b| {
                         actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
                         .collect::<Vec<String>>()
                         .join("")));
                 } else {
-                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), item.bonuses.iter().map(|b| {
+                    let mut bonuses = vec![];
+                    context.status_service.collect_bonuses(&result.status, &mut bonuses, item);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), bonuses.iter().map(|b| {
                         actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
@@ -344,20 +350,26 @@ mod tests {
                 let item = GlobalConfigService::instance().get_item(equipment.item_id() as i32);
                 if equipment.card0() > 0 {
                     let card = GlobalConfigService::instance().get_item(equipment.card0() as i32);
-                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), item.bonuses.iter().map(|b| {
+                    let mut bonuses = vec![];
+                    context.status_service.collect_bonuses(&result.status, &mut bonuses, item);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), bonuses.iter().map(|b| {
                         actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
                         .collect::<Vec<String>>()
                         .join("")));
-                    bonuses_desc.push(format!("{}<ul>{}</ul>", card.name_aegis.clone(), card.bonuses.iter().map(|b| {
+                    let mut bonuses = vec![];
+                    context.status_service.collect_bonuses(&result.status, &mut bonuses, card);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", card.name_aegis.clone(), bonuses.iter().map(|b| {
                         actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
                         .collect::<Vec<String>>()
                         .join("")));
                 } else {
-                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), item.bonuses.iter().map(|b| {
+                    let mut bonuses = vec![];
+                    context.status_service.collect_bonuses(&result.status, &mut bonuses, item);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), bonuses.iter().map(|b| {
                         actual_bonuses.push(b.clone());
                         format!("<li>*{:?}*</li>", b)
                     })
