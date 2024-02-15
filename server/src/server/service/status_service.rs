@@ -9,7 +9,7 @@ use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use models::enums::bonus::BonusType;
 use models::item::WearWeapon;
 use crate::repository::model::item_model::ItemModel;
-use crate::server::script::DynamicItemScriptHandler;
+use crate::server::script::item_script_handler::DynamicItemScriptHandler;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 
@@ -120,7 +120,7 @@ impl StatusService {
    // #[metrics::elapsed]
    #[inline]
     fn collect_dynamic_script(&self, status: &Status, bonuses: &mut &mut Vec<BonusType>, item_model: &&ItemModel) {
-        let dynamic_item_script_handler = DynamicItemScriptHandler::new(self.configuration_service, status);
+        let dynamic_item_script_handler = DynamicItemScriptHandler::new(self.configuration_service, status, item_model.id as u32);
         if self.vm.contains_class(format!("itemscript{}", item_model.id).as_str()) {
             Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
                 .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e));

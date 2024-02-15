@@ -8,7 +8,7 @@ use crate::enums::EnumWithMaskValueU64;
 use crate::enums::status::StatusEffect;
 use crate::enums::weapon::WeaponType;
 
-#[derive(SettersAll, Debug, Default, Clone)]
+#[derive(SettersAll, GettersAll, Debug, Default, Clone)]
 pub struct Status {
     pub job: u32,
     pub hp: u32,
@@ -30,6 +30,7 @@ pub struct Status {
     pub job_exp: u32,
     pub state: u64,
     pub size: Size,
+    pub is_male: bool,
     pub weapons: Vec<WearWeapon>,
     pub equipments: Vec<WearGear>,
     pub ammo: Option<WearAmmo>,
