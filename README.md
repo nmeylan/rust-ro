@@ -29,8 +29,7 @@ Although I mentioned above wanting to fully support packet version **20120307**,
 ## 3. Currently Working
 Below issues are under active development
 - [Skills issue](https://github.com/nmeylan/rust-ro/issues/11) - [Offensive skills progress](/doc/progress/offensive-skills-progress.md)
-- [Status issue](https://github.com/nmeylan/rust-ro/issues/29) - [Stats for each job level progress](/doc/progress/stats-for-each-job-level_progress.md)
-- [Stats and bonus issue](https://github.com/nmeylan/rust-ro/issues/35) 
+- [Status and bonus issue](https://github.com/nmeylan/rust-ro/issues/29) - [Stats for each job level progress](/doc/progress/stats-for-each-job-level_progress.md) [Stats for each items](/doc/progress/stats-for-each-items_progress.md) [Stats for each cards](/doc/progress/stats-for-each-card_progress.md)
 
 
 ## 4. Implementation details
