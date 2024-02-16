@@ -341,17 +341,13 @@ impl Status {
     }
 
     pub fn all_equipped_items(&self) -> Vec<&dyn Wearable> {
-        let mut equipments = self
-            .equipped_gears()
-            .iter()
-            .map(|e| e as &dyn Wearable)
-            .collect::<Vec<&dyn Wearable>>();
-        let weapons = self
-            .equipped_weapons()
-            .iter()
-            .map(|e| e as &dyn Wearable)
-            .collect::<Vec<&dyn Wearable>>();
-        equipments.extend(weapons);
+        let mut equipments = Vec::with_capacity(self.equipped_gears().len() + self.equipped_weapons().len() + 1);
+        for equipment in self.equipped_gears().iter() {
+            equipments.push(equipment as &dyn Wearable);
+        }
+        for weapon in self.equipped_weapons().iter() {
+            equipments.push(weapon as &dyn Wearable);
+        }
         if let Some(ammo) = self.equipped_ammo()
             .as_ref() { equipments.push(ammo as &dyn Wearable) }
         equipments

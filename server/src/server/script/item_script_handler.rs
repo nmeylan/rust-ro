@@ -2,7 +2,7 @@ use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::compiler::CompilationDetail;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value;
-use rathena_script_lang_interpreter::lang::value::Native;
+use rathena_script_lang_interpreter::lang::value::{Native, Value};
 use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 use models::enums::bonus::BonusType;
 use models::enums::skill_enums::SkillEnum;
@@ -52,6 +52,51 @@ impl<'character> NativeMethodHandler for DynamicItemScriptHandler<'character> {
             self.bonus.handle_bonus4(params);
         } else if native.name.eq("bonus5") {
             self.bonus.handle_bonus5(params);
+        } else if native.name.eq("isequipped") {
+            let mut match_count = 0;
+            let equipments = self.status.all_equipped_items();
+            for param in params.iter() {
+                equipments.iter().find(|e| e.item_id() == param.number_value().unwrap())
+                    .map(|_| match_count += 1);
+            }
+            if match_count == params.len() {
+                execution_thread.push_constant_on_stack(Value::new_number(1));
+            } else {
+                execution_thread.push_constant_on_stack(Value::new_number(0));
+            }
+        } else if native.name.eq("getrefine") {
+            let maybe_refinement = self.status.equipments.iter().find(|e| e.item_id == self.item_id as i32)
+                .map(|e| e.refine);
+            let refinement = if let Some(refinement) = maybe_refinement {
+                refinement
+            } else {
+                self.status.weapons.iter().find(|w| w.item_id == self.item_id as i32)
+                    .map(|e| e.refine).unwrap_or_default()
+            };
+            execution_thread.push_constant_on_stack(Value::new_number(refinement as i32));
+        } else if native.name.eq("readparam") {
+            if params[0].is_string() {
+                let value = match params[0].string_value().unwrap().as_str() {
+                    "bAgi" | "bagi" => Value::new_number(self.status.agi as i32),
+                    "bVit" | "bvit" => Value::new_number(self.status.vit as i32),
+                    "bStr" | "bstr" => Value::new_number(self.status.str as i32),
+                    "bDex" | "bdex" => Value::new_number(self.status.dex as i32),
+                    "bInt" | "bint" => Value::new_number(self.status.int as i32),
+                    "bLuk" | "bluk" => Value::new_number(self.status.luk as i32),
+                    _ => Value::new_number(0)
+                };
+                execution_thread.push_constant_on_stack(value);
+            } else {
+                panic!("Can't readparam for value {}, failed to execute script for item {}", params[0].number_value().unwrap(), self.item_id);
+            }
+        } else if native.name.eq("getskilllv") {
+            let skill = if params[0].is_string() {
+                SkillEnum::from_name(params[0].string_value().unwrap())
+            } else {
+                SkillEnum::from_id(params[0].number_value().unwrap() as u32)
+            };
+            let skill_level = self.status.known_skills.iter().find(|know_skill| matches!(know_skill.value, skill)).map_or(0, |know_skill| know_skill.level);
+            execution_thread.push_constant_on_stack(Value::new_number(skill_level as i32));
         } else if native.name.eq("getglobalvariable") {
             let variable_name = params[0].string_value().unwrap();
             let variable_scope = params[1].string_value().unwrap();

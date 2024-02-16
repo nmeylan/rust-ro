@@ -3,12 +3,15 @@ use models::enums::class::{JOB_2_1_MASK, JOB_2_2_MASK, JOB_BABY_MASK, JOB_BASE_M
 use models::enums::element::Element;
 use models::enums::item::ItemGroup;
 use models::enums::look::LookType;
+use models::enums::trigger::EffectTrigger;
 use models::enums::mob::{MobClass, MobGroup, MobRace};
 use models::enums::size::Size;
 use models::enums::status::StatusEffect;
 use models::enums::EnumWithNumberValue;
 use models::enums::EnumWithStringValue;
+use models::enums::EnumWithMaskValueU32;
 use crate::util::string::StringUtil;
+
 
 /*
 ([A-Z_]*): (.*)
@@ -1348,6 +1351,16 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
         "Size_Medium" =>  Value::new_number(Size::Medium.value() as i32),
         "Size_Small" =>  Value::new_number(Size::Small.value() as i32),
         "Size_Large" =>  Value::new_number(Size::Large.value() as i32),
+        "ATF_SELF" => Value::new_number(EffectTrigger::TargetMySelf.as_flag() as i32),
+        "ATF_TARGET" => Value::new_number(EffectTrigger::TargetAttacked.as_flag() as i32),
+        "ATF_SHORT" | "BF_SHORT" => Value::new_number(EffectTrigger::MeleeAttack.as_flag() as i32),
+        "ATF_LONG" | "BF_LONG" => Value::new_number(EffectTrigger::RangedAttack.as_flag() as i32),
+        "ATF_SKILL" => Value::new_number(EffectTrigger::MagicOrMisckSkillAttack.as_flag() as i32),
+        "ATF_WEAPON" | "BF_WEAPON" => Value::new_number(EffectTrigger::PhysicalAttack.as_flag() as i32),
+        "ATF_MAGIC" | "BF_MAGIC" => Value::new_number(EffectTrigger::MagicSkillAttack.as_flag() as i32),
+        "ATF_MISC" | "BF_MISC" => Value::new_number(EffectTrigger::MiscSkillAttack.as_flag() as i32),
+        "BF_NORMAL" => Value::new_number(EffectTrigger::BfNormal.as_flag() as i32),
+        "BF_SKILL" => Value::new_number(EffectTrigger::BfSkill.as_flag() as i32),
         &_ => Value::Reference(None)
     };
 
