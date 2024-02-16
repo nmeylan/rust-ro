@@ -232,6 +232,30 @@ mod tests {
         stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id));
     }
 
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_increase_base_on_high_upgrade_cards() {
+        // apocalypse Card
+        // dimik Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_increase_base_on_low_upgrade_cards() {
+        // gold acidus Card
+        // gibbet
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_elemental_armor_cards() {
+        // angeling Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_stat_increase_base_on_another_stat_cards() {
+        // venatu Card
+    }
+
     // #[test]
     #[bench]
     // fn fullstuff_bench() {
