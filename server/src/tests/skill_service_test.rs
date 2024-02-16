@@ -313,15 +313,19 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "not yet implemented"]
     fn start_use_skill_should_validate_range_requirement() {}
 
     #[test]
+    #[ignore = "not yet implemented"]
     fn start_use_skill_should_consume_sp_on_success() {}
 
     #[test]
+    #[ignore = "not yet implemented"]
     fn start_use_skill_should_consume_zeny_on_success() {}
 
     #[test]
+    #[ignore = "not yet implemented"]
     fn start_use_skill_should_consume_item_on_success() {
         // freezing trap, acid demonstration, stone curse
     }

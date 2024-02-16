@@ -237,20 +237,102 @@ mod tests {
             assert_eq!(size_modifier, scenarii.expected_modifier, "Expected size modifier to be {} but was {} when weapon is {:?} and target size {:?}", scenarii.expected_modifier, size_modifier, scenarii.weapon, target_status.size)
         }
     }
+
+    // https://irowiki.org/classic/Card_Reference
     #[test]
-    fn test_all_elements_modifier() {
+    #[ignore = "not yet implemented"]
+    fn test_status_defensive_resistence_cards() {
+        // Wootan Fighter Card
     }
     #[test]
-    fn test_all_race_modifier() {
+    #[ignore = "not yet implemented"]
+    fn test_status_defensive_immunity_cards() {
+        // Ungoliant Card
     }
     #[test]
-    fn test_all_mob_class_modifier() {
+    #[ignore = "not yet implemented"]
+    fn test_status_elemental_damage_reduction_cards() {
+        // jakk Card
     }
     #[test]
-    fn test_all_mob_size_modifier() {
+    #[ignore = "not yet implemented"]
+    fn test_status_racial_damage_reduction_cards() {
+        // thara frog Card
     }
     #[test]
-    fn test_all_resistance() {
+    #[ignore = "not yet implemented"]
+    fn test_status_size_damage_reduction_cards() {
+        // Mysteltainn Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_mob_group_damage_reduction_cards() {
+        // Alice Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_exp_increase_cards() {
+        // Am Mut Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_garment_elemental_damage_increase_cards() {
+        // Magmaring Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_critical_damage_increase_against_race_cards() {
+        // assaulter Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_damage_increase_against_group_cards() {
+        // abysmal Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_damage_increase_against_race_cards() {
+        // hydra Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_damage_increase_against_element_cards() {
+        // vadon Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_damage_increase_against_size_cards() {
+        // minorous Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_chance_to_inflict_effect_cards() {
+        // zenorc Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_armor_inflict_effect_cards() {
+        // skogul Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_food_dropping_cards() {
+        // anopheles Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_box_dropping_cards() {
+        // sleeper Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_increase_skill_damage_cards() {
+        // hill wind Card
+    }
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_drain_sp_cards() {
+        // phendark Card
     }
 
 }
