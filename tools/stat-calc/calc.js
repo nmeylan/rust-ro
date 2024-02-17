@@ -162,28 +162,28 @@ function CalculateAllStats(FORM_DATA, targetStats) {
         stats.equipments.weaponLeftHand.overUpgradeBonusATK = 0;
         stats.equipments.weaponLeftHand.upgradeBonusATK = 0;
         if (stats.equipments.weaponLeftHand.level == 1) {
-            stats.equipments.weaponLeftHand.overUpgradeBonusATK = weapon2RefinementLevel * 2;
+            stats.equipments.weaponLeftHand.upgradeBonusATK = weapon2RefinementLevel * 2;
             if (weapon2RefinementLevel >= 8) {
                 stats.equipments.weaponLeftHand.minPlus = 1;
-                stats.equipments.weaponLeftHand.level_overUpgradeBonusATK = 3 * (weapon2RefinementLevel - 7);
+                stats.equipments.weaponLeftHand.overUpgradeBonusATK = 3 * (weapon2RefinementLevel - 7);
             }
         } else if (stats.equipments.weaponLeftHand.level == 2) {
-            stats.equipments.weaponLeftHand.overUpgradeBonusATK = weapon2RefinementLevel * 3;
+            stats.equipments.weaponLeftHand.upgradeBonusATK = weapon2RefinementLevel * 3;
             if (weapon2RefinementLevel >= 7) {
                 stats.equipments.weaponLeftHand.minPlus = 1;
-                stats.equipments.weaponLeftHand.level_overUpgradeBonusATK = 5 * (weapon2RefinementLevel - 6);
+                stats.equipments.weaponLeftHand.overUpgradeBonusATK = 5 * (weapon2RefinementLevel - 6);
             }
         } else if (stats.equipments.weaponLeftHand.level == 3) {
-            stats.equipments.weaponLeftHand.overUpgradeBonusATK = weapon2RefinementLevel * 5;
+            stats.equipments.weaponLeftHand.upgradeBonusATK = weapon2RefinementLevel * 5;
             if (weapon2RefinementLevel >= 6) {
                 stats.equipments.weaponLeftHand.minPlus = 1;
-                stats.equipments.weaponLeftHand.level_overUpgradeBonusATK = 8 * (weapon2RefinementLevel - 5);
+                stats.equipments.weaponLeftHand.overUpgradeBonusATK = 8 * (weapon2RefinementLevel - 5);
             }
         } else if (stats.equipments.weaponLeftHand.level == 4) {
-            stats.equipments.weaponLeftHand.overUpgradeBonusATK = weapon2RefinementLevel * 7;
+            stats.equipments.weaponLeftHand.upgradeBonusATK = weapon2RefinementLevel * 7;
             if (weapon2RefinementLevel >= 5) {
                 stats.equipments.weaponLeftHand.minPlus = 1;
-                stats.equipments.weaponLeftHand.level_overUpgradeBonusATK = 14 * (weapon2RefinementLevel - 4);
+                stats.equipments.weaponLeftHand.overUpgradeBonusATK = 14 * (weapon2RefinementLevel - 4);
             }
         }
 
@@ -2522,9 +2522,9 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             let workDex = Math.floor(stats.dex * (1 + (stats.equipments.weaponLeftHand.level - 1) * 0.2));
             w_left_Maxatk = 0;
             if (workDex >= stats.equipments.weaponLeftHand.atk)
-                w_left_Maxatk = stats.baseATK + stats.equipments.weaponLeftHand.level_overUpgradeBonusATK + Math.floor((stats.equipments.weaponLeftHand.atk + impositioMagnus) * sizeModifier);
+                w_left_Maxatk = stats.baseATK + stats.equipments.weaponLeftHand.overUpgradeBonusATK + Math.floor((stats.equipments.weaponLeftHand.atk + impositioMagnus) * sizeModifier);
             else
-                w_left_Maxatk = stats.baseATK + stats.equipments.weaponLeftHand.level_overUpgradeBonusATK + Math.floor((stats.equipments.weaponLeftHand.atk - 1 + impositioMagnus) * sizeModifier);
+                w_left_Maxatk = stats.baseATK + stats.equipments.weaponLeftHand.overUpgradeBonusATK + Math.floor((stats.equipments.weaponLeftHand.atk - 1 + impositioMagnus) * sizeModifier);
 
             w_left_Maxatk = BattleCalc4(stats, targetStats, w_left_Maxatk * skillModifier, 2, 1);
 
