@@ -93,7 +93,7 @@ impl StatusService {
         let hp_rebirth_modifier: f32 = if job.is_rebirth() { 1.25 } else { 1.0 };
         snapshot.set_max_hp((job_config.base_hp()[index_for_base_level] as f32 * (1.0 + snapshot.vit() as f32 / 100.0) * hp_rebirth_modifier).floor() as u32);
         // TODO https://irowiki.org/classic/Max_SP
-        snapshot.set_max_sp((job_config.base_sp()[index_for_base_level] as f32 * (1.0 + snapshot.int() as f32 / 100.0) * hp_rebirth_modifier ).floor() as u32);
+        snapshot.set_max_sp((job_config.base_sp()[index_for_base_level] as f32 * (1.0 + snapshot.int() as f32 / 100.0) * hp_rebirth_modifier).floor() as u32);
         // TODO 1 + YourLUK*0.3 + Critical Increasing Cards)*CritModifier - TargetLUK/5
         snapshot.set_crit(Self::truncate(snapshot.crit() + (1.0 + snapshot.luk() as f32 * 0.3), 1));
         snapshot.set_hit((snapshot.hit() + status.base_level as i16 + snapshot.dex() as i16).max(0));
@@ -103,7 +103,7 @@ impl StatusService {
         snapshot.set_matk_max(((snapshot.int() + ((snapshot.int() as f32 / 5.0).floor() as u16).pow(2)) as f32 * snapshot.matk_item_modifier()).floor() as u16);
         snapshot.set_fist_atk(self.fist_atk(&snapshot, snapshot.right_hand_weapon_type().is_ranged()));
         snapshot.set_atk_left_side(self.status_atk_left_side(&snapshot));
-        snapshot.set_atk_right_side(self.status_atk_right_side(&snapshot));
+        self.set_status_atk_right_side(&mut snapshot);
         bonuses.iter().for_each(|bonus| bonus.add_percentage_bonus_to_status(&mut snapshot));
         snapshot.set_bonuses(bonuses.iter().map(|b| StatusBonus::new(b.clone())).collect::<Vec<StatusBonus>>());
         snapshot
@@ -117,14 +117,14 @@ impl StatusService {
             item_model.bonuses.iter().for_each(|bonus| bonuses.push(bonus.clone()))
         }
     }
-   // #[metrics::elapsed]
-   #[inline]
+    // #[metrics::elapsed]
+    #[inline]
     fn collect_dynamic_script(&self, status: &Status, bonuses: &mut &mut Vec<BonusType>, item_model: &&ItemModel) {
         let dynamic_item_script_handler = DynamicItemScriptHandler::new(self.configuration_service, status, item_model.id as u32);
         if self.vm.contains_class(format!("itemscript{}", item_model.id).as_str()) {
             Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
                 .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e));
-        } else{
+        } else {
             if let Some(script_compilation) = &item_model.script_compilation {
                 let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
                 let maybe_class = Compiler::from_binary(&script).unwrap().pop();
@@ -133,7 +133,7 @@ impl StatusService {
                     .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e.message));
             }
         }
-       bonuses.extend(dynamic_item_script_handler.drain());
+        bonuses.extend(dynamic_item_script_handler.drain());
     }
 
     fn truncate(x: f32, decimals: u32) -> f32 {
@@ -166,7 +166,7 @@ impl StatusService {
     }
 
     fn weapon_delay(&self, status: &StatusSnapshot) -> u32 {
-        let weapon =  status.right_hand_weapon_type();
+        let weapon = status.right_hand_weapon_type();
         *self.configuration_service.get_job_config(status.job()).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
     }
 
@@ -215,18 +215,59 @@ impl StatusService {
     /// UI right side atk in status info panel
     /// https://web.archive.org/web/20060717223009/http://rodatazone.simgaming.net/mechanics/substats.php
     /// https://web.archive.org/web/20060717222819/http://rodatazone.simgaming.net/items/upgrading.php
-    pub fn status_atk_right_side(&self, _status: &StatusSnapshot) -> i32 {
-        // TODO: it is refinement damage. do not mix with refinement bonus which refers to random additional atk for over upgrade
-        // refinement
-        //    Weapon Lv. 1 - Every +1 upgrade gives +2 ATK (+1~3 ATK for every overupgrade).
-        //     Weapon Lv. 2 - Every +1 upgrade gives +3 ATK (+1~5 ATK for every overupgrade).
-        //     Weapon Lv. 3 - Every +1 upgrade gives +5 ATK (+1~7 ATK for every overupgrade).
-        //     Weapon Lv. 4 - Every +1 upgrade gives +7 ATK (+1~13(?) ATK for every overupgrade).
-        //    Weapon Lv. 1 - Safety Level +7
-        //     Weapon Lv. 2 - Safety Level +6
-        //     Weapon Lv. 3 - Safety Level +5
-        //     Weapon Lv. 4 - Safety Level +4
-        0
+    pub fn set_status_atk_right_side(&self, status: &mut StatusSnapshot)  {
+        let mut atk_right = 0_i32;
+        let mut overupgrade_right_hand_atk_bonus = 0;
+        let mut overupgrade_left_hand_atk_bonus = 0;
+        status.right_hand_weapon().map(|w| {
+            if w.level() == 1 {
+                atk_right = 2 * w.refine() as i32;
+                if w.refine() > 7 {
+                    overupgrade_right_hand_atk_bonus = (w.refine() - 7) * 3;
+                }
+            } else if w.level() == 2 {
+                atk_right = 3 * w.refine() as i32;
+                if w.refine() > 6 {
+                    overupgrade_right_hand_atk_bonus = (w.refine() - 6) * 5;
+                }
+            } else if w.level() == 3 {
+                atk_right = 5 * w.refine() as i32;
+                if w.refine() > 5 {
+                    overupgrade_right_hand_atk_bonus = (w.refine() - 5) * 8;
+                }
+            } else if w.level() == 4 {
+                atk_right = 7 * w.refine() as i32;
+                if w.refine() > 4 {
+                    overupgrade_right_hand_atk_bonus = (w.refine() - 4) * 14;
+                }
+            }
+        });
+        status.left_hand_weapon().map(|w| {
+            if w.level() == 1 {
+                atk_right += 2 * w.refine() as i32;
+                if w.refine() > 7 {
+                    overupgrade_left_hand_atk_bonus = (w.refine() - 7) * 3;
+                }
+            } else if w.level() == 2 {
+                atk_right += 3 * w.refine() as i32;
+                if w.refine() > 6 {
+                    overupgrade_left_hand_atk_bonus = (w.refine() - 6) * 5;
+                }
+            } else if w.level() == 3 {
+                atk_right += 5 * w.refine() as i32;
+                if w.refine() > 5 {
+                    overupgrade_left_hand_atk_bonus = (w.refine() - 5) * 8;
+                }
+            } else if w.level() == 4 {
+                atk_right += 7 * w.refine() as i32;
+                if w.refine() > 4 {
+                    overupgrade_left_hand_atk_bonus = (w.refine() - 4) * 14;
+                }
+            }
+        });
+        status.set_atk_right_side(atk_right);
+        status.set_overupgrade_right_hand_atk_bonus(overupgrade_right_hand_atk_bonus);
+        status.set_overupgrade_left_hand_atk_bonus(overupgrade_left_hand_atk_bonus);
     }
 
     /// VIT + rnd(0,[VIT/20]^2-1).

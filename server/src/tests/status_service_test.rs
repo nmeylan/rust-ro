@@ -47,7 +47,7 @@ mod tests {
     use crate::tests::common::fixtures::battle_fixture::Equipment;
     use crate::{eq_with_variance, status_snapshot};
 
-    use crate::tests::common::character_helper::{create_character, equip_item_from_id, equip_item_from_id_with_cards, equip_item_from_name};
+    use crate::tests::common::character_helper::{create_character, equip_item_from_id, equip_item_from_id_with_cards, equip_item_from_name, equip_item_with_cards_and_refinement};
     use crate::tests::common::fixtures::battle_fixture::BattleFixture;
     use super::*;
 
@@ -167,6 +167,58 @@ mod tests {
     }
 
     #[test]
+    fn test_status_right_side_atk() {
+        // Given
+        let context = before_each();
+        #[derive(Debug)]
+        struct Stats<'a> {
+            weapon: &'a str,
+            refine: u8,
+            expected_status_atk: i32,
+            expected_overupgrade_bonus: u8,
+        }
+        let stats = vec![
+            Stats { weapon: "Knife", refine: 0, expected_status_atk: 0, expected_overupgrade_bonus: 0 },
+            Stats { weapon: "Knife", refine: 5, expected_status_atk: 5 * 2, expected_overupgrade_bonus: 0 },
+            Stats { weapon: "Knife", refine: 7, expected_status_atk: 7 * 2, expected_overupgrade_bonus: 0 },
+            Stats { weapon: "Knife", refine: 8, expected_status_atk: 8 * 2, expected_overupgrade_bonus: 3 },
+            Stats { weapon: "Knife", refine: 9, expected_status_atk: 9 * 2, expected_overupgrade_bonus: 6 },
+            Stats { weapon: "Knife", refine: 10, expected_status_atk: 10 * 2, expected_overupgrade_bonus: 9 },
+            Stats { weapon: "Dagger", refine: 0, expected_status_atk: 0, expected_overupgrade_bonus: 0 },
+            Stats { weapon: "Dagger", refine: 5, expected_status_atk: 5 * 3, expected_overupgrade_bonus: 0 },
+            Stats { weapon: "Dagger", refine: 7, expected_status_atk: 7 * 3, expected_overupgrade_bonus: 5 },
+            Stats { weapon: "Dagger", refine: 8, expected_status_atk: 8 * 3, expected_overupgrade_bonus: 10 },
+            Stats { weapon: "Dagger", refine: 9, expected_status_atk: 9 * 3, expected_overupgrade_bonus: 15 },
+            Stats { weapon: "Dagger", refine: 10, expected_status_atk: 10 * 3, expected_overupgrade_bonus: 20 },
+            Stats { weapon: "Damascus", refine: 0, expected_status_atk: 0, expected_overupgrade_bonus: 0 },
+            Stats { weapon: "Damascus", refine: 5, expected_status_atk: 5 * 5, expected_overupgrade_bonus: 0 },
+            Stats { weapon: "Damascus", refine: 6, expected_status_atk: 6 * 5, expected_overupgrade_bonus: 8 },
+            Stats { weapon: "Damascus", refine: 7, expected_status_atk: 7 * 5, expected_overupgrade_bonus: 16 },
+            Stats { weapon: "Damascus", refine: 8, expected_status_atk: 8 * 5, expected_overupgrade_bonus: 24 },
+            Stats { weapon: "Damascus", refine: 9, expected_status_atk: 9 * 5, expected_overupgrade_bonus: 32 },
+            Stats { weapon: "Damascus", refine: 10, expected_status_atk: 10 * 5, expected_overupgrade_bonus: 40 },
+            Stats { weapon: "Combat_Knife", refine: 0, expected_status_atk: 0, expected_overupgrade_bonus: 0 },
+            Stats { weapon: "Combat_Knife", refine: 4, expected_status_atk: 4 * 7, expected_overupgrade_bonus: 0 },
+            Stats { weapon: "Combat_Knife", refine: 5, expected_status_atk: 5 * 7, expected_overupgrade_bonus: 14 },
+            Stats { weapon: "Combat_Knife", refine: 6, expected_status_atk: 6 * 7, expected_overupgrade_bonus: 28 },
+            Stats { weapon: "Combat_Knife", refine: 7, expected_status_atk: 7 * 7, expected_overupgrade_bonus: 42 },
+            Stats { weapon: "Combat_Knife", refine: 8, expected_status_atk: 8 * 7, expected_overupgrade_bonus: 56 },
+            Stats { weapon: "Combat_Knife", refine: 9, expected_status_atk: 9 * 7, expected_overupgrade_bonus: 70 },
+            Stats { weapon: "Combat_Knife", refine: 10, expected_status_atk: 10 * 7, expected_overupgrade_bonus: 84 },
+        ];
+
+        for stat in stats {
+            let mut character = create_character();
+            equip_item_with_cards_and_refinement(&mut character,  GlobalConfigService::instance().get_item_by_name(stat.weapon), vec![], stat.refine);
+            // When
+            let status_snapshot = status_snapshot!(context, character);
+            // Then
+            assert_eq!(status_snapshot.atk_right_side(), stat.expected_status_atk, "Expected status atk right to be {} but was {} with stats {:?}", stat.expected_status_atk, status_snapshot.atk_right_side(), stat);
+            assert_eq!(status_snapshot.overupgrade_right_hand_atk_bonus(), stat.expected_overupgrade_bonus, "Expected status atk right to be {} but was {} with stats {:?}", stat.expected_overupgrade_bonus, status_snapshot.overupgrade_right_hand_atk_bonus(), stat);
+        }
+    }
+
+    #[test]
     fn test_attack_per_seconds() {
         // Given
         let context = before_each();
@@ -239,17 +291,20 @@ mod tests {
         // apocalypse Card
         // dimik Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_increase_base_on_low_upgrade_cards() {
         // gold acidus Card
         // gibbet
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_elemental_armor_cards() {
         // angeling Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_stat_increase_base_on_another_stat_cards() {
