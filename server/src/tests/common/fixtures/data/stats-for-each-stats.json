@@ -21,11 +21,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 168,
     "atkRight": 0,
@@ -101,6 +96,8 @@
     "_id": "cpgrc7",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ElementWeapon"
   },
   {
@@ -125,11 +122,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 222,
     "atkRight": 0,
@@ -200,6 +192,8 @@
     "_id": "i8ujx6",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "is_indestructible"
   },
   {
@@ -224,11 +218,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 154,
     "atkRight": 0,
@@ -300,6 +289,8 @@
     "_id": "k1wead",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "MaxspPercentage"
   },
   {
@@ -324,11 +315,6 @@
     "flee": 147,
     "crit": 18.7,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 195,
     "atkRight": 0,
@@ -404,6 +390,8 @@
     "_id": "ljl0ly",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Luk"
   },
   {
@@ -428,11 +416,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 244,
     "atkRight": 0,
@@ -516,6 +499,8 @@
     "_id": "9g8fe9",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "AspdPercentage"
   },
   {
@@ -540,11 +525,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 244,
     "atkRight": 0,
@@ -623,6 +603,8 @@
     "_id": "1764v8",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstElementEarthPercentage"
   },
   {
@@ -647,11 +629,6 @@
     "flee": 157,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      -1,
-      -2,
-      -2
-    ],
     "cast": 0,
     "atkLeft": 284,
     "atkRight": 0,
@@ -731,6 +708,8 @@
     "_id": "p38ja6",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": -1,
+    "vitdefMax": -2,
     "desc": "Flee"
   },
   {
@@ -755,11 +734,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 224,
     "atkRight": 0,
@@ -831,6 +805,8 @@
     "_id": "gekvmm",
     "matkMin": 102,
     "matkMax": 153,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Int"
   },
   {
@@ -855,11 +831,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      49,
-      52,
-      55
-    ],
     "cast": 0,
     "atkLeft": 229,
     "atkRight": 0,
@@ -935,6 +906,8 @@
     "_id": "raeymm",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 49,
+    "vitdefMax": 55,
     "desc": "Vit"
   },
   {
@@ -959,11 +932,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 204,
     "atkRight": 0,
@@ -1040,6 +1008,8 @@
     "_id": "y4ld4f",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "enable_skill"
   },
   {
@@ -1064,11 +1034,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 204,
     "atkRight": 0,
@@ -1145,6 +1110,8 @@
     "_id": "0l0yry",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "autospell_skill"
   },
   {
@@ -1169,11 +1136,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 1,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 267,
     "atkRight": 0,
@@ -1254,6 +1216,8 @@
     "_id": "cgk60b",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Str"
   },
   {
@@ -1278,11 +1242,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 264,
     "atkRight": 0,
@@ -1362,6 +1321,8 @@
     "_id": "l231o5",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstElementGhostPercentage"
   },
   {
@@ -1386,11 +1347,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 5,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 244,
     "atkRight": 0,
@@ -1462,6 +1418,8 @@
     "_id": "6ableb",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Def"
   },
   {
@@ -1486,11 +1444,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 259,
     "atkRight": 0,
@@ -1573,6 +1526,8 @@
     "_id": "ipmtil",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstRaceDemiHumanPercentage"
   },
   {
@@ -1597,11 +1552,6 @@
     "flee": 147,
     "crit": 47.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 259,
     "atkRight": 0,
@@ -1677,6 +1627,8 @@
     "_id": "itue9b",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Crit"
   },
   {
@@ -1701,11 +1653,6 @@
     "flee": 177,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      -1,
-      -1,
-      -1
-    ],
     "cast": 0,
     "atkLeft": 299,
     "atkRight": 0,
@@ -1785,6 +1732,8 @@
     "_id": "68pc39",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": -1,
+    "vitdefMax": -1,
     "desc": "reduce_defense"
   },
   {
@@ -1809,11 +1758,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 265,
     "atkRight": 0,
@@ -1893,6 +1837,8 @@
     "_id": "qi58bg",
     "matkMin": 101,
     "matkMax": 152,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Dex"
   },
   {
@@ -1917,11 +1863,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 224,
     "atkRight": 0,
@@ -2001,6 +1942,8 @@
     "_id": "uiq1ai",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Hit"
   },
   {
@@ -2025,11 +1968,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 284,
     "atkRight": 0,
@@ -2110,6 +2048,8 @@
     "_id": "j2mbfg",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstRaceDemonPercentage"
   },
   {
@@ -2134,11 +2074,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 291,
     "atkRight": 0,
@@ -2210,6 +2145,8 @@
     "_id": "a4jq35",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ChanceToInflictStatusStunOnAttackPercentage"
   },
   {
@@ -2234,11 +2171,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 214,
     "atkRight": 0,
@@ -2310,6 +2242,8 @@
     "_id": "l7x0pj",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "increase_damage_element_undead_percentage"
   },
   {
@@ -2334,11 +2268,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 239,
     "atkRight": 0,
@@ -2410,6 +2339,8 @@
     "_id": "avhcyf",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceRangeAttackPercentage"
   },
   {
@@ -2434,11 +2365,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 401,
     "atkRight": 0,
@@ -2522,6 +2448,8 @@
     "_id": "xzramu",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "is_impossible_to_refine"
   },
   {
@@ -2546,11 +2474,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -2629,6 +2552,8 @@
     "_id": "h0nhop",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "MatkBasedOnStaffPercentage"
   },
   {
@@ -2653,11 +2578,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -2736,6 +2656,8 @@
     "_id": "2gkcz8",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Agi"
   },
   {
@@ -2760,11 +2682,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -2843,6 +2760,8 @@
     "_id": "7sp2z5",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "has_bonus_when_refined"
   },
   {
@@ -2867,11 +2786,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -2950,6 +2864,8 @@
     "_id": "0szt7k",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceToStatusPoisonPercentage"
   },
   {
@@ -2974,11 +2890,6 @@
     "flee": 149,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -3061,6 +2972,8 @@
     "_id": "9o4u64",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PerfectDodge"
   },
   {
@@ -3085,11 +2998,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 1,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -3167,7 +3075,9 @@
     "formData": "eyJBX0pPQiI6NywiQV9CYXNlTFYiOjk1LCJBX0pvYkxWIjo1MCwiQV9TVFIiOjUwLCJBX0FHSSI6NTAsIkFfVklUIjo1MCwiQV9JTlQiOjUwLCJBX0RFWCI6NTAsIkFfTFVLIjo1MCwiQV9BcnJvdyI6MCwiQl9FbmVteSI6MjcyLCJBX3dlYXBvbjEiOiIwIiwiQV9XZWFwb25UeXBlIjoiMCIsIkFfQWN0aXZlU2tpbGwiOjAsIkFfQWN0aXZlU2tpbGxMViI6MCwiQV9hY2NlczEiOiIzMjYiLCJBX2FjY2VzMiI6IjMyNiIsIkFfbGVmdCI6IjMwNSIsIkFfYm9keSI6IjI3OSIsIkFfaGVhZDEiOjE3MywiQV9oZWFkMiI6IjI0MyIsIkFfaGVhZDMiOiIyNjgiLCJBX3Nob2VzIjoiMzE3IiwiQV9zaG91bGRlciI6IjMxMSIsIl9pZCI6Ino4dXEyZCJ9",
     "_id": "z8uq2d",
     "matkMin": 99,
-    "matkMax": 150
+    "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53
   },
   {
     "job": "Knight",
@@ -3191,11 +3101,6 @@
     "flee": 148,
     "crit": 17.5,
     "def": 2,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 105,
     "atkRight": 0,
@@ -3286,6 +3191,8 @@
     "_id": "7hqb6j",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstElementWaterPercentage"
   },
   {
@@ -3310,11 +3217,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 3,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -3393,6 +3295,8 @@
     "_id": "7cw2zu",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceDamageFromRaceDemiHumanPercentage"
   },
   {
@@ -3417,11 +3321,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 3,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 105,
     "atkRight": 0,
@@ -3508,6 +3407,8 @@
     "_id": "sj7yoe",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Mdef"
   },
   {
@@ -3532,11 +3433,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 5,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -3615,6 +3511,8 @@
     "_id": "wi11on",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceDamageFromElementHolyPercentage"
   },
   {
@@ -3639,11 +3537,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 7,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -3722,6 +3615,8 @@
     "_id": "oabrj1",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceDamageFromRacePlantPercentage"
   },
   {
@@ -3746,11 +3641,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -3829,6 +3719,8 @@
     "_id": "qlcm6g",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceDamageFromElementGhostPercentage"
   },
   {
@@ -3853,11 +3745,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -3936,6 +3823,8 @@
     "_id": "fej32i",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Maxsp"
   },
   {
@@ -3960,11 +3849,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 4,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -4037,6 +3921,8 @@
     "_id": "ou7f5t",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceDamageFromRaceInsectPercentage"
   },
   {
@@ -4061,11 +3947,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 5,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -4156,6 +4037,8 @@
     "_id": "3amb5b",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceDamageFromRaceDemonPercentage"
   },
   {
@@ -4180,11 +4063,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 1,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -4263,6 +4141,8 @@
     "_id": "s73j31",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceToStatusCursePercentage"
   },
   {
@@ -4287,11 +4167,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 2,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -4370,6 +4245,8 @@
     "_id": "z027hx",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceDamageFromRaceAngelPercentage"
   },
   {
@@ -4394,11 +4271,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 184,
     "atkRight": 0,
@@ -4475,6 +4347,8 @@
     "_id": "57y3cd",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceDamageFromRaceUndeadPercentage"
   },
   {
@@ -4499,11 +4373,6 @@
     "flee": 148,
     "crit": 17.5,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 190,
     "atkRight": 0,
@@ -4575,6 +4444,8 @@
     "_id": "2wbq94",
     "matkMin": 100,
     "matkMax": 151,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceDamageFromElementDarkPercentage"
   },
   {
@@ -4599,11 +4470,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 174,
     "atkRight": 0,
@@ -4675,6 +4541,8 @@
     "_id": "u90pmq",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceToStatusBlindPercentage"
   },
   {
@@ -4699,11 +4567,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 174,
     "atkRight": 0,
@@ -4775,6 +4638,8 @@
     "_id": "zjf0t5",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceDamageFromElementFirePercentage"
   },
   {
@@ -4799,11 +4664,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 184,
     "atkRight": 0,
@@ -4882,6 +4742,8 @@
     "_id": "d2f5iq",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ResistanceToStatusSilencePercentage"
   },
   {
@@ -4906,11 +4768,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 174,
     "atkRight": 0,
@@ -4990,6 +4847,8 @@
     "_id": "r1fxl0",
     "matkMin": 114,
     "matkMax": 193,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "is_part_of_combo"
   },
   {
@@ -5014,11 +4873,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 219,
     "atkRight": 0,
@@ -5090,6 +4944,8 @@
     "_id": "eme3my",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "MaxhpPercentage"
   },
   {
@@ -5114,11 +4970,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 244,
     "atkRight": 0,
@@ -5193,6 +5044,8 @@
     "_id": "n7xril",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "reduce_defense_percentage"
   },
   {
@@ -5217,11 +5070,6 @@
     "flee": 149,
     "crit": 17.8,
     "def": 0,
-    "vitDEF": [
-      49,
-      52,
-      55
-    ],
     "cast": 0,
     "atkLeft": 268,
     "atkRight": 0,
@@ -5301,6 +5149,8 @@
     "_id": "72yev4",
     "matkMin": 101,
     "matkMax": 152,
+    "vitdefMin": 49,
+    "vitdefMax": 55,
     "desc": "ResistanceToStatusSleepPercentage"
   },
   {
@@ -5325,11 +5175,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 254,
     "atkRight": 0,
@@ -5404,6 +5249,8 @@
     "_id": "2dgu1b",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstRaceFishPercentage"
   },
   {
@@ -5428,11 +5275,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 249,
     "atkRight": 0,
@@ -5512,6 +5354,8 @@
     "_id": "ugvq4y",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "WeaponAtkIncreaseOnTargetDefense"
   },
   {
@@ -5536,11 +5380,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 204,
     "atkRight": 0,
@@ -5615,6 +5454,8 @@
     "_id": "mea7fo",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "AllStats"
   },
   {
@@ -5639,11 +5480,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 287,
     "atkRight": 0,
@@ -5719,6 +5555,8 @@
     "_id": "cx4gpg",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ChanceToInflictStatusWeaponBreakOnAttackPercentage"
   },
   {
@@ -5743,11 +5581,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 284,
     "atkRight": 0,
@@ -5827,6 +5660,8 @@
     "_id": "1dbyo5",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ChanceToInflictStatusArmorBreakOnAttackPercentage"
   },
   {
@@ -5851,11 +5686,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 7,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -5938,6 +5768,8 @@
     "_id": "2wqn5n",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "BypassDefenseOnRace"
   },
   {
@@ -5962,11 +5794,6 @@
     "flee": 147,
     "crit": 17.8,
     "def": 1,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 105,
     "atkRight": 0,
@@ -6053,6 +5880,8 @@
     "_id": "2755wf",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "MatkPercentage"
   },
   {
@@ -6077,11 +5906,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 3,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -6160,6 +5984,8 @@
     "_id": "z60kqw",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ChanceToInflictStatusCurseOnAttackPercentage"
   },
   {
@@ -6184,11 +6010,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -6275,6 +6096,8 @@
     "_id": "mkzun8",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstRacePlantPercentage"
   },
   {
@@ -6299,11 +6122,6 @@
     "flee": 148,
     "crit": 17.2,
     "def": 2,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -6390,6 +6208,8 @@
     "_id": "bcp5tc",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstClassBossPercentage"
   },
   {
@@ -6414,11 +6234,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 199,
     "atkRight": 0,
@@ -6494,6 +6309,8 @@
     "_id": "755dmu",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstRaceDragonPercentage"
   },
   {
@@ -6518,11 +6335,6 @@
     "flee": 148,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -6613,6 +6425,8 @@
     "_id": "2xgffv",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "Maxhp"
   },
   {
@@ -6637,11 +6451,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 274,
     "atkRight": 0,
@@ -6733,6 +6542,8 @@
     "_id": "n7t612",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstElementNeutralPercentage"
   },
   {
@@ -6757,11 +6568,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 304,
     "atkRight": 0,
@@ -6837,6 +6643,8 @@
     "_id": "lnj8wd",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstRaceBrutePercentage"
   },
   {
@@ -6861,11 +6669,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 5,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -6944,6 +6747,8 @@
     "_id": "dulhn6",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstRaceAngelPercentage"
   },
   {
@@ -6968,11 +6773,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 3,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -7051,6 +6851,8 @@
     "_id": "ulf7y8",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "PhysicalDamageAgainstElementFirePercentage"
   },
   {
@@ -7075,11 +6877,6 @@
     "flee": 147,
     "crit": 17.2,
     "def": 3,
-    "vitDEF": [
-      48,
-      50.5,
-      53
-    ],
     "cast": 0,
     "atkLeft": 104,
     "atkRight": 0,
@@ -7174,6 +6971,8 @@
     "_id": "4h2qdl",
     "matkMin": 99,
     "matkMax": 150,
+    "vitdefMin": 48,
+    "vitdefMax": 53,
     "desc": "ChanceToInflictStatusPoisonOnAttackPercentage"
   },
   {
@@ -7198,11 +6997,6 @@
     "flee": 160,
     "crit": 32,
     "def": 3,
-    "vitDEF": [
-      41,
-      42,
-      43
-    ],
     "cast": 0,
     "atkLeft": 242,
     "atkRight": 0,
@@ -7286,6 +7080,8 @@
     "_id": "djidqk",
     "matkMin": 103,
     "matkMax": 154,
+    "vitdefMin": 41,
+    "vitdefMax": 43,
     "desc": "CastTimePercentage"
   },
   {
@@ -7310,11 +7106,6 @@
     "flee": 155,
     "crit": 32,
     "def": 0,
-    "vitDEF": [
-      41,
-      42,
-      43
-    ],
     "cast": 0,
     "atkLeft": 217,
     "atkRight": 0,
@@ -7386,6 +7177,8 @@
     "_id": "28p4uh",
     "matkMin": 103,
     "matkMax": 154,
+    "vitdefMin": 41,
+    "vitdefMax": 43,
     "desc": "ChanceToInflictStatusBlindOnAttackPercentage"
   },
   {
@@ -7410,11 +7203,6 @@
     "flee": 149,
     "crit": 18.1,
     "def": 0,
-    "vitDEF": [
-      43,
-      44.5,
-      46
-    ],
     "cast": 0,
     "atkLeft": 116,
     "atkRight": 0,
@@ -7486,6 +7274,8 @@
     "_id": "dr7hgy",
     "matkMin": 119,
     "matkMax": 202,
+    "vitdefMin": 43,
+    "vitdefMax": 46,
     "desc": "ResistanceDamageFromRaceBrutePercentage"
   },
   {
@@ -7510,11 +7300,6 @@
     "flee": 151,
     "crit": 18.1,
     "def": 0,
-    "vitDEF": [
-      43,
-      44.5,
-      46
-    ],
     "cast": 0,
     "atkLeft": 126,
     "atkRight": 0,
@@ -7594,6 +7379,8 @@
     "_id": "ndy521",
     "matkMin": 142,
     "matkMax": 234,
+    "vitdefMin": 43,
+    "vitdefMax": 46,
     "desc": "ChanceToInflictStatusBleedingOnAttackPercentage"
   },
   {
@@ -7618,11 +7405,6 @@
     "flee": 149,
     "crit": 18.1,
     "def": 0,
-    "vitDEF": [
-      43,
-      44.5,
-      46
-    ],
     "cast": 0,
     "atkLeft": 222,
     "atkRight": 0,
@@ -7702,6 +7484,8 @@
     "_id": "ckeb7f",
     "matkMin": 143,
     "matkMax": 235,
+    "vitdefMin": 43,
+    "vitdefMax": 46,
     "desc": "ResistanceToStatusFreezePercentage"
   },
   {
@@ -7726,11 +7510,6 @@
     "flee": 149,
     "crit": 18.1,
     "def": 0,
-    "vitDEF": [
-      43,
-      44.5,
-      46
-    ],
     "cast": 0,
     "atkLeft": 161,
     "atkRight": 0,
@@ -7796,6 +7575,8 @@
     "_id": "49nysk",
     "matkMin": 104,
     "matkMax": 176,
+    "vitdefMin": 43,
+    "vitdefMax": 46,
     "desc": "ResistanceDamageFromElementWaterPercentage"
   },
   {
@@ -7820,11 +7601,6 @@
     "flee": 149,
     "crit": 18.1,
     "def": 0,
-    "vitDEF": [
-      43,
-      44.5,
-      46
-    ],
     "cast": 0,
     "atkLeft": 221,
     "atkRight": 0,
@@ -7912,6 +7688,8 @@
     "_id": "ifvdyb",
     "matkMin": 104,
     "matkMax": 176,
+    "vitdefMin": 43,
+    "vitdefMax": 46,
     "desc": "ResistanceDamageFromElementNeutralPercentage"
   },
   {
@@ -7936,11 +7714,6 @@
     "flee": 149,
     "crit": 18.1,
     "def": 0,
-    "vitDEF": [
-      43,
-      44.5,
-      46
-    ],
     "cast": 0,
     "atkLeft": 211,
     "atkRight": 0,
@@ -8032,6 +7805,8 @@
     "_id": "j8pysc",
     "matkMin": 104,
     "matkMax": 176,
+    "vitdefMin": 43,
+    "vitdefMax": 46,
     "desc": "Atk"
   },
   {
@@ -8056,11 +7831,6 @@
     "flee": 151,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      41,
-      42,
-      43
-    ],
     "cast": 0,
     "atkLeft": 266,
     "atkRight": 0,
@@ -8162,6 +7932,8 @@
     "_id": "1arirb",
     "matkMin": 123,
     "matkMax": 180,
+    "vitdefMin": 41,
+    "vitdefMax": 43,
     "desc": "SpRegenPercentage"
   },
   {
@@ -8186,11 +7958,6 @@
     "flee": 151,
     "crit": 17.2,
     "def": 0,
-    "vitDEF": [
-      41,
-      42,
-      43
-    ],
     "cast": 0,
     "atkLeft": 101,
     "atkRight": 0,
@@ -8269,6 +8036,8 @@
     "_id": "4xmus4",
     "matkMin": 103,
     "matkMax": 154,
+    "vitdefMin": 41,
+    "vitdefMax": 43,
     "desc": "ResistanceToStatusStunPercentage"
   },
   {
@@ -8293,11 +8062,6 @@
     "flee": 153,
     "crit": 16.6,
     "def": 1,
-    "vitDEF": [
-      40,
-      40.5,
-      41
-    ],
     "cast": 0,
     "atkLeft": 97,
     "atkRight": 0,
@@ -8380,6 +8144,8 @@
     "_id": "osm7vu",
     "matkMin": 145,
     "matkMax": 208,
+    "vitdefMin": 40,
+    "vitdefMax": 41,
     "desc": "is_rebirth_only"
   },
   {
@@ -8404,11 +8170,6 @@
     "flee": 153,
     "crit": 16.6,
     "def": 5,
-    "vitDEF": [
-      40,
-      40.5,
-      41
-    ],
     "cast": 0,
     "atkLeft": 97,
     "atkRight": 0,
@@ -8491,6 +8252,8 @@
     "_id": "ptf7lb",
     "matkMin": 126,
     "matkMax": 206,
+    "vitdefMin": 40,
+    "vitdefMax": 41,
     "desc": "CriticalAgainstRaceDemiHumanPercentage"
   },
   {
@@ -8515,11 +8278,6 @@
     "flee": 147,
     "crit": 16.6,
     "def": 2,
-    "vitDEF": [
-      44,
-      45.5,
-      47
-    ],
     "cast": 0,
     "atkLeft": 103,
     "atkRight": 0,
@@ -8598,6 +8356,8 @@
     "_id": "fued9f",
     "matkMin": 101,
     "matkMax": 152,
+    "vitdefMin": 44,
+    "vitdefMax": 47,
     "desc": "CriticalAgainstRaceBrutePercentage"
   },
   {
@@ -8622,11 +8382,6 @@
     "flee": 152,
     "crit": 18.4,
     "def": 0,
-    "vitDEF": [
-      41,
-      42,
-      43
-    ],
     "cast": 0,
     "atkLeft": 216,
     "atkRight": 0,
@@ -8702,6 +8457,8 @@
     "_id": "787ojv",
     "matkMin": 104,
     "matkMax": 176,
+    "vitdefMin": 41,
+    "vitdefMax": 43,
     "desc": "HpRegenPercentage"
   },
   {
@@ -8726,11 +8483,6 @@
     "flee": 160,
     "crit": 20.5,
     "def": 3,
-    "vitDEF": [
-      51,
-      55,
-      59
-    ],
     "cast": 0,
     "atkLeft": 127,
     "atkRight": 0,
@@ -8841,6 +8593,8 @@
     "_id": "xkzg54",
     "matkMin": 146,
     "matkMax": 234,
+    "vitdefMin": 51,
+    "vitdefMax": 59,
     "desc": "PhysicalDamageAgainstRaceUndeadPercentage"
   },
   {
@@ -8865,11 +8619,6 @@
     "flee": 160,
     "crit": 20.5,
     "def": 2,
-    "vitDEF": [
-      51,
-      55,
-      59
-    ],
     "cast": 0,
     "atkLeft": 127,
     "atkRight": 0,
@@ -8948,6 +8697,8 @@
     "_id": "wkobz8",
     "matkMin": 146,
     "matkMax": 234,
+    "vitdefMin": 51,
+    "vitdefMax": 59,
     "desc": "ResistanceDamageFromSizeMediumPercentage"
   },
   {
@@ -8972,11 +8723,6 @@
     "flee": 153,
     "crit": 16.9,
     "def": 1,
-    "vitDEF": [
-      46,
-      48,
-      50
-    ],
     "cast": 0,
     "atkLeft": 125,
     "atkRight": 0,
@@ -9063,6 +8809,8 @@
     "_id": "25zjlm",
     "matkMin": 101,
     "matkMax": 152,
+    "vitdefMin": 46,
+    "vitdefMax": 50,
     "desc": "ResistanceDamageFromRaceDragonPercentage"
   },
   {
@@ -9087,11 +8835,6 @@
     "flee": 154,
     "crit": 17.2,
     "def": 6,
-    "vitDEF": [
-      46,
-      48.5,
-      51
-    ],
     "cast": 0,
     "atkLeft": 124,
     "atkRight": 0,
@@ -9173,6 +8916,8 @@
     "_id": "lzff57",
     "matkMin": 102,
     "matkMax": 153,
+    "vitdefMin": 46,
+    "vitdefMax": 51,
     "desc": "ResistanceToStatusStonePercentage"
   },
   {
@@ -9197,11 +8942,6 @@
     "flee": 153,
     "crit": 16.9,
     "def": 6,
-    "vitDEF": [
-      46,
-      48,
-      50
-    ],
     "cast": 0,
     "atkLeft": 122,
     "atkRight": 0,
@@ -9296,6 +9036,8 @@
     "_id": "1c0dwd",
     "matkMin": 101,
     "matkMax": 152,
+    "vitdefMin": 46,
+    "vitdefMax": 50,
     "desc": "AfterCastDelayPercentage"
   },
   {
@@ -9320,11 +9062,6 @@
     "flee": 156,
     "crit": 34.4,
     "def": 5,
-    "vitDEF": [
-      41,
-      42,
-      43
-    ],
     "cast": 0,
     "atkLeft": 102,
     "atkRight": 0,
@@ -9411,6 +9148,8 @@
     "_id": "nc0ib6",
     "matkMin": 104,
     "matkMax": 176,
+    "vitdefMin": 41,
+    "vitdefMax": 43,
     "desc": "ResistanceDamageFromSizeLargePercentage"
   },
   {
@@ -9435,11 +9174,6 @@
     "flee": 146,
     "crit": 18.1,
     "def": 0,
-    "vitDEF": [
-      40,
-      40.5,
-      41
-    ],
     "cast": 0,
     "atkLeft": 180,
     "atkRight": 0,
@@ -9511,6 +9245,8 @@
     "_id": "h67p10",
     "matkMin": 101,
     "matkMax": 152,
+    "vitdefMin": 40,
+    "vitdefMax": 41,
     "desc": "ResistanceDamageFromElementUndeadPercentage"
   }
 ]

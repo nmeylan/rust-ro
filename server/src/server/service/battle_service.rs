@@ -1,6 +1,7 @@
 use std::mem;
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
+use fastrand::Rng;
 use models::enums::action::ActionType;
 use models::enums::element::Element;
 use models::enums::EnumWithMaskValueU64;
@@ -55,13 +56,15 @@ impl BattleService {
     /// + rnd(min(DEX,ATK), ATK)*SizeModifier) * SkillModifiers * (1 - DEF/100) - VitDEF + BaneSkill + UpgradeDamage}
     /// + MasterySkill + WeaponryResearchSkill + EnvenomSkill) * ElementalModifier) + Enhancements) * DamageBonusModifiers * DamageReductionModifiers] * NumberOfMultiHits) - KyrieEleisonEffect) / NumberOfMultiHits
     pub fn physical_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool) -> u32 {
-        let _rng = fastrand::Rng::new();
+        let mut rng = fastrand::Rng::new();
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let _imposito_magnus: u32 = 0;
         let base_atk = self.status_service.fist_atk(source_status, is_ranged) as f32 + upgrade_bonus + source_status.base_atk() as f32;
 
         let def: f32 = target_status.def() as f32 / 100.0;
-        let vitdef: f32 = self.status_service.mob_vit_def(target_status.vit() as u32) as f32; // TODO set to 0 if critical hit
+
+        /// MOB vit def: VIT + rnd(0,[VIT/20]^2-1).
+        let vitdef: f32 = self.mob_vitdef(target_status); // TODO set to 0 if critical hit
         let bane_skill: f32 = 0.0; // TODO Beast Bane, Daemon Bane, Draconology
         let mastery_skill: f32 = 0.0;
         let weaponery_research_skill: f32 = 0.0;
@@ -97,6 +100,26 @@ impl BattleService {
             )
                 / number_of_hits
         ).floor() as u32
+    }
+
+    pub fn mob_vitdef(&self, target_status: &StatusSnapshot) -> f32 {
+        let mut rng = fastrand::Rng::new();
+        target_status.vit() as f32 + rng.u16(0..1.max(1.max(((target_status.vit() as f32 / 20.0).ceil() as u16).pow(2)) - 1)) as f32
+    }
+
+
+    ///  [VIT*0.5] + rnd([VIT*0.3], max([VIT*0.3],[VIT^2/150]-1))
+    pub fn player_vitdef(&self, target_status: &StatusSnapshot) -> u16 {
+        let mut rng = fastrand::Rng::new();
+        let vitdef = (target_status.vit() as f32 * 0.5).floor()  as u16;
+        let vitdef_lower_part= (target_status.vit() as f32 * 0.3).floor() as u16;
+        let vitdef_higher_part= vitdef_lower_part.max(((target_status.vit().pow(2) as f32 / 150.0).floor() - 1.0 ) as u16);
+        // TODO handle bDef2Rate, bDef2 (and also from angelus and divine protection)
+        match self.battle_result_mode {
+            BattleResultMode::TestMin => {vitdef + vitdef_lower_part}
+            BattleResultMode::TestMax => {vitdef + vitdef_higher_part}
+            BattleResultMode::Normal => {vitdef + rng.u16(vitdef_lower_part..=vitdef_higher_part)}
+        }
     }
 
     //  rnd(min(DEX*(0.8+0.2*WeaponLevel),ATK), ATK)

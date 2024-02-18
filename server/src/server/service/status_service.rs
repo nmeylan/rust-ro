@@ -270,13 +270,8 @@ impl StatusService {
         status.set_overupgrade_left_hand_atk_bonus(overupgrade_left_hand_atk_bonus);
     }
 
-    /// VIT + rnd(0,[VIT/20]^2-1).
-    pub fn mob_vit_def(&self, vit: u32) -> u32 {
-        let mut rng = fastrand::Rng::new();
-        vit + rng.u32(0..1.max(1.max(((vit as f32 / 20.0).ceil() as u32).pow(2)) - 1))
-    }
-    /// [VIT*0.5] + rnd([VIT*0.3], max([VIT*0.3],[VIT^2/150]-1)).
-    pub fn character_vit_def(&self, _vit: u32) -> u32 {
-        0
+
+    pub fn character_vit_def(&self, status_snapshot: &StatusSnapshot) -> u16 {
+        status_snapshot.vit() // TODO angelus multiplier
     }
 }

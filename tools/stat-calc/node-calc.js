@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "convert";
+const command = "console";
 let formData, testCase, testCases, file;
 switch (command) {
     case "convert":

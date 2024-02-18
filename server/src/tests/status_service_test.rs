@@ -232,19 +232,6 @@ mod tests {
     }
 
     #[test]
-    fn test_mob_vit_def() {
-        // Given
-        let context = before_each();
-        let _character = create_character();
-        for vit in [0, 1, 2, 45, 88].iter() {
-            // When
-            let actual_vit = context.status_service.mob_vit_def(*vit);
-            // Then
-            assert!(actual_vit >= *vit, "Expected actual_vit {} to be greater or equal to {}", actual_vit, vit);
-        }
-    }
-
-    #[test]
     fn test_all_stats_when_job_level_change() {
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-job-level.json";
         let result_file_path = "../doc/progress/stats-for-each-job-level_progress.md";

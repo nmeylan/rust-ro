@@ -604,6 +604,8 @@ function refreshPlayerStats(playerStats) {
     myInnerHtml("A_ATK_RIGHT", playerStats.atkRight, 0);
     myInnerHtml("A_MATK_1", playerStats.matk[0], 0);
     myInnerHtml("A_MATK_2", playerStats.matk[2], 0);
+    myInnerHtml("MinVitDef", playerStats.vitDEF[0], 0);
+    myInnerHtml("MaxVitDef", playerStats.vitDEF[2], 0);
 }
 
 function refreshBattleResults(battleResults) {
