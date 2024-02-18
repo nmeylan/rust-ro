@@ -238,6 +238,47 @@ mod tests {
         }
     }
 
+
+    #[test]
+    fn test_mob_vitdef() {
+        // Given
+        let context = before_each();
+        let _character = create_character();
+        for vit in [0, 1, 2, 45, 88].iter() {
+            let mut status = Status::default();
+            status.vit = *vit;
+            // When
+            let actual_vit = context.battle_service.mob_vitdef(&context.status_service.to_snapshot(&status));
+            // Then
+            assert!(actual_vit >= (*vit as f32), "Expected actual_vit {} to be greater or equal to {}", actual_vit, vit);
+        }
+    }
+    #[test]
+    fn test_vitdef() {
+        // Given
+        let context = before_each();
+        struct Scenarii<'a> {
+            item: &'a str,
+            vit: u16,
+            expected_vitdef_min: u16,
+            expected_vitdef_max: u16,
+        }
+        let scenario = vec![
+            Scenarii { item: "Knife", vit: 99, expected_vitdef_min: 78, expected_vitdef_max: 113 },
+            Scenarii { item: "Knife", vit: 49, expected_vitdef_min: 38, expected_vitdef_max: 39 },
+        ];
+        // When
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.vit = scenarii.vit;
+            let min = context.battle_min_service.player_vitdef(status_snapshot!(context, character));
+            let max = context.battle_max_service.player_vitdef(status_snapshot!(context, character));
+            // Then
+            assert_eq!(min, scenarii.expected_vitdef_min);
+            assert_eq!(max, scenarii.expected_vitdef_max);
+        }
+    }
+
     // https://irowiki.org/classic/Card_Reference
     #[test]
     #[ignore = "not yet implemented"]
