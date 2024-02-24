@@ -169,7 +169,7 @@ impl Character {
     }
 
     pub fn is_map_item_in_fov(&self, id: u32) -> bool {
-        self.map_view.iter().any(|item| item.id() == id)
+        self.map_view.iter().any(|item| item.client_id() == id)
     }
 
     pub fn get_look(&self, look_type: LookType) -> u32 {
@@ -404,7 +404,7 @@ impl Character {
 impl ToMapItem for Character {
     fn to_map_item(&self) -> MapItem {
         let client_item_class = self.status.job as i16;
-        MapItem::new(self.char_id, client_item_class, MapItemType::Character)
+        MapItem::new(self.char_id, 0, 0, client_item_class, MapItemType::Character)
     }
 }
 

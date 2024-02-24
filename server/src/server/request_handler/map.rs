@@ -33,7 +33,7 @@ pub fn handle_map_item_name(server: &Server, context: Request) {
     // let aaaaa = format!("{} {}", map_item.x(), map_item.y());
     // aaaaa.fill_char_array(name.as_mut());
     #[cfg(feature = "debug_mob_movement")]{
-        map_item.id().to_string().fill_char_array(name.as_mut());
+        map_item.client_id().to_string().fill_char_array(name.as_mut());
     }
     #[cfg(not(feature = "debug_mob_movement"))]{
         let map_item_name = server.state().map_item_name(&map_item, character.current_map_name(), character.current_map_instance()).unwrap_or_else(|| "unknown".to_string());

@@ -99,7 +99,7 @@ impl MapInstanceLoop {
 
                     MapInstanceService::instance().remove_dead_mobs(&mut map_instance_state);
                     let mobs = map_instance_state.mobs_mut();
-                    for mob in mobs.values_mut().filter(|mob| mob.is_moving()) {
+                    for mob in mobs.iter_mut().filter(|mob| mob.is_moving()) {
                         let speed = mob.status.speed();
                         if let Some(movement) = mob.peek_movement() {
                             if tick >= movement.move_at() {
@@ -110,7 +110,7 @@ impl MapInstanceLoop {
                                 let movement = mob.pop_movement().unwrap();
                                 #[cfg(feature = "debug_mob_movement")]
                                 {
-                                    info!("mob {} move {} at {}", mob.id, movement.position(), movement.move_at());
+                                    info!("mob {} move {} at {}", mob.client_id, movement.position(), movement.move_at());
                                 }
                                 mob.set_last_moved_at(tick);
                                 mob.update_position(movement.position().x, movement.position().y);

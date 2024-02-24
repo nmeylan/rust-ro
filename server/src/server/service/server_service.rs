@@ -144,7 +144,7 @@ impl ServerService {
                 }));
             } else if is_in_range {
                 character.clear_movement();
-                let snapshot = server_state.map_item_snapshot(map_item.id(), character.current_map_name(), character.current_map_instance()).unwrap();
+                let snapshot = server_state.map_item_snapshot(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
                 let mut maybe_damage = None;
                 if matches!(*map_item.object_type(), MapItemType::Mob) {
                     let mob_status = server_state.map_item_mob_status(&map_item, character.current_map_name(), character.current_map_instance()).unwrap();
@@ -201,8 +201,13 @@ impl ServerService {
 
     // TODO cache per tick
     fn get_target(server_state: &ServerState, character: &Character, target_id: Option<u32>) -> Option<MapItemSnapshot> {
+
         if let Some(target_id) = target_id {
-            server_state.map_item_snapshot(target_id, character.current_map_name(), character.current_map_instance())
+            if let Some(map_item) = server_state.map_item(target_id, character.current_map_name(), character.current_map_instance()) {
+                server_state.map_item_snapshot(&map_item, character.current_map_name(), character.current_map_instance())
+            } else {
+                None
+            }
         } else {
             None
         }

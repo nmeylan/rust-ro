@@ -74,12 +74,12 @@ impl MapInstanceService {
                     // TODO implement constraint zone
                     cell = Map::find_random_walkable_cell(map_instance_state.cells_mut().deref(), map.x_size());
                 }
-                let mob_map_item_id = map_instance_state.map_items_mut().generate_id();
-                let mob = Mob::new(mob_map_item_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.info.name.clone(), mob_spawn.info.name_english.clone(),
+                let (id, internal_id) = map_instance_state.map_items_mut().generate_id();
+                let mob = Mob::new(id, internal_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.info.name.clone(), mob_spawn.info.name_english.clone(),
                                    mob_spawn.info.damage_motion as u32,
                                    StatusFromDb::from_mob_model(&mob_spawn.info));
 
-                debug!("Spawning mob {}", mob_map_item_id);
+                debug!("Spawning mob {}", id);
                 map_instance_state.insert_mob(mob);
                 // END
                 let mob_spawn_track = map_instance_state.mob_spawns_tracks_mut().get_mut(&mob_spawn.id).unwrap();
@@ -106,7 +106,7 @@ impl MapInstanceService {
         let cells = map_instance_state.cells().clone();
         let x_size = map_instance_state.x_size();
         let y_size = map_instance_state.y_size();
-        for mob in map_instance_state.mobs_mut().values_mut() {
+        for mob in map_instance_state.mobs_mut() {
             if let Some(mob_movement) = self.mob_service.action_move(mob, cells.as_ref(), x_size, y_size, tick) {
                 mob_movements.push(mob_movement);
             }
@@ -130,8 +130,7 @@ impl MapInstanceService {
     }
 
     pub fn mob_being_attacked(&self, map_instance_state: &mut MapInstanceState, damage: Damage, map_instance_tasks_queue: Arc<TasksQueue<MapEvent>>, tick: u128) {
-        let mobs = map_instance_state.mobs_mut();
-        if let Some(mob) = mobs.get_mut(&damage.target_id) {
+        if let Some(mob) = map_instance_state.get_mob_mut_with_client_id(damage.target_id) {
             if !mob.is_present() {
                 return;
             }
@@ -139,8 +138,8 @@ impl MapInstanceService {
             mob.last_attacked_at = tick;
             if mob.should_die() {
                 let delay = damage.attacked_at - tick;
-                let id = mob.id;
-                Self::add_to_delayed_tick(map_instance_tasks_queue.as_ref(), MapEvent::MobDeathClientNotification(MobLocation { mob_id: mob.id, x: mob.x, y: mob.y }), delay);
+                let id = mob.map_instance_mobs_index;
+                Self::add_to_delayed_tick(map_instance_tasks_queue.as_ref(), MapEvent::MobDeathClientNotification(MobLocation { mob_id: id, x: mob.x, y: mob.y }), delay);
                 self.mob_die(map_instance_state, id, delay / 2);
             }
         }
@@ -148,15 +147,15 @@ impl MapInstanceService {
 
     pub fn kill_all_mobs(&self, map_instance_state: &mut MapInstanceState, map_instance_tasks_queue: Arc<TasksQueue<MapEvent>>, char_id: u32) {
         let mut ids: Vec<u32> = Vec::with_capacity(map_instance_state.mobs().len());
-        for (id, mob) in map_instance_state.mobs_mut().iter_mut() {
+        for mob in map_instance_state.mobs_mut().iter_mut() {
             if !mob.is_present() {
                 continue;
             }
-            debug!("Killing mob {}", id);
+            debug!("Killing mob {}", mob.client_id);
             mob.status.set_hp(0);
             mob.add_attack(char_id, 9999);
-            Self::add_to_delayed_tick(map_instance_tasks_queue.as_ref(), MapEvent::MobDeathClientNotification(MobLocation { mob_id: mob.id, x: mob.x, y: mob.y }), 0);
-            ids.push(*id);
+            Self::add_to_delayed_tick(map_instance_tasks_queue.as_ref(), MapEvent::MobDeathClientNotification(MobLocation { mob_id: mob.client_id, x: mob.x, y: mob.y }), 0);
+            ids.push(mob.map_instance_mobs_index);
         }
         for id in ids {
             self.mob_die(map_instance_state, id, 0);
@@ -166,31 +165,36 @@ impl MapInstanceService {
     pub fn mob_die(&self, map_instance_state: &mut MapInstanceState, id: u32, delay: u128) {
         let spawn_id = {
             let instance_key = map_instance_state.key().clone();
-            let mob = map_instance_state.mobs_mut().get_mut(&id).unwrap_or_else(|| panic!("can't find mob with id {}", id));
-            let mob_model = self.configuration_service.get_mob(mob.mob_id as i32);
-            self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster {
-                char_id: mob.attacker_with_higher_damage(),
-                mob_id: mob.mob_id,
-                mob_x: mob.x,
-                mob_y: mob.y,
-                map_instance_key: instance_key
-                ,
-                mob_base_exp: mob_model.exp as u32,
-                mob_job_exp: mob_model.job_exp as u32,
-            }), delayed_tick(delay, GAME_TICK_RATE),
-            );
-            mob.set_to_remove();
-            mob.spawn_id
+            if let Some(mob) = map_instance_state.mobs_mut().get_mut(id as usize) {
+                let mob_model = self.configuration_service.get_mob(mob.mob_id as i32);
+                self.server_task_queue.add_to_index(GameEvent::CharacterKillMonster(CharacterKillMonster {
+                    char_id: mob.attacker_with_higher_damage(),
+                    mob_id: mob.mob_id,
+                    mob_x: mob.x,
+                    mob_y: mob.y,
+                    map_instance_key: instance_key
+                    ,
+                    mob_base_exp: mob_model.exp as u32,
+                    mob_job_exp: mob_model.job_exp as u32,
+                }), delayed_tick(delay, GAME_TICK_RATE),
+                );
+                mob.set_to_remove();
+                Some(mob.spawn_id)
+            } else {
+                None
+            }
         };
-        if let Some(spawn) = map_instance_state.mob_spawns_tracks_mut().get_mut(&spawn_id) {
-            spawn.decrement_spawn();
+        if let Some(spawn_id) = spawn_id {
+            if let Some(spawn) = map_instance_state.mob_spawns_tracks_mut().get_mut(&spawn_id) {
+                spawn.decrement_spawn();
+            }
         }
     }
 
     pub fn remove_dead_mobs(&self, map_instance_state: &mut MapInstanceState) {
         let mobs_to_remove = {
             let mobs = map_instance_state.mobs_mut();
-            mobs.iter().filter(|(_k, mob)| !mob.is_present()).map(|(k, _)| *k).collect::<Vec<u32>>()
+            mobs.iter().filter(|mob| !mob.is_present()).map(|mob| mob.map_instance_mobs_index).collect::<Vec<u32>>()
         };
         mobs_to_remove.iter().for_each(|mob| {
             debug!("Remove dead mob {}", mob);
@@ -264,7 +268,7 @@ impl MapInstanceService {
 
     fn drop_items(&self, map_instance_state: &mut MapInstanceState, rng: &mut fastrand::Rng, x: u16, y: u16, item_id: i32, is_identified: bool, amount: u16, owner_id: Option<u32>) -> DroppedItem {
         let (random_x, random_y) = Map::find_random_free_cell_around(map_instance_state.cells(), map_instance_state.x_size(), x, y);
-        let map_item_id = map_instance_state.map_items_mut().generate_id();
+        let map_item_id = map_instance_state.map_items_mut().generate_internal_id_deprecated();
         let dropped_item = DroppedItem {
             map_item_id,
             item_id,

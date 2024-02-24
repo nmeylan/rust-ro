@@ -80,7 +80,7 @@ impl MapInstance {
             let mut script = script.clone();
             script.set_instance_reference(instance_reference);
             let script_arc = Arc::new(script);
-            map_items.insert(script_arc.id(), script_arc.to_map_item());
+            map_items.insert_deprecated(script_arc.id(), script_arc.to_map_item());
             scripts.push(script_arc);
         });
         let key = MapInstanceKey::new(map.name().to_string(), id);

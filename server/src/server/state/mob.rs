@@ -14,7 +14,10 @@ use crate::server::model::path::manhattan_distance;
 
 #[derive(Setters, Clone)]
 pub struct Mob {
-    pub id: u32,
+    pub client_id: u32,
+    pub internal_id: u32,
+    #[set]
+    pub map_instance_mobs_index: u32,
     pub name: String,
     pub name_english: String,
     pub mob_id: i16,
@@ -53,9 +56,10 @@ impl Movable for Mob {
 }
 
 impl Mob {
-    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, name_english: String, damage_motion: u32, status: StatusSnapshot) -> Mob {
+    pub fn new(id: u32, internal_id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, name_english: String, damage_motion: u32, status: StatusSnapshot) -> Mob {
         Mob {
-            id,
+            client_id: id,
+            internal_id,
             x,
             y,
             mob_id,
@@ -71,6 +75,7 @@ impl Mob {
             to_remove: false,
             last_moved_at: 0,
             damage_motion: 0,
+            map_instance_mobs_index: 0,
         }
     }
 
@@ -156,11 +161,15 @@ impl Mob {
             dir: 0,
         }
     }
+
+    pub fn client_id(&self) -> u32 {
+        self.client_id
+    }
 }
 
 impl ToMapItem for Mob {
     fn to_map_item(&self) -> MapItem {
-        MapItem::new(self.id, self.mob_id, MapItemType::Mob)
+        MapItem::new(self.client_id, self.internal_id, self.map_instance_mobs_index, self.mob_id, MapItemType::Mob)
     }
 }
 

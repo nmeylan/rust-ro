@@ -139,8 +139,8 @@ impl VisualDebugger {
         let map_items_clone = map_instance.state().map_items().clone();
         let server_characters = self.server.state().characters();
         let characters = map_items_clone.iter()
-            .filter(|(_, item)| *item.object_type() == MapItemType::Character)
-            .map(|(_, item)| { server_characters.get(&item.id()).unwrap() })
+            .filter(|(item)| *item.object_type() == MapItemType::Character)
+            .map(|(item)| { server_characters.get(&item.client_id()).unwrap() })
             .collect::<Vec<&Character>>();
         egui::SidePanel::left(format!("{} info", map_name))
             .min_width(250.0)
@@ -165,8 +165,8 @@ impl VisualDebugger {
                         if let Some(map_item) = self.selected_map_item.as_ref() {
                             ui.separator();
                             let state = map_instance.state();
-                            if let Some(mob_ref) = state.get_mob(map_item.id()) {
-                                ui.label(format!("Selected map item: {}: {} ({})", map_item.object_type(), mob_ref.name_english, map_item.id()));
+                            if let Some(mob_ref) = state.get_mob(&map_item) {
+                                ui.label(format!("Selected map item: {}: {} ({})", map_item.object_type(), mob_ref.name_english, map_item.client_id()));
                                 if *map_item.object_type() == MapItemType::Mob {
                                     ui.label(format!("{},{}", mob_ref.x(),mob_ref.y()));
                                 }
@@ -177,10 +177,10 @@ impl VisualDebugger {
                             let i = self.map_instance_view.cursor_pos.as_ref().unwrap().x as u16;
                             let j = self.map_instance_view.cursor_pos.as_ref().unwrap().y as u16;
                             ui.label(format!("Cursor: {}, {}", i, j));
-                            let map_item = map_items_clone.iter().find(|(_, map_item)| {
+                            let map_item = map_items_clone.iter().find(|map_item| {
                                 let position = self.server.state().map_item_x_y(map_item, &map_name, map_instance_id).unwrap();
                                 position.x() == i && position.y() == j
-                            }).map(|(_, map_item)| map_item);
+                            }).map(|map_item| map_item);
                             if self.map_instance_view.clicked {
                                 self.selected_map_item = map_item.cloned();
                             }
@@ -191,7 +191,7 @@ impl VisualDebugger {
                                 ui.label(format!("{}: {}", map_item.object_type(), item_name));
                                 if *map_item.object_type() == MapItemType::Mob {
                                     let state = map_instance.state();
-                                    let mob_ref = state.get_mob(map_item.id()).unwrap();
+                                    let mob_ref = state.get_mob(&map_item).unwrap();
                                     let mob = mob_ref;
                                     ui.label("Items in Field of view");
                                     mob.map_view.iter()
@@ -204,7 +204,7 @@ impl VisualDebugger {
                                     let character = self.server.state().map_item_character(map_item).unwrap();
                                     ui.label("Items in Field of view");
                                     let mut character_map_view: Vec<MapItem> = character.map_view.clone().into_iter().collect::<Vec<MapItem>>();
-                                    character_map_view.sort_by_key(|a| a.id());
+                                    character_map_view.sort_by_key(|a| a.client_id());
                                     character_map_view.iter()
                                         .for_each(|item| {
                                             let item_name = self.server.state().map_item_name(item, &map_name, map_instance_id).unwrap();

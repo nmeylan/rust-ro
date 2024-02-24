@@ -65,7 +65,7 @@ impl ServerState {
     }
 
     pub fn insert_character(&mut self, character: Character) {
-        self.map_items.insert(character.char_id, character.to_map_item());
+        self.map_items.insert_deprecated(character.char_id, character.to_map_item());
         self.characters.insert(character.char_id, character);
     }
 
@@ -82,7 +82,7 @@ impl ServerState {
 
     }
     pub fn insert_map_item(&mut self, id: u32, map_item: MapItem) {
-        self.map_items.insert(id, map_item);
+        self.map_items.insert_deprecated(id, map_item);
     }
 
     pub fn sessions(&self) -> &Arc<RwLock<HashMap<u32, Arc<Session>>>> {
@@ -142,14 +142,14 @@ impl ServerState {
         match map_item.object_type() {
             MapItemType::Character => {
                 let characters = self.characters();
-                if let Some(character) = characters.get(&map_item.id()) {
+                if let Some(character) = characters.get(&map_item.client_id()) {
                     return Some(Position { x: character.x(), y: character.y(), dir: 3 }); // TODO add dir to character
                 }
                 None
             }
             MapItemType::Mob => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-                    if let Some(mob) = map_instance.state().get_mob(map_item.id()) {
+                    if let Some(mob) = map_instance.state().get_mob(&map_item) {
                         return Some(Position { x: mob.x(), y: mob.y(), dir: 3 }); // TODO add dir to character
                     }
                 }
@@ -157,7 +157,7 @@ impl ServerState {
             }
             MapItemType::Warp => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-                    if let Some(warp) = map_instance.get_warp(map_item.id()) {
+                    if let Some(warp) = map_instance.get_warp(map_item.client_id()) {
                         return Some(Position { x: warp.x(), y: warp.y(), dir: 0 });
                     }
                 }
@@ -168,7 +168,7 @@ impl ServerState {
             }
             MapItemType::Npc => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-                    if let Some(script) = map_instance.get_script(map_item.id()) {
+                    if let Some(script) = map_instance.get_script(map_item.client_id()) {
                         return Some(Position { x: script.x(), y: script.y(), dir: script.dir() });
                     }
                 }
@@ -176,7 +176,7 @@ impl ServerState {
             }
             MapItemType::DroppedItem => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-                    if let Some(dropped_item) = map_instance.state().get_dropped_item(map_item.id()) {
+                    if let Some(dropped_item) = map_instance.state().get_dropped_item(map_item.client_id()) {
                         return Some(Position { x: dropped_item.x(), y: dropped_item.y(), dir: 0 });
                     }
                 }
@@ -190,14 +190,14 @@ impl ServerState {
         match map_item.object_type() {
             MapItemType::Character => {
                 let characters = self.characters();
-                if let Some(character) = characters.get(&map_item.id()) {
+                if let Some(character) = characters.get(&map_item.client_id()) {
                     return Some(character.name.clone()); // TODO add dir to character
                 }
                 None
             }
             MapItemType::Mob => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-                    if let Some(mob) = map_instance.state().get_mob(map_item.id()) {
+                    if let Some(mob) = map_instance.state().get_mob(&map_item) {
                         return Some(mob.name_english.clone()); // TODO add dir to character
                     }
                 }
@@ -205,7 +205,7 @@ impl ServerState {
             }
             MapItemType::Warp => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-                    if let Some(warp) = map_instance.get_warp(map_item.id()) {
+                    if let Some(warp) = map_instance.get_warp(map_item.client_id()) {
                         return Some(warp.name);
                     }
                 }
@@ -216,7 +216,7 @@ impl ServerState {
             }
             MapItemType::Npc => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-                    if let Some(script) = map_instance.get_script(map_item.id()) {
+                    if let Some(script) = map_instance.get_script(map_item.client_id()) {
                         return Some(script.name().clone());
                     }
                 }
@@ -224,7 +224,7 @@ impl ServerState {
             }
             MapItemType::DroppedItem => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-                    if let Some(dropped_item) = map_instance.state().get_dropped_item(map_item.id()) {
+                    if let Some(dropped_item) = map_instance.state().get_dropped_item(map_item.client_id()) {
                         return Some(dropped_item.item_id().to_string());
                     }
                 }
@@ -234,19 +234,19 @@ impl ServerState {
     }
 
     #[inline]
-    pub fn map_item(&self, map_item_id: u32, map_name: &String, map_instance_id: u8) -> Option<MapItem> {
+    pub fn map_item(&self, client_id: u32, map_name: &String, map_instance_id: u8) -> Option<MapItem> {
         let characters = self.characters();
-        if let Some(character) = characters.get(&map_item_id) {
+        if let Some(character) = characters.get(&client_id) {
             return Some(character.to_map_item());
         }
         if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-            if let Some(mob) = map_instance.state().get_mob(map_item_id) {
+            if let Some(mob) = map_instance.state().get_mob_with_client_id(client_id) {
                 return Some(mob.to_map_item());
             }
-            if let Some(warp) = map_instance.get_warp(map_item_id) {
+            if let Some(warp) = map_instance.get_warp(client_id) {
                 return Some(warp.to_map_item());
             }
-            if let Some(script) = map_instance.get_script(map_item_id) {
+            if let Some(script) = map_instance.get_script(client_id) {
                 return Some(script.to_map_item());
             }
         }
@@ -257,7 +257,7 @@ impl ServerState {
         match map_item.object_type() {
             MapItemType::Npc => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-                    if let Some(script) = map_instance.get_script(map_item.id()) {
+                    if let Some(script) = map_instance.get_script(map_item.client_id()) {
                         return Some(script);
                     }
                 }
@@ -270,7 +270,7 @@ impl ServerState {
     pub fn map_item_character(&self, map_item: &MapItem) -> Option<&Character> {
         match map_item.object_type() {
             MapItemType::Character => {
-                return Some(self.get_character_unsafe(map_item.id()))
+                return Some(self.get_character_unsafe(map_item.client_id()))
             }
             _ => None
         }
@@ -280,7 +280,7 @@ impl ServerState {
         match map_item.object_type() {
             MapItemType::Mob => {
                 if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-                    if let Some(mob) = map_instance.state().get_mob(map_item.id()) {
+                    if let Some(mob) = map_instance.state().get_mob(&map_item) {
                         return Some(mob.status.clone());
                     }
                 }
@@ -290,19 +290,19 @@ impl ServerState {
         }
     }
 
-    pub fn map_item_snapshot(&self, map_item_id: u32, map_name: &String, map_instance_id: u8) -> Option<MapItemSnapshot> {
+    pub fn map_item_snapshot(&self, map_item: &MapItem, map_name: &String, map_instance_id: u8) -> Option<MapItemSnapshot> {
         let characters = self.characters();
-        if let Some(character) = characters.get(&map_item_id) {
+        if let Some(character) = characters.get(&map_item.client_id()) {
             return Some(character.to_map_item_snapshot());
         }
         if let Some(map_instance) = self.get_map_instance(map_name, map_instance_id) {
-            if let Some(mob) = map_instance.state().get_mob(map_item_id) {
+            if let Some(mob) = map_instance.state().get_mob(&map_item) {
                 return Some(mob.to_map_item_snapshot());
             }
-            if let Some(_warp) = map_instance.get_warp(map_item_id) {
+            if let Some(_warp) = map_instance.get_warp(map_item.client_id()) {
                 return  None;
             }
-            if let Some(_script) = map_instance.get_script(map_item_id) {
+            if let Some(_script) = map_instance.get_script(map_item.client_id()) {
                 return None;
             }
         }

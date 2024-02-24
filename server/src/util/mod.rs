@@ -8,3 +8,4 @@ pub mod log_filter;
 pub mod tick;
 pub mod cell;
 pub mod hasher;
+pub mod vec;

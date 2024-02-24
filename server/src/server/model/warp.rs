@@ -53,6 +53,6 @@ impl Npc for Warp {
 
 impl ToMapItem for Warp {
     fn to_map_item(&self) -> MapItem {
-        MapItem::new(self.id, 45, MapItemType::Warp)
+        MapItem::new(self.id, self.id, 0,45, MapItemType::Warp)
     }
 }

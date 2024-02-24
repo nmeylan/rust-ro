@@ -79,6 +79,6 @@ impl ScriptLoader {
 
 impl ToMapItem for Script {
     fn to_map_item(&self) -> MapItem {
-        MapItem::new(self.id, self.sprite as i16, MapItemType::Npc)
+        MapItem::new(self.id, self.id, 0, self.sprite as i16, MapItemType::Npc)
     }
 }

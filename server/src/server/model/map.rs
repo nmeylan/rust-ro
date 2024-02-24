@@ -120,7 +120,7 @@ impl Map {
 
     pub fn set_warp_cells(&self, cells: &mut [u16], map_items: &mut MapItems) {
         for warp in self.warps.iter() {
-            map_items.insert(warp.id, warp.to_map_item());
+            map_items.insert_deprecated(warp.id, warp.to_map_item());
             let start_x = warp.x - warp.x_size;
             let to_x = warp.x + warp.x_size;
             let start_y = warp.y - warp.y_size;
@@ -140,7 +140,7 @@ impl Map {
     pub fn set_warps(&mut self, warps: &[Warp], map_item_ids: &mut MapItems) {
         let warps = warps.iter().map(|warp| {
             let mut warp = warp.clone();
-            warp.set_id(map_item_ids.generate_id());
+            warp.set_id(map_item_ids.generate_internal_id_deprecated());
             warp
         }).collect::<Vec<Warp>>();
         self.warps = warps;
@@ -154,7 +154,7 @@ impl Map {
         self.scripts =
             scripts.iter().map(|script| {
                 let mut script = script.clone();
-                script.set_id(map_item_ids.generate_id());
+                script.set_id(map_item_ids.generate_internal_id_deprecated());
                 script
             }).collect::<Vec<Script>>();
     }

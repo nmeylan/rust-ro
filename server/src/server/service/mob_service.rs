@@ -55,7 +55,7 @@ impl MobService {
                 }
                 let from = Position { x: current_x, y: current_y, dir: 0 };
                 let to = Position { x, y, dir: 0 };
-                movement = Some(MobMovement { id: mob.id, from, to });
+                movement = Some(MobMovement { id: mob.client_id, from, to });
                 let path = path_search_client_side_algorithm(x_size, y_size, cells, mob.x, mob.y, to.x, to.y);
                 let path = Movement::from_path(path, start_at);
                 mob.movements = path;

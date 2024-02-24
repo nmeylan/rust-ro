@@ -95,7 +95,7 @@ impl SkillService {
         skill.update_after_cast_act_delay(skill.base_after_cast_act_delay());
         skill.update_after_cast_walk_delay(skill.base_after_cast_walk_delay());
         let mut packet_zc_useskill_ack2 = PacketZcUseskillAck2::new(self.configuration_service.packetver());
-        packet_zc_useskill_ack2.set_target_id(target_snapshot.map_item().id());
+        packet_zc_useskill_ack2.set_target_id(target_snapshot.map_item().client_id());
         packet_zc_useskill_ack2.set_skid(skill_id as u16);
         packet_zc_useskill_ack2.set_property(12);  // element
         packet_zc_useskill_ack2.set_delay_time(skill.cast_time()); // cast time
@@ -107,7 +107,7 @@ impl SkillService {
 
 
         let no_delay = skill.cast_time() == 0;
-        character.set_skill_in_use(target.map(|target| target.map_item().id()), tick, skill, no_delay);
+        character.set_skill_in_use(target.map(|target| target.map_item().client_id()), tick, skill, no_delay);
         let mut damage = None;
         if no_delay {
             damage = self.do_use_skill(character, target, source_status, target_status, tick);
@@ -133,7 +133,7 @@ impl SkillService {
         let damage = self.calculate_damage(source_status, target_status.as_ref().unwrap(), skill);
         let mut packet_zc_notify_skill2 = PacketZcNotifySkill2::new(self.configuration_service.packetver());
         packet_zc_notify_skill2.set_skid(skill.id() as u16);
-        let target_id = target.as_ref().unwrap().map_item().id();
+        let target_id = target.as_ref().unwrap().map_item().client_id();
         packet_zc_notify_skill2.set_target_id(target_id);
         packet_zc_notify_skill2.set_damage(damage as i32);
         packet_zc_notify_skill2.set_start_time(0);

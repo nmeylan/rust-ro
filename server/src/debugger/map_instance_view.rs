@@ -25,7 +25,7 @@ struct PreviousCell {
 }
 
 impl MapInstanceView {
-    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, map_items: HashMap<u32, MapItem, NoopHasherU32>, selected_map_item: &Option<MapItem>) {
+    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, map_items: Vec<MapItem>, selected_map_item: &Option<MapItem>) {
         Frame::dark_canvas(ui.style()).show(ui, |ui| {
             let (_id, response) = ui.allocate_exact_size(ui.available_size_before_wrap(), Sense::click_and_drag());
             let absolute_draw_rect = response.rect;
@@ -146,7 +146,7 @@ impl MapInstanceView {
                 MapInstanceView::draw_cell(&mut shapes, &mut previous_cell, &absolute_draw_rect, margin, shape_x_size, shape_y_size, start_i, i, start_j, end_j);
                 previous_cell = None;
             }
-            for (_, map_item) in map_items.iter() {
+            for map_item in map_items.iter() {
                 let map_name = map_instance.name().to_string();
                 let map_instance_id = map_instance.id();
                 if let Some(position) = self.server.state().map_item_x_y(map_item, &map_name, map_instance_id) {
@@ -163,7 +163,7 @@ impl MapInstanceView {
                         cell_color = Color32::BLUE;
                     }
                     if let Some(selected_map_item) = selected_map_item {
-                        if selected_map_item.id() == map_item.id() {
+                        if selected_map_item.client_id() == map_item.client_id() {
                             cell_color = Color32::GOLD;
                         }
                     }

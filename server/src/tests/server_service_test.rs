@@ -207,7 +207,7 @@ mod tests {
         // Add dropped item in character fov
         character_state.map_view.insert(item.to_map_item());
         map_instance.state_mut().insert_dropped_item(item);
-        assert!(map_instance.state().get_map_item(map_item_id).is_some());
+        assert!(map_instance.state().get_map_item_deprecated(map_item_id).is_some());
         assert!(map_instance.state().get_dropped_item(map_item_id).is_some());
         // When
         context.server_service.character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);

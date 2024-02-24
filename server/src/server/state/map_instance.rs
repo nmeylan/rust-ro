@@ -9,6 +9,7 @@ use models::item::DroppedItem;
 
 use crate::util::coordinate;
 use crate::util::hasher::NoopHasherU32;
+use crate::util::vec::VecWithRecycledIndex;
 
 #[derive(SettersAll)]
 pub struct MapInstanceState {
@@ -17,8 +18,8 @@ pub struct MapInstanceState {
     y_size: u16,
     // index in this array will give x and y position of the cell.
     cells: Vec<u16>,
-    mobs: HashMap<u32, Mob, NoopHasherU32>,
     map_items: MapItems,
+    mobs: VecWithRecycledIndex<Mob>,
     dropped_items: hashbrown::HashMap<u32, DroppedItem, NoopHasherU32>,
     mob_spawns_tracks: HashMap<u32, MobSpawnTrack>,
 
@@ -56,7 +57,7 @@ impl MapInstanceState {
             x_size,
             y_size,
             cells,
-            mobs: Default::default(),
+            mobs: VecWithRecycledIndex::new(),
             map_items,
             dropped_items: Default::default(),
             mob_spawns_tracks,
@@ -82,40 +83,46 @@ impl MapInstanceState {
     }
 
     pub fn insert_item(&mut self, map_item: MapItem) {
-        self.map_items.insert(map_item.id(), map_item);
+        self.map_items.insert(map_item);
     }
 
     pub fn remove_item(&mut self, map_item: MapItem) {
-        self.remove_item_with_id(map_item.id());
+        self.map_items.remove(map_item.generic_internal_id());
     }
 
-    pub fn remove_item_with_id(&mut self, id: u32) {
-        self.map_items.remove(id);
+    pub fn remove_item_with_id(&mut self, internal_id: u32) {
+        self.map_items.remove_with_id(internal_id);
     }
 
-    pub fn get_mob(&self, mob_id: u32) -> Option<&Mob> {
-        self.mobs().get(&mob_id)
+    pub fn get_mob(&self, map_item: &MapItem) -> Option<&Mob> {
+        self.mobs().get(map_item.specific_internal_id() as usize)
     }
 
-    pub fn mobs(&self) -> &HashMap<u32, Mob, NoopHasherU32> {
-        &self.mobs
+    pub fn get_mob_with_client_id(&self, client_id: u32) -> Option<&Mob> {
+        self.mobs().iter().find(|mob| mob.client_id == client_id)
     }
-    pub fn mobs_mut(&mut self) -> &mut HashMap<u32, Mob, NoopHasherU32> {
-        &mut self.mobs
+    pub fn get_mob_mut_with_client_id(&mut self, client_id: u32) -> Option<&mut Mob> {
+        self.mobs.get_elements_mut().iter_mut().find(|mob| mob.client_id == client_id)
     }
 
-    pub fn insert_mob(&mut self, mob: Mob) {
+    pub fn mobs(&self) -> &Vec<Mob> {
+        &self.mobs.get_elements()
+    }
+    pub fn mobs_mut(&mut self) -> &mut Vec<Mob> {
+        self.mobs.get_elements_mut()
+    }
+
+    pub fn insert_mob(&mut self, mut mob: Mob) {
         self.insert_item(mob.to_map_item());
-        self.mobs_mut().insert(mob.id, mob);
+        let index = self.mobs.get_free_index();
+        mob.set_map_instance_mobs_index(index as u32);
+        self.mobs.insert(index, mob);
     }
 
-    pub fn remove_mob(&mut self, id: u32) -> Option<Mob>{
-        if let Some(mob) = self.mobs_mut().remove(&id) {
-            self.remove_item(mob.to_map_item());
-            Some(mob)
-        } else {
-            None
-        }
+    pub fn remove_mob(&mut self, index: u32) -> Option<Mob>{
+        let mob = self.mobs.remove(index as usize);
+        self.remove_item(mob.to_map_item());
+        Some(mob)
     }
     pub fn get_dropped_item(&self, dropped_item_id: u32) -> Option<&DroppedItem> {
         self.dropped_items().get(&dropped_item_id)
@@ -139,14 +146,20 @@ impl MapInstanceState {
             None
         }
     }
-    pub fn map_items(&self) -> &hashbrown::HashMap<u32, MapItem, NoopHasherU32> {
+
+    pub fn map_items(&self) -> &Vec<MapItem> {
         self.map_items.get()
     }
+
+    pub fn map_items_deprecated(&self) -> &hashbrown::HashMap<u32, MapItem, NoopHasherU32> {
+        self.map_items.get_deprecated()
+    }
+
     pub fn map_items_mut(&mut self) -> &mut MapItems {
         &mut self.map_items
     }
-    pub fn get_map_item(&self, item_id: u32) -> Option<&MapItem> {
-        self.map_items().get(&item_id)
+    pub fn get_map_item_deprecated(&self, item_id: u32) -> Option<&MapItem> {
+        self.map_items_deprecated().get(&item_id)
     }
     pub fn mob_spawns_tracks(&self) -> &HashMap<u32, MobSpawnTrack> {
         &self.mob_spawns_tracks

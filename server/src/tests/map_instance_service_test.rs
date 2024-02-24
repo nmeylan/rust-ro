@@ -79,7 +79,7 @@ mod tests {
         context.map_instance_service.remove_dead_mobs(&mut map_instance_state);
         // Then
         assert_eq!(mem::discriminant(&map_instance_state.get_mob(mob_item_id)), mem::discriminant(&None));
-        assert_eq!(mem::discriminant(&map_instance_state.get_map_item(mob_item_id)), mem::discriminant(&None));
+        assert_eq!(mem::discriminant(&map_instance_state.get_map_item_deprecated(mob_item_id)), mem::discriminant(&None));
     }
 
     #[test]
@@ -152,8 +152,8 @@ mod tests {
         let drops = context.map_instance_service.mob_drop_items(&mut map_instance_state, mob_drop_items);
         // Then
         for drop in drops {
-            assert!(map_instance_state.get_map_item(drop.map_item_id).is_some());
-            assert!(matches!(map_instance_state.get_map_item(drop.map_item_id).unwrap().object_type(), MapItemType::DroppedItem));
+            assert!(map_instance_state.get_map_item_deprecated(drop.map_item_id).is_some());
+            assert!(matches!(map_instance_state.get_map_item_deprecated(drop.map_item_id).unwrap().object_type(), MapItemType::DroppedItem));
             assert!(map_instance_state.get_dropped_item(drop.map_item_id).is_some());
         }
     }
@@ -208,7 +208,7 @@ mod tests {
         // When
         context.map_instance_service.mob_being_attacked(&mut map_instance_state, Damage { target_id: mob_item_id, attacker_id: 150000, damage: max_hp + 10, attacked_at: get_tick() + 10 }, map_instance_tasks_queue.clone(), get_tick());
         // Then
-        assert_task_queue_contains_event_at_tick!(map_instance_tasks_queue, MapEvent::MobDeathClientNotification(MobLocation { mob_id: original_mob.id, x: original_mob.x, y: original_mob.y }), delayed_tick(10, MAP_LOOP_TICK_RATE));
+        assert_task_queue_contains_event_at_tick!(map_instance_tasks_queue, MapEvent::MobDeathClientNotification(MobLocation { mob_id: original_mob.client_id, x: original_mob.x, y: original_mob.y }), delayed_tick(10, MAP_LOOP_TICK_RATE));
     }
 
     #[test]
