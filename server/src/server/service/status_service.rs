@@ -136,6 +136,7 @@ impl StatusService {
         bonuses.extend(dynamic_item_script_handler.drain());
     }
 
+    #[inline]
     fn truncate(x: f32, decimals: u32) -> f32 {
         let y = 10i32.pow(decimals) as f32;
         (x * y).round() / y
@@ -165,6 +166,7 @@ impl StatusService {
         200.0 - (weapon_delay - ((((weapon_delay * (status.agi() as f32)) / 25.0).floor() + ((weapon_delay * (status.dex() as f32)) / 100.0).floor()) / 10.0) * (1.0 - speed_modifier))
     }
 
+    #[inline]
     fn weapon_delay(&self, status: &StatusSnapshot) -> u32 {
         let weapon = status.right_hand_weapon_type();
         *self.configuration_service.get_job_config(status.job()).base_aspd().get(weapon.as_str()).unwrap_or(&2000)
@@ -181,6 +183,7 @@ impl StatusService {
     ///For weapons, the true value is equal to: STR + [STR/10]^2 + [DEX/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
     ///For missile weapons, the true value is equal to: DEX + [DEX/10]^2 + [STR/5] + [LUK/5] + WeaponAtk + AtkBonusCards where [] indicates you round the value inside down before continuing and ^2 indicates squaring.
     ///Not counting the value of WeaponAtk and AtkBonusCards, this true value is often referred to as the base damage. This base damage is basically the your Atk with bare fists.
+    #[inline]
     fn status_atk_left_side(&self, status: &StatusSnapshot) -> i32 {
         let imposito_magnus = 0;
         let _upgrade_damage = 0;
@@ -188,6 +191,7 @@ impl StatusService {
         (status.fist_atk() + status.weapon_atk() + imposito_magnus + status.weapon_upgrade_damage() + status.base_atk()) as i32
     }
 
+    #[inline]
     pub(crate) fn fist_atk(&self, status: &StatusSnapshot, is_ranged: bool) -> u16 {
         let mut str;
         let dex;
@@ -208,13 +212,10 @@ impl StatusService {
         str
     }
 
-    pub fn atk_cards(&self, _status: &StatusSnapshot) -> u16 {
-        0
-    }
-
     /// UI right side atk in status info panel
     /// https://web.archive.org/web/20060717223009/http://rodatazone.simgaming.net/mechanics/substats.php
     /// https://web.archive.org/web/20060717222819/http://rodatazone.simgaming.net/items/upgrading.php
+    #[inline]
     pub fn set_status_atk_right_side(&self, status: &mut StatusSnapshot)  {
         let mut atk_right = 0_i32;
         let mut overupgrade_right_hand_atk_bonus = 0;
@@ -271,6 +272,7 @@ impl StatusService {
     }
 
 
+    #[inline]
     pub fn character_vit_def(&self, status_snapshot: &StatusSnapshot) -> u16 {
         status_snapshot.vit() // TODO angelus multiplier
     }

@@ -320,6 +320,19 @@ mod tests {
     fn test_status_garment_elemental_damage_increase_cards() {
         // Magmaring Card
     }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_weapon_elemental_damage_increase() {
+        // fireblend
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_ammo_elemental_damage_increase() {
+        // fire arrow with bow
+    }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_critical_damage_increase_against_race_cards() {
