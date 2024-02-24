@@ -31,6 +31,7 @@ pub struct Mob {
     pub last_attacked_at: u128,
     pub to_remove: bool,
     pub last_moved_at: u128,
+    pub damage_motion: u32,
 }
 
 pub struct MobMovement {
@@ -52,7 +53,7 @@ impl Movable for Mob {
 }
 
 impl Mob {
-    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, name_english: String, status: StatusSnapshot) -> Mob {
+    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, name_english: String, damage_motion: u32, status: StatusSnapshot) -> Mob {
         Mob {
             id,
             x,
@@ -69,6 +70,7 @@ impl Mob {
             last_attacked_at: 0,
             to_remove: false,
             last_moved_at: 0,
+            damage_motion: 0,
         }
     }
 
