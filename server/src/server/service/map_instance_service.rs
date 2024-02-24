@@ -76,6 +76,7 @@ impl MapInstanceService {
                 }
                 let mob_map_item_id = map_instance_state.map_items_mut().generate_id();
                 let mob = Mob::new(mob_map_item_id, cell.0, cell.1, mob_spawn.mob_id, mob_spawn.id, mob_spawn.info.name.clone(), mob_spawn.info.name_english.clone(),
+                                   mob_spawn.info.damage_motion as u32,
                                    StatusFromDb::from_mob_model(&mob_spawn.info));
 
                 debug!("Spawning mob {}", mob_map_item_id);
