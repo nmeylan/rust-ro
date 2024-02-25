@@ -1,4 +1,3 @@
-use std::collections::{HashMap};
 use std::sync::Arc;
 use eframe::egui::{Color32, emath, epaint, Frame, Pos2, Rect, Sense, Shape, Stroke, Ui};
 use eframe::egui::epaint::RectShape;
@@ -8,9 +7,12 @@ use crate::server::model::map_instance::MapInstance;
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::{Server};
 use crate::util::coordinate;
+use crate::util::hasher::NoopHasherU32;
+use hashbrown::HashMap;
 
 pub struct MapInstanceView {
     pub cursor_pos: Option<Pos2>,
+    pub clicked: bool,
     pub zoom: f32,
     pub zoom_center: Pos2,
     pub zoom_draw_rect: Rect,
@@ -23,7 +25,7 @@ struct PreviousCell {
 }
 
 impl MapInstanceView {
-    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, map_items: HashMap<u32, MapItem>) {
+    pub fn draw_map_instance_view(&mut self, ui: &mut Ui, map_instance: &Arc<MapInstance>, map_items: HashMap<u32, MapItem, NoopHasherU32>, selected_map_item: &Option<MapItem>) {
         Frame::dark_canvas(ui.style()).show(ui, |ui| {
             let (_id, response) = ui.allocate_exact_size(ui.available_size_before_wrap(), Sense::click_and_drag());
             let absolute_draw_rect = response.rect;
@@ -45,6 +47,7 @@ impl MapInstanceView {
 
             let cursor_pos = ui.input().pointer.hover_pos();
             self.cursor_pos = None;
+            self.clicked = ui.input().pointer.any_click();
             if ui.input().zoom_delta() > 1.0 {
                 self.zoom_center = Pos2 {
                     x: cursor_pos.as_ref().unwrap().x - absolute_draw_rect.min.x,
@@ -116,6 +119,7 @@ impl MapInstanceView {
                                 x: j as f32,
                                 y: i as f32
                             });
+
                         }
                     }
 
@@ -157,6 +161,11 @@ impl MapInstanceView {
                     cell_color = Color32::GREEN;
                 } else if *map_item.object_type() == MapItemType::Warp {
                     cell_color = Color32::BLUE;
+                }
+                if let Some(selected_map_item) = selected_map_item {
+                    if selected_map_item.id() == map_item.id() {
+                        cell_color = Color32::GOLD;
+                    }
                 }
                 shapes.push(epaint::Shape::Rect(RectShape {
                     rect: emath::Rect {

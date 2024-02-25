@@ -214,7 +214,7 @@ impl Server {
                         let mut tcp_stream_guard = tcp_stream.write().unwrap();
                         debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
                         if GlobalConfigService::instance().config().server.trace_packet {
-                            debug_packets_from_vec(tcp_stream_guard.peer_addr().as_ref().unwrap(), PacketDirection::Backward,
+                            debug_packets_from_vec(Some(tcp_stream_guard.peer_addr().as_ref().unwrap()), PacketDirection::Backward,
                                                    GlobalConfigService::instance().packetver(), data, &Option::None);
                         }
                         tcp_stream_guard.write_all(data).unwrap();
@@ -237,8 +237,9 @@ impl Server {
                                             debug!("{} - {:?}", buffer.session_id(), buffer.data());
                                         }
                                         if GlobalConfigService::instance().config().server.trace_packet {
-                                            debug_packets_from_vec(tcp_stream_guard.peer_addr().as_ref().unwrap(), PacketDirection::Backward,
+                                            debug_packets_from_vec(Some(tcp_stream_guard.peer_addr().as_ref().unwrap()), PacketDirection::Backward,
                                                                    GlobalConfigService::instance().packetver(), buffer.data(), &Option::None);
+                                            info!("Flushing {} {}bytes - {:02X?}", buffer.session_id(), buffer.data().len(), buffer.data());
                                         }
                                         if tcp_stream_guard.write_all(buffer.data()).is_ok() {
                                             tcp_stream_guard.flush().unwrap();
@@ -264,10 +265,14 @@ impl Server {
                                                 server_ref.state().characters().iter()
                                                     .filter(|(_, character)| character.current_map_name() == &area_notification.map_name
                                                         && character.current_map_instance() == area_notification.map_instance_id
-                                                        && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
+                                                        // && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
                                                         && (exclude_id.is_none() || exclude_id.unwrap() != character.char_id)
                                                     )
                                                     .for_each(|(_, character)| {
+                                                        if GlobalConfigService::instance().config().server.trace_packet {
+                                                            debug_packets_from_vec(None, PacketDirection::Backward,
+                                                                                   GlobalConfigService::instance().packetver(), area_notification.serialized_packet(), &Some(String::from("Enqueu in buffer")));
+                                                        }
                                                         Self::buffer_packets(&mut packets_by_session, character.char_id, area_notification.serialized_packet().as_slice());
                                                     });
                                             }
@@ -275,7 +280,7 @@ impl Server {
                                     }
                                 }
                             }
-                            Err(mpsc::RecvTimeoutError::Timeout) => {}
+                            Err(mpsc::RecvTimeoutError::Timeout) => {                            }
                             _ => {}
                         }
                     }
