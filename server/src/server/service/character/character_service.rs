@@ -15,7 +15,7 @@ use models::enums::EnumWithNumberValue;
 use models::enums::skill_enums::SkillEnum;
 
 
-use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues};
+use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyMoveentry8, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, PacketZcNotifyMove};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::{CharacterRepository};
 use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny, GameEvent};
@@ -31,6 +31,7 @@ use crate::server::model::events::map_event::{MapEvent, MobDropItems};
 use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
 use models::position::Position;
 use models::status::{KnownSkill, Status};
+use crate::server::model::movement::Movable;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::character::skill_tree_service::SkillTreeService;
 
@@ -43,6 +44,7 @@ use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::server::ServerState;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
+use crate::util::tick::get_tick_client;
 
 static mut SERVICE_INSTANCE: Option<CharacterService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -804,24 +806,48 @@ impl CharacterService {
                         packets.extend(packet_zc_item_entry.raw);
                     }
                 } else {
-                    let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new(self.configuration_service.packetver());
-                    packet_zc_notify_standentry.set_job(map_item.client_item_class());
-                    packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(self.configuration_service.packetver()) as i16);
-                    // packet_zc_notify_standentry.set_name(name);
-                    packet_zc_notify_standentry.set_pos_dir(position.to_pos());
-                    packet_zc_notify_standentry.set_objecttype(map_item.object_type_value() as u8);
-                    packet_zc_notify_standentry.set_aid(map_item.id());
-                    packet_zc_notify_standentry.set_gid(map_item.id());
                     if matches!(map_item.object_type(), MapItemType::Mob) {
                         if let Some(mob) = map_instance_state.get_mob(map_item.id()) {
+                            let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new(self.configuration_service.packetver());
+                            packet_zc_notify_standentry.set_job(map_item.client_item_class());
+                            packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(self.configuration_service.packetver()) as i16);
+                            // packet_zc_notify_standentry.set_name(name);
+                            packet_zc_notify_standentry.set_pos_dir(position.to_pos());
+                            packet_zc_notify_standentry.set_objecttype(map_item.object_type_value() as u8);
+                            packet_zc_notify_standentry.set_aid(map_item.id());
+                            packet_zc_notify_standentry.set_gid(map_item.id());
                             packet_zc_notify_standentry.set_clevel(3);
                             packet_zc_notify_standentry.set_speed(mob.status.speed() as i16);
                             packet_zc_notify_standentry.set_hp(mob.status.hp());
                             packet_zc_notify_standentry.set_max_hp(mob.status.max_hp());
+                            packet_zc_notify_standentry.fill_raw_with_packetver(Some(self.configuration_service.packetver()));
+                            packets.extend(packet_zc_notify_standentry.raw);
+                            if mob.is_moving() {
+                                let mut packet_zc_notify_move = PacketZcNotifyMove::new(self.configuration_service.packetver());
+                                packet_zc_notify_move.set_gid(mob.id);
+                                packet_zc_notify_move.move_data = mob.position().to_move_data(mob.movements.first().unwrap().position());
+                                // packet_zc_notify_move.move_data = mob_movement.from.to_move_data(&mob_movement.to);
+                                packet_zc_notify_move.set_move_start_time(get_tick_client());
+                                packet_zc_notify_move.fill_raw();
+                                #[cfg(feature = "debug_mob_movement")]
+                                {
+                                    info!("A moving mob appeared! {} moving from {} to {}.", mob.id, mob.position(), mob.movements.first().unwrap().position());
+                                }
+                                packets.extend(packet_zc_notify_move.raw);
+                            }
                         }
+                    } else {
+                        let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new(self.configuration_service.packetver());
+                        packet_zc_notify_standentry.set_job(map_item.client_item_class());
+                        packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(self.configuration_service.packetver()) as i16);
+                        // packet_zc_notify_standentry.set_name(name);
+                        packet_zc_notify_standentry.set_pos_dir(position.to_pos());
+                        packet_zc_notify_standentry.set_objecttype(map_item.object_type_value() as u8);
+                        packet_zc_notify_standentry.set_aid(map_item.id());
+                        packet_zc_notify_standentry.set_gid(map_item.id());
+                        packet_zc_notify_standentry.fill_raw_with_packetver(Some(self.configuration_service.packetver()));
+                        packets.extend(packet_zc_notify_standentry.raw);
                     }
-                    packet_zc_notify_standentry.fill_raw_with_packetver(Some(self.configuration_service.packetver()));
-                    packets.extend(packet_zc_notify_standentry.raw);
                 }
             }
         }

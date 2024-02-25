@@ -265,7 +265,7 @@ impl Server {
                                                 server_ref.state().characters().iter()
                                                     .filter(|(_, character)| character.current_map_name() == &area_notification.map_name
                                                         && character.current_map_instance() == area_notification.map_instance_id
-                                                        // && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
+                                                        && manhattan_distance(character.x(), character.y(), x, y) <= PLAYER_FOV
                                                         && (exclude_id.is_none() || exclude_id.unwrap() != character.char_id)
                                                     )
                                                     .for_each(|(_, character)| {

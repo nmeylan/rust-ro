@@ -148,6 +148,14 @@ impl Mob {
     pub fn set_last_moved_at(&mut self, tick: u128) {
         self.last_moved_at = tick;
     }
+
+    pub fn position(&self) -> Position {
+        Position {
+            x: self.x,
+            y: self.y,
+            dir: 0,
+        }
+    }
 }
 
 impl ToMapItem for Mob {
