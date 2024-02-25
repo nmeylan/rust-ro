@@ -44,7 +44,7 @@ impl Display for PacketDirection {
 }
 
 pub fn debug_packets_from_vec(outgoing: Option<&SocketAddr>, direction: PacketDirection, packetver: u32, bytes: &Vec<u8>, name: &Option<String>) {
-    let mut buffer = [0_u8; 10048];
+    let mut buffer = [0_u8; 20048];
     if bytes.len() < 2 {
         return;
     }

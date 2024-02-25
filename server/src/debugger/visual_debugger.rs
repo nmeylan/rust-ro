@@ -153,11 +153,15 @@ impl VisualDebugger {
                         if ui.button("Toggle mob movement").clicked() {
                             map_instance.add_to_next_tick(MapEvent::AdminTogglePauseMobMovement);
                         }
+                        if ui.button("Killall mob").clicked() {
+                            map_instance.add_to_next_tick(MapEvent::AdminKillAllMobs(150000));
+                        }
                         ui.separator();
                         ui.label("Characters:");
                         characters.iter().for_each(|character| {
                             ui.label(format!("{} {},{}", character.name, character.x(), character.y()));
                         });
+
                         if let Some(map_item) = self.selected_map_item.as_ref() {
                             ui.separator();
                             let state = map_instance.state();

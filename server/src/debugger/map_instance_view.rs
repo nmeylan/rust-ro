@@ -149,39 +149,40 @@ impl MapInstanceView {
             for (_, map_item) in map_items.iter() {
                 let map_name = map_instance.name().to_string();
                 let map_instance_id = map_instance.id();
-                let position = self.server.state().map_item_x_y(map_item, &map_name, map_instance_id).unwrap();
-                if position.x() < start_j
-                    || position.y() < start_i {
-                    continue;
-                }
-                let mut cell_color = Default::default();
-                if *map_item.object_type() == MapItemType::Mob {
-                    cell_color = Color32::RED;
-                } else if *map_item.object_type() == MapItemType::Character {
-                    cell_color = Color32::GREEN;
-                } else if *map_item.object_type() == MapItemType::Warp {
-                    cell_color = Color32::BLUE;
-                }
-                if let Some(selected_map_item) = selected_map_item {
-                    if selected_map_item.id() == map_item.id() {
-                        cell_color = Color32::GOLD;
+                if let Some(position) = self.server.state().map_item_x_y(map_item, &map_name, map_instance_id) {
+                    if position.x() < start_j
+                        || position.y() < start_i {
+                        continue;
                     }
-                }
-                shapes.push(epaint::Shape::Rect(RectShape {
-                    rect: emath::Rect {
-                        min: Pos2 {
-                            x: absolute_draw_rect.min.x + margin + (shape_x_size * (position.x() - start_j) as f32),
-                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((position.y() - start_i) as f32 + 1.0)),
-                        },
-                        max: Pos2 {
-                            x: absolute_draw_rect.min.x + margin + (shape_x_size * ((position.x() - start_j) as f32 + 1.0)),
-                            y: absolute_draw_rect.max.y - margin - (shape_y_size * ((position.y() - start_i) as f32)),
+                    let mut cell_color = Default::default();
+                    if *map_item.object_type() == MapItemType::Mob {
+                        cell_color = Color32::RED;
+                    } else if *map_item.object_type() == MapItemType::Character {
+                        cell_color = Color32::GREEN;
+                    } else if *map_item.object_type() == MapItemType::Warp {
+                        cell_color = Color32::BLUE;
+                    }
+                    if let Some(selected_map_item) = selected_map_item {
+                        if selected_map_item.id() == map_item.id() {
+                            cell_color = Color32::GOLD;
                         }
-                    },
-                    fill: cell_color,
-                    stroke: Stroke::NONE,
-                    rounding: Default::default(),
-                }));
+                    }
+                    shapes.push(epaint::Shape::Rect(RectShape {
+                        rect: emath::Rect {
+                            min: Pos2 {
+                                x: absolute_draw_rect.min.x + margin + (shape_x_size * (position.x() - start_j) as f32),
+                                y: absolute_draw_rect.max.y - margin - (shape_y_size * ((position.y() - start_i) as f32 + 1.0)),
+                            },
+                            max: Pos2 {
+                                x: absolute_draw_rect.min.x + margin + (shape_x_size * ((position.x() - start_j) as f32 + 1.0)),
+                                y: absolute_draw_rect.max.y - margin - (shape_y_size * ((position.y() - start_i) as f32)),
+                            }
+                        },
+                        fill: cell_color,
+                        stroke: Stroke::NONE,
+                        rounding: Default::default(),
+                    }));
+                }
             }
 
 
