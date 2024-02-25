@@ -21,6 +21,8 @@ pub struct MapInstanceState {
     map_items: MapItems,
     dropped_items: hashbrown::HashMap<u32, DroppedItem, NoopHasherU32>,
     mob_spawns_tracks: HashMap<u32, MobSpawnTrack>,
+
+    mob_movement_paused: bool,
 }
 
 pub struct MobSpawnTrack {
@@ -58,6 +60,7 @@ impl MapInstanceState {
             map_items,
             dropped_items: Default::default(),
             mob_spawns_tracks,
+            mob_movement_paused: false
         }
     }
 
@@ -168,5 +171,9 @@ impl MapInstanceState {
     }
     pub fn y_size(&self) -> u16 {
         self.y_size
+    }
+
+    pub fn mob_movement_paused(&self) -> bool {
+        self.mob_movement_paused
     }
 }

@@ -15,6 +15,7 @@ pub enum MapEvent {
     MobDeathClientNotification(MobLocation),
     MobDropItems(MobDropItems),
     AdminKillAllMobs(u32),
+    AdminTogglePauseMobMovement,
     CharDropItems(CharacterDropItems),
 }
 

@@ -43,7 +43,7 @@ impl Display for PacketDirection {
     }
 }
 
-pub fn debug_packets_from_vec(outgoing: &SocketAddr, direction: PacketDirection, packetver: u32, bytes: &Vec<u8>, name: &Option<String>) {
+pub fn debug_packets_from_vec(outgoing: Option<&SocketAddr>, direction: PacketDirection, packetver: u32, bytes: &Vec<u8>, name: &Option<String>) {
     let mut buffer = [0_u8; 10048];
     if bytes.len() < 2 {
         return;
@@ -62,7 +62,7 @@ pub fn debug_packets_from_vec(outgoing: &SocketAddr, direction: PacketDirection,
     }
     debug_packets(outgoing, direction, packetver, &buffer, bytes.len(), name);
 }
-pub fn debug_packets(outgoing: &SocketAddr, direction: PacketDirection, packetver: u32, buffer: &[u8], bytes_read: usize, name: &Option<String>) {
+pub fn debug_packets(outgoing: Option<&SocketAddr>, direction: PacketDirection, packetver: u32, buffer: &[u8], bytes_read: usize, name: &Option<String>) {
     let packet = parse(&buffer[..bytes_read], packetver);
     if packet.raw().len() < bytes_read {
         let mut offset = 0;
@@ -82,13 +82,18 @@ pub fn debug_packets(outgoing: &SocketAddr, direction: PacketDirection, packetve
     }
 }
 
-fn print_packet(name: &Option<String>, outgoing: &SocketAddr, direction: PacketDirection, packet: Box<dyn Packet>) {
+
+fn print_packet(name: &Option<String>, outgoing: Option<&SocketAddr>, direction: PacketDirection, packet: Box<dyn Packet>) {
     if packet.id(GlobalConfigService::instance().packetver()) != "0x6003"
         && packet.id(GlobalConfigService::instance().packetver()) != "0x7f00"
         && packet.id(GlobalConfigService::instance().packetver()) != "0x0887"
         && packet.id(GlobalConfigService::instance().packetver()) != "0x7e00" { // PACKET_CZ_REQUEST_TIME2
         println!("\n----------------------------Start Packet----------------------------");
-        info!("{} {} {}", name.as_ref().cloned().unwrap_or("server".to_string()), if direction == PacketDirection::Backward { "<" } else { ">" }, outgoing);
+        if let Some(outgoing) = outgoing {
+            info!("{} {} {}", name.as_ref().cloned().unwrap_or("server".to_string()), if direction == PacketDirection::Backward { "<" } else { ">" }, outgoing);
+        } else {
+            info!("{} {} Client", name.as_ref().cloned().unwrap_or("server".to_string()), if direction == PacketDirection::Backward { "<" } else { ">" });
+        }
         packet.display();
         packet.pretty_debug();
         info!("{:02X?}", packet.raw());

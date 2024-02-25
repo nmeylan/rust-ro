@@ -33,7 +33,7 @@ impl MapInstanceLoop {
                 loop {
                     let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
                     let now = Instant::now();
-                    if last_mobs_action.elapsed().as_millis() >= (GlobalConfigService::instance().config().game.mob_action_refresh_frequency * 1000.0) as u128 {
+                    if !map_instance.state().mob_movement_paused() && last_mobs_action.elapsed().as_millis() >= (GlobalConfigService::instance().config().game.mob_action_refresh_frequency * 1000.0) as u128 {
                         let map_instance_state = map_instance.state_mut().as_mut();
                         MapInstanceService::instance().mobs_action(map_instance_state, tick);
                         last_mobs_action = now;
@@ -75,6 +75,10 @@ impl MapInstanceLoop {
                                 }
                                 MapEvent::AdminKillAllMobs(char_id) => {
                                     MapInstanceService::instance().kill_all_mobs(map_instance.state_mut().as_mut(), map_instance.task_queue(), char_id);
+                                }
+                                MapEvent::AdminTogglePauseMobMovement => {
+                                    let map_instance_state = map_instance.state_mut().as_mut();
+                                    map_instance_state.set_mob_movement_paused(!map_instance_state.mob_movement_paused());
                                 }
                             }
                         }

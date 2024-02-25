@@ -92,7 +92,7 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                     }
                     let tcp_stream_ref = Arc::new(Mutex::new(incoming.try_clone().unwrap()));
                     self.proxy_request(outgoing, tcp_stream_ref, &buffer[..bytes_read], bytes_read, packetver);
-                    debug_packets(outgoing.peer_addr().as_ref().unwrap(), direction, packetver, &mut buffer, bytes_read, &Some(self.name.clone()));
+                    debug_packets(Some(outgoing.peer_addr().as_ref().unwrap()), direction, packetver, &mut buffer, bytes_read, &Some(self.name.clone()));
                 }
                 Err(error) => return Err(format!("Could not read data: {error}"))
             }
