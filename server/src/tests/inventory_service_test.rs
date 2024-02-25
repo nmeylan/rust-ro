@@ -264,6 +264,7 @@ mod tests {
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, item.location as i32);
         assert_ne!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
     }
 
@@ -327,6 +328,7 @@ mod tests {
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert_eq!(character.inventory[inventory_index].as_ref().unwrap().equip, item.location as i32);
         assert_ne!(character.inventory[inventory_index].as_ref().unwrap().equip, 0);
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcReqWearEquipAck2::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcAttackRange::packet_id(GlobalConfigService::instance().packetver()))]));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateEquippedItems(vec![character.inventory[inventory_index].as_ref().unwrap().clone()]));
@@ -517,6 +519,7 @@ mod tests {
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
         // Then
         assert_eq!(character.status.all_equipped_items().len(), 0);
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver()))]));
     }
 
     #[test]
