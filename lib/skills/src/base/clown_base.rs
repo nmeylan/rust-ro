@@ -315,7 +315,7 @@ impl OffensiveSkillBase for VulcanArrow {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // CG_MOONLIT

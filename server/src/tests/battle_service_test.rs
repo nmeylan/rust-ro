@@ -39,8 +39,12 @@ fn before_each_with_latch(latch_size: usize) -> BattleServiceTestContext {
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
+    use models::enums::element::Element;
     use models::enums::size::Size;
+    use models::enums::skill_enums::SkillEnum;
     use models::status::Status;
+    use skills::base::bard_base::MelodyStrike;
+    use skills::{OffensiveSkill, Skill};
     use crate::{assert_eq_with_variance, status_snapshot, status_snapshot_mob};
     use crate::server::model::map_item::{ToMapItemSnapshot};
     use crate::server::service::battle_service::BattleService;
@@ -276,6 +280,41 @@ mod tests {
             // Then
             assert_eq!(min, scenarii.expected_vitdef_min);
             assert_eq!(max, scenarii.expected_vitdef_max);
+        }
+    }
+
+
+    #[test]
+    fn test_attack_element() {
+        // TODO test endow and crafted weapon
+        // Given
+        let context = crate::tests::battle_service_test::before_each();
+        struct Scenarii<'a> {
+            weapon: &'a str,
+            ammo: Option<&'a str>,
+            expected_element: Element,
+            skill: Option<Box<dyn OffensiveSkill>>,
+        }
+        let scenario = vec![
+            Scenarii { weapon: "Sword", ammo: None, expected_element: Element::Neutral, skill: None},
+            Scenarii { weapon: "Fire_Brand", ammo: None, expected_element: Element::Fire, skill: None},
+            Scenarii { weapon: "Ice_Falchon", ammo: None, expected_element: Element::Water, skill: None},
+            Scenarii { weapon: "Katar_Of_Piercing_Wind", ammo: None, expected_element: Element::Wind, skill: None},
+            Scenarii { weapon: "Katar_Of_Piercing_Wind", ammo: Some("Fire_Arrow"), expected_element: Element::Wind, skill: None},
+            Scenarii { weapon: "Katar_Of_Thornbush", ammo:  None, expected_element: Element::Earth, skill: None},
+            Scenarii { weapon: "Bow", ammo: Some("Fire_Arrow"), expected_element: Element::Fire, skill: None},
+            Scenarii { weapon: "Bow", ammo: Some("Arrow_Of_Wind"), expected_element: Element::Wind, skill: None},
+            Scenarii { weapon: "Lute", ammo: Some("Arrow_Of_Wind"), expected_element: Element::Neutral, skill: None},
+            Scenarii { weapon: "Lute", ammo: Some("Arrow_Of_Wind"), expected_element: Element::Wind, skill: skills::skill_enums::to_offensive_skill(SkillEnum::BaMusicalstrike, 1)},
+        ];
+        // When
+        for scenari in scenario {
+            let mut character = create_character();
+            equip_item_from_name(&mut character, scenari.weapon);
+            scenari.ammo.map(|ammo| equip_item_from_name(&mut character, ammo));
+            // Then
+            let element = context.battle_service.attack_element(status_snapshot!(context, character), scenari.skill.as_deref());
+            assert_eq!(element, scenari.expected_element, "expected {} but got {} for weapon {} and skill {:?}", scenari.expected_element, element, scenari.weapon, scenari.skill.map(|s| s.id()));
         }
     }
 

@@ -453,7 +453,7 @@ impl OffensiveSkillBase for FocusedArrowStrike {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // SN_WINDWALK

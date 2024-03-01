@@ -256,6 +256,11 @@ impl InventoryService {
                 packets.extend(packet);
             }
         });
+        character.status.equipped_weapons().iter().for_each(|item| {
+            if let Some(packet) = self.sprite_change_packet_for_item(character, item, false) {
+                packets.extend(packet);
+            }
+        });
         self.client_notification_sender.send(Notification::Area(AreaNotification {
             map_name: character.current_map_name().clone(),
             map_instance_id: character.current_map_instance(),

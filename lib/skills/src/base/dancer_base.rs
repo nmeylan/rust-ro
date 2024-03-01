@@ -249,7 +249,7 @@ impl OffensiveSkillBase for SlingingArrow {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // DC_UGLYDANCE

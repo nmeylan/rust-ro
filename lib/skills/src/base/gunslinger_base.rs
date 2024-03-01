@@ -285,7 +285,7 @@ impl OffensiveSkillBase for TripleAction {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // GS_BULLSEYE
@@ -390,7 +390,7 @@ impl OffensiveSkillBase for BullsEye {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // GS_MADNESSCANCEL
@@ -851,7 +851,7 @@ impl OffensiveSkillBase for Cracker {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // GS_SINGLEACTION
@@ -1315,7 +1315,7 @@ impl OffensiveSkillBase for Tracking {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // GS_DISARM
@@ -1612,7 +1612,7 @@ impl OffensiveSkillBase for PiercingShot {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // GS_RAPIDSHOWER
@@ -1815,7 +1815,7 @@ impl OffensiveSkillBase for RapidShower {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // GS_DESPERADO
@@ -2026,7 +2026,7 @@ impl OffensiveSkillBase for Desperado {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 impl SelfSkillBase for Desperado {
@@ -2384,7 +2384,7 @@ impl OffensiveSkillBase for Dust {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // GS_FULLBUSTER
@@ -2643,7 +2643,7 @@ impl OffensiveSkillBase for FullBuster {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // GS_SPREADATTACK
@@ -2842,7 +2842,7 @@ impl OffensiveSkillBase for SpreadAttack {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // GS_GROUNDDRIFT
@@ -3023,7 +3023,7 @@ impl OffensiveSkillBase for GroundDrift {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 impl GroundSkillBase for GroundDrift {

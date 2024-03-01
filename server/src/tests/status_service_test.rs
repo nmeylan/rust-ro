@@ -39,6 +39,7 @@ mod tests {
     use std::ptr::eq;
     use models::enums::bonus::BonusType;
     use models::enums::class::JobName;
+    use models::enums::element::Element;
     use models::enums::weapon::WeaponType;
     use models::status::{Status, StatusSnapshot};
     use models::enums::EnumWithStringValue;
