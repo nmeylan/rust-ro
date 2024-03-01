@@ -12,7 +12,7 @@ use models::status::{StatusSnapshot};
 use packets::packets::PacketZcNotifyAct;
 use crate::server::model::map_item::{MapItemSnapshot, MapItemType};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
-
+use skills::OffensiveSkill;
 
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
@@ -189,6 +189,28 @@ impl BattleService {
         let mdef = target_status.mdef() as f32 / 100.0;
         // println!("({} * {} * {} * {} - {} - {}) * {}", matk, item_modifier, skill_modifier, (1.0 - mdef), target_status.int(), target_status.vit() as f32 / 2.0, elemental_modifier);
         ((matk * skill_modifier * (1.0 - mdef)).floor() * elemental_modifier).floor() as u32
+    }
+
+    pub fn attack_element(&self, source_status: &StatusSnapshot, skill: Option<&dyn OffensiveSkill>) -> Element {
+        if let Some(skill) = skill {
+            if matches!(skill.element(), Element::Ammo) {
+                source_status.ammo().map(|ammo| *ammo.element()).unwrap_or(Element::Neutral)
+            } else if matches!(skill.element(), Element::Weapon) {
+                source_status.right_hand_weapon().map(|weapon| *weapon.element()).unwrap_or(Element::Neutral)
+            } else {
+                skill.element()
+            }
+        } else {
+            if let Some(weapon) = source_status.right_hand_weapon() {
+                if weapon.weapon_type().is_ranged() {
+                    source_status.ammo().map(|ammo| *ammo.element()).unwrap_or(Element::Neutral)
+                } else {
+                    source_status.right_hand_weapon().map(|weapon| *weapon.element()).unwrap_or(Element::Neutral)
+                }
+            } else {
+                Element::Neutral
+            }
+        }
     }
 
     pub fn basic_attack(&self, character: &mut Character, target: MapItemSnapshot, source_status: &StatusSnapshot, target_status: &StatusSnapshot, tick: u128) -> Option<Damage> {

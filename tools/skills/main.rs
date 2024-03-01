@@ -827,7 +827,7 @@ fn generate_skills_enum_to_object(output_path: &Path, skills: &Vec<SkillConfig>,
         file.write_all(format!("use crate::base::{}_base::{{*}};\n", job).as_bytes()).unwrap();
     }
     file.write_all("use models::enums::skill_enums::SkillEnum;\n\n".to_string().as_bytes()).unwrap();
-    file.write_all("use crate::Skill;\n\n".to_string().as_bytes()).unwrap();
+    file.write_all("use crate::{Skill, OffensiveSkill};\n\n".to_string().as_bytes()).unwrap();
 
 
     file.write_all("pub fn to_object(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn Skill>> {\n".to_string().as_bytes()).unwrap();
@@ -837,6 +837,18 @@ fn generate_skills_enum_to_object(output_path: &Path, skills: &Vec<SkillConfig>,
             continue;
         }
         file.write_all(format!("        SkillEnum::{} => {}::new(level).map(|s| Box::new(s) as Box<dyn Skill>),\n", to_enum_name(skill), to_struct_name(skill)).as_bytes()).unwrap();
+    }
+    file.write_all("    _ => None\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("}\n".to_string().as_bytes()).unwrap();
+
+    file.write_all("pub fn to_offensive_skill(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn OffensiveSkill>> {\n".to_string().as_bytes()).unwrap();
+    file.write_all("    match skill_enum {\n".to_string().as_bytes()).unwrap();
+    for skill in skills.iter().filter(|skill_config| is_offensive(&skill_config)) {
+        if !skills_already_generated.contains(skill.name()) {
+            continue;
+        }
+        file.write_all(format!("        SkillEnum::{} => {}::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),\n", to_enum_name(skill), to_struct_name(skill)).as_bytes()).unwrap();
     }
     file.write_all("    _ => None\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();

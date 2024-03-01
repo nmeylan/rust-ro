@@ -3,6 +3,7 @@ use crate::position::Position;
 use crate::enums::item::EquipmentLocation;
 use crate::enums::weapon::{AmmoType, WeaponType};
 use crate::enums::EnumWithMaskValueU64;
+use crate::enums::element::Element;
 
 pub struct EquippedItem {
     pub item_id: i32,
@@ -49,6 +50,7 @@ pub struct WearWeapon {
     pub weapon_type: WeaponType,
     pub location: u64,
     pub refine: u8,
+    pub element: Element,
     pub card0: i16,
     pub card1: i16,
     pub card2: i16,
@@ -64,6 +66,7 @@ impl WearWeapon {
             attack: self.attack,
             level: self.level,
             weapon_type: self.weapon_type,
+            element: self.element,
             refine: self.refine,
             card0: self.card0,
             card1: self.card1,
@@ -80,6 +83,7 @@ pub struct WearWeaponSnapshot {
     attack: u32,
     level: u8,
     weapon_type: WeaponType,
+    element: Element,
     refine: u8,
     card0: i16,
     card1: i16,
@@ -124,6 +128,7 @@ pub struct WearAmmo {
     pub item_id: i32,
     pub inventory_index: usize,
     pub ammo_type: AmmoType,
+    pub element: Element,
     pub attack: u8,
 }
 
@@ -132,6 +137,7 @@ impl WearAmmo {
         WearAmmoSnapshot {
             item_id: self.item_id,
             ammo_type: self.ammo_type,
+            element: self.element,
             attack: self.attack,
         }
     }
@@ -141,6 +147,7 @@ impl WearAmmo {
 pub struct WearAmmoSnapshot {
     item_id: i32,
     ammo_type: AmmoType,
+    element: Element,
     attack: u8,
 }
 

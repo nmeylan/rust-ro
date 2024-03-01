@@ -249,7 +249,7 @@ impl OffensiveSkillBase for MelodyStrike {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // BA_DISSONANCE

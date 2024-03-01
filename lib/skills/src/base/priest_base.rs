@@ -397,7 +397,7 @@ impl SkillBase for Aspersio {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 523, name_english: "Holy_Water".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 523 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 523 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::Holywater);
         }
         Ok(Some(required_items))
@@ -631,7 +631,7 @@ impl SkillBase for Sanctuary {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 717 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::BlueGemstone);
         }
         Ok(Some(required_items))
@@ -1632,7 +1632,7 @@ impl SkillBase for MagnusExorcismus {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 717 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::BlueGemstone);
         }
         Ok(Some(required_items))

@@ -9,6 +9,7 @@ use rathena_script_lang_interpreter::lang::compiler::{Compiler, DebugFlag};
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
+use models::enums::bonus::BonusType;
 
 
 use packets::packets::PacketZcUseItemAck2;
@@ -138,9 +139,17 @@ impl ItemService {
                         _ => { complex_script = true; break; }
                     }
                 }
+
+                Vm::repl(vm.clone(), class_file, Box::new(&script_handler), vec![]);
+                item.bonuses = script_handler.drain();
+
+                item.bonuses.iter().filter_map(|b| {
+                    if let BonusType::ElementWeapon(element) = b { Some(*element) } else { None }
+                }).for_each(|element| { item.element = Some(element); });
+                if item.name_aegis == "Fire_Brand" {
+                    println!("Fire_Brand!!! {:?}", item.element);
+                }
                 if !complex_script {
-                    Vm::repl(vm.clone(), class_file, Box::new(&script_handler), vec![]);
-                    item.bonuses = script_handler.drain();
                     item.script_compilation = None;
                     count_script_executed += 1;
                 } else {

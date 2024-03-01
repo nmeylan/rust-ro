@@ -7,19 +7,19 @@
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Swordsman Sword Mastery
+    // Super Novice Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Swordsman Increase HP Recovery
+    // Super Novice Increase HP Recovery
     SmRecovery,
-    // Swordsman Bash
+    // Super Novice Bash
     SmBash,
-    // Swordsman Provoke
+    // Super Novice Provoke
     SmProvoke,
-    // Swordsman Magnum Break
+    // Super Novice Magnum Break
     SmMagnum,
-    // Swordsman Endure
+    // Super Novice Endure
     SmEndure,
     // Super Novice Increase SP Recovery
     MgSrecovery,
@@ -95,7 +95,7 @@ pub enum SkillEnum {
     AcVulture,
     // Super Novice Improve Concentration
     AcConcentration,
-    // Archer Double Strafe
+    // Rogue Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -249,7 +249,7 @@ pub enum SkillEnum {
     HtBlastmine,
     // Hunter Claymore Trap
     HtClaymoretrap,
-    // Hunter Remove Trap
+    // Rogue Remove Trap
     HtRemovetrap,
     // Hunter Talkie Box
     HtTalkiebox,
@@ -287,7 +287,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice High Play Dead
+    // Novice Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,

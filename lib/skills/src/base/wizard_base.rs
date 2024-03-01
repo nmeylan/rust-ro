@@ -90,19 +90,19 @@ impl SkillBase for FirePillar {
     #[inline(always)]
     fn _validate_item(&self, inventory: &Vec<NormalInventoryItem>) -> Result<Option<Vec<NormalInventoryItem>>, UseSkillFailure> {
         let required_items = vec![(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1}),(NormalInventoryItem {item_id: 717, name_english: "Blue_Gemstone".to_string(), amount: 1})]; 
-        if !inventory.iter().any(|item| item.item_id == 717 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::BlueGemstone);
         }
-        if !inventory.iter().any(|item| item.item_id == 717 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::BlueGemstone);
         }
-        if !inventory.iter().any(|item| item.item_id == 717 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::BlueGemstone);
         }
-        if !inventory.iter().any(|item| item.item_id == 717 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::BlueGemstone);
         }
-        if !inventory.iter().any(|item| item.item_id == 717 && item.amount >= 1) {
+        if inventory.iter().find(|item| item.item_id == 717 && item.amount >= 1).is_none() {
             return Err(UseSkillFailure::BlueGemstone);
         }
         Ok(Some(required_items))

@@ -20,6 +20,7 @@ pub enum Element {
     Weapon,
     Endowed,
     Random,
+    Ammo,
 }
 
 impl Default for Element {

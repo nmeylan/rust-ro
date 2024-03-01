@@ -13,6 +13,7 @@ use sqlx::postgres::PgRow;
 use models::enums::class::EquipClassFlag;
 use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use models::enums::bonus::BonusType;
+use models::enums::element::Element;
 use models::enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
 use models::enums::weapon::{AmmoType, WeaponType};
 use models::item::{NormalInventoryItem, WearAmmo, WearGear, WearWeapon};
@@ -61,6 +62,8 @@ pub struct ItemModel {
     pub job_flags: u64,
     pub class_flags: u64,
     pub location: u64,
+    #[serde(skip)]
+    pub element: Option<Element>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub gender: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -294,6 +297,7 @@ impl<'r> FromRow<'r, PgRow> for ItemModel {
             script_compilation_hash,
             bonuses: vec![],
             item_bonuses_are_dynamic: false,
+            element: None,
         })
     }
 }
@@ -319,6 +323,7 @@ impl ItemModel {
             level: self.weapon_level.unwrap_or(0) as u8,
             weapon_type: self.weapon_type.unwrap_or(WeaponType::Fist),
             location,
+            element: self.element.unwrap_or(Element::Neutral),
             refine: inventory_model.refine as u8,
             card0: inventory_model.card0,
             card1: inventory_model.card1,
@@ -345,6 +350,7 @@ impl ItemModel {
         WearAmmo {
             item_id: self.id,
             inventory_index,
+            element: self.element.unwrap_or(Element::Neutral),
             attack: self.attack.unwrap_or(0) as u8,
             ammo_type: self.ammo_type.unwrap()
         }

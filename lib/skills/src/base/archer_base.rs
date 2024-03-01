@@ -448,7 +448,7 @@ impl OffensiveSkillBase for DoubleStrafe {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 // AC_SHOWER
@@ -595,7 +595,7 @@ impl OffensiveSkillBase for ArrowShower {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
 impl GroundSkillBase for ArrowShower {
@@ -800,6 +800,6 @@ impl OffensiveSkillBase for ArrowRepel {
     }
     #[inline(always)]
     fn _element(&self) -> Element {
-        Element::Weapon
+        Element::Ammo
     }
 }
