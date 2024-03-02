@@ -75,6 +75,10 @@ pub fn equip_item_from_id_with_cards(character: &mut Character, id: u32, cards: 
     let item = GlobalConfigService::instance().get_item(id as i32);
     equip_item_with_cards_and_refinement(character, item, cards, 0)
 }
+pub fn equip_item_from_name_with_cards(character: &mut Character, name: &str, cards: Vec<i16>) -> usize {
+    let item = GlobalConfigService::instance().get_item_by_name(name);
+    equip_item_with_cards_and_refinement(character, item, cards, 0)
+}
 
 //
 // Warning: this method is not safe, if an item is already equipped at the given item location, character will have more than 1 item equipped to this location.
