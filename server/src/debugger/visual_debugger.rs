@@ -2,6 +2,7 @@
 use std::sync::Arc;
 use std::thread;
 use eframe::{CreationContext, egui, HardwareAcceleration, Theme};
+use eframe::egui::ViewportCommand;
 use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Vec2, Visuals};
 use crate::server::Server;
 use lazy_static::lazy_static;
@@ -13,9 +14,10 @@ use crate::server::model::map_item::MapItem;
 use crate::server::model::map_item::MapItemType;
 
 #[cfg(target_os = "linux")]
-use winit::platform::unix::EventLoopBuilderExtUnix;
+use winit::platform::x11::EventLoopBuilderExtX11;
 #[cfg(target_os = "windows")]
 use winit::platform::windows::EventLoopBuilderExtWindows;
+use winit::raw_window_handle::HasWindowHandle;
 
 pub struct VisualDebugger {
     pub name: String,
@@ -35,14 +37,11 @@ lazy_static! {
 impl eframe::App for VisualDebugger {
     fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         self.frame_history
-            .on_new_frame(ctx.input().time, frame.info().cpu_usage);
-        frame.set_window_title(&format!("{} {}", self.name, self.frame_history.info()));
+            .on_new_frame(ctx.input(|i| i.time), frame.info().cpu_usage);
+        let handle = frame.window_handle().unwrap();
+        ctx.send_viewport_cmd(ViewportCommand::Title(format!("{} {}", self.name, self.frame_history.info())));
         if !self.init {
             ctx.set_visuals(Visuals::light());
-            frame.set_window_size(Vec2 {
-                x: 1024.0,
-                y: 768.0,
-            });
             self.init = true;
         }
         egui::TopBottomPanel::top("wrap_app_top_bar").show(ctx, |ui| {
@@ -81,19 +80,7 @@ impl VisualDebugger {
 
         thread::spawn(|| {
             let native_options = eframe::NativeOptions {
-                always_on_top: false,
-                maximized: false,
-                decorated: true,
-                fullscreen: false,
-                drag_and_drop_support: true,
-                icon_data: None,
-                initial_window_pos: None,
-                initial_window_size: None,
-                min_window_size: None,
-                max_window_size: None,
-                resizable: true,
-                transparent: false,
-                mouse_passthrough: false,
+                viewport:  egui::ViewportBuilder::default().with_inner_size([1024.0, 768.0]),
                 vsync: true,
                 multisampling: 0,
                 depth_buffer: 0,
@@ -106,8 +93,10 @@ impl VisualDebugger {
                 event_loop_builder: Some(Box::new(move |builder| {
                     builder.with_any_thread(true);
                 })),
+                window_builder: None,
                 shader_version: None,
                 centered: false,
+                persist_window: false,
             };
             eframe::run_native("Debugger", native_options, Box::new(|_cc: &CreationContext| Box::new(app))).unwrap();
         });
