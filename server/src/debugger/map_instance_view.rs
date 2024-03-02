@@ -45,16 +45,16 @@ impl MapInstanceView {
             let mut shapes = vec![];
             let margin = 0.0;
 
-            let cursor_pos = ui.input().pointer.hover_pos();
+            let cursor_pos = ui.input(|input| input.pointer.hover_pos());
             self.cursor_pos = None;
-            self.clicked = ui.input().pointer.any_click();
-            if ui.input().zoom_delta() > 1.0 {
+            self.clicked = ui.input(|i| i.pointer.any_click());
+            if ui.input(|i| i.zoom_delta()) > 1.0 {
                 self.zoom_center = Pos2 {
                     x: cursor_pos.as_ref().unwrap().x - absolute_draw_rect.min.x,
                     y: cursor_pos.as_ref().unwrap().y - absolute_draw_rect.min.y,
                 };
                 self.zoom *= 1.5;
-            } else if ui.input().zoom_delta() < 1.0 {
+            } else if ui.input(|i| i.zoom_delta()) < 1.0 {
                 self.zoom /= 1.5;
                 if self.zoom <= 1.0 {
                     self.zoom = 1.0;
@@ -180,7 +180,9 @@ impl MapInstanceView {
                         },
                         fill: cell_color,
                         stroke: Stroke::NONE,
+                        fill_texture_id: Default::default(),
                         rounding: Default::default(),
+                        uv: Rect { min: Default::default(), max: Default::default() },
                     }));
                 }
             }
@@ -207,7 +209,9 @@ impl MapInstanceView {
                 },
                 rounding: Default::default(),
                 fill: previous_cell.as_ref().unwrap().color,
-                stroke: Stroke::NONE
+                stroke: Stroke::NONE,
+                fill_texture_id: Default::default(),
+                uv: Rect { min: Default::default(), max: Default::default() },
             }));
         }
     }
