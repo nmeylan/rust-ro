@@ -12,6 +12,11 @@ use crate::server::state::character::Character;
 use crate::server::model::map_item::MapItem;
 use crate::server::model::map_item::MapItemType;
 
+#[cfg(target_os = "linux")]
+use winit::platform::unix::EventLoopBuilderExtUnix;
+#[cfg(target_os = "windows")]
+use winit::platform::windows::EventLoopBuilderExtWindows;
+
 pub struct VisualDebugger {
     pub name: String,
     pub server: Arc<Server>,
@@ -98,12 +103,15 @@ impl VisualDebugger {
                 follow_system_theme: cfg!(target_os = "macos") || cfg!(target_os = "windows"),
                 default_theme: Theme::Dark,
                 run_and_return: true,
-                event_loop_builder: None,
+                event_loop_builder: Some(Box::new(move |builder| {
+                    builder.with_any_thread(true);
+                })),
                 shader_version: None,
                 centered: false,
             };
             eframe::run_native("Debugger", native_options, Box::new(|_cc: &CreationContext| Box::new(app))).unwrap();
         });
+
     }
     fn ui(&mut self, ui: &mut Ui) {
         self.maps_combobox(ui);
