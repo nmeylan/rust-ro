@@ -48,7 +48,7 @@ mod tests {
     use crate::tests::common::fixtures::battle_fixture::Equipment;
     use crate::{eq_with_variance, status_snapshot};
 
-    use crate::tests::common::character_helper::{create_character, equip_item_from_id, equip_item_from_id_with_cards, equip_item_from_name, equip_item_with_cards_and_refinement};
+    use crate::tests::common::character_helper::{create_character, equip_item_from_name_with_cards, equip_item_from_id_with_cards, equip_item_from_name, equip_item_with_cards_and_refinement};
     use crate::tests::common::fixtures::battle_fixture::BattleFixture;
     use super::*;
 
@@ -288,9 +288,34 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "not yet implemented"]
     fn test_status_elemental_armor_cards() {
-        // angeling Card
+        // Given
+        let context = before_each();
+
+        struct Scenarii<'a> {
+            card: &'a str,
+            expected_element: Element,
+        };
+        let scenario = vec![
+          Scenarii { card: "Ghostring_Card", expected_element: Element::Ghost },
+          Scenarii { card: "Dokebi_Card", expected_element: Element::Wind },
+          Scenarii { card: "Sand_Man_Card", expected_element: Element::Earth },
+          Scenarii { card: "Angeling_Card", expected_element: Element::Holy },
+          Scenarii { card: "Sword_Fish_Card", expected_element: Element::Water },
+          Scenarii { card: "Pasana_Card", expected_element: Element::Fire },
+          Scenarii { card: "Argiope_Card", expected_element: Element::Poison },
+          Scenarii { card: "Bathory_Card", expected_element: Element::Dark },
+          Scenarii { card: "Evil_Druid_Card", expected_element: Element::Undead },
+        ];
+        // When
+        for scenarii in scenario {
+            let mut character = create_character();
+            equip_item_from_name_with_cards(&mut character, "Coat_", vec![GlobalConfigService::instance().get_item_id_from_name(scenarii.card) as i16]);
+            let status_snapshot = status_snapshot!(context, character);
+            // Then
+            assert_eq!(*status_snapshot.element(), scenarii.expected_element);
+        }
+
     }
 
     #[test]
