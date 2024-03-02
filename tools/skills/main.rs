@@ -517,7 +517,7 @@ fn generate_validate_item(job_skills_file: &mut File, skill_config: &SkillConfig
             job_skills_file.write_all(format!("        let required_items = vec![{}]; \n", requirements.item_cost().iter()
                 .map(|item| format!("(NormalInventoryItem {{item_id: {}, name_english: \"{}\".to_string(), amount: {}}})", item_name_ids.get(item.item()).unwrap_or_else(|| panic!("Item {} not found", item.item())), item.item(), item.amount())).collect::<Vec<String>>().join(",")).as_bytes()).unwrap();
             for item in requirements.item_cost().iter() {
-                job_skills_file.write_all(format!("        if inventory.iter().find(|item| item.item_id == {} && item.amount >= {}).is_none() {{\n", item_name_ids.get(item.item()).unwrap(), item.amount()).as_bytes()).unwrap();
+                job_skills_file.write_all(format!("        if !inventory.iter().any(|item| item.item_id == {} && item.amount >= {}) {{\n", item_name_ids.get(item.item()).unwrap(), item.amount()).as_bytes()).unwrap();
                 if item.item().eq("Red_Gemstone") {
                     job_skills_file.write_all(b"            return Err(UseSkillFailure::RedGemstone);\n").unwrap();
                 } else if item.item().eq("Blue_Gemstone") {
