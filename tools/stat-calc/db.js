@@ -479,24 +479,23 @@ global.WEAPON_NAME = [
     "Grenade Launcher"];
 
 global.ArrowOBJ = [
-    [25, 0, "Arrow"],
-    [30, 6, "Silver Arrow"],
-    [30, 3, "Fire Arrow"],
-    [30, 0, "Iron Arrow"],
-    [30, 2, "Stone Arrow"],
-    [30, 1, "Crystal Arrow"],
-    [30, 4, "Arrow of Wind"],
-    [30, 7, "Arrow of Shadow"],
-    [30, 8, "Immaterial Arrow"],
-    [30, 5, "Rusty Arrow"],
-    [40, 0, "Steel Arrow"],
-    [50, 0, "Oridecon Arrow"],
-    [50, 6, "Arrow of Counter Evil"],
-    [1, 1, "Frozen Arrow"],
-    [1, 5, "Poison Arrow"],
-    [10, 0, "Sharp Arrow"],
-    [50, 6, "Holy Arrow"],
-    [1, 0, "Other (1 Atk)"]
+    [25, 0, "Arrow", 1750],
+    [30, 6, "Silver Arrow", 1751],
+    [30, 3, "Fire Arrow", 1752],
+    [30, 0, "Iron Arrow", 1770],
+    [30, 2, "Stone Arrow", 1756],
+    [30, 1, "Crystal Arrow", 1754],
+    [30, 4, "Arrow of Wind", 1755],
+    [30, 7, "Arrow of Shadow", 1767],
+    [30, 8, "Immaterial Arrow", 1757],
+    [30, 5, "Rusty Arrow", 1762],
+    [40, 0, "Steel Arrow", 1753],
+    [50, 0, "Oridecon Arrow", 1765],
+    [50, 6, "Arrow of Counter Evil", 1766],
+    [1, 1, "Frozen Arrow", 1759],
+    [1, 5, "Poison Arrow", 1763],
+    [10, 0, "Sharp Arrow", 1764],
+    [50, 6, "Holy Arrow", 1772]
 ];
 
 global.ArrowOBJbackup = [
@@ -4760,8 +4759,8 @@ global.MonsterIds = [
     [84, 1294, "KILLER_MANTIS"],
     [85, 1036, "GHOUL"],
     [86, 1070, "KUKRE"],
-    [87, -1, "Cookie (Red)"],
-    [88, -1, "Cookie (Green)"],
+    [87, 1246, "COOKIE_XMAS"],
+    [88, 1265, "Cookie"],
     [89, -1, "Ninetails"],
     [90, 1209, "CRAMP"],
     [91, 1369, "GRAND_PECO"],
@@ -4860,7 +4859,7 @@ global.MonsterIds = [
     [184, 1011, "CHONCHON"],
     [185, 1313, "MOBSTER"],
     [186, 1382, "DIABOLIC"],
-    [187, -1, "Demon Fungus"],
+    [187, 1378, "DEMON_PUNGUS"],
     [188, -1, "Desert Wolf (Adult)"],
     [189, -1, "Desert Wolf (Baby)"],
     [190, -1, "Deadly Wraith"],
@@ -5236,62 +5235,73 @@ global.weaponsize = [
 
 global.element = new Array();
 
+global.ELEMENT_NEUTRAL = 0;
+global.ELEMENT_WATER = 10;
+global.ELEMENT_EARTH = 20;
+global.ELEMENT_FIRE = 30;
+global.ELEMENT_WIND = 40;
+global.ELEMENT_POISON = 50;
+global.ELEMENT_HOLY = 60;
+global.ELEMENT_DARK = 70;
+global.ELEMENT_GHOST = 80;
+global.ELEMENT_UNDEAD = 90;
 
-global.element[1] = new Array(1, 1, 1, 1, 1, 1, 1, 1, 0.25, 1);
-global.element[2] = new Array(1, 1, 1, 1, 1, 1, 1, 1, 0, 1);
-global.element[3] = new Array(1, 1, 1, 1, 1, 1, 1, 1, 0, 1);
-global.element[4] = new Array(1, 1, 1, 1, 1, 1, 1, 1, 0, 1);
+// Neutral
+global.element[global.ELEMENT_NEUTRAL + 1] = new Array(1, 1, 1, 1, 1, 1, 1, 1, 0.25, 1);
+global.element[global.ELEMENT_NEUTRAL + 2] = new Array(1, 1, 1, 1, 1, 1, 1, 1, 0, 1);
+global.element[global.ELEMENT_NEUTRAL + 3] = new Array(1, 1, 1, 1, 1, 1, 1, 1, 0, 1);
+global.element[global.ELEMENT_NEUTRAL + 4] = new Array(1, 1, 1, 1, 1, 1, 1, 1, 0, 1);
 
+// Water
+global.element[global.ELEMENT_WATER + 1] = new Array(1, 0.25, 1, 0.5, 1.75, 1, 1, 1, 1, 1);
+global.element[global.ELEMENT_WATER + 2] = new Array(1, 0, 1, 0.25, 1.75, 0.75, 1, 1, 0.75, 0.75);
+global.element[global.ELEMENT_WATER + 3] = new Array(1, -0.25, 1, 0, 2, 0.5, 1, 1, 0.5, 0.5);
+global.element[global.ELEMENT_WATER + 4] = new Array(1, -0.5, 1, 0, 2, 0.25, 0.75, 0.75, 0.25, 0.25);
 
-global.element[11] = new Array(1, 0.25, 1, 0.5, 1.75, 1, 1, 1, 1, 1);
-global.element[12] = new Array(1, 0, 1, 0.25, 1.75, 0.75, 1, 1, 0.75, 0.75);
-global.element[13] = new Array(1, -0.25, 1, 0, 2, 0.5, 1, 1, 0.5, 0.5);
-global.element[14] = new Array(1, -0.5, 1, 0, 2, 0.25, 0.75, 0.75, 0.25, 0.25);
+// Earth
+global.element[global.ELEMENT_EARTH + 1] = new Array(1, 1, 1, 1.5, 0.5, 1.25, 1, 1, 1, 1);
+global.element[global.ELEMENT_EARTH + 2] = new Array(1, 1, 0.5, 1.75, 0.25, 1.25, 1, 1, 0.75, 0.75);
+global.element[global.ELEMENT_EARTH + 3] = new Array(1, 1, 0, 2, 0, 1, 1, 1, 0.5, 0.5);
+global.element[global.ELEMENT_EARTH + 4] = new Array(1, 1, -0.25, 2, 0, 0.75, 0.75, 0.75, 0.25, 0.25);
 
+// Fire
+global.element[global.ELEMENT_FIRE + 1] = new Array(1, 1.5, 0.5, 0.25, 1, 1.25, 1, 1, 1, 1);
+global.element[global.ELEMENT_FIRE + 2] = new Array(1, 1.75, 0.25, 0, 1, 1.25, 1, 1, 0.75, 0.75);
+global.element[global.ELEMENT_FIRE + 3] = new Array(1, 2, 0, -0.25, 1, 1, 1, 1, 0.5, 0.5);
+global.element[global.ELEMENT_FIRE + 4] = new Array(1, 2, 0, -0.5, 1, 0.75, 0.75, 0.75, 0.25, 0.25);
 
-global.element[21] = new Array(1, 1, 1, 1.5, 0.5, 1.25, 1, 1, 1, 1);
-global.element[22] = new Array(1, 1, 0.5, 1.75, 0.25, 1.25, 1, 1, 0.75, 0.75);
-global.element[23] = new Array(1, 1, 0, 2, 0, 1, 1, 1, 0.5, 0.5);
-global.element[24] = new Array(1, 1, -0.25, 2, 0, 0.75, 0.75, 0.75, 0.25, 0.25);
+// Wind
+global.element[global.ELEMENT_WIND + 1] = new Array(1, 0.5, 1.5, 1, 0.25, 1.25, 1, 1, 1, 1);
+global.element[global.ELEMENT_WIND + 2] = new Array(1, 0.25, 1.75, 1, 0, 1.25, 1, 1, 0.75, 0.75);
+global.element[global.ELEMENT_WIND + 3] = new Array(1, 0, 2, 1, -0.25, 1, 1, 1, 0.5, 0.5);
+global.element[global.ELEMENT_WIND + 4] = new Array(1, 0, 2, 1, -0.5, 0.75, 0.75, 0.75, 0.25, 0.25);
 
+// Poison
+global.element[global.ELEMENT_POISON + 1] = new Array(1, 1, 1, 1, 1, 0, 1, 0.5, 1, 0.5);
+global.element[global.ELEMENT_POISON + 2] = new Array(1, 1, 1, 1, 1, 0, 1, 0.25, 0.75, 0.25);
+global.element[global.ELEMENT_POISON + 3] = new Array(1, 1, 1, 1, 1, 0, 1.25, 0, 0.5, 0);
+global.element[global.ELEMENT_POISON + 4] = new Array(1, 0.75, 0.75, 0.75, 0.75, 0, 1.25, -0.25, 0.25, -0.25);
 
-global.element[31] = new Array(1, 1.5, 0.5, 0.25, 1, 1.25, 1, 1, 1, 1);
-global.element[32] = new Array(1, 1.75, 0.25, 0, 1, 1.25, 1, 1, 0.75, 0.75);
-global.element[33] = new Array(1, 2, 0, -0.25, 1, 1, 1, 1, 0.5, 0.5);
-global.element[34] = new Array(1, 2, 0, -0.5, 1, 0.75, 0.75, 0.75, 0.25, 0.25);
+// Holy
+global.element[global.ELEMENT_HOLY + 1] = new Array(1, 0.75, 0.75, 0.75, 0.75, 0.75, 0, 1.25, 0.75, 1);
+global.element[global.ELEMENT_HOLY + 2] = new Array(1, 0.5, 0.5, 0.5, 0.5, 0.5, -0.25, 1.5, 0.5, 1.25);
+global.element[global.ELEMENT_HOLY + 3] = new Array(1, 0.25, 0.25, 0.25, 0.25, 0.25, -0.5, 1.75, 0.25, 1.5);
+global.element[global.ELEMENT_HOLY + 4] = new Array(1, 0, 0, 0, 0, 0, -1, 2, 0, 1.75);
 
+// Dark
+global.element[global.ELEMENT_DARK + 1] = new Array(1, 1, 1, 1, 1, 0.5, 1.25, 0, 0.75, 0);
+global.element[global.ELEMENT_DARK + 2] = new Array(1, 0.75, 0.75, 0.75, 0.75, 0.25, 1.5, -0.25, 0.5, 0);
+global.element[global.ELEMENT_DARK + 3] = new Array(1, 0.5, 0.5, 0.5, 0.5, 0, 1.75, -0.5, 0.25, 0);
+global.element[global.ELEMENT_DARK + 4] = new Array(1, 0.25, 0.25, 0.25, 0.25, -0.25, 2, -1, 0, 0);
 
-global.element[41] = new Array(1, 0.5, 1.5, 1, 0.25, 1.25, 1, 1, 1, 1);
-global.element[42] = new Array(1, 0.25, 1.75, 1, 0, 1.25, 1, 1, 0.75, 0.75);
-global.element[43] = new Array(1, 0, 2, 1, -0.25, 1, 1, 1, 0.5, 0.5);
-global.element[44] = new Array(1, 0, 2, 1, -0.5, 0.75, 0.75, 0.75, 0.25, 0.25);
+// Ghost
+global.element[global.ELEMENT_GHOST + 1] = new Array(0.25, 1, 1, 1, 1, 1, 1, 1, 1.25, 1);
+global.element[global.ELEMENT_GHOST + 2] = new Array(0.25, 1, 1, 1, 1, 0.75, 1, 1, 1.50, 1);
+global.element[global.ELEMENT_GHOST + 3] = new Array(0, 1, 1, 1, 1, 0.5, 1, 1, 1.75, 1);
+global.element[global.ELEMENT_GHOST + 4] = new Array(0, 1, 1, 1, 1, 0.25, 1, 1, 2, 1);
 
-
-global.element[51] = new Array(1, 1, 1, 1, 1, 0, 1, 0.5, 1, 0.5);
-global.element[52] = new Array(1, 1, 1, 1, 1, 0, 1, 0.25, 0.75, 0.25);
-global.element[53] = new Array(1, 1, 1, 1, 1, 0, 1.25, 0, 0.5, 0);
-global.element[54] = new Array(1, 0.75, 0.75, 0.75, 0.75, 0, 1.25, -0.25, 0.25, -0.25);
-
-
-global.element[61] = new Array(1, 0.75, 0.75, 0.75, 0.75, 0.75, 0, 1.25, 0.75, 1);
-global.element[62] = new Array(1, 0.5, 0.5, 0.5, 0.5, 0.5, -0.25, 1.5, 0.5, 1.25);
-global.element[63] = new Array(1, 0.25, 0.25, 0.25, 0.25, 0.25, -0.5, 1.75, 0.25, 1.5);
-global.element[64] = new Array(1, 0, 0, 0, 0, 0, -1, 2, 0, 1.75);
-
-
-global.element[71] = new Array(1, 1, 1, 1, 1, 0.5, 1.25, 0, 0.75, 0);
-global.element[72] = new Array(1, 0.75, 0.75, 0.75, 0.75, 0.25, 1.5, -0.25, 0.5, 0);
-global.element[73] = new Array(1, 0.5, 0.5, 0.5, 0.5, 0, 1.75, -0.5, 0.25, 0);
-global.element[74] = new Array(1, 0.25, 0.25, 0.25, 0.25, -0.25, 2, -1, 0, 0);
-
-
-global.element[81] = new Array(0.25, 1, 1, 1, 1, 1, 1, 1, 1.25, 1);
-global.element[82] = new Array(0.25, 1, 1, 1, 1, 0.75, 1, 1, 1.50, 1);
-global.element[83] = new Array(0, 1, 1, 1, 1, 0.5, 1, 1, 1.75, 1);
-global.element[84] = new Array(0, 1, 1, 1, 1, 0.25, 1, 1, 2, 1);
-
-
-global.element[91] = new Array(1, 1, 1, 1.25, 1, -0.25, 1.5, -0.25, 1, 0);
-global.element[92] = new Array(1, 1, 1, 1.5, 1, -0.5, 1.75, -0.5, 1.25, 0);
-global.element[93] = new Array(1, 1.25, 0.75, 1.75, 1, -0.75, 2, -0.75, 1.5, 0);
-global.element[94] = new Array(1, 1.5, 0.5, 2, 1, -1, 2, -1, 1.75, 0);
+// Undead
+global.element[global.ELEMENT_UNDEAD + 1] = new Array(1, 1, 1, 1.25, 1, -0.25, 1.5, -0.25, 1, 0);
+global.element[global.ELEMENT_UNDEAD + 2] = new Array(1, 1, 1, 1.5, 1, -0.5, 1.75, -0.5, 1.25, 0);
+global.element[global.ELEMENT_UNDEAD + 3] = new Array(1, 1.25, 0.75, 1.75, 1, -0.75, 2, -0.75, 1.5, 0);
+global.element[global.ELEMENT_UNDEAD + 4] = new Array(1, 1.5, 0.5, 2, 1, -1, 2, -1, 1.75, 0);
