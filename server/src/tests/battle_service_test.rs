@@ -318,6 +318,11 @@ mod tests {
         }
     }
 
+    #[test]
+    fn test_attack_element_modifiers() {
+
+    }
+
     // https://irowiki.org/classic/Card_Reference
     #[test]
     #[ignore = "not yet implemented"]

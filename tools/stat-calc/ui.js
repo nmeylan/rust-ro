@@ -426,7 +426,7 @@ function ClickWeaponType(n) {
         document.calcForm.A_Arrow.style.visibility = "visible";
         document.calcForm.A_Arrow.options.length = 0;
         if (n == 10 || n == 14 || n == 15) {
-            j = 17;
+            j = 16;
             for (let i = 0; i <= 4; i++)
                 global.ArrowOBJ[i] = global.ArrowOBJbackup[i];
         } else if (n == 17 || n == 18 || n == 19 || n == 20) {
@@ -1553,6 +1553,7 @@ function LoadForm(json) {
         ClickWeaponType2(json.A_Weapon2Type);
     }
     document.calcForm.A_weapon1.value = json.A_weapon1;
+    document.calcForm.A_Arrow.value = json.A_Arrow;
     ClickB_Item(json.A_weapon1);
     if (json.A_weapon2) {
         document.calcForm.A_weapon2.value = json.A_weapon2;

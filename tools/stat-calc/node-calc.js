@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "console";
+const command = "generate";
 let formData, testCase, testCases, file;
 switch (command) {
     case "convert":
@@ -50,7 +50,8 @@ switch (command) {
         // generate_job_level_stat_bonus();
         // generate_item_stat_bonus();
         // generate_stats_test();
-        generate_card_stat_bonus();
+        // generate_card_stat_bonus();
+        generate_element_test();
         break;
     case "db":
         let array_index = [];
@@ -580,6 +581,63 @@ function generate_stats_test() {
     }
     // console.log(items)
     generate_item_stat_bonus(items, descriptions);
+}
+
+function generate_element_test() {
+    let mobs = [];
+    const start = Date.now();
+    for(let element = 0; element <= 90; element += 10) {
+        for(let elementLevel = 1; elementLevel <= 4; elementLevel++) {
+            let mob = MonsterOBJ.find(m => m[3] == (elementLevel + element));
+            if (mob) {
+                 mobs.push(mob);
+            } else {
+                console.log("No mob with element", element, "level", elementLevel)
+            }
+        }
+    }
+    let formData = {};
+    formData.A_JOB = 10; // Hunter
+    formData.A_BaseLV = 95;
+    formData.A_JobLV = 50;
+    formData.A_STR = 50;
+    formData.A_AGI = 50;
+    formData.A_VIT = 50;
+    formData.A_INT = 50;
+    formData.A_DEX = 50;
+    formData.A_LUK = 50;
+    formData.A_Arrow = 0;
+
+    formData.A_weapon1 = "94"; // Bow
+    formData.A_WeaponType = "10";
+    formData.A_ActiveSkill = 0;
+    formData.A_ActiveSkillLV = 0;
+    formData.A_acces1 = "326";
+    formData.A_acces2 = "326";
+    formData.A_left = "305";
+    formData.A_body = "279";
+    formData.A_head1 = "142";
+    formData.A_head2 = "243";
+    formData.A_head3 = "268";
+    formData.A_shoes = "317";
+    formData.A_shoulder = "311";
+    let count = 0;
+    let testcases = [];
+    for(let mob of mobs) {
+        console.log(MonsterIds[mob[0]])
+        formData.B_Enemy = mob[0];
+        for(let arrow in ArrowOBJ) {
+            console.log("arrow", arrow)
+            formData.A_Arrow = arrow;
+            let testCase = GetTestCase(formData);
+            testcases.push(testCase);
+            count += 1;
+        }
+    }
+    let p = path.join(process.cwd(), "../../server/src/tests/common/fixtures/data/attack-element-using-arrow.json");
+
+    fs.writeFileSync(p, JSON.stringify(testcases));
+    console.log("Generated", count, "test cases, in", (Date.now() - start) + "ms", "at", p);
 }
 
 function checkIfClassCanWearEquipment(isRebirth, nJEIS, n, i) {
