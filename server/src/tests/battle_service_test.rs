@@ -373,8 +373,8 @@ mod tests {
             let status_snapshot = status_service.to_snapshot(&character_status);
             let target = create_mob_by_id(1, scenarii.target_id());
             let is_ranged = status_snapshot.right_hand_weapon().map(|w| w.weapon_type().is_ranged()).unwrap_or(false);
-            let max_dmg = battle_max_service.physical_damage_character_attack_monster(&status_snapshot, &target.status, 0.0, is_ranged);
-            let min_dmg = battle_min_service.physical_damage_character_attack_monster(&status_snapshot, &target.status, 0.0, is_ranged);
+            let max_dmg = battle_max_service.physical_damage_character_attack_monster(&status_snapshot, &target.status, 1.0, is_ranged);
+            let min_dmg = battle_min_service.physical_damage_character_attack_monster(&status_snapshot, &target.status, 1.0, is_ranged);
 
 
             let mut result = TestResult {
