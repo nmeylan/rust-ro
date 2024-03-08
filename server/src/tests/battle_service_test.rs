@@ -93,8 +93,8 @@ mod tests {
                 equip_item_from_name(&mut character, stat.weapon);
             }
             // When
-            let min = context.battle_min_service.physical_damage_character_attack_monster(status_snapshot!(context, character), &mob.status, 1.0, false);
-            let max = context.battle_max_service.physical_damage_character_attack_monster(status_snapshot!(context, character), &mob.status, 1.0, false);
+            let min = context.battle_min_service.calculate_damage(status_snapshot!(context, character), &mob.status, None);
+            let max = context.battle_max_service.calculate_damage(status_snapshot!(context, character), &mob.status, None);
             // Then
             assert!(stat.min_damage - 1 <= min && min <= stat.min_damage + 1, "Expected min damage to be {} but was {} with stats {:?}", stat.min_damage, min, stat);
             assert!(stat.max_damage - 1 <= max && max <= stat.max_damage + 1, "Expected max damage to be {} but was {} with stats {:?}", stat.max_damage, max, stat);
@@ -373,8 +373,8 @@ mod tests {
             let status_snapshot = status_service.to_snapshot(&character_status);
             let target = create_mob_by_id(1, scenarii.target_id());
             let is_ranged = status_snapshot.right_hand_weapon().map(|w| w.weapon_type().is_ranged()).unwrap_or(false);
-            let max_dmg = battle_max_service.physical_damage_character_attack_monster(&status_snapshot, &target.status, 1.0, is_ranged);
-            let min_dmg = battle_min_service.physical_damage_character_attack_monster(&status_snapshot, &target.status, 1.0, is_ranged);
+            let max_dmg = battle_max_service.calculate_damage(&status_snapshot, &target.status, None);
+            let min_dmg = battle_min_service.calculate_damage(&status_snapshot, &target.status, None);
 
 
             let mut result = TestResult {

@@ -184,28 +184,7 @@ impl SkillService {
     }
 
     pub fn calculate_damage(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill: &dyn OffensiveSkill) -> i32 {
-        let mut damage = 0;
-        if skill.is_physical() {
-            let mut skill_modifier = skill.dmg_atk().unwrap_or(1.0);
-            if skill.hit_count() > 1 {
-                skill_modifier /= skill.hit_count() as f32;
-            }
-            damage = self.battle_service.physical_damage_character_attack_monster(source_status, target_status, skill_modifier, skill.is_ranged());
-            if skill.hit_count() > 1 {
-                damage *= skill.hit_count() as i32;
-            } else {
-                damage = ((damage as f32 / skill.hit_count().abs() as f32).floor() * skill.hit_count().abs() as f32) as i32;
-            }
-        } else if skill.is_magic() {
-            let mut skill_modifier = skill.dmg_matk().unwrap_or(1.0);
-            if skill.hit_count() > 1 {
-                skill_modifier /= skill.hit_count() as f32;
-            }
-            damage = self.battle_service.magic_damage_character_attack_monster(source_status, target_status, skill_modifier, &skill.element());
-            if skill.hit_count() > 1 {
-                damage *= skill.hit_count() as i32;
-            }
-        }
-        damage
+        self.battle_service.calculate_damage(source_status, target_status, Some(skill))
     }
+
 }
