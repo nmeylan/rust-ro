@@ -146,9 +146,6 @@ impl ItemService {
                 item.bonuses.iter().filter_map(|b| {
                     if let BonusType::ElementWeapon(element) = b { Some(*element) } else { None }
                 }).for_each(|element| { item.element = Some(element); });
-                if item.name_aegis == "Fire_Brand" {
-                    println!("Fire_Brand!!! {:?}", item.element);
-                }
                 if !complex_script {
                     item.script_compilation = None;
                     count_script_executed += 1;

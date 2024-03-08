@@ -52,7 +52,7 @@ impl NativeMethodHandler for BonusScriptHandler {
                 execution_thread.push_constant_on_stack(value);
             }
         } else {
-            println!("Function {} is not implemented", native.name);
+         //   println!("Function {} is not implemented", native.name);
         }
     }
 }
