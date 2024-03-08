@@ -136,14 +136,15 @@ mod tests {
         // Given
         let context = before_each();
         let mut character = create_character();
+        character.status.dex = 10;
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, true, 0);
         let second_attack_tick = get_tick() + 2000;
         let character_status = status_snapshot!(context, character);
         // When
-        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick());
-        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, second_attack_tick);
+        let attack_1 = context.battle_max_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick());
+        let attack_2 = context.battle_max_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, second_attack_tick);
         // Then
         assert!(attack_1.is_some());
         assert!(attack_2.is_some());
@@ -156,13 +157,14 @@ mod tests {
         // Given
         let context = before_each();
         let mut character = create_character();
+        character.status.dex = 10;
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, false, 0);
         // When
         let character_status = status_snapshot!(context, character);
-        let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick());
-        let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick() + 2000);
+        let attack_1 = context.battle_max_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick());
+        let attack_2 = context.battle_max_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick() + 2000);
         // Then
         assert!(attack_1.is_some());
         assert!(attack_2.is_none());
@@ -174,6 +176,7 @@ mod tests {
         // Given
         let context = before_each();
         let mut character = create_character();
+        character.status.dex = 10;
         let mob_item_id = 82322;
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, true, 0);
@@ -338,10 +341,140 @@ mod tests {
         let result_file_path = "../doc/progress/battle-attack-element-using-arrow_progress.md";
         let scenario = crate::tests::common::fixtures::battle_fixture::BattleFixture::load(fixture_file);
 
+        // let test_id: Option<&str> = Some("iat1wn");
         let test_id: Option<&str> = None;
 
         battle_test_cases(fixture_file, result_file_path, "Attack element using arrow", false, scenario, test_id, &context.status_service, &context.battle_min_service, &context.battle_max_service)
     }
+
+
+    // https://irowiki.org/classic/Card_Reference
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_defensive_resistence_cards() {
+        // Wootan Fighter Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_defensive_immunity_cards() {
+        // Ungoliant Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_elemental_damage_reduction_cards() {
+        // jakk Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_racial_damage_reduction_cards() {
+        // thara frog Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_size_damage_reduction_cards() {
+        // Mysteltainn Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_mob_group_damage_reduction_cards() {
+        // Alice Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_exp_increase_cards() {
+        // Am Mut Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_garment_elemental_damage_increase_cards() {
+        // Magmaring Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_weapon_elemental_damage_increase() {
+        // fireblend
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_ammo_elemental_damage_increase() {
+        // fire arrow with bow
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_critical_damage_increase_against_race_cards() {
+        // assaulter Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_damage_increase_against_group_cards() {
+        // abysmal Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_damage_increase_against_race_cards() {
+        // hydra Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_damage_increase_against_element_cards() {
+        // vadon Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_damage_increase_against_size_cards() {
+        // minorous Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_chance_to_inflict_effect_cards() {
+        // zenorc Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_status_armor_inflict_effect_cards() {
+        // skogul Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_food_dropping_cards() {
+        // anopheles Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_box_dropping_cards() {
+        // sleeper Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_increase_skill_damage_cards() {
+        // hill wind Card
+    }
+
+    #[test]
+    #[ignore = "not yet implemented"]
+    fn test_drain_sp_cards() {
+        // phendark Card
+    }
+
 
     fn battle_test_cases(fixture_file: &str, result_file_path: &str, title: &str, assert_passed: bool, scenario: Vec<BattleFixture>, test_id: Option<&str>,
                          status_service: &StatusService, battle_min_service: &BattleService, battle_max_service: &BattleService) {
@@ -473,8 +606,8 @@ mod tests {
                 .collect::<Vec<String>>()
                 .join("");
             let job = format!("{}({}/{})", result.job, result.status.base_level, result.job_level);
-            let min_dmg_passed = result.expected.min_dmg().max(1) - 1 <= result.actual_combat_result.as_ref().unwrap().min_dmg && result.actual_combat_result.as_ref().unwrap().min_dmg <= result.expected.min_dmg() + 1;
-            let max_dmg_passed = result.expected.max_dmg().max(1) - 1 <= result.actual_combat_result.as_ref().unwrap().max_dmg && result.actual_combat_result.as_ref().unwrap().max_dmg <= result.expected.max_dmg() + 1;
+            let min_dmg_passed = result.expected.min_dmg() - 1 <= result.actual_combat_result.as_ref().unwrap().min_dmg && result.actual_combat_result.as_ref().unwrap().min_dmg <= result.expected.min_dmg() + 1;
+            let max_dmg_passed = result.expected.max_dmg() - 1 <= result.actual_combat_result.as_ref().unwrap().max_dmg && result.actual_combat_result.as_ref().unwrap().max_dmg <= result.expected.max_dmg() + 1;
             result.passed = min_dmg_passed && max_dmg_passed;
             if result.passed {
                 passed_count += 1;
@@ -504,132 +637,5 @@ mod tests {
         if assert_passed {
             assert_eq!(markdown_rows_failed.len(), 0);
         }
-    }
-
-    // https://irowiki.org/classic/Card_Reference
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_defensive_resistence_cards() {
-        // Wootan Fighter Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_defensive_immunity_cards() {
-        // Ungoliant Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_elemental_damage_reduction_cards() {
-        // jakk Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_racial_damage_reduction_cards() {
-        // thara frog Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_size_damage_reduction_cards() {
-        // Mysteltainn Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_mob_group_damage_reduction_cards() {
-        // Alice Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_exp_increase_cards() {
-        // Am Mut Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_garment_elemental_damage_increase_cards() {
-        // Magmaring Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_weapon_elemental_damage_increase() {
-        // fireblend
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_ammo_elemental_damage_increase() {
-        // fire arrow with bow
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_critical_damage_increase_against_race_cards() {
-        // assaulter Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_damage_increase_against_group_cards() {
-        // abysmal Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_damage_increase_against_race_cards() {
-        // hydra Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_damage_increase_against_element_cards() {
-        // vadon Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_damage_increase_against_size_cards() {
-        // minorous Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_chance_to_inflict_effect_cards() {
-        // zenorc Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_status_armor_inflict_effect_cards() {
-        // skogul Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_food_dropping_cards() {
-        // anopheles Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_box_dropping_cards() {
-        // sleeper Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_increase_skill_damage_cards() {
-        // hill wind Card
-    }
-
-    #[test]
-    #[ignore = "not yet implemented"]
-    fn test_drain_sp_cards() {
-        // phendark Card
     }
 }

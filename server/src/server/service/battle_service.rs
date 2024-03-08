@@ -60,7 +60,7 @@ impl BattleService {
                 if skill.hit_count() > 1 {
                     skill_modifier /= skill.hit_count() as f32;
                 }
-                damage = self.physical_damage_character_attack_monster(source_status, target_status, skill_modifier, skill.is_ranged());
+                damage = self.physical_damage_character_attack_monster(source_status, target_status, skill_modifier, skill.is_ranged(), &self.attack_element(source_status, Some(skill)));
                 if skill.hit_count() > 1 {
                     damage *= skill.hit_count() as i32;
                 } else {
@@ -78,7 +78,7 @@ impl BattleService {
             }
         } else {
             let is_ranged = source_status.right_hand_weapon().map(|w| w.weapon_type().is_ranged()).unwrap_or(false);
-            damage = self.physical_damage_character_attack_monster(source_status, target_status, 1.0, is_ranged);
+            damage = self.physical_damage_character_attack_monster(source_status, target_status, 1.0, is_ranged, &self.attack_element(source_status, None));
         }
 
         damage
@@ -87,7 +87,7 @@ impl BattleService {
     /// (([((({(base_atk +
     /// + rnd(min(DEX,ATK), ATK)*SizeModifier) * SkillModifiers * (1 - DEF/100) - VitDEF + BaneSkill + UpgradeDamage}
     /// + MasterySkill + WeaponryResearchSkill + EnvenomSkill) * ElementalModifier) + Enhancements) * DamageBonusModifiers * DamageReductionModifiers] * NumberOfMultiHits) - KyrieEleisonEffect) / NumberOfMultiHits
-    fn physical_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool) -> i32 {
+    fn physical_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool, element: &Element) -> i32 {
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let _imposito_magnus: u32 = 0;
         let base_atk = self.status_service.fist_atk(source_status, is_ranged) as f32 + upgrade_bonus + source_status.base_atk() as f32;
@@ -100,7 +100,7 @@ impl BattleService {
         let mastery_skill: f32 = 0.0;
         let weaponery_research_skill: f32 = 0.0;
         let evenom_skill: f32 = 0.0;
-        let elemental_modifier: f32 = 1.0;
+        let elemental_modifier: f32 = Self::element_modifier(element, target_status);
         let enchantements: f32 = 0.0;
         let damage_bonus_modifier: f32 = 1.0;
         let damage_reduction_modifier: f32 = 1.0;
@@ -119,7 +119,7 @@ impl BattleService {
                                             (base_atk + self.weapon_atk(source_status, target_status, is_ranged) as f32).floor() * skill_modifier * (1.0 - def)
                                         )
                                             - vitdef + bane_skill + source_status.weapon_upgrade_damage() as f32
-                                    )
+                                    ).max(1.0)
                                         + mastery_skill + weaponery_research_skill + evenom_skill
                                 )
                                     * elemental_modifier
@@ -133,9 +133,17 @@ impl BattleService {
         ).floor() as i32
     }
 
+
     pub fn mob_vitdef(&self, target_status: &StatusSnapshot) -> f32 {
         let mut rng = fastrand::Rng::new();
-        target_status.vit() as f32 + rng.u16(0..1.max(1.max(((target_status.vit() as f32 / 20.0).ceil() as u16).pow(2)) - 1)) as f32
+        let vitdef_lower_part = 0;
+        let vitdef_higher_part = 1.max(((target_status.vit() as f32 / 20.0).floor() as i16).pow(2) - 1) as u16;
+        let vitdef = match self.battle_result_mode {
+            BattleResultMode::TestMin => {target_status.vit() + vitdef_higher_part} // When mode is "min" it means when we do min damage, so mob has the higher vitdef
+            BattleResultMode::TestMax => {target_status.vit() + vitdef_lower_part}  // When mode is "max" it means when we do max damage, so mob has the lower vitdef
+            BattleResultMode::Normal => {target_status.vit() + rng.u16(vitdef_lower_part..=vitdef_higher_part)}
+        };
+        vitdef as f32
     }
 
 
@@ -266,7 +274,7 @@ impl BattleService {
         let damage = if matches!(target.map_item.object_type(), MapItemType::Mob) {
             let mob = self.configuration_service.get_mob(target.map_item.client_item_class() as i32);
             packet_zc_notify_act3.set_attacked_mt(mob.damage_motion);
-            self.physical_damage_character_attack_monster(source_status, target_status, 1.0, source_status.right_hand_weapon_type().is_ranged())
+            self.calculate_damage(source_status, target_status, None)
         } else {
             0
         };
@@ -561,7 +569,7 @@ impl BattleService {
             match target_status.element() {
                 Element::Neutral => {
                     if matches!(element, Element::Ghost) {
-                        0.25
+                        0.0
                     } else {
                         1.0
                     }
@@ -851,12 +859,12 @@ impl BattleService {
                     if matches!(element, Element::Fire) {
                         2.0
                     } else if matches!(element, Element::Earth) {
-                        0.25
+                        -0.25
                     } else if matches!(element, Element::Wind) {
                         0.0
                     } else if matches!(element, Element::Ghost) || matches!(element, Element::Undead) {
                         0.25
-                    } else if matches!(element, Element::Holy) || matches!(element, Element::Dark) {
+                    } else if matches!(element, Element::Holy) || matches!(element, Element::Dark) || matches!(element, Element::Poison){
                         0.75
                     } else {
                         1.0

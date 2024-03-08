@@ -559,7 +559,7 @@ function ClickActiveSkill(wAS) {
 
 function refreshEnemyStats(enemyStats) {
     myInnerHtml("Enemy_Race", global.RaceOBJ[enemyStats.race], 0);
-    if (enemyStats.element > 0 && global.elementOBJ[enemyStats.element] === undefined) {
+    if (enemyStats.element > 0 && global.elementOBJ[enemyStats.element] !== undefined) {
         let w = Math.floor(enemyStats.element / 10);
         myInnerHtml("Enemy_Element", (global.elementOBJ[w] + enemyStats.element % 10), 0);
     }
@@ -567,6 +567,7 @@ function refreshEnemyStats(enemyStats) {
     myInnerHtml("Enemy_HP", enemyStats.hp, 0);
     myInnerHtml("Enemy_ATK", enemyStats.atk1, 0);
     myInnerHtml("Enemy_ATK2", enemyStats.atk2, 0);
+    myInnerHtml("Enemy_VIT", enemyStats.vit, 0);
     myInnerHtml("Enemy_PerfectHit", enemyStats.perfectHit, 0);
     myInnerHtml("Enemey_PerfectDodge", enemyStats.perfectDodge, 0);
     myInnerHtml("Enemy_Def", enemyStats.def, 0);
