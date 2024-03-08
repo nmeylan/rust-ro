@@ -510,7 +510,7 @@ mod tests {
     #[test]
     fn test_takeoff_equip_item_should_unequip_item() {
         // Given
-        let context = before_each(mocked_repository());
+        let context = before_each_with_latch(mocked_repository(), 1);
         let mut character = create_character();
         let _char_id = character.char_id;
         let knife_index = equip_item_from_name(&mut character, "Knife");
@@ -519,6 +519,7 @@ mod tests {
         context.inventory_service.takeoff_equip_item(&mut character, knife_index);
         // Then
         assert_eq!(character.status.all_equipped_items().len(), 0);
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcSpriteChange2::packet_id(GlobalConfigService::instance().packetver()))]));
     }
 

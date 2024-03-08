@@ -11,7 +11,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const command = "generate";
+const command = "convert";
 let formData, testCase, testCases, file;
 switch (command) {
     case "convert":
@@ -590,7 +590,7 @@ function generate_element_test() {
         for(let elementLevel = 1; elementLevel <= 4; elementLevel++) {
             let mob = MonsterOBJ.find(m => m[3] == (elementLevel + element));
             if (mob) {
-                 mobs.push(mob);
+                 mobs.push({mob, element: elementOBJ[element % element], elementLevel});
             } else {
                 console.log("No mob with element", element, "level", elementLevel)
             }
@@ -624,12 +624,12 @@ function generate_element_test() {
     let count = 0;
     let testcases = [];
     for(let mob of mobs) {
-        console.log(MonsterIds[mob[0]])
-        formData.B_Enemy = mob[0];
+        console.log(MonsterIds[mob.mob[0]])
+        formData.B_Enemy = mob.mob[0];
         for(let arrow in ArrowOBJ) {
-            console.log("arrow", arrow)
             formData.A_Arrow = arrow;
             let testCase = GetTestCase(formData);
+            testCase.desc = "Element " + mob.element + " level " + mob.elementLevel;
             testcases.push(testCase);
             count += 1;
         }

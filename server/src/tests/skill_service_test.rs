@@ -347,10 +347,10 @@ mod tests {
             weapon: String,
             passed: bool,
             comment: String,
-            actual_min: Option<u32>,
-            actual_max: Option<u32>,
-            expected_min: Option<u32>,
-            expected_max: Option<u32>,
+            actual_min: Option<i32>,
+            actual_max: Option<i32>,
+            expected_min: Option<i32>,
+            expected_max: Option<i32>,
         }
         let mut results: Vec<TestResult> = Vec::with_capacity(scenario.len());
         // When

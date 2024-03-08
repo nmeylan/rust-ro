@@ -40,10 +40,14 @@ pub struct BattleFixture {
     skill_to_use: SkillLevel,
     #[serde(default, rename = "supportiveSkills")]
     supportive_skills: Vec<SkillLevel>,
-    #[serde(rename = "arrow")]
+    #[serde(rename = "ammo")]
     ammo: Option<String>,
+    #[serde(rename = "ammoId")]
+    ammo_id: Option<u32>,
     #[serde(rename = "targetName")]
     target: String,
+    #[serde(rename = "targetId")]
+    target_id: u32,
     // Expectation
     #[serde(rename = "maxHp")]
     max_hp: u16,
@@ -68,10 +72,10 @@ pub struct BattleFixture {
     #[serde(rename = "battleFlee")]
     battle_flee: u16,
     crit: f32,
-    #[serde(rename = "critATK")]
-    crit_atk: Vec<u16>,
-    #[serde(rename = "battleCritAtk")]
-    battle_crit_atk: Vec<u16>,
+    #[serde(default, rename = "critATK")]
+    crit_atk: Vec<i16>,
+    #[serde(default, rename = "battleCritAtk")]
+    battle_crit_atk: Vec<i16>,
     def: i16,
     mdef: i16,
     cast: f32,
@@ -93,11 +97,11 @@ pub struct BattleFixture {
     #[serde(rename = "maxWeaponAttackCalc")]
     max_weapon_attack_calc: f32,
     #[serde(rename = "minDmg")]
-    min_dmg: u32,
+    min_dmg: i32,
     #[serde(rename = "avgDmg")]
     avg_dmg: f32,
     #[serde(rename = "maxDmg")]
-    max_dmg: u32,
+    max_dmg: i32,
     #[serde(rename = "minDamageReceived")]
     min_dmg_received: Option<f32>,
     #[serde(rename = "avgDamageReceived")]

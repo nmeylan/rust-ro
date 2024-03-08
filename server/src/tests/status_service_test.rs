@@ -46,6 +46,9 @@ mod tests {
     use models::enums::EnumWithNumberValue;
     use models::item::{WearGear, WearWeapon};
     use crate::tests::common::fixtures::battle_fixture::Equipment;
+    use crate::tests::common::fixtures::TestResult;
+    #[macro_use]
+    use crate::format_result;
     use crate::{eq_with_variance, status_snapshot};
 
     use crate::tests::common::character_helper::{create_character, equip_item_from_name_with_cards, equip_item_from_id_with_cards, equip_item_from_name, equip_item_with_cards_and_refinement};
@@ -236,7 +239,7 @@ mod tests {
     fn test_all_stats_when_job_level_change() {
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-job-level.json";
         let result_file_path = "../doc/progress/stats-for-each-job-level_progress.md";
-        stats_tests(fixture_file, result_file_path, "Stats for each job level", None);
+        stats_tests(fixture_file, result_file_path, "Stats for each job level", None, false);
     }
 
     #[test]
@@ -244,7 +247,7 @@ mod tests {
         let context = before_each();
         let fixture_file = "src/tests/common/fixtures/data/stats-for-items.json";
         let result_file_path = "../doc/progress/stats-for-each-items_progress.md";
-        stats_tests(fixture_file, result_file_path, "Stats for each items", None);
+        stats_tests(fixture_file, result_file_path, "Stats for each items", None, false);
     }
 
     #[test]
@@ -252,7 +255,7 @@ mod tests {
         let context = before_each();
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-stats.json";
         let result_file_path = "../doc/progress/each-bonus_progress.md";
-        stats_tests(fixture_file, result_file_path, "Each item bonus", None);
+        stats_tests(fixture_file, result_file_path, "Each item bonus", None, false);
     }
 
     #[test]
@@ -260,7 +263,7 @@ mod tests {
         let context = before_each();
         let fixture_file = "src/tests/common/fixtures/data/stats-for-cards.json";
         let result_file_path = "../doc/progress/stats-for-each-card_progress.md";
-        stats_tests(fixture_file, result_file_path, "Stats for each cards", None);
+        stats_tests(fixture_file, result_file_path, "Stats for each cards", None, false);
     }
 
 
@@ -269,7 +272,7 @@ mod tests {
         let id = "0g3rud";
         let fixture_file = "src/tests/common/fixtures/data/stats-for-cards.json";
         let result_file_path = "../doc/progress/stats-for-each-items_progress.md";
-        stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id));
+        stats_tests(fixture_file, result_file_path, "Stats for each job level", Some(id), false);
     }
 
 
@@ -355,8 +358,7 @@ mod tests {
     }
 
 
-    fn stats_tests(fixture_file: &str, result_file_path: &str, title: &str, test_id: Option<&str>)
-    {
+    pub(crate) fn stats_tests(fixture_file: &str, result_file_path: &str, title: &str, test_id: Option<&str>, assert_passed: bool) {
         // Given
         let context = before_each();
         let _packetver = GlobalConfigService::instance().packetver();
@@ -396,10 +398,11 @@ mod tests {
                 job: job.as_str().to_string(),
                 job_level: scenarii.job_level() as usize,
                 passed: false,
-                actual: status_snapshot,
+                actual_status: status_snapshot,
                 desc: scenarii.desc().clone(),
                 expected: mem::take(&mut scenarii),
                 status: mem::take(character_status),
+                actual_combat_result: None,
             };
             let mut passed = false;
             results.push(result);
@@ -407,17 +410,7 @@ mod tests {
         if test_id.is_some() {
             return;
         }
-        macro_rules! format_result {
-            ( $passed:expr, $arg1:expr ) => {
-                if $passed {format!("**{}**", format!("{}", $arg1))} else {format!("*{}*", format!("{}", $arg1))}
-          };
-            ( $passed:expr, $arg1:expr, $arg2:expr  ) => {
-                if $passed {format!("**{}**", format!("{}/{}", $arg1, $arg2))} else {format!("*{}*", format!("{}/{}", $arg1, $arg2))}
-          };
-            ( $passed:expr, $arg1:expr, $arg2:expr , $arg3:expr , $arg4:expr  ) => {
-                if $passed {format!("**{}**", format!("{}+{}/{}+{}", $arg1, $arg2, $arg3, $arg4))} else {format!("*{}*", format!("{}+{}/{}+{}", $arg1, $arg2, $arg3, $arg4))}
-          };
-        }
+
         let path = Path::new(result_file_path);
         let mut result_file = File::create(path).unwrap();
         result_file.write_all(b"                              \n").unwrap();
@@ -528,25 +521,25 @@ mod tests {
                 .join("");
             let job = format!("{}({}/{})", result.job, result.status.base_level, result.job_level);
 
-            let str_passed = result.actual.str() as i16 == result.expected.bonus_str() + result.expected.base_str() as i16;
-            let agi_passed = result.actual.agi() as i16 == result.expected.bonus_agi() + result.expected.base_agi() as i16;
-            let vit_passed = result.actual.vit() as i16 == result.expected.bonus_vit() + result.expected.base_vit() as i16;
-            let dex_passed = result.actual.dex() as i16 == result.expected.bonus_dex() + result.expected.base_dex() as i16;
-            let int_passed = result.actual.int() as i16 == result.expected.bonus_int() + result.expected.base_int() as i16;
-            let luk_passed = result.actual.luk() as i16 == result.expected.bonus_luk() + result.expected.base_luk() as i16;
-            let aspd_passed = result.actual.aspd() >= result.expected.aspd() - 0.5 || result.actual.aspd() <= result.expected.aspd() + 0.5;
-            let atk_left_passed = result.actual.atk_left_side() as u16 == result.expected.atk_left();
-            let atk_right_passed = result.actual.atk_right_side() as u16 == result.expected.atk_right();
-            let def_passed = result.actual.def() == result.expected.def();
-            let mdef_passed = result.actual.mdef() == result.expected.mdef();
-            let hit_passed = result.actual.hit() == result.expected.hit();
-            let matk_min_passed = result.actual.matk_min() == result.expected.matk_min();
-            let matk_max_passed = result.actual.matk_max() == result.expected.matk_max();
-            let flee_passed = result.actual.flee() == result.expected.flee();
-            let crit_passed = result.actual.crit() == result.expected.crit();
-            let hp_passed = eq_with_variance!(1, result.actual.max_hp(), result.expected.max_hp());
-            let sp_passed = eq_with_variance!(1, result.actual.max_sp(), result.expected.max_sp());
-            let armor_element_passed = result.actual.element() == result.expected.element();
+            let str_passed = result.actual_status.str() as i16 == result.expected.bonus_str() + result.expected.base_str() as i16;
+            let agi_passed = result.actual_status.agi() as i16 == result.expected.bonus_agi() + result.expected.base_agi() as i16;
+            let vit_passed = result.actual_status.vit() as i16 == result.expected.bonus_vit() + result.expected.base_vit() as i16;
+            let dex_passed = result.actual_status.dex() as i16 == result.expected.bonus_dex() + result.expected.base_dex() as i16;
+            let int_passed = result.actual_status.int() as i16 == result.expected.bonus_int() + result.expected.base_int() as i16;
+            let luk_passed = result.actual_status.luk() as i16 == result.expected.bonus_luk() + result.expected.base_luk() as i16;
+            let aspd_passed = result.actual_status.aspd() >= result.expected.aspd() - 0.5 || result.actual_status.aspd() <= result.expected.aspd() + 0.5;
+            let atk_left_passed = result.actual_status.atk_left_side() as u16 == result.expected.atk_left();
+            let atk_right_passed = result.actual_status.atk_right_side() as u16 == result.expected.atk_right();
+            let def_passed = result.actual_status.def() == result.expected.def();
+            let mdef_passed = result.actual_status.mdef() == result.expected.mdef();
+            let hit_passed = result.actual_status.hit() == result.expected.hit();
+            let matk_min_passed = result.actual_status.matk_min() == result.expected.matk_min();
+            let matk_max_passed = result.actual_status.matk_max() == result.expected.matk_max();
+            let flee_passed = result.actual_status.flee() == result.expected.flee();
+            let crit_passed = result.actual_status.crit() == result.expected.crit();
+            let hp_passed = eq_with_variance!(1, result.actual_status.max_hp(), result.expected.max_hp());
+            let sp_passed = eq_with_variance!(1, result.actual_status.max_sp(), result.expected.max_sp());
+            let armor_element_passed = result.actual_status.element() == result.expected.element();
 
             let mut found_count = 0;
             for bonus in expected_bonuses.iter() {
@@ -567,25 +560,25 @@ mod tests {
 
             let text = format!("|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|\n",
                                result.id, job, format_result!(stat_passed, format!("<ul>{}</ul>",bonuses_desc)), format_result!(stat_passed, format!("<ul>{}</ul>",fixtures_bonuses_desc)), format_result!(result.passed, result.passed),
-                               format_result!(str_passed, result.actual.base_str(), result.actual.bonus_str(), result.expected.base_str(), result.expected.bonus_str()),
-                               format_result!(agi_passed, result.actual.base_agi(), result.actual.bonus_agi(), result.expected.base_agi(), result.expected.bonus_agi()),
-                               format_result!(vit_passed, result.actual.base_vit(), result.actual.bonus_vit(), result.expected.base_vit(), result.expected.bonus_vit()),
-                               format_result!(dex_passed, result.actual.base_dex(), result.actual.bonus_dex(), result.expected.base_dex(), result.expected.bonus_dex()),
-                               format_result!(int_passed, result.actual.base_int(), result.actual.bonus_int(), result.expected.base_int(), result.expected.bonus_int()),
-                               format_result!(luk_passed, result.actual.base_luk(), result.actual.bonus_luk(), result.expected.base_luk(), result.expected.bonus_luk()),
-                               format_result!(aspd_passed, result.actual.aspd(), result.expected.aspd_displayed()),
-                               format_result!(atk_left_passed, result.actual.atk_left_side(),result.expected.atk_left()),
-                               format_result!(atk_right_passed, result.actual.atk_right_side(),result.expected.atk_right()),
-                               format_result!(matk_min_passed,result.actual.matk_min(), result.expected.matk_min()),
-                               format_result!(matk_max_passed,result.actual.matk_max(), result.expected.matk_max()),
-                               format_result!(def_passed, result.actual.def(), result.expected.def()),
-                               format_result!(mdef_passed, result.actual.mdef(), result.expected.mdef()),
-                               format_result!(hit_passed, result.actual.hit(), result.expected.hit()),
-                               format_result!(flee_passed, result.actual.flee(), result.expected.flee()),
-                               format_result!(crit_passed, result.actual.crit(), result.expected.crit()),
-                               format_result!(hp_passed, result.actual.max_hp(), result.expected.max_hp()),
-                               format_result!(sp_passed, result.actual.max_sp(), result.expected.max_sp()),
-                               format_result!(armor_element_passed, result.actual.element(), result.expected.element()),
+                               format_result!(str_passed, result.actual_status.base_str(), result.actual_status.bonus_str(), result.expected.base_str(), result.expected.bonus_str()),
+                               format_result!(agi_passed, result.actual_status.base_agi(), result.actual_status.bonus_agi(), result.expected.base_agi(), result.expected.bonus_agi()),
+                               format_result!(vit_passed, result.actual_status.base_vit(), result.actual_status.bonus_vit(), result.expected.base_vit(), result.expected.bonus_vit()),
+                               format_result!(dex_passed, result.actual_status.base_dex(), result.actual_status.bonus_dex(), result.expected.base_dex(), result.expected.bonus_dex()),
+                               format_result!(int_passed, result.actual_status.base_int(), result.actual_status.bonus_int(), result.expected.base_int(), result.expected.bonus_int()),
+                               format_result!(luk_passed, result.actual_status.base_luk(), result.actual_status.bonus_luk(), result.expected.base_luk(), result.expected.bonus_luk()),
+                               format_result!(aspd_passed, result.actual_status.aspd(), result.expected.aspd_displayed()),
+                               format_result!(atk_left_passed, result.actual_status.atk_left_side(),result.expected.atk_left()),
+                               format_result!(atk_right_passed, result.actual_status.atk_right_side(),result.expected.atk_right()),
+                               format_result!(matk_min_passed,result.actual_status.matk_min(), result.expected.matk_min()),
+                               format_result!(matk_max_passed,result.actual_status.matk_max(), result.expected.matk_max()),
+                               format_result!(def_passed, result.actual_status.def(), result.expected.def()),
+                               format_result!(mdef_passed, result.actual_status.mdef(), result.expected.mdef()),
+                               format_result!(hit_passed, result.actual_status.hit(), result.expected.hit()),
+                               format_result!(flee_passed, result.actual_status.flee(), result.expected.flee()),
+                               format_result!(crit_passed, result.actual_status.crit(), result.expected.crit()),
+                               format_result!(hp_passed, result.actual_status.max_hp(), result.expected.max_hp()),
+                               format_result!(sp_passed, result.actual_status.max_sp(), result.expected.max_sp()),
+                               format_result!(armor_element_passed, result.actual_status.element(), result.expected.element()),
             );
             if result.passed {
                 markdown_rows_passed.push(text);
@@ -597,18 +590,10 @@ mod tests {
         markdown_rows_passed.iter().for_each(|r| { result_file.write(r.as_bytes()).unwrap(); });
         result_file.seek(SeekFrom::Start(0));
         result_file.write_all(format!("{}/{} tests passed\n", passed_count, results.len()).as_bytes()).unwrap();
+        if assert_passed {
+            assert_eq!(markdown_rows_failed.len(), 0);
+        }
     }
 
-    #[derive(Clone)]
-    struct TestResult {
-        id: String,
-        job: String,
-        job_level: usize,
-        passed: bool,
-        actual: StatusSnapshot,
-        expected: BattleFixture,
-        status: Status,
-        desc: Option<String>,
-    }
 }
 

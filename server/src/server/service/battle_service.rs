@@ -55,7 +55,7 @@ impl BattleService {
     /// (([((({(base_atk +
     /// + rnd(min(DEX,ATK), ATK)*SizeModifier) * SkillModifiers * (1 - DEF/100) - VitDEF + BaneSkill + UpgradeDamage}
     /// + MasterySkill + WeaponryResearchSkill + EnvenomSkill) * ElementalModifier) + Enhancements) * DamageBonusModifiers * DamageReductionModifiers] * NumberOfMultiHits) - KyrieEleisonEffect) / NumberOfMultiHits
-    pub fn physical_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool) -> u32 {
+    pub fn physical_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool) -> i32 {
         let mut rng = fastrand::Rng::new();
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let _imposito_magnus: u32 = 0;
@@ -99,7 +99,7 @@ impl BattleService {
                     - kyrie_eleison_effect
             )
                 / number_of_hits
-        ).floor() as u32
+        ).floor() as i32
     }
 
     pub fn mob_vitdef(&self, target_status: &StatusSnapshot) -> f32 {
@@ -178,7 +178,7 @@ impl BattleService {
 
 
     /// {rnd(minMATK,maxMATK) * ItemModifier * SkillModifier * (1-MDEF/100) - INT - VIT/2} * Elemental Modifier
-    pub fn magic_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, element: &Element) -> u32 {
+    pub fn magic_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, element: &Element) -> i32 {
         let mut rng = fastrand::Rng::new();
         let matk = match self.battle_result_mode {
             BattleResultMode::TestMin => { source_status.matk_min() }
@@ -188,7 +188,7 @@ impl BattleService {
         let elemental_modifier: f32 = Self::element_modifier(element, target_status);
         let mdef = target_status.mdef() as f32 / 100.0;
         // println!("({} * {} * {} * {} - {} - {}) * {}", matk, item_modifier, skill_modifier, (1.0 - mdef), target_status.int(), target_status.vit() as f32 / 2.0, elemental_modifier);
-        ((matk * skill_modifier * (1.0 - mdef)).floor() * elemental_modifier).floor() as u32
+        ((matk * skill_modifier * (1.0 - mdef)).floor() * elemental_modifier).floor() as i32
     }
 
     pub fn attack_element(&self, source_status: &StatusSnapshot, skill: Option<&dyn OffensiveSkill>) -> Element {
@@ -247,12 +247,17 @@ impl BattleService {
         self.client_notification_sender.send(
             Notification::Area(AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(),
                                                      AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_act3.raw_mut())))).expect("Failed to send notification to client");
-        Some(Damage {
-            target_id: attack.target,
-            attacker_id: character.char_id,
-            damage,
-            attacked_at: tick + attack_motion as u128,
-        })
+        if damage >= 0 {
+            Some(Damage {
+                target_id: attack.target,
+                attacker_id: character.char_id,
+                damage: damage as u16 as u32,
+                attacked_at: tick + attack_motion as u128,
+            })
+        } else {
+            // TODO handle heal if damage < 0
+            None
+        }
     }
 
     #[inline]
