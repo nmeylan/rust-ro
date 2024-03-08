@@ -39,18 +39,29 @@ fn before_each_with_latch(latch_size: usize) -> BattleServiceTestContext {
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
+    use std::fs::File;
+    use std::io::{Seek, SeekFrom, Write};
+    use std::mem;
+    use std::path::Path;
+    use models::enums::class::JobName;
     use models::enums::element::Element;
+    use models::enums::{EnumWithStringValue, EnumWithNumberValue};
     use models::enums::size::Size;
     use models::enums::skill_enums::SkillEnum;
+    use models::item::{WearGear, WearWeapon};
     use models::status::Status;
     use skills::base::bard_base::MelodyStrike;
     use skills::{OffensiveSkill, Skill};
-    use crate::{assert_eq_with_variance, status_snapshot, status_snapshot_mob};
+    use crate::{assert_eq_with_variance, format_result, status_snapshot, status_snapshot_mob};
     use crate::server::model::map_item::{ToMapItemSnapshot};
     use crate::server::service::battle_service::BattleService;
-    use crate::tests::battle_service_test::before_each;
-    use crate::tests::common::character_helper::{create_character, equip_item_from_name};
-    use crate::tests::common::mob_helper::create_mob;
+    use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::server::service::status_service::StatusService;
+    use crate::tests::battle_service_test::{BattleServiceTestContext, before_each};
+    use crate::tests::common::character_helper::{create_character, equip_item_from_id_with_cards, equip_item_from_name, equip_item_from_id};
+    use crate::tests::common::fixtures::{CombatTestResult, TestResult};
+    use crate::tests::common::fixtures::battle_fixture::BattleFixture;
+    use crate::tests::common::mob_helper::{create_mob, create_mob_by_id};
     use crate::util::tick::get_tick;
 
     #[test]
@@ -65,9 +76,9 @@ mod tests {
             str: u16,
             luk: u16,
             mob: &'a str,
-            min_damage: u32,
-            max_damage: u32,
-            average_damage: u32,
+            min_damage: i32,
+            max_damage: i32,
+            average_damage: i32,
         }
         let stats = vec![
             Stats { weapon: "Knife", agi: 1, dex: 5, str: 5, luk: 1, mob: "LUNATIC", min_damage: 8, max_damage: 19, average_damage: 13 },
@@ -129,7 +140,7 @@ mod tests {
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, true, 0);
         let second_attack_tick = get_tick() + 2000;
-        let character_status =status_snapshot!(context, character);
+        let character_status = status_snapshot!(context, character);
         // When
         let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick());
         let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, second_attack_tick);
@@ -149,7 +160,7 @@ mod tests {
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, false, 0);
         // When
-        let character_status =status_snapshot!(context, character);
+        let character_status = status_snapshot!(context, character);
         let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick());
         let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick() + 2000);
         // Then
@@ -167,7 +178,7 @@ mod tests {
         let mob = create_mob(mob_item_id, "PORING");
         character.set_attack(mob_item_id, true, 0);
         // When
-        let character_status =status_snapshot!(context, character);
+        let character_status = status_snapshot!(context, character);
         let attack_1 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick());
         let attack_2 = context.battle_service.basic_attack(&mut character, mob.to_map_item_snapshot(), character_status, &mob.status, get_tick());
         // Then
@@ -194,7 +205,7 @@ mod tests {
             Scenarii { weapon: Some("Knife"), target_size: Size::Medium, expected_modifier: 0.75 },
             Scenarii { weapon: Some("Knife"), target_size: Size::Large, expected_modifier: 0.5 },
             Scenarii { weapon: Some("Sword"), target_size: Size::Small, expected_modifier: 0.75 },
-            Scenarii { weapon: Some("Sword"), target_size: Size::Medium, expected_modifier: 1.0},
+            Scenarii { weapon: Some("Sword"), target_size: Size::Medium, expected_modifier: 1.0 },
             Scenarii { weapon: Some("Sword"), target_size: Size::Large, expected_modifier: 0.75 },
             Scenarii { weapon: Some("Slayer"), target_size: Size::Small, expected_modifier: 0.75 },
             Scenarii { weapon: Some("Slayer"), target_size: Size::Medium, expected_modifier: 0.75 },
@@ -257,6 +268,7 @@ mod tests {
             assert!(actual_vit >= (*vit as f32), "Expected actual_vit {} to be greater or equal to {}", actual_vit, vit);
         }
     }
+
     #[test]
     fn test_vitdef() {
         // Given
@@ -296,16 +308,16 @@ mod tests {
             skill: Option<Box<dyn OffensiveSkill>>,
         }
         let scenario = vec![
-            Scenarii { weapon: "Sword", ammo: None, expected_element: Element::Neutral, skill: None},
-            Scenarii { weapon: "Fire_Brand", ammo: None, expected_element: Element::Fire, skill: None},
-            Scenarii { weapon: "Ice_Falchon", ammo: None, expected_element: Element::Water, skill: None},
-            Scenarii { weapon: "Katar_Of_Piercing_Wind", ammo: None, expected_element: Element::Wind, skill: None},
-            Scenarii { weapon: "Katar_Of_Piercing_Wind", ammo: Some("Fire_Arrow"), expected_element: Element::Wind, skill: None},
-            Scenarii { weapon: "Katar_Of_Thornbush", ammo:  None, expected_element: Element::Earth, skill: None},
-            Scenarii { weapon: "Bow", ammo: Some("Fire_Arrow"), expected_element: Element::Fire, skill: None},
-            Scenarii { weapon: "Bow", ammo: Some("Arrow_Of_Wind"), expected_element: Element::Wind, skill: None},
-            Scenarii { weapon: "Lute", ammo: Some("Arrow_Of_Wind"), expected_element: Element::Neutral, skill: None},
-            Scenarii { weapon: "Lute", ammo: Some("Arrow_Of_Wind"), expected_element: Element::Wind, skill: skills::skill_enums::to_offensive_skill(SkillEnum::BaMusicalstrike, 1)},
+            Scenarii { weapon: "Sword", ammo: None, expected_element: Element::Neutral, skill: None },
+            Scenarii { weapon: "Fire_Brand", ammo: None, expected_element: Element::Fire, skill: None },
+            Scenarii { weapon: "Ice_Falchon", ammo: None, expected_element: Element::Water, skill: None },
+            Scenarii { weapon: "Katar_Of_Piercing_Wind", ammo: None, expected_element: Element::Wind, skill: None },
+            Scenarii { weapon: "Katar_Of_Piercing_Wind", ammo: Some("Fire_Arrow"), expected_element: Element::Wind, skill: None },
+            Scenarii { weapon: "Katar_Of_Thornbush", ammo: None, expected_element: Element::Earth, skill: None },
+            Scenarii { weapon: "Bow", ammo: Some("Fire_Arrow"), expected_element: Element::Fire, skill: None },
+            Scenarii { weapon: "Bow", ammo: Some("Arrow_Of_Wind"), expected_element: Element::Wind, skill: None },
+            Scenarii { weapon: "Lute", ammo: Some("Arrow_Of_Wind"), expected_element: Element::Neutral, skill: None },
+            Scenarii { weapon: "Lute", ammo: Some("Arrow_Of_Wind"), expected_element: Element::Wind, skill: skills::skill_enums::to_offensive_skill(SkillEnum::BaMusicalstrike, 1) },
         ];
         // When
         for scenari in scenario {
@@ -320,7 +332,178 @@ mod tests {
 
     #[test]
     fn test_attack_element_modifiers() {
+        // Given
+        let context = crate::tests::battle_service_test::before_each();
+        let fixture_file = "src/tests/common/fixtures/data/attack-element-using-arrow.json";
+        let result_file_path = "../doc/progress/battle-attack-element-using-arrow_progress.md";
+        let scenario = crate::tests::common::fixtures::battle_fixture::BattleFixture::load(fixture_file);
 
+        let test_id: Option<&str> = None;
+
+        battle_test_cases(fixture_file, result_file_path, "Attack element using arrow", false, scenario, test_id, &context.status_service, &context.battle_min_service, &context.battle_max_service)
+    }
+
+    fn battle_test_cases(fixture_file: &str, result_file_path: &str, title: &str, assert_passed: bool, scenario: Vec<BattleFixture>, test_id: Option<&str>,
+                         status_service: &StatusService, battle_min_service: &BattleService, battle_max_service: &BattleService) {
+        let mut i = -1;
+        let mut results: Vec<TestResult> = Vec::with_capacity(scenario.len());
+        for mut scenarii in scenario {
+            if let Some(test_id) = test_id {
+                if !scenarii.id().eq(test_id) {
+                    continue;
+                }
+            }
+            i += 1;
+            let mut character = create_character();
+            scenarii.all_equipments().iter().for_each(|e| {
+                equip_item_from_id_with_cards(&mut character, e.item_id() as u32, e.cards().iter().map(|c| c.item_id()).collect::<Vec<i16>>());
+            });
+            scenarii.ammo_id().as_ref().map(|ammo| {equip_item_from_id(&mut character, *ammo)});
+            let mut character_status = &mut character.status;
+            let job = JobName::from_string(scenarii.job().as_str());
+            character_status.job = job.value() as u32;
+            character_status.job_level = scenarii.job_level();
+            character_status.str = scenarii.base_str();
+            character_status.agi = scenarii.base_agi();
+            character_status.vit = scenarii.base_vit();
+            character_status.dex = scenarii.base_dex();
+            character_status.int = scenarii.base_int();
+            character_status.luk = scenarii.base_luk();
+            character_status.base_level = scenarii.base_level();
+            let status_snapshot = status_service.to_snapshot(&character_status);
+            let target = create_mob_by_id(1, scenarii.target_id());
+            let is_ranged = status_snapshot.right_hand_weapon().map(|w| w.weapon_type().is_ranged()).unwrap_or(false);
+            let max_dmg = battle_max_service.physical_damage_character_attack_monster(&status_snapshot, &target.status, 0.0, is_ranged);
+            let min_dmg = battle_min_service.physical_damage_character_attack_monster(&status_snapshot, &target.status, 0.0, is_ranged);
+
+
+            let mut result = TestResult {
+                id: scenarii.id().clone(),
+                job: job.as_str().to_string(),
+                job_level: scenarii.job_level() as usize,
+                passed: false,
+                actual_status: status_snapshot,
+                desc: scenarii.desc().clone(),
+                expected: mem::take(&mut scenarii),
+                status: mem::take(character_status),
+                actual_combat_result: Some(CombatTestResult { max_dmg, min_dmg }),
+            };
+            results.push(result);
+        }
+        if test_id.is_some() {
+            return;
+        }
+        let path = Path::new(result_file_path);
+        let mut result_file = File::create(path).unwrap();
+        result_file.write_all(b"                              \n").unwrap();
+        result_file.write_all(format!("fixture file was [{}](/server/{})\n\n", fixture_file, fixture_file).as_bytes()).unwrap();
+        result_file.write_all(format!("# {}\n", title).as_bytes()).unwrap();
+        result_file.write_all(b"|id|character|stats|skill|target|passed|min dmg|max dmg|\n").unwrap();
+        result_file.write_all(b"|-|-|-|-|-|-|-|-|\n").unwrap();
+        let mut passed_count = 0;
+        let mut markdown_rows_passed = vec![];
+        let mut markdown_rows_failed = vec![];
+        for result in results.iter_mut() {
+            let mut bonuses_desc = vec![];
+            let mut equipped_gears = result.status.equipped_weapons().iter().collect::<Vec<&WearWeapon>>();
+            equipped_gears.sort_by(|a, b| a.item_id.cmp(&b.item_id));
+            equipped_gears.iter().for_each(|weapon| {
+                let item = GlobalConfigService::instance().get_item(weapon.item_id() as i32);
+                if weapon.card0() > 0 {
+                    let card = GlobalConfigService::instance().get_item(weapon.card0() as i32);
+                    let mut bonuses = vec![];
+                    status_service.collect_bonuses(&result.status, &mut bonuses, item);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), bonuses.iter().map(|b| {
+                        format!("<li>*{:?}*</li>", b)
+                    })
+                        .collect::<Vec<String>>()
+                        .join("")));
+                    let mut bonuses = vec![];
+                    status_service.collect_bonuses(&result.status, &mut bonuses, card);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", card.name_aegis.clone(), bonuses.iter().map(|b| {
+                        format!("<li>*{:?}*</li>", b)
+                    })
+                        .collect::<Vec<String>>()
+                        .join("")));
+                } else {
+                    let mut bonuses = vec![];
+                    status_service.collect_bonuses(&result.status, &mut bonuses, item);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), bonuses.iter().map(|b| {
+                        format!("<li>*{:?}*</li>", b)
+                    })
+                        .collect::<Vec<String>>()
+                        .join("")));
+                }
+            });
+            result.status.equipped_ammo().map(|ammo| {
+                bonuses_desc.push(format!("{}", GlobalConfigService::instance().get_item(ammo.item_id).name_aegis));
+            });
+
+            let mut equipped_gears = result.status.equipped_gears().iter().collect::<Vec<&WearGear>>();
+            equipped_gears.sort_by(|a, b| a.item_id.cmp(&b.item_id));
+            equipped_gears.iter().for_each(|equipment| {
+                let item = GlobalConfigService::instance().get_item(equipment.item_id() as i32);
+                if equipment.card0() > 0 {
+                    let card = GlobalConfigService::instance().get_item(equipment.card0() as i32);
+                    let mut bonuses = vec![];
+                    status_service.collect_bonuses(&result.status, &mut bonuses, item);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), bonuses.iter().map(|b| {
+                        format!("<li>*{:?}*</li>", b)
+                    })
+                        .collect::<Vec<String>>()
+                        .join("")));
+                    let mut bonuses = vec![];
+                    status_service.collect_bonuses(&result.status, &mut bonuses, card);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", card.name_aegis.clone(), bonuses.iter().map(|b| {
+                        format!("<li>*{:?}*</li>", b)
+                    })
+                        .collect::<Vec<String>>()
+                        .join("")));
+                } else {
+                    let mut bonuses = vec![];
+                    status_service.collect_bonuses(&result.status, &mut bonuses, item);
+                    bonuses_desc.push(format!("{}<ul>{}</ul>", item.name_aegis.clone(), bonuses.iter().map(|b| {
+                        format!("<li>*{:?}*</li>", b)
+                    })
+                        .collect::<Vec<String>>()
+                        .join("")));
+                }
+            });
+            let bonuses_desc = bonuses_desc.iter().map(|d| format!("<li>{}</li>", d))
+                .collect::<Vec<String>>()
+                .join("");
+            let job = format!("{}({}/{})", result.job, result.status.base_level, result.job_level);
+            let min_dmg_passed = result.expected.min_dmg().max(1) - 1 <= result.actual_combat_result.as_ref().unwrap().min_dmg && result.actual_combat_result.as_ref().unwrap().min_dmg <= result.expected.min_dmg() + 1;
+            let max_dmg_passed = result.expected.max_dmg().max(1) - 1 <= result.actual_combat_result.as_ref().unwrap().max_dmg && result.actual_combat_result.as_ref().unwrap().max_dmg <= result.expected.max_dmg() + 1;
+            result.passed = min_dmg_passed && max_dmg_passed;
+            if result.passed {
+                passed_count += 1;
+            }
+            let mut skill = String::from("Basic Attack");
+            if result.expected.skill_to_use().skid() > 0 {
+                skill = format!("{} (Lv. {})", SkillEnum::from_id(result.expected.skill_to_use().skid()).to_name(),
+                                result.expected.skill_to_use().level());
+            }
+            let text = format!("|{}|{}|{}|{}|{}|{}|{}|{}|\n",
+                               result.id, job, format!("<ul>{}</ul>", bonuses_desc),
+                               skill, result.expected.target(),
+                               format_result!(result.passed, result.passed),
+                               format_result!(min_dmg_passed, result.actual_combat_result.as_ref().unwrap().min_dmg, result.expected.min_dmg()),
+                               format_result!(max_dmg_passed, result.actual_combat_result.as_ref().unwrap().max_dmg, result.expected.max_dmg()),
+            );
+            if result.passed {
+                markdown_rows_passed.push(text);
+            } else {
+                markdown_rows_failed.push(text);
+            }
+        }
+        markdown_rows_failed.iter().for_each(|r| { result_file.write(r.as_bytes()).unwrap(); });
+        markdown_rows_passed.iter().for_each(|r| { result_file.write(r.as_bytes()).unwrap(); });
+        result_file.seek(SeekFrom::Start(0));
+        result_file.write_all(format!("{}/{} tests passed\n", passed_count, results.len()).as_bytes()).unwrap();
+        if assert_passed {
+            assert_eq!(markdown_rows_failed.len(), 0);
+        }
     }
 
     // https://irowiki.org/classic/Card_Reference
@@ -329,36 +512,43 @@ mod tests {
     fn test_status_defensive_resistence_cards() {
         // Wootan Fighter Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_defensive_immunity_cards() {
         // Ungoliant Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_elemental_damage_reduction_cards() {
         // jakk Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_racial_damage_reduction_cards() {
         // thara frog Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_size_damage_reduction_cards() {
         // Mysteltainn Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_mob_group_damage_reduction_cards() {
         // Alice Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_exp_increase_cards() {
         // Am Mut Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_garment_elemental_damage_increase_cards() {
@@ -382,55 +572,64 @@ mod tests {
     fn test_status_critical_damage_increase_against_race_cards() {
         // assaulter Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_damage_increase_against_group_cards() {
         // abysmal Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_damage_increase_against_race_cards() {
         // hydra Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_damage_increase_against_element_cards() {
         // vadon Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_damage_increase_against_size_cards() {
         // minorous Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_chance_to_inflict_effect_cards() {
         // zenorc Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_status_armor_inflict_effect_cards() {
         // skogul Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_food_dropping_cards() {
         // anopheles Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_box_dropping_cards() {
         // sleeper Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_increase_skill_damage_cards() {
         // hill wind Card
     }
+
     #[test]
     #[ignore = "not yet implemented"]
     fn test_drain_sp_cards() {
         // phendark Card
     }
-
 }

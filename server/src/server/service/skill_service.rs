@@ -140,7 +140,7 @@ impl SkillService {
 
         let attack_motion = self.status_service.attack_motion(source_status);
         packet_zc_notify_skill2.set_attack_mt(attack_motion as i32);
-        packet_zc_notify_skill2.set_attacked_mt(attack_motion  as i32);
+        packet_zc_notify_skill2.set_attacked_mt(attack_motion as i32);
         packet_zc_notify_skill2.set_level(skill.level() as i16);
 
         packet_zc_notify_skill2.set_count(skill.hit_count().abs() as i16);
@@ -153,12 +153,17 @@ impl SkillService {
             AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_skill2.raw_mut()))
         )).unwrap();
 
-        Some(Damage {
-            target_id,
-            attacker_id: character.char_id,
-            damage,
-            attacked_at: tick + attack_motion as u128,
-        })
+        if damage > 0 {
+            Some(Damage {
+                target_id,
+                attacker_id: character.char_id,
+                damage: damage as u32,
+                attacked_at: tick + attack_motion as u128,
+            })
+        } else {
+            // TODO handle heal if damage < 0
+            None
+        }
     }
 
     pub fn after_skill_used(&self, character: &mut Character, tick: u128) {
@@ -178,8 +183,7 @@ impl SkillService {
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_ack_touseskill.raw_mut())))).unwrap();
     }
 
-    pub fn calculate_damage(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill: &dyn OffensiveSkill) -> u32 {
-
+    pub fn calculate_damage(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill: &dyn OffensiveSkill) -> i32 {
         let mut damage = 0;
         if skill.is_physical() {
             let mut skill_modifier = skill.dmg_atk().unwrap_or(1.0);
@@ -188,9 +192,9 @@ impl SkillService {
             }
             damage = self.battle_service.physical_damage_character_attack_monster(source_status, target_status, skill_modifier, skill.is_ranged());
             if skill.hit_count() > 1 {
-                damage *= skill.hit_count() as u32;
+                damage *= skill.hit_count() as i32;
             } else {
-                damage = ((damage as f32 / skill.hit_count().abs() as f32).floor() * skill.hit_count().abs() as f32) as u32;
+                damage = ((damage as f32 / skill.hit_count().abs() as f32).floor() * skill.hit_count().abs() as f32) as i32;
             }
         } else if skill.is_magic() {
             let mut skill_modifier = skill.dmg_matk().unwrap_or(1.0);
@@ -199,7 +203,7 @@ impl SkillService {
             }
             damage = self.battle_service.magic_damage_character_attack_monster(source_status, target_status, skill_modifier, &skill.element());
             if skill.hit_count() > 1 {
-                damage *= skill.hit_count() as u32;
+                damage *= skill.hit_count() as i32;
             }
         }
         damage

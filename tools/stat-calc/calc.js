@@ -5512,7 +5512,8 @@ function GetTestCase(formData) {
     testCase._id = formData._id ? formData._id : Math.random().toString(36).substring(2, 6 + 2);
     testCase.job = JobName[testCase.job];
     if (testCase.arrow !== null) {
-        testCase.arrow = ArrowOBJ[testCase.arrow][2];
+        testCase.ammo = ArrowOBJ[testCase.arrow][2];
+        testCase.ammoId = ArrowOBJ[testCase.arrow][3];
     }
     delete testCase.display;
     delete testCase.performanceSkills;
