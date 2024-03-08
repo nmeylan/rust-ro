@@ -1,7 +1,7 @@
 use std::mem;
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
-use fastrand::Rng;
+
 use models::enums::action::ActionType;
 use models::enums::element::Element;
 use models::enums::EnumWithMaskValueU64;
@@ -56,7 +56,7 @@ impl BattleService {
     /// + rnd(min(DEX,ATK), ATK)*SizeModifier) * SkillModifiers * (1 - DEF/100) - VitDEF + BaneSkill + UpgradeDamage}
     /// + MasterySkill + WeaponryResearchSkill + EnvenomSkill) * ElementalModifier) + Enhancements) * DamageBonusModifiers * DamageReductionModifiers] * NumberOfMultiHits) - KyrieEleisonEffect) / NumberOfMultiHits
     pub fn physical_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool) -> i32 {
-        let mut rng = fastrand::Rng::new();
+        let _rng = fastrand::Rng::new();
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let _imposito_magnus: u32 = 0;
         let base_atk = self.status_service.fist_atk(source_status, is_ranged) as f32 + upgrade_bonus + source_status.base_atk() as f32;
@@ -200,16 +200,14 @@ impl BattleService {
             } else {
                 skill.element()
             }
-        } else {
-            if let Some(weapon) = source_status.right_hand_weapon() {
-                if weapon.weapon_type().is_ranged() {
-                    source_status.ammo().map(|ammo| *ammo.element()).unwrap_or(Element::Neutral)
-                } else {
-                    source_status.right_hand_weapon().map(|weapon| *weapon.element()).unwrap_or(Element::Neutral)
-                }
+        } else if let Some(weapon) = source_status.right_hand_weapon() {
+            if weapon.weapon_type().is_ranged() {
+                source_status.ammo().map(|ammo| *ammo.element()).unwrap_or(Element::Neutral)
             } else {
-                Element::Neutral
+                source_status.right_hand_weapon().map(|weapon| *weapon.element()).unwrap_or(Element::Neutral)
             }
+        } else {
+            Element::Neutral
         }
     }
 

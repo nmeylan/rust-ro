@@ -117,7 +117,7 @@ impl BonusScriptHandler {
                 _ => {}
             }
         } else {
-            let value = params[1].number_value().unwrap() as i32;
+            let value = params[1].number_value().unwrap();
             match bonus.to_lowercase().as_str() {
                 "bagi" => {
                     bonus!(self, BonusType::Agi(value as i8));
@@ -291,13 +291,13 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::Matk(value as i16));
                 }
                 "bmaxhp" => {
-                    bonus!(self, BonusType::Maxhp(value as i32));
+                    bonus!(self, BonusType::Maxhp(value));
                 }
                 "bmaxhprate" => {
                     bonus!(self, BonusType::MaxhpPercentage(value as i8));
                 }
                 "bmaxsp" => {
-                    bonus!(self, BonusType::Maxsp(value as i32));
+                    bonus!(self, BonusType::Maxsp(value));
                 }
                 "bmaxsprate" => {
                     bonus!(self, BonusType::MaxspPercentage(value as i8));

@@ -35,6 +35,7 @@ use crate::server::service::server_service::ServerService;
 
 
 
+
 const MOVEMENT_TICK_RATE: u128 = 16;
 pub const GAME_TICK_RATE: u128 = 40;
 

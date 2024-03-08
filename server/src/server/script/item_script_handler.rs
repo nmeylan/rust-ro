@@ -9,7 +9,7 @@ use models::enums::skill_enums::SkillEnum;
 use models::status::Status;
 use crate::server::script::bonus::BonusScriptHandler;
 use crate::server::script::constant::load_constant;
-use crate::server::script::{global_variable_handler, PlayerScriptHandler, VM_THREAD_CONSTANT_INDEX_CHAR_ID};
+use crate::server::script::{PlayerScriptHandler, VM_THREAD_CONSTANT_INDEX_CHAR_ID};
 use crate::server::service::global_config_service::GlobalConfigService;
 
 pub struct DynamicItemScriptHandler<'character> {
@@ -35,7 +35,7 @@ impl<'character> DynamicItemScriptHandler<'character> {
 }
 
 impl<'character> NativeMethodHandler for DynamicItemScriptHandler<'character> {
-    fn handle(&self, native: &Native, params: Vec<value::Value>, execution_thread: &Thread, call_frame: &CallFrame, source_line: &CompilationDetail, class_name: String) {
+    fn handle(&self, native: &Native, params: Vec<value::Value>, execution_thread: &Thread, _call_frame: &CallFrame, _source_line: &CompilationDetail, _class_name: String) {
         if native.name.eq("skill") {
             let skill_name = params[0].string_value().unwrap();
             let skill = SkillEnum::from_name(skill_name.as_str());
@@ -90,12 +90,12 @@ impl<'character> NativeMethodHandler for DynamicItemScriptHandler<'character> {
                 panic!("Can't readparam for value {}, failed to execute script for item {}", params[0].number_value().unwrap(), self.item_id);
             }
         } else if native.name.eq("getskilllv") {
-            let skill = if params[0].is_string() {
+            let _skill = if params[0].is_string() {
                 SkillEnum::from_name(params[0].string_value().unwrap())
             } else {
                 SkillEnum::from_id(params[0].number_value().unwrap() as u32)
             };
-            let skill_level = self.status.known_skills.iter().find(|know_skill| matches!(know_skill.value, skill)).map_or(0, |know_skill| know_skill.level);
+            let skill_level = self.status.known_skills.iter().find(|know_skill| matches!(know_skill.value, _skill)).map_or(0, |know_skill| know_skill.level);
             execution_thread.push_constant_on_stack(Value::new_number(skill_level as i32));
         } else if native.name.eq("getglobalvariable") {
             let variable_name = params[0].string_value().unwrap();
@@ -106,7 +106,7 @@ impl<'character> NativeMethodHandler for DynamicItemScriptHandler<'character> {
                         execution_thread.push_constant_on_stack(value);
                         return;
                     }
-                    let char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
+                    let _char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
                     if let Some(value) = PlayerScriptHandler::load_special_char_variable(self.status, variable_name) {
                         execution_thread.push_constant_on_stack(value);
                         return;

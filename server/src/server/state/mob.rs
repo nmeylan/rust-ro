@@ -53,7 +53,7 @@ impl Movable for Mob {
 }
 
 impl Mob {
-    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, name_english: String, damage_motion: u32, status: StatusSnapshot) -> Mob {
+    pub fn new(id: u32, x: u16, y: u16, mob_id: i16, spawn_id: u32, name: String, name_english: String, _damage_motion: u32, status: StatusSnapshot) -> Mob {
         Mob {
             id,
             x,
