@@ -52,11 +52,42 @@ impl BattleService {
         });
     }
 
+    pub fn calculate_damage(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill: Option<&dyn OffensiveSkill>) -> i32 {
+        let mut damage = 0;
+        if let Some(skill) = skill {
+            if skill.is_physical() {
+                let mut skill_modifier = skill.dmg_atk().unwrap_or(1.0);
+                if skill.hit_count() > 1 {
+                    skill_modifier /= skill.hit_count() as f32;
+                }
+                damage = self.physical_damage_character_attack_monster(source_status, target_status, skill_modifier, skill.is_ranged());
+                if skill.hit_count() > 1 {
+                    damage *= skill.hit_count() as i32;
+                } else {
+                    damage = ((damage as f32 / skill.hit_count().abs() as f32).floor() * skill.hit_count().abs() as f32) as i32;
+                }
+            } else if skill.is_magic() {
+                let mut skill_modifier = skill.dmg_matk().unwrap_or(1.0);
+                if skill.hit_count() > 1 {
+                    skill_modifier /= skill.hit_count() as f32;
+                }
+                damage = self.magic_damage_character_attack_monster(source_status, target_status, skill_modifier, &skill.element());
+                if skill.hit_count() > 1 {
+                    damage *= skill.hit_count() as i32;
+                }
+            }
+        } else {
+            let is_ranged = source_status.right_hand_weapon().map(|w| w.weapon_type().is_ranged()).unwrap_or(false);
+            damage = self.physical_damage_character_attack_monster(source_status, target_status, 1.0, is_ranged);
+        }
+
+        damage
+    }
+
     /// (([((({(base_atk +
     /// + rnd(min(DEX,ATK), ATK)*SizeModifier) * SkillModifiers * (1 - DEF/100) - VitDEF + BaneSkill + UpgradeDamage}
     /// + MasterySkill + WeaponryResearchSkill + EnvenomSkill) * ElementalModifier) + Enhancements) * DamageBonusModifiers * DamageReductionModifiers] * NumberOfMultiHits) - KyrieEleisonEffect) / NumberOfMultiHits
-    pub fn physical_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool) -> i32 {
-        let _rng = fastrand::Rng::new();
+    fn physical_damage_character_attack_monster(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill_modifier: f32, is_ranged: bool) -> i32 {
         let upgrade_bonus: f32 = 0.0; // TODO: weapon level1 : (+1~3 ATK for every overupgrade). weapon level2 : (+1~5 ATK for every overupgrade). weapon level3 : (+1~7 ATK for every overupgrade). weapon level4 : (+1~13 ATK for every overupgrade).
         let _imposito_magnus: u32 = 0;
         let base_atk = self.status_service.fist_atk(source_status, is_ranged) as f32 + upgrade_bonus + source_status.base_atk() as f32;
