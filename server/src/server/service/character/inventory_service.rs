@@ -397,9 +397,7 @@ impl InventoryService {
                 packets_raws_by_value.extend(packet_zc_attack_range.raw);
             }
             if let Some(equipped_item) = equipped_item.as_ref() {
-                self.sprite_change_packet_for_item(character, equipped_item, false).map(|script_change_packet| {
-                    packets_raws_by_value.extend(script_change_packet);
-                });
+                if let Some(script_change_packet) = self.sprite_change_packet_for_item(character, equipped_item, false) { packets_raws_by_value.extend(script_change_packet); }
             }
         } else {
             packet_zc_req_wear_equip_ack.fill_raw();
@@ -434,9 +432,7 @@ impl InventoryService {
                 let packet_zc_attack_range = self.packet_attack_range(character);
                 packets_raws_by_value.extend(packet_zc_attack_range.raw);
             }
-            self.sprite_change_packet_for_item(character, takeoff_equipement, true).map(|script_change_packet| {
-                packets_raws_by_value.extend(script_change_packet);
-            });
+            if let Some(script_change_packet) = self.sprite_change_packet_for_item(character, takeoff_equipement, true) { packets_raws_by_value.extend(script_change_packet); }
         } else {
             packet_zc_req_takeoff_equip_ack2.set_result(1);
         }

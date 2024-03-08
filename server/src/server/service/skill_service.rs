@@ -113,7 +113,7 @@ impl SkillService {
             damage = self.do_use_skill(character, target, source_status, target_status, tick);
         }
 
-        validate_sp.unwrap() > 0;
+        validate_sp.unwrap();0;
         damage
     }
 
@@ -135,7 +135,7 @@ impl SkillService {
         packet_zc_notify_skill2.set_skid(skill.id() as u16);
         let target_id = target.as_ref().unwrap().map_item().id();
         packet_zc_notify_skill2.set_target_id(target_id);
-        packet_zc_notify_skill2.set_damage(damage as i32);
+        packet_zc_notify_skill2.set_damage(damage);
         packet_zc_notify_skill2.set_start_time(0);
 
         let attack_motion = self.status_service.attack_motion(source_status);

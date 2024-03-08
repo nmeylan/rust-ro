@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::sync::{Arc, Once, RwLock};
+use std::sync::{Arc, Once};
 use std::sync::mpsc::SyncSender;
 use base64::Engine;
 use base64::engine::general_purpose;
@@ -19,7 +19,7 @@ use crate::repository::model::item_model::{ItemModel};
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::model::events::game_event::{CharacterUseItem};
 use crate::server::model::events::persistence_event::{DeleteItems, PersistenceEvent};
-use crate::server::script::{PlayerInteractionScriptHandler, PlayerScriptHandler};
+use crate::server::script::{PlayerScriptHandler};
 use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
@@ -77,7 +77,7 @@ impl ItemService {
                 let maybe_script_ref = ItemService::instance().get_item_script(item.item_id, runtime);
                 if maybe_script_ref.is_some() {
                     let script = maybe_script_ref.as_ref().unwrap();
-                    let (tx, rx) = mpsc::channel(1);
+                    let (tx, _rx) = mpsc::channel(1);
                     let session = server_ref.state().get_session(character.account_id);
                     session.set_script_handler_channel_sender(tx);
                     let script_result = Vm::repl(server_ref.vm.clone(), script,

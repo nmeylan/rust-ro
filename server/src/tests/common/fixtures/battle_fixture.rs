@@ -1,14 +1,14 @@
 use std::{env, fs};
 use std::fmt::Formatter;
 use std::path::Path;
-use std::ptr::eq;
+
 use serde::{Deserialize, Deserializer};
 use serde::de::{MapAccess, SeqAccess, Visitor};
 use models::enums::element::Element;
 use configuration::serde_helper::deserialize_number_enum;
 use crate::models::enums::EnumWithNumberValue;
 use models::enums::bonus::BonusType;
-use crate::tests::common::character_helper::equip_item_from_id;
+
 
 #[derive(Deserialize, GettersAll, Debug, Clone, Default)]
 pub struct BattleFixture {
@@ -142,17 +142,17 @@ impl BattleFixture {
 
     pub fn all_equipments(&self) -> Vec<&Equipment> {
         let mut equipments = vec![];
-        self.equipments.weapon().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
-        self.equipments.weapon_left().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
-        self.equipments.accessory1().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
-        self.equipments.accessory2().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
-        self.equipments.upper_headgear().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
-        self.equipments.middle_headgear().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
-        self.equipments.lower_headgear().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
-        self.equipments.body().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
-        self.equipments.shoulder().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
-        self.equipments.shoes().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
-        self.equipments.shield().as_ref().filter(|e| e.item_id() > 0).map(|e| equipments.push(e));
+        if let Some(e) = self.equipments.weapon().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.weapon_left().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.accessory1().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.accessory2().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.upper_headgear().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.middle_headgear().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.lower_headgear().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.body().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.shoulder().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.shoes().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
+        if let Some(e) = self.equipments.shield().as_ref().filter(|e| e.item_id() > 0) { equipments.push(e) }
         equipments
     }
 }
@@ -191,9 +191,7 @@ pub struct BonusTypeWrapper(pub(crate) BonusType);
 
 impl Default for BonusTypeWrapper {
     fn default() -> Self {
-        BonusTypeWrapper {
-            0: BonusType::DisableHpRegen,
-        }
+        BonusTypeWrapper(BonusType::DisableHpRegen)
     }
 }
 
@@ -317,8 +315,8 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "PerfectDodge" => BonusType::PerfectDodge(value.unwrap() as i8),
                 "Aspd" => BonusType::Aspd(value.unwrap() as i8),
                 "AspdPercentage" => BonusType::AspdPercentage(value.unwrap() as i8),
-                "Maxhp" => BonusType::Maxhp(value.unwrap() as i32),
-                "Maxsp" => BonusType::Maxsp(value.unwrap() as i32),
+                "Maxhp" => BonusType::Maxhp(value.unwrap()),
+                "Maxsp" => BonusType::Maxsp(value.unwrap()),
                 "MaxhpPercentage" => BonusType::MaxhpPercentage(value.unwrap() as i8),
                 "MaxspPercentage" => BonusType::MaxspPercentage(value.unwrap() as i8),
                 "Atk" => BonusType::Atk(value.unwrap() as i16),

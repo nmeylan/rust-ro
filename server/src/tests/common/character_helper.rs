@@ -100,7 +100,7 @@ pub fn equip_item_with_cards_and_refinement(character: &mut Character, item: &It
         is_identified: false,
         equip: item.location as i32,
         is_damaged: false,
-        card0: cards.get(0).cloned().unwrap_or_default(),
+        card0: cards.first().cloned().unwrap_or_default(),
         card1: cards.get(1).cloned().unwrap_or_default(),
         card2: cards.get(2).cloned().unwrap_or_default(),
         card3: cards.get(3).cloned().unwrap_or_default(),

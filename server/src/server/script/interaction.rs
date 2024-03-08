@@ -176,12 +176,10 @@ impl PlayerInteractionScriptHandler {
             packet_zc_notify_playerchat.set_packet_length((PacketZcNotifyPlayerchat::base_len(self.server.packetver()) + message.len() + 1) as i16);
             packet_zc_notify_playerchat.fill_raw();
             self.send_packet_to_char(execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID), &mut packet_zc_notify_playerchat);
-        } else {
-            if self.handle_shop(native, params, execution_thread, call_frame) {
-                return true;
-            }
+        } else if self.handle_shop(native, params, execution_thread, call_frame) {
+            return true;
         }
-        return false;
+        false
     }
 
     fn handle_menu(&self, execution_thread: &Thread, params: &Vec<value::Value>) -> Option<usize> {

@@ -7,7 +7,7 @@ use models::enums::class::JobName;
 use models::status::{Status, StatusBonus, StatusSnapshot};
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use models::enums::bonus::BonusType;
-use models::item::WearWeapon;
+
 use crate::repository::model::item_model::ItemModel;
 use crate::server::script::item_script_handler::DynamicItemScriptHandler;
 use crate::server::service::global_config_service::GlobalConfigService;
@@ -81,7 +81,7 @@ impl StatusService {
                 let item_model = self.configuration_service.get_item(equipment.card0 as i32);
                 self.collect_bonuses(status, &mut bonuses, item_model);
             }
-            item_model.defense.map(|def| snapshot.set_def(snapshot.def() + def));
+            if let Some(def) = item_model.defense { snapshot.set_def(snapshot.def() + def) }
             self.collect_bonuses(status, &mut bonuses, item_model);
         }
 
@@ -105,7 +105,7 @@ impl StatusService {
         snapshot.set_atk_left_side(self.status_atk_left_side(&snapshot));
         self.set_status_atk_right_side(&mut snapshot);
         bonuses.iter().for_each(|bonus| bonus.add_percentage_bonus_to_status(&mut snapshot));
-        snapshot.set_bonuses(bonuses.iter().map(|b| StatusBonus::new(b.clone())).collect::<Vec<StatusBonus>>());
+        snapshot.set_bonuses(bonuses.iter().map(|b| StatusBonus::new(*b)).collect::<Vec<StatusBonus>>());
         snapshot
     }
 
@@ -114,7 +114,7 @@ impl StatusService {
         if item_model.item_bonuses_are_dynamic {
             self.collect_dynamic_script(status, &mut bonuses, &item_model);
         } else {
-            item_model.bonuses.iter().for_each(|bonus| bonuses.push(bonus.clone()))
+            item_model.bonuses.iter().for_each(|bonus| bonuses.push(*bonus))
         }
     }
     // #[metrics::elapsed]
@@ -124,14 +124,12 @@ impl StatusService {
         if self.vm.contains_class(format!("itemscript{}", item_model.id).as_str()) {
             Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
                 .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e));
-        } else {
-            if let Some(script_compilation) = &item_model.script_compilation {
-                let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
-                let maybe_class = Compiler::from_binary(&script).unwrap().pop();
-                Vm::bootstrap_without_init(self.vm.clone(), vec![maybe_class.unwrap()]);
-                Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
-                    .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e.message));
-            }
+        } else if let Some(script_compilation) = &item_model.script_compilation {
+            let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
+            let maybe_class = Compiler::from_binary(&script).unwrap().pop();
+            Vm::bootstrap_without_init(self.vm.clone(), vec![maybe_class.unwrap()]);
+            Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
+                .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e.message));
         }
         bonuses.extend(dynamic_item_script_handler.drain());
     }
