@@ -2641,7 +2641,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
 
         } else {
             let wTAKA = 0;
-            if (stats.equipments.weapon.type == WEAPON_TYPE_BOW && SkillSearch("Blitz Beat", stats) && stats.skillToUse.name != "Sharp Shooting (Temp)", stats) {
+            if (stats.equipments.weapon.type == WEAPON_TYPE_BOW && SkillSearch("Blitz Beat", stats) && stats.skillToUse.name != "Sharp Shooting (Temp)") {
                 // myInnerHtml("bSUBname", "Bird Damage (Atk Rate))", 0);
                 battleResult.display.bonusSubName = "Bird Damage (Atk Rate))";
                 wBTw1 = Math.floor((stats.jobLevel - 1) / 10 + 1);
