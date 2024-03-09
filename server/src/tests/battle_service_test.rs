@@ -341,9 +341,10 @@ mod tests {
         let result_file_path = "../doc/progress/battle-attack-element-using-arrow_progress.md";
         let scenario = crate::tests::common::fixtures::battle_fixture::BattleFixture::load(fixture_file);
 
-        // let test_id: Option<&str> = Some("iat1wn");
+        // let test_id: Option<&str> = Some("mjrt2g");
         let test_id: Option<&str> = None;
 
+        // TODO Test failing when holy arrow against Demon race
         battle_test_cases(fixture_file, result_file_path, "Attack element using arrow", false, scenario, test_id, &context.status_service, &context.battle_min_service, &context.battle_max_service)
     }
 

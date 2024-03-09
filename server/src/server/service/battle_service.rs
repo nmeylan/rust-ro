@@ -107,6 +107,7 @@ impl BattleService {
         let number_of_hits: f32 = 1.0;
         let kyrie_eleison_effect: f32 = 0.0;
 
+        let weapon_atk = self.weapon_atk(source_status, target_status, is_ranged);
         (
             (
                 (
@@ -116,7 +117,7 @@ impl BattleService {
                                 (
                                     (
                                         (
-                                            (base_atk + self.weapon_atk(source_status, target_status, is_ranged) as f32).floor() * skill_modifier * (1.0 - def)
+                                            (base_atk + weapon_atk as f32).floor() * skill_modifier * (1.0 - def)
                                         )
                                             - vitdef + bane_skill + source_status.weapon_upgrade_damage() as f32
                                     ).max(1.0)
@@ -137,7 +138,7 @@ impl BattleService {
     pub fn mob_vitdef(&self, target_status: &StatusSnapshot) -> f32 {
         let mut rng = fastrand::Rng::new();
         let vitdef_lower_part = 0;
-        let vitdef_higher_part = 1.max(((target_status.vit() as f32 / 20.0).floor() as i16).pow(2) - 1) as u16;
+        let vitdef_higher_part = 0.max(((target_status.vit() as f32 / 20.0).floor() as i16).pow(2) - 1) as u16;
         let vitdef = match self.battle_result_mode {
             BattleResultMode::TestMin => {target_status.vit() + vitdef_higher_part} // When mode is "min" it means when we do min damage, so mob has the higher vitdef
             BattleResultMode::TestMax => {target_status.vit() + vitdef_lower_part}  // When mode is "max" it means when we do max damage, so mob has the lower vitdef
@@ -508,7 +509,7 @@ impl BattleService {
                 }
                 Element::Poison => {
                     if matches!(element, Element::Dark) || matches!(element, Element::Undead) {
-                        0.25
+                        0.5
                     } else if matches!(element, Element::Poison) {
                         0.0
                     } else {
@@ -657,7 +658,9 @@ impl BattleService {
                     }
                 }
                 Element::Dark => {
-                    if matches!(element, Element::Dark) {
+                    if matches!(element, Element::Neutral) {
+                        1.0
+                    } else if matches!(element, Element::Dark) {
                         -0.25
                     } else if matches!(element, Element::Holy) {
                         1.5
@@ -904,9 +907,11 @@ impl BattleService {
                     if matches!(element, Element::Undead) || matches!(element, Element::Dark) {
                         -0.25
                     } else if matches!(element, Element::Ghost) {
-                        0.5
+                        0.25
                     } else if matches!(element, Element::Holy) {
                         1.25
+                    }  else if matches!(element, Element::Neutral) {
+                        1.0
                     } else if matches!(element, Element::Poison) {
                         0.0
                     } else {
@@ -928,11 +933,13 @@ impl BattleService {
                 }
                 Element::Dark => {
                     if matches!(element, Element::Dark) {
-                        -0.5
+                        -1.0
                     } else if matches!(element, Element::Holy) {
-                        1.5
+                        2.0
+                    }  else if matches!(element, Element::Neutral) {
+                        1.0
                     } else if matches!(element, Element::Poison) {
-                        0.25
+                        -0.25
                     } else if matches!(element, Element::Undead) || matches!(element, Element::Ghost) {
                         0.0
                     } else {
