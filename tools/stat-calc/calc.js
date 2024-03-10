@@ -2526,7 +2526,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             else
                 w_left_Maxatk = stats.baseATK + stats.equipments.weaponLeftHand.overUpgradeBonusATK + Math.floor((stats.equipments.weaponLeftHand.atk - 1 + impositioMagnus) * sizeModifier);
 
-            w_left_Maxatk = BattleCalc4(stats, targetStats, w_left_Maxatk * skillModifier, 2, 1);
+            w_left_Maxatk = ApplyTargetDefForDamageReduction(stats, targetStats, w_left_Maxatk * skillModifier, 2, 1);
 
             if (w_left_Maxatk < 1) w_left_Maxatk = 1;
             w_left_Maxatk = Math.floor(w_left_Maxatk * element[targetStats.element][stats.equipments.weaponLeftHand.element]);
@@ -2549,7 +2549,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             if (workDex > stats.equipments.weaponLeftHand.atk)
                 workDex = stats.equipments.weaponLeftHand.atk;
             w_left_Minatk = stats.baseATK + stats.equipments.weaponLeftHand.minPlus + Math.floor((workDex + impositioMagnus) * sizeModifier);
-            w_left_Minatk = BattleCalc4(stats, targetStats, w_left_Minatk * skillModifier, 0, 1);
+            w_left_Minatk = ApplyTargetDefForDamageReduction(stats, targetStats, w_left_Minatk * skillModifier, 0, 1);
 
             if (w_left_Minatk < 1) w_left_Minatk = 1;
             w_left_Minatk = Math.floor(w_left_Minatk * element[targetStats.element][stats.equipments.weaponLeftHand.element]);
@@ -3065,7 +3065,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
                 finalDamages[b] = Math.floor(finalDamages[b] / wActiveHitNum) * wActiveHitNum;
             finalDamagesCopy[b] = finalDamages[b];
             // myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium) * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
         battleResult.minDmg = (finalDamagesCopy[0] + n_A_EDP_DMG[0]);
@@ -3105,7 +3105,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] = ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, n_A_DMG[b], b, InWarOfEmperium);
             finalDamagesCopy[b] = finalDamages[b];
             // myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * hitRate + (ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) + stats.equipments.weapon.upgradeBonusATK) * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + (ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium) + stats.equipments.weapon.upgradeBonusATK) * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
         battleResult.minDmg = (finalDamagesCopy[0] + n_A_EDP_DMG[0]);
@@ -3186,7 +3186,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             //     myInnerHtml("ATK_0" + b, finalDamages[b] * 3 + "(" + finalDamages[b] * 2 + " + " + finalDamages[b] + ")", 0);
             finalDamages[b] -= n_A_EDP_DMG[b];
             finalDamages[b] *= hitCount;
-            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * hitCount * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium) * hitCount * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate) * hitCount;
         }
         if (targetStats.lexAeterna == 0 || !isBowlingBash) {
@@ -3262,7 +3262,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         n_A_EDP_DMG[0] = BattleCalcEDP(stats, targetStats, n_A_DMG[0], 0, InWarOfEmperium);
         n_A_EDP_DMG[1] = BattleCalcEDP(stats, targetStats, n_A_DMG[1], 1, InWarOfEmperium);
 
-        let wINV = Math.floor(ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][5]);
+        let wINV = Math.floor(ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][5]);
 
         let finalDamagesCopy = [0, 0, 0];
         for (b = 0; b <= 2; b++) {
@@ -3312,7 +3312,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         for (b = 0; b <= 2; b++) {
             finalDamages[b] = stats.baseATK * skillModifier + ItemOBJ[stats.equipments.shield.index][6] + wSBr;
             finalDamages[b] = Math.floor(Math.floor(finalDamages[b] * (100 - targetStats.def) / 100 - targetStats.def2[b]) * skillModifier2);
-            finalDamages[b] = BaiCI(stats, targetStats, finalDamages[b], InWarOfEmperium);
+            finalDamages[b] = ApplyDamageBonusModifier(stats, targetStats, finalDamages[b], InWarOfEmperium);
             if (finalDamages[b] < 1) finalDamages[b] = 1;
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStats.element][0]);
             finalDamagesCopy[b] = finalDamages[b];
@@ -3360,7 +3360,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         for (b = 0; b <= 2; b++) {
             finalDamages[b] = (stats.baseATK * (100 - targetStats.def) / 100 - targetStats.def2[b]) * skillModifier2;
             finalDamages[b] += wSC2[b];
-            finalDamages[b] = BaiCI(stats, targetStats, finalDamages[b], InWarOfEmperium);
+            finalDamages[b] = ApplyDamageBonusModifier(stats, targetStats, finalDamages[b], InWarOfEmperium);
             if (finalDamages[b] < 1) finalDamages[b] = 1;
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStats.element][0]);
             finalDamagesCopy[b] = finalDamages[b];
@@ -3399,7 +3399,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         wSPP = 1.25 - (targetStats.size * 0.25);
         finalDamages[2] = Math.floor(finalDamages[2] * wSPP + stats.equipments.weapon.upgradeBonusATK);
         finalDamages[2] = finalDamages[2] * element[targetStats.element][stats.equipments.weapon.element];
-        finalDamages[2] = BaiCI(stats, targetStats, finalDamages[2], InWarOfEmperium);
+        finalDamages[2] = ApplyDamageBonusModifier(stats, targetStats, finalDamages[2], InWarOfEmperium);
         // myInnerHtml("ATK_00", finalDamages[2] * 5 + "(" + finalDamages[2] + SubName[8] + 5 + "hit)", 0);
         // myInnerHtml("ATK_01", finalDamages[2] * 5 + "(" + finalDamages[2] + SubName[8] + 5 + "hit)", 0);
         // myInnerHtml("ATK_02", finalDamages[2] * 5 + "(" + finalDamages[2] + SubName[8] + 5 + "hit)", 0);
@@ -3411,7 +3411,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         battleResult.display.atk02 = "(" + finalDamages[2] + SubName[8] + 5 + "hit)";
         finalDamages[2] *= 5;
         let wSPP2 = stats.equipments.weapon.upgradeBonusATK * element[targetStats.element][stats.equipments.weapon.element];
-        wSPP2 = BaiCI(stats, targetStats, wSPP2, InWarOfEmperium);
+        wSPP2 = ApplyDamageBonusModifier(stats, targetStats, wSPP2, InWarOfEmperium);
         wSPP2 = tPlusDamCut(stats, targetStats, wSPP2, InWarOfEmperium);
         finalDamages[2] = finalDamages[2] * hitRate / 100 + wSPP2 * 5 * (100 - hitRate) / 100;
 
@@ -3483,7 +3483,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] *= stats.skillToUse.level;
             // myInnerHtml("ATK_0" + b, finalDamages[b] + w_SBr[b] + "(" + finalDamages[b] + "+" + w_SBr[b] + ")", 0);
             finalDamagesCopy[b] = finalDamages[b];
-            finalDamages[b] = ((finalDamages[b] + w_SBr[b]) * hitRate + (ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) + w_SBr[b]) * (100 - hitRate)) / 100;
+            finalDamages[b] = ((finalDamages[b] + w_SBr[b]) * hitRate + (ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium) + w_SBr[b]) * (100 - hitRate)) / 100;
         }
         battleResult.minDmg = finalDamagesCopy[0] + w_SBr[0];
         battleResult.avgDmg = finalDamagesCopy[1] + w_SBr[1];
@@ -3643,7 +3643,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamagesCopy[b] = finalDamages[b];
             // myInnerHtml("ATK_0" + b, finalDamages[b], 0);
 
-            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * 2 * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium) * 2 * (100 - hitRate)) / 100;
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStats.element][0]);
         }
         battleResult.minDmg = finalDamagesCopy[0];
@@ -3691,7 +3691,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
     } else if (stats.skillToUse.name === "Martyr's Reconing") {
         stats.equipments.weapon.element = 0;
         finalDamages[2] = Math.floor(stats.maxHp * 0.09 * (0.9 + 0.1 * stats.skillToUse.level));
-        finalDamages[2] = BaiCI(stats, targetStats, finalDamages[2], InWarOfEmperium);
+        finalDamages[2] = ApplyDamageBonusModifier(stats, targetStats, finalDamages[2], InWarOfEmperium);
         finalDamages[2] = Math.floor(finalDamages[2] * element[targetStats.element][0]);
         // myInnerHtml("ATK_02", finalDamages[2], 0);
         // myInnerHtml("ATK_00", finalDamages[2], 0);
@@ -3729,7 +3729,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         let finalDamagesCopy = [0, 0, 0];
         for (b = 0; b <= 2; b++) {
             finalDamages[b] = Math.floor(Math.floor(BK_n_A_DMG[b] * skillModifier) * (work_B_DEF2[b] + targetStats.def) / 50);
-            finalDamages[b] = BaiCI(stats, targetStats, finalDamages[b], InWarOfEmperium);
+            finalDamages[b] = ApplyDamageBonusModifier(stats, targetStats, finalDamages[b], InWarOfEmperium);
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStats.element][0]);
             // myInnerHtml("ATK_0" + b, finalDamages[b], 0);
             finalDamagesCopy[b] = finalDamages[b];
@@ -3765,7 +3765,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
         let finalDamagesCopy = [0, 0, 0];
         for (b = 0; b <= 2; b++) {
             finalDamages[b] = Math.floor(BK_n_A_DMG[b] * skillModifier) + wASYU;
-            finalDamages[b] = BaiCI(stats, targetStats, finalDamages[b], InWarOfEmperium);
+            finalDamages[b] = ApplyDamageBonusModifier(stats, targetStats, finalDamages[b], InWarOfEmperium);
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStats.element][0]);
             // myInnerHtml("ATK_0" + b, finalDamages[b], 0);
             finalDamagesCopy[b] = finalDamages[b];
@@ -3801,7 +3801,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStats.element][0]);
             // myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
             finalDamagesCopy[b] = finalDamages[b];
-            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][0] * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
         battleResult.minDmg = finalDamagesCopy[0] + n_A_EDP_DMG[0];
@@ -3833,7 +3833,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
             finalDamages[b] = Math.floor(finalDamages[b] * element[targetStats.element][0]);
             finalDamagesCopy[b] = finalDamages[b];
             // myInnerHtml("ATK_0" + b, finalDamages[b] * 3 + "(" + finalDamages[b] + SubName[8] + "3hit)", 0);
-            finalDamages[b] = (finalDamages[b] * 3 * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][0] * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * 3 * hitRate + ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
         battleResult.minDmg = finalDamages[0];
@@ -3870,7 +3870,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
                 finalDamages[b] = Math.floor(finalDamages[b] / wActiveHitNum) * wActiveHitNum;
             finalDamagesCopy[b] = finalDamages[b];
             // myInnerHtml("ATK_0" + b, finalDamages[b] + n_A_EDP_DMG[b], 0);
-            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][0] * (100 - hitRate)) / 100;
+            finalDamages[b] = (finalDamages[b] * hitRate + ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium) * element[targetStats.element][0] * (100 - hitRate)) / 100;
             finalDamages[b] += HitEDPplus(stats, targetStats, n_A_EDP_DMG[b], InWarOfEmperium, w998E, w998K, hitRate);
         }
         battleResult.minDmg = finalDamagesCopy[0] + n_A_EDP_DMG[0];
@@ -3899,7 +3899,7 @@ function CalculateBattle(stats, targetStats, InWarOfEmperium) {
 
         finalDamages[0] = (stats.str + stats.skillToUse.level) * 40 + w_1senHP * (stats.baseLevel / 100) * stats.skillToUse.level / 10;
         finalDamages[0] = finalDamages[0] * (100 - targetStats.def) / 100;
-        finalDamages[0] = BaiCI(stats, targetStats, finalDamages[0], InWarOfEmperium);
+        finalDamages[0] = ApplyDamageBonusModifier(stats, targetStats, finalDamages[0], InWarOfEmperium);
         finalDamages[0] = Math.floor(finalDamages[0] * element[targetStats.element][0]);
 
         finalDamages[2] = finalDamages[1] = finalDamages[0];
@@ -4459,7 +4459,7 @@ function HitEDPplus(stats, targetStats, wBCEDPp, InWarOfEmperium, w998E, w998K, 
         wBCEDPpDA = (100 + w998E) / 100;
 
     wBCEDPch = 1;
-    let wBCEDPpHOSI = ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium);
+    let wBCEDPpHOSI = ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium);
     wBCEDPch = 0;
     let www = 0;
     if (wBCEDPpHOSI >= 1) {
@@ -4487,7 +4487,7 @@ function ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, w_atk, w
     if (w_2 == 10)
         w_atk += stats.equipments.weapon.upgradeBonusATK;
     else
-        w_atk = BattleCalc4(stats, targetStats, w_atk, w_2, 0);
+        w_atk = ApplyTargetDefForDamageReduction(stats, targetStats, w_atk, w_2, 0);
 
     if (w_atk < 1) w_atk = 1;
 
@@ -4525,13 +4525,13 @@ function ApplyMasteryAndWeaponryResearchAndDMGLevel(stats, targetStats, w_atk, w
             w_atk += stats.str;
     }
 
-    w_atk = ApplyWeaponryResearchAndDMGLevel(stats, targetStats, w_atk, InWarOfEmperium);
+    w_atk = ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, w_atk, InWarOfEmperium);
 
     return Math.floor(w_atk);
 }
 
 
-function ApplyWeaponryResearchAndDMGLevel(stats, targetStats, w999, InWarOfEmperium) {
+function ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, w999, InWarOfEmperium) {
 
     let w999_AB = 0;
     if (w999 > 0)
@@ -4592,7 +4592,7 @@ function ApplyWeaponryResearchAndDMGLevel(stats, targetStats, w999, InWarOfEmper
     if (stats.skillToUse.name == "Throw Kunai")
         w999 += KunaiOBJ[stats.skillToUse.additionalData][0] * 3;
 
-    w999 = BaiCI(stats, targetStats, w999, InWarOfEmperium);
+    w999 = ApplyDamageBonusModifier(stats, targetStats, w999, InWarOfEmperium);
 
 
     if (stats.skillToUse.name == "Back Stab" && stats.equipments.weapon.type == WEAPON_TYPE_BOW)
@@ -4618,7 +4618,7 @@ function ApplyWeaponryResearchAndDMGLevel(stats, targetStats, w999, InWarOfEmper
 }
 
 
-function BaiCI(stats, targetStats, wBaiCI, InWarOfEmperium) {
+function ApplyDamageBonusModifier(stats, targetStats, wBaiCI, InWarOfEmperium) {
 
 
     if (wBCEDPch == 0 && not_use_card == 0) {
@@ -4768,7 +4768,7 @@ function BattleCalc3(stats, targetStats, w998, InWarOfEmperium, w998B, w998E, w9
     let wBC3_DA = w998E * w998 * 2;
     let wBC3_Cri = w998G * stats.critATK[1];
     let wBC3_Normal = w998I * w998;
-    let wBC3_Miss = w998L * ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium);
+    let wBC3_Miss = w998L * ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium);
 
     let wBC3_X = (wBC3_3dan + wBC3_DA + wBC3_Cri + wBC3_Normal + wBC3_Miss) / 100;
 
@@ -4792,7 +4792,7 @@ function BattleCalc3left(stats, targetStats, hitRate, w998, InWarOfEmperium) {
 }
 
 
-function BattleCalc4(stats, targetStats, wBC4, wBC4_2, wBC4_3) {
+function ApplyTargetDefForDamageReduction(stats, targetStats, wBC4, wBC4_2, wBC4_3) {
 
     if (wBC4_3 === undefined || wBC4_3 == 0)
         wBC4_3 = stats.equipments.weapon.upgradeBonusATK;
@@ -4827,7 +4827,7 @@ function BattleCalcEDP(stats, targetStats, wBCEDP, wBCEDP2, InWarOfEmperium) {
 
     if (wBCEDP <= 0)
         return 0;
-    if (element[targetStats.element][stats.equipments.weapon.element] <= 0 && ApplyWeaponryResearchAndDMGLevel(stats, targetStats, 0, InWarOfEmperium) == 0)
+    if (element[targetStats.element][stats.equipments.weapon.element] <= 0 && ApplyWeaponryResearchAndDMGLevelAndElementModifier(stats, targetStats, 0, InWarOfEmperium) == 0)
         return 0;
 
     if (stats.skillToUse.name == "Sand Attack" || stats.skillToUse.name == "Soul Destroyer" || stats.skillToUse.name == "Venom Splasher" || stats.skillToUse.name == "Meteor Assault" || stats.skillToUse.name == "Bomb")
