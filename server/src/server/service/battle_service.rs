@@ -101,37 +101,17 @@ impl BattleService {
         let weaponery_research_skill: f32 = 0.0;
         let evenom_skill: f32 = 0.0;
         let elemental_modifier: f32 = Self::element_modifier(element, target_status);
-        let enchantements: f32 = 0.0;
-        let damage_bonus_modifier: f32 = 1.0;
-        let damage_reduction_modifier: f32 = 1.0;
         let number_of_hits: f32 = 1.0;
-        let kyrie_eleison_effect: f32 = 0.0;
+        let _kyrie_eleison_effect: f32 = 0.0;
 
         let weapon_atk = self.weapon_atk(source_status, target_status, is_ranged);
-        (
-            (
-                (
-                    (
-                        (
-                            (
-                                (
-                                    (
-                                        (
-                                            (base_atk + weapon_atk as f32).floor() * skill_modifier * (1.0 - def)
-                                        )
-                                            - vitdef + bane_skill + source_status.weapon_upgrade_damage() as f32
-                                    ).max(1.0)
-                                        + mastery_skill + weaponery_research_skill + evenom_skill
-                                )
-                                    * elemental_modifier
-                            ) + enchantements)
-                            * damage_bonus_modifier * damage_reduction_modifier
-                    ) * number_of_hits
-                )
-                    - kyrie_eleison_effect
-            )
-                / number_of_hits
-        ).floor() as i32
+        let mut atk = (base_atk + weapon_atk as f32).floor() * skill_modifier * (1.0 - def);
+        atk = (atk - vitdef + bane_skill + source_status.weapon_upgrade_damage() as f32).max(1.0);
+        atk += mastery_skill + weaponery_research_skill + evenom_skill;
+        atk *= elemental_modifier;
+        atk = self.apply_damage_bonus_modifier(atk, source_status, target_status);
+        atk *= number_of_hits;
+        atk.floor() as i32
     }
 
 
@@ -232,6 +212,7 @@ impl BattleService {
     }
 
     pub fn attack_element(&self, source_status: &StatusSnapshot, skill: Option<&dyn OffensiveSkill>) -> Element {
+         // TODO can be overidden by Enchant Poison, Aspersio
         if let Some(skill) = skill {
             if matches!(skill.element(), Element::Ammo) {
                 source_status.ammo().map(|ammo| *ammo.element()).unwrap_or(Element::Neutral)
@@ -249,6 +230,14 @@ impl BattleService {
         } else {
             Element::Neutral
         }
+    }
+
+    fn apply_damage_bonus_modifier(&self, current_atk: f32, source_status: &StatusSnapshot, target_status: &StatusSnapshot) -> f32 {
+        // todo include Star crumb
+        // race, mob group, size, element, star crumb, ranked blacksmith weapon, ranged attack bonus
+        // Turtle general, Randgris like card
+        // Frenzy/Edp
+        current_atk
     }
 
     pub fn basic_attack(&self, character: &mut Character, target: MapItemSnapshot, source_status: &StatusSnapshot, target_status: &StatusSnapshot, tick: u128) -> Option<Damage> {
