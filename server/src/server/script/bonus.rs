@@ -177,16 +177,7 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::DefPercentage(value as i8));
                 }
                 "bdefratioatkclass" => {
-                    match MobClass::from_value(value as usize) {
-                        MobClass::Boss => bonus!(self, BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::Boss)),
-                        MobClass::Normal => bonus!(self, BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::Normal)),
-                        MobClass::Guardian => bonus!(self, BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::Guardian)),
-                        MobClass::All => {
-                            bonus!(self, BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::Boss));
-                            bonus!(self, BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::Normal));
-                            bonus!(self, BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::Guardian));
-                        }
-                    }
+                    bonus!(self, BonusType::IncreaseDamageAgainstClassBaseOnDef(MobClass::from_value(value as usize)))
                 }
                 "bdelayrate" => {
                     bonus!(self, BonusType::SkillDelayIncDecPercentage(value as i8));
@@ -222,43 +213,10 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::HitPercentage(value as i8));
                 }
                 "bignoredefclass" => {
-                    match MobClass::from_value(value as usize) {
-                        MobClass::Normal => bonus!(self, BonusType::IgnoreDefClass(MobClass::Normal)),
-                        MobClass::Boss => bonus!(self, BonusType::IgnoreDefClass(MobClass::Boss)),
-                        MobClass::Guardian => bonus!(self, BonusType::IgnoreDefClass(MobClass::Guardian)),
-                        MobClass::All => {
-                            bonus!(self, BonusType::IgnoreDefClass(MobClass::Normal));
-                            bonus!(self, BonusType::IgnoreDefClass(MobClass::Boss));
-                            bonus!(self, BonusType::IgnoreDefClass(MobClass::Guardian));
-                        }
-                    }
+                    bonus!(self, BonusType::IgnoreDefClass(MobClass::from_value(value as usize)))
                 }
                 "bignoredefrace" => {
-                    match MobRace::from_value(value as usize) {
-                        MobRace::Angel => bonus!(self, BonusType::IgnoreDefRace(MobRace::Angel)),
-                        MobRace::Brute => bonus!(self, BonusType::IgnoreDefRace(MobRace::Brute)),
-                        MobRace::DemiHuman => bonus!(self, BonusType::IgnoreDefRace(MobRace::DemiHuman)),
-                        MobRace::Demon => bonus!(self, BonusType::IgnoreDefRace(MobRace::Demon)),
-                        MobRace::Dragon => bonus!(self, BonusType::IgnoreDefRace(MobRace::Dragon)),
-                        MobRace::Fish => bonus!(self, BonusType::IgnoreDefRace(MobRace::Fish)),
-                        MobRace::Formless => bonus!(self, BonusType::IgnoreDefRace(MobRace::Formless)),
-                        MobRace::Insect => bonus!(self, BonusType::IgnoreDefRace(MobRace::Insect)),
-                        MobRace::Plant => bonus!(self, BonusType::IgnoreDefRace(MobRace::Plant)),
-                        MobRace::Undead => bonus!(self, BonusType::IgnoreDefRace(MobRace::Undead)),
-                        MobRace::All => {
-                            bonus!(self, BonusType::IgnoreDefRace(MobRace::Angel));
-                            bonus!(self, BonusType::IgnoreDefRace(MobRace::Brute));
-                            bonus!(self, BonusType::IgnoreDefRace(MobRace::DemiHuman));
-                            bonus!(self, BonusType::IgnoreDefRace(MobRace::Demon));
-                            bonus!(self, BonusType::IgnoreDefRace(MobRace::Dragon));
-                            bonus!(self, BonusType::IgnoreDefRace(MobRace::Fish));
-                            bonus!(self, BonusType::IgnoreDefRace(MobRace::Formless));
-                            bonus!(self, BonusType::IgnoreDefRace(MobRace::Insect));
-                            bonus!(self, BonusType::IgnoreDefRace(MobRace::Plant));
-                            bonus!(self, BonusType::IgnoreDefRace(MobRace::Undead));
-                        }
-                        _ => {}
-                    }
+                    bonus!(self, BonusType::IgnoreDefRace(MobRace::from_value(value as usize)))
                 }
                 "bint" => {
                     bonus!(self, BonusType::Int(value as i8));
