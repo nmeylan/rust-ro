@@ -3,6 +3,7 @@ use std::sync::mpsc::SyncSender;
 use std::sync::Once;
 
 use models::enums::action::ActionType;
+use models::enums::bonus::BonusType;
 use models::enums::element::Element;
 use models::enums::EnumWithMaskValueU64;
 use models::enums::size::Size;
@@ -234,9 +235,12 @@ impl BattleService {
 
     fn apply_damage_bonus_modifier(&self, current_atk: f32, source_status: &StatusSnapshot, target_status: &StatusSnapshot) -> f32 {
         // todo include Star crumb
-        // race, mob group, size, element, star crumb, ranked blacksmith weapon, ranged attack bonus
+        // race, mob group, size, element, star crumb, ranked blacksmith weapon, ranged attack bonus, based on def
         // Turtle general, Randgris like card
         // Frenzy/Edp
+        let mut current_atk = current_atk;
+        BonusType::get_bonus_value(&BonusType::PhysicalDamageAgainstElementPercentage(*target_status.element(), 0), &source_status.bonuses_raw()).map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
+        BonusType::get_bonus_value(&BonusType::PhysicalDamageAgainstRacePercentage(*target_status.race(), 0), &source_status.bonuses_raw()).map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
         current_atk
     }
 

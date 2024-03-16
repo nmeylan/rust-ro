@@ -3,6 +3,7 @@ use sqlx::{Error, FromRow, Row};
 use sqlx::postgres::PgRow;
 use models::enums::element::Element;
 use models::enums::EnumWithStringValue;
+use models::enums::mob::MobRace;
 
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -54,7 +55,7 @@ pub struct MobModel {
     pub range2: i16,
     pub range3: i16,
     pub scale: i16,
-    pub race: i16,
+    pub race: String,
     pub element: String,
     pub element_level: i8,
     pub mode: i16,
@@ -94,7 +95,7 @@ impl Default for MobModel {
             range2: 0,
             range3: 0,
             scale: 0,
-            race: 0,
+            race: MobRace::DemiHuman.as_str().to_string(),
             element: Element::Neutral.as_str().to_string(),
             element_level: 0,
             mode: 0,
@@ -136,7 +137,7 @@ impl<'r> FromRow<'r, PgRow> for MobModel {
         model.set_dex(row.try_get::<i32, _>("dex").unwrap_or(1));
         model.set_luk(row.try_get::<i32, _>("luk").unwrap_or(1));
         model.set_scale(row.try_get::<i16, _>("size").unwrap_or(0));
-        model.set_race(row.try_get::<i16, _>("race").unwrap_or(0));
+        model.set_race(row.get("race"));
         model.set_element(row.get("element"));
         model.set_element_level(row.try_get::<i16, _>("element_level").unwrap_or(0) as i8);
         // model.set_mode(row.get::<i32,_>("element_level")); TODO: collect all modes

@@ -1,3 +1,4 @@
+use std::os::linux::raw::stat;
 use crate::item::{WearAmmo, WearGear, WearGearSnapshot, WearWeapon, Wearable, WearAmmoSnapshot, WearWeaponSnapshot};
 use accessor::{GettersAll, SettersAll};
 use crate::enums::bonus::BonusType;
@@ -5,6 +6,7 @@ use crate::enums::element::Element;
 use crate::enums::item::EquipmentLocation;
 use crate::enums::size::Size;
 use crate::enums::EnumWithMaskValueU64;
+use crate::enums::mob::MobRace;
 use crate::enums::status::StatusEffect;
 use crate::enums::weapon::WeaponType;
 
@@ -77,6 +79,7 @@ pub struct StatusSnapshot {
     mdef: i16,
     size: Size,
     element: Element,
+    race: MobRace,
     element_level: u8,
     state: u64,
     zeny: u32,
@@ -105,6 +108,7 @@ impl StatusSnapshot {
                        atk1: u16, _atk2: u16, matk1: u16, matk2: u16, speed: u16, def: u16, mdef: u16,
                        size: Size,
                        element: Element,
+                       race: MobRace,
                        element_level: u8) -> Self {
         Self {
             job: mob_id,
@@ -142,6 +146,7 @@ impl StatusSnapshot {
             mdef: mdef as i16,
             size,
             element,
+            race,
             element_level,
             state: 0,
             zeny: 0,
@@ -202,6 +207,7 @@ impl StatusSnapshot {
             mdef: 0,
             size: status.size,
             element: Element::Neutral,
+            race: MobRace::DemiHuman,
             element_level: 1,
             state: status.state,
             zeny: status.zeny,
@@ -289,6 +295,10 @@ impl StatusSnapshot {
 
     pub fn bonuses_mut(&mut self) -> &mut Vec<StatusBonus> {
         &mut self.bonuses
+    }
+
+    pub fn bonuses_raw(&self) -> Vec<&BonusType>{
+        self.bonuses.iter().map(|b| &b.bonus).collect::<Vec<&BonusType>>()
     }
 }
 

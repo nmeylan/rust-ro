@@ -510,7 +510,7 @@ mod tests {
     #[test]
     fn test_takeoff_equip_item_should_unequip_item() {
         // Given
-        let context = before_each_with_latch(mocked_repository(), 1);
+        let context = before_each_with_latch(mocked_repository(), 2);
         let mut character = create_character();
         let _char_id = character.char_id;
         let knife_index = equip_item_from_name(&mut character, "Knife");

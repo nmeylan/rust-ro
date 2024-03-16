@@ -873,6 +873,7 @@ dependencies = [
 name = "enum_macro"
 version = "0.1.0"
 dependencies = [
+ "proc-macro2",
  "quote",
  "syn 2.0.32",
 ]
@@ -2102,9 +2103,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.63"
+version = "1.0.79"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b368fba921b0dce7e60f5e04ec15e565b3303972b42bcfde1d0713b881959eb"
+checksum = "e835ff2298f5721608eb1a980ecaee1aef2c132bf95ecc026a11b7bf3c01c02e"
 dependencies = [
  "unicode-ident",
 ]
