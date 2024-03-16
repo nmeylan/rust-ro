@@ -7,6 +7,7 @@ use models::enums::class::JobName;
 use models::status::{Status, StatusBonus, StatusSnapshot};
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use models::enums::bonus::BonusType;
+use models::item::Wearable;
 
 use crate::repository::model::item_model::ItemModel;
 use crate::server::script::item_script_handler::DynamicItemScriptHandler;
@@ -74,6 +75,10 @@ impl StatusService {
             }
             self.collect_bonuses(status, &mut bonuses, item_model);
         }
+        status.equipped_ammo().map(|ammo| {
+            let item_model = self.configuration_service.get_item(ammo.item_id());
+            self.collect_bonuses(status, &mut bonuses, item_model);
+        });
 
         for equipment in status.equipped_gears().iter() {
             let item_model = self.configuration_service.get_item(equipment.item_id());

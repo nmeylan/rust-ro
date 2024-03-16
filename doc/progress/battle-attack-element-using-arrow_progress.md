@@ -1,16 +1,10 @@
-674/680 tests passed
+680/680 tests passed
          
 fixture file was [src/tests/common/fixtures/data/attack-element-using-arrow.json](/server/src/tests/common/fixtures/data/attack-element-using-arrow.json)
 
 # Attack element using arrow
 |id|character|stats|skill|target|passed|min dmg|max dmg|
 |-|-|-|-|-|-|-|-|
-|o6s87z|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Moonlight Flower|*false*|*48/50*|*107/112*|
-|mjrt2g|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Wind Ghost|*false*|*103/108*|*165/173*|
-|jg11gb|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Eremes Guile|*false*|*74/77*|*134/140*|
-|43r264|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Am Mut|*false*|**20/21**|*62/65*|
-|a5z7j7|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Whisper|*false*|*104/109*|*166/174*|
-|9f33pb|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Ghostring|*false*|*100/105*|*162/170*|
 |86tqtf|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Arrow</li></ul>|Basic Attack|Rice Cake Boy|**true**|**83/83**|**118/118**|
 |3ti2dj|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Silver_Arrow</li></ul>|Basic Attack|Rice Cake Boy|**true**|**83/83**|**123/123**|
 |uydsbm|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Fire_Arrow</li></ul>|Basic Attack|Rice Cake Boy|**true**|**83/83**|**123/123**|
@@ -265,6 +259,7 @@ fixture file was [src/tests/common/fixtures/data/attack-element-using-arrow.json
 |6ijhvr|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Freezing_Arrow</li></ul>|Basic Attack|Moonlight Flower|**true**|**96/96**|**125/124**|
 |d73jyj|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Poison_Arrow</li></ul>|Basic Attack|Moonlight Flower|**true**|**48/48**|**62/62**|
 |6gjhsa|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Incisive_Arrow</li></ul>|Basic Attack|Moonlight Flower|**true**|**48/48**|**71/71**|
+|o6s87z|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Moonlight Flower|**true**|**50/50**|**112/112**|
 |wrbzjo|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Arrow</li></ul>|Basic Attack|Gajomart|**true**|**7/7**|**13/13**|
 |o9l9th|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Silver_Arrow</li></ul>|Basic Attack|Gajomart|**true**|**5/5**|**10/10**|
 |cua42p|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Fire_Arrow</li></ul>|Basic Attack|Gajomart|**true**|**-4/-4**|**-7/-7**|
@@ -332,6 +327,7 @@ fixture file was [src/tests/common/fixtures/data/attack-element-using-arrow.json
 |0cgqot|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Freezing_Arrow</li></ul>|Basic Attack|Wind Ghost|**true**|**0/0**|**0/0**|
 |3l659q|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Poison_Arrow</li></ul>|Basic Attack|Wind Ghost|**true**|**103/103**|**116/116**|
 |uraal2|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Incisive_Arrow</li></ul>|Basic Attack|Wind Ghost|**true**|**103/103**|**125/125**|
+|mjrt2g|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Wind Ghost|**true**|**108/108**|**173/173**|
 |fcdunl|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Arrow</li></ul>|Basic Attack|Griphon|**true**|**1/1**|**16/16**|
 |vdvw00|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Silver_Arrow</li></ul>|Basic Attack|Griphon|**true**|**0/0**|**13/13**|
 |0ebph7|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Fire_Arrow</li></ul>|Basic Attack|Griphon|**true**|**1/1**|**18/18**|
@@ -399,7 +395,7 @@ fixture file was [src/tests/common/fixtures/data/attack-element-using-arrow.json
 |rwvx7b|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Freezing_Arrow</li></ul>|Basic Attack|Demon Fungus|**true**|**3/3**|**13/13**|
 |6y5pp8|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Poison_Arrow</li></ul>|Basic Attack|Demon Fungus|**true**|**0/0**|**0/0**|
 |k6jsig|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Incisive_Arrow</li></ul>|Basic Attack|Demon Fungus|**true**|**3/3**|**17/17**|
-|j6qm46|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Demon Fungus|**true**|**4/3**|**48/49**|
+|j6qm46|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Demon Fungus|**true**|**4/3**|**50/49**|
 |0vvzm3|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Arrow</li></ul>|Basic Attack|Eremes Guile|**true**|**59/59**|**88/88**|
 |uv7a54|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Silver_Arrow</li></ul>|Basic Attack|Eremes Guile|**true**|**74/73**|**115/115**|
 |vxoze0|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Fire_Arrow</li></ul>|Basic Attack|Eremes Guile|**true**|**44/44**|**69/69**|
@@ -416,6 +412,7 @@ fixture file was [src/tests/common/fixtures/data/attack-element-using-arrow.json
 |2tteze|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Freezing_Arrow</li></ul>|Basic Attack|Eremes Guile|**true**|**44/44**|**52/51**|
 |2zhl93|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Poison_Arrow</li></ul>|Basic Attack|Eremes Guile|**true**|**0/0**|**0/0**|
 |mcbumv|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Incisive_Arrow</li></ul>|Basic Attack|Eremes Guile|**true**|**59/59**|**76/76**|
+|jg11gb|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Eremes Guile|**true**|**78/77**|**141/140**|
 |i2487l|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Arrow</li></ul>|Basic Attack|Emperium|**true**|**1/1**|**13/13**|
 |d1gyb1|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Silver_Arrow</li></ul>|Basic Attack|Emperium|**true**|**0/0**|**0/0**|
 |s1tbp2|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Fire_Arrow</li></ul>|Basic Attack|Emperium|**true**|**0/0**|**12/12**|
@@ -500,6 +497,7 @@ fixture file was [src/tests/common/fixtures/data/attack-element-using-arrow.json
 |syeue4|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Freezing_Arrow</li></ul>|Basic Attack|Am Mut|**true**|**16/16**|**25/25**|
 |udi3m5|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Poison_Arrow</li></ul>|Basic Attack|Am Mut|**true**|**8/8**|**12/12**|
 |85co19|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Incisive_Arrow</li></ul>|Basic Attack|Am Mut|**true**|**16/16**|**30/30**|
+|43r264|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Am Mut|**true**|**21/21**|**65/65**|
 |o6yx10|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Arrow</li></ul>|Basic Attack|Injustice|**true**|**79/79**|**116/116**|
 |i32kxf|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Silver_Arrow</li></ul>|Basic Attack|Injustice|**true**|**118/118**|**181/181**|
 |sb6pr4|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Fire_Arrow</li></ul>|Basic Attack|Injustice|**true**|**59/59**|**90/90**|
@@ -601,6 +599,7 @@ fixture file was [src/tests/common/fixtures/data/attack-element-using-arrow.json
 |hu5imu|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Freezing_Arrow</li></ul>|Basic Attack|Whisper|**true**|**104/104**|**117/117**|
 |mwa2yh|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Poison_Arrow</li></ul>|Basic Attack|Whisper|**true**|**52/52**|**58/58**|
 |7t646e|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Incisive_Arrow</li></ul>|Basic Attack|Whisper|**true**|**0/0**|**0/0**|
+|a5z7j7|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Whisper|**true**|**109/109**|**174/174**|
 |zel277|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Arrow</li></ul>|Basic Attack|Ghostring|**true**|**0/0**|**0/0**|
 |9i5pj3|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Silver_Arrow</li></ul>|Basic Attack|Ghostring|**true**|**100/100**|**142/142**|
 |8gbsjp|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Fire_Arrow</li></ul>|Basic Attack|Ghostring|**true**|**100/100**|**142/142**|
@@ -617,6 +616,7 @@ fixture file was [src/tests/common/fixtures/data/attack-element-using-arrow.json
 |fsw9jh|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Freezing_Arrow</li></ul>|Basic Attack|Ghostring|**true**|**100/100**|**113/113**|
 |7pu0d1|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Poison_Arrow</li></ul>|Basic Attack|Ghostring|**true**|**25/25**|**28/28**|
 |7k13q3|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Incisive_Arrow</li></ul>|Basic Attack|Ghostring|**true**|**0/0**|**0/0**|
+|9f33pb|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Holy_Arrow</li></ul>|Basic Attack|Ghostring|**true**|**105/105**|**170/170**|
 |njnjsw|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Arrow</li></ul>|Basic Attack|Archer Skeleton|**true**|**104/104**|**141/141**|
 |fkdgmf|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Silver_Arrow</li></ul>|Basic Attack|Archer Skeleton|**true**|**156/156**|**219/219**|
 |yotoow|Hunter(95/50)|<ul><li>Bow<ul></ul></li><li>Fire_Arrow</li></ul>|Basic Attack|Archer Skeleton|**true**|**130/130**|**182/182**|

@@ -609,11 +609,124 @@ impl BonusType {
         }
     }
 
-    pub fn get_bonuses(bonus: &BonusType, bonuses: &Vec<BonusType>) -> Vec<BonusType> {
-        match bonus {
-            BonusType::EnableSkillId(_, _) => bonuses.iter().filter(|b| matches!(b, BonusType::EnableSkillId(_, _))).cloned().collect::<Vec<BonusType>>(),
-            _ => Vec::new()
-        }
+    #[inline]
+    pub fn get_bonus<'a>(bonus: &BonusType, bonuses: &'a Vec<&BonusType>) -> Option<&'a BonusType> {
+        bonuses.iter().find(|b| **b == bonus).map(|b| *b)
+    }
+    #[inline]
+    pub fn get_bonus_value<'a>(bonus: &BonusType, bonuses: &'a Vec<&BonusType>) -> Option<f32> {
+        Self::get_bonus(bonus, bonuses).map(|b| match b {
+            BonusType::Str(val) => *val as f32,
+            BonusType::Agi(val) => *val as f32,
+            BonusType::Vit(val) => *val as f32,
+            BonusType::Int(val) => *val as f32,
+            BonusType::Dex(val) => *val as f32,
+            BonusType::Luk(val) => *val as f32,
+            BonusType::AllStats(val) => *val as f32,
+            BonusType::Hit(val) => *val as f32,
+            BonusType::HitPercentage(val) => *val as f32,
+            BonusType::Flee(val) => *val as f32,
+            BonusType::Crit(val) => *val as f32,
+            BonusType::PerfectDodge(val) => *val as f32,
+            BonusType::Aspd(val) => *val as f32,
+            BonusType::AspdPercentage(val) => *val as f32,
+            BonusType::Maxhp(val) => *val as f32,
+            BonusType::Maxsp(val) => *val as f32,
+            BonusType::MaxhpPercentage(val) => *val as f32,
+            BonusType::MaxspPercentage(val) => *val as f32,
+            BonusType::Atk(val) => *val as f32,
+            BonusType::Def(val) => *val as f32,
+            BonusType::VitDefPercentage(val) => *val as f32,
+            BonusType::DefPercentage(val) => *val as f32,
+            BonusType::Mdef(val) => *val as f32,
+            BonusType::Matk(val) => *val as f32,
+            BonusType::MatkBasedOnStaffPercentage(val) => *val as f32,
+            BonusType::MatkPercentage(val) => *val as f32,
+            BonusType::AtkPercentage(val) => *val as f32,
+            BonusType::PerfectHitPercentage(val) => *val as f32,
+            BonusType::CriticalDamagePercentage(val) => *val as f32,
+            BonusType::CastTimePercentage(val) => *val as f32,
+            BonusType::CastTimeWhenUsingSkillIdPercentage(_, val) => *val as f32,
+            BonusType::AfterCastDelayPercentage(val) => *val as f32,
+            BonusType::NaturalHpRecoveryPercentage(val) => *val as f32,
+            BonusType::NaturalSpRecoveryPercentage(val) => *val as f32,
+            BonusType::HpRegenFromItemPercentage(val) => *val as f32,
+            BonusType::HpRegenFromItemIDPercentage(_, val) => *val as f32,
+            BonusType::HpRegenFromHerbPercentage(val) => *val as f32,
+            BonusType::HpRegenFromFruitPercentage(val) => *val as f32,
+            BonusType::HpRegenFromMeatPercentage(val) => *val as f32,
+            BonusType::HpRegenFromCandyPercentage(val) => *val as f32,
+            BonusType::HpRegenFromJuicePercentage(val) => *val as f32,
+            BonusType::HpRegenFromFishPercentage(val) => *val as f32,
+            BonusType::HpRegenFromFoodPercentage(val) => *val as f32,
+            BonusType::HpRegenFromPotionPercentage(val) => *val as f32,
+            BonusType::GainHpWhenKillingEnemy(val) => *val as f32,
+            BonusType::GainHpWhenKillingEnemyWithMagicAttack(val) => *val as f32,
+            BonusType::GainSpWhenKillingEnemyWithMagicAttack(val) => *val as f32,
+            BonusType::HpRegenFromSkillPercentage(val) => *val as f32,
+            BonusType::GainSpWhenHittingEnemy(val) => *val as f32,
+            BonusType::GainSpWhenKillingEnemy(val) => *val as f32,
+            BonusType::SpConsumption(val) => *val as f32,
+            BonusType::NormalAttackPercentage(val) => *val as f32,
+            BonusType::PhysicalDamageAgainstSizePercentage(_, val) => *val as f32,
+            BonusType::MagicalDamageAgainstSizePercentage(_, val) => *val as f32,
+            BonusType::PhysicalDamageAgainstRacePercentage(_, val) => *val as f32,
+            BonusType::MagicalDamageAgainstRacePercentage(_, val) => *val as f32,
+            BonusType::PhysicalDamageAgainstElementPercentage(_, val) => *val as f32,
+            BonusType::DamageAgainstMobGroupPercentage(_, val) => *val as f32,
+            BonusType::CriticalAgainstRacePercentage(_, val) => *val as f32,
+            BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(_, val) => *val as f32,
+            BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(_, val) => *val as f32,
+            BonusType::PhysicalDamageAgainstClassPercentage(_, val) => *val as f32,
+            BonusType::ResistanceDamageFromClassPercentage(_, val) => *val as f32,
+            BonusType::ResistanceDamageFromElementPercentage(_, val) => *val as f32,
+            BonusType::ResistanceDamageFromRacePercentage(_, val) => *val as f32,
+            BonusType::ResistanceDamageFromSizePercentage(_, val) => *val as f32,
+            BonusType::IgnoreDefRacePercentage(_, val) => *val as f32,
+            BonusType::IgnoreMDefRacePercentage(_, val) => *val as f32,
+            BonusType::IgnoreMDefClassPercentage(_, val) => *val as f32,
+            BonusType::PhysicalDamageAgainstMobIdPercentage(_, val) => *val as f32,
+            BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(_, val) => *val as f32,
+            BonusType::ChanceToInflictStatusWhenHitPercentage(_, val) => *val as f32,
+            BonusType::ChanceToInflictStatusOnAttackPercentage(_, val) => *val as f32,
+            BonusType::ResistanceToStatusPercentage(_, val) => *val as f32,
+            BonusType::GainExpWhenKillingRacePercentage(_, val) => *val as f32,
+            BonusType::SpDrainWhenAttackingRace(_, val) => *val as f32,
+            BonusType::SpDrainWhenKillingRace(_, val) => *val as f32,
+            BonusType::BreakArmorPercentage(val) => *val as f32,
+            BonusType::BreakWeaponPercentage(val) => *val as f32,
+            BonusType::ClassChangePercentageOnHit(val) => *val as f32,
+            BonusType::LongRangeCriticalChance(val) => *val as f32,
+            BonusType::SkillDelayIncDecPercentage(val) => *val as f32,
+            BonusType::DoubleAttackChancePercentage(val) => *val as f32,
+            BonusType::HealSkillPercentage(val) => *val as f32,
+            BonusType::HealSkillIdPercentage(_, val) => *val as f32,
+            BonusType::ResistanceRangeAttackPercentage(val) => *val as f32,
+            BonusType::DamageRangedAtkPercentage(val) => *val as f32,
+            BonusType::ResistanceMagicAttackPercentage(val) => *val as f32,
+            BonusType::MagicAttackReflectChancePercentage(val) => *val as f32,
+            BonusType::MeleeAttackReflectChancePercentage(val) => *val as f32,
+            BonusType::SplashRadius(val) => *val as f32,
+            BonusType::SpeedPercentage(val) => *val as f32,
+            BonusType::ResistancePhysicalAttackFromMobIdPercentage(_, val) => *val as f32,
+            BonusType::DropChanceItemIdPercentage(_, val) => *val as f32,
+            BonusType::DropChanceJewelPercentage(val) => *val as f32,
+            BonusType::DropChanceOrePercentage(val) => *val as f32,
+            BonusType::DropChanceRecoveryPercentage(val) => *val as f32,
+            BonusType::DropChanceFoodPercentage(val) => *val as f32,
+            BonusType::KnockbackWhenUsingSkillId(_, val) => *val as f32,
+            BonusType::GainZenyWhenKillingMonster(_, val) => *val as f32,
+            BonusType::HpDrainWhenAttackingPercentage(_, val) => *val as f32,
+            BonusType::SpDrainWhenAttackingPercentage(_, val) => *val as f32,
+            BonusType::SpBurnOnTargetWhenAttackingPercentage(_, val) => *val as f32,
+            BonusType::HpLossEveryMs(_, val) => *val as f32,
+            BonusType::HpRegenEveryMs(_, val) => *val as f32,
+            BonusType::SpLossEveryMs(_, val) => *val as f32,
+            BonusType::SpRegenEveryMs(_, val) => *val as f32,
+            BonusType::SkillIdDamagePercentage(_, val) => *val as f32,
+            BonusType::EnableSkillId(_, val) => *val as f32,
+            _ => 0.0
+        })
     }
 }
 
@@ -637,5 +750,20 @@ mod tests {
         assert_eq!(merged_bonus[0], BonusType::Str(13));
         assert_eq!(merged_bonus[1], BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 15));
         assert_eq!(merged_bonus[2], BonusType::PhysicalDamageAgainstElementPercentage(Element::Fire, 5));
+    }
+    #[test]
+    fn test_get_bonus() {
+        let str1 = BonusType::Str(10);
+        let str2 = BonusType::Str(3);
+        let damage_water1 = BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 10);
+        let damage_water2 = BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 5);
+        let damage_fire = BonusType::PhysicalDamageAgainstElementPercentage(Element::Fire, 5);
+        let bonuses = vec![str1, str2, damage_water1, damage_water2, damage_fire];
+
+        let merged_bonus = BonusType::merge_bonuses(&bonuses);
+        let bonuses_ref: Vec<&BonusType> = bonuses.iter().map(|b| b).collect();
+        assert_eq!(*BonusType::get_bonus(&BonusType::Str(0), &bonuses_ref).unwrap(), BonusType::Str(13));
+        assert_eq!(*BonusType::get_bonus(&BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 0), &bonuses_ref).unwrap(), BonusType::PhysicalDamageAgainstElementPercentage(Element::Water, 15));
+        assert_eq!(BonusType::get_bonus(&BonusType::PhysicalDamageAgainstElementPercentage(Element::Earth, 0), &bonuses_ref), None);
     }
 }

@@ -1,9 +1,10 @@
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
+use proc_macro2::{Ident as Ident2, TokenStream as TokenStream2};
 use quote::quote;
 use syn::Data::Enum;
-use syn::{parse_macro_input, DeriveInput, Variant};
+use syn::{parse_macro_input, DeriveInput, Variant, Ident};
 
 #[proc_macro_derive(WithNumberValue, attributes(value))]
 pub fn with_number_value(input: TokenStream) -> TokenStream {
@@ -196,9 +197,9 @@ with_mask!(
 );
 
 fn get_number_value<T>(variant: &Variant, ident: &str) -> Option<T>
-where
-    T: std::str::FromStr,
-    <T as std::str::FromStr>::Err: std::fmt::Display,
+    where
+        T: std::str::FromStr,
+        <T as std::str::FromStr>::Err: std::fmt::Display,
 {
     let maybe_value = variant
         .attrs
@@ -207,15 +208,15 @@ where
         .and_then(|attr| {
             let meta = &attr.meta;
             if let syn::Meta::NameValue(syn::MetaNameValue {
-                path: _,
-                eq_token: _,
-                value,
-            }) = meta
+                                            path: _,
+                                            eq_token: _,
+                                            value,
+                                        }) = meta
             {
                 if let syn::Expr::Lit(syn::ExprLit {
-                    lit: syn::Lit::Int(s),
-                    ..
-                }) = value
+                                          lit: syn::Lit::Int(s),
+                                          ..
+                                      }) = value
                 {
                     s.base10_parse::<T>().ok()
                 } else {
@@ -233,8 +234,8 @@ fn is_all_value(variant: &Variant, ident: &str) -> bool {
 }
 
 #[proc_macro_derive(
-    WithStringValue,
-    attributes(with_string_value_uppercase, with_string_value_lowercase, value_string)
+WithStringValue,
+attributes(with_string_value_uppercase, with_string_value_lowercase, value_string)
 )]
 pub fn with_string_value(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
@@ -252,68 +253,67 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
     let res = if let Enum(enum_data) = &input.data {
         let from_value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
             let variant_name = variant.ident.clone();
-            let maybe_value = get_string_value(variant);
-            let string_value = if let Some(value) = maybe_value {
-                value
-            } else if uppercase {
-                format!("{variant_name}").to_uppercase()
-            } else if lowercase {
-                format!("{variant_name}").to_lowercase()
+            let string_value = get_enum_string_value(uppercase, lowercase, variant, false);
+
+            let res = if string_value.len() > 1 {
+                quote! {
+                    #(#string_value )|* => #enum_name::#variant_name,
+                }
             } else {
-                format!("{variant_name}")
-            };
-            let res = quote! {
-                #string_value => #enum_name::#variant_name,
+                quote! {
+                    #(#string_value)* => #enum_name::#variant_name,
+                }
             };
             res
         });
         let try_from_value_match_arms =
             enum_data.variants.iter().enumerate().map(|(_, variant)| {
                 let variant_name = variant.ident.clone();
-                let maybe_value = get_string_value(variant);
-                let string_value = if let Some(value) = maybe_value {
-                    value
-                } else if uppercase {
-                    format!("{variant_name}").to_uppercase()
-                } else if lowercase {
-                    format!("{variant_name}").to_lowercase()
+                let string_value = get_enum_string_value(uppercase, lowercase, variant, false);
+
+                let res = if string_value.len() > 1 {
+                    quote! {
+                        #(#string_value )|* => Ok(#enum_name::#variant_name),
+                    }
                 } else {
-                    format!("{variant_name}")
-                };
-                let res = quote! {
-                    #string_value => Ok(#enum_name::#variant_name),
+                    quote! {
+                        #(#string_value)* => Ok(#enum_name::#variant_name),
+                    }
                 };
                 res
             });
         let from_value_ignore_case_match_arms =
             enum_data.variants.iter().enumerate().map(|(_, variant)| {
                 let variant_name = variant.ident.clone();
-                let maybe_value = get_string_value(variant);
-                let string_value = if let Some(value) = maybe_value {
-                    value.to_lowercase()
+                let string_value = get_enum_string_value(uppercase, lowercase, variant, true);
+
+                let res = if string_value.len() > 1 {
+                    quote! {
+                        #(#string_value )|* => #enum_name::#variant_name,
+                    }
                 } else {
-                    format!("{variant_name}").to_lowercase()
+                    quote! {
+                        #(#string_value)* => #enum_name::#variant_name,
+                    }
                 };
-                let res = quote! {
-                    #string_value => #enum_name::#variant_name,
-                };
+
                 res
             });
         let value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
             let variant_name = variant.ident.clone();
             let maybe_value = get_string_value(variant);
-            let string_value = if let Some(value) = maybe_value {
-                value
-            } else if uppercase {
-                format!("{variant_name}").to_uppercase()
-            } else if lowercase {
-                format!("{variant_name}").to_lowercase()
+            let string_value = get_enum_string_value(uppercase, lowercase, variant, false);
+            let res = if string_value.len() > 1 {
+                let string_value = string_value.iter().map(|v| v.to_string().replace("\"","")).collect::<Vec<String>>().join("|");
+                quote! {
+                       #enum_name::#variant_name => #string_value,
+                    }
             } else {
-                format!("{variant_name}")
+                quote! {
+                       #enum_name::#variant_name => #(#string_value)*,
+                    }
             };
-            let res = quote! {
-                #enum_name::#variant_name => #string_value,
-            };
+
             res
         });
         quote! {
@@ -351,23 +351,53 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
     TokenStream::from(res)
 }
 
-fn get_string_value(variant: &Variant) -> Option<String> {
-    let maybe_value = variant
+fn get_enum_string_value(mut uppercase: bool, mut lowercase: bool, variant: &Variant, force_lowercase: bool) -> Vec<TokenStream2> {
+    let variant_name = variant.ident.clone();
+    let mut string_value;
+    let aliases = get_string_value(variant).iter()
+        .filter(|maybe_value| maybe_value.is_some())
+        .map(|maybe_value| {
+            let mut val = maybe_value.clone().unwrap();
+            if force_lowercase {
+                val = val.to_lowercase()
+            }
+            quote! { #val }
+        }).collect::<Vec<TokenStream2>>();
+    if aliases.len() > 0 {
+        return aliases;
+    } else {
+        if force_lowercase {
+            let string_value = format!("{variant_name}").to_lowercase();
+            return vec![quote! { #string_value }];
+        }
+        string_value = if uppercase {
+            format!("{variant_name}").to_uppercase()
+        } else if lowercase {
+            format!("{variant_name}").to_lowercase()
+        } else {
+           format!("{variant_name}")
+        };
+    }
+    vec![quote! { #string_value }]
+}
+
+fn get_string_value(variant: &Variant) -> Vec<Option<String>> {
+    variant
         .attrs
         .iter()
-        .find(|attr| attr.path().is_ident("value_string"))
-        .and_then(|attr| {
+        .filter(|attr| attr.path().is_ident("value_string"))
+        .map(|attr| {
             let meta = &attr.meta;
             if let syn::Meta::NameValue(syn::MetaNameValue {
-                path: _,
-                eq_token: _,
-                value,
-            }) = meta
+                                            path: _,
+                                            eq_token: _,
+                                            value,
+                                        }) = meta
             {
                 if let syn::Expr::Lit(syn::ExprLit {
-                    lit: syn::Lit::Str(s),
-                    ..
-                }) = value
+                                          lit: syn::Lit::Str(s),
+                                          ..
+                                      }) = value
                 {
                     Some(s.value())
                 } else {
@@ -376,6 +406,5 @@ fn get_string_value(variant: &Variant) -> Option<String> {
             } else {
                 None
             }
-        });
-    maybe_value
+        }).collect()
 }
