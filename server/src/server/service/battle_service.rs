@@ -235,9 +235,16 @@ impl BattleService {
 
     fn apply_damage_bonus_modifier(&self, current_atk: f32, source_status: &StatusSnapshot, target_status: &StatusSnapshot) -> f32 {
         // todo include Star crumb
-        // race, mob group, size, element, star crumb, ranked blacksmith weapon, ranged attack bonus, based on def
-        // Turtle general, Randgris like card
+        // race, mob group, size, element (addRace, addRace2, addSize, addEle)
+        // star crumb, ranked blacksmith weapon, ranged attack bonus,
+        // based on def (bDefRatioAtk*)
+        // Turtle general, Randgris like card (addClass)
         // Frenzy/Edp
+        // spirit ball
+
+        // Notes:
+        // star crumb: ignored by shield boomerang skill
+        // spirit ball, shouldcount spirit ball wehn casting fingeroffensive, otherwise use current value
         let mut current_atk = current_atk;
         BonusType::get_bonus_value(&BonusType::PhysicalDamageAgainstElementPercentage(*target_status.element(), 0), &source_status.bonuses_raw()).map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
         BonusType::get_bonus_value(&BonusType::PhysicalDamageAgainstRacePercentage(*target_status.race(), 0), &source_status.bonuses_raw()).map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());

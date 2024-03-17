@@ -21,6 +21,24 @@ Skills can have modifier bonus from cards:
 
 
 # Notes
+
+## Behavior
+shieldboomerang: 
+- shield refinement should be use after applying modifier for cards and element
+- does not consider star crumb
+- ignore weapon refinement bonus
+
+investigate:
+- ignore weapon refinement bonus
+
+guillotine fist:
+- ignore weapon refinement bonus
+
+rapid smith:
+- ignore weapon refinement bonus
+- shield refinement should be use after applying modifier for cards and element
+
+## Misc
 Rely on item and card script to add bonuses, compute bonus on skill use
 
 Chain of command:
