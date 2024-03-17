@@ -344,8 +344,7 @@ mod tests {
         // let test_id: Option<&str> = Some("mjrt2g");
         let test_id: Option<&str> = None;
 
-        // TODO Test failing when holy arrow against Demon race
-        battle_test_cases(fixture_file, result_file_path, "Attack element using arrow", false, scenario, test_id, &context.status_service, &context.battle_min_service, &context.battle_max_service)
+        battle_test_cases(fixture_file, result_file_path, "Attack element using arrow", true, scenario, test_id, &context.status_service, &context.battle_min_service, &context.battle_max_service)
     }
 
 
