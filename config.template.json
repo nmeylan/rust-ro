@@ -1,4 +1,15 @@
 {
+  "server": {
+    "accounts": [
+      2000000
+    ],
+    "enable_visual_debugger": false,
+    "log_exclude_pattern": "",
+    "log_level": "info",
+    "trace_packet": false,
+    "packetver": 20120229,
+    "port": 6901
+  },
   "database": {
     "db": "ragnarok",
     "host": "localhost",
@@ -171,16 +182,5 @@
     "remote_login_server_port": 6900,
     "remote_map_server_ip": "127.0.0.1",
     "remote_map_server_port": 5121
-  },
-  "server": {
-    "accounts": [
-      2000000
-    ],
-    "enable_visual_debugger": false,
-    "log_exclude_pattern": "sqlx",
-    "log_level": "info",
-    "trace_packet": false,
-    "packetver": 20120229,
-    "port": 6901
   }
 }

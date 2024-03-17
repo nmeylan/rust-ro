@@ -31,7 +31,8 @@ impl Repository {
                                      configuration.host, configuration.port,
                                      configuration.db);
         let pool = PgPoolOptions::new()
-            .max_connections(20)
+            .min_connections(5)
+            .max_connections(5)
             .connect(&connection_url).await.unwrap();
         Repository {
             runtime,
