@@ -4,6 +4,10 @@ use crate::enums::size::Size;
 use crate::enums::status::StatusEffect;
 use crate::status::{StatusBonus, StatusSnapshot};
 
+// When adding an new bonus type, should update:
+// 1. partialEq implementation
+// 2. get_bonus_sum
+// 3. get_bonus_value
 #[derive(Debug, Clone, Copy)]
 pub enum BonusType {
     Str(i8),
@@ -15,6 +19,7 @@ pub enum BonusType {
     AllStats(i8),
     Hit(i16),
     HitPercentage(i8),
+    AccuracyPercentage(i8),
     Flee(i16),
     Crit(i8),
     PerfectDodge(i8),
@@ -88,6 +93,7 @@ pub enum BonusType {
     IncreaseDamageAgainstClassBaseOnDef(MobClass),
 
     ChanceToInflictStatusToSelfOnAttackPercentage(StatusEffect, f32),
+    ChanceToInflictStatusToPartyOnAttackPercentage(StatusEffect, f32),
     ChanceToInflictStatusWhenHitPercentage(StatusEffect, f32),
     ChanceToInflictStatusOnAttackPercentage(StatusEffect, f32),
     ResistanceToStatusPercentage(StatusEffect, f32),
@@ -150,6 +156,8 @@ pub enum BonusType {
     SpRegenEveryMs(u16, u16),
     SkillIdDamagePercentage(u32, i8),
     EnableSkillId(u32, u8),
+    SkillIdSuccessPercentage(u32, i8),
+    AutospellSkillIdChancePercentage(u32, i8),
 }
 
 impl PartialEq for BonusType {
@@ -165,6 +173,7 @@ impl PartialEq for BonusType {
             (BonusType::AllStats(_), BonusType::AllStats(_)) => true,
             (BonusType::Hit(_), BonusType::Hit(_)) => true,
             (BonusType::HitPercentage(_), BonusType::HitPercentage(_)) => true,
+            (BonusType::AccuracyPercentage(_), BonusType::AccuracyPercentage(_)) => true,
             (BonusType::Flee(_), BonusType::Flee(_)) => true,
             (BonusType::Crit(_), BonusType::Crit(_)) => true,
             (BonusType::PerfectDodge(_), BonusType::PerfectDodge(_)) => true,
@@ -249,6 +258,7 @@ impl PartialEq for BonusType {
             (BonusType::IgnoreMDefClassPercentage(variant1, _), BonusType::IgnoreMDefClassPercentage(variant2, _)) => variant1 == variant2,
             (BonusType::IncreaseDamageAgainstClassBaseOnDef(variant1), BonusType::IncreaseDamageAgainstClassBaseOnDef(variant2)) => variant1 == variant2,
             (BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(variant1, _), BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(variant2, _)) => variant1 == variant2,
+            (BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(variant1, _), BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(variant2, _)) => variant1 == variant2,
             (BonusType::ChanceToInflictStatusWhenHitPercentage(variant1, _), BonusType::ChanceToInflictStatusWhenHitPercentage(variant2, _)) => variant1 == variant2,
             (BonusType::ResistanceToStatusPercentage(variant1, _), BonusType::ResistanceToStatusPercentage(variant2, _)) => variant1 == variant2,
             (BonusType::GainExpWhenKillingRacePercentage(variant1, _), BonusType::GainExpWhenKillingRacePercentage(variant2, _)) => variant1 == variant2,
@@ -267,6 +277,8 @@ impl PartialEq for BonusType {
             (BonusType::SpRegenEveryMs(_, variant1), BonusType::SpRegenEveryMs(_, variant2)) => *variant1 == *variant2,
             (BonusType::SkillIdDamagePercentage(variant1, _), BonusType::SkillIdDamagePercentage(variant2, _)) => *variant1 == *variant2,
             (BonusType::EnableSkillId(variant1, _), BonusType::EnableSkillId(variant2, _)) => *variant1 == *variant2,
+            (BonusType::AutospellSkillIdChancePercentage(variant1, _), BonusType::AutospellSkillIdChancePercentage(variant2, _)) => *variant1 == *variant2,
+            (BonusType::SkillIdSuccessPercentage(variant1, _), BonusType::SkillIdSuccessPercentage(variant2, _)) => *variant1 == *variant2,
             (BonusType::DisableHpRegen, BonusType::DisableHpRegen) => true,
             (BonusType::DisableSpRegen, BonusType::DisableSpRegen) => true,
             (BonusType::EnableFullHpSpRecoverOnResurrect, BonusType::EnableFullHpSpRecoverOnResurrect) => true,
@@ -367,6 +379,7 @@ impl BonusType {
                     BonusType::AllStats(val) => Some(*val as i32),
                     BonusType::Hit(val) => Some(*val as i32),
                     BonusType::HitPercentage(val) => Some(*val as i32),
+                    BonusType::AccuracyPercentage(val) => Some(*val as i32),
                     BonusType::Flee(val) => Some(*val as i32),
                     BonusType::Crit(val) => Some(*val as i32),
                     BonusType::PerfectDodge(val) => Some(*val as i32),
@@ -449,6 +462,7 @@ impl BonusType {
                     BonusType::IgnoreMDefRacePercentage(_, val) => Some(*val as i32),
                     BonusType::IgnoreMDefClassPercentage(_, val) => Some(*val as i32),
                     BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(_, val) => Some(*val as i32),
+                    BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(_, val) => Some(*val as i32),
                     BonusType::ChanceToInflictStatusWhenHitPercentage(_, val) => Some(*val as i32),
                     BonusType::ChanceToInflictStatusOnAttackPercentage(_, val) => Some(*val as i32),
                     BonusType::ResistanceToStatusPercentage(_, val) => Some(*val as i32),
@@ -469,6 +483,8 @@ impl BonusType {
                     BonusType::SpRegenEveryMs(_, val) => Some(*val as i32),
                     BonusType::SkillIdDamagePercentage(_, val) => Some(*val as i32),
                     BonusType::EnableSkillId(_, val) => Some(*val as i32),
+                    BonusType::SkillIdSuccessPercentage(_, val) => Some(*val as i32),
+                    BonusType::AutospellSkillIdChancePercentage(_, val) => Some(*val as i32),
                     _ => None,
                 }
             } else {
@@ -497,6 +513,7 @@ impl BonusType {
             BonusType::MaxspPercentage(_) => BonusType::MaxspPercentage(val as i8),
             BonusType::Atk(_) => BonusType::Atk(val as i16),
             BonusType::Def(_) => BonusType::Def(val as i16),
+            BonusType::AccuracyPercentage(_) => BonusType::AccuracyPercentage(val as i8),
             BonusType::VitDefPercentage(_) => BonusType::VitDefPercentage(val as i8),
             BonusType::DefPercentage(_) => BonusType::DefPercentage(val as i8),
             BonusType::Mdef(_) => BonusType::Mdef(val as i16),
@@ -556,6 +573,7 @@ impl BonusType {
             BonusType::IncreaseDamageAgainstClassBaseOnDef(variant) => BonusType::IncreaseDamageAgainstClassBaseOnDef(*variant),
             BonusType::ChanceToInflictStatusOnAttackPercentage(variant, _) => BonusType::ChanceToInflictStatusOnAttackPercentage(*variant, val as f32),
             BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(variant, _) => BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(*variant, val as f32),
+            BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(variant, _) => BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(*variant, val as f32),
             BonusType::ChanceToInflictStatusWhenHitPercentage(variant, _) => BonusType::ChanceToInflictStatusWhenHitPercentage(*variant, val as f32),
             BonusType::ResistanceToStatusPercentage(variant, _) => BonusType::ResistanceToStatusPercentage(*variant, val as f32),
             BonusType::GainExpWhenKillingRacePercentage(variant, _) => BonusType::GainExpWhenKillingRacePercentage(*variant, val as i8),
@@ -606,6 +624,8 @@ impl BonusType {
             BonusType::SpRegenEveryMs(variant, _) => BonusType::SpRegenEveryMs(*variant, val as u16),
             BonusType::SkillIdDamagePercentage(variant, _) => BonusType::SkillIdDamagePercentage(*variant, val as i8),
             BonusType::EnableSkillId(variant, _) => BonusType::EnableSkillId(*variant, val as u8),
+            BonusType::AutospellSkillIdChancePercentage(variant, _) => BonusType::AutospellSkillIdChancePercentage(*variant, val as i8),
+            BonusType::SkillIdSuccessPercentage(variant, _) => BonusType::SkillIdSuccessPercentage(*variant, val as i8),
         }
     }
 
@@ -625,6 +645,7 @@ impl BonusType {
             BonusType::AllStats(val) => *val as f32,
             BonusType::Hit(val) => *val as f32,
             BonusType::HitPercentage(val) => *val as f32,
+            BonusType::AccuracyPercentage(val) => *val as f32,
             BonusType::Flee(val) => *val as f32,
             BonusType::Crit(val) => *val as f32,
             BonusType::PerfectDodge(val) => *val as f32,
@@ -687,6 +708,7 @@ impl BonusType {
             BonusType::IgnoreMDefClassPercentage(_, val) => *val as f32,
             BonusType::PhysicalDamageAgainstMobIdPercentage(_, val) => *val as f32,
             BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(_, val) => *val as f32,
+            BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(_, val) => *val as f32,
             BonusType::ChanceToInflictStatusWhenHitPercentage(_, val) => *val as f32,
             BonusType::ChanceToInflictStatusOnAttackPercentage(_, val) => *val as f32,
             BonusType::ResistanceToStatusPercentage(_, val) => *val as f32,
@@ -725,6 +747,11 @@ impl BonusType {
             BonusType::SpRegenEveryMs(_, val) => *val as f32,
             BonusType::SkillIdDamagePercentage(_, val) => *val as f32,
             BonusType::EnableSkillId(_, val) => *val as f32,
+            // Difference between SkillIdSuccessPercentage and AutospellSkillIdChancePercentage:
+            // SkillIdSuccessPercentage apply for offensive(or Self) skill, determining the success of skill itself
+            // AutospellSkillIdChancePercentage apply for passive skills which can trigger skill
+            BonusType::SkillIdSuccessPercentage(_, val) => *val as f32,
+            BonusType::AutospellSkillIdChancePercentage(_, val) => *val as f32,
             _ => 0.0
         })
     }
