@@ -38,6 +38,9 @@ rapid smith:
 - ignore weapon refinement bonus
 - shield refinement should be use after applying modifier for cards and element
 
+magic rod:
+- block enemy skill and receive percentage of sp consumed by enemy to use the blocked skill -> we need to get sp cost of the skill
+
 ## Misc
 Rely on item and card script to add bonuses, compute bonus on skill use
 

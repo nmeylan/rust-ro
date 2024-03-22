@@ -22707,7 +22707,7 @@
         "10",
         "30"
       ],
-      "spLoss": 0.25
+      "spLossPerSecond": 0.25
     },
     {
       "description": "Mental Sensing",
@@ -22823,7 +22823,7 @@
         }
       },
       "aoesize": "9x9 square",
-      "spLoss": 0.25,
+      "spLossPerSecond": 0.25,
       "sdefPercentage": -100
     },
     {
@@ -23081,7 +23081,7 @@
         }
       },
       "aoesize": "9x9 square",
-      "spLoss": 0.25
+      "spLossPerSecond": 0.25
     },
     {
       "description": "Power Chord",
@@ -23118,7 +23118,7 @@
         }
       },
       "aoesize": "9x9 square",
-      "spLoss": 0.2
+      "spLossPerSecond": 0.2
     },
     {
       "description": "Acoustic Rhythm",
@@ -29722,48 +29722,6 @@
           "level": 10,
           "value": 100
         }
-      ],
-      "wpnLvRefinePerLevel": [
-        {
-          "level": 1,
-          "value": 1
-        },
-        {
-          "level": 2,
-          "value": 2
-        },
-        {
-          "level": 3,
-          "value": 3
-        },
-        {
-          "level": 4,
-          "value": 4
-        },
-        {
-          "level": 5,
-          "value": 5
-        },
-        {
-          "level": 6,
-          "value": 6
-        },
-        {
-          "level": 7,
-          "value": 7
-        },
-        {
-          "level": 8,
-          "value": 8
-        },
-        {
-          "level": 9,
-          "value": 9
-        },
-        {
-          "level": 10,
-          "value": 10
-        }
       ]
     },
     {
@@ -33769,7 +33727,7 @@
           "value": 1400
         }
       ],
-      "spLossPerLevel": [
+      "spLossPerSecondPerLevel": [
         {
           "level": 1,
           "value": 5
@@ -35035,49 +34993,7 @@
           "value": 12.5
         }
       ],
-      "dmgWaves": 1,
-      "refinePerLevel": [
-        {
-          "level": 1,
-          "value": 1
-        },
-        {
-          "level": 2,
-          "value": 2
-        },
-        {
-          "level": 3,
-          "value": 3
-        },
-        {
-          "level": 4,
-          "value": 4
-        },
-        {
-          "level": 5,
-          "value": 5
-        },
-        {
-          "level": 6,
-          "value": 6
-        },
-        {
-          "level": 7,
-          "value": 7
-        },
-        {
-          "level": 8,
-          "value": 8
-        },
-        {
-          "level": 9,
-          "value": 9
-        },
-        {
-          "level": 10,
-          "value": 10
-        }
-      ]
+      "dmgWaves": 1
     },
     {
       "description": "Mana Recharge",
