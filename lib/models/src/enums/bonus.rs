@@ -2,6 +2,7 @@ use crate::enums::element::Element;
 use crate::enums::mob::{MobClass, MobGroup, MobRace};
 use crate::enums::size::Size;
 use crate::enums::status::StatusEffect;
+use crate::enums::weapon::WeaponType;
 use crate::status::{StatusBonus, StatusSnapshot};
 
 // When adding an new bonus type, should update:
@@ -47,7 +48,10 @@ pub enum BonusType {
     AfterCastDelayPercentage(i8),
     NaturalHpRecoveryPercentage(i8),
     NaturalSpRecoveryPercentage(i8),
+    HpRecoveryMaxSpPercentage(i8),
+    SpRecoveryMaxSpPercentage(i8),
     HpRegenFromItemPercentage(i8),
+    SpRegenFromItemPercentage(i8),
     HpRegenFromItemIDPercentage(u32, i8),
     HpRegenFromHerbPercentage(i8),
     HpRegenFromFruitPercentage(i8),
@@ -67,6 +71,7 @@ pub enum BonusType {
     GainSpWhenKillingEnemy(i8),
     SpConsumption(i8),
     NormalAttackPercentage(i8),
+    NullifyNextNAttacks(u8),
 
     PhysicalDamageAgainstSizePercentage(Size, i8),
     MagicalDamageAgainstSizePercentage(Size, i8),
@@ -88,6 +93,8 @@ pub enum BonusType {
     IgnoreMDefRacePercentage(MobRace, i8),
     IgnoreMDefClassPercentage(MobClass, i8),
     PhysicalDamageAgainstMobIdPercentage(u32, i8),
+    DamageUsingElementPercentage(Element, i8),
+    DamageUsingWeaponType(WeaponType, i8),
 
     // Only when attacking with ranged weapon
     IncreaseDamageAgainstClassBaseOnDef(MobClass),
@@ -104,6 +111,7 @@ pub enum BonusType {
 
     BreakArmorPercentage(i8),
     BreakWeaponPercentage(i8),
+    BreakSelfWeaponPercentage(i8),
     ClassChangePercentageOnHit(i8),
     LongRangeCriticalChance(i8),
 
@@ -144,6 +152,7 @@ pub enum BonusType {
     HpDrainWhenAttackingPercentage(i8, i8),
     // sp percentage, chance
     SpDrainWhenAttackingPercentage(i8, i8),
+    SpDrainPerHit(i8),
     // percentage, chance
     SpBurnOnTargetWhenAttackingPercentage(i8, u16),
     //amount, every ms
@@ -156,8 +165,12 @@ pub enum BonusType {
     SpRegenEveryMs(u16, u16),
     SkillIdDamagePercentage(u32, i8),
     EnableSkillId(u32, u8),
+    // Difference between SkillIdSuccessPercentage and AutospellSkillIdChancePercentage:
+    // SkillIdSuccessPercentage apply for offensive(or Self) skill, determining the success of skill itself
+    // AutospellSkillIdChancePercentage apply for passive skills which can trigger skill
     SkillIdSuccessPercentage(u32, i8),
     AutospellSkillIdChancePercentage(u32, i8),
+    DoubleCastSkillIdChancePercentage(u32, i8),
 }
 
 impl PartialEq for BonusType {
@@ -200,7 +213,10 @@ impl PartialEq for BonusType {
             (BonusType::AfterCastDelayPercentage(_), BonusType::AfterCastDelayPercentage(_)) => true,
             (BonusType::NaturalHpRecoveryPercentage(_), BonusType::NaturalHpRecoveryPercentage(_)) => true,
             (BonusType::NaturalSpRecoveryPercentage(_), BonusType::NaturalSpRecoveryPercentage(_)) => true,
+            (BonusType::HpRecoveryMaxSpPercentage(_), BonusType::HpRecoveryMaxSpPercentage(_)) => true,
+            (BonusType::SpRecoveryMaxSpPercentage(_), BonusType::SpRecoveryMaxSpPercentage(_)) => true,
             (BonusType::HpRegenFromItemPercentage(_), BonusType::HpRegenFromItemPercentage(_)) => true,
+            (BonusType::SpRegenFromItemPercentage(_), BonusType::SpRegenFromItemPercentage(_)) => true,
             (BonusType::HpRegenFromHerbPercentage(_), BonusType::HpRegenFromHerbPercentage(_)) => true,
             (BonusType::HpRegenFromFruitPercentage(_), BonusType::HpRegenFromFruitPercentage(_)) => true,
             (BonusType::HpRegenFromMeatPercentage(_), BonusType::HpRegenFromMeatPercentage(_)) => true,
@@ -218,8 +234,10 @@ impl PartialEq for BonusType {
             (BonusType::SpConsumption(_), BonusType::SpConsumption(_)) => true,
             (BonusType::ResistanceRangeAttackPercentage(_), BonusType::ResistanceRangeAttackPercentage(_)) => true,
             (BonusType::NormalAttackPercentage(_), BonusType::NormalAttackPercentage(_)) => true,
+            (BonusType::NullifyNextNAttacks(_), BonusType::NullifyNextNAttacks(_)) => true,
             (BonusType::BreakArmorPercentage(_), BonusType::BreakArmorPercentage(_)) => true,
             (BonusType::BreakWeaponPercentage(_), BonusType::BreakWeaponPercentage(_)) => true,
+            (BonusType::BreakSelfWeaponPercentage(_), BonusType::BreakSelfWeaponPercentage(_)) => true,
             (BonusType::ClassChangePercentageOnHit(_), BonusType::ClassChangePercentageOnHit(_)) => true,
             (BonusType::LongRangeCriticalChance(_), BonusType::LongRangeCriticalChance(_)) => true,
             (BonusType::SkillDelayIncDecPercentage(_), BonusType::SkillDelayIncDecPercentage(_)) => true,
@@ -247,6 +265,8 @@ impl PartialEq for BonusType {
             (BonusType::ChanceToInflictStatusOnAttackPercentage(variant1, _), BonusType::ChanceToInflictStatusOnAttackPercentage(variant2, _)) => variant1 == variant2,
             (BonusType::PhysicalDamageAgainstClassPercentage(variant1, _), BonusType::PhysicalDamageAgainstClassPercentage(variant2, _)) => variant1 == variant2,
             (BonusType::PhysicalDamageAgainstMobIdPercentage(variant1, _), BonusType::PhysicalDamageAgainstMobIdPercentage(variant2, _)) => variant1 == variant2,
+            (BonusType::DamageUsingElementPercentage(variant1, _), BonusType::DamageUsingElementPercentage(variant2, _)) => variant1 == variant2,
+            (BonusType::DamageUsingWeaponType(variant1, _), BonusType::DamageUsingWeaponType(variant2, _)) => variant1 == variant2,
             (BonusType::ResistanceDamageFromClassPercentage(variant1, _), BonusType::ResistanceDamageFromClassPercentage(variant2, _)) => variant1 == variant2,
             (BonusType::ResistanceDamageFromElementPercentage(variant1, _), BonusType::ResistanceDamageFromElementPercentage(variant2, _)) => variant1 == variant2,
             (BonusType::ResistanceDamageFromRacePercentage(variant1, _), BonusType::ResistanceDamageFromRacePercentage(variant2, _)) => variant1 == variant2,
@@ -275,9 +295,11 @@ impl PartialEq for BonusType {
             (BonusType::HpRegenEveryMs(_, variant1), BonusType::HpRegenEveryMs(_, variant2)) => *variant1 == *variant2,
             (BonusType::SpLossEveryMs(_, variant1), BonusType::SpLossEveryMs(_, variant2)) => *variant1 == *variant2,
             (BonusType::SpRegenEveryMs(_, variant1), BonusType::SpRegenEveryMs(_, variant2)) => *variant1 == *variant2,
+            (BonusType::SpDrainPerHit(_), BonusType::SpDrainPerHit(_)) => true,
             (BonusType::SkillIdDamagePercentage(variant1, _), BonusType::SkillIdDamagePercentage(variant2, _)) => *variant1 == *variant2,
             (BonusType::EnableSkillId(variant1, _), BonusType::EnableSkillId(variant2, _)) => *variant1 == *variant2,
             (BonusType::AutospellSkillIdChancePercentage(variant1, _), BonusType::AutospellSkillIdChancePercentage(variant2, _)) => *variant1 == *variant2,
+            (BonusType::DoubleCastSkillIdChancePercentage(variant1, _), BonusType::DoubleCastSkillIdChancePercentage(variant2, _)) => *variant1 == *variant2,
             (BonusType::SkillIdSuccessPercentage(variant1, _), BonusType::SkillIdSuccessPercentage(variant2, _)) => *variant1 == *variant2,
             (BonusType::DisableHpRegen, BonusType::DisableHpRegen) => true,
             (BonusType::DisableSpRegen, BonusType::DisableSpRegen) => true,
@@ -352,6 +374,8 @@ impl BonusType {
             BonusType::AfterCastDelayPercentage(_) => {}
             BonusType::NaturalHpRecoveryPercentage(_) => {}
             BonusType::NaturalSpRecoveryPercentage(_) => {}
+            BonusType::SpRecoveryMaxSpPercentage(_) => {}
+            BonusType::HpRecoveryMaxSpPercentage(_) => {}
             _ => {}
         };
     }
@@ -406,7 +430,10 @@ impl BonusType {
                     BonusType::AfterCastDelayPercentage(val) => Some(*val as i32),
                     BonusType::NaturalHpRecoveryPercentage(val) => Some(*val as i32),
                     BonusType::NaturalSpRecoveryPercentage(val) => Some(*val as i32),
+                    BonusType::HpRecoveryMaxSpPercentage(val) => Some(*val as i32),
+                    BonusType::SpRecoveryMaxSpPercentage(val) => Some(*val as i32),
                     BonusType::HpRegenFromItemPercentage(val) => Some(*val as i32),
+                    BonusType::SpRegenFromItemPercentage(val) => Some(*val as i32),
                     BonusType::HpRegenFromHerbPercentage(val) => Some(*val as i32),
                     BonusType::HpRegenFromFruitPercentage(val) => Some(*val as i32),
                     BonusType::HpRegenFromMeatPercentage(val) => Some(*val as i32),
@@ -423,8 +450,10 @@ impl BonusType {
                     BonusType::GainSpWhenKillingEnemy(val) => Some(*val as i32),
                     BonusType::SpConsumption(val) => Some(*val as i32),
                     BonusType::NormalAttackPercentage(val) => Some(*val as i32),
+                    BonusType::NullifyNextNAttacks(val) => Some(*val as i32),
                     BonusType::BreakArmorPercentage(val) => Some(*val as i32),
                     BonusType::BreakWeaponPercentage(val) => Some(*val as i32),
+                    BonusType::BreakSelfWeaponPercentage(val) => Some(*val as i32),
                     BonusType::ClassChangePercentageOnHit(val) => Some(*val as i32),
                     BonusType::LongRangeCriticalChance(val) => Some(*val as i32),
                     BonusType::SkillDelayIncDecPercentage(val) => Some(*val as i32),
@@ -447,6 +476,8 @@ impl BonusType {
                     BonusType::MagicalDamageAgainstSizePercentage(_, val) => Some(*val as i32),
                     BonusType::PhysicalDamageAgainstRacePercentage(_, val) => Some(*val as i32),
                     BonusType::PhysicalDamageAgainstMobIdPercentage(_, val) => Some(*val as i32),
+                    BonusType::DamageUsingElementPercentage(_, val) => Some(*val as i32),
+                    BonusType::DamageUsingWeaponType(_, val) => Some(*val as i32),
                     BonusType::MagicalDamageAgainstRacePercentage(_, val) => Some(*val as i32),
                     BonusType::PhysicalDamageAgainstElementPercentage(_, val) => Some(*val as i32),
                     BonusType::DamageAgainstMobGroupPercentage(_, val) => Some(*val as i32),
@@ -476,6 +507,7 @@ impl BonusType {
                     BonusType::GainZenyWhenKillingMonster(_, val) => Some(*val as i32),
                     BonusType::HpDrainWhenAttackingPercentage(_, val) => Some(*val as i32),
                     BonusType::SpDrainWhenAttackingPercentage(_, val) => Some(*val as i32),
+                    BonusType::SpDrainPerHit(val) => Some(*val as i32),
                     BonusType::SpBurnOnTargetWhenAttackingPercentage(_, val) => Some(*val as i32),
                     BonusType::HpLossEveryMs(_, val) => Some(*val as i32),
                     BonusType::HpRegenEveryMs(_, val) => Some(*val as i32),
@@ -485,6 +517,7 @@ impl BonusType {
                     BonusType::EnableSkillId(_, val) => Some(*val as i32),
                     BonusType::SkillIdSuccessPercentage(_, val) => Some(*val as i32),
                     BonusType::AutospellSkillIdChancePercentage(_, val) => Some(*val as i32),
+                    BonusType::DoubleCastSkillIdChancePercentage(_, val) => Some(*val as i32),
                     _ => None,
                 }
             } else {
@@ -530,7 +563,10 @@ impl BonusType {
             BonusType::AfterCastDelayPercentage(_) => BonusType::AfterCastDelayPercentage(val as i8),
             BonusType::NaturalHpRecoveryPercentage(_) => BonusType::NaturalHpRecoveryPercentage(val as i8),
             BonusType::NaturalSpRecoveryPercentage(_) => BonusType::NaturalSpRecoveryPercentage(val as i8),
+            BonusType::HpRecoveryMaxSpPercentage(_) => BonusType::HpRecoveryMaxSpPercentage(val as i8),
+            BonusType::SpRecoveryMaxSpPercentage(_) => BonusType::SpRecoveryMaxSpPercentage(val as i8),
             BonusType::HpRegenFromItemPercentage(_) => BonusType::HpRegenFromItemPercentage(val as i8),
+            BonusType::SpRegenFromItemPercentage(_) => BonusType::SpRegenFromItemPercentage(val as i8),
             BonusType::HpRegenFromItemIDPercentage(variant, _) => BonusType::HpRegenFromItemIDPercentage(*variant, val as i8),
             BonusType::HpRegenFromHerbPercentage(_) => BonusType::HpRegenFromHerbPercentage(val as i8),
             BonusType::HpRegenFromFruitPercentage(_) => BonusType::HpRegenFromFruitPercentage(val as i8),
@@ -550,6 +586,7 @@ impl BonusType {
             BonusType::GainSpWhenKillingEnemy(_) => BonusType::GainSpWhenKillingEnemy(val as i8),
             BonusType::SpConsumption(_) => BonusType::SpConsumption(val as i8),
             BonusType::NormalAttackPercentage(_) => BonusType::NormalAttackPercentage(val as i8),
+            BonusType::NullifyNextNAttacks(_) => BonusType::NullifyNextNAttacks(val as u8),
             BonusType::PhysicalDamageAgainstSizePercentage(variant, _) => BonusType::PhysicalDamageAgainstSizePercentage(*variant, val as i8),
             BonusType::MagicalDamageAgainstSizePercentage(variant, _) => BonusType::MagicalDamageAgainstSizePercentage(*variant, val as i8),
             BonusType::PhysicalDamageAgainstRacePercentage(variant, _) => BonusType::PhysicalDamageAgainstRacePercentage(*variant, val as i8),
@@ -561,6 +598,8 @@ impl BonusType {
             BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(variant, _) => BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(*variant, val as f32),
             BonusType::PhysicalDamageAgainstClassPercentage(variant, _) => BonusType::PhysicalDamageAgainstClassPercentage(*variant, val as i8),
             BonusType::PhysicalDamageAgainstMobIdPercentage(variant, _) => BonusType::PhysicalDamageAgainstMobIdPercentage(*variant, val as i8),
+            BonusType::DamageUsingElementPercentage(variant, _) => BonusType::DamageUsingElementPercentage(*variant, val as i8),
+            BonusType::DamageUsingWeaponType(variant, _) => BonusType::DamageUsingWeaponType(*variant, val as i8),
             BonusType::ResistanceDamageFromClassPercentage(variant, _) => BonusType::ResistanceDamageFromClassPercentage(*variant, val as i8),
             BonusType::ResistanceDamageFromElementPercentage(variant, _) => BonusType::ResistanceDamageFromElementPercentage(*variant, val as i8),
             BonusType::ResistanceDamageFromRacePercentage(variant, _) => BonusType::ResistanceDamageFromRacePercentage(*variant, val as i8),
@@ -580,6 +619,7 @@ impl BonusType {
             BonusType::SpDrainWhenAttackingRace(variant, _) => BonusType::SpDrainWhenAttackingRace(*variant, val as u16),
             BonusType::BreakArmorPercentage(_) => BonusType::BreakArmorPercentage(val as i8),
             BonusType::BreakWeaponPercentage(_) => BonusType::BreakWeaponPercentage(val as i8),
+            BonusType::BreakSelfWeaponPercentage(_) => BonusType::BreakSelfWeaponPercentage(val as i8),
             BonusType::ClassChangePercentageOnHit(_) => BonusType::ClassChangePercentageOnHit(val as i8),
             BonusType::LongRangeCriticalChance(_) => BonusType::LongRangeCriticalChance(val as i8),
             BonusType::SkillDelayIncDecPercentage(_) => BonusType::SkillDelayIncDecPercentage(val as i8),
@@ -618,6 +658,7 @@ impl BonusType {
             BonusType::SpDrainWhenAttackingPercentage(variant, _) => BonusType::SpDrainWhenAttackingPercentage(*variant, val as i8),
             BonusType::SpDrainWhenKillingRace(variant, _) => BonusType::SpDrainWhenKillingRace(*variant, val as u16),
             BonusType::SpBurnOnTargetWhenAttackingPercentage(variant, _) => BonusType::SpBurnOnTargetWhenAttackingPercentage(*variant, val as u16),
+            BonusType::SpDrainPerHit(_) => BonusType::SpDrainPerHit(val as i8),
             BonusType::HpLossEveryMs(variant, _) => BonusType::HpLossEveryMs(*variant, val as u16),
             BonusType::HpRegenEveryMs(variant, _) => BonusType::HpRegenEveryMs(*variant, val as u16),
             BonusType::SpLossEveryMs(variant, _) => BonusType::SpLossEveryMs(*variant, val as u16),
@@ -625,6 +666,7 @@ impl BonusType {
             BonusType::SkillIdDamagePercentage(variant, _) => BonusType::SkillIdDamagePercentage(*variant, val as i8),
             BonusType::EnableSkillId(variant, _) => BonusType::EnableSkillId(*variant, val as u8),
             BonusType::AutospellSkillIdChancePercentage(variant, _) => BonusType::AutospellSkillIdChancePercentage(*variant, val as i8),
+            BonusType::DoubleCastSkillIdChancePercentage(variant, _) => BonusType::DoubleCastSkillIdChancePercentage(*variant, val as i8),
             BonusType::SkillIdSuccessPercentage(variant, _) => BonusType::SkillIdSuccessPercentage(*variant, val as i8),
         }
     }
@@ -671,7 +713,10 @@ impl BonusType {
             BonusType::AfterCastDelayPercentage(val) => *val as f32,
             BonusType::NaturalHpRecoveryPercentage(val) => *val as f32,
             BonusType::NaturalSpRecoveryPercentage(val) => *val as f32,
+            BonusType::HpRecoveryMaxSpPercentage(val) => *val as f32,
+            BonusType::SpRecoveryMaxSpPercentage(val) => *val as f32,
             BonusType::HpRegenFromItemPercentage(val) => *val as f32,
+            BonusType::SpRegenFromItemPercentage(val) => *val as f32,
             BonusType::HpRegenFromItemIDPercentage(_, val) => *val as f32,
             BonusType::HpRegenFromHerbPercentage(val) => *val as f32,
             BonusType::HpRegenFromFruitPercentage(val) => *val as f32,
@@ -689,6 +734,7 @@ impl BonusType {
             BonusType::GainSpWhenKillingEnemy(val) => *val as f32,
             BonusType::SpConsumption(val) => *val as f32,
             BonusType::NormalAttackPercentage(val) => *val as f32,
+            BonusType::NullifyNextNAttacks(val) => *val as f32,
             BonusType::PhysicalDamageAgainstSizePercentage(_, val) => *val as f32,
             BonusType::MagicalDamageAgainstSizePercentage(_, val) => *val as f32,
             BonusType::PhysicalDamageAgainstRacePercentage(_, val) => *val as f32,
@@ -707,6 +753,8 @@ impl BonusType {
             BonusType::IgnoreMDefRacePercentage(_, val) => *val as f32,
             BonusType::IgnoreMDefClassPercentage(_, val) => *val as f32,
             BonusType::PhysicalDamageAgainstMobIdPercentage(_, val) => *val as f32,
+            BonusType::DamageUsingElementPercentage(_, val) => *val as f32,
+            BonusType::DamageUsingWeaponType(_, val) => *val as f32,
             BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(_, val) => *val as f32,
             BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(_, val) => *val as f32,
             BonusType::ChanceToInflictStatusWhenHitPercentage(_, val) => *val as f32,
@@ -717,6 +765,7 @@ impl BonusType {
             BonusType::SpDrainWhenKillingRace(_, val) => *val as f32,
             BonusType::BreakArmorPercentage(val) => *val as f32,
             BonusType::BreakWeaponPercentage(val) => *val as f32,
+            BonusType::BreakSelfWeaponPercentage(val) => *val as f32,
             BonusType::ClassChangePercentageOnHit(val) => *val as f32,
             BonusType::LongRangeCriticalChance(val) => *val as f32,
             BonusType::SkillDelayIncDecPercentage(val) => *val as f32,
@@ -741,17 +790,16 @@ impl BonusType {
             BonusType::HpDrainWhenAttackingPercentage(_, val) => *val as f32,
             BonusType::SpDrainWhenAttackingPercentage(_, val) => *val as f32,
             BonusType::SpBurnOnTargetWhenAttackingPercentage(_, val) => *val as f32,
+            BonusType::SpDrainPerHit(val) => *val as f32,
             BonusType::HpLossEveryMs(_, val) => *val as f32,
             BonusType::HpRegenEveryMs(_, val) => *val as f32,
             BonusType::SpLossEveryMs(_, val) => *val as f32,
             BonusType::SpRegenEveryMs(_, val) => *val as f32,
             BonusType::SkillIdDamagePercentage(_, val) => *val as f32,
             BonusType::EnableSkillId(_, val) => *val as f32,
-            // Difference between SkillIdSuccessPercentage and AutospellSkillIdChancePercentage:
-            // SkillIdSuccessPercentage apply for offensive(or Self) skill, determining the success of skill itself
-            // AutospellSkillIdChancePercentage apply for passive skills which can trigger skill
             BonusType::SkillIdSuccessPercentage(_, val) => *val as f32,
             BonusType::AutospellSkillIdChancePercentage(_, val) => *val as f32,
+            BonusType::DoubleCastSkillIdChancePercentage(_, val) => *val as f32,
             _ => 0.0
         })
     }
