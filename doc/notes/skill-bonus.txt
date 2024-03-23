@@ -30,7 +30,7 @@ autospell_chance: Option<i32>,                      => AutospellSkillIdChancePer
 skill_delay_in_sec_per_level: Option<Vec<f32>>,     -> not a bonus
 sp_regen_bonus_flat_per_level: Option<Vec<i32>>,    => SpRegenEveryMs(,10_000ms)
 sp_regen_bonus_percentage_per_level: Option<Vec<f32>>, => SpRecoveryMaxSpPercentage
-nullifys_per_level: Option<Vec<i32>>,               => NullifyNextNAttacks
+nullifys_per_level: Option<Vec<i32>>,               => NullifyAttackChancePercentage(100%), TemporaryStatusBonus counter
 dex_per_level: Option<Vec<i32>>,                    => Dex
 int_per_level: Option<Vec<i32>>,                    => Int
 blind_chance_per_level: Option<Vec<i32>>,           => ChanceToInflictStatusOnAttackPercentage
@@ -60,13 +60,13 @@ max_lv_per_level: Option<Vec<i32>>,                 -> not a bonus, use for hocu
 break_chance_per_level: Option<Vec<i32>>,           => BreakWeaponPercentage
 plant_hp_per_level: Option<Vec<i32>>,               -> not a bonus
 plant_type_per_level: Option<Vec<String>>,          -> not a bonus
-block_chance_per_level: Option<Vec<i32>>,
-reflect_chance_per_level: Option<Vec<i32>>,
-performancemspd_percentage_per_level: Option<Vec<i32>>, => Speed, negative
+block_chance_per_level: Option<Vec<i32>>,           => PhysicalAttackBlockChancePercentage
+reflect_chance_per_level: Option<Vec<i32>>,         => PhysicalAttackReflectChancePercentage
+performancemspd_percentage_per_level: Option<Vec<i32>>, => SpeedPercentage, negative
 heal_per_level: Option<Vec<i32>>,
 heal_percentage_per_level: Option<Vec<i32>>,
-matk_percentage_per_level: Option<Vec<i32>>,
-mspd_percentage: Option<i32>,                       => Speed
+matk_percentage_per_level: Option<Vec<i32>>,        => MatkPercentage
+mspd_percentage: Option<i32>,                       => SpeedPercentage
 flee: Option<i32>,                                  => Flee
 stun_duration_per_level: Option<Vec<i32>>,          -> BreakWeaponPercentage
 sp_regen_bonus_flat: Option<i32>,                   => SpRegenEveryMs(,10_000ms)
@@ -79,68 +79,62 @@ mdef_per_level: Option<Vec<i32>>,                   => Mdef
 sp_recovery_percentage_per_level: Option<Vec<i32>>, => SpRegenFromItemPercentage
 dmg_decay_per_level: Option<Vec<f32>>,
 petrify_chance_per_level: Option<Vec<i32>>,         => ChanceToInflictStatusOnAttackPercentage
-memos_per_level: Option<Vec<i32>>,
-decrease_agi_chance_per_level: Option<Vec<i32>>,
+memos_per_level: Option<Vec<i32>>,                  -> not a bonus by iteself
+decrease_agi_chance_per_level: Option<Vec<i32>>,    => SkilIdSuccessPercentage
 chance_percentage_per_level: Option<Vec<i32>>,      => SkilIdSuccessPercentage
 sdef_percentage_per_level: Option<Vec<i32>>,        => VitDefPercentage
 weight_limit_per_level: Option<Vec<i32>>,
 sale_price_percentage_per_level: Option<Vec<i32>>,
-items_per_level: Option<Vec<i32>>,
+items_per_level: Option<Vec<i32>>,                  -> not a bonus, number of vending items
 agi_percentage_per_level: Option<Vec<i32>>,         => Agi
 dex_percentage_per_level: Option<Vec<i32>>,         => Dex
 katar_offhand_dmg_percentage_per_level: Option<Vec<i32>>,
-mspdassassin_percentage_per_level: Option<Vec<i32>>,   => Speed but conditional of job
-recursion_per_level: Option<Vec<i32>>,
-barrier_attacks_per_level: Option<Vec<i32>>,
-// 
-// barrier_hp_percentage_per_level: Option<Vec<i32>>,
+mspdassassin_percentage_per_level: Option<Vec<i32>>,   => SpeedPercentage but conditional of job
+recursion_per_level: Option<Vec<i32>>,                  -> bowling bash
+barrier_attacks_per_level: Option<Vec<i32>>,            => PhysicalAttackBlockChancePercentage + TemporaryStatusBonus expire after hp absorbed
 silence_chance_per_level: Option<Vec<i32>>,            => ChanceToInflictStatusOnAttackPercentage
-ohko_chance_per_level: Option<Vec<i32>>,
-// 
-// wall_hp_loss_per_level: Option<Vec<i32>>,
+ohko_chance_per_level: Option<Vec<i32>>,               => SkilIdSuccessPercentage
 wall_hp_per_level: Option<Vec<i32>>,
-forge_atk_per_level: Option<Vec<i32>>,
+forge_atk_per_level: Option<Vec<i32>>,                  => Atk
 fire_resist_percentage_per_level: Option<Vec<i32>>,     => ResistanceDamageFromElementPercentage
 neutral_resist_percentage_per_level: Option<Vec<i32>>,  => ResistanceDamageFromElementPercentage
-aspdparty_percentage_per_level: Option<Vec<i32>>,
-aspdsmith_percentage_per_level: Option<Vec<i32>>,
-atkparty_percentage_per_level: Option<Vec<i32>>,
-atksmith_percentage_per_level: Option<Vec<i32>>,
+aspdparty_percentage_per_level: Option<Vec<i32>>,       => AspdPercentage - BonusesToParty
+aspdsmith_percentage_per_level: Option<Vec<i32>>,       => AspdPercentage
+atkparty_percentage_per_level: Option<Vec<i32>>,        => AtkPercentage - BonusesToParty
+atksmith_percentage_per_level: Option<Vec<i32>>,        => AtkPercentage
 sleep_chance_per_level: Option<Vec<i32>>,              => ChanceToInflictStatusOnAttackPercentage
 blind_duration_per_level: Option<Vec<i32>>,             -> not a bonus by itself, should be a value of TemporaryStatusBonus
 freeze_duration_per_level: Option<Vec<i32>>,           -> not a bonus by itself, should be a value of TemporaryStatusBonus
 falcon_atk_per_level: Option<Vec<i32>>,
 mspdwall_percentage_per_level: Option<Vec<i32>>,
-autospell_limit_per_level: Option<Vec<i32>>,
+autospell_limit_per_level: Option<Vec<i32>>,            -> not a bonus by itself, poison react support skill stop when autospell envenom counter is reached
 healhp: Option<i32>,
 hpmax_vit_per_level: Option<Vec<i32>>,
 atk_percentage: Option<i32>,                            => AtkPercentage
-dmg: Option<i32>,
+dmg: Option<i32>,                                      -> dmg formula
 stun_chance: Option<i32>,                               => ChanceToInflictStatusOnAttackPercentage
-dmg_bow_per_level: Option<Vec<f32>>,
+dmg_bow_per_level: Option<Vec<f32>>,                    -> not a bouns by itself, dmg formula is different when using a bow
 snatch_chance_per_level: Option<Vec<i32>>,              => ChanceToInflictStatusOnAttackPercentage
-plant_quantity_per_level: Option<Vec<i32>>,
-plant_move_per_level: Option<Vec<i32>>,
-holy_resist_percentage_per_level: Option<Vec<i32>>,
-delayparty_in_sec_per_level: Option<Vec<f32>>,
-delayuser_in_sec_per_level: Option<Vec<f32>>,
-guard_lv_per_level: Option<Vec<i32>>,
-players_per_level: Option<Vec<i32>>,
-demon_resist_chance_per_level: Option<Vec<i32>>,
-holy_resist_chance_per_level: Option<Vec<i32>>,
-max_spheres_per_level: Option<Vec<i32>>,
-spheres_per_level: Option<Vec<i32>>,
-disable_duration_per_level: Option<Vec<i32>>,
+plant_quantity_per_level: Option<Vec<i32>>,             -> not a bonus
+plant_move_per_level: Option<Vec<i32>>,                 -> not a bonus
+holy_resist_percentage_per_level: Option<Vec<i32>>,     => ResistanceDamageFromElementPercentage
+delayparty_in_sec_per_level: Option<Vec<f32>>,          -> not a bonus, delay after block attack with Guard
+delayuser_in_sec_per_level: Option<Vec<f32>>,           -> not a bonus, delay after block attack with Guard
+players_per_level: Option<Vec<i32>>,                    -> not a bonus, number of player that can be protected with sacrifice
+demon_resist_chance_per_level: Option<Vec<i32>>,        => ResistanceDamageFromElementPercentage
+holy_resist_chance_per_level: Option<Vec<i32>>,         => ResistanceDamageFromElementPercentage
+max_spheres_per_level: Option<Vec<i32>>,            -> not a bonus
+spheres_per_level: Option<Vec<i32>>,                -> not a bonus
+disable_duration_per_level: Option<Vec<i32>>,       -> not a bonus, TemporaryStatusBonus
 sp_loss_percentage_per_level: Option<Vec<i32>>,
-atk_matk_vs_dragon_percentage_per_level: Option<Vec<i32>>,
-dragon_resist_percentage_per_level: Option<Vec<i32>>,
+atk_matk_vs_dragon_percentage_per_level: Option<Vec<i32>>,  => PhysicalDamageAgainstRacePercentage + MagicalDamageAgainstRacePercentage
+dragon_resist_percentage_per_level: Option<Vec<i32>>,   => ResistanceDamageFromRacePercentage
 dmg_fire_percentage_per_level: Option<Vec<i32>>,  => DamageUsingElementPercentage
 dmg_water_percentage_per_level: Option<Vec<i32>>, => DamageUsingElementPercentage
 dmg_wind_percentage_per_level: Option<Vec<i32>>,  => DamageUsingElementPercentage
 dispel_chance_per_level: Option<Vec<i32>>,          => SkilIdSuccessPercentage
-intuser_intpartner_per_level: Option<Vec<i32>>,
 def_per_level: Option<Vec<i32>>,                    => Def
-status_resist_percentage_per_level: Option<Vec<i32>>,
+status_resist_percentage_per_level: Option<Vec<i32>>,   => ResistanceToStatusPercentage(All)
 freezeenemy_chance_per_level: Option<Vec<i32>>,     => ChanceToInflictStatusOnAttackPercentage
 freezeparty_chance_per_level: Option<Vec<i32>>,     => ChanceToInflictStatusToPartyOnAttackPercentage
 dmg_s_p_per_level: Option<Vec<i32>>,
@@ -150,7 +144,7 @@ sp_regen_percentage_per_level: Option<Vec<i32>>,
 hp_loss_percentage_per_level: Option<Vec<i32>>,
 gospel_chance_per_level: Option<Vec<i32>>,           => SkilIdSuccessPercentage
 hp_loss_per_level: Option<Vec<i32>>,
-delay_per_level: Option<Vec<f32>>,
+delay_per_level: Option<Vec<f32>>,                  -> not a bonus
 dmg_h_p_per_level: Option<Vec<i32>>,
 dmg_s_p_chance_per_level: Option<Vec<i32>>,
 deadly_poison_chance_per_level: Option<Vec<f32>>,      => SkilIdSuccessPercentage
@@ -158,33 +152,32 @@ dmg_int_per_level: Option<Vec<i32>>,
 all_stats_per_level: Option<Vec<i32>>,                  => AllStats
 breakarmor_percentage_per_level: Option<Vec<f32>>,      => BreakArmorPercentage
 breakweapon_percentage_per_level: Option<Vec<f32>>,     => BreakWeaponPercentage
-status_chance_per_level: Option<Vec<i32>>,
+status_chance_per_level: Option<Vec<i32>>,              => ChanceToInflictStatusOnAttackPercentage(VitalStrike)
 curse_chance_per_level: Option<Vec<i32>>,               => ChanceToInflictStatusOnAttackPercentage
-mind_break_chance_per_level: Option<Vec<i32>>,
+mind_break_chance_per_level: Option<Vec<i32>>,          => SkilIdSuccessPercentage
 smdef_percentage_per_level: Option<Vec<i32>>,
-skill_failure_chance: Option<i32>,
+skill_failure_chance: Option<i32>,                      -> enemy skill failure chance
 snare_duration: Option<i32>,                            -> Duration(Effect, val)
 success_chance: Option<i32>,                            => SkilIdSuccessPercentage
-block_chance: Option<i32>,
+block_chance: Option<i32>,                              => PhysicalAttackBlockChancePercentage
 sp_regen_bonus_ratio: Option<f32>,
 sp_regen_bonus_percentage: Option<f32>,
-distance_per_level: Option<Vec<i32>>,
-map_per_level: Option<Vec<String>>,
+distance_per_level: Option<Vec<i32>>,                   -> not a bonus, highjump distance
+map_per_level: Option<Vec<String>>,                     -> not a bonus, sg feel
 sdef_per_level: Option<Vec<i32>>,                       => VitDefPercentage
-vision_percentage_per_level: Option<Vec<i32>>,
-autospell_percentage_per_level: Option<Vec<i32>>,
+vision_percentage_per_level: Option<Vec<i32>>,          => VisionDistance
 weight_percentage_limit_percentage_per_level: Option<Vec<i32>>,
-aspdparty_percentage: Option<i32>,
-aspdsmith_percentage: Option<i32>,
+aspdparty_percentage: Option<i32>,                          => AspdPercentage - BonusesToParty
+aspdsmith_percentage: Option<i32>,                          => AspdPercentage - BonusesToTarget
 sp_loss_per_level: Option<Vec<i32>>,
-nullify_chance_per_level: Option<Vec<i32>>,
-reflect_per_level: Option<Vec<i32>>,
+nullify_chance_per_level: Option<Vec<i32>>,                 => NullifyAttackChancePercentage(100%)
+reflect_per_level: Option<Vec<i32>>,                        => MagicAttackReflectChancePercentage(100%) TemporaryStatusBonus (count)
 sp_per_level: Option<Vec<i32>>,                            => Maxsp
-max_refine_per_level: Option<Vec<i32>>,
-dispel_chance: Option<i32>,
-tarot_chance_per_level: Option<Vec<i32>>,
-summon_chance_per_level: Option<Vec<i32>>,
-success_chance_per_level: Option<Vec<i32>>,
+max_refine_per_level: Option<Vec<i32>>,                     -> not a bonus
+dispel_chance: Option<i32>,                                 => SkilIdSuccessPercentage
+tarot_chance_per_level: Option<Vec<i32>>,                   => SkilIdSuccessPercentage
+summon_chance_per_level: Option<Vec<i32>>,                  => SkilIdSuccessPercentage
+success_chance_per_level: Option<Vec<i32>>,                 => SkilIdSuccessPercentage
 def: Option<i32>,                                           => Def
 comabrute_percentage: Option<f32>,                          => ChanceToInflictStatusComaOnAttackOnRacePercentage
 comademi_human_percentage: Option<f32>,                     => ChanceToInflictStatusComaOnAttackOnRacePercentage
@@ -192,6 +185,6 @@ dmg_brute: Option<i32>,                                     => PhysicalDamageAga
 dmg_demihuman: Option<i32>,                                 => PhysicalDamageAgainstRacePercentage
 agi: Option<i32>,                                           => Agi
 dex: Option<i32>,                                           => Dex
-dmg_pistol_per_level: Option<Vec<f32>>,
+dmg_pistol_per_level: Option<Vec<f32>>,                     -> not a bouns by itself, dmg formula is different when using a pistol
 blindself_chance_per_level: Option<Vec<i32>>,               => ChanceToInflictStatusToSelfOnAttackPercentage
-dmg_range_per_level: Option<Vec<(f32, f32)>>,
+dmg_range_per_level: Option<Vec<(f32, f32)>>,               -> not a bonus, part of formula

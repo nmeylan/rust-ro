@@ -283,7 +283,7 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::NaturalSpRecoveryPercentage(value as i8));
                 }
                 "bshortweapondamagereturn" => {
-                    bonus!(self, BonusType::MeleeAttackReflectChancePercentage(value as i8));
+                    bonus!(self, BonusType::PhysicalAttackReflectChancePercentage(value as i8));
                 }
                 "bspeedaddrate" | "bspeedrate" => {
                     bonus!(self, BonusType::SpeedPercentage(value as i8));

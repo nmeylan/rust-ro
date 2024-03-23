@@ -566,7 +566,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "DamageRangedAtkPercentage" => BonusType::DamageRangedAtkPercentage(value.unwrap() as i8),
                 "ResistanceMagicAttackPercentage" => BonusType::ResistanceMagicAttackPercentage(value.unwrap() as i8),
                 "MagicAttackReflectChancePercentage" => BonusType::MagicAttackReflectChancePercentage(value.unwrap() as i8),
-                "MeleeAttackReflectChancePercentage" => BonusType::MeleeAttackReflectChancePercentage(value.unwrap() as i8),
+                "MeleeAttackReflectChancePercentage" => BonusType::PhysicalAttackReflectChancePercentage(value.unwrap() as i8),
                 "SplashRadius" => BonusType::SplashRadius(value.unwrap() as i8),
                 "SpeedPercentage" => BonusType::SpeedPercentage(value.unwrap() as i8),
                 "EnableFullHpSpRecoverOnResurrect" => BonusType::EnableFullHpSpRecoverOnResurrect,
