@@ -41,6 +41,11 @@ rapid smith:
 magic rod:
 - block enemy skill and receive percentage of sp consumed by enemy to use the blocked skill -> we need to get sp cost of the skill
 
+BD_SIEGFRIED:
+- should include resistance from element
+
+BD_LULLABY:
+- sleep chance formula
 ## Misc
 Rely on item and card script to add bonuses, compute bonus on skill use
 
@@ -69,6 +74,7 @@ Chain of command:
   - self
   - target
   - area
+
 
 # to add to skill config
 - dmgAtk
@@ -117,3 +123,8 @@ Chain of command:
 # to add in rust trait
 - dmg formula
 
+Skill db struct:
+- BonusesToSelf
+- BonusesToTarget
+- BonusesToParty
+- BonusesToSkill (for offensive skill)

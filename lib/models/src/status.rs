@@ -402,5 +402,8 @@ impl StatusBonus {
 #[derive(GettersAll, Debug, Clone, Copy)]
 pub struct TemporaryStatusBonus {
     bonus: BonusType,
-    expire_at: u128
+    expire_at: u128,
+    expire_after_count: u8,
+    expire_counter: u8,
+    // TODO can also expire after certain condition: hp absorbed (kyrie eleison)
 }
