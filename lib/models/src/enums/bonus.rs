@@ -5,7 +5,7 @@ use crate::enums::mob::{MobClass, MobGroup, MobRace};
 use crate::enums::size::Size;
 use crate::enums::status::StatusEffect;
 use crate::enums::weapon::WeaponType;
-use crate::status::{StatusBonus, StatusSnapshot};
+use crate::status::{StatusSnapshot};
 
 #[derive(Debug, Clone, Copy)]
 #[derive(WithEq, WithStackable)]

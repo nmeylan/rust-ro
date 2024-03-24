@@ -1,6 +1,5 @@
 
 pub use enum_macro::*;
-use crate::enums::bonus::BonusType;
 
 pub mod action;
 pub mod cell;
