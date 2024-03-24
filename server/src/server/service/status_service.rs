@@ -5,7 +5,7 @@ use rathena_script_lang_interpreter::lang::compiler::Compiler;
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use models::enums::class::JobName;
 use models::status::{Status, StatusBonus, StatusSnapshot};
-use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+use models::enums::{EnumWithNumberValue, EnumWithStringValue, EnumStackable};
 use models::enums::bonus::BonusType;
 use models::item::Wearable;
 
@@ -92,7 +92,7 @@ impl StatusService {
 
         // TODO card and item combo
 
-        bonuses = BonusType::merge_bonuses(&bonuses);
+        bonuses = BonusType::merge_enums(&bonuses);
         bonuses.iter().for_each(|bonus| bonus.add_bonus_to_status(&mut snapshot));
         // TODO [([base_hp*(1 + VIT/100)* trans_mod]+HPAdditions)*ItemHPMultipliers] https://irowiki.org/classic/Max_HP
         let hp_rebirth_modifier: f32 = if job.is_rebirth() { 1.25 } else { 1.0 };

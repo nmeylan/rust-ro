@@ -6,6 +6,7 @@ use models::enums::action::ActionType;
 use models::enums::bonus::BonusType;
 use models::enums::element::Element;
 use models::enums::EnumWithMaskValueU64;
+use models::enums::EnumStackable;
 use models::enums::size::Size;
 use models::enums::skill::SkillState;
 use models::enums::weapon::WeaponType;
@@ -246,8 +247,8 @@ impl BattleService {
         // star crumb: ignored by shield boomerang skill
         // spirit ball, shouldcount spirit ball wehn casting fingeroffensive, otherwise use current value
         let mut current_atk = current_atk;
-        BonusType::get_bonus_value(&BonusType::PhysicalDamageAgainstElementPercentage(*target_status.element(), 0), &source_status.bonuses_raw()).map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
-        BonusType::get_bonus_value(&BonusType::PhysicalDamageAgainstRacePercentage(*target_status.race(), 0), &source_status.bonuses_raw()).map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
+        BonusType::get_enum_value(&BonusType::PhysicalDamageAgainstElementPercentage(*target_status.element(), 0), &source_status.bonuses_raw()).map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
+        BonusType::get_enum_value(&BonusType::PhysicalDamageAgainstRacePercentage(*target_status.race(), 0), &source_status.bonuses_raw()).map(|value| current_atk = (current_atk * (100.0 + value) / 100.0).floor());
         current_atk
     }
 
