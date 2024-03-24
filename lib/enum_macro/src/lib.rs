@@ -4,7 +4,7 @@ use proc_macro::TokenStream;
 use proc_macro2::{Ident as Ident2, TokenStream as TokenStream2};
 use quote::quote;
 use syn::Data::Enum;
-use syn::{parse_macro_input, DeriveInput, Variant, Ident};
+use syn::{parse_macro_input, DeriveInput, Variant, Ident, Meta, Type};
 
 #[proc_macro_derive(WithNumberValue, attributes(value))]
 pub fn with_number_value(input: TokenStream) -> TokenStream {
@@ -304,7 +304,7 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
             let maybe_value = get_string_value(variant);
             let string_value = get_enum_string_value(uppercase, lowercase, variant, false);
             let res = if string_value.len() > 1 {
-                let string_value = string_value.iter().map(|v| v.to_string().replace("\"","")).collect::<Vec<String>>().join("|");
+                let string_value = string_value.iter().map(|v| v.to_string().replace("\"", "")).collect::<Vec<String>>().join("|");
                 quote! {
                        #enum_name::#variant_name => #string_value,
                     }
@@ -375,7 +375,7 @@ fn get_enum_string_value(mut uppercase: bool, mut lowercase: bool, variant: &Var
         } else if lowercase {
             format!("{variant_name}").to_lowercase()
         } else {
-           format!("{variant_name}")
+            format!("{variant_name}")
         };
     }
     vec![quote! { #string_value }]
@@ -407,4 +407,79 @@ fn get_string_value(variant: &Variant) -> Vec<Option<String>> {
                 None
             }
         }).collect()
+}
+
+#[proc_macro_derive(WithEq, attributes(value_comparison_offset))]
+pub fn with_wq(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let enum_name = &input.ident;
+
+    if let Enum(enum_data) = &input.data {
+        let arms = enum_data.variants.iter().map(|variant| {
+            let variant_name = variant.ident.clone();
+            match &variant.fields {
+                syn::Fields::Unnamed(fields) => {
+                    let variant_offset = if let Some(attribute) = variant.attrs.iter().find(|attr| {
+                        attr.path().is_ident("value_comparison_offset")
+                    }) {
+                        println!("get number for variant_offset");
+                        get_number_value(variant, "value_comparison_offset").unwrap_or(0)
+                    } else {
+                        0
+                    };
+                    let mut args1 = fields.unnamed.iter().map(|_| quote! {_}).collect::<Vec<TokenStream2>>();
+                    let mut args2 = fields.unnamed.iter().map(|_| quote! {_}).collect::<Vec<TokenStream2>>();
+                    let mut should_deref = false;
+                    if args1.len() > 1 {
+                        args1[variant_offset] = quote! {variant1};
+                        args2[variant_offset] = quote! {variant2};
+                        match &fields.unnamed[variant_offset].ty {
+                            Type::Path(p) => {
+                                let is_numeric = match p.path.get_ident().unwrap().to_string().as_str() {
+                                    "u8" | "i8" | "u16" | "i16" | "u16" | "i32" | "u32" | "i64" | "u64" | "i128" | "u128" => true,
+                                    _ => false
+                                };
+                                if is_numeric {
+                                    should_deref = true;
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+                    // let field_types = fields.unnamed.iter().map(|field| &field.ty);
+                    println!("field len {}, variant_offset {}", fields.unnamed.len(), variant_offset);
+                    if fields.unnamed.len() > 1 {
+                        if should_deref {
+                            quote! {(#enum_name::#variant_name(#(#args1,)*), #enum_name::#variant_name(#(#args2,)*)) => *variant1 == *variant2, }
+                        } else {
+                            quote! {(#enum_name::#variant_name(#(#args1,)*), #enum_name::#variant_name(#(#args2,)*)) => variant1 == variant2, }
+                        }
+                    } else {
+                        quote! {(#enum_name::#variant_name(#(#args1)*), #enum_name::#variant_name(#(#args2)*)) => true, }
+                    }
+                }
+                syn::Fields::Unit => {
+                    quote! {
+                    (#enum_name::#variant_name, #enum_name::#variant_name) => true,
+                }
+                }
+                syn::Fields::Named(_) => {
+                    // Handling named fields if necessary
+                    panic!("Named fields are not supported in this macro")
+                }
+            }
+        });
+        TokenStream::from(quote! {
+            impl PartialEq for #enum_name {
+            fn eq(&self, other: &Self) -> bool {
+                    match (self, other) {
+                     #(#arms)*
+                        _ => false
+                    }
+                }
+            }
+        })
+    } else {
+        TokenStream::from(quote! {})
+    }
 }
