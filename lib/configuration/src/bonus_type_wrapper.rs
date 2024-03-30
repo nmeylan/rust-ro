@@ -1,12 +1,14 @@
 use std::fmt::Formatter;
 use serde::{Deserialize, Deserializer};
 use serde::de::{MapAccess, Visitor};
+use serde_json::Value;
 use models::enums::bonus::BonusType;
 use models::enums::element::Element;
-use models::enums::EnumWithNumberValue;
+use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use models::enums::mob::{MobClass, MobGroup, MobRace};
 use models::enums::size::Size;
 use models::enums::status::StatusEffect;
+use models::enums::weapon::WeaponType;
 
 #[derive(Debug, Clone)]
 pub struct BonusTypeWrapper(pub BonusType);
@@ -37,13 +39,28 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
         let mut bonus: Option<String> = None;
         let mut value: Option<i32> = None;
         let mut value2: Option<i32> = None;
+        let mut value_str: Option<String> = None;
+        let mut value2_str: Option<String> = None;
         while let Some(key) = map.next_key::<String>()? {
             if key.as_str() == "bonus" {
                 bonus = Some(map.next_value::<String>()?);
             } else if key.as_str() == "value" {
-                value = Some(map.next_value::<i32>()?);
-            }else if key.as_str() == "value2" {
-                value2 = Some(map.next_value::<i32>()?);
+                let res: Value = map.next_value()?;
+                match res {
+                    Value::Number(val) => {
+                        if val.is_i64() {
+                            value = Some(val.as_i64().unwrap() as i32)
+                        }
+                    },
+                    Value::String(val) => value_str = Some(val),
+                    _ => {}
+                }
+            } else if key.as_str() == "value2" {
+                if let Ok(val) = map.next_value::<i32>() {
+                    value2 = Some(val);
+                } else if let Ok(val) = map.next_value::<String>() {
+                    value2_str = Some(val);
+                }
             }
         }
         if let Some(bonus) = bonus {
@@ -388,6 +405,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 //"amount" => BonusType::amount, every ms
                 "SkillIdDamagePercentage" => BonusType::SkillIdDamagePercentage(value.unwrap() as u32, value2.unwrap() as i8),
                 "EnableSkill" => BonusType::EnableSkillId(value.unwrap() as u32, value2.unwrap() as u8),
+                "DamageUsingWeaponType" => BonusType::DamageUsingWeaponType(WeaponType::from_string(&value_str.unwrap()), value2.unwrap() as i8),
                 _ => {
                     Err(serde::de::Error::custom(format!("Bonus not found with name {}", bonus)))?
                 }
