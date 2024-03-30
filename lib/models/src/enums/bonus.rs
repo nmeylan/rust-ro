@@ -30,6 +30,7 @@ pub enum BonusType {
     MaxhpPercentage(i8),
     MaxspPercentage(i8),
     Atk(i16),
+    AtkBaneAgainstRace(MobRace, i16),
     Def(i16),
     VitDefPercentage(i8),
     DefPercentage(i8),

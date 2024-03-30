@@ -277,6 +277,7 @@ pub enum StatusEffect {
     Coma,
     WeaponBreak,
     ArmorBreak,
+    VitalStrike
 }
 
 impl StatusTypes {
