@@ -1,14 +1,14 @@
 const fs = require('fs');
 
 const readline = require('readline');
-let input = JSON.parse(fs.readFileSync('C:\\dev\\ragnarok\\rust-ragnarok-server\\config\\skill.json', 'utf8'))
-// let input = JSON.parse(fs.readFileSync('/home/nmeylan/dev/ragnarok/rust-ragnarok-server/config/skill.json', 'utf8'))
+// let input = JSON.parse(fs.readFileSync('C:\\dev\\ragnarok\\rust-ragnarok-server\\config\\skill.json', 'utf8'))
+let input = JSON.parse(fs.readFileSync('/home/nmeylan/dev/ragnarok/rust-ragnarok-server/config/skill.json', 'utf8'))
 
-let dest = "C:\\dev\\ragnarok\\rust-ragnarok-server\\config\\skill-new.json";
-// let dest = "/home/nmeylan/dev/ragnarok/rust-ragnarok-server/config/skill-new.json";
+// let dest = "C:\\dev\\ragnarok\\rust-ragnarok-server\\config\\skill-new.json";
+let dest = "/home/nmeylan/dev/ragnarok/rust-ragnarok-server/config/skill-new.json";
 
-let notesStream = fs.createReadStream('C:\\dev\\ragnarok\\rust-ragnarok-server\\doc\\notes\\skill-bonus.txt');
-// let notesStream = fs.createReadStream('/home/nmeylan/dev/ragnarok/rust-ragnarok-server/doc/notes/skill-bonus.txt');
+// let notesStream = fs.createReadStream('C:\\dev\\ragnarok\\rust-ragnarok-server\\doc\\notes\\skill-bonus.txt');
+let notesStream = fs.createReadStream('/home/nmeylan/dev/ragnarok/rust-ragnarok-server/doc/notes/skill-bonus.txt');
 
 const rl = readline.createInterface({
     input: notesStream,
@@ -68,9 +68,16 @@ rl.on('close', () => {
                             getBonus(skill, oldFieldBonus[alias], entry.value).forEach(bonus => bonuses.push({level: entry.level, value: bonus}));
                         }
                     } else {
-                        getBonus(skill, oldFieldBonus[alias], skill[field].value).forEach(bonus => bonuses.push({value: bonus}));
+                        getBonus(skill, oldFieldBonus[alias], skill[field]).forEach(bonus => bonuses.push({value: bonus}));
                     }
-                    if (skill.targetType === "Support") {
+                    let toParty = false;
+                    if (oldFieldBonus[alias].includes("BonusesToParty")) {
+                        toParty = true;
+                    }
+                    if (toParty) {
+                        bonusToTarget.push(...bonuses)
+                    }
+                    else if (skill.targetType === "Support") {
                         bonusToTarget.push(...bonuses)
                     } else{
                         bonusToSelf.push(...bonuses)
@@ -118,7 +125,7 @@ function getBonus(skillConfig, noteBonus, valueFromDb) {
                     if (split[0] === "$SkillId$") {
                         split[0] = skillConfig.id
                     }
-                    let value = parseInt(split[0]) || split[0];
+                    let value = parseInt(split[0]) || split[0].trim();
                     if (value === "WeaponType") {
                         switch (skillConfig.name) {
                             case "SM_SWORD":
@@ -136,6 +143,33 @@ function getBonus(skillConfig, noteBonus, valueFromDb) {
                             case "PR_MACEMASTERY":
                                 value = "Mace"
                                 break;
+                            case "AS_KATAR":
+                                value = "Katar"
+                                break;
+                            case "AM_AXEMASTERY":
+                                value = "1hAxe"
+                                break;
+                            case "SA_ADVANCEDBOOK":
+                                value = "Book"
+                                break;
+                            case "BD_RINGNIBELUNGEN":
+                                value = "All"
+                                break;
+                            case "BA_MUSICALLESSON":
+                                value = "Musical"
+                                break;
+                            case "DC_DANCINGLESSON":
+                                value = "Whip"
+                                break;
+                            case "TK_RUN":
+                                value = "Fist"
+                                break;
+                            case "NJ_TOBIDOUGU":
+                                value = "Shuriken"
+                                break;
+                            case "MO_IRONHAND":
+                                value = "Knuckle"
+                                break;
                         }
                     }
                     return {
@@ -147,13 +181,13 @@ function getBonus(skillConfig, noteBonus, valueFromDb) {
                     return {
                         bonus: bonus,
                         value: valueFromDb,
-                        value2: parseInt(split[1]) || split[1],
+                        value2: parseInt(split[1]) || split[1].trim(),
                     }
                 }
             } else {
                 return {
                     bonus: bonus,
-                    value: parseInt(v) || v,
+                    value: parseInt(v) || v.trim(),
                     value2: valueFromDb,
                 }
             }

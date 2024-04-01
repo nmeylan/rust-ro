@@ -54,7 +54,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSword",
             "value2": 4
           }
@@ -62,7 +62,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSword",
             "value2": 8
           }
@@ -70,7 +70,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSword",
             "value2": 12
           }
@@ -78,7 +78,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSword",
             "value2": 16
           }
@@ -86,7 +86,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSword",
             "value2": 20
           }
@@ -94,7 +94,7 @@
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSword",
             "value2": 24
           }
@@ -102,7 +102,7 @@
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSword",
             "value2": 28
           }
@@ -110,7 +110,7 @@
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSword",
             "value2": 32
           }
@@ -118,7 +118,7 @@
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSword",
             "value2": 36
           }
@@ -126,7 +126,7 @@
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSword",
             "value2": 40
           }
@@ -143,7 +143,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "2hSword",
             "value2": 4
           }
@@ -151,7 +151,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "2hSword",
             "value2": 8
           }
@@ -159,7 +159,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "2hSword",
             "value2": 12
           }
@@ -167,7 +167,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "2hSword",
             "value2": 16
           }
@@ -175,7 +175,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "2hSword",
             "value2": 20
           }
@@ -183,7 +183,7 @@
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "2hSword",
             "value2": 24
           }
@@ -191,7 +191,7 @@
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "2hSword",
             "value2": 28
           }
@@ -199,7 +199,7 @@
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "2hSword",
             "value2": 32
           }
@@ -207,7 +207,7 @@
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "2hSword",
             "value2": 36
           }
@@ -215,7 +215,7 @@
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "2hSword",
             "value2": 40
           }
@@ -711,7 +711,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 6,
             "value2": 73
           }
@@ -719,7 +719,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 6,
             "value2": 76
           }
@@ -727,7 +727,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 6,
             "value2": 79
           }
@@ -735,7 +735,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 6,
             "value2": 82
           }
@@ -743,7 +743,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 6,
             "value2": 85
           }
@@ -751,7 +751,7 @@
         {
           "level": 6,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 6,
             "value2": 88
           }
@@ -759,7 +759,7 @@
         {
           "level": 7,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 6,
             "value2": 91
           }
@@ -767,7 +767,7 @@
         {
           "level": 8,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 6,
             "value2": 94
           }
@@ -775,7 +775,7 @@
         {
           "level": 9,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 6,
             "value2": 97
           }
@@ -783,7 +783,7 @@
         {
           "level": 10,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 6,
             "value2": 100
           }
@@ -4985,80 +4985,80 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 30,
             "value2": 53
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 30,
             "value2": 56
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 30,
             "value2": 59
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 30,
             "value2": 62
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 30,
             "value2": 65
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 30,
             "value2": 68
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 30,
             "value2": 71
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 30,
             "value2": 74
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 30,
             "value2": 77
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 30,
             "value2": 80
           }
         }
@@ -5109,80 +5109,80 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 32,
             "value2": 29
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 32,
             "value2": 33
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 32,
             "value2": 37
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 32,
             "value2": 41
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 32,
             "value2": 45
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 32,
             "value2": 49
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 32,
             "value2": 53
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 32,
             "value2": 57
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 32,
             "value2": 61
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 32,
             "value2": 65
           }
         },
@@ -6963,70 +6963,70 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SpeedPercentage but conditional of job",
+            "bonus": "SpeedPercentage",
             "value": 1
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "SpeedPercentage but conditional of job",
+            "bonus": "SpeedPercentage",
             "value": 2
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "SpeedPercentage but conditional of job",
+            "bonus": "SpeedPercentage",
             "value": 3
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "SpeedPercentage but conditional of job",
+            "bonus": "SpeedPercentage",
             "value": 4
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "SpeedPercentage but conditional of job",
+            "bonus": "SpeedPercentage",
             "value": 5
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "SpeedPercentage but conditional of job",
+            "bonus": "SpeedPercentage",
             "value": 6
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "SpeedPercentage but conditional of job",
+            "bonus": "SpeedPercentage",
             "value": 7
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "SpeedPercentage but conditional of job",
+            "bonus": "SpeedPercentage",
             "value": 8
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "SpeedPercentage but conditional of job",
+            "bonus": "SpeedPercentage",
             "value": 9
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "SpeedPercentage but conditional of job",
+            "bonus": "SpeedPercentage",
             "value": 10
           }
         }
@@ -7490,7 +7490,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSpear",
             "value2": 5
           }
@@ -7498,7 +7498,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSpear",
             "value2": 10
           }
@@ -7506,7 +7506,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSpear",
             "value2": 15
           }
@@ -7514,7 +7514,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSpear",
             "value2": 20
           }
@@ -7522,7 +7522,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSpear",
             "value2": 25
           }
@@ -7530,7 +7530,7 @@
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSpear",
             "value2": 30
           }
@@ -7538,7 +7538,7 @@
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSpear",
             "value2": 35
           }
@@ -7546,7 +7546,7 @@
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSpear",
             "value2": 40
           }
@@ -7554,7 +7554,7 @@
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSpear",
             "value2": 45
           }
@@ -7562,7 +7562,7 @@
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hSpear",
             "value2": 50
           }
@@ -8536,7 +8536,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "Mace",
             "value2": 3
           }
@@ -8544,7 +8544,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "Mace",
             "value2": 6
           }
@@ -8552,7 +8552,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "Mace",
             "value2": 9
           }
@@ -8560,7 +8560,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "Mace",
             "value2": 12
           }
@@ -8568,7 +8568,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "Mace",
             "value2": 15
           }
@@ -8576,7 +8576,7 @@
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "Mace",
             "value2": 18
           }
@@ -8584,7 +8584,7 @@
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "Mace",
             "value2": 21
           }
@@ -8592,7 +8592,7 @@
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "Mace",
             "value2": 24
           }
@@ -8600,7 +8600,7 @@
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "Mace",
             "value2": 27
           }
@@ -8608,7 +8608,7 @@
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
             "value": "Mace",
             "value2": 30
           }
@@ -9694,80 +9694,80 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 77,
             "value2": 2
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 77,
             "value2": 4
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 77,
             "value2": 6
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 77,
             "value2": 8
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 77,
             "value2": 10
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 77,
             "value2": 12
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 77,
             "value2": 14
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 77,
             "value2": 16
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 77,
             "value2": 18
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": "SkillId",
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 77,
             "value2": 20
           }
         }
@@ -12737,7 +12737,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 94,
             "value2": 5
           }
@@ -12745,7 +12745,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 94,
             "value2": 10
           }
@@ -12753,7 +12753,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 94,
             "value2": 15
           }
@@ -12761,7 +12761,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 94,
             "value2": 20
           }
@@ -12769,7 +12769,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 94,
             "value2": 25
           }
@@ -12786,7 +12786,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 95,
             "value2": 5
           }
@@ -12794,7 +12794,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 95,
             "value2": 10
           }
@@ -12802,7 +12802,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 95,
             "value2": 15
           }
@@ -12810,7 +12810,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 95,
             "value2": 20
           }
@@ -12818,7 +12818,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 95,
             "value2": 25
           }
@@ -12835,7 +12835,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 96,
             "value2": 5
           }
@@ -12843,7 +12843,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 96,
             "value2": 10
           }
@@ -12851,7 +12851,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 96,
             "value2": 15
           }
@@ -12859,7 +12859,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 96,
             "value2": 20
           }
@@ -12867,7 +12867,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 96,
             "value2": 25
           }
@@ -12884,7 +12884,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 97,
             "value2": 2
           }
@@ -12892,7 +12892,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 97,
             "value2": 4
           }
@@ -12900,7 +12900,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 97,
             "value2": 6
           }
@@ -12908,7 +12908,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 97,
             "value2": 8
           }
@@ -12916,7 +12916,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 97,
             "value2": 10
           }
@@ -12947,7 +12947,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 98,
             "value2": 5
           }
@@ -12955,7 +12955,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 98,
             "value2": 10
           }
@@ -12963,7 +12963,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 98,
             "value2": 15
           }
@@ -12994,7 +12994,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 99,
             "value2": 5
           }
@@ -13002,7 +13002,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 99,
             "value2": 10
           }
@@ -13010,7 +13010,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 99,
             "value2": 15
           }
@@ -13041,7 +13041,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 100,
             "value2": 5
           }
@@ -13049,7 +13049,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 100,
             "value2": 10
           }
@@ -13057,7 +13057,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 100,
             "value2": 15
           }
@@ -13088,7 +13088,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 101,
             "value2": 5
           }
@@ -13096,7 +13096,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 101,
             "value2": 10
           }
@@ -13104,7 +13104,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 101,
             "value2": 15
           }
@@ -13135,7 +13135,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 102,
             "value2": 5
           }
@@ -13143,7 +13143,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 102,
             "value2": 10
           }
@@ -13151,7 +13151,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 102,
             "value2": 15
           }
@@ -13182,7 +13182,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 103,
             "value2": 5
           }
@@ -13190,7 +13190,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 103,
             "value2": 10
           }
@@ -13198,7 +13198,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 103,
             "value2": 15
           }
@@ -13229,7 +13229,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 104,
             "value2": 5
           }
@@ -13237,7 +13237,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 104,
             "value2": 10
           }
@@ -13245,7 +13245,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 104,
             "value2": 15
           }
@@ -13261,12 +13261,14 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "Atk"
+            "bonus": "Atk",
+            "value": 4
           }
         },
         {
           "value": {
-            "bonus": "Str"
+            "bonus": "Str",
+            "value": 1
           }
         }
       ]
@@ -13428,7 +13430,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 107,
             "value2": 1
           }
@@ -13436,7 +13438,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 107,
             "value2": 2
           }
@@ -13444,7 +13446,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 107,
             "value2": 3
           }
@@ -13452,7 +13454,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 107,
             "value2": 4
           }
@@ -13460,7 +13462,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 107,
             "value2": 5
           }
@@ -13468,7 +13470,7 @@
         {
           "level": 6,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 107,
             "value2": 6
           }
@@ -13476,7 +13478,7 @@
         {
           "level": 7,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 107,
             "value2": 7
           }
@@ -13484,7 +13486,7 @@
         {
           "level": 8,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 107,
             "value2": 8
           }
@@ -13492,7 +13494,7 @@
         {
           "level": 9,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 107,
             "value2": 9
           }
@@ -13500,7 +13502,7 @@
         {
           "level": 10,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 107,
             "value2": 10
           }
@@ -13830,140 +13832,142 @@
           "level": 1,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 25
+            "value": 30
           }
         },
         {
           "level": 2,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 25
+            "value": 30
           }
         },
         {
           "level": 3,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 25
+            "value": 30
           }
         },
         {
           "level": 4,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 25
+            "value": 30
           }
         },
         {
           "level": 5,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 25
+            "value": 30
           }
         },
         {
           "level": 6,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 25
+            "value": 30
           }
         },
         {
           "level": 7,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 25
+            "value": 30
           }
         },
         {
           "level": 8,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 25
+            "value": 30
           }
         },
         {
           "level": 9,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 25
+            "value": 30
           }
         },
         {
           "level": 10,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 25
+            "value": 30
           }
-        },
+        }
+      ],
+      "bonusToTarget": [
         {
           "level": 1,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 30
+            "value": 25
           }
         },
         {
           "level": 2,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 30
+            "value": 25
           }
         },
         {
           "level": 3,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 30
+            "value": 25
           }
         },
         {
           "level": 4,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 30
+            "value": 25
           }
         },
         {
           "level": 5,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 30
+            "value": 25
           }
         },
         {
           "level": 6,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 30
+            "value": 25
           }
         },
         {
           "level": 7,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 30
+            "value": 25
           }
         },
         {
           "level": 8,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 30
+            "value": 25
           }
         },
         {
           "level": 9,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 30
+            "value": 25
           }
         },
         {
           "level": 10,
           "value": {
             "bonus": "AspdPercentage",
-            "value": 30
+            "value": 25
           }
         }
       ]
@@ -14134,41 +14138,6 @@
           "level": 2,
           "value": {
             "bonus": "AtkPercentage",
-            "value": 5
-          }
-        },
-        {
-          "level": 3,
-          "value": {
-            "bonus": "AtkPercentage",
-            "value": 5
-          }
-        },
-        {
-          "level": 4,
-          "value": {
-            "bonus": "AtkPercentage",
-            "value": 5
-          }
-        },
-        {
-          "level": 5,
-          "value": {
-            "bonus": "AtkPercentage",
-            "value": 5
-          }
-        },
-        {
-          "level": 1,
-          "value": {
-            "bonus": "AtkPercentage",
-            "value": 5
-          }
-        },
-        {
-          "level": 2,
-          "value": {
-            "bonus": "AtkPercentage",
             "value": 10
           }
         },
@@ -14226,6 +14195,43 @@
           "value": {
             "bonus": "BreakSelfWeaponPercentage",
             "value": 0.1
+          }
+        }
+      ],
+      "bonusToTarget": [
+        {
+          "level": 1,
+          "value": {
+            "bonus": "AtkPercentage",
+            "value": 5
+          }
+        },
+        {
+          "level": 2,
+          "value": {
+            "bonus": "AtkPercentage",
+            "value": 5
+          }
+        },
+        {
+          "level": 3,
+          "value": {
+            "bonus": "AtkPercentage",
+            "value": 5
+          }
+        },
+        {
+          "level": 4,
+          "value": {
+            "bonus": "AtkPercentage",
+            "value": 5
+          }
+        },
+        {
+          "level": 5,
+          "value": {
+            "bonus": "AtkPercentage",
+            "value": 5
           }
         }
       ]
@@ -15780,7 +15786,7 @@
           "level": 1,
           "value": {
             "bonus": "AtkBaneAgainstRace",
-            "value": "Brute ",
+            "value": "Brute",
             "value2": 4
           }
         },
@@ -15796,7 +15802,7 @@
           "level": 2,
           "value": {
             "bonus": "AtkBaneAgainstRace",
-            "value": "Brute ",
+            "value": "Brute",
             "value2": 8
           }
         },
@@ -15812,7 +15818,7 @@
           "level": 3,
           "value": {
             "bonus": "AtkBaneAgainstRace",
-            "value": "Brute ",
+            "value": "Brute",
             "value2": 12
           }
         },
@@ -15828,7 +15834,7 @@
           "level": 4,
           "value": {
             "bonus": "AtkBaneAgainstRace",
-            "value": "Brute ",
+            "value": "Brute",
             "value2": 16
           }
         },
@@ -15844,7 +15850,7 @@
           "level": 5,
           "value": {
             "bonus": "AtkBaneAgainstRace",
-            "value": "Brute ",
+            "value": "Brute",
             "value2": 20
           }
         },
@@ -15860,7 +15866,7 @@
           "level": 6,
           "value": {
             "bonus": "AtkBaneAgainstRace",
-            "value": "Brute ",
+            "value": "Brute",
             "value2": 24
           }
         },
@@ -15876,7 +15882,7 @@
           "level": 7,
           "value": {
             "bonus": "AtkBaneAgainstRace",
-            "value": "Brute ",
+            "value": "Brute",
             "value2": 28
           }
         },
@@ -15892,7 +15898,7 @@
           "level": 8,
           "value": {
             "bonus": "AtkBaneAgainstRace",
-            "value": "Brute ",
+            "value": "Brute",
             "value2": 32
           }
         },
@@ -15908,7 +15914,7 @@
           "level": 9,
           "value": {
             "bonus": "AtkBaneAgainstRace",
-            "value": "Brute ",
+            "value": "Brute",
             "value2": 36
           }
         },
@@ -15924,7 +15930,7 @@
           "level": 10,
           "value": {
             "bonus": "AtkBaneAgainstRace",
-            "value": "Brute ",
+            "value": "Brute",
             "value2": 40
           }
         }
@@ -16230,80 +16236,80 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Katar",
             "value2": 3
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Katar",
             "value2": 6
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Katar",
             "value2": 9
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Katar",
             "value2": 12
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Katar",
             "value2": 15
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Katar",
             "value2": 18
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Katar",
             "value2": 21
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Katar",
             "value2": 24
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Katar",
             "value2": 27
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Katar",
             "value2": 30
           }
         }
@@ -17998,12 +18004,14 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "AtkPercentage"
+            "bonus": "AtkPercentage",
+            "value": 32
           }
         },
         {
           "value": {
-            "bonus": "VitDefPercentage"
+            "bonus": "VitDefPercentage",
+            "value": -55
           }
         }
       ]
@@ -18087,7 +18095,8 @@
         {
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind"
+            "value": "Blind",
+            "value2": 20
           }
         }
       ]
@@ -18170,13 +18179,15 @@
         {
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind"
+            "value": "Blind",
+            "value2": 3
           }
         },
         {
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Stun"
+            "value": "Stun",
+            "value2": 3
           }
         }
       ]
@@ -18252,7 +18263,8 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "Str"
+            "bonus": "Str",
+            "value": 4
           }
         }
       ]
@@ -19855,7 +19867,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 215,
             "value2": 10
           }
@@ -19863,7 +19875,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 215,
             "value2": 15
           }
@@ -19871,7 +19883,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 215,
             "value2": 20
           }
@@ -19879,7 +19891,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 215,
             "value2": 25
           }
@@ -19887,7 +19899,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 215,
             "value2": 30
           }
@@ -19959,7 +19971,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 216,
             "value2": 10
           }
@@ -19967,7 +19979,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 216,
             "value2": 15
           }
@@ -19975,7 +19987,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 216,
             "value2": 20
           }
@@ -19983,7 +19995,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 216,
             "value2": 25
           }
@@ -19991,7 +20003,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 216,
             "value2": 30
           }
@@ -20063,7 +20075,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 217,
             "value2": 10
           }
@@ -20071,7 +20083,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 217,
             "value2": 15
           }
@@ -20079,7 +20091,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 217,
             "value2": 20
           }
@@ -20087,7 +20099,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 217,
             "value2": 25
           }
@@ -20095,7 +20107,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 217,
             "value2": 30
           }
@@ -20167,7 +20179,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 218,
             "value2": 10
           }
@@ -20175,7 +20187,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 218,
             "value2": 15
           }
@@ -20183,7 +20195,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 218,
             "value2": 20
           }
@@ -20191,7 +20203,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 218,
             "value2": 25
           }
@@ -20199,7 +20211,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 218,
             "value2": 30
           }
@@ -20288,7 +20300,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 219,
             "value2": 55
           }
@@ -20296,7 +20308,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 219,
             "value2": 60
           }
@@ -20304,7 +20316,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 219,
             "value2": 65
           }
@@ -20312,7 +20324,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 219,
             "value2": 70
           }
@@ -20320,7 +20332,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 219,
             "value2": 75
           }
@@ -20328,7 +20340,7 @@
         {
           "level": 6,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 219,
             "value2": 80
           }
@@ -20336,7 +20348,7 @@
         {
           "level": 7,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 219,
             "value2": 85
           }
@@ -20344,7 +20356,7 @@
         {
           "level": 8,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 219,
             "value2": 90
           }
@@ -20352,7 +20364,7 @@
         {
           "level": 9,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 219,
             "value2": 95
           }
@@ -20360,7 +20372,7 @@
         {
           "level": 10,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 219,
             "value2": 100
           }
@@ -20525,80 +20537,80 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "1hAxe",
             "value2": 3
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "1hAxe",
             "value2": 6
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "1hAxe",
             "value2": 9
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "1hAxe",
             "value2": 12
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "1hAxe",
             "value2": 15
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "1hAxe",
             "value2": 18
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "1hAxe",
             "value2": 21
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "1hAxe",
             "value2": 24
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "1hAxe",
             "value2": 27
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "1hAxe",
             "value2": 30
           }
         }
@@ -20753,7 +20765,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 227,
             "value2": 1
           }
@@ -20761,7 +20773,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 227,
             "value2": 2
           }
@@ -20769,7 +20781,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 227,
             "value2": 3
           }
@@ -20777,7 +20789,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 227,
             "value2": 4
           }
@@ -20785,7 +20797,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 227,
             "value2": 5
           }
@@ -20793,7 +20805,7 @@
         {
           "level": 6,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 227,
             "value2": 6
           }
@@ -20801,7 +20813,7 @@
         {
           "level": 7,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 227,
             "value2": 7
           }
@@ -20809,7 +20821,7 @@
         {
           "level": 8,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 227,
             "value2": 8
           }
@@ -20817,7 +20829,7 @@
         {
           "level": 9,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 227,
             "value2": 9
           }
@@ -20825,7 +20837,7 @@
         {
           "level": 10,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 227,
             "value2": 10
           }
@@ -20855,7 +20867,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 228,
             "value2": 3
           }
@@ -20863,7 +20875,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 228,
             "value2": 6
           }
@@ -20871,7 +20883,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 228,
             "value2": 9
           }
@@ -20879,7 +20891,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 228,
             "value2": 12
           }
@@ -20887,7 +20899,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 228,
             "value2": 15
           }
@@ -20895,7 +20907,7 @@
         {
           "level": 6,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 228,
             "value2": 18
           }
@@ -20903,7 +20915,7 @@
         {
           "level": 7,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 228,
             "value2": 21
           }
@@ -20911,7 +20923,7 @@
         {
           "level": 8,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 228,
             "value2": 24
           }
@@ -20919,7 +20931,7 @@
         {
           "level": 9,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 228,
             "value2": 27
           }
@@ -20927,7 +20939,7 @@
         {
           "level": 10,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 228,
             "value2": 30
           }
@@ -21168,7 +21180,7 @@
           "level": 1,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 3
           }
         },
@@ -21176,7 +21188,7 @@
           "level": 2,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 6
           }
         },
@@ -21184,7 +21196,7 @@
           "level": 3,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 9
           }
         },
@@ -21192,7 +21204,7 @@
           "level": 4,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 12
           }
         },
@@ -21200,7 +21212,7 @@
           "level": 5,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 15
           }
         },
@@ -23473,80 +23485,80 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Knuckle",
             "value2": 3
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Knuckle",
             "value2": 6
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Knuckle",
             "value2": 9
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Knuckle",
             "value2": 12
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Knuckle",
             "value2": 15
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Knuckle",
             "value2": 18
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Knuckle",
             "value2": 21
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Knuckle",
             "value2": 24
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Knuckle",
             "value2": 27
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Knuckle",
             "value2": 30
           }
         }
@@ -24874,80 +24886,80 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Book",
             "value2": 3
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Book",
             "value2": 6
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Book",
             "value2": 9
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Book",
             "value2": 12
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Book",
             "value2": 15
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Book",
             "value2": 18
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Book",
             "value2": 21
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Book",
             "value2": 24
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Book",
             "value2": 27
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Book",
             "value2": 30
           }
         }
@@ -25483,7 +25495,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 280,
             "value2": 70
           }
@@ -25491,7 +25503,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 280,
             "value2": 80
           }
@@ -25499,7 +25511,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 280,
             "value2": 90
           }
@@ -25507,7 +25519,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 280,
             "value2": 100
           }
@@ -25515,7 +25527,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 280,
             "value2": 100
           }
@@ -25577,7 +25589,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 281,
             "value2": 70
           }
@@ -25585,7 +25597,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 281,
             "value2": 80
           }
@@ -25593,7 +25605,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 281,
             "value2": 90
           }
@@ -25601,7 +25613,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 281,
             "value2": 100
           }
@@ -25609,7 +25621,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 281,
             "value2": 100
           }
@@ -25671,7 +25683,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 282,
             "value2": 70
           }
@@ -25679,7 +25691,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 282,
             "value2": 80
           }
@@ -25687,7 +25699,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 282,
             "value2": 90
           }
@@ -25695,7 +25707,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 282,
             "value2": 100
           }
@@ -25703,7 +25715,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 282,
             "value2": 100
           }
@@ -25765,7 +25777,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 283,
             "value2": 70
           }
@@ -25773,7 +25785,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 283,
             "value2": 80
           }
@@ -25781,7 +25793,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 283,
             "value2": 90
           }
@@ -25789,7 +25801,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 283,
             "value2": 100
           }
@@ -25797,7 +25809,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 283,
             "value2": 100
           }
@@ -26603,7 +26615,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 289,
             "value2": 20
           }
@@ -26611,7 +26623,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 289,
             "value2": 40
           }
@@ -26619,7 +26631,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 289,
             "value2": 60
           }
@@ -26627,7 +26639,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 289,
             "value2": 80
           }
@@ -26635,7 +26647,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 289,
             "value2": 100
           }
@@ -27170,7 +27182,8 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "VitDefPercentage"
+            "bonus": "VitDefPercentage",
+            "value": -100
           }
         }
       ]
@@ -27406,40 +27419,40 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "All",
             "value2": 75
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "All",
             "value2": 100
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "All",
             "value2": 125
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "All",
             "value2": 150
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "All",
             "value2": 175
           }
         }
@@ -27626,150 +27639,150 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Musical",
             "value2": 3
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Musical",
             "value2": 6
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Musical",
             "value2": 9
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Musical",
             "value2": 12
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Musical",
             "value2": 15
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Musical",
             "value2": 18
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Musical",
             "value2": 21
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Musical",
             "value2": 24
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Musical",
             "value2": 27
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Musical",
             "value2": 30
           }
         },
         {
           "level": 1,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 40
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 80
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 120
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 160
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 200
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 240
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 280
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 320
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 360
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 400
           }
         }
@@ -28899,150 +28912,150 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Whip",
             "value2": 3
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Whip",
             "value2": 6
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Whip",
             "value2": 9
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Whip",
             "value2": 12
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Whip",
             "value2": 15
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Whip",
             "value2": 18
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Whip",
             "value2": 21
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Whip",
             "value2": 24
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Whip",
             "value2": 27
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Whip",
             "value2": 30
           }
         },
         {
           "level": 1,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 40
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 80
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 120
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 160
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 200
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 240
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 280
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 320
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 360
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "SpeedPercentage, negative",
+            "bonus": "SpeedPercentage",
             "value": 400
           }
         }
@@ -32262,7 +32275,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 369,
             "value2": 55
           }
@@ -32270,7 +32283,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 369,
             "value2": 60
           }
@@ -32278,7 +32291,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 369,
             "value2": 65
           }
@@ -32286,7 +32299,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 369,
             "value2": 70
           }
@@ -32294,7 +32307,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 369,
             "value2": 75
           }
@@ -32302,7 +32315,7 @@
         {
           "level": 6,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 369,
             "value2": 80
           }
@@ -32310,7 +32323,7 @@
         {
           "level": 7,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 369,
             "value2": 85
           }
@@ -32318,7 +32331,7 @@
         {
           "level": 8,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 369,
             "value2": 90
           }
@@ -32326,7 +32339,7 @@
         {
           "level": 9,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 369,
             "value2": 95
           }
@@ -32334,7 +32347,7 @@
         {
           "level": 10,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 369,
             "value2": 100
           }
@@ -33073,7 +33086,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 378,
             "value2": 3
           }
@@ -33081,7 +33094,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 378,
             "value2": 3.5
           }
@@ -33089,7 +33102,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 378,
             "value2": 4
           }
@@ -33097,7 +33110,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 378,
             "value2": 4.5
           }
@@ -33105,7 +33118,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 378,
             "value2": 5
           }
@@ -34355,7 +34368,8 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "SpeedPercentage"
+            "bonus": "SpeedPercentage",
+            "value": 25
           }
         }
       ]
@@ -35186,7 +35200,7 @@
           "level": 1,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 50
           }
         },
@@ -35194,7 +35208,7 @@
           "level": 2,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 50
           }
         },
@@ -35202,7 +35216,7 @@
           "level": 3,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 50
           }
         },
@@ -35210,7 +35224,7 @@
           "level": 4,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 50
           }
         },
@@ -35218,7 +35232,7 @@
           "level": 5,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 50
           }
         }
@@ -35690,7 +35704,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 402,
             "value2": 60
           }
@@ -35698,7 +35712,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 402,
             "value2": 65
           }
@@ -35706,7 +35720,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 402,
             "value2": 70
           }
@@ -35714,7 +35728,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 402,
             "value2": 75
           }
@@ -35722,7 +35736,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 402,
             "value2": 80
           }
@@ -35824,7 +35838,8 @@
         {
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind"
+            "value": "Blind",
+            "value2": 1000
           }
         }
       ]
@@ -35869,7 +35884,8 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "Flee"
+            "bonus": "Flee",
+            "value": -50
           }
         }
       ]
@@ -36163,7 +36179,7 @@
           "level": 1,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 10
           }
         },
@@ -36171,7 +36187,7 @@
           "level": 2,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 15
           }
         },
@@ -36179,7 +36195,7 @@
           "level": 3,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 20
           }
         },
@@ -36187,7 +36203,7 @@
           "level": 4,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 25
           }
         },
@@ -36195,7 +36211,7 @@
           "level": 5,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 30
           }
         },
@@ -36203,7 +36219,7 @@
           "level": 6,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 35
           }
         },
@@ -36211,7 +36227,7 @@
           "level": 7,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 40
           }
         },
@@ -36219,7 +36235,7 @@
           "level": 8,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 45
           }
         },
@@ -36227,7 +36243,7 @@
           "level": 9,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 50
           }
         },
@@ -36235,7 +36251,7 @@
           "level": 10,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 55
           }
         }
@@ -36258,8 +36274,9 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": 407
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 407,
+            "value2": 20
           }
         }
       ]
@@ -36446,80 +36463,80 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Fist",
             "value2": 10
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Fist",
             "value2": 20
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Fist",
             "value2": 30
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Fist",
             "value2": 40
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Fist",
             "value2": 50
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Fist",
             "value2": 60
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Fist",
             "value2": 70
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Fist",
             "value2": 80
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Fist",
             "value2": 90
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Fist",
             "value2": 100
           }
         },
@@ -36614,7 +36631,8 @@
         {
           "value": {
             "bonus": "AutospellSkillIdChancePercentage",
-            "value": 412
+            "value": 412,
+            "value2": 15
           }
         }
       ]
@@ -36722,7 +36740,8 @@
         {
           "value": {
             "bonus": "AutospellSkillIdChancePercentage",
-            "value": 414
+            "value": 414,
+            "value2": 15
           }
         }
       ]
@@ -36855,7 +36874,8 @@
         {
           "value": {
             "bonus": "AutospellSkillIdChancePercentage",
-            "value": 416
+            "value": 416,
+            "value2": 15
           }
         }
       ]
@@ -37052,7 +37072,8 @@
         {
           "value": {
             "bonus": "AutospellSkillIdChancePercentage",
-            "value": 418
+            "value": 418,
+            "value2": 15
           }
         }
       ]
@@ -37156,7 +37177,8 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "PhysicalAttackBlockChancePercentage"
+            "bonus": "PhysicalAttackBlockChancePercentage",
+            "value": 20
           }
         }
       ]
@@ -37254,6 +37276,7 @@
         {
           "value": {
             "bonus": "SpRegenEveryMs",
+            "value": 30,
             "value2": 10000
           }
         }
@@ -37271,6 +37294,7 @@
         {
           "value": {
             "bonus": "SpRegenEveryMs",
+            "value": 3,
             "value2": 10000
           }
         }
@@ -37563,22 +37587,22 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SpDrainPerHit with negative value",
-            "value": 2
+            "bonus": "SpDrainPerHit",
+            "value": -2
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "SpDrainPerHit with negative value",
-            "value": 2
+            "bonus": "SpDrainPerHit",
+            "value": -2
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "SpDrainPerHit with negative value",
-            "value": 2
+            "bonus": "SpDrainPerHit",
+            "value": -2
           }
         }
       ]
@@ -37658,21 +37682,21 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SpDrainPerHit with negative value",
+            "bonus": "SpDrainPerHit",
             "value": 2
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "SpDrainPerHit with negative value",
+            "bonus": "SpDrainPerHit",
             "value": 2
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "SpDrainPerHit with negative value",
+            "bonus": "SpDrainPerHit",
             "value": 2
           }
         }
@@ -37753,21 +37777,21 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SpDrainPerHit with negative value",
+            "bonus": "SpDrainPerHit",
             "value": 2
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "SpDrainPerHit with negative value",
+            "bonus": "SpDrainPerHit",
             "value": 2
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "SpDrainPerHit with negative value",
+            "bonus": "SpDrainPerHit",
             "value": 2
           }
         }
@@ -38516,7 +38540,8 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "SpeedPercentage"
+            "bonus": "SpeedPercentage",
+            "value": 100
           }
         }
       ]
@@ -39453,12 +39478,16 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "AspdPercentage - BonusesToParty"
+            "bonus": "AspdPercentage",
+            "value": 30
           }
-        },
+        }
+      ],
+      "bonusToTarget": [
         {
           "value": {
-            "bonus": "AspdPercentage - BonusesToTarget"
+            "bonus": "AspdPercentage",
+            "value": 25
           }
         }
       ]
@@ -40803,7 +40832,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 476,
             "value2": 7
           }
@@ -40811,7 +40840,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 476,
             "value2": 9
           }
@@ -40819,7 +40848,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 476,
             "value2": 11
           }
@@ -40827,7 +40856,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 476,
             "value2": 13
           }
@@ -40835,7 +40864,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 476,
             "value2": 15
           }
@@ -41343,8 +41372,9 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
-            "value": 483
+            "bonus": "SkillIdSuccessPercentage",
+            "value": 483,
+            "value2": 80
           }
         }
       ]
@@ -42155,7 +42185,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 489,
             "value2": 8
           }
@@ -42163,7 +42193,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 489,
             "value2": 16
           }
@@ -42171,7 +42201,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 489,
             "value2": 24
           }
@@ -42179,7 +42209,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 489,
             "value2": 32
           }
@@ -42187,7 +42217,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 489,
             "value2": 40
           }
@@ -42306,7 +42336,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 491,
             "value2": 50
           }
@@ -42314,7 +42344,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 491,
             "value2": 50
           }
@@ -42486,7 +42516,8 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "AspdPercentage"
+            "bonus": "AspdPercentage",
+            "value": 30
           }
         }
       ]
@@ -42626,7 +42657,7 @@
         {
           "level": 1,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 500,
             "value2": 30
           }
@@ -42634,7 +42665,7 @@
         {
           "level": 2,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 500,
             "value2": 40
           }
@@ -42642,7 +42673,7 @@
         {
           "level": 3,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 500,
             "value2": 50
           }
@@ -42650,7 +42681,7 @@
         {
           "level": 4,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 500,
             "value2": 60
           }
@@ -42658,7 +42689,7 @@
         {
           "level": 5,
           "value": {
-            "bonus": "SkilIdSuccessPercentage",
+            "bonus": "SkillIdSuccessPercentage",
             "value": 500,
             "value2": 70
           }
@@ -42689,7 +42720,8 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "Def"
+            "bonus": "Def",
+            "value": -3
           }
         }
       ]
@@ -42765,25 +42797,29 @@
         {
           "value": {
             "bonus": "PhysicalDamageAgainstRacePercentage",
-            "value": "Brute"
+            "value": "Brute",
+            "value2": 5
           }
         },
         {
           "value": {
             "bonus": "PhysicalDamageAgainstRacePercentage",
-            "value": "DemiHuman"
+            "value": "DemiHuman",
+            "value2": 5
           }
         },
         {
           "value": {
             "bonus": "ChanceToInflictStatusComaOnAttackOnRacePercentage",
-            "value": "Brute"
+            "value": "Brute",
+            "value2": 0.1
           }
         },
         {
           "value": {
             "bonus": "ChanceToInflictStatusComaOnAttackOnRacePercentage",
-            "value": "DemiHuman"
+            "value": "DemiHuman",
+            "value2": 0.1
           }
         }
       ]
@@ -42810,12 +42846,14 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "Atk"
+            "bonus": "Atk",
+            "value": 100
           }
         },
         {
           "value": {
-            "bonus": "AspdPercentage"
+            "bonus": "AspdPercentage",
+            "value": 20
           }
         }
       ]
@@ -42842,12 +42880,14 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "Flee"
+            "bonus": "Flee",
+            "value": 30
           }
         },
         {
           "value": {
-            "bonus": "Hit"
+            "bonus": "Hit",
+            "value": -30
           }
         }
       ]
@@ -42873,17 +42913,20 @@
       "bonusToSelf": [
         {
           "value": {
-            "bonus": "Agi"
+            "bonus": "Agi",
+            "value": 4
           }
         },
         {
           "value": {
-            "bonus": "Dex"
+            "bonus": "Dex",
+            "value": 4
           }
         },
         {
           "value": {
-            "bonus": "Hit"
+            "bonus": "Hit",
+            "value": 20
           }
         }
       ]
@@ -43526,7 +43569,7 @@
           "level": 1,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 3
           }
         },
@@ -43534,7 +43577,7 @@
           "level": 2,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 6
           }
         },
@@ -43542,7 +43585,7 @@
           "level": 3,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 9
           }
         },
@@ -43550,7 +43593,7 @@
           "level": 4,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 12
           }
         },
@@ -43558,7 +43601,7 @@
           "level": 5,
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Bleed",
+            "value": "Bleeding",
             "value2": 15
           }
         }
@@ -44999,80 +45042,80 @@
         {
           "level": 1,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Shuriken",
             "value2": 3
           }
         },
         {
           "level": 2,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Shuriken",
             "value2": 6
           }
         },
         {
           "level": 3,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Shuriken",
             "value2": 9
           }
         },
         {
           "level": 4,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Shuriken",
             "value2": 12
           }
         },
         {
           "level": 5,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Shuriken",
             "value2": 15
           }
         },
         {
           "level": 6,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Shuriken",
             "value2": 18
           }
         },
         {
           "level": 7,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Shuriken",
             "value2": 21
           }
         },
         {
           "level": 8,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Shuriken",
             "value2": 24
           }
         },
         {
           "level": 9,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Shuriken",
             "value2": 27
           }
         },
         {
           "level": 10,
           "value": {
-            "bonus": "DamageUsingWeaponType",
-            "value": "WeaponType",
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "Shuriken",
             "value2": 30
           }
         }

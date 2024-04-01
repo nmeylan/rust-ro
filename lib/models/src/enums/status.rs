@@ -259,7 +259,7 @@ pub enum StatusTypes {
     Statenorecoverrace,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, WithNumberValue)]
+#[derive(Debug, Clone, Copy, PartialEq, WithNumberValue, WithStringValue, WithMaskValueU32)]
 pub enum StatusEffect {
     #[value = 0]
     Poison,
@@ -277,7 +277,9 @@ pub enum StatusEffect {
     Coma,
     WeaponBreak,
     ArmorBreak,
-    VitalStrike
+    VitalStrike,
+    #[mask_all]
+    All,
 }
 
 impl StatusTypes {

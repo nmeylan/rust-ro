@@ -1456,7 +1456,7 @@ pub struct SkillConfig {
 #[derive(Deserialize, Debug, Clone, GettersAll)]
 pub struct BonusPerLevel {
     pub value: BonusTypeWrapper,
-    pub level: u8,
+    pub level: Option<u8>,
 }
 
 #[derive(Deserialize, Debug, Clone, GettersAll)]
@@ -2133,10 +2133,20 @@ mod tests {
     use crate::configuration::SkillsConfig;
 
     #[test]
-    #[ignore]
     fn test_deserialize_skill_config() {
-        let internal_configs: SkillsConfig = serde_json::from_str(&fs::read_to_string("../../config/skill-new.json").unwrap()).unwrap();
-        let skill = internal_configs.skills.get(&29).unwrap();
-        assert!(!skill.bonus_to_target.is_empty());
+        let json = fs::read_to_string("../../config/skill-new.json").unwrap();
+        let mut config_deserializer = serde_json::Deserializer::from_str(&json);
+        let result: Result<SkillsConfig, _> = serde_path_to_error::deserialize(&mut config_deserializer);
+        match result {
+            Err(err) => {
+                let path = err.path().to_string();
+                println!("Path in error {}", path);
+                panic!("{}", err);
+            }
+            Ok(internal_configs) => {
+                let skill = internal_configs.skills.get(&29).unwrap();
+                assert!(!skill.bonus_to_target.is_empty());
+            }
+        }
     }
 }

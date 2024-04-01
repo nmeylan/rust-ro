@@ -46,6 +46,9 @@ BD_SIEGFRIED:
 
 BD_LULLABY:
 - sleep chance formula
+
+BS_HILTBINDING:
+- increase duration of Adrenaline Rush, Power Thrust, and Weapon Perfection by 10%.
 ## Misc
 Rely on item and card script to add bonuses, compute bonus on skill use
 
