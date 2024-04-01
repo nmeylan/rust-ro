@@ -132,7 +132,7 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::Aspd(value as i8));
                 }
                 "baspdrate" => {
-                    bonus!(self, BonusType::AspdPercentage(value as i8));
+                    bonus!(self, BonusType::AspdPercentage(value as f32));
                 }
                 "batkele" => {
                     bonus!(self, BonusType::ElementWeapon(Element::from_value(value as usize)));
@@ -144,7 +144,7 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::Atk(value as i16));
                 }
                 "bbreakarmorrate" => {
-                    bonus!(self, BonusType::BreakArmorPercentage((value / 100) as i8));
+                    bonus!(self, BonusType::BreakArmorPercentage((value / 100) as f32));
                 }
                 "bbreakweaponrate" => {
                     bonus!(self, BonusType::BreakWeaponPercentage((value / 100) as i8));
@@ -159,7 +159,7 @@ impl BonusScriptHandler {
                     bonus!(self, BonusType::CriticalDamagePercentage(value as i8));
                 }
                 "bcritical" => {
-                    bonus!(self, BonusType::Crit(value as i8));
+                    bonus!(self, BonusType::Crit(value as f32));
                 }
                 "bcriticallong" => {
                     bonus!(self, BonusType::LongRangeCriticalChance(value as i8));

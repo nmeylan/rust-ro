@@ -21,10 +21,10 @@ pub enum BonusType {
     HitPercentage(i8),
     AccuracyPercentage(i8),
     Flee(i16),
-    Crit(i8),
+    Crit(f32),
     PerfectDodge(i8),
     Aspd(i8),
-    AspdPercentage(i8),
+    AspdPercentage(f32),
     Maxhp(i32),
     Maxsp(i32),
     MaxhpPercentage(i8),
@@ -48,8 +48,8 @@ pub enum BonusType {
     AfterCastDelayPercentage(i8),
     NaturalHpRecoveryPercentage(i8),
     NaturalSpRecoveryPercentage(i8),
-    HpRecoveryMaxSpPercentage(i8),
-    SpRecoveryMaxSpPercentage(i8),
+    HpRecoveryMaxSpPercentage(f32),
+    SpRecoveryMaxSpPercentage(f32),
     HpRegenFromItemPercentage(i8),
     SpRegenFromItemPercentage(i8),
     HpRegenFromItemIDPercentage(u32, i8),
@@ -94,7 +94,7 @@ pub enum BonusType {
     IgnoreMDefClassPercentage(MobClass, i8),
     PhysicalDamageAgainstMobIdPercentage(u32, i8),
     DamageUsingElementPercentage(Element, i8),
-    DamageUsingWeaponType(WeaponType, i8),
+    MasteryDamageUsingWeaponType(WeaponType, i8),
 
     // Only when attacking with ranged weapon
     IncreaseDamageAgainstClassBaseOnDef(MobClass),
@@ -109,9 +109,9 @@ pub enum BonusType {
     SpDrainWhenAttackingRace(MobRace, u16),
     SpDrainWhenKillingRace(MobRace, u16),
 
-    BreakArmorPercentage(i8),
+    BreakArmorPercentage(f32),
     BreakWeaponPercentage(i8),
-    BreakSelfWeaponPercentage(i8),
+    BreakSelfWeaponPercentage(f32),
     ClassChangePercentageOnHit(i8),
     LongRangeCriticalChance(i8),
 
@@ -170,8 +170,8 @@ pub enum BonusType {
     // Difference between SkillIdSuccessPercentage and AutospellSkillIdChancePercentage:
     // SkillIdSuccessPercentage apply for offensive(or Self) skill, determining the success of skill itself
     // AutospellSkillIdChancePercentage apply for passive skills which can trigger skill
-    SkillIdSuccessPercentage(u32, i8),
-    AutospellSkillIdChancePercentage(u32, i8),
+    SkillIdSuccessPercentage(u32, f32),
+    AutospellSkillIdChancePercentage(u32, f32),
     DoubleCastSkillIdChancePercentage(u32, i8),
 }
 

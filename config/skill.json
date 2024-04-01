@@ -31644,15 +31644,15 @@
       "spWavePerLevel": [
         {
           "level": 1,
-          "value": 2
+          "value": -2
         },
         {
           "level": 2,
-          "value": 2
+          "value": -2
         },
         {
           "level": 3,
-          "value": 2
+          "value": -2
         }
       ]
     },

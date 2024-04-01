@@ -39,6 +39,8 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
         let mut bonus: Option<String> = None;
         let mut value: Option<i32> = None;
         let mut value2: Option<i32> = None;
+        let mut value_f32: Option<f32> = None;
+        let mut value2_f32: Option<f32> = None;
         let mut value_str: Option<String> = None;
         let mut value2_str: Option<String> = None;
         while let Some(key) = map.next_key::<String>()? {
@@ -48,18 +50,27 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 let res: Value = map.next_value()?;
                 match res {
                     Value::Number(val) => {
-                        if val.is_i64() {
-                            value = Some(val.as_i64().unwrap() as i32)
+                        if val.is_f64() {
+                            value_f32 = Some(val.as_f64().unwrap() as f32);
+                        } else if val.is_i64() {
+                            value = Some(val.as_i64().unwrap() as i32);
                         }
                     },
                     Value::String(val) => value_str = Some(val),
                     _ => {}
                 }
             } else if key.as_str() == "value2" {
-                if let Ok(val) = map.next_value::<i32>() {
-                    value2 = Some(val);
-                } else if let Ok(val) = map.next_value::<String>() {
-                    value2_str = Some(val);
+                let res: Value = map.next_value()?;
+                match res {
+                    Value::Number(val) => {
+                        if val.is_f64() {
+                            value2_f32 = Some(val.as_f64().unwrap() as f32);
+                        } else if val.is_i64() {
+                            value2 = Some(val.as_i64().unwrap() as i32);
+                        }
+                    },
+                    Value::String(val) => value2_str = Some(val),
+                    _ => {}
                 }
             }
         }
@@ -84,15 +95,15 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "Hit" => BonusType::Hit(value.unwrap() as i16),
                 "HitPercentage" => BonusType::HitPercentage(value.unwrap() as i8),
                 "Flee" => BonusType::Flee(value.unwrap() as i16),
-                "Crit" => BonusType::Crit(value.unwrap() as i8),
+                "Crit" => BonusType::Crit(Self::f32_value(value, value_f32, "Crit").map_err(|e| serde::de::Error::custom(e.as_str()))?),
                 "PerfectDodge" => BonusType::PerfectDodge(value.unwrap() as i8),
                 "Aspd" => BonusType::Aspd(value.unwrap() as i8),
-                "AspdPercentage" => BonusType::AspdPercentage(value.unwrap() as i8),
+                "AspdPercentage" => BonusType::AspdPercentage(Self::f32_value(value, value_f32, "AspdPercentage").map_err(|e| serde::de::Error::custom(e.as_str()))?),
                 "Maxhp" => BonusType::Maxhp(value.unwrap()),
                 "Maxsp" => BonusType::Maxsp(value.unwrap()),
                 "MaxhpPercentage" => BonusType::MaxhpPercentage(value.unwrap() as i8),
                 "MaxspPercentage" => BonusType::MaxspPercentage(value.unwrap() as i8),
-                "Atk" => BonusType::Atk(value.unwrap() as i16),
+                "Atk" => BonusType::Atk(value.ok_or_else(|| serde::de::Error::custom("Empty value for Atk"))? as i16),
                 "Def" => BonusType::Def(value.unwrap() as i16),
                 "VitDefPercentage" => BonusType::VitDefPercentage(value.unwrap() as i8),
                 "DefPercentage" => BonusType::DefPercentage(value.unwrap() as i8),
@@ -101,6 +112,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "MatkBasedOnStaffPercentage" => BonusType::MatkBasedOnStaffPercentage(value.unwrap() as i8),
                 "MatkPercentage" => BonusType::MatkPercentage(value.unwrap() as i8),
                 "AtkPercentage" => BonusType::AtkPercentage(value.unwrap() as i8),
+                "AtkBaneAgainstRace" => BonusType::AtkBaneAgainstRace(MobRace::from_string(value_str.unwrap().as_str()), value2.unwrap() as i8 as i16),
                 "PerfectHitPercentage" => BonusType::PerfectHitPercentage(value.unwrap() as i8),
                 "ElementWeapon" => BonusType::ElementWeapon(Element::from_value(value.unwrap() as usize)),
                 "ElementDefense" => BonusType::ElementDefense(Element::from_value(value.unwrap() as usize)),
@@ -111,6 +123,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "NaturalHpRecoveryPercentage" => BonusType::NaturalHpRecoveryPercentage(value.unwrap() as i8),
                 "NaturalSpRecoveryPercentage" => BonusType::NaturalSpRecoveryPercentage(value.unwrap() as i8),
                 "HpRegenFromItemPercentage" => BonusType::HpRegenFromItemPercentage(value.unwrap() as i8),
+                "SpRegenFromItemPercentage" => BonusType::SpRegenFromItemPercentage(value.unwrap() as i8),
                 "HpRegenFromItemIDPercentage" => BonusType::HpRegenFromItemIDPercentage(value.unwrap() as u32, value2.unwrap() as i8),
                 "HpRegenFromHerbPercentage" => BonusType::HpRegenFromHerbPercentage(value.unwrap() as i8),
                 "HpRegenFromFruitPercentage" => BonusType::HpRegenFromFruitPercentage(value.unwrap() as i8),
@@ -136,6 +149,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "MagicalDamageAgainstSizeSmallPercentage" => BonusType::MagicalDamageAgainstSizePercentage(Size::Small, value.unwrap() as i8),
                 "MagicalDamageAgainstSizeMediumPercentage" => BonusType::MagicalDamageAgainstSizePercentage(Size::Medium, value.unwrap() as i8),
                 "MagicalDamageAgainstSizeLargePercentage" => BonusType::MagicalDamageAgainstSizePercentage(Size::Large, value.unwrap() as i8),
+                "PhysicalDamageAgainstRacePercentage" => BonusType::PhysicalDamageAgainstRacePercentage(MobRace::from_string(value_str.unwrap().as_str()), value2.unwrap() as i8),
                 "PhysicalDamageAgainstRaceFormlessPercentage" => BonusType::PhysicalDamageAgainstRacePercentage(MobRace::Formless, value.unwrap() as i8),
                 "PhysicalDamageAgainstRaceUndeadPercentage" => BonusType::PhysicalDamageAgainstRacePercentage(MobRace::Undead, value.unwrap() as i8),
                 "PhysicalDamageAgainstRaceBrutePercentage" => BonusType::PhysicalDamageAgainstRacePercentage(MobRace::Brute, value.unwrap() as i8),
@@ -146,6 +160,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "PhysicalDamageAgainstRaceDemiHumanPercentage" => BonusType::PhysicalDamageAgainstRacePercentage(MobRace::DemiHuman, value.unwrap() as i8),
                 "PhysicalDamageAgainstRaceAngelPercentage" => BonusType::PhysicalDamageAgainstRacePercentage(MobRace::Angel, value.unwrap() as i8),
                 "PhysicalDamageAgainstRaceDragonPercentage" => BonusType::PhysicalDamageAgainstRacePercentage(MobRace::Dragon, value.unwrap() as i8),
+                "MagicalDamageAgainstRacePercentage" => BonusType::MagicalDamageAgainstRacePercentage(MobRace::from_string(value_str.unwrap().as_str()), value2.unwrap() as i8),
                 "MagicalDamageAgainstRaceFormlessPercentage" => BonusType::MagicalDamageAgainstRacePercentage(MobRace::Formless, value.unwrap() as i8),
                 "MagicalDamageAgainstRaceUndeadPercentage" => BonusType::MagicalDamageAgainstRacePercentage(MobRace::Undead, value.unwrap() as i8),
                 "MagicalDamageAgainstRaceBrutePercentage" => BonusType::MagicalDamageAgainstRacePercentage(MobRace::Brute, value.unwrap() as i8),
@@ -181,6 +196,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "CriticalAgainstRaceDemiHumanPercentage" => BonusType::CriticalAgainstRacePercentage(MobRace::DemiHuman, value.unwrap() as i8),
                 "CriticalAgainstRaceAngelPercentage" => BonusType::CriticalAgainstRacePercentage(MobRace::Angel, value.unwrap() as i8),
                 "CriticalAgainstRaceDragonPercentage" => BonusType::CriticalAgainstRacePercentage(MobRace::Dragon, value.unwrap() as i8),
+                "ChanceToInflictStatusOnAttackPercentage" => BonusType::ChanceToInflictStatusOnAttackPercentage(StatusEffect::from_string(value_str.unwrap().as_str()), value2.unwrap()as f32),
                 "ChanceToInflictStatusPoisonOnAttackPercentage" => BonusType::ChanceToInflictStatusOnAttackPercentage(StatusEffect::Poison, value.unwrap()as f32),
                 "ChanceToInflictStatusStunOnAttackPercentage" => BonusType::ChanceToInflictStatusOnAttackPercentage(StatusEffect::Stun, value.unwrap()as f32),
                 "ChanceToInflictStatusFreezeOnAttackPercentage" => BonusType::ChanceToInflictStatusOnAttackPercentage(StatusEffect::Freeze, value.unwrap()as f32),
@@ -198,6 +214,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "ChanceToInflictStatusComaOnAttackOnBossClassPercentage" => BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(MobClass::Boss, value.unwrap()as f32),
                 "ChanceToInflictStatusComaOnAttackOnNormalClassPercentage" => BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(MobClass::Normal, value.unwrap()as f32),
                 "ChanceToInflictStatusComaOnAttackOnGuardianClassPercentage" => BonusType::ChanceToInflictStatusComaOnAttackOnClassPercentage(MobClass::Guardian, value.unwrap()as f32),
+                "ChanceToInflictStatusComaOnAttackOnRacePercentage" => BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(MobRace::from_string(value_str.unwrap().as_str()), Self::f32_value(value2, value2_f32, "ChanceToInflictStatusComaOnAttackOnRacePercentage").map_err(|e| serde::de::Error::custom(e.as_str()))?),
                 "ChanceToInflictStatusComaOnAttackRaceFormlessPercentage" => BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(MobRace::Formless, value.unwrap()as f32),
                 "ChanceToInflictStatusComaOnAttackRaceUndeadPercentage" => BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(MobRace::Undead, value.unwrap()as f32),
                 "ChanceToInflictStatusComaOnAttackRaceBrutePercentage" => BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(MobRace::Brute, value.unwrap()as f32),
@@ -208,6 +225,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "ChanceToInflictStatusComaOnAttackRaceDemiHumanPercentage" => BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(MobRace::DemiHuman, value.unwrap()as f32),
                 "ChanceToInflictStatusComaOnAttackRaceAngelPercentage" => BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(MobRace::Angel, value.unwrap()as f32),
                 "ChanceToInflictStatusComaOnAttackRaceDragonPercentage" => BonusType::ChanceToInflictStatusComaOnAttackOnRacePercentage(MobRace::Dragon, value.unwrap()as f32),
+                "ChanceToInflictStatusToSelfOnAttackPercentage" => BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(StatusEffect::from_string(value_str.unwrap().as_str()), Self::f32_value(value2, value2_f32, "ChanceToInflictStatusToSelfOnAttackPercentage").map_err(|e| serde::de::Error::custom(e.as_str()))?),
                 "ChanceToInflictStatusPoisonToSelfOnAttackPercentage" => BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(StatusEffect::Poison, value.unwrap()as f32),
                 "ChanceToInflictStatusStunToSelfOnAttackPercentage" => BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(StatusEffect::Stun, value.unwrap()as f32),
                 "ChanceToInflictStatusFreezeToSelfOnAttackPercentage" => BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(StatusEffect::Freeze, value.unwrap()as f32),
@@ -235,7 +253,9 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "ChanceToInflictStatusStoneWhenHitPercentage" => BonusType::ChanceToInflictStatusWhenHitPercentage(StatusEffect::Stone, value.unwrap()as f32),
                 "ChanceToInflictStatusWeaponBreakWhenHitPercentage" => BonusType::ChanceToInflictStatusWhenHitPercentage(StatusEffect::WeaponBreak, value.unwrap()as f32),
                 "ChanceToInflictStatusArmorBreakWhenHitPercentage" => BonusType::ChanceToInflictStatusWhenHitPercentage(StatusEffect::ArmorBreak, value.unwrap()as f32),
+                "ChanceToInflictStatusToPartyOnAttackPercentage" => BonusType::ChanceToInflictStatusToPartyOnAttackPercentage(StatusEffect::from_string(value_str.unwrap().as_str()), value2.unwrap()as f32),
                 "ChanceToInflictStatusComaWhenHitPercentage" => BonusType::ChanceToInflictStatusWhenHitPercentage(StatusEffect::Coma, value.unwrap()as f32),
+                "ResistanceToStatusPercentage" => BonusType::ResistanceToStatusPercentage(StatusEffect::from_string(value_str.unwrap().as_str()), value2.unwrap() as i8 as f32),
                 "ResistanceToStatusPoisonPercentage" => BonusType::ResistanceToStatusPercentage(StatusEffect::Poison, value.unwrap() as i8 as f32),
                 "ResistanceToStatusStunPercentage" => BonusType::ResistanceToStatusPercentage(StatusEffect::Stun, value.unwrap() as f32),
                 "ResistanceToStatusFreezePercentage" => BonusType::ResistanceToStatusPercentage(StatusEffect::Freeze, value.unwrap() as f32),
@@ -249,7 +269,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "ResistanceToStatusStonePercentage" => BonusType::ResistanceToStatusPercentage(StatusEffect::Stone, value.unwrap() as f32),
                 "ResistanceToStatusWeaponBreakPercentage" => BonusType::ResistanceToStatusPercentage(StatusEffect::WeaponBreak, value.unwrap() as f32),
                 "ResistanceToStatusArmorBreakPercentage" => BonusType::ResistanceToStatusPercentage(StatusEffect::ArmorBreak, value.unwrap() as f32),
-                "BreakArmorPercentage" => BonusType::BreakArmorPercentage(value.unwrap() as i8),
+                "BreakArmorPercentage" => BonusType::BreakArmorPercentage(Self::f32_value(value, value_f32, "BreakArmorPercentage").map_err(|e| serde::de::Error::custom(e.as_str()))?),
                 "BreakWeaponPercentage" => BonusType::BreakWeaponPercentage(value.unwrap() as i8),
                 "ClassChangePercentageOnHit" => BonusType::ClassChangePercentageOnHit(value.unwrap() as i8),
                 "LongRangeCriticalChance" => BonusType::LongRangeCriticalChance(value.unwrap() as i8),
@@ -264,6 +284,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "ResistanceDamageFromClassBossPercentage" => BonusType::ResistanceDamageFromClassPercentage(MobClass::Boss, value.unwrap() as i8),
                 "ResistanceDamageFromClassNormalPercentage" => BonusType::ResistanceDamageFromClassPercentage(MobClass::Normal, value.unwrap() as i8),
                 "ResistanceDamageFromClassGuardianPercentage" => BonusType::ResistanceDamageFromClassPercentage(MobClass::Guardian, value.unwrap() as i8),
+                "ResistanceDamageFromElementPercentage" => BonusType::ResistanceDamageFromElementPercentage(Element::from_string(value_str.unwrap().as_str()), value2.unwrap() as i8),
                 "ResistanceDamageFromElementNeutralPercentage" => BonusType::ResistanceDamageFromElementPercentage(Element::Neutral, value.unwrap() as i8),
                 "ResistanceDamageFromElementWaterPercentage" => BonusType::ResistanceDamageFromElementPercentage(Element::Water, value.unwrap() as i8),
                 "ResistanceDamageFromElementEarthPercentage" => BonusType::ResistanceDamageFromElementPercentage(Element::Earth, value.unwrap() as i8),
@@ -274,6 +295,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "ResistanceDamageFromElementDarkPercentage" => BonusType::ResistanceDamageFromElementPercentage(Element::Dark, value.unwrap() as i8),
                 "ResistanceDamageFromElementGhostPercentage" => BonusType::ResistanceDamageFromElementPercentage(Element::Ghost, value.unwrap() as i8),
                 "ResistanceDamageFromElementUndeadPercentage" => BonusType::ResistanceDamageFromElementPercentage(Element::Undead, value.unwrap() as i8),
+                "ResistanceDamageFromRacePercentage" => BonusType::ResistanceDamageFromRacePercentage(MobRace::from_string(value_str.unwrap().as_str()), value2.unwrap() as i8),
                 "ResistanceDamageFromRaceFormlessPercentage" => BonusType::ResistanceDamageFromRacePercentage(MobRace::Formless, value.unwrap() as i8),
                 "ResistanceDamageFromRaceUndeadPercentage" => BonusType::ResistanceDamageFromRacePercentage(MobRace::Undead, value.unwrap() as i8),
                 "ResistanceDamageFromRaceBrutePercentage" => BonusType::ResistanceDamageFromRacePercentage(MobRace::Brute, value.unwrap() as i8),
@@ -287,6 +309,9 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "ResistanceDamageFromSizeSmallPercentage" => BonusType::ResistanceDamageFromSizePercentage(Size::Small, value.unwrap() as i8),
                 "ResistanceDamageFromSizeMediumPercentage" => BonusType::ResistanceDamageFromSizePercentage(Size::Medium, value.unwrap() as i8),
                 "ResistanceDamageFromSizeLargePercentage" => BonusType::ResistanceDamageFromSizePercentage(Size::Large, value.unwrap() as i8),
+
+                "NullifyAttackChancePercentage" => BonusType::NullifyAttackChancePercentage(value.unwrap() as u8),
+                "PhysicalAttackBlockChancePercentage" => BonusType::PhysicalAttackBlockChancePercentage(value.unwrap() as i8),
 
                 "SkillDelayIncDecPercentage" => BonusType::SkillDelayIncDecPercentage(value.unwrap() as i8),
                 "DoubleAttackChancePercentage" => BonusType::DoubleAttackChancePercentage(value.unwrap() as i8),
@@ -335,6 +360,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "ResistanceMagicAttackPercentage" => BonusType::ResistanceMagicAttackPercentage(value.unwrap() as i8),
                 "MagicAttackReflectChancePercentage" => BonusType::MagicAttackReflectChancePercentage(value.unwrap() as i8),
                 "MeleeAttackReflectChancePercentage" => BonusType::PhysicalAttackReflectChancePercentage(value.unwrap() as i8),
+                "PhysicalAttackReflectChancePercentage" => BonusType::PhysicalAttackReflectChancePercentage(value.unwrap() as i8),
                 "SplashRadius" => BonusType::SplashRadius(value.unwrap() as i8),
                 "SpeedPercentage" => BonusType::SpeedPercentage(value.unwrap() as i8),
                 "EnableFullHpSpRecoverOnResurrect" => BonusType::EnableFullHpSpRecoverOnResurrect,
@@ -350,6 +376,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "UnbreakableShield" => BonusType::UnbreakableShield,
                 "UnbreakableShoes" => BonusType::UnbreakableShoes,
                 "UnbreakableWeapon" => BonusType::UnbreakableWeapon,
+                "BreakSelfWeaponPercentage" => BonusType::BreakSelfWeaponPercentage(value_f32.unwrap() as f32),
                 "ResistancePhysicalAttackFromMobIdPercentage" => BonusType::ResistancePhysicalAttackFromMobIdPercentage(value.unwrap() as u32, value2.unwrap() as i8),
                 "DropChanceItemIdPercentage" => BonusType::DropChanceItemIdPercentage(value.unwrap() as u32, value2.unwrap() as i8),
                 "DropChanceJewelPercentage" => BonusType::DropChanceJewelPercentage(value.unwrap() as i8),
@@ -372,6 +399,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "HpDrainWhenAttackingPercentage" => BonusType::HpDrainWhenAttackingPercentage(value.unwrap() as i8, value2.unwrap() as i8),
                 // hp "percentage" => BonusType::percentage, chance
                 "SpDrainWhenAttackingPercentage" => BonusType::SpDrainWhenAttackingPercentage(value.unwrap() as i8, value2.unwrap() as i8),
+                "SpDrainPerHit" => BonusType::SpDrainPerHit(value.unwrap() as i8),
                 // sp "percentage" => BonusType::percentage, chance
                 "SpDrainWhenAttackingRaceFormless" => BonusType::SpDrainWhenAttackingRace(MobRace::Formless, value.unwrap() as u16),
                 "SpDrainWhenAttackingRaceUndead" => BonusType::SpDrainWhenAttackingRace(MobRace::Undead, value.unwrap() as u16),
@@ -393,6 +421,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "SpDrainWhenKillingRaceDemiHuman" => BonusType::SpDrainWhenKillingRace(MobRace::DemiHuman, value.unwrap() as u16),
                 "SpDrainWhenKillingRaceAngel" => BonusType::SpDrainWhenKillingRace(MobRace::Angel, value.unwrap() as u16),
                 "SpDrainWhenKillingRaceDragon" => BonusType::SpDrainWhenKillingRace(MobRace::Dragon, value.unwrap() as u16),
+                "VisionDistance" => BonusType::VisionDistance(value.unwrap() as i8),
                 "SpBurnOnTargetWhenAttackingPercentage" => BonusType::SpBurnOnTargetWhenAttackingPercentage(value.unwrap() as i8, value2.unwrap() as u16),
                 // "percentage" => BonusType::percentage, chance
                 "HpLossEveryMs" => BonusType::HpLossEveryMs(value.unwrap() as u16, value2.unwrap() as u16),
@@ -403,9 +432,19 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 //"amount" => BonusType::amount, every ms
                 "SpRegenEveryMs" => BonusType::SpRegenEveryMs(value.unwrap() as u16, value2.unwrap() as u16),
                 //"amount" => BonusType::amount, every ms
-                "SkillIdDamagePercentage" => BonusType::SkillIdDamagePercentage(value.unwrap() as u32, value2.unwrap() as i8),
+                "SkillIdDamagePercentage" => BonusType::SkillIdDamagePercentage(value.ok_or_else(|| serde::de::Error::custom("Empty value for SkillIdDamagePercentage"))? as u32, value2.unwrap() as i8),
+                "SkillIdSuccessPercentage" => BonusType::SkillIdSuccessPercentage(value.ok_or_else(|| serde::de::Error::custom("Empty value for SkillIdSuccessPercentage"))? as u32, Self::f32_value(value2, value2_f32, "SkillIdSuccessPercentage").map_err(|e| serde::de::Error::custom(e.as_str()))?),
+                "AutospellSkillIdChancePercentage" => BonusType::AutospellSkillIdChancePercentage(value.ok_or_else(|| serde::de::Error::custom("Empty value for AutospellSkillIdChancePercentage"))? as u32, Self::f32_value(value2, value2_f32, "SkillIdSuccessPercentage").map_err(|e| serde::de::Error::custom(e.as_str()))?),
                 "EnableSkill" => BonusType::EnableSkillId(value.unwrap() as u32, value2.unwrap() as u8),
-                "DamageUsingWeaponType" => BonusType::DamageUsingWeaponType(WeaponType::from_string(&value_str.unwrap()), value2.unwrap() as i8),
+                "MasteryDamageUsingWeaponType" => BonusType::MasteryDamageUsingWeaponType(WeaponType::from_string(&value_str.unwrap()), value2.unwrap() as i8),
+                "DamageUsingElementPercentage" => BonusType::DamageUsingElementPercentage(Element::from_string(&value_str.unwrap()), value2.unwrap() as i8),
+                "AccuracyPercentage" => BonusType::AccuracyPercentage(value.unwrap() as i8),
+                "HpRecoveryMaxSpPercentage" => {
+                    BonusType::HpRecoveryMaxSpPercentage(Self::f32_value(value, value_f32, "HpRecoveryMaxSpPercentage").map_err(|e| serde::de::Error::custom(e.as_str()))?)
+                },
+                "SpRecoveryMaxSpPercentage" => {
+                    BonusType::SpRecoveryMaxSpPercentage(Self::f32_value(value, value_f32, "SpRecoveryMaxSpPercentage").map_err(|e| serde::de::Error::custom(e.as_str()))?)
+                },
                 _ => {
                     Err(serde::de::Error::custom(format!("Bonus not found with name {}", bonus)))?
                 }
@@ -413,5 +452,15 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
             return Ok(BonusTypeWrapper(bonus));
         }
         Err(serde::de::Error::missing_field("bonus"))
+    }
+}
+
+impl BonusTypeWrapperVisitor {
+    fn f32_value(value: Option<i32>, value_f32: Option<f32>, bonus: &str) -> Result<f32, String>  {
+        if let Some(val) = value_f32 {
+            Ok(val)
+        } else {
+            value.map(|v| v as f32).ok_or_else(|| format!("not value found for {}", bonus))
+        }
     }
 }
