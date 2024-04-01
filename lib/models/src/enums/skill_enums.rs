@@ -7,7 +7,7 @@
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super Novice Sword Mastery
+    // Rogue Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
@@ -21,35 +21,35 @@ pub enum SkillEnum {
     SmMagnum,
     // Super Novice Endure
     SmEndure,
-    // Super Novice Increase SP Recovery
+    // Mage Increase SP Recovery
     MgSrecovery,
-    // Super Novice Sight
+    // Mage Sight
     MgSight,
-    // Super Novice Napalm Beat
+    // Mage Napalm Beat
     MgNapalmbeat,
-    // Super Novice Safety Wall
+    // Mage Safety Wall
     MgSafetywall,
-    // Super Novice Soul Strike
+    // Mage Soul Strike
     MgSoulstrike,
-    // Super Novice Cold Bolt
+    // Mage Cold Bolt
     MgColdbolt,
-    // Super Novice Frost Diver
+    // Mage Frost Diver
     MgFrostdiver,
-    // Super Novice Stone Curse
+    // Mage Stone Curse
     MgStonecurse,
-    // Super Novice Fire Ball
+    // Mage Fire Ball
     MgFireball,
-    // Super Novice Fire Wall
+    // Mage Fire Wall
     MgFirewall,
-    // Super Novice Fire Bolt
+    // Mage Fire Bolt
     MgFirebolt,
-    // Super Novice Lightning Bolt
+    // Mage Lightning Bolt
     MgLightningbolt,
-    // Super Novice Thunder Storm
+    // Mage Thunder Storm
     MgThunderstorm,
-    // Super Novice Divine Protection
+    // Crusader Divine Protection
     AlDp,
-    // Super Novice Demon Bane
+    // Crusader Demon Bane
     AlDemonbane,
     // Super Novice Ruwach
     AlRuwach,
@@ -59,7 +59,7 @@ pub enum SkillEnum {
     AlTeleport,
     // Super Novice Warp Portal
     AlWarp,
-    // Super Novice Heal
+    // Crusader Heal
     AlHeal,
     // Super Novice Increase AGI
     AlIncagi,
@@ -73,43 +73,43 @@ pub enum SkillEnum {
     AlAngelus,
     // Super Novice Blessing
     AlBlessing,
-    // Super Novice Cure
+    // Crusader Cure
     AlCure,
-    // Super Novice Enlarge Weight Limit
+    // Merchant Enlarge Weight Limit
     McInccarry,
-    // Super Novice Discount
+    // Merchant Discount
     McDiscount,
-    // Super Novice Overcharge
+    // Merchant Overcharge
     McOvercharge,
-    // Super Novice Pushcart
+    // Merchant Pushcart
     McPushcart,
-    // Super Novice Item Appraisal
+    // Merchant Item Appraisal
     McIdentify,
-    // Super Novice Vending
+    // Merchant Vending
     McVending,
-    // Super Novice Mammonite
+    // Merchant Mammonite
     McMammonite,
-    // Super Novice Owl's Eye
+    // Archer Owl's Eye
     AcOwl,
-    // Super Novice Vulture's Eye
+    // Archer Vulture's Eye
     AcVulture,
-    // Super Novice Improve Concentration
+    // Archer Improve Concentration
     AcConcentration,
     // Archer Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Super Novice Double Attack
+    // Thief Double Attack
     TfDouble,
-    // Super Novice Improve Dodge
+    // Thief Improve Dodge
     TfMiss,
-    // Super Novice Steal
+    // Thief Steal
     TfSteal,
-    // Super Novice Hiding
+    // Thief Hiding
     TfHiding,
-    // Super Novice Envenom
+    // Thief Envenom
     TfPoison,
-    // Super Novice Detoxify
+    // Thief Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
@@ -181,13 +181,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Wizard Earth Spike
+    // Sage Earth Spike
     WzEarthspike,
-    // Wizard Heaven's Drive
+    // Sage Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Wizard Sense
+    // Sage Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -287,7 +287,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice High Play Dead
+    // Novice Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,
@@ -1821,13 +1821,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Super Novice Open Buying Store
+    // Merchant Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Super Novice Decorate Cart
+    // Merchant Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,
