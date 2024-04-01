@@ -1503,7 +1503,7 @@ mod tests {
 
     #[test]
     fn test_deserialize_skill_config() {
-        let json = fs::read_to_string("../../config/skill-new.json").unwrap();
+        let json = fs::read_to_string("../../config/skill.json").unwrap();
         let mut config_deserializer = serde_json::Deserializer::from_str(&json);
         let result: Result<SkillsConfig, _> = serde_path_to_error::deserialize(&mut config_deserializer);
         match result {
