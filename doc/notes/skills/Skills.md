@@ -49,6 +49,8 @@ BD_LULLABY:
 
 BS_HILTBINDING:
 - increase duration of Adrenaline Rush, Power Thrust, and Weapon Perfection by 10%.
+  TF_MISS:
+- movement for assassin only
 ## Misc
 Rely on item and card script to add bonuses, compute bonus on skill use
 
