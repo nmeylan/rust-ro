@@ -70,7 +70,7 @@ heal_percentage_per_level: Option<Vec<i32>>,
 matk_percentage_per_level: Option<Vec<i32>>,        => MatkPercentage
 mspd_percentage: Option<i32>,                       => SpeedPercentage
 flee: Option<i32>,                                  => Flee
-stun_duration_per_level: Option<Vec<i32>>,          -> BreakWeaponPercentage
+stun_duration_per_level: Option<Vec<i32>>,          ->
 sp_regen_bonus_flat: Option<i32>,                   => SpRegenEveryMs(,10000)
 refine_per_level: Option<Vec<i32>>,                 -> not a bonus,
 aspd_percentage: Option<i32>,                       => AspdPercentage
