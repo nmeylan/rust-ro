@@ -47,23 +47,28 @@ BD_SIEGFRIED:
 BD_LULLABY:
 - sleep chance formula
 
+KN_SPEARMASTERY:
+- riding bonus 
+
+KN_CAVALIERMASTERY:
+- aspd penalty reduction while riding (like performance + music lesson)
+
+AS_RIGHT:
+- atk penatly reduction on right hand while dual weilding (like performance + music lesson)
+AS_LEFT :
+- atk penatly reduction on left hand while dual weilding (like performance + music lesson)
+
 BS_HILTBINDING:
 - increase duration of Adrenaline Rush, Power Thrust, and Weapon Perfection by 10%.
-  TF_MISS:
+
+TF_MISS:
 - movement for assassin only
+
+## Skill bonus
+- negate penalty (music lesson negate speed penalty when using performance skill)
 ## Misc
 Rely on item and card script to add bonuses, compute bonus on skill use
 
-Chain of command:
-- Ensure requirements are fulfilled
-  - map allows skill usage
-  - player state allows skill usage
-  - target is targetable
-  - area is targetable
-  - player has the skill assigned
-  - player has the skill level assigned
-  - player fulfill skill requirement (level, weapon, ammo, spirit sphere, etc...) <- per skill
-  - 
 - Offensive: Skill damage calculation
   - Consider weapon
   - Consider buff
@@ -81,55 +86,15 @@ Chain of command:
   - area
 
 
-# to add to skill config
-- dmgAtk
-- dmgAtk per level
-- dmgMatk
-- dmgMatk per level
-- dmgInt
-- dmgInt per level
-- chance
-- chance per level
-- heal
-- heal per level
-- accuracy per level
-- knockback
-- knockback per level
-- aoe size
-- aoe size per level
-- aoe splash
-- aoe splash per level
-- blind chance
-- blind chance per level
-- freeze chance
-- freeze chance per level
-- item break change chance
-- item break change  per level
-- stun chance
-- stun chance per level
-- poison chance
-- poison chance per level
-- snare chance
-- snare chance per level
-- block chance
-- block chance per level
-- reflect chance
-- reflect chance per level
-- divest chance
-- divest chance per level
-- hp loss percentage
-- hp loss percentage per level
-- consume item on failure
-- acd on failure
-
-- damage bonus (soul link, skill known e.g: sonic acceleration)
-- damage malus (if woe,)
-
-# to add in rust trait
-- dmg formula
-
 Skill db struct:
 - BonusesToSelf
 - BonusesToTarget
 - BonusesToParty
 - BonusesToSkill (for offensive skill)
+
+Skill bonus config:
+
+Should we have:
+- conditional on skill active (fatal blow stun chance bonus when SM_BASH used, music lesson speed bonus when Performance skill use)
+- conditional on skill known (SM_BASH stun chance bonus when fatal blow known, Performance speed bonus when music lesson known)
+- conditional on class (TF_MISS speed bonus for assassin)
