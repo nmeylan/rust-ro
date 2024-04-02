@@ -7566,6 +7566,86 @@
             "value": "1hSpear",
             "value2": 50
           }
+        },
+        {
+          "level": 1,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hSpear",
+            "value2": 5
+          }
+        },
+        {
+          "level": 2,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hSpear",
+            "value2": 10
+          }
+        },
+        {
+          "level": 3,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hSpear",
+            "value2": 15
+          }
+        },
+        {
+          "level": 4,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hSpear",
+            "value2": 20
+          }
+        },
+        {
+          "level": 5,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hSpear",
+            "value2": 25
+          }
+        },
+        {
+          "level": 6,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hSpear",
+            "value2": 30
+          }
+        },
+        {
+          "level": 7,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hSpear",
+            "value2": 35
+          }
+        },
+        {
+          "level": 8,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hSpear",
+            "value2": 40
+          }
+        },
+        {
+          "level": 9,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hSpear",
+            "value2": 45
+          }
+        },
+        {
+          "level": 10,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hSpear",
+            "value2": 50
+          }
         }
       ]
     },
@@ -20611,6 +20691,86 @@
           "value": {
             "bonus": "MasteryDamageUsingWeaponType",
             "value": "1hAxe",
+            "value2": 30
+          }
+        },
+        {
+          "level": 1,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hAxe",
+            "value2": 3
+          }
+        },
+        {
+          "level": 2,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hAxe",
+            "value2": 6
+          }
+        },
+        {
+          "level": 3,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hAxe",
+            "value2": 9
+          }
+        },
+        {
+          "level": 4,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hAxe",
+            "value2": 12
+          }
+        },
+        {
+          "level": 5,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hAxe",
+            "value2": 15
+          }
+        },
+        {
+          "level": 6,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hAxe",
+            "value2": 18
+          }
+        },
+        {
+          "level": 7,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hAxe",
+            "value2": 21
+          }
+        },
+        {
+          "level": 8,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hAxe",
+            "value2": 24
+          }
+        },
+        {
+          "level": 9,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hAxe",
+            "value2": 27
+          }
+        },
+        {
+          "level": 10,
+          "value": {
+            "bonus": "MasteryDamageUsingWeaponType",
+            "value": "2hAxe",
             "value2": 30
           }
         }
