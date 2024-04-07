@@ -11,6 +11,7 @@ use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use models::enums::EnumWithNumberValue;
+use models::status_bonus::StatusBonuses;
 
 pub fn create_character() -> Character {
     Character {
@@ -42,8 +43,7 @@ pub fn create_character() -> Character {
             ammo: None,
             known_skills: vec![],
             effect: None,
-            bonuses: vec![],
-            bonuses_temporary: vec![],
+            bonuses: StatusBonuses::default(),
         },
         char_id: 150000,
         account_id: 2000000,

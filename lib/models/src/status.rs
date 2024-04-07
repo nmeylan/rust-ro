@@ -1,4 +1,4 @@
-use crate::item::{WearAmmo, WearGear, WearGearSnapshot, WearWeapon, Wearable, WearAmmoSnapshot, WearWeaponSnapshot};
+use crate::item::{Wearable, WearAmmo, WearAmmoSnapshot, WearGear, WearGearSnapshot, WearWeapon, WearWeaponSnapshot};
 use accessor::{GettersAll, SettersAll};
 use crate::enums::bonus::BonusType;
 use crate::enums::element::Element;
@@ -8,6 +8,7 @@ use crate::enums::EnumWithMaskValueU64;
 use crate::enums::mob::MobRace;
 use crate::enums::status::StatusEffect;
 use crate::enums::weapon::WeaponType;
+use crate::status_bonus::{StatusBonus, StatusBonuses};
 
 #[derive(SettersAll, GettersAll, Debug, Default, Clone)]
 pub struct Status {
@@ -37,8 +38,7 @@ pub struct Status {
     pub ammo: Option<WearAmmo>,
     pub known_skills: Vec<KnownSkill>,
     pub effect: Option<StatusEffect>,
-    pub bonuses: Vec<StatusBonus>,
-    pub bonuses_temporary: Vec<TemporaryStatusBonus>,
+    pub bonuses: StatusBonuses,
 }
 
 #[derive(Clone, Debug, SettersAll, GettersAll)]
@@ -297,7 +297,7 @@ impl StatusSnapshot {
     }
 
     pub fn bonuses_raw(&self) -> Vec<&BonusType>{
-        self.bonuses.iter().map(|b| &b.bonus).collect::<Vec<&BonusType>>()
+        self.bonuses.iter().map(|b| b.bonus()).collect::<Vec<&BonusType>>()
     }
 }
 
@@ -385,24 +385,4 @@ pub struct Look {
     pub head_middle: u32,
     pub head_bottom: u32,
     pub robe: u32,
-}
-
-#[derive(GettersAll, Debug, Clone, Copy)]
-pub struct StatusBonus {
-    bonus: BonusType,
-}
-impl StatusBonus {
-    pub fn new(bonus: BonusType) -> StatusBonus {
-        Self {
-            bonus,
-        }
-    }
-}
-#[derive(GettersAll, Debug, Clone, Copy)]
-pub struct TemporaryStatusBonus {
-    bonus: BonusType,
-    expire_at: u128,
-    expire_after_count: u8,
-    expire_counter: u8,
-    // TODO can also expire after certain condition: hp absorbed (kyrie eleison)
 }

@@ -1,13 +1,14 @@
-use std::sync::{Once, Arc};
+use std::sync::{Arc, Once};
 use base64::engine::general_purpose;
 use base64::Engine;
 use rathena_script_lang_interpreter::lang::compiler::Compiler;
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use models::enums::class::JobName;
-use models::status::{Status, StatusBonus, StatusSnapshot};
-use models::enums::{EnumWithNumberValue, EnumWithStringValue, EnumStackable};
+use models::status::{Status, StatusSnapshot};
+use models::enums::{EnumStackable, EnumWithNumberValue, EnumWithStringValue};
 use models::enums::bonus::BonusType;
 use models::item::Wearable;
+use models::status_bonus::StatusBonus;
 
 use crate::repository::model::item_model::ItemModel;
 use crate::server::script::item_script_handler::DynamicItemScriptHandler;

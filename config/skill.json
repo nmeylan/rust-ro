@@ -42,7 +42,8 @@
           "level": 9,
           "value": "Job Change"
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Sword Mastery",
@@ -131,7 +132,8 @@
             "value2": 40
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Two-Handed Sword Mastery",
@@ -220,7 +222,8 @@
             "value2": 40
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Increase HP Recovery",
@@ -448,7 +451,8 @@
             "value": 2
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Bash",
@@ -1645,7 +1649,8 @@
             "value": 100
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -4002,7 +4007,8 @@
       "id": 22,
       "maxLevel": 10,
       "name": "AL_DP",
-      "type": "Weapon"
+      "type": "Weapon",
+      "targetType": "Passive"
     },
     {
       "description": "Demon Bane",
@@ -4171,7 +4177,8 @@
             "value2": 30
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -5817,7 +5824,8 @@
           "level": 10,
           "value": 2000
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Discount",
@@ -5865,7 +5873,8 @@
           "level": 10,
           "value": -24
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Overcharge",
@@ -5913,7 +5922,8 @@
           "level": 10,
           "value": 24
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Pushcart",
@@ -5992,7 +6002,8 @@
             "value": 0
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Item Appraisal",
@@ -6300,13 +6311,15 @@
             "value": 10
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Vulture's Eye",
       "id": 44,
       "maxLevel": 10,
-      "name": "AC_VULTURE"
+      "name": "AC_VULTURE",
+      "targetType": "Passive"
     },
     {
       "description": "Improve Concentration",
@@ -6951,7 +6964,8 @@
             "value2": 50
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Improve Dodge",
@@ -7030,7 +7044,8 @@
             "value": 10
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Steal",
@@ -7647,7 +7662,8 @@
             "value2": 50
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Pierce",
@@ -8560,7 +8576,8 @@
       "id": 63,
       "maxLevel": 1,
       "name": "KN_RIDING",
-      "type": "Weapon"
+      "type": "Weapon",
+      "targetType": "Passive"
     },
     {
       "description": "Cavalier Mastery",
@@ -8604,7 +8621,8 @@
             "value": 0
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Mace Mastery",
@@ -8693,7 +8711,8 @@
             "value2": 30
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 3000,
@@ -12854,7 +12873,8 @@
             "value2": 25
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Steel Tempering",
@@ -12903,7 +12923,8 @@
             "value2": 25
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Enchanted Stone Craft",
@@ -12952,7 +12973,8 @@
             "value2": 25
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Oridecon Research",
@@ -13001,7 +13023,8 @@
             "value2": 10
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Smith Dagger",
@@ -13048,7 +13071,8 @@
             "value2": 15
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Smith Sword",
@@ -13095,7 +13119,8 @@
             "value2": 15
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Smith Two-handed Sword",
@@ -13142,7 +13167,8 @@
             "value2": 15
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Smith Axe",
@@ -13189,7 +13215,8 @@
             "value2": 15
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Smith Mace",
@@ -13236,7 +13263,8 @@
             "value2": 15
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Smith Knucklebrace",
@@ -13283,7 +13311,8 @@
             "value2": 15
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Smith Spear",
@@ -13330,7 +13359,8 @@
             "value2": 15
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Hilt Binding",
@@ -13351,14 +13381,16 @@
             "value": 1
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Ore Discovery",
       "id": 106,
       "maxLevel": 1,
       "name": "BS_FINDINGORE",
-      "type": "Weapon"
+      "type": "Weapon",
+      "targetType": "Passive"
     },
     {
       "description": "Weaponry Research",
@@ -13587,7 +13619,8 @@
             "value2": 10
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -13698,7 +13731,8 @@
             "value2": 5
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Hammer Fall",
@@ -16014,14 +16048,16 @@
             "value2": 40
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Falconry Mastery",
       "id": 127,
       "maxLevel": 1,
       "name": "HT_FALCON",
-      "type": "Misc"
+      "type": "Misc",
+      "targetType": "Passive"
     },
     {
       "description": "Steel Crow",
@@ -16070,7 +16106,8 @@
           "level": 10,
           "value": 60
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 1000,
@@ -16260,7 +16297,8 @@
             "value": 0
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Lefthand Mastery",
@@ -16304,7 +16342,8 @@
             "value": -20
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Katar Mastery",
@@ -16393,7 +16432,8 @@
             "value2": 30
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Cloaking",
@@ -18050,7 +18090,8 @@
           "level": 11,
           "value": 100
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Fatal Blow",
@@ -18061,7 +18102,8 @@
       "type": "Weapon",
       "flags": {
         "isQuest": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Auto Berserk",
@@ -19496,7 +19538,8 @@
             "value2": 20.5
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Mug",
@@ -19749,7 +19792,8 @@
             "value": 50
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Sightless Mind",
@@ -20529,7 +20573,8 @@
       "id": 223,
       "maxLevel": 1,
       "name": "RG_GANGSTER",
-      "splashArea": 1
+      "splashArea": 1,
+      "targetType": "Passive"
     },
     {
       "description": "Haggle",
@@ -20557,7 +20602,8 @@
           "level": 5,
           "value": -25
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Intimidate",
@@ -20605,7 +20651,8 @@
           "level": 10,
           "value": 10
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Axe Mastery",
@@ -20774,7 +20821,8 @@
             "value2": 30
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Potion Research",
@@ -21002,7 +21050,8 @@
             "value2": 10
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Prepare Potion",
@@ -21929,7 +21978,8 @@
       "name": "AM_BIOETHICS",
       "flags": {
         "isQuest": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Call Homunculus",
@@ -22180,7 +22230,8 @@
             "value2": 50
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Guard",
@@ -23722,7 +23773,8 @@
             "value2": 30
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Spiritual Cadence",
@@ -23881,7 +23933,8 @@
             "value": 1
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "castTime": 1000,
@@ -24085,7 +24138,8 @@
             "value2": 20
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Snap",
@@ -24181,7 +24235,8 @@
             "value": 15
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 500,
@@ -25123,7 +25178,8 @@
             "value2": 30
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Cast Cancel",
@@ -25456,7 +25512,8 @@
             "value": 75
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -26138,7 +26195,8 @@
             "value2": 20
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -27946,7 +28004,8 @@
             "value": 400
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "castTime": 1500,
@@ -29219,7 +29278,8 @@
             "value": 400
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "castTime": 1500,
@@ -30808,7 +30868,8 @@
       },
       "flags": {
         "isNpc": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Recall Slaves",
@@ -30835,7 +30896,8 @@
       },
       "flags": {
         "isNpc": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Run",
@@ -31778,7 +31840,8 @@
             "value": 10
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Soul Drain",
@@ -31900,7 +31963,8 @@
             "value": 20
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 300,
@@ -33117,7 +33181,8 @@
             "value": 20
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 2000,
@@ -37440,7 +37505,8 @@
             "value2": 10000
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Happy Break",
@@ -37458,7 +37524,8 @@
             "value2": 10000
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Kihop",
@@ -37502,7 +37569,8 @@
             "value": 10
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Mild Wind",
@@ -38352,19 +38420,22 @@
       "description": "Anger of the Sun",
       "id": 435,
       "maxLevel": 3,
-      "name": "SG_SUN_ANGER"
+      "name": "SG_SUN_ANGER",
+      "targetType": "Passive"
     },
     {
       "description": "Anger of the Moon",
       "id": 436,
       "maxLevel": 3,
-      "name": "SG_MOON_ANGER"
+      "name": "SG_MOON_ANGER",
+      "targetType": "Passive"
     },
     {
       "description": "Anger of the Stars",
       "id": 437,
       "maxLevel": 3,
-      "name": "SG_STAR_ANGER"
+      "name": "SG_STAR_ANGER",
+      "targetType": "Passive"
     },
     {
       "description": "Blessing of the Sun",
@@ -38392,7 +38463,8 @@
           "level": 5,
           "value": 50
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Blessing of the Moon",
@@ -38420,7 +38492,8 @@
           "level": 5,
           "value": 50
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Blessing of the Stars",
@@ -38448,7 +38521,8 @@
           "level": 5,
           "value": 100
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Demon of the Sun Moon and Stars",
@@ -38596,7 +38670,8 @@
             "value": -90
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Friend of the Sun Moon and Stars",
@@ -38629,7 +38704,8 @@
             "value2": 200
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Knowledge of the Sun Moon and Stars",
@@ -38678,7 +38754,8 @@
           "level": 10,
           "value": 100
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 1000,
@@ -40229,7 +40306,8 @@
             "value": 210
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 500,
@@ -41435,7 +41513,8 @@
       "description": "Mana Recharge",
       "id": 481,
       "maxLevel": 5,
-      "name": "HP_MANARECHARGE"
+      "name": "HP_MANARECHARGE",
+      "targetType": "Passive"
     },
     {
       "castTime": 2000,
@@ -43253,13 +43332,15 @@
             "value": 5
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Snake Eye",
       "id": 510,
       "maxLevel": 10,
-      "name": "GS_SNAKEEYE"
+      "name": "GS_SNAKEEYE",
+      "targetType": "Passive"
     },
     {
       "description": "Chain Action",
@@ -43425,7 +43506,8 @@
             "value2": 50
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -45279,7 +45361,8 @@
             "value2": 30
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Throw Shuriken",
@@ -46569,7 +46652,8 @@
             "value": 2
           }
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -48555,7 +48639,8 @@
           "level": 5,
           "time": 350000
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 500,
@@ -48585,7 +48670,8 @@
           "level": 5,
           "time": 350000
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 500,
@@ -48615,7 +48701,8 @@
           "level": 5,
           "time": 350000
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 500,
@@ -48645,7 +48732,8 @@
           "level": 5,
           "time": 350000
         }
-      ]
+      ],
+      "targetType": "Passive"
     },
     {
       "description": "Earthquake",
@@ -49789,7 +49877,8 @@
       "name": "ALL_INCCARRY",
       "flags": {
         "isQuest": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Talk",
@@ -50075,7 +50164,8 @@
       "name": "ALL_CATCRY",
       "flags": {
         "isNpc": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -50105,7 +50195,8 @@
       "name": "ALL_DREAM_SUMMERNIGHT",
       "flags": {
         "isNpc": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -50178,7 +50269,8 @@
       "name": "NPC_COMET",
       "flags": {
         "showScale": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Max Pain",
@@ -50222,7 +50314,8 @@
       "name": "NPC_JACKFROST",
       "flags": {
         "showScale": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Reverberation 2",
@@ -50301,13 +50394,15 @@
       "name": "NPC_LEX_AETERNA",
       "flags": {
         "showScale": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "NPC Arrow Storm",
       "id": 728,
       "maxLevel": 1,
-      "name": "NPC_ARROWSTORM"
+      "name": "NPC_ARROWSTORM",
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -50620,7 +50715,8 @@
       "type": "Weapon",
       "flags": {
         "isQuest": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Throw Venom Knife",
@@ -50869,7 +50965,8 @@
       "type": "Weapon",
       "flags": {
         "isQuest": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 1000,
@@ -51462,7 +51559,8 @@
       "description": "Dragon Training",
       "id": 2007,
       "maxLevel": 5,
-      "name": "RK_DRAGONTRAINING"
+      "name": "RK_DRAGONTRAINING",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 2000,
@@ -51659,7 +51757,8 @@
       "description": "Rune Mastery",
       "id": 2010,
       "maxLevel": 10,
-      "name": "RK_RUNEMASTERY"
+      "name": "RK_RUNEMASTERY",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 1000,
@@ -52475,7 +52574,8 @@
       "description": "Radius",
       "id": 2208,
       "maxLevel": 3,
-      "name": "WL_RADIUS"
+      "name": "WL_RADIUS",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 2000,
@@ -53631,7 +53731,8 @@
       "description": "Freeze Spell",
       "id": 2232,
       "maxLevel": 10,
-      "name": "WL_FREEZE_SP"
+      "name": "WL_FREEZE_SP",
+      "targetType": "Passive"
     },
     {
       "description": "Venom Impress",
@@ -53802,7 +53903,8 @@
       "description": "Research New Poison",
       "id": 2024,
       "maxLevel": 10,
-      "name": "GC_RESEARCHNEWPOISON"
+      "name": "GC_RESEARCHNEWPOISON",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 500,
@@ -55151,7 +55253,8 @@
       "description": "Eucharistica",
       "id": 2049,
       "maxLevel": 10,
-      "name": "AB_EUCHARISTICA"
+      "name": "AB_EUCHARISTICA",
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -55923,7 +56026,8 @@
       "description": "Ranger Main",
       "id": 2235,
       "maxLevel": 10,
-      "name": "RA_RANGERMAIN"
+      "name": "RA_RANGERMAIN",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 500,
@@ -56292,7 +56396,8 @@
       "description": "Tooth of Warg",
       "id": 2245,
       "maxLevel": 10,
-      "name": "RA_TOOTHOFWUG"
+      "name": "RA_TOOTHOFWUG",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 3000,
@@ -56361,7 +56466,8 @@
       "description": "Research Trap",
       "id": 2248,
       "maxLevel": 10,
-      "name": "RA_RESEARCHTRAP"
+      "name": "RA_RESEARCHTRAP",
+      "targetType": "Passive"
     },
     {
       "activeInstance": 1,
@@ -56659,7 +56765,8 @@
       "description": "Mado License",
       "id": 2255,
       "maxLevel": 5,
-      "name": "NC_MADOLICENCE"
+      "name": "NC_MADOLICENCE",
+      "targetType": "Passive"
     },
     {
       "description": "Boost Knuckle",
@@ -57212,7 +57319,8 @@
       "description": "Mainframe Restructure",
       "id": 2266,
       "maxLevel": 4,
-      "name": "NC_MAINFRAME"
+      "name": "NC_MAINFRAME",
+      "targetType": "Passive"
     },
     {
       "cooldown": 300000,
@@ -57742,13 +57850,15 @@
       "description": "Axe Training",
       "id": 2276,
       "maxLevel": 10,
-      "name": "NC_TRAININGAXE"
+      "name": "NC_TRAININGAXE",
+      "targetType": "Passive"
     },
     {
       "description": "Research Fire/Earth",
       "id": 2277,
       "maxLevel": 5,
-      "name": "NC_RESEARCHFE"
+      "name": "NC_RESEARCHFE",
+      "targetType": "Passive"
     },
     {
       "description": "Axe Boomerang",
@@ -61584,7 +61694,8 @@
             "level": 10
           }
         ]
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 1000,
@@ -62087,7 +62198,8 @@
       "name": "SR_GENTLETOUCH",
       "requires": {
         "spcost": 1
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 1000,
@@ -63177,7 +63289,8 @@
       "description": "Lesson",
       "id": 2412,
       "maxLevel": 10,
-      "name": "WM_LESSON"
+      "name": "WM_LESSON",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 1000,
@@ -66927,7 +67040,8 @@
       "description": "Spirit Sympathy",
       "id": 2463,
       "maxLevel": 5,
-      "name": "SO_EL_SYMPATHY"
+      "name": "SO_EL_SYMPATHY",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 1000,
@@ -67200,13 +67314,15 @@
       "description": "Sword Training",
       "id": 2474,
       "maxLevel": 5,
-      "name": "GN_TRAINING_SWORD"
+      "name": "GN_TRAINING_SWORD",
+      "targetType": "Passive"
     },
     {
       "description": "Cart Remodeling",
       "id": 2475,
       "maxLevel": 5,
-      "name": "GN_REMODELING_CART"
+      "name": "GN_REMODELING_CART",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 500,
@@ -69915,236 +70031,275 @@
       "description": "Light of Moon",
       "id": 2574,
       "maxLevel": 1,
-      "name": "SJ_LIGHTOFMOON"
+      "name": "SJ_LIGHTOFMOON",
+      "targetType": "Passive"
     },
     {
       "description": "Lunar Stance",
       "id": 2575,
       "maxLevel": 1,
-      "name": "SJ_LUNARSTANCE"
+      "name": "SJ_LUNARSTANCE",
+      "targetType": "Passive"
     },
     {
       "description": "Full Moon Kick",
       "id": 2576,
       "maxLevel": 1,
-      "name": "SJ_FULLMOONKICK"
+      "name": "SJ_FULLMOONKICK",
+      "targetType": "Passive"
     },
     {
       "description": "Light of Star",
       "id": 2577,
       "maxLevel": 1,
-      "name": "SJ_LIGHTOFSTAR"
+      "name": "SJ_LIGHTOFSTAR",
+      "targetType": "Passive"
     },
     {
       "description": "Star Stance",
       "id": 2578,
       "maxLevel": 1,
-      "name": "SJ_STARSTANCE"
+      "name": "SJ_STARSTANCE",
+      "targetType": "Passive"
     },
     {
       "description": "New Moon Kick",
       "id": 2579,
       "maxLevel": 1,
-      "name": "SJ_NEWMOONKICK"
+      "name": "SJ_NEWMOONKICK",
+      "targetType": "Passive"
     },
     {
       "description": "Flash Kick",
       "id": 2580,
       "maxLevel": 1,
-      "name": "SJ_FLASHKICK"
+      "name": "SJ_FLASHKICK",
+      "targetType": "Passive"
     },
     {
       "description": "Star Emperor",
       "id": 2581,
       "maxLevel": 1,
-      "name": "SJ_STAREMPEROR"
+      "name": "SJ_STAREMPEROR",
+      "targetType": "Passive"
     },
     {
       "description": "Nova Explosion",
       "id": 2582,
       "maxLevel": 1,
       "name": "SJ_NOVAEXPLOSING",
-      "type": "Misc"
+      "type": "Misc",
+      "targetType": "Passive"
     },
     {
       "description": "Universe Stance",
       "id": 2583,
       "maxLevel": 1,
-      "name": "SJ_UNIVERSESTANCE"
+      "name": "SJ_UNIVERSESTANCE",
+      "targetType": "Passive"
     },
     {
       "description": "Falling Star",
       "id": 2584,
       "maxLevel": 1,
-      "name": "SJ_FALLINGSTAR"
+      "name": "SJ_FALLINGSTAR",
+      "targetType": "Passive"
     },
     {
       "description": "Gravity Control",
       "id": 2585,
       "maxLevel": 1,
-      "name": "SJ_GRAVITYCONTROL"
+      "name": "SJ_GRAVITYCONTROL",
+      "targetType": "Passive"
     },
     {
       "description": "Book of Dimension",
       "id": 2586,
       "maxLevel": 1,
-      "name": "SJ_BOOKOFDIMENSION"
+      "name": "SJ_BOOKOFDIMENSION",
+      "targetType": "Passive"
     },
     {
       "description": "Book of Creating Star",
       "id": 2587,
       "maxLevel": 1,
-      "name": "SJ_BOOKOFCREATINGSTAR"
+      "name": "SJ_BOOKOFCREATINGSTAR",
+      "targetType": "Passive"
     },
     {
       "description": "Document of Sun Moon and Star",
       "id": 2588,
       "maxLevel": 1,
-      "name": "SJ_DOCUMENT"
+      "name": "SJ_DOCUMENT",
+      "targetType": "Passive"
     },
     {
       "description": "Purification of Sun Moon and Star",
       "id": 2589,
       "maxLevel": 1,
-      "name": "SJ_PURIFY"
+      "name": "SJ_PURIFY",
+      "targetType": "Passive"
     },
     {
       "description": "Light of Sun",
       "id": 2590,
       "maxLevel": 1,
-      "name": "SJ_LIGHTOFSUN"
+      "name": "SJ_LIGHTOFSUN",
+      "targetType": "Passive"
     },
     {
       "description": "Sun Stance",
       "id": 2591,
       "maxLevel": 1,
-      "name": "SJ_SUNSTANCE"
+      "name": "SJ_SUNSTANCE",
+      "targetType": "Passive"
     },
     {
       "description": "Solar Burst",
       "id": 2592,
       "maxLevel": 1,
-      "name": "SJ_SOLARBURST"
+      "name": "SJ_SOLARBURST",
+      "targetType": "Passive"
     },
     {
       "description": "Prominence Kick",
       "id": 2593,
       "maxLevel": 1,
-      "name": "SJ_PROMINENCEKICK"
+      "name": "SJ_PROMINENCEKICK",
+      "targetType": "Passive"
     },
     {
       "description": "Falling Star Attack",
       "id": 2594,
       "maxLevel": 1,
-      "name": "SJ_FALLINGSTAR_ATK"
+      "name": "SJ_FALLINGSTAR_ATK",
+      "targetType": "Passive"
     },
     {
       "description": "Falling Star Attack 2",
       "id": 2595,
       "maxLevel": 1,
-      "name": "SJ_FALLINGSTAR_ATK2"
+      "name": "SJ_FALLINGSTAR_ATK2",
+      "targetType": "Passive"
     },
     {
       "description": "Golem's Soul",
       "id": 2596,
       "maxLevel": 1,
-      "name": "SP_SOULGOLEM"
+      "name": "SP_SOULGOLEM",
+      "targetType": "Passive"
     },
     {
       "description": "Shadow's Soul",
       "id": 2597,
       "maxLevel": 1,
-      "name": "SP_SOULSHADOW"
+      "name": "SP_SOULSHADOW",
+      "targetType": "Passive"
     },
     {
       "description": "Falcon's Soul",
       "id": 2598,
       "maxLevel": 1,
-      "name": "SP_SOULFALCON"
+      "name": "SP_SOULFALCON",
+      "targetType": "Passive"
     },
     {
       "description": "Fairy's Soul",
       "id": 2599,
       "maxLevel": 1,
-      "name": "SP_SOULFAIRY"
+      "name": "SP_SOULFAIRY",
+      "targetType": "Passive"
     },
     {
       "description": "Curse Explosion",
       "id": 2600,
       "maxLevel": 1,
-      "name": "SP_CURSEEXPLOSION"
+      "name": "SP_CURSEEXPLOSION",
+      "targetType": "Passive"
     },
     {
       "description": "Soul Curse",
       "id": 2601,
       "maxLevel": 1,
-      "name": "SP_SOULCURSE"
+      "name": "SP_SOULCURSE",
+      "targetType": "Passive"
     },
     {
       "description": "Espa",
       "id": 2602,
       "maxLevel": 1,
-      "name": "SP_SPA"
+      "name": "SP_SPA",
+      "targetType": "Passive"
     },
     {
       "description": "Esha",
       "id": 2603,
       "maxLevel": 1,
-      "name": "SP_SHA"
+      "name": "SP_SHA",
+      "targetType": "Passive"
     },
     {
       "description": "Eswhoo",
       "id": 2604,
       "maxLevel": 1,
-      "name": "SP_SWHOO"
+      "name": "SP_SWHOO",
+      "targetType": "Passive"
     },
     {
       "description": "Soul Unity",
       "id": 2605,
       "maxLevel": 1,
-      "name": "SP_SOULUNITY"
+      "name": "SP_SOULUNITY",
+      "targetType": "Passive"
     },
     {
       "description": "Soul Division",
       "id": 2606,
       "maxLevel": 1,
-      "name": "SP_SOULDIVISION"
+      "name": "SP_SOULDIVISION",
+      "targetType": "Passive"
     },
     {
       "description": "Soul Reaper",
       "id": 2607,
       "maxLevel": 1,
-      "name": "SP_SOULREAPER"
+      "name": "SP_SOULREAPER",
+      "targetType": "Passive"
     },
     {
       "description": "Soul Revolution",
       "id": 2608,
       "maxLevel": 1,
-      "name": "SP_SOULREVOLVE"
+      "name": "SP_SOULREVOLVE",
+      "targetType": "Passive"
     },
     {
       "description": "Soul Collect",
       "id": 2609,
       "maxLevel": 1,
-      "name": "SP_SOULCOLLECT"
+      "name": "SP_SOULCOLLECT",
+      "targetType": "Passive"
     },
     {
       "description": "Soul Explosion",
       "id": 2610,
       "maxLevel": 1,
-      "name": "SP_SOULEXPLOSION"
+      "name": "SP_SOULEXPLOSION",
+      "targetType": "Passive"
     },
     {
       "description": "Soul Energy Research",
       "id": 2611,
       "maxLevel": 1,
-      "name": "SP_SOULENERGY"
+      "name": "SP_SOULENERGY",
+      "targetType": "Passive"
     },
     {
       "description": "Kaute",
       "id": 2612,
       "maxLevel": 1,
-      "name": "SP_KAUTE"
+      "name": "SP_KAUTE",
+      "targetType": "Passive"
     },
     {
       "description": "Shadow Hiding",
@@ -70167,14 +70322,16 @@
       "id": 3002,
       "maxLevel": 5,
       "name": "KO_RIGHT",
-      "type": "Weapon"
+      "type": "Weapon",
+      "targetType": "Passive"
     },
     {
       "description": "Left Hand Mastery",
       "id": 3003,
       "maxLevel": 5,
       "name": "KO_LEFT",
-      "type": "Weapon"
+      "type": "Weapon",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 500,
@@ -72813,253 +72970,295 @@
       "description": "New Basic Skill",
       "id": 5018,
       "maxLevel": 1,
-      "name": "SU_BASIC_SKILL"
+      "name": "SU_BASIC_SKILL",
+      "targetType": "Passive"
     },
     {
       "description": "Bite",
       "id": 5019,
       "maxLevel": 1,
-      "name": "SU_BITE"
+      "name": "SU_BITE",
+      "targetType": "Passive"
     },
     {
       "description": "Hide",
       "id": 5020,
       "maxLevel": 1,
-      "name": "SU_HIDE"
+      "name": "SU_HIDE",
+      "targetType": "Passive"
     },
     {
       "description": "Scratch",
       "id": 5021,
       "maxLevel": 1,
-      "name": "SU_SCRATCH"
+      "name": "SU_SCRATCH",
+      "targetType": "Passive"
     },
     {
       "description": "Stoop",
       "id": 5022,
       "maxLevel": 1,
-      "name": "SU_STOOP"
+      "name": "SU_STOOP",
+      "targetType": "Passive"
     },
     {
       "description": "Lope",
       "id": 5023,
       "maxLevel": 1,
-      "name": "SU_LOPE"
+      "name": "SU_LOPE",
+      "targetType": "Passive"
     },
     {
       "description": "Spirit Marble",
       "id": 5024,
       "maxLevel": 1,
-      "name": "SU_SPRITEMABLE"
+      "name": "SU_SPRITEMABLE",
+      "targetType": "Passive"
     },
     {
       "description": "Power of Land",
       "id": 5025,
       "maxLevel": 1,
-      "name": "SU_POWEROFLAND"
+      "name": "SU_POWEROFLAND",
+      "targetType": "Passive"
     },
     {
       "description": "Silvervine Stem Spear",
       "id": 5026,
       "maxLevel": 1,
-      "name": "SU_SV_STEMSPEAR"
+      "name": "SU_SV_STEMSPEAR",
+      "targetType": "Passive"
     },
     {
       "description": "Catnip Powdering",
       "id": 5027,
       "maxLevel": 1,
-      "name": "SU_CN_POWDERING"
+      "name": "SU_CN_POWDERING",
+      "targetType": "Passive"
     },
     {
       "description": "Catnip Meteor",
       "id": 5028,
       "maxLevel": 1,
-      "name": "SU_CN_METEOR"
+      "name": "SU_CN_METEOR",
+      "targetType": "Passive"
     },
     {
       "description": "Silvervine Root Twist",
       "id": 5029,
       "maxLevel": 1,
-      "name": "SU_SV_ROOTTWIST"
+      "name": "SU_SV_ROOTTWIST",
+      "targetType": "Passive"
     },
     {
       "description": "Silver Vine Root Twist Attack",
       "id": 5030,
       "maxLevel": 1,
-      "name": "SU_SV_ROOTTWIST_ATK"
+      "name": "SU_SV_ROOTTWIST_ATK",
+      "targetType": "Passive"
     },
     {
       "description": "Power of Life",
       "id": 5031,
       "maxLevel": 1,
-      "name": "SU_POWEROFLIFE"
+      "name": "SU_POWEROFLIFE",
+      "targetType": "Passive"
     },
     {
       "description": "Scar of Tarou",
       "id": 5032,
       "maxLevel": 1,
-      "name": "SU_SCAROFTAROU"
+      "name": "SU_SCAROFTAROU",
+      "targetType": "Passive"
     },
     {
       "description": "Picky Peck",
       "id": 5033,
       "maxLevel": 1,
-      "name": "SU_PICKYPECK"
+      "name": "SU_PICKYPECK",
+      "targetType": "Passive"
     },
     {
       "description": "Picky Peck Double Attack",
       "id": 5034,
       "maxLevel": 1,
-      "name": "SU_PICKYPECK_DOUBLE_ATK"
+      "name": "SU_PICKYPECK_DOUBLE_ATK",
+      "targetType": "Passive"
     },
     {
       "description": "Arclouse Dash",
       "id": 5035,
       "maxLevel": 1,
-      "name": "SU_ARCLOUSEDASH"
+      "name": "SU_ARCLOUSEDASH",
+      "targetType": "Passive"
     },
     {
       "description": "Lunatic Carrot Beat",
       "id": 5036,
       "maxLevel": 1,
-      "name": "SU_LUNATICCARROTBEAT"
+      "name": "SU_LUNATICCARROTBEAT",
+      "targetType": "Passive"
     },
     {
       "description": "Power of Sea",
       "id": 5037,
       "maxLevel": 1,
-      "name": "SU_POWEROFSEA"
+      "name": "SU_POWEROFSEA",
+      "targetType": "Passive"
     },
     {
       "description": "Tuna Belly",
       "id": 5038,
       "maxLevel": 1,
-      "name": "SU_TUNABELLY"
+      "name": "SU_TUNABELLY",
+      "targetType": "Passive"
     },
     {
       "description": "Tuna Party",
       "id": 5039,
       "maxLevel": 1,
-      "name": "SU_TUNAPARTY"
+      "name": "SU_TUNAPARTY",
+      "targetType": "Passive"
     },
     {
       "description": "Bunch of Shrimp",
       "id": 5040,
       "maxLevel": 1,
-      "name": "SU_BUNCHOFSHRIMP"
+      "name": "SU_BUNCHOFSHRIMP",
+      "targetType": "Passive"
     },
     {
       "description": "Fresh Shrimp",
       "id": 5041,
       "maxLevel": 1,
-      "name": "SU_FRESHSHRIMP"
+      "name": "SU_FRESHSHRIMP",
+      "targetType": "Passive"
     },
     {
       "description": "Catnip Meteor 2",
       "id": 5042,
       "maxLevel": 1,
-      "name": "SU_CN_METEOR2"
+      "name": "SU_CN_METEOR2",
+      "targetType": "Passive"
     },
     {
       "description": "Lunatic Carrot Beat 2",
       "id": 5043,
       "maxLevel": 1,
-      "name": "SU_LUNATICCARROTBEAT2"
+      "name": "SU_LUNATICCARROTBEAT2",
+      "targetType": "Passive"
     },
     {
       "description": "Soul Attack",
       "id": 5044,
       "maxLevel": 1,
-      "name": "SU_SOULATTACK"
+      "name": "SU_SOULATTACK",
+      "targetType": "Passive"
     },
     {
       "description": "Power of Flock",
       "id": 5045,
       "maxLevel": 1,
-      "name": "SU_POWEROFFLOCK"
+      "name": "SU_POWEROFFLOCK",
+      "targetType": "Passive"
     },
     {
       "description": "Spirit of Savage",
       "id": 5046,
       "maxLevel": 1,
-      "name": "SU_SVG_SPIRIT"
+      "name": "SU_SVG_SPIRIT",
+      "targetType": "Passive"
     },
     {
       "description": "Hiss",
       "id": 5047,
       "maxLevel": 1,
-      "name": "SU_HISS"
+      "name": "SU_HISS",
+      "targetType": "Passive"
     },
     {
       "description": "Nyang Grass",
       "id": 5048,
       "maxLevel": 1,
-      "name": "SU_NYANGGRASS"
+      "name": "SU_NYANGGRASS",
+      "targetType": "Passive"
     },
     {
       "description": "Grooming",
       "id": 5049,
       "maxLevel": 1,
-      "name": "SU_GROOMING"
+      "name": "SU_GROOMING",
+      "targetType": "Passive"
     },
     {
       "description": "Purring",
       "id": 5050,
       "maxLevel": 1,
-      "name": "SU_PURRING"
+      "name": "SU_PURRING",
+      "targetType": "Passive"
     },
     {
       "description": "Tasty Shrimp Party",
       "id": 5051,
       "maxLevel": 1,
-      "name": "SU_SHRIMPARTY"
+      "name": "SU_SHRIMPARTY",
+      "targetType": "Passive"
     },
     {
       "description": "Spirit of Life",
       "id": 5052,
       "maxLevel": 1,
-      "name": "SU_SPIRITOFLIFE"
+      "name": "SU_SPIRITOFLIFE",
+      "targetType": "Passive"
     },
     {
       "description": "Meow Meow",
       "id": 5053,
       "maxLevel": 1,
-      "name": "SU_MEOWMEOW"
+      "name": "SU_MEOWMEOW",
+      "targetType": "Passive"
     },
     {
       "description": "Spirit of Land",
       "id": 5054,
       "maxLevel": 1,
-      "name": "SU_SPIRITOFLAND"
+      "name": "SU_SPIRITOFLAND",
+      "targetType": "Passive"
     },
     {
       "description": "Chattering",
       "id": 5055,
       "maxLevel": 1,
-      "name": "SU_CHATTERING"
+      "name": "SU_CHATTERING",
+      "targetType": "Passive"
     },
     {
       "description": "Spirit of Sea",
       "id": 5056,
       "maxLevel": 1,
-      "name": "SU_SPIRITOFSEA"
+      "name": "SU_SPIRITOFSEA",
+      "targetType": "Passive"
     },
     {
       "description": "Call All Family",
       "id": 5063,
       "maxLevel": 1,
-      "name": "WE_CALLALLFAMILY"
+      "name": "WE_CALLALLFAMILY",
+      "targetType": "Passive"
     },
     {
       "description": "One Forever",
       "id": 5064,
       "maxLevel": 1,
-      "name": "WE_ONEFOREVER"
+      "name": "WE_ONEFOREVER",
+      "targetType": "Passive"
     },
     {
       "description": "Cheer Up",
       "id": 5065,
       "maxLevel": 1,
-      "name": "WE_CHEERUP"
+      "name": "WE_CHEERUP",
+      "targetType": "Passive"
     },
     {
       "cooldown": 10000,
@@ -73086,31 +73285,36 @@
       "description": "Vituperatum",
       "id": 5072,
       "maxLevel": 1,
-      "name": "AB_VITUPERATUM"
+      "name": "AB_VITUPERATUM",
+      "targetType": "Passive"
     },
     {
       "description": "Convenio",
       "id": 5073,
       "maxLevel": 1,
-      "name": "AB_CONVENIO"
+      "name": "AB_CONVENIO",
+      "targetType": "Passive"
     },
     {
       "description": "Break Through",
       "id": 5075,
       "maxLevel": 1,
-      "name": "NV_BREAKTHROUGH"
+      "name": "NV_BREAKTHROUGH",
+      "targetType": "Passive"
     },
     {
       "description": "Help Angel",
       "id": 5076,
       "maxLevel": 1,
-      "name": "NV_HELPANGEL"
+      "name": "NV_HELPANGEL",
+      "targetType": "Passive"
     },
     {
       "description": "Transcendence",
       "id": 5077,
       "maxLevel": 1,
-      "name": "NV_TRANSCENDENCE"
+      "name": "NV_TRANSCENDENCE",
+      "targetType": "Passive"
     },
     {
       "afterCastActDelay": 2000,
@@ -73223,7 +73427,8 @@
       "id": 8003,
       "maxLevel": 5,
       "name": "HLIF_BRAIN",
-      "splashArea": 1
+      "splashArea": 1,
+      "targetType": "Passive"
     },
     {
       "description": "Change",
@@ -73347,7 +73552,8 @@
       "name": "HAMI_SKIN",
       "damageflags": {
         "noDamage": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Bloodlust",
@@ -73724,7 +73930,8 @@
       "name": "HVAN_INSTRUCT",
       "damageflags": {
         "noDamage": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "afterCastWalkDelay": 1000,
@@ -77695,7 +77902,8 @@
       "description": "Mind Blaster",
       "id": 8241,
       "maxLevel": 1,
-      "name": "MER_INVINCIBLEOFF2"
+      "name": "MER_INVINCIBLEOFF2",
+      "targetType": "Passive"
     },
     {
       "description": "Circle of Fire",
@@ -78405,7 +78613,8 @@
       "name": "GD_APPROVAL",
       "flags": {
         "isGuild": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Kafra Contract",
@@ -78414,7 +78623,8 @@
       "name": "GD_KAFRACONTRACT",
       "flags": {
         "isGuild": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Guardian Research",
@@ -78423,7 +78633,8 @@
       "name": "GD_GUARDRESEARCH",
       "flags": {
         "isGuild": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Strengthen Guardians",
@@ -78432,7 +78643,8 @@
       "name": "GD_GUARDUP",
       "flags": {
         "isGuild": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Guild Extension",
@@ -78441,7 +78653,8 @@
       "name": "GD_EXTENSION",
       "flags": {
         "isGuild": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Guild's Glory",
@@ -78450,7 +78663,8 @@
       "name": "GD_GLORYGUILD",
       "flags": {
         "isGuild": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Great Leadership",
@@ -78470,7 +78684,8 @@
         "flag": {
           "notMob": true
         }
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Glorious Wounds",
@@ -78490,7 +78705,8 @@
         "flag": {
           "notMob": true
         }
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Cold Heart",
@@ -78510,7 +78726,8 @@
         "flag": {
           "notMob": true
         }
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "description": "Sharp Gaze",
@@ -78530,7 +78747,8 @@
         "flag": {
           "notMob": true
         }
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
@@ -78640,7 +78858,8 @@
       "name": "GD_DEVELOPMENT",
       "flags": {
         "isGuild": true
-      }
+      },
+      "targetType": "Passive"
     },
     {
       "castCancel": true,
