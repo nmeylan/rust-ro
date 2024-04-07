@@ -6,6 +6,7 @@ use models::enums::size::Size;
 use models::enums::EnumWithStringValue;
 use models::enums::mob::MobRace;
 use models::status::{KnownSkill, Look, Status, StatusSnapshot};
+use models::status_bonus::StatusBonuses;
 
 pub struct StatusFromDb;
 impl StatusFromDb {
@@ -48,8 +49,7 @@ impl StatusFromDb {
             ammo: None,
             known_skills,
             effect: None,
-            bonuses: vec![],
-            bonuses_temporary: vec![],
+            bonuses: StatusBonuses::default(),
         }
     }
     pub fn from_mob_model(mob_model: &MobModel) -> StatusSnapshot {
