@@ -79,13 +79,14 @@ Inside this JSON, you will find **database related variables**, **game related v
 
 
 
-### 5.2 Setup DB
+### 5.2 Database
 
 The entire database structure was based on **rAthena** but instead of using MySQL, we decided to go with PostgreSQL. There's minor modifications so far but until we mapped some **constraints**. 
 
-Since there's features like `ON CONFLICT (column) .. DO UPDATE`, `UNNEST(array)` that is not provided by MySQL, PostgreSQL took place to leverage the project in the database aspect.
+The choice to use Postgresql instead of MySQL was mainly motivated because I know better how to operate Postgresql than MySQL, and know better how Postgresql (mvcc) works internally.
+In addition past years Postgresql gained more traction than MySQL and its open source model 
 
-#### 5.2.1 Setup DB: Docker
+#### 5.2.1 Setup Database - Using Docker
 
 If you already have **Docker** installed in your machine, we prepared a **docker-compose.yml** with all configs ready for your ragnarok server.
 
@@ -98,7 +99,7 @@ The first time, along with postgresql `initdb` is run, our custom script `init.s
 
 It comes with a default player account with following credentials: `admin/qwertz`
 
-#### 5.2.2 Setup DB: Locally
+#### 5.2.1 Setup Database - From binary
 
 If you have PostgreSQL installed in your machine, you will need to log-in into PSQL and create the user, dabase and give the necessary privilege for it:
 
@@ -121,34 +122,14 @@ After that, exit pgsql and import our `/rust-ro/db/pg.sql` via cli with:
  sudo -u postgres psql -U ragnarok ragnarok < db/pg.sql
 ```
 
-> If you're using the local version, don't forget to change the `database.port` number to `5433` in your `config.json` file. 
-
-
-### 5.3 Building the Binaries
-
-So far, we have a few executables being compiled together with the project:
-
-- **maps-tool:** Generate mapcache files from client data: `cargo run --bin maps-tool`
-- **packets-tool:** Generate packet struct from packetdb: `cargo run --bin packets-tool`
-- **server:** Run the server `export DATABASE_PASSWORD=XXXXX && cargo run --package server --bin server`
-- **skills-struct-generator:** Generate skills struct from skills configuration files
-
-To build, just go on the project root and run: 
-
-```shell
-cargo build
-```
-
-Simple like that! Now you're good to run your servers. 
-
-### 5.4 Running the Server
+### 5.3 Running the Server
 
 After we have everyting set-up (binaries and database), we should run server binary to turn on **rust-ro**.
 
 To run the `server` binary, you will need a `ENV` variable called `DATABASE_PASSWORD` together with your command:
 
 ```shell
-DATABASE_PASSWORD=ragnarok cargo run --bin=server
+DATABASE_PASSWORD=ragnarok cargo run --package server --bin server
 ```
 
 If everything goes right, you should receive something like this output:
@@ -167,6 +148,15 @@ If everything goes right, you should receive something like this output:
 2024-02-11 13:45:55.389241 +01:00 [main] [INFO]: Server started in 2347ms
 2024-02-11 13:45:55.389292 +01:00 [main] [INFO]: Server listen on 0.0.0.0:6901
 ```
+
+### 5.4 [Dev] Running tools 
+
+So far, we have a few executables being compiled together with the project:
+
+- **maps-tool:** Generate mapcache files from client data: `cargo run --package tools --bin maps-tool`
+- **packets-tool:** Generate packet struct from packetdb: `cargo run --package tools --bin packets-tool`
+- **skills-struct-generator:** Generate skills struct from skills configuration files: `cargo run --package tools --bin skills-struct-generator`
+
 
 #### 5.5 Running the Game
 ![Desktop Screenshot with Development Environment using RoBrowserLegacy](.github/images/robrowser-dev.png)
