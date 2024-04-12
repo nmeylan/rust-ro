@@ -98,3 +98,4 @@ Should we have:
 - conditional on skill active (fatal blow stun chance bonus when SM_BASH used, music lesson speed bonus when Performance skill use)
 - conditional on skill known (SM_BASH stun chance bonus when fatal blow known, Performance speed bonus when music lesson known)
 - conditional on class (TF_MISS speed bonus for assassin)
+- conditional on wear weapon

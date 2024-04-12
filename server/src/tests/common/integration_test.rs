@@ -1,8 +1,9 @@
 use std::collections::{HashSet};
 use std::{env, fs, thread};
 use std::sync::{Arc, Mutex, Once};
-use flexi_logger::Logger;
+use log::LevelFilter;
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
+use simple_logger::SimpleLogger;
 use testcontainers::{RunnableImage};
 use testcontainers_modules::{postgres::Postgres, testcontainers::clients::Cli};
 use tokio::runtime::Runtime;
@@ -28,8 +29,6 @@ use crate::server::state::character::Character;
 use crate::tests::common;
 use crate::tests::common::{CONFIGS, create_mpsc};
 
-use crate::util::log_filter::LogFilter;
-
 static INIT: Once = Once::new();
 pub static mut SERVER: Option<Arc<Server>> = None;
 
@@ -39,8 +38,7 @@ pub async fn before_all() -> Arc<Server> {
         common::before_all();
         MAP_DIR = "../config/maps/pre-re";
         // let logger = Logger::try_with_str("info").unwrap();
-        let logger = Logger::try_with_str("debug").unwrap();
-        logger.filter(Box::new(LogFilter::new(CONFIGS.as_ref().unwrap().server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
+        SimpleLogger::new().with_level(LevelFilter::Info).init().unwrap();
         let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
 
         let database_config = {
