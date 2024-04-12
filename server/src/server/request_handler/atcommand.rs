@@ -3,12 +3,12 @@ use lazy_static::lazy_static;
 use tokio::runtime::Runtime;
 use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat};
 use crate::server::model::session::Session;
-use regex::Regex;
 use models::enums::class::JobName;
 use models::enums::EnumWithStringValue;
 use models::enums::EnumWithNumberValue;
 use std::fmt::Write;
 use std::time::Instant;
+use regex_lite::Regex;
 
 use packets::packets::Packet;
 use crate::load_scripts;

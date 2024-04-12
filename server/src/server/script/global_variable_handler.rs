@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::Value;
-use regex::Regex;
+use regex_lite::Regex;
 use models::enums::class::JobName;
 use crate::models::enums::EnumWithNumberValue;
 use crate::server::state::character::Character;

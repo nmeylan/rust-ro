@@ -4,10 +4,10 @@ use std::io::{BufRead};
 use std::collections::HashMap;
 use std::cell::{RefCell, RefMut};
 use lazy_static::lazy_static;
-use regex::{Regex, Captures};
 
 use crate::{Condition, PacketId, PacketStructDefinition, StructDefinition, StructField, Type};
 use std::path::Path;
+use regex_lite::{Captures, Regex};
 
 lazy_static! {
     pub static ref   TYPES_MAP: HashMap<&'static str, Type> = HashMap::from([
