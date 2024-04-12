@@ -16,10 +16,11 @@ futures = "0.3"
 flate2 = "1.0"
 md5 = "0.7.0"
 log = "0.4"
-flexi_logger = "0.19"
+simple_logger = { version = "4.3.3", features = [], default-features = false }
 
 configuration = { path = "../lib/configuration" }
 models = { path = "../lib/models" }
+
 
 [[bin]]
 name = "packets-tool"
@@ -37,3 +38,4 @@ path = "skills/main.rs"
 
 [features]
 generate_override_stub = []
+

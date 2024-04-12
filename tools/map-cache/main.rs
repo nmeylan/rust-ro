@@ -6,7 +6,6 @@ use byteorder::{ReadBytesExt, LittleEndian, WriteBytesExt};
 use flate2::{Compression};
 use std::fs;
 use log::{error, info, warn};
-use flexi_logger::Logger;
 use std::str;
 use std::process::exit;
 use flate2::write::ZlibEncoder;
@@ -16,6 +15,8 @@ use futures::future::join_all;
 use std::sync::{Arc, Mutex};
 use tokio::sync::Semaphore;
 use std::time::Instant;
+
+use simple_logger::SimpleLogger;
 
 /*
 TODO make a cli from this.
@@ -44,7 +45,9 @@ impl Counter {
 #[tokio::main]
 async fn main() {
     let start = Instant::now();
-    Logger::try_with_str("info").unwrap().start().unwrap();
+
+    let logger = SimpleLogger::new();
+    let max_level = logger.max_level();
     let grf_data_path = Path::new(GRF_DATA_PATH);
     let paths = fs::read_dir(grf_data_path).unwrap();
     let mut file_paths = Vec::<String>::new();
