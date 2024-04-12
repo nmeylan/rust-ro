@@ -5,7 +5,7 @@ use std::path::Path;
 use convert_case::{Case, Casing};
 use lazy_static::lazy_static;
 use std::collections::{HashMap, HashSet};
-use regex::Regex;
+use regex_lite::Regex;
 use serde::{Deserialize, Serialize};
 use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
 use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};

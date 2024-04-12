@@ -10,6 +10,7 @@ pub mod server_helper;
 pub mod item_helper;
 pub mod sync_helper;
 pub mod fixtures;
+#[cfg(feature = "integration_tests")]
 pub mod integration_test;
 
 
