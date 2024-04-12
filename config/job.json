@@ -1,26 +1,14 @@
 {
   "level": {
-    "firstClass": {
-      "maxJobLevel": 50,
-      "minJobLevelToChangeJob": 40
-    },
-    "secondClass": {
-      "maxJobLevel": 50,
-      "minJobLevelToChangeJob": 50
-    },
-    "firstClassHigh": {
-      "maxJobLevel": 50,
-      "minJobLevelToChangeJob": 40
+    "novice": {
+      "maxJobLevel": 10,
+      "minJobLevelToChangeJob": 10
     },
     "secondClassHigh": {
       "maxJobLevel": 70,
       "minJobLevelToChangeJob": 70
     },
-    "superNovice": {
-      "maxJobLevel": 99,
-      "minJobLevelToChangeJob": 99
-    },
-    "taekwon": {
+    "firstClassHigh": {
       "maxJobLevel": 50,
       "minJobLevelToChangeJob": 40
     },
@@ -28,9 +16,21 @@
       "maxJobLevel": 50,
       "minJobLevelToChangeJob": 50
     },
-    "novice": {
-      "maxJobLevel": 10,
-      "minJobLevelToChangeJob": 10
+    "secondClass": {
+      "maxJobLevel": 50,
+      "minJobLevelToChangeJob": 50
+    },
+    "firstClass": {
+      "maxJobLevel": 50,
+      "minJobLevelToChangeJob": 40
+    },
+    "taekwon": {
+      "maxJobLevel": 50,
+      "minJobLevelToChangeJob": 40
+    },
+    "superNovice": {
+      "maxJobLevel": 99,
+      "minJobLevelToChangeJob": 99
     }
   },
   "jobs": {
@@ -7938,11 +7938,11 @@
         }
       ],
       "base_aspd": {
-        "Musical": 2000,
-        "Whip": 575,
         "Bow": 650,
         "Dagger": 550,
-        "Fist": 400
+        "Fist": 400,
+        "Musical": 2000,
+        "Whip": 575
       }
     },
     "default": {

@@ -42,12 +42,12 @@ use crate::repository::{ItemRepository, Repository};
 use std::time::{Instant};
 use base64::Engine;
 use base64::engine::general_purpose;
-use flexi_logger::{DeferredNow, Logger, TS_DASHES_BLANK_COLONS_DOT_BLANK};
-use log::Record;
+use log::{LevelFilter, Record};
 use rathena_script_lang_interpreter::lang::compiler::Compiler;
 
 
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
+use simple_logger::SimpleLogger;
 use tokio::runtime::Runtime;
 use server::Server;
 
@@ -71,8 +71,6 @@ use self::server::script::MapScriptHandler;
 use crate::server::script::PlayerScriptHandler;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::item_service::ItemService;
-
-use crate::util::log_filter::LogFilter;
 
 pub static mut CONFIGS: Option<Config> = None;
 pub static mut MAPS: Option<HashMap<String, &Map>> = None;
@@ -202,19 +200,12 @@ async fn compile_item_scripts(repository_arc: &Arc<Repository>, items: &mut Vec<
 }
 
 fn setup_logger() {
-    let logger = Logger::try_with_str(configs().server.log_level.as_ref().unwrap()).unwrap();
-    logger.format(|w: &mut dyn std::io::Write, now: &mut DeferredNow, record: &Record| {
-        let _level = record.level();
-        write!(
-            w,
-            "{} [{}] [{}]: {}",
-            now.format(TS_DASHES_BLANK_COLONS_DOT_BLANK),
-            thread::current().name().unwrap_or("<unnamed>"),
-            record.level(),
-            &record.args()
-        )
-    })
-        .filter(Box::new(LogFilter::new(configs().server.log_exclude_pattern.as_ref().unwrap().clone()))).start().unwrap();
+    let level = match configs().server.log_level.as_ref().unwrap().to_lowercase().as_str() {
+        "info" => LevelFilter::Info,
+        "debug" => LevelFilter::Debug,
+        _ => LevelFilter::Error
+    };
+    SimpleLogger::new().with_level(level).init().unwrap();
 }
 
 pub fn load_scripts(vm: Arc<Vm>) -> HashMap<String, Vec<Script>> {
