@@ -15,6 +15,6 @@ pub fn debug_in_game_chat(notification_sender: SyncSender<Notification>, charact
     zc_notify_chat.fill_raw();
     notification_sender.send(
         Notification::Char(CharNotification::new(character.char_id, std::mem::take(zc_notify_chat.raw_mut())))
-    );
+    ).unwrap();
 
 }

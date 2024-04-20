@@ -18,7 +18,7 @@ use std::{fs, thread};
 use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
 use std::sync::{Arc, Mutex, Once};
-use log::{LevelFilter, Record};
+use log::{LevelFilter};
 use simple_logger::SimpleLogger;
 
 use crate::repository::model::item_model::{ItemModel, ItemModels};

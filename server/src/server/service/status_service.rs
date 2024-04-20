@@ -129,13 +129,13 @@ impl StatusService {
         let dynamic_item_script_handler = DynamicItemScriptHandler::new(self.configuration_service, status, item_model.id as u32);
         if self.vm.contains_class(format!("itemscript{}", item_model.id).as_str()) {
             Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
-                .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e));
+                .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e)).unwrap();
         } else if let Some(script_compilation) = &item_model.script_compilation {
             let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
             let maybe_class = Compiler::from_binary(&script).unwrap().pop();
             Vm::bootstrap_without_init(self.vm.clone(), vec![maybe_class.unwrap()]);
             Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
-                .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e.message));
+                .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e.message)).unwrap();
         }
         bonuses.extend(dynamic_item_script_handler.drain());
     }

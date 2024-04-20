@@ -9,7 +9,6 @@ use crate::server::model::movement::{Movable, Movement};
 use models::position::Position;
 
 use models::status::{StatusSnapshot};
-use crate::server::model::path::manhattan_distance;
 
 
 #[derive(Setters, Clone)]

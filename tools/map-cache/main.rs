@@ -47,7 +47,7 @@ async fn main() {
     let start = Instant::now();
 
     let logger = SimpleLogger::new();
-    let max_level = logger.max_level();
+    let _max_level = logger.max_level();
     let grf_data_path = Path::new(GRF_DATA_PATH);
     let paths = fs::read_dir(grf_data_path).unwrap();
     let mut file_paths = Vec::<String>::new();
@@ -66,7 +66,7 @@ async fn main() {
     let counter: Arc<Mutex<Counter>> = Arc::new(Mutex::new(Counter{value: 0}));
     let mut futures = Vec::new();
     let mut map_iter = map_names.into_iter();
-    for (_i, file_name) in file_paths.into_iter().enumerate() {
+    for file_name in file_paths.into_iter() {
         let _ = semaphore.acquire().await.unwrap();
         let map_name = map_iter.next().unwrap();
         let counter_clone = counter.clone();
