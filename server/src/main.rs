@@ -37,12 +37,12 @@ use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
 use std::sync::{Arc};
-use std::thread;
+
 use crate::repository::{ItemRepository, Repository};
 use std::time::{Instant};
 use base64::Engine;
 use base64::engine::general_purpose;
-use log::{LevelFilter, Record};
+use log::{LevelFilter};
 use rathena_script_lang_interpreter::lang::compiler::Compiler;
 
 

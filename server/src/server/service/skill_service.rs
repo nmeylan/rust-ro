@@ -113,7 +113,7 @@ impl SkillService {
             damage = self.do_use_skill(character, target, source_status, target_status, tick);
         }
 
-        validate_sp.unwrap();0;
+        validate_sp.unwrap();
         damage
     }
 

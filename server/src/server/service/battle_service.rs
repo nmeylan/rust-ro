@@ -96,7 +96,7 @@ impl BattleService {
 
         let def: f32 = target_status.def() as f32 / 100.0;
 
-        /// MOB vit def: VIT + rnd(0,[VIT/20]^2-1).
+        // MOB vit def: VIT + rnd(0,[VIT/20]^2-1).
         let vitdef: f32 = self.mob_vitdef(target_status); // TODO set to 0 if critical hit
         let bane_skill: f32 = 0.0; // TODO Beast Bane, Daemon Bane, Draconology
         let mastery_skill: f32 = 0.0;
