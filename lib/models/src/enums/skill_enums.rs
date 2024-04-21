@@ -75,19 +75,19 @@ pub enum SkillEnum {
     AlBlessing,
     // Super Novice Cure
     AlCure,
-    // Super Novice Enlarge Weight Limit
+    // Merchant Enlarge Weight Limit
     McInccarry,
-    // Super Novice Discount
+    // Merchant Discount
     McDiscount,
-    // Super Novice Overcharge
+    // Merchant Overcharge
     McOvercharge,
-    // Super Novice Pushcart
+    // Merchant Pushcart
     McPushcart,
-    // Super Novice Item Appraisal
+    // Merchant Item Appraisal
     McIdentify,
-    // Super Novice Vending
+    // Merchant Vending
     McVending,
-    // Super Novice Mammonite
+    // Merchant Mammonite
     McMammonite,
     // Super Novice Owl's Eye
     AcOwl,
@@ -113,7 +113,7 @@ pub enum SkillEnum {
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Knight Spear Mastery
+    // Crusader Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +129,9 @@ pub enum SkillEnum {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Knight Peco Peco Riding
+    // Crusader Peco Peco Riding
     KnRiding,
-    // Knight Cavalier Mastery
+    // Crusader Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -181,13 +181,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Sage Earth Spike
+    // Wizard Earth Spike
     WzEarthspike,
-    // Sage Heaven's Drive
+    // Wizard Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Sage Sense
+    // Wizard Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -287,7 +287,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice High Play Dead
+    // Novice Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,
@@ -1821,13 +1821,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Super Novice Open Buying Store
+    // Merchant Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Super Novice Decorate Cart
+    // Merchant Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,

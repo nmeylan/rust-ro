@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -255,6 +259,14 @@ impl SkillBase for SummonSpiritSphere {
     }
 }
 impl SelfSkillBase for SummonSpiritSphere {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // MO_ABSORBSPIRITS
 pub struct AbsorbSpiritSphere {
@@ -340,6 +352,10 @@ impl SkillBase for AbsorbSpiritSphere {
     }
 }
 impl SupportiveSkillBase for AbsorbSpiritSphere {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // MO_TRIPLEATTACK
 pub struct RagingTrifectaBlow {
@@ -989,6 +1005,39 @@ impl SkillBase for MentalStrength {
     }
 }
 impl SelfSkillBase for MentalStrength {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-25.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 30000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-25.0), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 60000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-25.0), 2, tick, 90000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 90000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-25.0), 2, tick, 120000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 120000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-25.0), 2, tick, 150000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 150000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // MO_BLADESTOP
 pub struct Root {
@@ -1079,6 +1128,14 @@ impl SkillBase for Root {
     }
 }
 impl SelfSkillBase for Root {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // MO_EXPLOSIONSPIRITS
 pub struct Fury {
@@ -1160,6 +1217,34 @@ impl SkillBase for Fury {
     }
 }
 impl SelfSkillBase for Fury {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Crit(10.0), 2, tick, 180000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Crit(12.5), 2, tick, 180000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Crit(15.0), 2, tick, 180000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Crit(17.5), 2, tick, 180000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Crit(20.0), 2, tick, 180000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // MO_EXTREMITYFIST
 pub struct AsuraStrike {
@@ -1481,6 +1566,14 @@ impl OffensiveSkillBase for RagingQuadrupleBlow {
     }
 }
 impl SelfSkillBase for RagingQuadrupleBlow {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // MO_COMBOFINISH
 pub struct RagingThrust {
@@ -1638,6 +1731,14 @@ impl OffensiveSkillBase for RagingThrust {
     }
 }
 impl SelfSkillBase for RagingThrust {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // MO_KITRANSLATION
 pub struct KiTranslation {
@@ -1727,6 +1828,10 @@ impl SkillBase for KiTranslation {
     }
 }
 impl SupportiveSkillBase for KiTranslation {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // MO_BALKYOUNG
 pub struct KiExplosion {

@@ -5369,7 +5369,7 @@
         ]
       },
       "aoesize": "37x37 square",
-      "bonusToSelf": [
+      "bonusToParty": [
         {
           "level": 1,
           "value": {
@@ -27638,7 +27638,7 @@
           "level": 1,
           "value": {
             "bonus": "MasteryDamageUsingWeaponType",
-            "value": "All",
+            "value": "AllWeaponType",
             "value2": 75
           }
         },
@@ -27646,7 +27646,7 @@
           "level": 2,
           "value": {
             "bonus": "MasteryDamageUsingWeaponType",
-            "value": "All",
+            "value": "AllWeaponType",
             "value2": 100
           }
         },
@@ -27654,7 +27654,7 @@
           "level": 3,
           "value": {
             "bonus": "MasteryDamageUsingWeaponType",
-            "value": "All",
+            "value": "AllWeaponType",
             "value2": 125
           }
         },
@@ -27662,7 +27662,7 @@
           "level": 4,
           "value": {
             "bonus": "MasteryDamageUsingWeaponType",
-            "value": "All",
+            "value": "AllWeaponType",
             "value2": 150
           }
         },
@@ -27670,7 +27670,7 @@
           "level": 5,
           "value": {
             "bonus": "MasteryDamageUsingWeaponType",
-            "value": "All",
+            "value": "AllWeaponType",
             "value2": 175
           }
         }

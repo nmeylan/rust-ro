@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -208,6 +212,10 @@ impl SkillBase for ImpositioManus {
     }
 }
 impl SupportiveSkillBase for ImpositioManus {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PR_SUFFRAGIUM
 pub struct Suffragium {
@@ -293,6 +301,10 @@ impl SkillBase for Suffragium {
     }
 }
 impl SupportiveSkillBase for Suffragium {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PR_ASPERSIO
 pub struct Aspersio {
@@ -416,6 +428,10 @@ impl SkillBase for Aspersio {
     }
 }
 impl SupportiveSkillBase for Aspersio {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PR_BENEDICTIO
 pub struct BsSacramenti {
@@ -755,6 +771,10 @@ impl SkillBase for SlowPoison {
     }
 }
 impl SupportiveSkillBase for SlowPoison {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PR_STRECOVERY
 pub struct StatusRecovery {
@@ -840,6 +860,10 @@ impl SkillBase for StatusRecovery {
     }
 }
 impl SupportiveSkillBase for StatusRecovery {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PR_KYRIE
 pub struct KyrieEleison {
@@ -989,6 +1013,10 @@ impl SkillBase for KyrieEleison {
     }
 }
 impl SupportiveSkillBase for KyrieEleison {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PR_MAGNIFICAT
 pub struct Magnificat {
@@ -1078,6 +1106,14 @@ impl SkillBase for Magnificat {
     }
 }
 impl SelfSkillBase for Magnificat {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PR_GLORIA
 pub struct Gloria {
@@ -1163,6 +1199,34 @@ impl SkillBase for Gloria {
     }
 }
 impl SelfSkillBase for Gloria {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Luk(30), 2, tick, 10000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Luk(30), 2, tick, 15000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Luk(30), 2, tick, 20000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Luk(30), 2, tick, 25000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Luk(30), 2, tick, 30000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PR_LEXDIVINA
 pub struct LexDivina {
@@ -1740,4 +1804,12 @@ impl SkillBase for Redemptio {
     }
 }
 impl SelfSkillBase for Redemptio {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }

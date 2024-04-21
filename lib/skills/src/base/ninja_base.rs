@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -747,6 +751,14 @@ impl OffensiveSkillBase for ImprovisedDefense {
     }
 }
 impl SelfSkillBase for ImprovisedDefense {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // NJ_KASUMIKIRI
 pub struct VanishingSlash {
@@ -1290,6 +1302,34 @@ impl SkillBase for CicadaSkinSheeding {
     }
 }
 impl SelfSkillBase for CicadaSkinSheeding {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 20000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 30000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 40000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 50000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 60000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // NJ_BUNSINJYUTSU
 pub struct MirrorImage {
@@ -1477,6 +1517,54 @@ impl SkillBase for MirrorImage {
     }
 }
 impl SelfSkillBase for MirrorImage {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 60000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 80000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 100000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 120000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 140000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 160000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 180000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 200000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 220000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 240000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // NJ_NINPOU
 pub struct SpiritoftheBlade {
@@ -1932,6 +2020,14 @@ impl SkillBase for CrimsonFireFormation {
     }
 }
 impl SelfSkillBase for CrimsonFireFormation {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // NJ_BAKUENRYU
 pub struct RagingFireDragon {
@@ -2628,6 +2724,34 @@ impl SkillBase for IceMeteor {
     }
 }
 impl SelfSkillBase for IceMeteor {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 20.0), 2, tick, 100),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 30.0), 2, tick, 100),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 40.0), 2, tick, 100),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 50.0), 2, tick, 100),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 60.0), 2, tick, 100),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // NJ_HUUJIN
 pub struct WindBlade {
@@ -3002,6 +3126,14 @@ impl SkillBase for LightningStrikeofDestruction {
     }
 }
 impl SelfSkillBase for LightningStrikeofDestruction {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // NJ_KAMAITACHI
 pub struct Kamaitachi {
@@ -3282,6 +3414,39 @@ impl SkillBase for Soul {
     }
 }
 impl SelfSkillBase for Soul {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Int(1), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Str(1), 2, tick, 30000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Int(2), 2, tick, 45000),
+                TemporaryStatusBonus::with_duration(BonusType::Str(2), 2, tick, 45000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Int(3), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::Str(3), 2, tick, 60000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Int(4), 2, tick, 75000),
+                TemporaryStatusBonus::with_duration(BonusType::Str(4), 2, tick, 75000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Int(5), 2, tick, 90000),
+                TemporaryStatusBonus::with_duration(BonusType::Str(5), 2, tick, 90000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // NJ_ISSEN
 pub struct FinalStrike {

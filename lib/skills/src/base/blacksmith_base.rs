@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -1179,6 +1183,10 @@ impl SkillBase for WeaponRepair {
     }
 }
 impl SupportiveSkillBase for WeaponRepair {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // BS_SKINTEMPER
 pub struct SkinTempering {
@@ -1464,6 +1472,34 @@ impl SkillBase for AdrenalineRush {
     }
 }
 impl SelfSkillBase for AdrenalineRush {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 30000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 60000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 90000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 120000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 150000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // BS_WEAPONPERFECT
 pub struct WeaponPerfection {
@@ -1575,6 +1611,14 @@ impl SkillBase for WeaponPerfection {
     }
 }
 impl SelfSkillBase for WeaponPerfection {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // BS_OVERTHRUST
 pub struct PowerThrust {
@@ -1694,6 +1738,39 @@ impl SkillBase for PowerThrust {
     }
 }
 impl SelfSkillBase for PowerThrust {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(5), 2, tick, 20000),
+                TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 2, tick, 20000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(10), 2, tick, 40000),
+                TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 2, tick, 40000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(15), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 2, tick, 60000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(20), 2, tick, 80000),
+                TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 2, tick, 80000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(25), 2, tick, 100000),
+                TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 2, tick, 100000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // BS_MAXIMIZE
 pub struct MaximizePower {
@@ -1775,6 +1852,14 @@ impl SkillBase for MaximizePower {
     }
 }
 impl SelfSkillBase for MaximizePower {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // BS_UNFAIRLYTRICK
 pub struct UnfairTrick {
@@ -1937,6 +2022,14 @@ impl SkillBase for Greed {
     }
 }
 impl SelfSkillBase for Greed {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // BS_ADRENALINE2
 pub struct AdvancedAdrenalineRush {
@@ -2027,4 +2120,16 @@ impl SkillBase for AdvancedAdrenalineRush {
     }
 }
 impl SelfSkillBase for AdvancedAdrenalineRush {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 150000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }

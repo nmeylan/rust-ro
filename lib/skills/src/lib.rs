@@ -5,6 +5,7 @@ use models::enums::status::StatusEffect;
 use models::enums::weapon::{AmmoType};
 use models::item::{NormalInventoryItem};
 use models::status::{StatusSnapshot};
+use models::status_bonus::TemporaryStatusBonuses;
 
 pub mod skill_enums;
 pub mod base;
@@ -313,8 +314,13 @@ pub trait OffensiveSkill: OffensiveSkillBase {
 }
 
 pub trait SupportiveSkillBase: Skill {
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses;
 }
 pub trait SupportiveSkill: SupportiveSkillBase {
+    #[inline(always)]
+    fn bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        self._bonuses(tick)
+    }
 }
 
 pub trait PerformanceSkillBase: Skill {
@@ -333,6 +339,17 @@ pub trait GroundSkill: GroundSkillBase {
 }
 
 pub trait SelfSkillBase: Skill {
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses;
+
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses;
 }
 pub trait SelfSkill: SelfSkillBase {
+    #[inline(always)]
+    fn bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        self._bonuses(tick)
+    }
+    #[inline(always)]
+    fn bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        self._bonuses_to_party(tick)
+    }
 }

@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -174,6 +178,14 @@ impl SkillBase for CastCancel {
     }
 }
 impl SelfSkillBase for CastCancel {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_MAGICROD
 pub struct MagicRod {
@@ -255,6 +267,14 @@ impl SkillBase for MagicRod {
     }
 }
 impl SelfSkillBase for MagicRod {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_SPELLBREAKER
 pub struct SpellBreaker {
@@ -510,6 +530,54 @@ impl SkillBase for Hindsight {
     }
 }
 impl SelfSkillBase for Hindsight {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 7.0), 2, tick, 120000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 9.0), 2, tick, 150000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 11.0), 2, tick, 180000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 13.0), 2, tick, 210000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 15.0), 2, tick, 240000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 17.0), 2, tick, 270000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 19.0), 2, tick, 300000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 21.0), 2, tick, 330000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 23.0), 2, tick, 360000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 25.0), 2, tick, 390000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_FLAMELAUNCHER
 pub struct EndowBlaze {
@@ -603,6 +671,10 @@ impl SkillBase for EndowBlaze {
     }
 }
 impl SupportiveSkillBase for EndowBlaze {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_FROSTWEAPON
 pub struct EndowTsunami {
@@ -696,6 +768,10 @@ impl SkillBase for EndowTsunami {
     }
 }
 impl SupportiveSkillBase for EndowTsunami {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_LIGHTNINGLOADER
 pub struct EndowTornado {
@@ -789,6 +865,10 @@ impl SkillBase for EndowTornado {
     }
 }
 impl SupportiveSkillBase for EndowTornado {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_SEISMICWEAPON
 pub struct EndowQuake {
@@ -882,6 +962,10 @@ impl SkillBase for EndowQuake {
     }
 }
 impl SupportiveSkillBase for EndowQuake {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_DRAGONOLOGY
 pub struct Dragonology {
@@ -1644,6 +1728,14 @@ impl SkillBase for Hocuspocus {
     }
 }
 impl SelfSkillBase for Hocuspocus {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_CREATECON
 pub struct CreateElementalConverter {
@@ -1725,6 +1817,14 @@ impl SkillBase for CreateElementalConverter {
     }
 }
 impl SelfSkillBase for CreateElementalConverter {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_ELEMENTWATER
 pub struct ElementalChangeWater {

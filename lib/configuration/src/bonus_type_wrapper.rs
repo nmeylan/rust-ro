@@ -1,4 +1,4 @@
-use std::fmt::Formatter;
+use std::fmt::{Debug, Formatter};
 use serde::{Deserialize, Deserializer};
 use serde::de::{MapAccess, Visitor};
 use serde_json::Value;
@@ -10,8 +10,15 @@ use models::enums::size::Size;
 use models::enums::status::StatusEffect;
 use models::enums::weapon::WeaponType;
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct BonusTypeWrapper(pub BonusType);
+
+
+impl Debug for BonusTypeWrapper {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "BonusType::{:?}", self.0)
+    }
+}
 
 
 impl Default for BonusTypeWrapper {

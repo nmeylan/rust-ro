@@ -21,8 +21,19 @@ pub struct TemporaryStatusBonus {
     state: StatusBonusState
 }
 
+impl TemporaryStatusBonus {
+    pub fn with_duration(bonus: BonusType, flags: u16, tick: u128, duration: u32) -> Self {
+        Self {
+            bonus,
+            flags,
+            expirency: BonusExpiry::Time(tick + duration as u128),
+            state: StatusBonusState::No,
+        }
+    }
+}
+
 #[derive(Default, Debug, Clone)]
-pub struct TemporaryStatusBonuses(Vec<TemporaryStatusBonus>);
+pub struct TemporaryStatusBonuses(pub Vec<TemporaryStatusBonus>);
 
 #[derive(Debug, Clone, Copy)]
 pub enum StatusBonusSource {

@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -188,6 +192,64 @@ impl SkillBase for Running {
     }
 }
 impl SelfSkillBase for Running {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 10), 2, tick, 1000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 20), 2, tick, 1000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 30), 2, tick, 1000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 40), 2, tick, 1000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 50), 2, tick, 1000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 60), 2, tick, 1000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 70), 2, tick, 1000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 80), 2, tick, 1000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 90), 2, tick, 1000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 100), 2, tick, 1000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_READYSTORM
 pub struct TornadoStance {
@@ -269,6 +331,17 @@ impl SkillBase for TornadoStance {
     }
 }
 impl SelfSkillBase for TornadoStance {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_STORMKICK
 pub struct TornadoKick {
@@ -435,6 +508,14 @@ impl OffensiveSkillBase for TornadoKick {
     }
 }
 impl SelfSkillBase for TornadoKick {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_READYDOWN
 pub struct HeelDropStance {
@@ -516,6 +597,17 @@ impl SkillBase for HeelDropStance {
     }
 }
 impl SelfSkillBase for HeelDropStance {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_DOWNKICK
 pub struct HeelDrop {
@@ -682,6 +774,14 @@ impl OffensiveSkillBase for HeelDrop {
     }
 }
 impl SelfSkillBase for HeelDrop {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_READYTURN
 pub struct RoundhouseStance {
@@ -763,6 +863,17 @@ impl SkillBase for RoundhouseStance {
     }
 }
 impl SelfSkillBase for RoundhouseStance {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_TURNKICK
 pub struct RoundhouseKick {
@@ -929,6 +1040,35 @@ impl OffensiveSkillBase for RoundhouseKick {
     }
 }
 impl SelfSkillBase for RoundhouseKick {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_READYCOUNTER
 pub struct CounterKickStance {
@@ -1010,6 +1150,17 @@ impl SkillBase for CounterKickStance {
     }
 }
 impl SelfSkillBase for CounterKickStance {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_COUNTER
 pub struct CounterKick {
@@ -1176,6 +1327,14 @@ impl OffensiveSkillBase for CounterKick {
     }
 }
 impl SelfSkillBase for CounterKick {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_DODGE
 pub struct Tumbling {
@@ -1257,6 +1416,17 @@ impl SkillBase for Tumbling {
     }
 }
 impl SelfSkillBase for Tumbling {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_JUMPKICK
 pub struct FlyingKick {
@@ -1423,6 +1593,10 @@ impl OffensiveSkillBase for FlyingKick {
     }
 }
 impl SupportiveSkillBase for FlyingKick {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_HPTIME
 pub struct PeacefulBreak {
@@ -1777,6 +1951,14 @@ impl SkillBase for MildWind {
     }
 }
 impl SelfSkillBase for MildWind {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_HIGHJUMP
 pub struct TaekwonJump {
@@ -1877,6 +2059,14 @@ impl SkillBase for TaekwonJump {
     }
 }
 impl SelfSkillBase for TaekwonJump {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TK_MISSION
 pub struct TaekwonMission {
@@ -1962,4 +2152,12 @@ impl SkillBase for TaekwonMission {
     }
 }
 impl SelfSkillBase for TaekwonMission {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }

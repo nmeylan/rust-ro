@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -97,6 +101,34 @@ impl SkillBase for FliptheCoin {
     }
 }
 impl SelfSkillBase for FliptheCoin {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(500, 30.0), 2, tick, 600000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(500, 40.0), 2, tick, 600000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(500, 50.0), 2, tick, 600000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(500, 60.0), 2, tick, 600000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(500, 70.0), 2, tick, 600000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // GS_FLING
 pub struct Fling {
@@ -481,6 +513,19 @@ impl SkillBase for MadnessCanceller {
     }
 }
 impl SelfSkillBase for MadnessCanceller {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Atk(100), 2, tick, 15000),
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(20.0), 2, tick, 15000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // GS_ADJUSTMENT
 pub struct AdJustment {
@@ -570,6 +615,19 @@ impl SkillBase for AdJustment {
     }
 }
 impl SelfSkillBase for AdJustment {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(30), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Hit(-30), 2, tick, 30000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // GS_INCREASING
 pub struct IncreasingAccuracy {
@@ -655,6 +713,20 @@ impl SkillBase for IncreasingAccuracy {
     }
 }
 impl SelfSkillBase for IncreasingAccuracy {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Agi(4), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::Dex(4), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::Hit(20), 2, tick, 60000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // GS_MAGICALBULLET
 pub struct MagicalBullet {
@@ -2030,6 +2102,14 @@ impl OffensiveSkillBase for Desperado {
     }
 }
 impl SelfSkillBase for Desperado {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // GS_GATLINGFEVER
 pub struct GatlingFever {
@@ -2179,6 +2259,84 @@ impl SkillBase for GatlingFever {
     }
 }
 impl SelfSkillBase for GatlingFever {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(2.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Atk(30), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 30000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(4.0), 2, tick, 45000),
+                TemporaryStatusBonus::with_duration(BonusType::Atk(40), 2, tick, 45000),
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-10), 2, tick, 45000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 45000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(6.0), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::Atk(50), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-15), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 60000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(8.0), 2, tick, 75000),
+                TemporaryStatusBonus::with_duration(BonusType::Atk(60), 2, tick, 75000),
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-20), 2, tick, 75000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 75000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(10.0), 2, tick, 90000),
+                TemporaryStatusBonus::with_duration(BonusType::Atk(70), 2, tick, 90000),
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-25), 2, tick, 90000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 90000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(12.0), 2, tick, 105000),
+                TemporaryStatusBonus::with_duration(BonusType::Atk(80), 2, tick, 105000),
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-30), 2, tick, 105000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 105000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(14.0), 2, tick, 120000),
+                TemporaryStatusBonus::with_duration(BonusType::Atk(90), 2, tick, 120000),
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-35), 2, tick, 120000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 120000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(16.0), 2, tick, 135000),
+                TemporaryStatusBonus::with_duration(BonusType::Atk(100), 2, tick, 135000),
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-40), 2, tick, 135000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 135000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(18.0), 2, tick, 150000),
+                TemporaryStatusBonus::with_duration(BonusType::Atk(110), 2, tick, 150000),
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-45), 2, tick, 150000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 150000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(20.0), 2, tick, 165000),
+                TemporaryStatusBonus::with_duration(BonusType::Atk(120), 2, tick, 165000),
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-50), 2, tick, 165000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 165000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // GS_DUST
 pub struct Dust {
