@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -174,6 +178,14 @@ impl SkillBase for Sight {
     }
 }
 impl SelfSkillBase for Sight {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // MG_NAPALMBEAT
 pub struct NapalmBeat {
@@ -2804,4 +2816,12 @@ impl SkillBase for EnergyCoat {
     }
 }
 impl SelfSkillBase for EnergyCoat {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }

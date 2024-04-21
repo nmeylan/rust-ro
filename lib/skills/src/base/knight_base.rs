@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -768,6 +772,54 @@ impl SkillBase for TwohandQuicken {
     }
 }
 impl SelfSkillBase for TwohandQuicken {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 30000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 60000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 90000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 120000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 150000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 180000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 210000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 240000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 270000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 300000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // KN_AUTOCOUNTER
 pub struct CounterAttack {
@@ -858,6 +910,14 @@ impl SkillBase for CounterAttack {
     }
 }
 impl SelfSkillBase for CounterAttack {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // KN_BOWLINGBASH
 pub struct BowlingBash {
@@ -1381,4 +1441,16 @@ impl SkillBase for OnehandQuicken {
     }
 }
 impl SelfSkillBase for OnehandQuicken {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 300000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }

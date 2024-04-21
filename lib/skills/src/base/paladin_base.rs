@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -277,6 +281,14 @@ impl SkillBase for MartyrsReckoning {
     }
 }
 impl SelfSkillBase for MartyrsReckoning {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PA_GOSPEL
 pub struct BattleChant {
@@ -418,6 +430,54 @@ impl SkillBase for BattleChant {
     }
 }
 impl SelfSkillBase for BattleChant {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 55.0), 2, tick, 60000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 60.0), 2, tick, 60000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 65.0), 2, tick, 60000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 70.0), 2, tick, 60000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 75.0), 2, tick, 60000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 80.0), 2, tick, 60000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 85.0), 2, tick, 60000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 90.0), 2, tick, 60000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 95.0), 2, tick, 60000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 100.0), 2, tick, 60000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PA_SHIELDCHAIN
 pub struct ShieldChain {

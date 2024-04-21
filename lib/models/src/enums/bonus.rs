@@ -1,3 +1,5 @@
+use std::fmt::{Debug, Formatter};
+use std::mem;
 use enum_macro::{WithEq, WithStackable};
 use crate::enums::EnumStackable;
 use crate::enums::element::Element;
@@ -214,7 +216,7 @@ impl BonusType {
     pub fn add_percentage_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
         match self {
             BonusType::HitPercentage(value) => { status_snapshot.set_hit((status_snapshot.hit() as f32 * (1.0 + *value as f32 / 100.0)).floor() as i16); }
-            BonusType::AspdPercentage(value) => { status_snapshot.set_aspd((status_snapshot.aspd() + ((200.0 - status_snapshot.aspd()) * (*value as f32 / 100.0)))); }
+            BonusType::AspdPercentage(value) => { status_snapshot.set_aspd(status_snapshot.aspd() + ((200.0 - status_snapshot.aspd()) * (*value as f32 / 100.0))); }
             BonusType::MaxhpPercentage(value) => { status_snapshot.set_max_hp((status_snapshot.max_hp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32); }
             BonusType::MaxspPercentage(value) => { status_snapshot.set_max_sp((status_snapshot.max_sp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32); }
             BonusType::VitDefPercentage(_) => {}

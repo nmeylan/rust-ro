@@ -828,6 +828,7 @@ pub struct BonusPerLevel {
     pub level: Option<u8>,
 }
 
+
 #[derive(Deserialize, Debug, Clone, GettersAll)]
 #[allow(dead_code)]
 pub struct SkillRequirements {

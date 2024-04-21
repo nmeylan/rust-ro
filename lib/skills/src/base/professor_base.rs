@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -165,6 +169,14 @@ impl SkillBase for Indulge {
     }
 }
 impl SelfSkillBase for Indulge {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PF_SOULCHANGE
 pub struct SoulExhale {
@@ -623,6 +635,14 @@ impl SkillBase for Foresight {
     }
 }
 impl SelfSkillBase for Foresight {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // PF_FOGWALL
 pub struct BlindingMist {
@@ -916,4 +936,12 @@ impl SkillBase for DoubleCasting {
     }
 }
 impl SelfSkillBase for DoubleCasting {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }

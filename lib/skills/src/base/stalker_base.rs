@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -101,6 +105,39 @@ impl SkillBase for Stealth {
     }
 }
 impl SelfSkillBase for Stealth {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-86), 2, tick, 10000),
+                TemporaryStatusBonus::with_duration(BonusType::Str(1), 2, tick, 10000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-81), 2, tick, 10000),
+                TemporaryStatusBonus::with_duration(BonusType::Str(2), 2, tick, 10000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-76), 2, tick, 10000),
+                TemporaryStatusBonus::with_duration(BonusType::Str(4), 2, tick, 10000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-71), 2, tick, 10000),
+                TemporaryStatusBonus::with_duration(BonusType::Str(8), 2, tick, 10000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-66), 2, tick, 10000),
+                TemporaryStatusBonus::with_duration(BonusType::Str(16), 2, tick, 10000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // ST_REJECTSWORD
 pub struct CounterInstinct {
@@ -212,6 +249,34 @@ impl SkillBase for CounterInstinct {
     }
 }
 impl SelfSkillBase for CounterInstinct {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(15), 2, tick, 300000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(30), 2, tick, 300000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(45), 2, tick, 300000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(60), 2, tick, 300000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(75), 2, tick, 300000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // ST_PRESERVE
 pub struct Preserve {
@@ -297,6 +362,14 @@ impl SkillBase for Preserve {
     }
 }
 impl SelfSkillBase for Preserve {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // ST_FULLSTRIP
 pub struct DivestAll {

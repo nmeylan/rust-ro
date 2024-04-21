@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -339,6 +343,54 @@ impl SkillBase for MysticalAmplification {
     }
 }
 impl SelfSkillBase for MysticalAmplification {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(5), 2, tick, 30000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(10), 2, tick, 30000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(15), 2, tick, 30000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(20), 2, tick, 30000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(25), 2, tick, 30000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(30), 2, tick, 30000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(35), 2, tick, 30000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(40), 2, tick, 30000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(45), 2, tick, 30000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(50), 2, tick, 30000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // HW_NAPALMVULCAN
 pub struct NapalmVulcan {

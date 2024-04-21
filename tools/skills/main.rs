@@ -7,11 +7,12 @@ use lazy_static::lazy_static;
 use std::collections::{HashMap, HashSet};
 use regex_lite::Regex;
 use serde::{Deserialize, Serialize};
-use configuration::configuration::{JobSkillTree, SkillConfig, SkillsConfig};
-use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
+use configuration::configuration::{BonusPerLevel, JobSkillTree, SkillConfig, SkillsConfig};
+use models::enums::{EnumWithMaskValueU16, EnumWithMaskValueU64, EnumWithStringValue};
 use models::enums::element::Element;
 use models::enums::skill::{SkillTargetType, SkillFlags, SkillType};
 use models::enums::weapon::WeaponType;
+use models::status_bonus::StatusBonusFlag;
 
 lazy_static! {
     pub static ref SHORT_CLASS_NAME: HashMap<&'static str, &'static str> = HashMap::from([
@@ -239,6 +240,10 @@ fn write_file_header(file: &mut File) {
     file.write_all(b"\nuse models::item::WearWeapon;\n").unwrap();
     file.write_all(b"\nuse models::status::StatusSnapshot;\n").unwrap();
     file.write_all(b"use models::item::NormalInventoryItem;\n").unwrap();
+    file.write_all(b"use models::enums::weapon::WeaponType::{*};\n").unwrap();
+    file.write_all(b"use models::enums::bonus::{BonusType};\n").unwrap();
+    file.write_all(b"use models::enums::status::StatusEffect::{*};\n").unwrap();
+    file.write_all(b"use models::status_bonus::{TemporaryStatusBonus};\n").unwrap();
     file.write_all(b"\nuse crate::{*};\n\n").unwrap();
     file.write_all(b"use crate::base::*;\n").unwrap();
     file.write_all(b"use std::any::Any;\n").unwrap();
@@ -312,10 +317,12 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
     }
     if is_support(skill_config) {
         job_skills_file.write_all(format!("impl SupportiveSkillBase for {} {{\n", to_struct_name(skill_config)).as_bytes()).unwrap();
+        generate_bonuses(job_skills_file, skill_config);
         job_skills_file.write_all(b"}\n").unwrap();
     }
     if is_self(skill_config) {
         job_skills_file.write_all(format!("impl SelfSkillBase for {} {{\n", to_struct_name(skill_config)).as_bytes()).unwrap();
+        generate_bonuses(job_skills_file, skill_config);
         job_skills_file.write_all(b"}\n").unwrap();
     }
     if is_ground(skill_config) {
@@ -593,6 +600,7 @@ fn generate_dmg_atk(job_skills_file: &mut File, skill_config: &SkillConfig) {
     generate_return_per_level_option_f32(job_skills_file, skill_config.dmg_atk(), skill_config.dmg_atk_per_level());
     job_skills_file.write_all(b"    }\n").unwrap();
 }
+
 fn generate_dmg_matk(job_skills_file: &mut File, skill_config: &SkillConfig) {
     if skill_config.dmg_matk().is_none() && skill_config.dmg_matk_per_level().is_none() {
         return;
@@ -608,6 +616,76 @@ fn generate_element(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn _element(&self) -> Element {\n").unwrap();
     job_skills_file.write_all(format!("        Element::{:?}\n", skill_config.element().unwrap_or(Element::Neutral)).as_bytes()).unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
+}
+
+
+fn generate_bonuses(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    if is_self(skill_config) {
+        job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+        job_skills_file.write_all(b"    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {\n").unwrap();
+        if skill_config.bonus_to_self().len() > 0 {
+            for i in 1..=skill_config.max_level() {
+                job_skills_file.write_all(format!("        if self.level == {} {{\n", i).as_bytes()).unwrap();
+                job_skills_file.write_all(b"            return TemporaryStatusBonuses(vec![").unwrap();
+                for bonus in skill_config.bonus_to_self().iter() {
+                    if let Some(level) = bonus.level {
+                        if level == i as u8 {
+                            write_bonus(job_skills_file, bonus, skill_config, Some(i));
+                        }
+                    } else {
+                        write_bonus(job_skills_file, bonus, skill_config, None);
+                    }
+                }
+                job_skills_file.write_all(b"]);\n").unwrap();
+                job_skills_file.write_all(b"        }\n").unwrap();
+            }
+        }
+        job_skills_file.write_all(b"        TemporaryStatusBonuses::default()\n").unwrap();
+        job_skills_file.write_all(b"    }\n").unwrap();
+
+        job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+        job_skills_file.write_all(b"    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {\n").unwrap();
+        if skill_config.bonus_to_party().len() > 0 {
+            for i in 1..=skill_config.max_level() {
+                job_skills_file.write_all(format!("        if self.level == {} {{\n", i).as_bytes()).unwrap();
+                job_skills_file.write_all(b"            return TemporaryStatusBonuses(vec![").unwrap();
+                for bonus in skill_config.bonus_to_party().iter() {
+                    if let Some(level) = bonus.level {
+                        if level == i as u8 {
+                            write_bonus(job_skills_file, bonus, skill_config, Some(i));
+                        }
+                    } else {
+                        write_bonus(job_skills_file, bonus, skill_config, None);
+                    }
+                }
+                job_skills_file.write_all(b"]);\n").unwrap();
+                job_skills_file.write_all(b"        }\n").unwrap();
+            }
+        }
+        job_skills_file.write_all(b"        TemporaryStatusBonuses::default()\n").unwrap();
+        job_skills_file.write_all(b"    }\n").unwrap();
+    }
+    if is_support(skill_config) {
+        job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+        job_skills_file.write_all(b"    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {\n").unwrap();
+        job_skills_file.write_all(b"        TemporaryStatusBonuses::default()\n").unwrap();
+        job_skills_file.write_all(b"    }\n").unwrap();
+    }
+}
+
+fn write_bonus(job_skills_file: &mut File, bonus: &BonusPerLevel, skill_config: &SkillConfig, level: Option<u32>) {
+    let duration = if let Some(duration) = skill_config.duration1() {
+        *duration
+    } else if let Some(duration) = skill_config.duration1_per_level() {
+        duration[(level.unwrap()) as usize]
+    } else {
+        println!("No duration found for bonus for skill {}", skill_config.name);
+        return;
+    };
+    job_skills_file.write_all(format!("\n                TemporaryStatusBonus::with_duration({:?}, {}, tick, {}),",
+                                      bonus.value(),
+                                      StatusBonusFlag::Unique.as_flag(), duration)
+        .as_bytes()).unwrap();
 }
 
 /*

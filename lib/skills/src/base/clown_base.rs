@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -436,6 +440,14 @@ impl SkillBase for ShelteringBliss {
     }
 }
 impl SelfSkillBase for ShelteringBliss {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // CG_MARIONETTE
 pub struct MarionetteControl {
@@ -517,6 +529,10 @@ impl SkillBase for MarionetteControl {
     }
 }
 impl SupportiveSkillBase for MarionetteControl {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // CG_LONGINGFREEDOM
 pub struct LongingforFreedom {
@@ -598,6 +614,39 @@ impl SkillBase for LongingforFreedom {
     }
 }
 impl SelfSkillBase for LongingforFreedom {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-40.0), 2, tick, 180000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-40), 2, tick, 180000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-30.0), 2, tick, 180000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-30), 2, tick, 180000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-20.0), 2, tick, 180000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-20), 2, tick, 180000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-10.0), 2, tick, 180000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-10), 2, tick, 180000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(0.0), 2, tick, 180000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(0), 2, tick, 180000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // CG_HERMODE
 pub struct WandofHermode {
@@ -725,6 +774,14 @@ impl SkillBase for WandofHermode {
     }
 }
 impl SelfSkillBase for WandofHermode {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 impl PerformanceSkillBase for WandofHermode {
 }

@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -259,6 +263,44 @@ impl SkillBase for PreparePotion {
     }
 }
 impl SelfSkillBase for PreparePotion {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_DEMONSTRATION
 pub struct Bomb {
@@ -629,6 +671,10 @@ impl SkillBase for AidPotion {
     }
 }
 impl SupportiveSkillBase for AidPotion {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_CANNIBALIZE
 pub struct SummonFlora {
@@ -916,6 +962,10 @@ impl SkillBase for AlchemicalWeapon {
     }
 }
 impl SupportiveSkillBase for AlchemicalWeapon {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_CP_SHIELD
 pub struct SynthesizedShield {
@@ -1009,6 +1059,10 @@ impl SkillBase for SynthesizedShield {
     }
 }
 impl SupportiveSkillBase for SynthesizedShield {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_CP_ARMOR
 pub struct SyntheticArmor {
@@ -1102,6 +1156,10 @@ impl SkillBase for SyntheticArmor {
     }
 }
 impl SupportiveSkillBase for SyntheticArmor {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_CP_HELM
 pub struct BiochemicalHelm {
@@ -1195,6 +1253,10 @@ impl SkillBase for BiochemicalHelm {
     }
 }
 impl SupportiveSkillBase for BiochemicalHelm {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_BIOETHICS
 pub struct Bioethics {
@@ -1361,6 +1423,14 @@ impl SkillBase for CallHomunculus {
     }
 }
 impl SelfSkillBase for CallHomunculus {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_REST
 pub struct Vaporize {
@@ -1442,6 +1512,14 @@ impl SkillBase for Vaporize {
     }
 }
 impl SelfSkillBase for Vaporize {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_RESURRECTHOMUN
 pub struct HomunculusResurrection {
@@ -1557,6 +1635,14 @@ impl SkillBase for HomunculusResurrection {
     }
 }
 impl SelfSkillBase for HomunculusResurrection {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_BERSERKPITCHER
 pub struct AidBerserkPotion {
@@ -1650,6 +1736,10 @@ impl SkillBase for AidBerserkPotion {
     }
 }
 impl SupportiveSkillBase for AidBerserkPotion {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_TWILIGHT1
 pub struct TwilightAlchemy1 {
@@ -1747,6 +1837,14 @@ impl SkillBase for TwilightAlchemy1 {
     }
 }
 impl SelfSkillBase for TwilightAlchemy1 {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_TWILIGHT2
 pub struct TwilightAlchemy2 {
@@ -1844,6 +1942,14 @@ impl SkillBase for TwilightAlchemy2 {
     }
 }
 impl SelfSkillBase for TwilightAlchemy2 {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_TWILIGHT3
 pub struct TwilightAlchemy3 {
@@ -1941,4 +2047,12 @@ impl SkillBase for TwilightAlchemy3 {
     }
 }
 impl SelfSkillBase for TwilightAlchemy3 {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }

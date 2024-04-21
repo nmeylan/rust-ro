@@ -51,7 +51,7 @@ pub enum WeaponType {
     // sword + axe
     DoubleSa,
     MaxWeaponTypeAll,
-    All,
+    AllWeaponType,
 }
 
 impl WeaponType {

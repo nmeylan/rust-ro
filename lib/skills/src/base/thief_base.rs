@@ -12,6 +12,10 @@ use models::item::WearWeapon;
 
 use models::status::StatusSnapshot;
 use models::item::NormalInventoryItem;
+use models::enums::weapon::WeaponType::{*};
+use models::enums::bonus::{BonusType};
+use models::enums::status::StatusEffect::{*};
+use models::status_bonus::{TemporaryStatusBonus};
 
 use crate::{*};
 
@@ -340,6 +344,14 @@ impl SkillBase for Hiding {
     }
 }
 impl SelfSkillBase for Hiding {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TF_POISON
 pub struct Envenom {
@@ -514,6 +526,10 @@ impl SkillBase for Detoxify {
     }
 }
 impl SupportiveSkillBase for Detoxify {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TF_SPRINKLESAND
 pub struct SandAttack {
@@ -688,6 +704,14 @@ impl SkillBase for BackSlide {
     }
 }
 impl SelfSkillBase for BackSlide {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TF_PICKSTONE
 pub struct FindStone {
@@ -782,6 +806,14 @@ impl SkillBase for FindStone {
     }
 }
 impl SelfSkillBase for FindStone {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // TF_THROWSTONE
 pub struct StoneFling {
