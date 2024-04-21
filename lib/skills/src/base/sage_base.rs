@@ -6,7 +6,7 @@
 use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use models::enums::skill::*;
 use models::enums::weapon::AmmoType;
-use models::enums::element::Element;
+use models::enums::element::Element::{*};
 
 use models::item::WearWeapon;
 
@@ -16,6 +16,7 @@ use models::enums::weapon::WeaponType::{*};
 use models::enums::bonus::{BonusType};
 use models::enums::status::StatusEffect::{*};
 use models::status_bonus::{TemporaryStatusBonus};
+use models::enums::mob::MobRace::{*};
 
 use crate::{*};
 
@@ -673,6 +674,26 @@ impl SkillBase for EndowBlaze {
 impl SupportiveSkillBase for EndowBlaze {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(280, 70.0), 2, tick, 1200000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(280, 80.0), 2, tick, 1200000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(280, 90.0), 2, tick, 1200000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(280, 100.0), 2, tick, 1200000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(280, 100.0), 2, tick, 1800000),]);
+        }
         TemporaryStatusBonuses::default()
     }
 }
@@ -770,6 +791,26 @@ impl SkillBase for EndowTsunami {
 impl SupportiveSkillBase for EndowTsunami {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(281, 70.0), 2, tick, 1200000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(281, 80.0), 2, tick, 1200000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(281, 90.0), 2, tick, 1200000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(281, 100.0), 2, tick, 1200000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(281, 100.0), 2, tick, 1800000),]);
+        }
         TemporaryStatusBonuses::default()
     }
 }
@@ -867,6 +908,26 @@ impl SkillBase for EndowTornado {
 impl SupportiveSkillBase for EndowTornado {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(282, 70.0), 2, tick, 1200000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(282, 80.0), 2, tick, 1200000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(282, 90.0), 2, tick, 1200000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(282, 100.0), 2, tick, 1200000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(282, 100.0), 2, tick, 1800000),]);
+        }
         TemporaryStatusBonuses::default()
     }
 }
@@ -964,6 +1025,26 @@ impl SkillBase for EndowQuake {
 impl SupportiveSkillBase for EndowQuake {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(283, 70.0), 2, tick, 1200000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(283, 80.0), 2, tick, 1200000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(283, 90.0), 2, tick, 1200000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(283, 100.0), 2, tick, 1200000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(283, 100.0), 2, tick, 1800000),]);
+        }
         TemporaryStatusBonuses::default()
     }
 }

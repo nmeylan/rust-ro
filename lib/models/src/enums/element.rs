@@ -15,7 +15,7 @@ pub enum Element {
     Dark,
     Ghost,
     Undead,
-    All,
+    AllElement,
     Max,
     Weapon,
     Endowed,

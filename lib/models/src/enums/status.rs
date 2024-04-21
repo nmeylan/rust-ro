@@ -262,7 +262,7 @@ pub enum StatusTypes {
 #[derive(Debug, Clone, Copy, PartialEq, WithNumberValue, WithStringValue, WithMaskValueU32)]
 pub enum StatusEffect {
     #[value = 0]
-    Poison,
+    Poisoned,
     Stun,
     Freeze,
     Curse,
@@ -279,7 +279,7 @@ pub enum StatusEffect {
     ArmorBreak,
     VitalStrike,
     #[mask_all]
-    All,
+    AllStatusEffect,
 }
 
 impl StatusTypes {

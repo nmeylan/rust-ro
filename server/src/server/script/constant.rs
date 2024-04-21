@@ -1320,7 +1320,7 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
             "Eff_Confusion" => Value::new_number(StatusEffect::Confuse.value() as i32),
             "Eff_Curse" => Value::new_number(StatusEffect::Curse.value() as i32),
             "Eff_Freeze" => Value::new_number(StatusEffect::Freeze.value() as i32),
-            "Eff_Poison" => Value::new_number(StatusEffect::Poison.value() as i32),
+            "Eff_Poison" => Value::new_number(StatusEffect::Poisoned.value() as i32),
             "Eff_Silence" => Value::new_number(StatusEffect::Silence.value() as i32),
             "Eff_Sleep" => Value::new_number(StatusEffect::Sleep.value() as i32),
             "Eff_Stone" => Value::new_number(StatusEffect::Stone.value() as i32),
