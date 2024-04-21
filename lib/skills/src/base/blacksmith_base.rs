@@ -6,7 +6,7 @@
 use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};
 use models::enums::skill::*;
 use models::enums::weapon::AmmoType;
-use models::enums::element::Element;
+use models::enums::element::Element::{*};
 
 use models::item::WearWeapon;
 
@@ -16,6 +16,7 @@ use models::enums::weapon::WeaponType::{*};
 use models::enums::bonus::{BonusType};
 use models::enums::status::StatusEffect::{*};
 use models::status_bonus::{TemporaryStatusBonus};
+use models::enums::mob::MobRace::{*};
 
 use crate::{*};
 

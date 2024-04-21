@@ -7,109 +7,109 @@
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super Novice Sword Mastery
+    // Rogue Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super Novice Increase HP Recovery
+    // Swordsman Increase HP Recovery
     SmRecovery,
-    // Super Novice Bash
+    // Swordsman Bash
     SmBash,
-    // Super Novice Provoke
+    // Swordsman Provoke
     SmProvoke,
-    // Super Novice Magnum Break
+    // Swordsman Magnum Break
     SmMagnum,
-    // Super Novice Endure
+    // Swordsman Endure
     SmEndure,
-    // Super Novice Increase SP Recovery
+    // Priest Increase SP Recovery
     MgSrecovery,
-    // Super Novice Sight
+    // Super_Baby Sight
     MgSight,
-    // Super Novice Napalm Beat
+    // Super_Baby Napalm Beat
     MgNapalmbeat,
-    // Super Novice Safety Wall
+    // Priest Safety Wall
     MgSafetywall,
-    // Super Novice Soul Strike
+    // Super_Baby Soul Strike
     MgSoulstrike,
-    // Super Novice Cold Bolt
+    // Super_Baby Cold Bolt
     MgColdbolt,
-    // Super Novice Frost Diver
+    // Super_Baby Frost Diver
     MgFrostdiver,
-    // Super Novice Stone Curse
+    // Super_Baby Stone Curse
     MgStonecurse,
-    // Super Novice Fire Ball
+    // Super_Baby Fire Ball
     MgFireball,
-    // Super Novice Fire Wall
+    // Super_Baby Fire Wall
     MgFirewall,
-    // Super Novice Fire Bolt
+    // Super_Baby Fire Bolt
     MgFirebolt,
-    // Super Novice Lightning Bolt
+    // Super_Baby Lightning Bolt
     MgLightningbolt,
-    // Super Novice Thunder Storm
+    // Super_Baby Thunder Storm
     MgThunderstorm,
-    // Super Novice Divine Protection
+    // Acolyte Divine Protection
     AlDp,
-    // Super Novice Demon Bane
+    // Acolyte Demon Bane
     AlDemonbane,
-    // Super Novice Ruwach
+    // Acolyte Ruwach
     AlRuwach,
-    // Super Novice Pneuma
+    // Acolyte Pneuma
     AlPneuma,
-    // Super Novice Teleport
+    // Acolyte Teleport
     AlTeleport,
-    // Super Novice Warp Portal
+    // Acolyte Warp Portal
     AlWarp,
-    // Super Novice Heal
+    // Acolyte Heal
     AlHeal,
-    // Super Novice Increase AGI
+    // Acolyte Increase AGI
     AlIncagi,
-    // Super Novice Decrease AGI
+    // Acolyte Decrease AGI
     AlDecagi,
-    // Super Novice Aqua Benedicta
+    // Acolyte Aqua Benedicta
     AlHolywater,
-    // Super Novice Signum Crucis
+    // Acolyte Signum Crucis
     AlCrucis,
-    // Super Novice Angelus
+    // Acolyte Angelus
     AlAngelus,
-    // Super Novice Blessing
+    // Acolyte Blessing
     AlBlessing,
-    // Super Novice Cure
+    // Acolyte Cure
     AlCure,
-    // Merchant Enlarge Weight Limit
+    // Super_Baby Enlarge Weight Limit
     McInccarry,
-    // Merchant Discount
+    // Super_Baby Discount
     McDiscount,
-    // Merchant Overcharge
+    // Super_Baby Overcharge
     McOvercharge,
-    // Merchant Pushcart
+    // Super_Baby Pushcart
     McPushcart,
-    // Merchant Item Appraisal
+    // Super_Baby Item Appraisal
     McIdentify,
-    // Merchant Vending
+    // Super_Baby Vending
     McVending,
-    // Merchant Mammonite
+    // Super_Baby Mammonite
     McMammonite,
-    // Super Novice Owl's Eye
+    // Archer Owl's Eye
     AcOwl,
-    // Super Novice Vulture's Eye
+    // Archer Vulture's Eye
     AcVulture,
-    // Super Novice Improve Concentration
+    // Archer Improve Concentration
     AcConcentration,
-    // Rogue Double Strafe
+    // Archer Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Super Novice Double Attack
+    // Thief Double Attack
     TfDouble,
-    // Super Novice Improve Dodge
+    // Thief Improve Dodge
     TfMiss,
-    // Super Novice Steal
+    // Thief Steal
     TfSteal,
-    // Super Novice Hiding
+    // Thief Hiding
     TfHiding,
-    // Super Novice Envenom
+    // Thief Envenom
     TfPoison,
-    // Super Novice Detoxify
+    // Thief Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // HighPriest Slow Poison
+    // Priest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -181,13 +181,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Wizard Earth Spike
+    // Sage Earth Spike
     WzEarthspike,
-    // Wizard Heaven's Drive
+    // Sage Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Wizard Sense
+    // Sage Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -1821,13 +1821,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Merchant Open Buying Store
+    // Super_Baby Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Merchant Decorate Cart
+    // Super_Baby Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,
