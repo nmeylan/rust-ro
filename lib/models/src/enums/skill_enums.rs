@@ -7,45 +7,45 @@
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Rogue Sword Mastery
+    // Super Novice Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Swordsman Increase HP Recovery
+    // Super Novice Increase HP Recovery
     SmRecovery,
-    // Swordsman Bash
+    // Super Novice Bash
     SmBash,
-    // Swordsman Provoke
+    // Super Novice Provoke
     SmProvoke,
-    // Swordsman Magnum Break
+    // Super Novice Magnum Break
     SmMagnum,
-    // Swordsman Endure
+    // Super Novice Endure
     SmEndure,
     // Priest Increase SP Recovery
     MgSrecovery,
-    // Super_Baby Sight
+    // Super Novice Sight
     MgSight,
-    // Super_Baby Napalm Beat
+    // Super Novice Napalm Beat
     MgNapalmbeat,
     // Priest Safety Wall
     MgSafetywall,
-    // Super_Baby Soul Strike
+    // Super Novice Soul Strike
     MgSoulstrike,
-    // Super_Baby Cold Bolt
+    // Super Novice Cold Bolt
     MgColdbolt,
-    // Super_Baby Frost Diver
+    // Super Novice Frost Diver
     MgFrostdiver,
-    // Super_Baby Stone Curse
+    // Super Novice Stone Curse
     MgStonecurse,
-    // Super_Baby Fire Ball
+    // Super Novice Fire Ball
     MgFireball,
-    // Super_Baby Fire Wall
+    // Super Novice Fire Wall
     MgFirewall,
-    // Super_Baby Fire Bolt
+    // Super Novice Fire Bolt
     MgFirebolt,
-    // Super_Baby Lightning Bolt
+    // Super Novice Lightning Bolt
     MgLightningbolt,
-    // Super_Baby Thunder Storm
+    // Super Novice Thunder Storm
     MgThunderstorm,
     // Acolyte Divine Protection
     AlDp,
@@ -75,27 +75,27 @@ pub enum SkillEnum {
     AlBlessing,
     // Acolyte Cure
     AlCure,
-    // Super_Baby Enlarge Weight Limit
+    // Super Novice Enlarge Weight Limit
     McInccarry,
-    // Super_Baby Discount
+    // Super Novice Discount
     McDiscount,
-    // Super_Baby Overcharge
+    // Super Novice Overcharge
     McOvercharge,
-    // Super_Baby Pushcart
+    // Super Novice Pushcart
     McPushcart,
-    // Super_Baby Item Appraisal
+    // Super Novice Item Appraisal
     McIdentify,
-    // Super_Baby Vending
+    // Super Novice Vending
     McVending,
-    // Super_Baby Mammonite
+    // Super Novice Mammonite
     McMammonite,
-    // Archer Owl's Eye
+    // Super Novice Owl's Eye
     AcOwl,
-    // Archer Vulture's Eye
+    // Super Novice Vulture's Eye
     AcVulture,
-    // Archer Improve Concentration
+    // Super Novice Improve Concentration
     AcConcentration,
-    // Archer Double Strafe
+    // Rogue Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
@@ -181,13 +181,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Sage Earth Spike
+    // Wizard Earth Spike
     WzEarthspike,
-    // Sage Heaven's Drive
+    // Wizard Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Sage Sense
+    // Wizard Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -1821,13 +1821,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Super_Baby Open Buying Store
+    // Super Novice Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Super_Baby Decorate Cart
+    // Super Novice Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,

@@ -1140,7 +1140,7 @@ impl SkillBase for Magnificat {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false

@@ -758,30 +758,12 @@ impl SkillBase for WandofHermode {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-    #[inline(always)]
     fn is_performance_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
         Some(self)
-    }
-}
-impl SelfSkillBase for WandofHermode {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 impl PerformanceSkillBase for WandofHermode {
