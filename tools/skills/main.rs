@@ -1032,7 +1032,7 @@ fn is_ground(skill_config: &SkillConfig) -> bool {
 }
 
 fn is_self(skill_config: &SkillConfig) -> bool {
-    matches!(skill_config.target_type(), SkillTargetType::MySelf)
+    matches!(skill_config.target_type(), SkillTargetType::MySelf) && !is_performance(skill_config)
 }
 
 fn is_support(skill_config: &SkillConfig) -> bool {
@@ -1040,5 +1040,5 @@ fn is_support(skill_config: &SkillConfig) -> bool {
 }
 
 fn is_performance(skill_config: &SkillConfig) -> bool {
-    skill_config.flags.is_some() && skill_config.flags.unwrap() & SkillFlags::Issong.as_flag() > 0
+    skill_config.skill_type().is_some() && matches!(skill_config.skill_type().unwrap(), SkillType::Performance)
 }

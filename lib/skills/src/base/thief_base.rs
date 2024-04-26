@@ -326,7 +326,7 @@ impl SkillBase for Hiding {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        false
+        true
     }
     fn _is_physical(&self) -> bool {
         false

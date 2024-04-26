@@ -41,6 +41,9 @@ pub enum SkillType {
     Magic,
     Weapon,
     Misc,
+    Interactive,
+    Support,
+    Performance,
 }
 
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq, Default)]

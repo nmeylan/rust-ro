@@ -1259,7 +1259,7 @@
       "maxLevel": 10,
       "name": "SM_ENDURE",
       "targetType": "Self",
-      "type": "Weapon",
+      "type": "Support",
       "duration1PerLevel": [
         {
           "level": 1,
@@ -6014,6 +6014,7 @@
       "name": "MC_IDENTIFY",
       "range": 1,
       "targetType": "Self",
+      "type": "Interactive",
       "damageflags": {
         "noDamage": true
       },
@@ -6033,6 +6034,7 @@
       "name": "MC_VENDING",
       "range": 1,
       "targetType": "Self",
+      "type": "Interactive",
       "damageflags": {
         "noDamage": true
       },
@@ -6330,7 +6332,7 @@
       "name": "AC_CONCENTRATION",
       "splashArea": 3,
       "targetType": "Self",
-      "type": "Weapon",
+      "type": "Support",
       "duration1PerLevel": [
         {
           "level": 1,
@@ -7155,6 +7157,7 @@
       "name": "TF_HIDING",
       "range": 1,
       "targetType": "Self",
+      "type": "Magic",
       "duration1PerLevel": [
         {
           "level": 1,
@@ -8138,7 +8141,7 @@
       "maxLevel": 10,
       "name": "KN_TWOHANDQUICKEN",
       "targetType": "Self",
-      "type": "Weapon",
+      "type": "Support",
       "duration1PerLevel": [
         {
           "level": 1,
@@ -9468,7 +9471,7 @@
       "name": "PR_MAGNIFICAT",
       "splashArea": -1,
       "targetType": "Self",
-      "type": "Magic",
+      "type": "Support",
       "duration1PerLevel": [
         {
           "level": 1,
@@ -27252,7 +27255,7 @@
       "maxLevel": 1,
       "name": "BD_LULLABY",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -27292,7 +27295,7 @@
       "maxLevel": 5,
       "name": "BD_RICHMANKIM",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -27372,7 +27375,7 @@
       "maxLevel": 1,
       "name": "BD_ETERNALCHAOS",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -27416,7 +27419,7 @@
       "maxLevel": 5,
       "name": "BD_DRUMBATTLEFIELD",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -27566,7 +27569,7 @@
       "maxLevel": 5,
       "name": "BD_RINGNIBELUNGEN",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -27686,7 +27689,7 @@
       "maxLevel": 1,
       "name": "BD_ROKISWEIL",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -27721,7 +27724,7 @@
       "maxLevel": 1,
       "name": "BD_INTOABYSS",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -27758,7 +27761,7 @@
       "maxLevel": 5,
       "name": "BD_SIEGFRIED",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -28087,7 +28090,7 @@
       "maxLevel": 5,
       "name": "BA_DISSONANCE",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "ignoreFlee": true,
         "noDamage": true
@@ -28312,7 +28315,7 @@
       "maxLevel": 10,
       "name": "BA_WHISTLE",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -28587,7 +28590,7 @@
       "maxLevel": 10,
       "name": "BA_ASSASSINCROSS",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -28778,7 +28781,7 @@
       "maxLevel": 10,
       "name": "BA_POEMBRAGI",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -28897,7 +28900,7 @@
       "maxLevel": 10,
       "name": "BA_APPLEIDUN",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -29361,7 +29364,7 @@
       "maxLevel": 5,
       "name": "DC_UGLYDANCE",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -29585,7 +29588,7 @@
       "maxLevel": 10,
       "name": "DC_HUMMING",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -29704,7 +29707,7 @@
       "maxLevel": 10,
       "name": "DC_DONTFORGETME",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -29965,7 +29968,7 @@
       "maxLevel": 10,
       "name": "DC_FORTUNEKISS",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -30156,7 +30159,7 @@
       "maxLevel": 10,
       "name": "DC_SERVICEFORYOU",
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "damageflags": {
         "noDamage": true
       },
@@ -42310,7 +42313,7 @@
       "name": "CG_HERMODE",
       "splashArea": 1,
       "targetType": "Self",
-      "type": "Misc",
+      "type": "Performance",
       "duration1PerLevel": [
         {
           "level": 1,
