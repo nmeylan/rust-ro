@@ -14,7 +14,6 @@ use serde::{Deserialize, Deserializer, Serialize};
 use std::collections::{BTreeMap, HashMap};
 use std::path::Path;
 use std::{env, fs};
-use models::enums::bonus::BonusType;
 use crate::bonus_type_wrapper::BonusTypeWrapper;
 
 const DEFAULT_LOG_LEVEL: &str = "info";
