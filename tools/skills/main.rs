@@ -356,7 +356,7 @@ fn generate_struct(job_skills_file: &mut File, skill_config: &SkillConfig) {
 
 fn generate_new(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn new(level: u8) -> Option<Self> where Self : Sized {\n").unwrap();
-    job_skills_file.write_all(format!("        if level < 1 || level > {} {{ return None }}\n", skill_config.max_level()).as_bytes()).unwrap();
+    job_skills_file.write_all(format!("        if level > {} {{ return None }}\n", skill_config.max_level()).as_bytes()).unwrap();
     job_skills_file.write_all(b"        Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 }

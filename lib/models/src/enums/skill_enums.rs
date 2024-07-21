@@ -7,27 +7,27 @@
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super Novice Sword Mastery
+    // Swordsman Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super Novice Increase HP Recovery
+    // Swordsman Increase HP Recovery
     SmRecovery,
-    // Super Novice Bash
+    // Swordsman Bash
     SmBash,
-    // Super Novice Provoke
+    // Swordsman Provoke
     SmProvoke,
-    // Super Novice Magnum Break
+    // Swordsman Magnum Break
     SmMagnum,
-    // Super Novice Endure
+    // Swordsman Endure
     SmEndure,
-    // Priest Increase SP Recovery
+    // Super Novice Increase SP Recovery
     MgSrecovery,
     // Super Novice Sight
     MgSight,
     // Super Novice Napalm Beat
     MgNapalmbeat,
-    // Priest Safety Wall
+    // Super Novice Safety Wall
     MgSafetywall,
     // Super Novice Soul Strike
     MgSoulstrike,
@@ -47,73 +47,73 @@ pub enum SkillEnum {
     MgLightningbolt,
     // Super Novice Thunder Storm
     MgThunderstorm,
-    // Acolyte Divine Protection
+    // Crusader Divine Protection
     AlDp,
-    // Acolyte Demon Bane
+    // Crusader Demon Bane
     AlDemonbane,
-    // Acolyte Ruwach
+    // Super Novice Ruwach
     AlRuwach,
-    // Acolyte Pneuma
+    // Super Novice Pneuma
     AlPneuma,
-    // Acolyte Teleport
+    // Super Novice Teleport
     AlTeleport,
-    // Acolyte Warp Portal
+    // Super Novice Warp Portal
     AlWarp,
-    // Acolyte Heal
+    // Crusader Heal
     AlHeal,
-    // Acolyte Increase AGI
+    // Super Novice Increase AGI
     AlIncagi,
-    // Acolyte Decrease AGI
+    // Super Novice Decrease AGI
     AlDecagi,
-    // Acolyte Aqua Benedicta
+    // Super Novice Aqua Benedicta
     AlHolywater,
-    // Acolyte Signum Crucis
+    // Super Novice Signum Crucis
     AlCrucis,
-    // Acolyte Angelus
+    // Super Novice Angelus
     AlAngelus,
-    // Acolyte Blessing
+    // Super Novice Blessing
     AlBlessing,
-    // Acolyte Cure
+    // Crusader Cure
     AlCure,
-    // Super Novice Enlarge Weight Limit
+    // Merchant Enlarge Weight Limit
     McInccarry,
-    // Super Novice Discount
+    // Merchant Discount
     McDiscount,
-    // Super Novice Overcharge
+    // Merchant Overcharge
     McOvercharge,
-    // Super Novice Pushcart
+    // Merchant Pushcart
     McPushcart,
-    // Super Novice Item Appraisal
+    // Merchant Item Appraisal
     McIdentify,
-    // Super Novice Vending
+    // Merchant Vending
     McVending,
-    // Super Novice Mammonite
+    // Merchant Mammonite
     McMammonite,
-    // Super Novice Owl's Eye
+    // Archer Owl's Eye
     AcOwl,
-    // Super Novice Vulture's Eye
+    // Archer Vulture's Eye
     AcVulture,
-    // Super Novice Improve Concentration
+    // Archer Improve Concentration
     AcConcentration,
-    // Rogue Double Strafe
+    // Archer Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Thief Double Attack
+    // Super Novice Double Attack
     TfDouble,
-    // Thief Improve Dodge
+    // Super Novice Improve Dodge
     TfMiss,
-    // Thief Steal
+    // Super Novice Steal
     TfSteal,
-    // Thief Hiding
+    // Super Novice Hiding
     TfHiding,
-    // Thief Envenom
+    // Super Novice Envenom
     TfPoison,
-    // Thief Detoxify
+    // Super Novice Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Crusader Spear Mastery
+    // Knight Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +129,9 @@ pub enum SkillEnum {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Crusader Peco Peco Riding
+    // Knight Peco Peco Riding
     KnRiding,
-    // Crusader Cavalier Mastery
+    // Knight Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -1821,13 +1821,13 @@ pub enum SkillEnum {
     AllOdinsRecall,
     // Return To Eldicastes
     ReturnToEldicastes,
-    // Super Novice Open Buying Store
+    // Merchant Open Buying Store
     AllBuyingStore,
     // Guardian's Recall
     AllGuardianRecall,
     // Odin's Power
     AllOdinsPower,
-    // Super Novice Decorate Cart
+    // Merchant Decorate Cart
     McCartdecorate,
     // Rich's Coin
     RlRichsCoin,
