@@ -65,7 +65,7 @@ pub fn handle_char_enter(server: &Server, context: Request) {
             packet_hc_block_character.set_packet_length(PacketHcBlockCharacter::base_len(GlobalConfigService::instance().packetver()) as i16);
             packet_hc_block_character.fill_raw();
             // The pincode packet should be appended to PacketHcAcceptEnterNeoUnionHeader packet
-            let final_response_packet: Vec<u8> = chain_packets(vec![packet_hc_accept_enter_neo_union.as_ref(), &packet_hc_block_character, &pincode_loginstate]);
+            let final_response_packet: Vec<u8> = chain_packets(vec![packet_hc_accept_enter_neo_union.as_ref(), &packet_hc_block_character]);
             let mut wtr = vec![];
             // A "account id packet" should be sent just before char info packet
             wtr.write_u32::<LittleEndian>(session.account_id).expect("Unable to write Little endian u32 from session account id");
