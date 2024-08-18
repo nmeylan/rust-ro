@@ -97,8 +97,9 @@ impl VisualDebugger {
                 shader_version: None,
                 centered: false,
                 persist_window: false,
+                persistence_path: None,
             };
-            eframe::run_native("Debugger", native_options, Box::new(|_cc: &CreationContext| Box::new(app))).unwrap();
+            eframe::run_native("Debugger", native_options, Box::new(|_cc: &CreationContext| Ok(Box::new(app)))).unwrap();
         });
 
     }
