@@ -1,8 +1,7 @@
 use base64::Engine;
 use base64::engine::general_purpose;
 use serde::{Deserialize, Serialize};
-use sqlx::{Decode, Error, FromRow, Postgres, Row};
-use sqlx::database::HasValueRef;
+use sqlx::{Database, Decode, Error, FromRow, Postgres, Row};
 use sqlx::error::BoxDynError;
 use sqlx::TypeInfo;
 use configuration::serde_helper::{*};
@@ -468,7 +467,7 @@ impl InventoryItemModel {
 }
 
 impl<'r> Decode<'r, Postgres> for DBItemType {
-    fn decode(value: <Postgres as HasValueRef<'r>>::ValueRef) -> Result<Self, BoxDynError> {
+    fn decode(value: <Postgres as Database>::ValueRef<'r>) -> Result<Self, BoxDynError> {
         let value = <&str as Decode<Postgres>>::decode(value)?;
         Ok(DBItemType{ item_type: ItemType::from_string(value) } )
     }
