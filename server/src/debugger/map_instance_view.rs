@@ -180,6 +180,7 @@ impl MapInstanceView {
                         },
                         fill: cell_color,
                         stroke: Stroke::NONE,
+                        blur_width: 0.0,
                         fill_texture_id: Default::default(),
                         rounding: Default::default(),
                         uv: Rect { min: Default::default(), max: Default::default() },
@@ -210,6 +211,7 @@ impl MapInstanceView {
                 rounding: Default::default(),
                 fill: previous_cell.as_ref().unwrap().color,
                 stroke: Stroke::NONE,
+                blur_width: 0.0,
                 fill_texture_id: Default::default(),
                 uv: Rect { min: Default::default(), max: Default::default() },
             }));
