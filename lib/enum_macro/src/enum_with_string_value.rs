@@ -77,26 +77,26 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
                 fn from_string(value: &str) -> Self {
                     match value {
                         #(#from_value_match_arms)*
-                        _ => panic!("Can't create enum_macro #enum_name for value {}", value)
+                        _ => panic!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value)
                     }
                 }
                 fn try_from_string(value: &str) -> Result<Self, String> {
                     match value {
                         #(#try_from_value_match_arms)*
-                        _ => Err(format!("Can't create enum_macro #enum_name for value {}", value))
+                        _ => Err(format!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value))
                     }
                 }
                 fn from_string_ignore_case(value: &str) -> Self {
                     match value.to_string().to_lowercase().as_str() {
                         #(#from_value_ignore_case_match_arms)*
-                        _ => panic!("Can't create enum_macro #enum_name for value {}", value)
+                        _ => panic!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value)
                     }
                 }
 
                 fn as_str(&self) -> &str {
                     match self {
                         #(#value_match_arms)*
-                        _ => panic!("Value can't be found for enum_macro #enum_name")
+                        _ => panic!("Value can't be found for enum_macro {}", stringify!(#enum_name))
                     }
                 }
             }

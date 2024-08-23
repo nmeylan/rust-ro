@@ -65,14 +65,14 @@ macro_rules! with_mask {
                         fn from_flag(value: $type) -> Self {
                             match value {
                                 #(#from_value_match_arms)*
-                                _ => panic!("Can't create enum_macro #enum_name for value {}", value)
+                                _ => panic!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value)
                             }
                         }
 
                         fn as_flag(&self) -> $type {
                             match self {
                                 #(#value_match_arms)*
-                                _ => panic!("Value can't be found for enum_macro #enum_name")
+                                _ => panic!("Value can't be found for enum_macro {}", stringify!(#enum_name))
                             }
                         }
                     }
