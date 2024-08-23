@@ -38,12 +38,12 @@ pub enum SkillState {
 
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum SkillType {
-    Magic,
-    Weapon,
-    Misc,
+    Offensive,
     Interactive,
-    Support,
     Performance,
+    Support,
+    Passive,
+    Ground
 }
 
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq, Default)]

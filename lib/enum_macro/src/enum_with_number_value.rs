@@ -54,20 +54,20 @@ pub fn with_number_value(input: TokenStream) -> TokenStream {
                 fn from_value(value: usize) -> Self {
                     match value {
                         #(#from_value_match_arms)*
-                        _ => panic!("Can't create enum_macro #enum_name for value {}", value)
+                        _ => panic!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value)
                     }
                 }
                 fn try_from_value(value: usize) -> Result<Self, String> {
                     match value {
                         #(#try_from_value_match_arms)*
-                        _ => panic!("Can't create enum_macro #enum_name for value {}", value)
+                        _ => panic!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value)
                     }
                 }
 
                 fn value(&self) -> usize {
                     match self {
                         #(#value_match_arms)*
-                        _ => panic!("Value can't be found for enum_macro #enum_name")
+                        _ => panic!("Value can't be found for enum_macro {}", stringify!(#enum_name))
                     }
                 }
             }
