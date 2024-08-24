@@ -89,6 +89,47 @@ impl SkillBase for SoulDrain {
         false
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
@@ -184,6 +225,17 @@ impl SkillBase for StaveCrasher {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        300
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -343,6 +395,57 @@ impl SkillBase for MysticalAmplification {
        700
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(5), 2, tick, 30000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(10), 2, tick, 30000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(15), 2, tick, 30000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(20), 2, tick, 30000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(25), 2, tick, 30000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(30), 2, tick, 30000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(35), 2, tick, 30000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(40), 2, tick, 30000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(45), 2, tick, 30000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MatkPercentage(50), 2, tick, 30000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
@@ -464,6 +567,32 @@ impl SkillBase for NapalmVulcan {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -608,6 +737,20 @@ impl SkillBase for Ganbantein {
        2000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -733,6 +876,37 @@ impl SkillBase for GravitationField {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-5.0), 2, tick, 5000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-10.0), 2, tick, 6000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-15.0), 2, tick, 7000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-20.0), 2, tick, 8000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-25.0), 2, tick, 9000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {

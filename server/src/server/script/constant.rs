@@ -1312,7 +1312,7 @@ pub fn load_constant(constant_name: &String) -> Option<Value> {
             "RC_Plant" => Value::new_number(MobRace::Plant.value() as i32),
             "RC_Player_Human" => Value::new_number(MobRace::PlayerHuman.value() as i32),
             "RC_Player_Doram" => Value::new_number(MobRace::PlayerDoram.value() as i32),
-            "RC_Undead" => Value::new_number(MobRace::Undead.value() as i32),
+            "RC_Undead" => Value::new_number(MobRace::RUndead.value() as i32),
             "RC_All" => Value::new_number(MobRace::All.value() as i32),
             "Eff_Bleeding" => Value::new_number(StatusEffect::Bleeding.value() as i32),
             "Eff_Blind" => Value::new_number(StatusEffect::Blind.value() as i32),

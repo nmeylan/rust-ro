@@ -89,6 +89,67 @@ impl SkillBase for AxeMastery {
         false
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 3), 0, 226),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 3), 0, 226),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 6), 0, 226),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 6), 0, 226),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 9), 0, 226),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 9), 0, 226),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 12), 0, 226),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 12), 0, 226),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 15), 0, 226),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 15), 0, 226),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 18), 0, 226),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 18), 0, 226),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 21), 0, 226),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 21), 0, 226),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 24), 0, 226),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 24), 0, 226),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 27), 0, 226),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 27), 0, 226),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe1H, 30), 0, 226),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Axe2H, 30), 0, 226),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
@@ -165,6 +226,87 @@ impl SkillBase for PotionResearch {
     fn _is_physical(&self) -> bool {
         false
     }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(5), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(5), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 1.0), 0, 227),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(10), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(10), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 2.0), 0, 227),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(15), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(15), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 3.0), 0, 227),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(20), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(20), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 4.0), 0, 227),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(25), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(25), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 5.0), 0, 227),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(30), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(30), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 6.0), 0, 227),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(35), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(35), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 7.0), 0, 227),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(40), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(40), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 8.0), 0, 227),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(45), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(45), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 9.0), 0, 227),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::HpRegenFromItemPercentage(50), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(50), 0, 227),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SkillIdSuccessPercentage(227, 10.0), 0, 227),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for PotionResearch {
 }
 // AM_PHARMACY
 pub struct PreparePotion {
@@ -243,6 +385,47 @@ impl SkillBase for PreparePotion {
             return Err(UseSkillFailure::NeedItem);
         }
         Ok(Some(required_items))
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
@@ -336,6 +519,37 @@ impl SkillBase for Bomb {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(1), 2, tick, 40000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(2), 2, tick, 45000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(3), 2, tick, 50000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(4), 2, tick, 55000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(5), 2, tick, 60000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -466,6 +680,42 @@ impl SkillBase for AcidTerror {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Bleeding, 3.0), 2, tick, 3),
+                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(3), 2, tick, 3),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Bleeding, 6.0), 2, tick, 7),
+                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(6), 2, tick, 7),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Bleeding, 9.0), 2, tick, 10),
+                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(9), 2, tick, 10),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Bleeding, 12.0), 2, tick, 12),
+                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(12), 2, tick, 12),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Bleeding, 15.0), 2, tick, 13),
+                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(13), 2, tick, 13),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -615,6 +865,32 @@ impl SkillBase for AidPotion {
        500
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
@@ -718,6 +994,17 @@ impl SkillBase for SummonFlora {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        500
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
@@ -827,6 +1114,17 @@ impl SkillBase for SummonMarineSphere {
        500
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -930,6 +1228,17 @@ impl SkillBase for AlchemicalWeapon {
        2000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
@@ -1025,6 +1334,17 @@ impl SkillBase for SynthesizedShield {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
@@ -1124,6 +1444,17 @@ impl SkillBase for SyntheticArmor {
        2000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
@@ -1221,6 +1552,17 @@ impl SkillBase for BiochemicalHelm {
        2000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
@@ -1300,6 +1642,17 @@ impl SkillBase for Bioethics {
     }
     fn _is_physical(&self) -> bool {
         false
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
 }
 // AM_CALLHOMUN
@@ -1381,6 +1734,17 @@ impl SkillBase for CallHomunculus {
         Ok(Some(required_items))
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -1460,6 +1824,17 @@ impl SkillBase for Vaporize {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 50 { Ok(50) } else {Err(())}
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
@@ -1577,6 +1952,17 @@ impl SkillBase for HomunculusResurrection {
        2000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -1668,6 +2054,17 @@ impl SkillBase for AidBerserkPotion {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        500
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
@@ -1770,6 +2167,17 @@ impl SkillBase for TwilightAlchemy1 {
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
     }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_TWILIGHT2
 pub struct TwilightAlchemy2 {
@@ -1857,6 +2265,17 @@ impl SkillBase for TwilightAlchemy2 {
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
     }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // AM_TWILIGHT3
 pub struct TwilightAlchemy3 {
@@ -1943,5 +2362,16 @@ impl SkillBase for TwilightAlchemy3 {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
 }

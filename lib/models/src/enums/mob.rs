@@ -54,7 +54,7 @@ pub enum MobRace {
     PlayerDoram,
     #[value_string = "RC_Undead"]
     #[value_string = "Undead"]
-    Undead,
+    RUndead,
 
 }
 

@@ -89,6 +89,67 @@ impl SkillBase for Study {
         false
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(0.5), 0, 274),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Book, 3), 0, 274),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(1.0), 0, 274),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Book, 6), 0, 274),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(1.5), 0, 274),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Book, 9), 0, 274),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(2.0), 0, 274),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Book, 12), 0, 274),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(2.5), 0, 274),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Book, 15), 0, 274),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(3.0), 0, 274),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Book, 18), 0, 274),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(3.5), 0, 274),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Book, 21), 0, 274),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(4.0), 0, 274),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Book, 24), 0, 274),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(4.5), 0, 274),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Book, 27), 0, 274),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(5.0), 0, 274),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Book, 30), 0, 274),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_passive_skill(&self) -> bool {
         true
     }
@@ -170,6 +231,17 @@ impl SkillBase for CastCancel {
         if status.sp() > 2 { Ok(2) } else {Err(())}
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -249,6 +321,17 @@ impl SkillBase for MagicRod {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 2 { Ok(2) } else {Err(())}
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
@@ -336,6 +419,17 @@ impl SkillBase for SpellBreaker {
        700
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -411,6 +505,67 @@ impl SkillBase for FreeCast {
     }
     fn _is_physical(&self) -> bool {
         false
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(55.0), 0, 278),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(30), 0, 278),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(60.0), 0, 278),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(35), 0, 278),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(65.0), 0, 278),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(40), 0, 278),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(70.0), 0, 278),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(45), 0, 278),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(75.0), 0, 278),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(50), 0, 278),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(80.0), 0, 278),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(55), 0, 278),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(85.0), 0, 278),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(60), 0, 278),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(90.0), 0, 278),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(65), 0, 278),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(95.0), 0, 278),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(70), 0, 278),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::AspdPercentage(100.0), 0, 278),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(75), 0, 278),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -496,6 +651,57 @@ impl SkillBase for Hindsight {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 7.0), 2, tick, 120000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 9.0), 2, tick, 150000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 11.0), 2, tick, 180000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 13.0), 2, tick, 210000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 15.0), 2, tick, 240000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 17.0), 2, tick, 270000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 19.0), 2, tick, 300000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 21.0), 2, tick, 330000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 23.0), 2, tick, 360000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 25.0), 2, tick, 390000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
@@ -595,6 +801,37 @@ impl SkillBase for EndowBlaze {
        3000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(280, 70.0), 2, tick, 1200000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(280, 80.0), 2, tick, 1200000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(280, 90.0), 2, tick, 1200000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(280, 100.0), 2, tick, 1200000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(280, 100.0), 2, tick, 1800000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
@@ -690,6 +927,37 @@ impl SkillBase for EndowTsunami {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        3000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(281, 70.0), 2, tick, 1200000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(281, 80.0), 2, tick, 1200000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(281, 90.0), 2, tick, 1200000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(281, 100.0), 2, tick, 1200000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(281, 100.0), 2, tick, 1800000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
@@ -789,6 +1057,37 @@ impl SkillBase for EndowTornado {
        3000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(282, 70.0), 2, tick, 1200000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(282, 80.0), 2, tick, 1200000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(282, 90.0), 2, tick, 1200000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(282, 100.0), 2, tick, 1200000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(282, 100.0), 2, tick, 1800000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
@@ -886,6 +1185,37 @@ impl SkillBase for EndowQuake {
        3000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(283, 70.0), 2, tick, 1200000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(283, 80.0), 2, tick, 1200000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(283, 90.0), 2, tick, 1200000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(283, 100.0), 2, tick, 1200000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(283, 100.0), 2, tick, 1800000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
@@ -965,6 +1295,52 @@ impl SkillBase for Dragonology {
     }
     fn _is_physical(&self) -> bool {
         false
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::Int(1), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::PhysicalDamageAgainstRacePercentage(Dragon, 2), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MagicalDamageAgainstRacePercentage(Dragon, 2), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromRacePercentage(Dragon, 4), 0, 284),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::Int(1), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::PhysicalDamageAgainstRacePercentage(Dragon, 4), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MagicalDamageAgainstRacePercentage(Dragon, 4), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromRacePercentage(Dragon, 8), 0, 284),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::Int(2), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::PhysicalDamageAgainstRacePercentage(Dragon, 6), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MagicalDamageAgainstRacePercentage(Dragon, 6), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromRacePercentage(Dragon, 12), 0, 284),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::Int(2), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::PhysicalDamageAgainstRacePercentage(Dragon, 8), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MagicalDamageAgainstRacePercentage(Dragon, 8), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromRacePercentage(Dragon, 16), 0, 284),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::Int(3), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::PhysicalDamageAgainstRacePercentage(Dragon, 10), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::MagicalDamageAgainstRacePercentage(Dragon, 10), 0, 284),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromRacePercentage(Dragon, 20), 0, 284),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -1090,6 +1466,42 @@ impl SkillBase for Volcano {
        5000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Atk(10), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Fire, 10), 2, tick, 60000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Atk(20), 2, tick, 120000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Fire, 14), 2, tick, 120000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Atk(30), 2, tick, 180000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Fire, 17), 2, tick, 180000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Atk(40), 2, tick, 240000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Fire, 19), 2, tick, 240000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Atk(50), 2, tick, 300000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Fire, 20), 2, tick, 300000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1213,6 +1625,42 @@ impl SkillBase for Deluge {
        5000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MaxhpPercentage(5), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Water, 10), 2, tick, 60000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MaxhpPercentage(9), 2, tick, 120000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Water, 14), 2, tick, 120000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MaxhpPercentage(12), 2, tick, 180000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Water, 17), 2, tick, 180000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MaxhpPercentage(14), 2, tick, 240000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Water, 19), 2, tick, 240000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::MaxhpPercentage(15), 2, tick, 300000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Water, 20), 2, tick, 300000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1334,6 +1782,42 @@ impl SkillBase for Whirlwind {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        5000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(3), 2, tick, 60000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Wind, 10), 2, tick, 60000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(6), 2, tick, 120000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Wind, 14), 2, tick, 120000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(9), 2, tick, 180000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Wind, 17), 2, tick, 180000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(12), 2, tick, 240000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Wind, 19), 2, tick, 240000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(15), 2, tick, 300000),
+                TemporaryStatusBonus::with_duration(BonusType::DamageUsingElementPercentage(Wind, 20), 2, tick, 300000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_ground_skill(&self) -> bool {
@@ -1462,6 +1946,17 @@ impl SkillBase for MagneticEarth {
        5000
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1553,6 +2048,32 @@ impl SkillBase for Dispell {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
@@ -1648,6 +2169,17 @@ impl SkillBase for Hocuspocus {
         Ok(Some(required_items))
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -1727,6 +2259,17 @@ impl SkillBase for CreateElementalConverter {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 30 { Ok(30) } else {Err(())}
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
 }
 // SA_ELEMENTWATER
@@ -1815,6 +2358,17 @@ impl SkillBase for ElementalChangeWater {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_ELEMENTGROUND
 pub struct ElementalChangeEarth {
@@ -1901,6 +2455,17 @@ impl SkillBase for ElementalChangeEarth {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
 }
 // SA_ELEMENTFIRE
@@ -1989,6 +2554,17 @@ impl SkillBase for ElementalChangeFire {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // SA_ELEMENTWIND
 pub struct ElementalChangeWind {
@@ -2075,5 +2651,16 @@ impl SkillBase for ElementalChangeWind {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
 }

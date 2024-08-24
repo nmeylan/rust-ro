@@ -1,6 +1,4 @@
-{
-  "skills": [
-    {
+{"skills":[{
       "description": "Basic Skill",
       "id": 1,
       "maxLevel": 9,
@@ -45,7 +43,7 @@
       ],
       "type": "Passive"
     },
-    {
+{
       "description": "Sword Mastery",
       "id": 2,
       "maxLevel": 10,
@@ -134,7 +132,7 @@
         }
       ]
     },
-    {
+{
       "description": "Two-Handed Sword Mastery",
       "id": 3,
       "maxLevel": 10,
@@ -223,7 +221,7 @@
         }
       ]
     },
-    {
+{
       "description": "Increase HP Recovery",
       "id": 4,
       "maxLevel": 10,
@@ -452,7 +450,7 @@
       ],
       "type": "Passive"
     },
-    {
+{
       "description": "Bash",
       "element": "Weapon",
       "damageType": "Single",
@@ -654,7 +652,7 @@
         }
       ]
     },
-    {
+{
       "cooldown": 1000,
       "description": "Provoke",
       "duration1": 30000,
@@ -936,7 +934,7 @@
       ],
       "type": "Support"
     },
-    {
+{
       "afterCastActDelay": 2000,
       "description": "Magnum Break",
       "duration2": 10000,
@@ -1252,7 +1250,7 @@
         }
       ]
     },
-    {
+{
       "cooldown": 10000,
       "description": "Endure",
       "duration2": 10000,
@@ -1426,7 +1424,7 @@
         }
       ]
     },
-    {
+{
       "description": "Increase SP Recovery",
       "id": 9,
       "maxLevel": 10,
@@ -1655,7 +1653,7 @@
       ],
       "type": "Passive"
     },
-    {
+{
       "castCancel": true,
       "description": "Sight",
       "duration1": 10000,
@@ -1678,7 +1676,7 @@
       },
       "aoesize": "7x7 square"
     },
-    {
+{
       "castCancel": true,
       "castTime": 1000,
       "description": "Napalm Beat",
@@ -1836,7 +1834,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "castCancel": true,
       "description": "Safety Wall",
       "element": "Ghost",
@@ -2077,7 +2075,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 500,
       "description": "Soul Strike",
@@ -2313,7 +2311,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Cold Bolt",
       "element": "Water",
@@ -2548,7 +2546,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "afterCastActDelay": 1500,
       "castCancel": true,
       "castTime": 800,
@@ -2788,7 +2786,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 1000,
       "description": "Stone Curse",
@@ -2945,7 +2943,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Fire Ball",
       "element": "Fire",
@@ -3144,7 +3142,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "activeInstance": 3,
       "castCancel": true,
       "description": "Fire Wall",
@@ -3310,7 +3308,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Fire Bolt",
       "element": "Fire",
@@ -3545,7 +3543,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Lightning Bolt",
       "element": "Wind",
@@ -3780,7 +3778,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "description": "Thunder Storm",
@@ -4030,183 +4028,183 @@
         "isMagical": true
       }
     },
-    {
+{
       "description": "Divine Protection",
       "id": 22,
       "maxLevel": 10,
       "name": "AL_DP",
       "type": "Passive"
     },
-    {
-      "description": "Demon Bane",
-      "id": 23,
-      "maxLevel": 10,
-      "name": "AL_DEMONBANE",
-      "type": "Passive",
-      "bonusToSelf": [
-        {
-          "level": 1,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Demon",
-            "value2": 3
-          }
-        },
-        {
-          "level": 1,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Undead",
-            "value2": 3
-          }
-        },
-        {
-          "level": 2,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Demon",
-            "value2": 6
-          }
-        },
-        {
-          "level": 2,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Undead",
-            "value2": 6
-          }
-        },
-        {
-          "level": 3,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Demon",
-            "value2": 9
-          }
-        },
-        {
-          "level": 3,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Undead",
-            "value2": 9
-          }
-        },
-        {
-          "level": 4,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Demon",
-            "value2": 12
-          }
-        },
-        {
-          "level": 4,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Undead",
-            "value2": 12
-          }
-        },
-        {
-          "level": 5,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Demon",
-            "value2": 15
-          }
-        },
-        {
-          "level": 5,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Undead",
-            "value2": 15
-          }
-        },
-        {
-          "level": 6,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Demon",
-            "value2": 18
-          }
-        },
-        {
-          "level": 6,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Undead",
-            "value2": 18
-          }
-        },
-        {
-          "level": 7,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Demon",
-            "value2": 21
-          }
-        },
-        {
-          "level": 7,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Undead",
-            "value2": 21
-          }
-        },
-        {
-          "level": 8,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Demon",
-            "value2": 24
-          }
-        },
-        {
-          "level": 8,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Undead",
-            "value2": 24
-          }
-        },
-        {
-          "level": 9,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Demon",
-            "value2": 27
-          }
-        },
-        {
-          "level": 9,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Undead",
-            "value2": 27
-          }
-        },
-        {
-          "level": 10,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Demon",
-            "value2": 30
-          }
-        },
-        {
-          "level": 10,
-          "value": {
-            "bonus": "AtkBaneAgainstRace",
-            "value": "Undead",
-            "value2": 30
-          }
-        }
-      ]
-    },
-    {
+{
+  "description": "Demon Bane",
+  "id": 23,
+  "maxLevel": 10,
+  "name": "AL_DEMONBANE",
+  "type": "Passive",
+  "bonusToSelf": [
+  {
+    "level": 1,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Demon",
+      "value2": 3
+    }
+  },
+  {
+    "level": 1,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Undead",
+      "value2": 3
+    }
+  },
+  {
+    "level": 2,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Demon",
+      "value2": 6
+    }
+  },
+  {
+    "level": 2,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Undead",
+      "value2": 6
+    }
+  },
+  {
+    "level": 3,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Demon",
+      "value2": 9
+    }
+  },
+  {
+    "level": 3,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Undead",
+      "value2": 9
+    }
+  },
+  {
+    "level": 4,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Demon",
+      "value2": 12
+    }
+  },
+  {
+    "level": 4,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Undead",
+      "value2": 12
+    }
+  },
+  {
+    "level": 5,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Demon",
+      "value2": 15
+    }
+  },
+  {
+    "level": 5,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Undead",
+      "value2": 15
+    }
+  },
+  {
+    "level": 6,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Demon",
+      "value2": 18
+    }
+  },
+  {
+    "level": 6,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Undead",
+      "value2": 18
+    }
+  },
+  {
+    "level": 7,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Demon",
+      "value2": 21
+    }
+  },
+  {
+    "level": 7,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Undead",
+      "value2": 21
+    }
+  },
+  {
+    "level": 8,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Demon",
+      "value2": 24
+    }
+  },
+  {
+    "level": 8,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Undead",
+      "value2": 24
+    }
+  },
+  {
+    "level": 9,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Demon",
+      "value2": 27
+    }
+  },
+  {
+    "level": 9,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Undead",
+      "value2": 27
+    }
+  },
+  {
+    "level": 10,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Demon",
+      "value2": 30
+    }
+  },
+  {
+    "level": 10,
+    "value": {
+      "bonus": "AtkBaneAgainstRace",
+      "value": "Undead",
+      "value2": 30
+    }
+  }
+]
+},
+{
       "castCancel": true,
       "description": "Ruwach",
       "duration1": 10000,
@@ -4235,7 +4233,7 @@
       "dmgMatk": 1.45,
       "dmgWaves": 1
     },
-    {
+{
       "castCancel": true,
       "description": "Pneuma",
       "duration1": 10000,
@@ -4265,7 +4263,7 @@
       },
       "aoesize": "3x3 square"
     },
-    {
+{
       "castCancel": true,
       "description": "Teleport",
       "damageType": "Single",
@@ -4295,7 +4293,7 @@
         ]
       }
     },
-    {
+{
       "activeInstance": 3,
       "castCancel": true,
       "castTime": 1000,
@@ -4409,7 +4407,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Heal",
@@ -4521,7 +4519,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 1000,
@@ -4770,7 +4768,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 1000,
@@ -5099,7 +5097,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -5119,7 +5117,7 @@
         "state": "Water"
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "castTime": 500,
@@ -5292,7 +5290,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 3500,
       "castCancel": true,
       "castTime": 500,
@@ -5468,7 +5466,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Blessing",
       "damageType": "Single",
@@ -5784,7 +5782,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Cure",
@@ -5804,7 +5802,7 @@
         "spcost": 15
       }
     },
-    {
+{
       "description": "Enlarge Weight Limit",
       "id": 36,
       "maxLevel": 10,
@@ -5853,7 +5851,7 @@
       ],
       "type": "Interactive"
     },
-    {
+{
       "description": "Discount",
       "id": 37,
       "maxLevel": 10,
@@ -5902,7 +5900,7 @@
       ],
       "type": "Interactive"
     },
-    {
+{
       "description": "Overcharge",
       "id": 38,
       "maxLevel": 10,
@@ -5951,7 +5949,7 @@
       ],
       "type": "Interactive"
     },
-    {
+{
       "description": "Pushcart",
       "id": 39,
       "maxLevel": 10,
@@ -6031,7 +6029,7 @@
       ],
       "type": "Passive"
     },
-    {
+{
       "description": "Item Appraisal",
       "damageType": "Single",
       "hitCount": 1,
@@ -6051,7 +6049,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "description": "Vending",
       "damageType": "Single",
       "hitCount": 1,
@@ -6114,7 +6112,7 @@
         }
       ]
     },
-    {
+{
       "description": "Mammonite",
       "element": "Weapon",
       "damageType": "Single",
@@ -6266,7 +6264,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Owl's Eye",
       "id": 43,
       "maxLevel": 10,
@@ -6345,14 +6343,14 @@
       ],
       "type": "Passive"
     },
-    {
+{
       "description": "Vulture's Eye",
       "id": 44,
       "maxLevel": 10,
       "name": "AC_VULTURE",
       "type": "Passive"
     },
-    {
+{
       "description": "Improve Concentration",
       "damageType": "Single",
       "hitCount": 1,
@@ -6595,7 +6593,7 @@
         }
       ]
     },
-    {
+{
       "description": "Double Strafe",
       "duration1": 100,
       "element": "Ammo",
@@ -6671,7 +6669,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Arrow Shower",
       "duration1": 100,
       "element": "Ammo",
@@ -6795,7 +6793,7 @@
         }
       ]
     },
-    {
+{
       "description": "Double Attack",
       "element": "Ammo",
       "damageType": "MultiHit",
@@ -7003,7 +7001,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Improve Dodge",
       "id": 49,
       "maxLevel": 10,
@@ -7082,7 +7080,7 @@
         }
       ]
     },
-    {
+{
       "description": "Steal",
       "damageType": "Single",
       "hitCount": 1,
@@ -7181,7 +7179,7 @@
         }
       ]
     },
-    {
+{
       "description": "Hiding",
       "damageType": "Single",
       "hitCount": 1,
@@ -7288,7 +7286,7 @@
         }
       ]
     },
-    {
+{
       "description": "Envenom",
       "duration2": 60000,
       "element": "Poison",
@@ -7437,7 +7435,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Detoxify",
       "element": "Poison",
       "damageType": "Single",
@@ -7455,7 +7453,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Resurrection",
       "element": "Holy",
@@ -7534,7 +7532,7 @@
         }
       ]
     },
-    {
+{
       "description": "Spear Mastery",
       "id": 55,
       "maxLevel": 10,
@@ -7703,7 +7701,7 @@
         }
       ]
     },
-    {
+{
       "description": "Pierce",
       "element": "Weapon",
       "damageType": "MultiHit",
@@ -7840,7 +7838,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "activeInstance": 5,
       "castTime": 700,
       "description": "Brandish Spear",
@@ -7996,7 +7994,7 @@
         }
       ]
     },
-    {
+{
       "description": "Spear Stab",
       "element": "Weapon",
       "damageType": "Single",
@@ -8109,7 +8107,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Spear Boomerang",
       "element": "Weapon",
@@ -8176,7 +8174,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Twohand Quicken",
       "damageType": "Single",
       "hitCount": 1,
@@ -8354,7 +8352,7 @@
         }
       ]
     },
-    {
+{
       "description": "Counter Attack",
       "element": "Weapon",
       "damageType": "Single",
@@ -8421,7 +8419,7 @@
       "dmgMatk": 1,
       "dmgWaves": 1
     },
-    {
+{
       "castTime": 700,
       "description": "Bowling Bash",
       "element": "Weapon",
@@ -8619,14 +8617,14 @@
         }
       ]
     },
-    {
+{
       "description": "Peco Peco Riding",
       "id": 63,
       "maxLevel": 1,
       "name": "KN_RIDING",
       "type": "Passive"
     },
-    {
+{
       "description": "Cavalier Mastery",
       "id": 64,
       "maxLevel": 5,
@@ -8670,7 +8668,7 @@
         }
       ]
     },
-    {
+{
       "description": "Mace Mastery",
       "id": 65,
       "maxLevel": 10,
@@ -8759,7 +8757,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 3000,
       "castCancel": true,
       "description": "Impositio Manus",
@@ -8837,7 +8835,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "description": "Suffragium",
@@ -8873,7 +8871,7 @@
         "spcost": 8
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "description": "Aspersio",
@@ -8947,7 +8945,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "description": "B.S. Sacramenti",
       "damageType": "Single",
@@ -8998,7 +8996,7 @@
       },
       "aoesize": "3x3 square"
     },
-    {
+{
       "castCancel": true,
       "castTime": 5000,
       "description": "Sanctuary",
@@ -9251,7 +9249,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Slow Poison",
       "damageType": "Single",
@@ -9304,7 +9302,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "description": "Status Recovery",
@@ -9324,7 +9322,7 @@
         "spcost": 5
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "castTime": 2000,
@@ -9501,7 +9499,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "castTime": 4000,
@@ -9544,7 +9542,7 @@
       },
       "aoesize": "37x37 square"
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "description": "Gloria",
@@ -9625,7 +9623,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 3000,
       "castCancel": true,
       "description": "Lex Divina",
@@ -9808,7 +9806,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 3000,
       "castCancel": true,
       "castTime": 1000,
@@ -9918,7 +9916,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 3000,
       "castCancel": true,
       "description": "Lex Aeterna",
@@ -9937,7 +9935,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "afterCastActDelay": 4000,
       "castCancel": true,
       "castTime": 15000,
@@ -10190,7 +10188,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "activeInstance": 5,
       "afterCastActDelay": 1000,
       "castCancel": true,
@@ -10475,7 +10473,7 @@
       "aoesplash": 1,
       "dmgWaves": 1
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "castTime": 500,
@@ -10593,7 +10591,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "castCancel": true,
       "castTime": 15000,
       "description": "Meteor Storm",
@@ -11014,7 +11012,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Jupitel Thunder",
       "element": "Wind",
@@ -11249,7 +11247,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "afterCastActDelay": 5000,
       "castCancel": true,
       "description": "Lord of Vermilion",
@@ -11544,7 +11542,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Water Ball",
       "duration1": 10000,
@@ -11788,7 +11786,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Ice Wall",
       "element": "Water",
@@ -11902,7 +11900,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Frost Nova",
@@ -12181,7 +12179,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 5000,
       "castCancel": true,
       "description": "Storm Gust",
@@ -12433,7 +12431,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "afterCastActDelay": 700,
       "castCancel": true,
       "description": "Earth Spike",
@@ -12547,7 +12545,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "afterCastActDelay": 700,
       "castCancel": true,
       "description": "Heaven's Drive",
@@ -12673,7 +12671,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "activeInstance": 3,
       "afterCastActDelay": 1000,
       "castCancel": true,
@@ -12881,7 +12879,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Sense",
       "damageType": "Single",
@@ -12899,7 +12897,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "description": "Iron Tempering",
       "id": 94,
       "maxLevel": 5,
@@ -12948,7 +12946,7 @@
         }
       ]
     },
-    {
+{
       "description": "Steel Tempering",
       "id": 95,
       "maxLevel": 5,
@@ -12997,7 +12995,7 @@
         }
       ]
     },
-    {
+{
       "description": "Enchanted Stone Craft",
       "id": 96,
       "maxLevel": 5,
@@ -13046,7 +13044,7 @@
         }
       ]
     },
-    {
+{
       "description": "Oridecon Research",
       "id": 97,
       "maxLevel": 5,
@@ -13095,7 +13093,7 @@
         }
       ]
     },
-    {
+{
       "description": "Smith Dagger",
       "id": 98,
       "maxLevel": 3,
@@ -13142,7 +13140,7 @@
         }
       ]
     },
-    {
+{
       "description": "Smith Sword",
       "id": 99,
       "maxLevel": 3,
@@ -13189,7 +13187,7 @@
         }
       ]
     },
-    {
+{
       "description": "Smith Two-handed Sword",
       "id": 100,
       "maxLevel": 3,
@@ -13236,7 +13234,7 @@
         }
       ]
     },
-    {
+{
       "description": "Smith Axe",
       "id": 101,
       "maxLevel": 3,
@@ -13283,7 +13281,7 @@
         }
       ]
     },
-    {
+{
       "description": "Smith Mace",
       "id": 102,
       "maxLevel": 3,
@@ -13330,7 +13328,7 @@
         }
       ]
     },
-    {
+{
       "description": "Smith Knucklebrace",
       "id": 103,
       "maxLevel": 3,
@@ -13377,7 +13375,7 @@
         }
       ]
     },
-    {
+{
       "description": "Smith Spear",
       "id": 104,
       "maxLevel": 3,
@@ -13424,7 +13422,7 @@
         }
       ]
     },
-    {
+{
       "description": "Hilt Binding",
       "id": 105,
       "maxLevel": 1,
@@ -13445,14 +13443,14 @@
         }
       ]
     },
-    {
+{
       "description": "Ore Discovery",
       "id": 106,
       "maxLevel": 1,
       "name": "BS_FINDINGORE",
       "type": "Passive"
     },
-    {
+{
       "description": "Weaponry Research",
       "id": 107,
       "maxLevel": 10,
@@ -13681,7 +13679,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 7500,
       "description": "Weapon Repair",
@@ -13703,7 +13701,7 @@
         "spcost": 30
       }
     },
-    {
+{
       "description": "Skin Tempering",
       "id": 109,
       "maxLevel": 5,
@@ -13792,7 +13790,7 @@
         }
       ]
     },
-    {
+{
       "description": "Hammer Fall",
       "duration2": 5000,
       "damageType": "Single",
@@ -13930,7 +13928,7 @@
         }
       ]
     },
-    {
+{
       "description": "Adrenaline Rush",
       "damageType": "Single",
       "hitCount": 1,
@@ -14143,7 +14141,7 @@
         }
       ]
     },
-    {
+{
       "description": "Weapon Perfection",
       "damageType": "Single",
       "hitCount": 1,
@@ -14207,7 +14205,7 @@
       },
       "aoesize": "37x37 square"
     },
-    {
+{
       "description": "Power-Thrust",
       "damageType": "Single",
       "hitCount": 1,
@@ -14405,7 +14403,7 @@
         }
       ]
     },
-    {
+{
       "description": "Maximize Power",
       "damageType": "Single",
       "hitCount": 1,
@@ -14468,7 +14466,7 @@
         }
       ]
     },
-    {
+{
       "description": "Skid Trap",
       "duration2": 3000,
       "damageType": "Single",
@@ -14576,7 +14574,7 @@
         }
       ]
     },
-    {
+{
       "description": "Land Mine",
       "duration2": 5000,
       "element": "Earth",
@@ -14780,7 +14778,7 @@
         }
       ]
     },
-    {
+{
       "description": "Ankle Snare",
       "damageType": "Single",
       "hitCount": 1,
@@ -14932,7 +14930,7 @@
         }
       ]
     },
-    {
+{
       "description": "Shockwave Trap",
       "damageType": "Single",
       "hitCount": 1,
@@ -15063,7 +15061,7 @@
         }
       ]
     },
-    {
+{
       "description": "Sandman",
       "duration2": 30000,
       "damageType": "Single",
@@ -15215,7 +15213,7 @@
         }
       ]
     },
-    {
+{
       "description": "Flasher",
       "duration2": 30000,
       "damageType": "Single",
@@ -15347,7 +15345,7 @@
         }
       ]
     },
-    {
+{
       "description": "Freezing Trap",
       "element": "Water",
       "damageType": "Single",
@@ -15550,7 +15548,7 @@
         }
       ]
     },
-    {
+{
       "description": "Blast Mine",
       "element": "Wind",
       "damageType": "Single",
@@ -15713,7 +15711,7 @@
         }
       ]
     },
-    {
+{
       "description": "Claymore Trap",
       "element": "Fire",
       "damageType": "Single",
@@ -15877,7 +15875,7 @@
         }
       ]
     },
-    {
+{
       "description": "Remove Trap",
       "damageType": "Single",
       "hitCount": 1,
@@ -15897,7 +15895,7 @@
         "spcost": 5
       }
     },
-    {
+{
       "description": "Talkie Box",
       "duration1": 600000,
       "damageType": "Single",
@@ -15936,7 +15934,7 @@
       "aoesize": "1x1 square",
       "aoesplash": 1
     },
-    {
+{
       "description": "Beast Bane",
       "id": 126,
       "maxLevel": 10,
@@ -16105,14 +16103,14 @@
         }
       ]
     },
-    {
+{
       "description": "Falconry Mastery",
       "id": 127,
       "maxLevel": 1,
       "name": "HT_FALCON",
       "type": "Passive"
     },
-    {
+{
       "description": "Steel Crow",
       "id": 128,
       "maxLevel": 10,
@@ -16161,7 +16159,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 1500,
@@ -16229,7 +16227,7 @@
         ]
       }
     },
-    {
+{
       "description": "Detect",
       "damageType": "Single",
       "hitCount": 1,
@@ -16267,7 +16265,7 @@
       },
       "aoesize": "3x3 square"
     },
-    {
+{
       "description": "Spring Trap",
       "damageType": "Single",
       "hitCount": 1,
@@ -16306,7 +16304,7 @@
         "state": "Falcon"
       }
     },
-    {
+{
       "description": "Righthand Mastery",
       "id": 132,
       "maxLevel": 5,
@@ -16350,7 +16348,7 @@
         }
       ]
     },
-    {
+{
       "description": "Lefthand Mastery",
       "id": 133,
       "maxLevel": 5,
@@ -16394,7 +16392,7 @@
         }
       ]
     },
-    {
+{
       "description": "Katar Mastery",
       "id": 134,
       "maxLevel": 10,
@@ -16483,7 +16481,7 @@
         }
       ]
     },
-    {
+{
       "description": "Cloaking",
       "damageType": "Single",
       "hitCount": 1,
@@ -16701,7 +16699,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 2000,
       "afterCastWalkDelay": 2000,
       "description": "Sonic Blow",
@@ -16964,7 +16962,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Grimtooth",
       "duration2": 1000,
       "element": "Weapon",
@@ -17075,7 +17073,7 @@
         }
       ]
     },
-    {
+{
       "description": "Enchant Poison",
       "element": "Poison",
       "damageType": "Single",
@@ -17262,7 +17260,7 @@
         }
       ]
     },
-    {
+{
       "description": "Poison React",
       "damageType": "Single",
       "hitCount": 1,
@@ -17608,7 +17606,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "description": "Venom Dust",
       "duration2": 60000,
       "element": "Poison",
@@ -17769,7 +17767,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 1000,
       "description": "Venom Splasher",
@@ -18055,7 +18053,7 @@
         }
       ]
     },
-    {
+{
       "description": "First Aid",
       "damageType": "Single",
       "hitCount": 1,
@@ -18074,7 +18072,7 @@
       "healhp": 3,
       "type": "Passive"
     },
-    {
+{
       "description": "Play Dead",
       "duration1": 600000,
       "damageType": "Single",
@@ -18094,7 +18092,7 @@
       },
       "type": "Support"
     },
-    {
+{
       "description": "Moving HP-Recovery",
       "id": 144,
       "maxLevel": 1,
@@ -18150,7 +18148,7 @@
       ],
       "type": "Passive"
     },
-    {
+{
       "description": "Fatal Blow",
       "duration2": 5000,
       "id": 145,
@@ -18161,7 +18159,7 @@
         "isQuest": true
       }
     },
-    {
+{
       "description": "Auto Berserk",
       "damageType": "Single",
       "hitCount": 1,
@@ -18193,7 +18191,7 @@
         }
       ]
     },
-    {
+{
       "description": "Arrow Crafting",
       "id": 147,
       "maxLevel": 1,
@@ -18211,7 +18209,7 @@
         "state": "RecoverWeightRate"
       }
     },
-    {
+{
       "castTime": 1500,
       "description": "Arrow Repel",
       "element": "Ammo",
@@ -18249,7 +18247,7 @@
       "dmgAtk": 1.5,
       "dmgWaves": 1
     },
-    {
+{
       "description": "Sand Attack",
       "duration2": 30000,
       "element": "Earth",
@@ -18282,7 +18280,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Back Slide",
       "damageType": "Single",
       "hitCount": 1,
@@ -18303,7 +18301,7 @@
         "spcost": 7
       }
     },
-    {
+{
       "castTime": 500,
       "description": "Find Stone",
       "damageType": "Single",
@@ -18324,7 +18322,7 @@
       },
       "type": "Interactive"
     },
-    {
+{
       "description": "Stone Fling",
       "duration1": 5000,
       "duration2": 30000,
@@ -18375,7 +18373,7 @@
         }
       ]
     },
-    {
+{
       "description": "Cart Revolution",
       "element": "Weapon",
       "damageType": "Single",
@@ -18404,7 +18402,7 @@
       "dmgAtk": 2.5,
       "dmgWaves": 1
     },
-    {
+{
       "description": "Change Cart",
       "damageType": "Single",
       "hitCount": 1,
@@ -18425,7 +18423,7 @@
       },
       "type": "Interactive"
     },
-    {
+{
       "description": "Crazy Uproar",
       "duration1": 300000,
       "damageType": "Single",
@@ -18454,7 +18452,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 2000,
       "description": "Holy Light",
@@ -18483,7 +18481,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 5000,
       "description": "Energy Coat",
@@ -18505,7 +18503,7 @@
         "spcost": 30
       }
     },
-    {
+{
       "description": "Gank",
       "element": "Weapon",
       "id": 210,
@@ -18595,7 +18593,7 @@
         }
       ]
     },
-    {
+{
       "description": "Mug",
       "damageType": "Single",
       "hitCount": 1,
@@ -18694,7 +18692,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "description": "Back Stab",
       "element": "Weapon",
@@ -18806,7 +18804,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "description": "Stalk",
       "id": 213,
       "maxLevel": 5,
@@ -18849,7 +18847,7 @@
         }
       ]
     },
-    {
+{
       "description": "Sightless Mind",
       "duration1": 5000,
       "duration2": 30000,
@@ -18981,7 +18979,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castTime": 1000,
       "description": "Divest Weapon",
@@ -19085,7 +19083,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castTime": 1000,
       "description": "Divest Shield",
@@ -19189,7 +19187,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castTime": 1000,
       "description": "Divest Armor",
@@ -19293,7 +19291,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castTime": 1000,
       "description": "Divest Helm",
@@ -19397,7 +19395,7 @@
         }
       ]
     },
-    {
+{
       "description": "Snatch",
       "element": "Weapon",
       "damageType": "Single",
@@ -19561,7 +19559,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Scribble",
       "duration1": 180000,
       "damageType": "Single",
@@ -19594,7 +19592,7 @@
       "aoesize": "5x5 square",
       "type": "Interactive"
     },
-    {
+{
       "description": "Piece",
       "damageType": "Single",
       "hitCount": 1,
@@ -19609,7 +19607,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "description": "Remover",
       "damageType": "Single",
       "hitCount": 1,
@@ -19627,14 +19625,14 @@
         "spcost": 5
       }
     },
-    {
+{
       "description": "Slyness",
       "id": 223,
       "maxLevel": 1,
       "name": "RG_GANGSTER",
       "splashArea": 1
     },
-    {
+{
       "description": "Haggle",
       "id": 224,
       "maxLevel": 5,
@@ -19662,7 +19660,7 @@
         }
       ]
     },
-    {
+{
       "description": "Intimidate",
       "id": 225,
       "maxLevel": 10,
@@ -19710,7 +19708,7 @@
         }
       ]
     },
-    {
+{
       "description": "Axe Mastery",
       "id": 226,
       "maxLevel": 10,
@@ -19879,12 +19877,12 @@
         }
       ]
     },
-    {
-      "description": "Potion Research",
-      "id": 227,
-      "maxLevel": 10,
-      "name": "AM_LEARNINGPOTION",
-      "bonusToSelf": [
+{
+  "description": "Potion Research",
+  "id": 227,
+  "maxLevel": 10,
+  "name": "AM_LEARNINGPOTION",
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -20105,9 +20103,10 @@
             "value2": 10
           }
         }
-      ]
-    },
-    {
+      ],
+  "type": "Passive"
+},
+{
       "description": "Prepare Potion",
       "damageType": "Single",
       "id": 228,
@@ -20210,7 +20209,7 @@
       ],
       "type": "Interactive"
     },
-    {
+{
       "castCancel": true,
       "castTime": 1000,
       "description": "Bomb",
@@ -20361,7 +20360,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 1000,
       "description": "Acid Terror",
@@ -20519,7 +20518,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "description": "Aid Potion",
@@ -20657,7 +20656,7 @@
       ],
       "type": "Offensive"
     },
-    {
+{
       "activeInstance": 5,
       "afterCastActDelay": 500,
       "castTime": 2000,
@@ -20772,7 +20771,7 @@
       ],
       "type": "Interactive"
     },
-    {
+{
       "activeInstance": 3,
       "afterCastActDelay": 500,
       "castTime": 2000,
@@ -20844,7 +20843,7 @@
       ],
       "type": "Interactive"
     },
-    {
+{
       "castCancel": true,
       "castTime": 2000,
       "description": "Alchemical Weapon",
@@ -20891,7 +20890,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 2000,
       "description": "Synthesized Shield",
@@ -20938,7 +20937,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 2000,
       "description": "Synthetic Armor",
@@ -20985,7 +20984,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 2000,
       "description": "Biochemical Helm",
@@ -21032,7 +21031,7 @@
         ]
       }
     },
-    {
+{
       "description": "Bioethics",
       "id": 238,
       "maxLevel": 1,
@@ -21041,7 +21040,7 @@
         "isQuest": true
       }
     },
-    {
+{
       "description": "Call Homunculus",
       "id": 243,
       "maxLevel": 1,
@@ -21062,7 +21061,7 @@
       },
       "type": "Interactive"
     },
-    {
+{
       "description": "Vaporize",
       "id": 244,
       "maxLevel": 1,
@@ -21076,7 +21075,7 @@
       },
       "type": "Interactive"
     },
-    {
+{
       "castTime": 2000,
       "description": "Homunculus Resurrection",
       "damageType": "Single",
@@ -21137,7 +21136,7 @@
       ],
       "type": "Interactive"
     },
-    {
+{
       "description": "Faith",
       "id": 248,
       "maxLevel": 10,
@@ -21295,7 +21294,7 @@
         }
       ]
     },
-    {
+{
       "description": "Guard",
       "duration1": 300000,
       "damageType": "Single",
@@ -21632,7 +21631,7 @@
         }
       ]
     },
-    {
+{
       "description": "Smite",
       "duration2": 5000,
       "damageType": "Single",
@@ -21742,7 +21741,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "afterCastActDelay": 700,
       "description": "Shield Boomerang",
       "damageType": "Single",
@@ -21809,7 +21808,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Shield Reflect",
       "duration1": 300000,
       "damageType": "Single",
@@ -21940,7 +21939,7 @@
         }
       ]
     },
-    {
+{
       "description": "Holy Cross",
       "duration2": 30000,
       "element": "Holy",
@@ -22132,7 +22131,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "afterCastActDelay": 1500,
       "afterCastWalkDelay": 1000,
       "castDefenseReduction": 33,
@@ -22303,7 +22302,7 @@
       ],
       "dmgWaves": 3
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Sacrifice",
@@ -22391,7 +22390,7 @@
       ],
       "type": "Support"
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Resistant Souls",
@@ -22496,7 +22495,7 @@
       ],
       "type": "Support"
     },
-    {
+{
       "afterCastActDelay": 800,
       "description": "Defending Aura",
       "duration1": 180000,
@@ -22587,7 +22586,7 @@
         }
       ]
     },
-    {
+{
       "description": "Spear Quicken",
       "damageType": "Single",
       "hitCount": 1,
@@ -22761,7 +22760,7 @@
         }
       ]
     },
-    {
+{
       "description": "Iron Fists",
       "id": 259,
       "maxLevel": 10,
@@ -22850,7 +22849,7 @@
         }
       ]
     },
-    {
+{
       "description": "Spiritual Cadence",
       "id": 260,
       "maxLevel": 5,
@@ -23009,7 +23008,7 @@
         }
       ]
     },
-    {
+{
       "castTime": 1000,
       "description": "Summon Spirit Sphere",
       "duration1": 600000,
@@ -23049,7 +23048,7 @@
       ],
       "type": "Interactive"
     },
-    {
+{
       "castCancel": true,
       "castTime": 2000,
       "description": "Absorb Spirit Sphere",
@@ -23068,7 +23067,7 @@
         "spcost": 5
       }
     },
-    {
+{
       "description": "Raging Trifecta Blow",
       "element": "Weapon",
       "damageType": "MultiHit",
@@ -23214,7 +23213,7 @@
         }
       ]
     },
-    {
+{
       "description": "Snap",
       "damageType": "Single",
       "hitCount": 1,
@@ -23232,7 +23231,7 @@
       },
       "type": "Interactive"
     },
-    {
+{
       "description": "Dodge",
       "id": 265,
       "maxLevel": 10,
@@ -23311,7 +23310,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castTime": 1000,
       "description": "Occult Impaction",
@@ -23383,7 +23382,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "afterCastActDelay": 500,
       "castTime": 1000,
       "description": "Throw Spirit Sphere",
@@ -23516,7 +23515,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "castTime": 5000,
       "description": "Mental Strength",
       "damageType": "Single",
@@ -23628,7 +23627,7 @@
         }
       ]
     },
-    {
+{
       "description": "Root",
       "damageType": "Single",
       "hitCount": 1,
@@ -23735,7 +23734,7 @@
         }
       ]
     },
-    {
+{
       "description": "Fury",
       "duration1": 180000,
       "damageType": "Single",
@@ -23790,7 +23789,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Asura Strike",
       "duration2": 300000,
@@ -23911,7 +23910,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "description": "Raging Quadruple Blow",
       "element": "Weapon",
       "damageType": "MultiHit",
@@ -24007,7 +24006,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Raging Thrust",
       "element": "Weapon",
       "damageType": "Single",
@@ -24103,7 +24102,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "description": "Study",
       "id": 274,
       "maxLevel": 10,
@@ -24262,7 +24261,7 @@
         }
       ]
     },
-    {
+{
       "description": "Cast Cancel",
       "damageType": "Single",
       "hitCount": 1,
@@ -24300,7 +24299,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Magic Rod",
       "damageType": "Single",
@@ -24361,7 +24360,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 700,
       "description": "Spell Breaker",
@@ -24446,7 +24445,7 @@
         }
       ]
     },
-    {
+{
       "description": "Free Cast",
       "id": 278,
       "maxLevel": 10,
@@ -24595,7 +24594,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Hindsight",
@@ -24737,7 +24736,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Endow Blaze",
@@ -24831,7 +24830,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Endow Tsunami",
@@ -24925,7 +24924,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Endow Tornado",
@@ -25019,7 +25018,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Endow Quake",
@@ -25113,7 +25112,7 @@
         }
       ]
     },
-    {
+{
       "description": "Dragonology",
       "id": 284,
       "maxLevel": 5,
@@ -25277,7 +25276,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 5000,
       "description": "Volcano",
@@ -25436,7 +25435,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 5000,
       "description": "Deluge",
@@ -25595,7 +25594,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 5000,
       "description": "Whirlwind",
@@ -25754,7 +25753,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 5000,
       "description": "Magnetic Earth",
@@ -25878,7 +25877,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 2000,
       "description": "Dispell",
@@ -25951,7 +25950,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Hocus-pocus",
       "damageType": "Single",
@@ -26016,7 +26015,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Monocell",
       "damageType": "Single",
@@ -26037,7 +26036,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Class Change",
       "damageType": "Single",
@@ -26058,7 +26057,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Monster Chant",
       "damageType": "Single",
@@ -26078,7 +26077,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Grampus Morph",
       "duration1": 1200000,
@@ -26100,7 +26099,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Grim Reaper",
       "damageType": "Single",
@@ -26121,7 +26120,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Gold Digger",
       "damageType": "Single",
@@ -26142,7 +26141,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Beastly Hypnosis",
       "damageType": "Single",
@@ -26163,7 +26162,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Questioning",
       "damageType": "Single",
@@ -26184,7 +26183,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Gravity",
       "damageType": "Single",
@@ -26205,7 +26204,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Leveling",
       "damageType": "Single",
@@ -26226,7 +26225,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Suicide",
       "damageType": "Single",
@@ -26244,7 +26243,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Rejuvenation",
       "damageType": "Single",
@@ -26265,7 +26264,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Coma",
       "damageType": "Single",
@@ -26283,7 +26282,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Amp",
       "duration2": 5000,
       "damageType": "Single",
@@ -26303,7 +26302,7 @@
       },
       "type": "Interactive"
     },
-    {
+{
       "description": "Encore",
       "damageType": "Single",
       "hitCount": 1,
@@ -26323,7 +26322,7 @@
       },
       "type": "Interactive"
     },
-    {
+{
       "description": "Lullaby",
       "duration1": 60000,
       "duration2": 15000,
@@ -26363,7 +26362,7 @@
       ],
       "spLossPerSecond": 0.25
     },
-    {
+{
       "description": "Mental Sensing",
       "duration1": 60000,
       "duration2": 60000,
@@ -26443,7 +26442,7 @@
         }
       ]
     },
-    {
+{
       "description": "Down Tempo",
       "duration1": 60000,
       "duration2": 60000,
@@ -26487,7 +26486,7 @@
         }
       ]
     },
-    {
+{
       "description": "Battle Theme",
       "duration1": 60000,
       "duration2": 60000,
@@ -26637,7 +26636,7 @@
         }
       ]
     },
-    {
+{
       "description": "Harmonic Lick",
       "duration1": 60000,
       "duration2": 60000,
@@ -26757,7 +26756,7 @@
         }
       ]
     },
-    {
+{
       "description": "Classical Pluck",
       "duration1": 60000,
       "duration2": 60000,
@@ -26792,7 +26791,7 @@
       "aoesize": "9x9 square",
       "spLossPerSecond": 0.25
     },
-    {
+{
       "description": "Power Chord",
       "duration1": 60000,
       "duration2": 60000,
@@ -26829,7 +26828,7 @@
       "aoesize": "9x9 square",
       "spLossPerSecond": 0.2
     },
-    {
+{
       "description": "Acoustic Rhythm",
       "duration1": 60000,
       "duration2": 60000,
@@ -26928,7 +26927,7 @@
         }
       ]
     },
-    {
+{
       "description": "Music Lessons",
       "id": 315,
       "maxLevel": 10,
@@ -27087,7 +27086,7 @@
         }
       ]
     },
-    {
+{
       "castTime": 1500,
       "description": "Melody Strike",
       "element": "Ammo",
@@ -27160,7 +27159,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Unchained Serenade",
       "duration1": 30000,
       "duration2": 3000,
@@ -27261,7 +27260,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 4000,
       "description": "Unbarring Octave",
       "duration2": 12000,
@@ -27384,7 +27383,7 @@
         }
       ]
     },
-    {
+{
       "description": "Perfect Tablature",
       "duration1": 60000,
       "duration2": 20000,
@@ -27659,7 +27658,7 @@
         }
       ]
     },
-    {
+{
       "description": "Impressive Riff",
       "duration1": 120000,
       "duration2": 20000,
@@ -27850,7 +27849,7 @@
         }
       ]
     },
-    {
+{
       "description": "Magic Strings",
       "duration1": 180000,
       "duration2": 20000,
@@ -27969,7 +27968,7 @@
         }
       ]
     },
-    {
+{
       "description": "Song of Lutie",
       "duration1": 180000,
       "duration2": 20000,
@@ -28203,7 +28202,7 @@
         }
       ]
     },
-    {
+{
       "description": "Dance Lessons",
       "id": 323,
       "maxLevel": 10,
@@ -28362,7 +28361,7 @@
         }
       ]
     },
-    {
+{
       "castTime": 1500,
       "description": "Slinging Arrow",
       "element": "Ammo",
@@ -28435,7 +28434,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Hip Shaker",
       "duration1": 30000,
       "duration2": 3000,
@@ -28535,7 +28534,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 4000,
       "description": "Dazzler",
       "duration2": 5000,
@@ -28658,7 +28657,7 @@
         }
       ]
     },
-    {
+{
       "description": "Focus Ballet",
       "duration1": 60000,
       "duration2": 20000,
@@ -28777,7 +28776,7 @@
         }
       ]
     },
-    {
+{
       "description": "Slow Grace",
       "duration1": 180000,
       "duration2": 20000,
@@ -29038,7 +29037,7 @@
         }
       ]
     },
-    {
+{
       "description": "Lady Luck",
       "duration1": 120000,
       "duration2": 20000,
@@ -29229,7 +29228,7 @@
         }
       ]
     },
-    {
+{
       "description": "Gypsy's Kiss",
       "duration1": 180000,
       "duration2": 20000,
@@ -29420,7 +29419,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "I Will Protect You",
@@ -29442,7 +29441,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "I Look up to You",
@@ -29464,7 +29463,7 @@
         "spRateCost": -10
       }
     },
-    {
+{
       "activeInstance": 1,
       "castCancel": true,
       "description": "I miss You",
@@ -29495,7 +29494,7 @@
         "range": -1
       }
     },
-    {
+{
       "description": "Throw Tomahawk",
       "element": "Weapon",
       "damageType": "Single",
@@ -29520,7 +29519,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Aura Blade",
       "damageType": "Single",
       "hitCount": 1,
@@ -29640,7 +29639,7 @@
         }
       ]
     },
-    {
+{
       "description": "Parrying",
       "damageType": "Single",
       "hitCount": 1,
@@ -29773,7 +29772,7 @@
         }
       ]
     },
-    {
+{
       "description": "Concentration",
       "damageType": "Single",
       "hitCount": 1,
@@ -29904,7 +29903,7 @@
         }
       ]
     },
-    {
+{
       "description": "Relax",
       "duration1": 180000,
       "damageType": "Single",
@@ -29921,7 +29920,7 @@
         "spcost": 15
       }
     },
-    {
+{
       "description": "Frenzy",
       "duration1": 300000,
       "duration2": 15000,
@@ -29940,7 +29939,7 @@
         "joblevel": 50
       }
     },
-    {
+{
       "description": "Fury",
       "duration1": 300000,
       "damageType": "Single",
@@ -29954,7 +29953,7 @@
         "noDamage": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Assumptio",
       "damageType": "Single",
@@ -30060,7 +30059,7 @@
         ]
       }
     },
-    {
+{
       "activeInstance": 1,
       "castCancel": true,
       "description": "Basilica",
@@ -30216,7 +30215,7 @@
       },
       "aoesize": "5x5 square"
     },
-    {
+{
       "description": "Meditatio",
       "id": 363,
       "maxLevel": 10,
@@ -30421,7 +30420,7 @@
         }
       ]
     },
-    {
+{
       "description": "Soul Drain",
       "hitCount": 1,
       "id": 364,
@@ -30546,7 +30545,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "afterCastActDelay": 300,
       "castCancel": true,
       "castTime": 300,
@@ -30569,7 +30568,7 @@
         "isMagical": true
       }
     },
-    {
+{
       "castTime": 700,
       "description": "Mystical Amplification",
       "duration1": 30000,
@@ -30704,7 +30703,7 @@
         }
       ]
     },
-    {
+{
       "description": "Gloria Domini",
       "damageType": "MultiHit",
       "hitCount": 1,
@@ -30860,7 +30859,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "description": "Martyr's Reckoning",
@@ -30925,7 +30924,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Battle Chant",
       "duration1": 60000,
@@ -31162,7 +31161,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 300,
       "castCancel": true,
       "description": "Raging Palm Strike",
@@ -31275,7 +31274,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Glacier Fist",
       "element": "Weapon",
       "damageType": "MultiHit",
@@ -31343,7 +31342,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Chain Crush Combo",
       "element": "Weapon",
       "damageType": "MultiHit",
@@ -31493,7 +31492,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Indulge",
       "damageType": "Single",
       "hitCount": 1,
@@ -31574,7 +31573,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 5000,
       "castCancel": true,
       "castTime": 3000,
@@ -31598,7 +31597,7 @@
         "spcost": 5
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Soul Siphon",
       "damageType": "Single",
@@ -31729,7 +31728,7 @@
         }
       ]
     },
-    {
+{
       "description": "Advanced Katar Mastery",
       "hitCount": 1,
       "id": 376,
@@ -31777,7 +31776,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 2000,
       "description": "Enchant Deadly Poison",
       "element": "Poison",
@@ -31943,7 +31942,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 700,
       "description": "Soul Destroyer",
@@ -32133,7 +32132,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "description": "Falcon Eyes",
       "duration1": 30000,
       "damageType": "Single",
@@ -32403,7 +32402,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 3000,
       "castCancel": true,
       "castTime": 1000,
@@ -32446,7 +32445,7 @@
         ]
       }
     },
-    {
+{
       "activeInstance": 14,
       "afterCastActDelay": 1500,
       "castCancel": true,
@@ -32562,7 +32561,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "description": "Wind Walker",
@@ -32850,7 +32849,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Shattering Strike",
       "duration2": 5000,
@@ -33137,7 +33136,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Create Coins",
       "hitCount": 1,
@@ -33152,7 +33151,7 @@
         "spcost": 5
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Create Nuggets",
       "hitCount": 1,
@@ -33167,7 +33166,7 @@
         "spcost": 5
       }
     },
-    {
+{
       "description": "Cart Boost",
       "duration1": 60000,
       "damageType": "Single",
@@ -33196,7 +33195,7 @@
         }
       ]
     },
-    {
+{
       "description": "Auto Attack System",
       "damageType": "Single",
       "hitCount": 1,
@@ -33218,7 +33217,7 @@
         ]
       }
     },
-    {
+{
       "castTime": 1200,
       "description": "Stealth",
       "duration1": 10000,
@@ -33333,7 +33332,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Counter Instinct",
       "duration1": 300000,
@@ -33408,7 +33407,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Alchemy",
       "hitCount": 1,
@@ -33420,7 +33419,7 @@
         "noDamage": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Potion Synthesis",
       "hitCount": 1,
@@ -33432,7 +33431,7 @@
         "noDamage": true
       }
     },
-    {
+{
       "afterCastWalkDelay": 2000,
       "castCancel": true,
       "description": "Vulcan Arrow",
@@ -33631,7 +33630,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Sheltering Bliss",
       "hitCount": 1,
@@ -33730,7 +33729,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Marionette Control",
       "duration1": 1000,
@@ -33754,7 +33753,7 @@
       },
       "type": "Support"
     },
-    {
+{
       "description": "Spiral Pierce",
       "duration2": 1000,
       "element": "Weapon",
@@ -33983,7 +33982,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "description": "Traumatic Blow",
       "duration2": 120000,
@@ -34068,7 +34067,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Vital Strike",
       "duration2": 30000,
       "element": "Weapon",
@@ -34299,7 +34298,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 1000,
@@ -34435,7 +34434,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 2000,
       "description": "Zen",
@@ -34453,7 +34452,7 @@
         "spcost": 20
       }
     },
-    {
+{
       "description": "Mind Breaker",
       "duration1": 30000,
       "damageType": "Single",
@@ -34612,7 +34611,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 5000,
       "description": "Foresight",
@@ -34633,7 +34632,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "activeInstance": 2,
       "castCancel": true,
       "description": "Blinding Mist",
@@ -34679,7 +34678,7 @@
         }
       ]
     },
-    {
+{
       "activeInstance": 3,
       "description": "Fiber Lock",
       "duration1": 16000,
@@ -34726,7 +34725,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castTime": 500,
       "description": "Meteor Assault",
@@ -35094,7 +35093,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "description": "Create Deadly Poison",
       "damageType": "Single",
@@ -35118,7 +35117,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Baby",
@@ -35145,7 +35144,7 @@
       },
       "aoesize": "31x31 square"
     },
-    {
+{
       "activeInstance": 1,
       "castCancel": true,
       "description": "Call Parent",
@@ -35177,7 +35176,7 @@
       },
       "aoesize": "1x1 square"
     },
-    {
+{
       "activeInstance": 1,
       "castCancel": true,
       "description": "Call Baby",
@@ -35209,7 +35208,7 @@
       },
       "aoesize": "1x1 square"
     },
-    {
+{
       "castCancel": true,
       "description": "Running",
       "duration1": 1000,
@@ -35449,7 +35448,7 @@
         }
       ]
     },
-    {
+{
       "description": "Tornado Stance",
       "damageType": "Single",
       "hitCount": 1,
@@ -35475,7 +35474,7 @@
         }
       ]
     },
-    {
+{
       "description": "Tornado Kick",
       "element": "Weapon",
       "damageType": "MultiHit",
@@ -35560,7 +35559,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "description": "Heel Drop Stance",
       "damageType": "Single",
       "hitCount": 1,
@@ -35586,7 +35585,7 @@
         }
       ]
     },
-    {
+{
       "description": "Heel Drop",
       "duration2": 3000,
       "element": "Weapon",
@@ -35698,7 +35697,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Roundhouse Stance",
       "damageType": "Single",
       "hitCount": 1,
@@ -35724,7 +35723,7 @@
         }
       ]
     },
-    {
+{
       "description": "Roundhouse Kick",
       "duration2": 2000,
       "element": "Weapon",
@@ -35898,7 +35897,7 @@
         }
       ]
     },
-    {
+{
       "description": "Counter Kick Stance",
       "damageType": "Single",
       "hitCount": 1,
@@ -35924,7 +35923,7 @@
         }
       ]
     },
-    {
+{
       "description": "Counter Kick",
       "element": "Weapon",
       "damageType": "MultiHit",
@@ -36006,7 +36005,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "description": "Tumbling",
       "damageType": "Single",
       "hitCount": 1,
@@ -36031,7 +36030,7 @@
         }
       ]
     },
-    {
+{
       "description": "Flying Kick",
       "element": "Weapon",
       "damageType": "MultiHit",
@@ -36114,7 +36113,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "description": "Peaceful Break",
       "id": 422,
       "maxLevel": 10,
@@ -36131,7 +36130,7 @@
         }
       ]
     },
-    {
+{
       "description": "Happy Break",
       "duration1": 1800000,
       "id": 423,
@@ -36149,7 +36148,7 @@
         }
       ]
     },
-    {
+{
       "description": "Kihop",
       "id": 424,
       "maxLevel": 5,
@@ -36196,7 +36195,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Mild Wind",
       "duration1": 300000,
       "damageType": "Single",
@@ -36273,7 +36272,7 @@
         ]
       }
     },
-    {
+{
       "description": "Taekwon Jump",
       "damageType": "Single",
       "hitCount": 1,
@@ -36334,7 +36333,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 1000,
       "description": "Feeling the Sun Moon and Stars",
@@ -36367,7 +36366,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Warmth of the Sun",
@@ -36463,7 +36462,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Warmth of the Moon",
@@ -36559,7 +36558,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Warmth of the Stars",
@@ -36655,7 +36654,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Comfort of the Sun",
@@ -36780,7 +36779,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Comfort of the Moon",
@@ -36905,7 +36904,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Comfort of the Stars",
@@ -37030,7 +37029,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 1000,
       "description": "Hatred of the Sun Moon and Stars",
@@ -37050,25 +37049,25 @@
         "spcost": 100
       }
     },
-    {
+{
       "description": "Anger of the Sun",
       "id": 435,
       "maxLevel": 3,
       "name": "SG_SUN_ANGER"
     },
-    {
+{
       "description": "Anger of the Moon",
       "id": 436,
       "maxLevel": 3,
       "name": "SG_MOON_ANGER"
     },
-    {
+{
       "description": "Anger of the Stars",
       "id": 437,
       "maxLevel": 3,
       "name": "SG_STAR_ANGER"
     },
-    {
+{
       "description": "Blessing of the Sun",
       "id": 438,
       "maxLevel": 5,
@@ -37096,7 +37095,7 @@
         }
       ]
     },
-    {
+{
       "description": "Blessing of the Moon",
       "id": 439,
       "maxLevel": 5,
@@ -37124,7 +37123,7 @@
         }
       ]
     },
-    {
+{
       "description": "Blessing of the Stars",
       "id": 440,
       "maxLevel": 5,
@@ -37152,7 +37151,7 @@
         }
       ]
     },
-    {
+{
       "description": "Demon of the Sun Moon and Stars",
       "id": 441,
       "maxLevel": 10,
@@ -37300,7 +37299,7 @@
         }
       ]
     },
-    {
+{
       "description": "Friend of the Sun Moon and Stars",
       "duration1": 10000,
       "id": 442,
@@ -37333,7 +37332,7 @@
         }
       ]
     },
-    {
+{
       "description": "Knowledge of the Sun Moon and Stars",
       "duration1": 600000,
       "id": 443,
@@ -37382,7 +37381,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Union of the Sun Moon and Stars",
       "duration1": 600000,
@@ -37409,7 +37408,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -37475,7 +37474,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "description": "Aid Berserk Potion",
@@ -37506,7 +37505,7 @@
       },
       "type": "Support"
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -37572,7 +37571,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -37638,7 +37637,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -37704,7 +37703,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -37770,7 +37769,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -37836,7 +37835,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -37902,7 +37901,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -37968,7 +37967,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -38034,7 +38033,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -38100,7 +38099,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -38166,7 +38165,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -38232,7 +38231,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -38298,7 +38297,7 @@
         ]
       }
     },
-    {
+{
       "description": "Advanced Adrenaline Rush",
       "duration1": 150000,
       "damageType": "Single",
@@ -38356,7 +38355,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -38422,7 +38421,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -38488,7 +38487,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Kaizel",
       "duration1": 1800000,
@@ -38600,7 +38599,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "description": "Kaahi",
@@ -38680,7 +38679,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 500,
@@ -38740,7 +38739,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Kaite",
       "damageType": "Single",
@@ -38876,7 +38875,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Kaina",
       "id": 466,
@@ -38935,7 +38934,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castTime": 100,
       "description": "Estin",
@@ -39043,7 +39042,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castTime": 100,
       "description": "Estun",
@@ -39151,7 +39150,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 2000,
@@ -39295,7 +39294,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "afterCastActDelay": 500,
       "castTime": 1000,
       "description": "Eswoo",
@@ -39424,7 +39423,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "description": "Eske",
       "duration2": 3000,
@@ -39528,7 +39527,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "description": "Eska",
       "damageType": "Single",
@@ -39587,7 +39586,7 @@
         ]
       }
     },
-    {
+{
       "description": "Provoke Self",
       "duration1": 30000,
       "damageType": "Single",
@@ -39600,7 +39599,7 @@
         "noDamage": true
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 1000,
       "description": "Preserve",
@@ -39617,7 +39616,7 @@
         "spcost": 30
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Divest All",
@@ -39721,7 +39720,7 @@
         }
       ]
     },
-    {
+{
       "description": "Upgrade Weapon",
       "damageType": "Single",
       "hitCount": 1,
@@ -39808,7 +39807,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castTime": 1000,
       "description": "Aid Condensed Potion",
@@ -40013,7 +40012,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "castTime": 2000,
       "description": "Full Protection",
@@ -40060,7 +40059,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castTime": 1000,
       "description": "Shield Chain",
@@ -40124,13 +40123,13 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Mana Recharge",
       "id": 481,
       "maxLevel": 5,
       "name": "HP_MANARECHARGE"
     },
-    {
+{
       "castTime": 2000,
       "description": "Double Casting",
       "duration1": 90000,
@@ -40172,7 +40171,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castTime": 3000,
       "description": "Ganbantein",
@@ -40232,7 +40231,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "castTime": 5000,
@@ -40384,7 +40383,7 @@
         }
       ]
     },
-    {
+{
       "description": "Cart Termination",
       "duration2": 5000,
       "element": "Weapon",
@@ -40643,7 +40642,7 @@
         }
       ]
     },
-    {
+{
       "description": "Maximum Power Thrust",
       "duration1": 180000,
       "damageType": "Single",
@@ -40803,7 +40802,7 @@
         }
       ]
     },
-    {
+{
       "description": "Longing for Freedom",
       "duration1": 180000,
       "damageType": "Single",
@@ -40916,7 +40915,7 @@
         }
       ]
     },
-    {
+{
       "description": "Wand of Hermode",
       "damageType": "Single",
       "hitCount": 1,
@@ -41015,7 +41014,7 @@
       },
       "aoesize": "7x7 square"
     },
-    {
+{
       "afterCastActDelay": 3000,
       "castTime": 1000,
       "description": "Tarot Card of Fate",
@@ -41079,7 +41078,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 1000,
@@ -41151,7 +41150,7 @@
         ]
       }
     },
-    {
+{
       "description": "Plant Cultivation",
       "duration1": 300000,
       "damageType": "Single",
@@ -41207,7 +41206,7 @@
         }
       ]
     },
-    {
+{
       "description": "Weapon Enchantment",
       "duration1": 180000,
       "damageType": "Single",
@@ -41268,7 +41267,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castTime": 1000,
       "description": "Taekwon Mission",
       "damageType": "Single",
@@ -41284,7 +41283,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "afterCastActDelay": 500,
       "castCancel": true,
       "castTime": 1000,
@@ -41347,7 +41346,7 @@
         ]
       }
     },
-    {
+{
       "description": "Onehand Quicken",
       "duration1": 300000,
       "damageType": "Single",
@@ -41378,7 +41377,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 10000,
       "castTime": 3000,
       "description": "Twilight Alchemy 1",
@@ -41406,7 +41405,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 10000,
       "castTime": 3000,
       "description": "Twilight Alchemy 2",
@@ -41434,7 +41433,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 10000,
       "castTime": 3000,
       "description": "Twilight Alchemy 3",
@@ -41462,7 +41461,7 @@
         ]
       }
     },
-    {
+{
       "description": "Beast Strafing",
       "duration1": 100,
       "element": "Weapon",
@@ -41494,7 +41493,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Flip the Coin",
       "duration1": 600000,
       "damageType": "Single",
@@ -41554,7 +41553,7 @@
         }
       ]
     },
-    {
+{
       "description": "Fling",
       "duration1": 30000,
       "element": "Weapon",
@@ -41585,7 +41584,7 @@
         }
       ]
     },
-    {
+{
       "description": "Triple Action",
       "element": "Ammo",
       "damageType": "MultiHit",
@@ -41618,7 +41617,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "castTime": 500,
       "description": "Bulls Eye",
       "element": "Ammo",
@@ -41687,7 +41686,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 4000,
       "castTime": 3000,
       "description": "Madness Canceller",
@@ -41722,7 +41721,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castTime": 1000,
       "description": "AdJustment",
@@ -41757,7 +41756,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Increasing Accuracy",
       "duration1": 60000,
@@ -41796,7 +41795,7 @@
         }
       ]
     },
-    {
+{
       "description": "Magical Bullet",
       "element": "Ghost",
       "damageType": "Single",
@@ -41818,7 +41817,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Cracker",
       "duration2": 5000,
@@ -41886,7 +41885,7 @@
         }
       ]
     },
-    {
+{
       "description": "Single Action",
       "id": 509,
       "maxLevel": 10,
@@ -41964,13 +41963,13 @@
         }
       ]
     },
-    {
+{
       "description": "Snake Eye",
       "id": 510,
       "maxLevel": 10,
       "name": "GS_SNAKEEYE"
     },
-    {
+{
       "description": "Chain Action",
       "element": "Weapon",
       "damageType": "MultiHit",
@@ -42137,7 +42136,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Tracking",
       "element": "Ammo",
@@ -42294,7 +42293,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Disarm",
       "duration1": 30000,
       "element": "Weapon",
@@ -42344,7 +42343,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "castTime": 1500,
       "description": "Piercing Shot",
       "duration2": 120000,
@@ -42484,7 +42483,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Rapid Shower",
       "element": "Ammo",
@@ -42597,7 +42596,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "afterCastWalkDelay": 1000,
       "description": "Desperado",
@@ -42718,7 +42717,7 @@
       ],
       "dmgWaves": 10
     },
-    {
+{
       "description": "Gatling Fever",
       "element": "Ammo",
       "damageType": "Single",
@@ -43104,7 +43103,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castTime": 1000,
       "description": "Dust",
@@ -43258,7 +43257,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Full Buster",
       "duration2": 10000,
@@ -43537,7 +43536,7 @@
         "isPhysical": true
       }
     },
-    {
+{
       "description": "Spread Attack",
       "element": "Ammo",
       "damageType": "Single",
@@ -43735,7 +43734,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "castTime": 2000,
       "description": "Ground Drift",
       "element": "Ammo",
@@ -43921,7 +43920,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "description": "Shuriken Training",
       "hitCount": 1,
       "id": 522,
@@ -44011,7 +44010,7 @@
         }
       ]
     },
-    {
+{
       "description": "Throw Shuriken",
       "element": "Ammo",
       "damageType": "Single",
@@ -44078,7 +44077,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Throw Kunai",
       "element": "Ammo",
@@ -44126,7 +44125,7 @@
       "dmgAtk": 3,
       "dmgWaves": 1
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "castTime": 3000,
@@ -44222,7 +44221,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "afterCastActDelay": 5000,
       "description": "Throw Zeny",
       "damageType": "Single",
@@ -44365,7 +44364,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "afterCastActDelay": 3000,
       "description": "Improvised Defense",
       "duration1": 3000,
@@ -44464,7 +44463,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Vanishing Slash",
       "element": "Weapon",
@@ -44610,7 +44609,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Shadow Leap",
       "damageType": "Single",
@@ -44656,7 +44655,7 @@
         "state": "Hidding"
       }
     },
-    {
+{
       "description": "Shadow Slash",
       "element": "Weapon",
       "damageType": "Single",
@@ -44785,7 +44784,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Cicada Skin Sheeding",
       "damageType": "Single",
@@ -44913,7 +44912,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Mirror Image",
@@ -45144,7 +45143,7 @@
         }
       ]
     },
-    {
+{
       "description": "Spirit of the Blade",
       "id": 533,
       "maxLevel": 10,
@@ -45305,7 +45304,7 @@
         }
       ]
     },
-    {
+{
       "castCancel": true,
       "description": "Crimson Fire Petal",
       "element": "Fire",
@@ -45492,7 +45491,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Crimson Fire Formation",
@@ -45615,7 +45614,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "castTime": 3000,
@@ -45698,7 +45697,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "castCancel": true,
       "description": "Spear of Ice",
       "element": "Water",
@@ -45885,7 +45884,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Hidden Water",
@@ -46273,7 +46272,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "description": "Ice Meteor",
@@ -46440,7 +46439,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "description": "Wind Blade",
@@ -46628,7 +46627,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "castCancel": true,
       "castTime": 4000,
       "description": "Lightning Strike of Destruction",
@@ -46752,7 +46751,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "castCancel": true,
       "castTime": 4000,
       "description": "Kamaitachi",
@@ -46892,7 +46891,7 @@
       ],
       "dmgWaves": 1
     },
-    {
+{
       "castCancel": true,
       "description": "Soul",
       "damageType": "Single",
@@ -47046,7 +47045,7 @@
         }
       ]
     },
-    {
+{
       "description": "Final Strike",
       "damageType": "Single",
       "hitCount": 1,
@@ -47261,7 +47260,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castTime": 1000,
       "description": "SL_DEATHKNIGHT",
@@ -47291,7 +47290,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castTime": 1000,
       "description": "SL_COLLECTOR",
@@ -47321,7 +47320,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castTime": 1000,
       "description": "SL_NINJA",
@@ -47351,7 +47350,7 @@
         }
       ]
     },
-    {
+{
       "afterCastActDelay": 500,
       "castTime": 1000,
       "description": "SL_GUNNER",
@@ -47381,7 +47380,7 @@
         }
       ]
     },
-    {
+{
       "description": "Increase Weight Limit R",
       "id": 681,
       "maxLevel": 10,
@@ -47390,7 +47389,7 @@
         "isQuest": true
       }
     },
-    {
+{
       "description": "GM Sandman",
       "damageType": "Single",
       "id": 688,
@@ -47409,7 +47408,7 @@
       },
       "type": "Support"
     },
-    {
+{
       "castCancel": true,
       "description": "Party Blessing",
       "damageType": "Single",
@@ -47471,7 +47470,7 @@
         "isNpc": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Party Increase AGI",
       "damageType": "Single",
@@ -47533,7 +47532,7 @@
         "isNpc": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Party Assumptio",
       "damageType": "Single",
@@ -47574,7 +47573,7 @@
         "isNpc": true
       }
     },
-    {
+{
       "afterCastActDelay": 5000,
       "description": "Cat Cry",
       "id": 692,
@@ -47584,7 +47583,7 @@
         "isNpc": true
       }
     },
-    {
+{
       "castCancel": true,
       "cooldown": 300000,
       "description": "Party Flee",
@@ -47604,7 +47603,7 @@
         "isNpc": true
       }
     },
-    {
+{
       "afterCastActDelay": 12000,
       "description": "Summer Night Dream",
       "id": 695,
@@ -47614,7 +47613,7 @@
         "isNpc": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Reverse Orcish",
       "damageType": "Single",
@@ -47632,7 +47631,7 @@
         "isNpc": true
       }
     },
-    {
+{
       "afterCastActDelay": 20000,
       "description": "Christmas Carol",
       "damageType": "Single",
@@ -47651,7 +47650,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castTime": 500,
       "description": "Charge Attack",
       "element": "Weapon",
@@ -47673,7 +47672,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Shrink",
       "duration1": 300000,
       "damageType": "Single",
@@ -47693,7 +47692,7 @@
         "state": "Shield"
       }
     },
-    {
+{
       "description": "Sonic Acceleration",
       "id": 1003,
       "maxLevel": 1,
@@ -47702,7 +47701,7 @@
         "isQuest": true
       }
     },
-    {
+{
       "description": "Throw Venom Knife",
       "damageType": "MultiHit",
       "hitCount": 1,
@@ -47773,7 +47772,7 @@
         }
       }
     },
-    {
+{
       "description": "Close Confine",
       "duration1": 10000,
       "damageType": "Single",
@@ -47793,7 +47792,7 @@
         "spcost": 25
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 2000,
       "description": "Sight Blaster",
@@ -47819,7 +47818,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Create Elemental Converter",
       "damageType": "Single",
       "id": 1007,
@@ -47836,7 +47835,7 @@
         "spcost": 30
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 2000,
@@ -47866,7 +47865,7 @@
         ]
       }
     },
-    {
+{
       "description": "Phantasmic Arrow",
       "element": "Weapon",
       "damageType": "Single",
@@ -47891,7 +47890,7 @@
         }
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castTime": 1000,
       "description": "Pang Voice",
@@ -47913,7 +47912,7 @@
         "spcost": 20
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castTime": 1000,
       "description": "Wink of Charm",
@@ -47936,7 +47935,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Unfair Trick",
       "id": 1012,
       "maxLevel": 1,
@@ -47945,7 +47944,7 @@
         "isQuest": true
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Greed",
       "damageType": "Single",
@@ -47967,7 +47966,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 4000,
       "description": "Redemptio",
@@ -47992,7 +47991,7 @@
         "spcost": 400
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castTime": 2000,
       "description": "Ki Translation",
@@ -48021,7 +48020,7 @@
         "spiritSphereCost": 1
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "description": "Ki Explosion",
       "duration2": 5000,
@@ -48046,7 +48045,7 @@
         "spcost": 20
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 2000,
@@ -48076,7 +48075,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 2000,
@@ -48106,7 +48105,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 2000,
@@ -48136,7 +48135,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "description": "Healing Touch",
       "damageType": "Single",
@@ -48180,7 +48179,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 35000,
       "description": "Avoid",
       "damageType": "Single",
@@ -48241,14 +48240,14 @@
         ]
       }
     },
-    {
+{
       "description": "Brain Surgery",
       "id": 8003,
       "maxLevel": 5,
       "name": "HLIF_BRAIN",
       "splashArea": 1
     },
-    {
+{
       "description": "Change",
       "damageType": "Single",
       "id": 8004,
@@ -48290,7 +48289,7 @@
         "spcost": 100
       }
     },
-    {
+{
       "description": "Castling",
       "duration2": 1000,
       "damageType": "Single",
@@ -48305,7 +48304,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "afterCastActDelay": 30000,
       "description": "Defense",
       "damageType": "Single",
@@ -48363,7 +48362,7 @@
         ]
       }
     },
-    {
+{
       "description": "Adamantium Skin",
       "id": 8007,
       "maxLevel": 5,
@@ -48372,7 +48371,7 @@
         "noDamage": true
       }
     },
-    {
+{
       "description": "Bloodlust",
       "damageType": "Single",
       "id": 8008,
@@ -48414,7 +48413,7 @@
         "spcost": 120
       }
     },
-    {
+{
       "afterCastWalkDelay": 2000,
       "description": "Moonlight",
       "damageType": "MultiHit",
@@ -48470,7 +48469,7 @@
         ]
       }
     },
-    {
+{
       "description": "Fleeting Move",
       "damageType": "Single",
       "id": 8010,
@@ -48549,7 +48548,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Speed",
       "damageType": "Single",
@@ -48630,7 +48629,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "S.B.R.44",
       "damageType": "Single",
@@ -48644,7 +48643,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Caprice",
       "damageType": "Single",
       "id": 8013,
@@ -48721,7 +48720,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 3000,
       "afterCastWalkDelay": 3000,
       "description": "Benediction of Chaos",
@@ -48737,7 +48736,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Instruct",
       "id": 8015,
       "maxLevel": 5,
@@ -48746,7 +48745,7 @@
         "noDamage": true
       }
     },
-    {
+{
       "afterCastWalkDelay": 1000,
       "description": "Bio Explosion",
       "element": "Weapon",
@@ -48768,7 +48767,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Summon Legion",
       "damageType": "Single",
       "hitCount": 1,
@@ -48849,7 +48848,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "description": "Needle of Paralyze",
       "element": "Poison",
@@ -48929,7 +48928,7 @@
         ]
       }
     },
-    {
+{
       "activeInstance": 1,
       "description": "Poison Mist",
       "element": "Poison",
@@ -49041,7 +49040,7 @@
         }
       }
     },
-    {
+{
       "description": "Pain Killer",
       "damageType": "Single",
       "hitCount": 1,
@@ -49123,7 +49122,7 @@
       },
       "type": "Support"
     },
-    {
+{
       "description": "Light of Regene",
       "damageType": "Single",
       "hitCount": 1,
@@ -49181,7 +49180,7 @@
         ]
       }
     },
-    {
+{
       "description": "Overed Boost",
       "damageType": "Single",
       "hitCount": 1,
@@ -49261,7 +49260,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "description": "Eraser Cutter",
@@ -49341,7 +49340,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 5000,
       "description": "Xeno Slasher",
       "duration1": 500,
@@ -49478,7 +49477,7 @@
         }
       }
     },
-    {
+{
       "description": "Silent Breeze",
       "damageType": "Single",
       "hitCount": 1,
@@ -49581,7 +49580,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Style Change",
       "damageType": "Single",
@@ -49597,7 +49596,7 @@
         "spcost": 35
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Sonic Claw",
       "damageType": "MultiHit",
@@ -49636,7 +49635,7 @@
         ]
       }
     },
-    {
+{
       "cooldown": 2000,
       "description": "Silver Bain Rush",
       "duration1": 5000,
@@ -49676,7 +49675,7 @@
         ]
       }
     },
-    {
+{
       "cooldown": 2000,
       "description": "Midnight Frenzy",
       "duration1": 10000,
@@ -49716,7 +49715,7 @@
         ]
       }
     },
-    {
+{
       "description": "Steel Horn",
       "duration1": 5000,
       "damageType": "Single",
@@ -49791,7 +49790,7 @@
         ]
       }
     },
-    {
+{
       "description": "Golden Heel",
       "damageType": "Single",
       "hitCount": 1,
@@ -49871,7 +49870,7 @@
         ]
       }
     },
-    {
+{
       "castTime": 1000,
       "description": "Stone Wall",
       "damageType": "Single",
@@ -49938,7 +49937,7 @@
         }
       }
     },
-    {
+{
       "afterCastActDelay": 5000,
       "description": "Holy Pole",
       "element": "Holy",
@@ -50021,7 +50020,7 @@
         ]
       }
     },
-    {
+{
       "description": "Attack Mode",
       "damageType": "Single",
       "hitCount": 1,
@@ -50101,7 +50100,7 @@
         ]
       }
     },
-    {
+{
       "castTime": 1000,
       "description": "Tinder Breaker",
       "damageType": "Single",
@@ -50161,7 +50160,7 @@
         ]
       }
     },
-    {
+{
       "description": "Continual Break Combo",
       "damageType": "Single",
       "hitCount": 1,
@@ -50199,7 +50198,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Eternal Quick Combo",
       "damageType": "Single",
@@ -50238,7 +50237,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Magma Flow",
       "element": "Fire",
@@ -50342,7 +50341,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Granitic Armor",
       "duration1": 60000,
@@ -50402,7 +50401,7 @@
         ]
       }
     },
-    {
+{
       "activeInstance": 1,
       "afterCastActDelay": 1000,
       "description": "Lava Slide",
@@ -50519,7 +50518,7 @@
         }
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "description": "Pyroclastic",
       "element": "Fire",
@@ -50601,7 +50600,7 @@
         ]
       }
     },
-    {
+{
       "activeInstance": 3,
       "afterCastActDelay": 1000,
       "description": "Volcanic Ash",
@@ -50694,7 +50693,7 @@
         }
       }
     },
-    {
+{
       "description": "Bash",
       "element": "Weapon",
       "damageType": "Single",
@@ -50773,7 +50772,7 @@
         }
       }
     },
-    {
+{
       "afterCastWalkDelay": 2000,
       "description": "Magnum_Break",
       "duration1": 2000,
@@ -50839,7 +50838,7 @@
         ]
       }
     },
-    {
+{
       "castTime": 700,
       "description": "Bowling_Bash",
       "element": "Ammo",
@@ -50903,7 +50902,7 @@
         ]
       }
     },
-    {
+{
       "description": "Parry",
       "damageType": "Single",
       "hitCount": 1,
@@ -50960,7 +50959,7 @@
         "spcost": 50
       }
     },
-    {
+{
       "description": "Shield_Reflect",
       "duration1": 300000,
       "damageType": "Single",
@@ -51017,7 +51016,7 @@
         ]
       }
     },
-    {
+{
       "description": "Frenzy",
       "duration1": 300000,
       "duration2": 15000,
@@ -51034,7 +51033,7 @@
         "spcost": 100
       }
     },
-    {
+{
       "description": "Double_Strafe",
       "duration1": 100,
       "element": "Ammo",
@@ -51056,7 +51055,7 @@
         }
       }
     },
-    {
+{
       "description": "Arrow_Shower",
       "duration1": 100,
       "element": "Ammo",
@@ -51085,7 +51084,7 @@
         }
       }
     },
-    {
+{
       "description": "Skid_Trap",
       "damageType": "Single",
       "hitCount": 1,
@@ -51161,7 +51160,7 @@
         }
       }
     },
-    {
+{
       "description": "Land_Mine",
       "duration2": 5000,
       "element": "Earth",
@@ -51218,7 +51217,7 @@
         }
       }
     },
-    {
+{
       "description": "Sandman",
       "damageType": "Single",
       "hitCount": 1,
@@ -51296,7 +51295,7 @@
         }
       }
     },
-    {
+{
       "description": "Freezing_Trap",
       "element": "Water",
       "damageType": "Single",
@@ -51375,7 +51374,7 @@
         }
       }
     },
-    {
+{
       "description": "Remove_Trap",
       "damageType": "Single",
       "hitCount": 1,
@@ -51395,7 +51394,7 @@
         "spcost": 5
       }
     },
-    {
+{
       "castTime": 1500,
       "description": "Arrow_Repel",
       "element": "Ammo",
@@ -51427,7 +51426,7 @@
         }
       }
     },
-    {
+{
       "activeInstance": 14,
       "afterCastActDelay": 1500,
       "castCancel": true,
@@ -51482,7 +51481,7 @@
         }
       }
     },
-    {
+{
       "description": "Pierce",
       "element": "Weapon",
       "damageType": "MultiHit",
@@ -51496,7 +51495,7 @@
         "spcost": 7
       }
     },
-    {
+{
       "activeInstance": 5,
       "castTime": 700,
       "description": "Brandish_Spear",
@@ -51522,7 +51521,7 @@
         "spcost": 12
       }
     },
-    {
+{
       "description": "Spiral_Pierce",
       "duration2": 1000,
       "element": "Weapon",
@@ -51613,7 +51612,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 800,
       "description": "Defending_Aura",
       "duration1": 180000,
@@ -51631,7 +51630,7 @@
         "state": "Shield"
       }
     },
-    {
+{
       "description": "Guard",
       "duration1": 300000,
       "damageType": "Single",
@@ -51688,7 +51687,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Sacrifice",
@@ -51759,7 +51758,7 @@
       },
       "type": "Support"
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "castTime": 4000,
@@ -51806,7 +51805,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Two-Hand_Quicken",
       "damageType": "Single",
       "hitCount": 1,
@@ -51904,7 +51903,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Sight",
       "duration1": 10000,
@@ -51924,7 +51923,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castTime": 1000,
       "description": "Crash",
@@ -51946,7 +51945,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Regain",
       "damageType": "Single",
@@ -51967,7 +51966,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Tender",
       "damageType": "Single",
@@ -51988,7 +51987,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Benediction",
       "damageType": "Single",
@@ -52009,7 +52008,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Recuperate",
       "damageType": "Single",
@@ -52030,7 +52029,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Mental_Cure",
       "damageType": "Single",
@@ -52051,7 +52050,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Compress",
       "damageType": "Single",
@@ -52072,7 +52071,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "description": "Provoke",
       "duration1": 30000,
       "damageType": "Single",
@@ -52130,7 +52129,7 @@
         ]
       }
     },
-    {
+{
       "description": "Berserk",
       "damageType": "Single",
       "hitCount": 1,
@@ -52145,7 +52144,7 @@
         "spcost": 5
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 1000,
@@ -52252,7 +52251,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 3000,
       "description": "Scapegoat",
@@ -52274,7 +52273,7 @@
         "spcost": 5
       }
     },
-    {
+{
       "afterCastActDelay": 3000,
       "castCancel": true,
       "description": "Lex_Divina",
@@ -52374,7 +52373,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Sense",
       "damageType": "Single",
@@ -52391,7 +52390,7 @@
         "spcost": 10
       }
     },
-    {
+{
       "afterCastActDelay": 2000,
       "castCancel": true,
       "castTime": 2000,
@@ -52458,7 +52457,7 @@
         ]
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Blessing",
       "damageType": "Single",
@@ -52562,7 +52561,7 @@
         ]
       }
     },
-    {
+{
       "afterCastActDelay": 1000,
       "castCancel": true,
       "castTime": 1000,
@@ -52674,13 +52673,13 @@
         ]
       }
     },
-    {
+{
       "description": "Mind Blaster",
       "id": 8241,
       "maxLevel": 1,
       "name": "MER_INVINCIBLEOFF2"
     },
-    {
+{
       "description": "Circle of Fire",
       "element": "Fire",
       "damageType": "Single",
@@ -52694,7 +52693,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Fire Cloak",
       "damageType": "Single",
       "hitCount": 1,
@@ -52709,7 +52708,7 @@
         "spcost": 60
       }
     },
-    {
+{
       "activeInstance": 3,
       "description": "Fire Mantle",
       "duration1": 15000,
@@ -52736,7 +52735,7 @@
         }
       }
     },
-    {
+{
       "description": "Water Screen",
       "damageType": "Single",
       "hitCount": 1,
@@ -52751,7 +52750,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Water Drop",
       "damageType": "Single",
       "hitCount": 1,
@@ -52766,7 +52765,7 @@
         "spcost": 60
       }
     },
-    {
+{
       "castTime": 1000,
       "description": "Water Barrier",
       "duration1": 15000,
@@ -52794,7 +52793,7 @@
         }
       }
     },
-    {
+{
       "description": "Wind Step",
       "damageType": "Single",
       "hitCount": 1,
@@ -52810,7 +52809,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Wind Curtain",
       "damageType": "Single",
       "hitCount": 1,
@@ -52825,7 +52824,7 @@
         "spcost": 60
       }
     },
-    {
+{
       "description": "Zephyr",
       "duration1": 15000,
       "damageType": "Single",
@@ -52852,7 +52851,7 @@
         }
       }
     },
-    {
+{
       "description": "Solid Skin",
       "damageType": "Single",
       "hitCount": 1,
@@ -52867,7 +52866,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Stone Shield",
       "damageType": "Single",
       "hitCount": 1,
@@ -52882,7 +52881,7 @@
         "spcost": 60
       }
     },
-    {
+{
       "description": "Power of Gaia",
       "duration1": 15000,
       "damageType": "Single",
@@ -52909,7 +52908,7 @@
         }
       }
     },
-    {
+{
       "description": "Pyrotechnic",
       "damageType": "Single",
       "hitCount": 1,
@@ -52924,7 +52923,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Heater",
       "damageType": "Single",
       "hitCount": 1,
@@ -52939,7 +52938,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Tropic",
       "damageType": "Single",
       "hitCount": 1,
@@ -52954,7 +52953,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Aqua Play",
       "damageType": "Single",
       "hitCount": 1,
@@ -52969,7 +52968,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Cooler",
       "damageType": "Single",
       "hitCount": 1,
@@ -52984,7 +52983,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Cool Air",
       "damageType": "Single",
       "hitCount": 1,
@@ -52999,7 +52998,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Gust",
       "damageType": "Single",
       "hitCount": 1,
@@ -53014,7 +53013,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Blast",
       "damageType": "Single",
       "hitCount": 1,
@@ -53029,7 +53028,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Wild Storm",
       "damageType": "Single",
       "hitCount": 1,
@@ -53044,7 +53043,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Petrology",
       "damageType": "Single",
       "hitCount": 1,
@@ -53059,7 +53058,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Cursed Soil",
       "damageType": "Single",
       "hitCount": 1,
@@ -53074,7 +53073,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Upheaval",
       "damageType": "Single",
       "hitCount": 1,
@@ -53089,7 +53088,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Fire Arrow",
       "element": "Fire",
       "damageType": "Single",
@@ -53103,7 +53102,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Fire Bomb",
       "element": "Fire",
       "damageType": "Single",
@@ -53118,7 +53117,7 @@
         "spcost": 60
       }
     },
-    {
+{
       "description": "Fire Bomb Attack",
       "element": "Fire",
       "damageType": "Single",
@@ -53133,7 +53132,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Fire Wave",
       "element": "Fire",
       "damageType": "Single",
@@ -53148,7 +53147,7 @@
         "spcost": 80
       }
     },
-    {
+{
       "description": "Fire Wave Attack",
       "element": "Fire",
       "damageType": "Single",
@@ -53163,7 +53162,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Ice Needle",
       "element": "Water",
       "damageType": "Single",
@@ -53177,7 +53176,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Water Screw",
       "element": "Water",
       "damageType": "Single",
@@ -53192,7 +53191,7 @@
         "spcost": 60
       }
     },
-    {
+{
       "description": "Water Screw Attack",
       "element": "Water",
       "damageType": "Single",
@@ -53207,7 +53206,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Tidal Weapon",
       "element": "Water",
       "damageType": "Single",
@@ -53222,7 +53221,7 @@
         "spcost": 80
       }
     },
-    {
+{
       "castTime": 1000,
       "description": "Wind Slasher",
       "element": "Wind",
@@ -53237,7 +53236,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "castTime": 1000,
       "description": "Hurricane Rage",
       "element": "Wind",
@@ -53253,7 +53252,7 @@
         "spcost": 60
       }
     },
-    {
+{
       "description": "Hurricane Rage Attack",
       "element": "Wind",
       "damageType": "Single",
@@ -53267,7 +53266,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castTime": 1000,
       "description": "Typhoon Missile",
       "duration1": 15000,
@@ -53284,7 +53283,7 @@
         "spcost": 80
       }
     },
-    {
+{
       "description": "Typhoon Missile Attack",
       "element": "Wind",
       "damageType": "MultiHit",
@@ -53299,7 +53298,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Stone Hammer",
       "duration1": 5000,
       "element": "Earth",
@@ -53314,7 +53313,7 @@
         "spcost": 40
       }
     },
-    {
+{
       "description": "Rock Launcher",
       "duration1": 15000,
       "element": "Earth",
@@ -53330,7 +53329,7 @@
         "spcost": 60
       }
     },
-    {
+{
       "description": "Rock Launcher Attack",
       "duration1": 15000,
       "element": "Earth",
@@ -53346,7 +53345,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Stone Rain",
       "element": "Earth",
       "damageType": "Single",
@@ -53361,7 +53360,7 @@
         "spcost": 80
       }
     },
-    {
+{
       "description": "Official Guild Approval",
       "id": 10000,
       "maxLevel": 1,
@@ -53370,7 +53369,7 @@
         "isGuild": true
       }
     },
-    {
+{
       "description": "Kafra Contract",
       "id": 10001,
       "maxLevel": 1,
@@ -53379,7 +53378,7 @@
         "isGuild": true
       }
     },
-    {
+{
       "description": "Guardian Research",
       "id": 10002,
       "maxLevel": 1,
@@ -53388,7 +53387,7 @@
         "isGuild": true
       }
     },
-    {
+{
       "description": "Strengthen Guardians",
       "id": 10003,
       "maxLevel": 1,
@@ -53397,7 +53396,7 @@
         "isGuild": true
       }
     },
-    {
+{
       "description": "Guild Extension",
       "id": 10004,
       "maxLevel": 10,
@@ -53406,7 +53405,7 @@
         "isGuild": true
       }
     },
-    {
+{
       "description": "Guild's Glory",
       "id": 10005,
       "maxLevel": 1,
@@ -53415,7 +53414,7 @@
         "isGuild": true
       }
     },
-    {
+{
       "description": "Great Leadership",
       "duration1": 300000,
       "id": 10006,
@@ -53435,7 +53434,7 @@
         }
       }
     },
-    {
+{
       "description": "Glorious Wounds",
       "duration1": 300000,
       "id": 10007,
@@ -53455,7 +53454,7 @@
         }
       }
     },
-    {
+{
       "description": "Cold Heart",
       "duration1": 300000,
       "id": 10008,
@@ -53475,7 +53474,7 @@
         }
       }
     },
-    {
+{
       "description": "Sharp Gaze",
       "duration1": 300000,
       "id": 10009,
@@ -53495,7 +53494,7 @@
         }
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Battle Orders",
       "duration1": 180000,
@@ -53520,7 +53519,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Regeneration",
       "duration1": 60000,
@@ -53545,7 +53544,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 10000,
       "description": "Restoration",
@@ -53570,7 +53569,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "castCancel": true,
       "castTime": 5000,
       "description": "Urgent Call",
@@ -53596,7 +53595,7 @@
         "spcost": 1
       }
     },
-    {
+{
       "description": "Permanent Development",
       "id": 10014,
       "maxLevel": 1,
@@ -53605,7 +53604,7 @@
         "isGuild": true
       }
     },
-    {
+{
       "castCancel": true,
       "description": "Item Emergency Call",
       "duration2": 300000,
@@ -53621,6 +53620,4 @@
         "ignoreKagehumi": true,
         "isGuild": true
       }
-    }
-  ]
-}
+    }]}
