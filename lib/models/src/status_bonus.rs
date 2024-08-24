@@ -30,6 +30,15 @@ impl TemporaryStatusBonus {
             state: StatusBonusState::No,
         }
     }
+
+    pub fn with_passive_skill(bonus: BonusType, flags: u16, skill_id: u16) -> Self {
+        Self {
+            bonus,
+            flags,
+            expirency: BonusExpiry::NeverButLinkedToPassiveSkill(skill_id),
+            state: StatusBonusState::No,
+        }
+    }
 }
 
 #[derive(Default, Debug, Clone)]
@@ -71,6 +80,7 @@ impl StatusBonus {
 #[derive(Debug, Clone, Copy)]
 pub enum BonusExpiry {
     Never,
+    NeverButLinkedToPassiveSkill(u16), // skill id
     Time(u128),
     Counter(u64), // counter can be a number of hit (eg: Safety wall) or an amount of damage received (eg: kyrie eleison)
 }

@@ -153,6 +153,77 @@ impl SkillBase for FalconEyes {
         Err(())
     }
     #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AllStats(5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Crit(1.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(2), 2, tick, 30000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AllStats(5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Crit(2.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(4), 2, tick, 30000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AllStats(5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Crit(3.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(6), 2, tick, 30000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AllStats(5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Crit(4.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(8), 2, tick, 30000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AllStats(5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Crit(5.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(10), 2, tick, 30000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AllStats(5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Crit(6.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(12), 2, tick, 30000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AllStats(5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Crit(7.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(14), 2, tick, 30000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AllStats(5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Crit(8.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(16), 2, tick, 30000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AllStats(5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Crit(9.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(18), 2, tick, 30000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::AllStats(5), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::Crit(10.0), 2, tick, 30000),
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(20), 2, tick, 30000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
@@ -283,6 +354,17 @@ impl SkillBase for FalconAssault {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        3000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -426,6 +508,32 @@ impl SkillBase for FocusedArrowStrike {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1500
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -632,6 +740,67 @@ impl SkillBase for WindWalker {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
+    }
+    #[inline(always)]
+    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(1), 2, tick, 130000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(2), 2, tick, 130000),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(1), 2, tick, 160000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(4), 2, tick, 160000),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(2), 2, tick, 190000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(6), 2, tick, 190000),]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(2), 2, tick, 220000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(8), 2, tick, 220000),]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(3), 2, tick, 250000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(10), 2, tick, 250000),]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(3), 2, tick, 280000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(12), 2, tick, 280000),]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(4), 2, tick, 310000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(14), 2, tick, 310000),]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(4), 2, tick, 340000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(16), 2, tick, 340000),]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(5), 2, tick, 370000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(18), 2, tick, 370000),]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(5), 2, tick, 400000),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(20), 2, tick, 400000),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {

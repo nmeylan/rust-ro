@@ -286,6 +286,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
     generate_base_cast_time(job_skills_file, skill_config);
     generate_base_after_cast_act_delay(job_skills_file, skill_config);
     generate_base_after_cast_walk_delay(job_skills_file, skill_config);
+    generate_bonuses(job_skills_file, skill_config);
 
     if is_offensive(skill_config) {
         generate_is_offensive_skill(job_skills_file);
@@ -294,7 +295,6 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
     if is_support(skill_config) {
         generate_is_supportive_skill(job_skills_file);
         generate_as_supportive_skill(job_skills_file);
-
         job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
         job_skills_file.write_all(b"    fn _client_type(&self) -> usize {\n").unwrap();
         if matches!(skill_config.target_type(), SkillTargetType::Target) {
@@ -636,8 +636,12 @@ fn generate_element(job_skills_file: &mut File, skill_config: &SkillConfig) {
 
 fn generate_bonuses(job_skills_file: &mut File, skill_config: &SkillConfig) {
         job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
-        job_skills_file.write_all(b"    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {\n").unwrap();
+        job_skills_file.write_all(b"    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {\n").unwrap();
         generate_for_each_bonus_level(job_skills_file, skill_config, &skill_config.bonus_to_self());
+        job_skills_file.write_all(b"        TemporaryStatusBonuses::default()\n").unwrap();
+        job_skills_file.write_all(b"    }\n").unwrap();
+        job_skills_file.write_all(b"    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {\n").unwrap();
+        generate_for_each_bonus_level(job_skills_file, skill_config, &skill_config.bonus_to_target());
         job_skills_file.write_all(b"        TemporaryStatusBonuses::default()\n").unwrap();
         job_skills_file.write_all(b"    }\n").unwrap();
 
@@ -669,12 +673,19 @@ fn generate_for_each_bonus_level(job_skills_file: &mut File, skill_config: &Skil
 }
 
 fn write_bonus(job_skills_file: &mut File, bonus: &BonusPerLevel, skill_config: &SkillConfig, level: Option<u32>) {
+    if skill_config.skill_type().is_some() && matches!(skill_config.skill_type().unwrap(), SkillType::Passive)  {
+        job_skills_file.write_all(format!("\n                TemporaryStatusBonus::with_passive_skill({:?}, {}, {}),",
+                                          bonus.value(),
+                                          StatusBonusFlag::Default.as_flag(), skill_config.id)
+            .as_bytes()).unwrap();
+        return;
+    }
     let duration = if let Some(duration) = skill_config.duration1() {
         *duration
     } else if let Some(duration) = skill_config.duration1_per_level() {
         duration[(level.unwrap()) as usize]
     } else {
-        println!("No duration found for bonus for skill {}", skill_config.name);
+        println!("No duration found for bonus for skill {}, will not generate bonus", skill_config.name);
         return;
     };
     job_skills_file.write_all(format!("\n                TemporaryStatusBonus::with_duration({:?}, {}, tick, {}),",
