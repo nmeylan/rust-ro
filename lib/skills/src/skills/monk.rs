@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::monk_base::{*};
@@ -28,7 +28,7 @@ impl Skill for SummonSpiritSphere {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for SummonSpiritSphere {
+impl InteractiveSkill for SummonSpiritSphere {
 }
 impl Skill for AbsorbSpiritSphere {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -36,15 +36,13 @@ impl Skill for AbsorbSpiritSphere {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SupportiveSkill for AbsorbSpiritSphere {
+impl InteractiveSkill for AbsorbSpiritSphere {
 }
 impl Skill for RagingTrifectaBlow {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl OffensiveSkill for RagingTrifectaBlow {
 }
 impl PassiveSkill for RagingTrifectaBlow {
 }
@@ -53,6 +51,8 @@ impl Skill for Snap {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for Snap {
 }
 impl GroundSkill for Snap {
 }
@@ -86,7 +86,7 @@ impl Skill for MentalStrength {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for MentalStrength {
+impl SupportiveSkill for MentalStrength {
 }
 impl Skill for Root {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -94,7 +94,7 @@ impl Skill for Root {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Root {
+impl InteractiveSkill for Root {
 }
 impl Skill for Fury {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -102,7 +102,7 @@ impl Skill for Fury {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Fury {
+impl InteractiveSkill for Fury {
 }
 impl Skill for AsuraStrike {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -120,8 +120,6 @@ impl Skill for RagingQuadrupleBlow {
 }
 impl OffensiveSkill for RagingQuadrupleBlow {
 }
-impl SelfSkill for RagingQuadrupleBlow {
-}
 impl Skill for RagingThrust {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 5 { return None }
@@ -129,8 +127,6 @@ impl Skill for RagingThrust {
     }
 }
 impl OffensiveSkill for RagingThrust {
-}
-impl SelfSkill for RagingThrust {
 }
 impl Skill for KiTranslation {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -145,6 +141,4 @@ impl Skill for KiExplosion {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl OffensiveSkill for KiExplosion {
 }

@@ -80,13 +80,13 @@ impl SkillBase for ShurikenTraining {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -157,7 +157,7 @@ impl SkillBase for ThrowShuriken {
        2
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -273,7 +273,7 @@ impl SkillBase for ThrowKunai {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -408,7 +408,7 @@ impl SkillBase for ThrowHuumaShuriken {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -562,13 +562,13 @@ impl SkillBase for ThrowZeny {
        50
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        false
+        true
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -695,7 +695,7 @@ impl SkillBase for ImprovisedDefense {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -706,52 +706,15 @@ impl SkillBase for ImprovisedDefense {
        3000
     }
     #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
-        Some(self)
-    }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl OffensiveSkillBase for ImprovisedDefense {
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
-    fn _dmg_atk(&self) -> Option<f32> {
-        if self.level == 1 {
-            return Some(1.100)
-        }
-        if self.level == 2 {
-            return Some(1.200)
-        }
-        if self.level == 3 {
-            return Some(1.300)
-        }
-        if self.level == 4 {
-            return Some(1.400)
-        }
-        if self.level == 5 {
-            return Some(1.500)
-        }
-        None
-    }
-    #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Weapon
-    }
-}
-impl SelfSkillBase for ImprovisedDefense {
+impl SupportiveSkillBase for ImprovisedDefense {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
@@ -849,13 +812,13 @@ impl SkillBase for VanishingSlash {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1115,13 +1078,13 @@ impl SkillBase for ShadowSlash {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1293,44 +1256,6 @@ impl SkillBase for CicadaSkinSheeding {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for CicadaSkinSheeding {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 20000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 30000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 40000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 50000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 60000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // NJ_BUNSINJYUTSU
 pub struct MirrorImage {
@@ -1423,7 +1348,7 @@ impl SkillBase for MirrorImage {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -1509,62 +1434,22 @@ impl SkillBase for MirrorImage {
        1000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for MirrorImage {
+impl OffensiveSkillBase for MirrorImage {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 60000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 80000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 100000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 120000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 140000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 160000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 180000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 200000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 220000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 240000),]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // NJ_NINPOU
@@ -1625,7 +1510,7 @@ impl SkillBase for SpiritoftheBlade {
        10
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1637,16 +1522,6 @@ impl SkillBase for SpiritoftheBlade {
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 10 { Ok(10) } else {Err(())}
     }
-    #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
-        Some(self)
-    }
-}
-impl PassiveSkillBase for SpiritoftheBlade {
 }
 // NJ_KOUENKA
 pub struct CrimsonFirePetal {
@@ -1736,10 +1611,10 @@ impl SkillBase for CrimsonFirePetal {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -1956,7 +1831,7 @@ impl SkillBase for CrimsonFireFormation {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -2012,22 +1887,26 @@ impl SkillBase for CrimsonFireFormation {
        1000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for CrimsonFireFormation {
+impl OffensiveSkillBase for CrimsonFireFormation {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _dmg_matk(&self) -> Option<f32> {
+       Some(0.500)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Fire
     }
 }
 // NJ_BAKUENRYU
@@ -2103,10 +1982,10 @@ impl SkillBase for RagingFireDragon {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -2272,10 +2151,10 @@ impl SkillBase for SpearofIce {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -2522,7 +2401,7 @@ impl SkillBase for HiddenWater {
         SkillTargetType::Ground
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -2574,12 +2453,30 @@ impl SkillBase for HiddenWater {
        3000
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for HiddenWater {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
     }
 }
 impl GroundSkillBase for HiddenWater {
@@ -2660,7 +2557,7 @@ impl SkillBase for IceMeteor {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -2716,42 +2613,41 @@ impl SkillBase for IceMeteor {
        2000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for IceMeteor {
+impl OffensiveSkillBase for IceMeteor {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 20.0), 2, tick, 100),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 30.0), 2, tick, 100),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 40.0), 2, tick, 100),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 50.0), 2, tick, 100),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 60.0), 2, tick, 100),]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.500)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(2.500)
+        }
+        if self.level == 4 {
+            return Some(3.000)
+        }
+        if self.level == 5 {
+            return Some(3.500)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
     }
 }
 // NJ_HUUJIN
@@ -2842,10 +2738,10 @@ impl SkillBase for WindBlade {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -3081,7 +2977,7 @@ impl SkillBase for LightningStrikeofDestruction {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -3118,22 +3014,41 @@ impl SkillBase for LightningStrikeofDestruction {
        4000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for LightningStrikeofDestruction {
+impl OffensiveSkillBase for LightningStrikeofDestruction {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(2.000)
+        }
+        if self.level == 2 {
+            return Some(2.400)
+        }
+        if self.level == 3 {
+            return Some(2.800)
+        }
+        if self.level == 4 {
+            return Some(3.200)
+        }
+        if self.level == 5 {
+            return Some(3.600)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Wind
     }
 }
 // NJ_KAMAITACHI
@@ -3209,10 +3124,10 @@ impl SkillBase for Kamaitachi {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -3405,49 +3320,6 @@ impl SkillBase for Soul {
         }
         0
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for Soul {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Int(1), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Str(1), 2, tick, 30000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Int(2), 2, tick, 45000),
-                TemporaryStatusBonus::with_duration(BonusType::Str(2), 2, tick, 45000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Int(3), 2, tick, 60000),
-                TemporaryStatusBonus::with_duration(BonusType::Str(3), 2, tick, 60000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Int(4), 2, tick, 75000),
-                TemporaryStatusBonus::with_duration(BonusType::Str(4), 2, tick, 75000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Int(5), 2, tick, 90000),
-                TemporaryStatusBonus::with_duration(BonusType::Str(5), 2, tick, 90000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // NJ_ISSEN
 pub struct FinalStrike {
@@ -3537,13 +3409,13 @@ impl SkillBase for FinalStrike {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {

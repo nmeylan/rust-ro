@@ -32,7 +32,8 @@ impl CountDownLatch {
 
     pub fn wait_with_timeout(&self, duration: Duration) {
         let bt = Backtrace::capture();
-        let (_, wait_timeout) = self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count > 0 }).unwrap();
+        let (lock, wait_timeout) = self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count > 0 }).unwrap();
+        drop(lock);
         if wait_timeout.timed_out() {
             println!("warn: reach timeout of increment latch at:");
             println!("{bt}");
@@ -71,7 +72,8 @@ impl IncrementLatch {
 
     pub fn wait_expected_count_with_timeout(&self, expected_count: usize, duration: Duration) {
         let bt = Backtrace::capture();
-        let (_, wait_timeout) = self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count != expected_count }).unwrap();
+        let (lock, wait_timeout) = self.cvar.wait_timeout_while(self.count.lock().unwrap(), duration, |count| { *count != expected_count }).unwrap();
+        drop(lock);
         if wait_timeout.timed_out() {
             println!("warn: reach timeout of increment latch, condition not match \"{} != {}\" at:", self.count.lock().unwrap(), expected_count);
             println!("{bt}");

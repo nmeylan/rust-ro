@@ -98,7 +98,7 @@ impl SkillBase for Indulge {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -161,23 +161,15 @@ impl SkillBase for Indulge {
         0
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Indulge {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for Indulge {
 }
 // PF_SOULCHANGE
 pub struct SoulExhale {
@@ -237,7 +229,7 @@ impl SkillBase for SoulExhale {
        5
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -256,24 +248,6 @@ impl SkillBase for SoulExhale {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        5000
-    }
-    #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
-        Some(self)
-    }
-}
-impl OffensiveSkillBase for SoulExhale {
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Neutral
     }
 }
 // PF_SOULBURN
@@ -349,7 +323,7 @@ impl SkillBase for SoulSiphon {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -468,7 +442,7 @@ impl SkillBase for MindBreaker {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -533,24 +507,6 @@ impl SkillBase for MindBreaker {
         }
         0
     }
-    #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
-        Some(self)
-    }
-}
-impl OffensiveSkillBase for MindBreaker {
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Neutral
-    }
 }
 // PF_MEMORIZE
 pub struct Foresight {
@@ -613,7 +569,7 @@ impl SkillBase for Foresight {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -627,15 +583,15 @@ impl SkillBase for Foresight {
        5000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Foresight {
+impl SupportiveSkillBase for Foresight {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
@@ -784,7 +740,7 @@ impl SkillBase for FiberLock {
        50
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -805,22 +761,26 @@ impl SkillBase for FiberLock {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl OffensiveSkillBase for FiberLock {
+impl SupportiveSkillBase for FiberLock {
     #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-50), 2, tick, 16000),]);
+        }
+        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Neutral
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
 }
 // PF_DOUBLECASTING
@@ -899,7 +859,7 @@ impl SkillBase for DoubleCasting {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -928,15 +888,15 @@ impl SkillBase for DoubleCasting {
        2000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for DoubleCasting {
+impl SupportiveSkillBase for DoubleCasting {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()

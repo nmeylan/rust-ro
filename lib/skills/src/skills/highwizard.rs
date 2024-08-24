@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::highwizard_base::{*};
@@ -12,7 +12,7 @@ impl Skill for SoulDrain {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl PassiveSkill for SoulDrain {
+impl OffensiveSkill for SoulDrain {
 }
 impl Skill for StaveCrasher {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -28,7 +28,7 @@ impl Skill for MysticalAmplification {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for MysticalAmplification {
+impl SupportiveSkill for MysticalAmplification {
 }
 impl Skill for NapalmVulcan {
     fn new(level: u8) -> Option<Self> where Self : Sized {

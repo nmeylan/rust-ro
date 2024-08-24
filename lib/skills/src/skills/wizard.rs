@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::wizard_base::{*};
@@ -20,7 +20,7 @@ impl Skill for Sightrasher {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Sightrasher {
+impl OffensiveSkill for Sightrasher {
 }
 impl Skill for MeteorStorm {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -43,6 +43,8 @@ impl Skill for LordofVermilion {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for LordofVermilion {
 }
 impl GroundSkill for LordofVermilion {
 }
@@ -68,7 +70,7 @@ impl Skill for FrostNova {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for FrostNova {
+impl OffensiveSkill for FrostNova {
 }
 impl Skill for StormGust {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -108,13 +110,11 @@ impl Skill for Sense {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for Sense {
+impl InteractiveSkill for Sense {
 }
 impl Skill for SightBlaster {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl SelfSkill for SightBlaster {
 }

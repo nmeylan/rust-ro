@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::whitesmith_base::{*};
@@ -12,7 +12,7 @@ impl Skill for ShatteringStrike {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for ShatteringStrike {
+impl SupportiveSkill for ShatteringStrike {
 }
 impl Skill for CartBoost {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -20,7 +20,7 @@ impl Skill for CartBoost {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for CartBoost {
+impl SupportiveSkill for CartBoost {
 }
 impl Skill for UpgradeWeapon {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -28,7 +28,7 @@ impl Skill for UpgradeWeapon {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for UpgradeWeapon {
+impl InteractiveSkill for UpgradeWeapon {
 }
 impl Skill for CartTermination {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -44,5 +44,5 @@ impl Skill for MaximumPowerThrust {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for MaximumPowerThrust {
+impl SupportiveSkill for MaximumPowerThrust {
 }

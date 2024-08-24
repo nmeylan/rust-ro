@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::acolyte_base::{*};
@@ -28,7 +28,7 @@ impl Skill for Ruwach {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Ruwach {
+impl OffensiveSkill for Ruwach {
 }
 impl Skill for Pneuma {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -44,13 +44,15 @@ impl Skill for Teleport {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Teleport {
+impl InteractiveSkill for Teleport {
 }
 impl Skill for WarpPortal {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 4 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for WarpPortal {
 }
 impl GroundSkill for WarpPortal {
 }
@@ -60,7 +62,7 @@ impl Skill for Heal {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SupportiveSkill for Heal {
+impl OffensiveSkill for Heal {
 }
 impl Skill for IncreaseAgi {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -76,7 +78,7 @@ impl Skill for DecreaseAgi {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for DecreaseAgi {
+impl SupportiveSkill for DecreaseAgi {
 }
 impl Skill for AquaBenedicta {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -84,7 +86,7 @@ impl Skill for AquaBenedicta {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for AquaBenedicta {
+impl InteractiveSkill for AquaBenedicta {
 }
 impl Skill for SignumCrucis {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -92,7 +94,7 @@ impl Skill for SignumCrucis {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for SignumCrucis {
+impl SupportiveSkill for SignumCrucis {
 }
 impl Skill for Angelus {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -100,7 +102,7 @@ impl Skill for Angelus {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Angelus {
+impl SupportiveSkill for Angelus {
 }
 impl Skill for Blessing {
     fn new(level: u8) -> Option<Self> where Self : Sized {

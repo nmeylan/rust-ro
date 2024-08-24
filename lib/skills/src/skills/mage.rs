@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::mage_base::{*};
@@ -20,7 +20,7 @@ impl Skill for Sight {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Sight {
+impl OffensiveSkill for Sight {
 }
 impl Skill for NapalmBeat {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -84,6 +84,8 @@ impl Skill for FireWall {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for FireWall {
+}
 impl GroundSkill for FireWall {
 }
 impl Skill for FireBolt {
@@ -108,6 +110,8 @@ impl Skill for ThunderStorm {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for ThunderStorm {
+}
 impl GroundSkill for ThunderStorm {
 }
 impl Skill for EnergyCoat {
@@ -116,5 +120,5 @@ impl Skill for EnergyCoat {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for EnergyCoat {
+impl SupportiveSkill for EnergyCoat {
 }

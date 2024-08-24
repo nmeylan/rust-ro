@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::priest_base::{*};
@@ -84,7 +84,7 @@ impl Skill for Magnificat {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Magnificat {
+impl SupportiveSkill for Magnificat {
 }
 impl Skill for Gloria {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -92,7 +92,7 @@ impl Skill for Gloria {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Gloria {
+impl SupportiveSkill for Gloria {
 }
 impl Skill for LexDivina {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -100,7 +100,7 @@ impl Skill for LexDivina {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for LexDivina {
+impl SupportiveSkill for LexDivina {
 }
 impl Skill for TurnUndead {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -116,7 +116,7 @@ impl Skill for LexAeterna {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for LexAeterna {
+impl SupportiveSkill for LexAeterna {
 }
 impl Skill for MagnusExorcismus {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -131,6 +131,4 @@ impl Skill for Redemptio {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl SelfSkill for Redemptio {
 }

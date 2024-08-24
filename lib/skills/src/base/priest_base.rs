@@ -80,13 +80,13 @@ impl SkillBase for MaceMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -172,10 +172,10 @@ impl SkillBase for ImpositioManus {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -215,26 +215,10 @@ impl SkillBase for ImpositioManus {
 impl SupportiveSkillBase for ImpositioManus {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(5), 2, tick, 60000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(10), 2, tick, 60000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(15), 2, tick, 60000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(20), 2, tick, 60000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(25), 2, tick, 60000),]);
-        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -296,10 +280,10 @@ impl SkillBase for Suffragium {
        8
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -324,6 +308,10 @@ impl SkillBase for Suffragium {
 impl SupportiveSkillBase for Suffragium {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -400,10 +388,10 @@ impl SkillBase for Aspersio {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -451,6 +439,10 @@ impl SkillBase for Aspersio {
 impl SupportiveSkillBase for Aspersio {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -515,7 +507,7 @@ impl SkillBase for BsSacramenti {
         SkillTargetType::Ground
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -626,7 +618,7 @@ impl SkillBase for Sanctuary {
         SkillTargetType::Ground
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -758,10 +750,10 @@ impl SkillBase for SlowPoison {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -794,6 +786,10 @@ impl SkillBase for SlowPoison {
 impl SupportiveSkillBase for SlowPoison {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -855,10 +851,10 @@ impl SkillBase for StatusRecovery {
        5
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -883,6 +879,10 @@ impl SkillBase for StatusRecovery {
 impl SupportiveSkillBase for StatusRecovery {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -974,7 +974,7 @@ impl SkillBase for KyrieEleison {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -1036,46 +1036,10 @@ impl SkillBase for KyrieEleison {
 impl SupportiveSkillBase for KyrieEleison {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(5), 2, tick, 120000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(6), 2, tick, 120000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(6), 2, tick, 120000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(7), 2, tick, 120000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(7), 2, tick, 120000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(8), 2, tick, 120000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(8), 2, tick, 120000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(9), 2, tick, 120000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(9), 2, tick, 120000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(10), 2, tick, 120000),]);
-        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -1137,7 +1101,7 @@ impl SkillBase for Magnificat {
        40
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::MySelf
+        SkillTargetType::Party
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1158,15 +1122,15 @@ impl SkillBase for Magnificat {
        2000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Magnificat {
+impl SupportiveSkillBase for Magnificat {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
@@ -1234,7 +1198,7 @@ impl SkillBase for Gloria {
        20
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::MySelf
+        SkillTargetType::Party
     }
     fn _is_magic(&self) -> bool {
         true
@@ -1251,15 +1215,15 @@ impl SkillBase for Gloria {
        2000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Gloria {
+impl SupportiveSkillBase for Gloria {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -1377,10 +1341,10 @@ impl SkillBase for LexDivina {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -1424,18 +1388,52 @@ impl SkillBase for LexDivina {
        3000
     }
     #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl OffensiveSkillBase for LexDivina {
+impl SupportiveSkillBase for LexDivina {
     #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Neutral
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
 }
 // PR_TURNUNDEAD
@@ -1496,7 +1494,7 @@ impl SkillBase for TurnUndead {
        20
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -1593,10 +1591,10 @@ impl SkillBase for LexAeterna {
        10
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -1610,18 +1608,22 @@ impl SkillBase for LexAeterna {
        3000
     }
     #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl OffensiveSkillBase for LexAeterna {
+impl SupportiveSkillBase for LexAeterna {
     #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Neutral
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
 }
 // PR_MAGNUS
@@ -1842,7 +1844,7 @@ impl SkillBase for Redemptio {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -1854,23 +1856,5 @@ impl SkillBase for Redemptio {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        4000
-    }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for Redemptio {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }

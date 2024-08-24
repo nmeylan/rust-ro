@@ -80,7 +80,7 @@ impl SkillBase for BasicSkill {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -157,7 +157,7 @@ impl SkillBase for FirstAid {
        3
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::MySelf
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -170,23 +170,15 @@ impl SkillBase for FirstAid {
         if status.sp() > 3 { Ok(3) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_passive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for FirstAid {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl PassiveSkillBase for FirstAid {
 }
 // NV_TRICKDEAD
 pub struct PlayDead {
@@ -259,15 +251,15 @@ impl SkillBase for PlayDead {
         if status.sp() > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for PlayDead {
+impl SupportiveSkillBase for PlayDead {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()

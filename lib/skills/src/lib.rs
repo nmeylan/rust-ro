@@ -27,9 +27,9 @@ pub trait SkillBase {
     #[inline(always)]
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> { None }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool { false }
+    fn is_interactive_skill(&self) -> bool { false }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> { None }
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> { None }
     #[inline(always)]
     fn is_ground_skill(&self) -> bool { false }
     #[inline(always)]
@@ -315,11 +315,16 @@ pub trait OffensiveSkill: OffensiveSkillBase {
 
 pub trait SupportiveSkillBase: Skill {
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses;
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses;
 }
 pub trait SupportiveSkill: SupportiveSkillBase {
     #[inline(always)]
     fn bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         self._bonuses(tick)
+    }
+    #[inline(always)]
+    fn bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        self._bonuses_to_party(tick)
     }
 }
 
@@ -337,19 +342,7 @@ pub trait GroundSkillBase: Skill {
 }
 pub trait GroundSkill: GroundSkillBase {
 }
-
-pub trait SelfSkillBase: Skill {
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses;
-
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses;
+pub trait InteractiveSkillBase: Skill {
 }
-pub trait SelfSkill: SelfSkillBase {
-    #[inline(always)]
-    fn bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        self._bonuses(tick)
-    }
-    #[inline(always)]
-    fn bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        self._bonuses_to_party(tick)
-    }
+pub trait InteractiveSkill: InteractiveSkillBase {
 }

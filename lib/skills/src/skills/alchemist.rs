@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::alchemist_base::{*};
@@ -20,15 +20,13 @@ impl Skill for PotionResearch {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl PassiveSkill for PotionResearch {
-}
 impl Skill for PreparePotion {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for PreparePotion {
+impl InteractiveSkill for PreparePotion {
 }
 impl Skill for Bomb {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -54,13 +52,15 @@ impl Skill for AidPotion {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SupportiveSkill for AidPotion {
+impl OffensiveSkill for AidPotion {
 }
 impl Skill for SummonFlora {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for SummonFlora {
 }
 impl GroundSkill for SummonFlora {
 }
@@ -69,6 +69,8 @@ impl Skill for SummonMarineSphere {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for SummonMarineSphere {
 }
 impl GroundSkill for SummonMarineSphere {
 }
@@ -110,15 +112,13 @@ impl Skill for Bioethics {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl PassiveSkill for Bioethics {
-}
 impl Skill for CallHomunculus {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for CallHomunculus {
+impl InteractiveSkill for CallHomunculus {
 }
 impl Skill for Vaporize {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -126,7 +126,7 @@ impl Skill for Vaporize {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Vaporize {
+impl InteractiveSkill for Vaporize {
 }
 impl Skill for HomunculusResurrection {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -134,7 +134,7 @@ impl Skill for HomunculusResurrection {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for HomunculusResurrection {
+impl InteractiveSkill for HomunculusResurrection {
 }
 impl Skill for AidBerserkPotion {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -150,21 +150,15 @@ impl Skill for TwilightAlchemy1 {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for TwilightAlchemy1 {
-}
 impl Skill for TwilightAlchemy2 {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for TwilightAlchemy2 {
-}
 impl Skill for TwilightAlchemy3 {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl SelfSkill for TwilightAlchemy3 {
 }

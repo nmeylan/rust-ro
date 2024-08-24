@@ -110,7 +110,7 @@ impl SkillBase for VulcanArrow {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -432,23 +432,15 @@ impl SkillBase for ShelteringBliss {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_performance_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for ShelteringBliss {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl PerformanceSkillBase for ShelteringBliss {
 }
 // CG_MARIONETTE
 pub struct MarionetteControl {
@@ -508,7 +500,7 @@ impl SkillBase for MarionetteControl {
        100
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -532,6 +524,10 @@ impl SkillBase for MarionetteControl {
 impl SupportiveSkillBase for MarionetteControl {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -604,49 +600,6 @@ impl SkillBase for LongingforFreedom {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 15 { Ok(15) } else {Err(())}
-    }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for LongingforFreedom {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-40.0), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-40), 2, tick, 180000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-30.0), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-30), 2, tick, 180000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-20.0), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-20), 2, tick, 180000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-10.0), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-10), 2, tick, 180000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(0.0), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(0), 2, tick, 180000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 // CG_HERMODE
@@ -826,10 +779,10 @@ impl SkillBase for TarotCardofFate {
        40
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        false
+        true
     }
     fn _is_physical(&self) -> bool {
         false
