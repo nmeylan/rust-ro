@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::hunter_base::{*};
@@ -60,8 +60,6 @@ impl Skill for FreezingTrap {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for FreezingTrap {
-}
 impl GroundSkill for FreezingTrap {
 }
 impl Skill for BlastMine {
@@ -85,6 +83,8 @@ impl Skill for RemoveTrap {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for RemoveTrap {
 }
 impl Skill for TalkieBox {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -124,7 +124,7 @@ impl Skill for BlitzBeat {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for BlitzBeat {
+impl PassiveSkill for BlitzBeat {
 }
 impl Skill for Detect {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -140,13 +140,13 @@ impl Skill for SpringTrap {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for SpringTrap {
+}
 impl Skill for PhantasmicArrow {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl OffensiveSkill for PhantasmicArrow {
 }
 impl Skill for BeastStrafing {
     fn new(level: u8) -> Option<Self> where Self : Sized {

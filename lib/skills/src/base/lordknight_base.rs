@@ -101,7 +101,7 @@ impl SkillBase for AuraBlade {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -131,15 +131,15 @@ impl SkillBase for AuraBlade {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for AuraBlade {
+impl SupportiveSkillBase for AuraBlade {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -233,7 +233,7 @@ impl SkillBase for Parrying {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -248,15 +248,15 @@ impl SkillBase for Parrying {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Parrying {
+impl SupportiveSkillBase for Parrying {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -385,7 +385,7 @@ impl SkillBase for Concentration {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -407,15 +407,15 @@ impl SkillBase for Concentration {
         Err(())
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Concentration {
+impl SupportiveSkillBase for Concentration {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -514,22 +514,22 @@ impl SkillBase for Relax {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Relax {
+impl SupportiveSkillBase for Relax {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
@@ -603,22 +603,22 @@ impl SkillBase for Frenzy {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 200 { Ok(200) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Frenzy {
+impl SupportiveSkillBase for Frenzy {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
@@ -701,7 +701,7 @@ impl SkillBase for SpiralPierce {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -870,7 +870,7 @@ impl SkillBase for TraumaticBlow {
        23
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1012,7 +1012,7 @@ impl SkillBase for VitalStrike {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false

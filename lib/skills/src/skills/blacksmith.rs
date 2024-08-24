@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::blacksmith_base::{*};
@@ -124,7 +124,7 @@ impl Skill for WeaponRepair {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SupportiveSkill for WeaponRepair {
+impl InteractiveSkill for WeaponRepair {
 }
 impl Skill for SkinTempering {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -148,7 +148,7 @@ impl Skill for AdrenalineRush {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for AdrenalineRush {
+impl SupportiveSkill for AdrenalineRush {
 }
 impl Skill for WeaponPerfection {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -156,7 +156,7 @@ impl Skill for WeaponPerfection {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for WeaponPerfection {
+impl SupportiveSkill for WeaponPerfection {
 }
 impl Skill for PowerThrust {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -164,7 +164,7 @@ impl Skill for PowerThrust {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for PowerThrust {
+impl SupportiveSkill for PowerThrust {
 }
 impl Skill for MaximizePower {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -172,7 +172,7 @@ impl Skill for MaximizePower {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for MaximizePower {
+impl SupportiveSkill for MaximizePower {
 }
 impl Skill for UnfairTrick {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -180,15 +180,11 @@ impl Skill for UnfairTrick {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl PassiveSkill for UnfairTrick {
-}
 impl Skill for Greed {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl SelfSkill for Greed {
 }
 impl Skill for AdvancedAdrenalineRush {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -196,5 +192,5 @@ impl Skill for AdvancedAdrenalineRush {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for AdvancedAdrenalineRush {
+impl SupportiveSkill for AdvancedAdrenalineRush {
 }

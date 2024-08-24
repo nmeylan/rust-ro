@@ -1,17 +1,17 @@
-689/1440 tests passed, fixture file was [src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json](/server/src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json)
+667/1440 tests passed, fixture file was [src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json](/server/src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json)
 
 # Acolyte (1/2)
 |Skill|Passed|
 |-|-|
 |AL_HEAL|**false**|
 |AL_HOLYLIGHT|**true**|
-# Alchemist (3/4)
+# Alchemist (2/4)
 |Skill|Passed|
 |-|-|
 |MC_MAMMONITE|**true**|
 |MC_CARTREVOLUTION|**true**|
 |AM_ACIDTERROR|**false**|
-|AM_DEMONSTRATION|**true**|
+|AM_DEMONSTRATION|**false**|
 # Archer (3/3)
 |Skill|Passed|
 |-|-|
@@ -72,13 +72,13 @@
 |AC_SHOWER|**true**|
 |AC_CHARGEARROW|**true**|
 |CG_ARROWVULCAN|**true**|
-# Creator (3/5)
+# Creator (2/5)
 |Skill|Passed|
 |-|-|
 |MC_MAMMONITE|**true**|
 |MC_CARTREVOLUTION|**true**|
 |AM_ACIDTERROR|**false**|
-|AM_DEMONSTRATION|**true**|
+|AM_DEMONSTRATION|**false**|
 |CR_ACIDDEMONSTRATION|**false**|
 # Crusader (4/7)
 |Skill|Passed|
@@ -128,7 +128,7 @@
 |PR_TURNUNDEAD|**false**|
 |PR_MAGNUS|**false**|
 |PR_SANCTUARY|**false**|
-# HighWizard (9/21)
+# HighWizard (11/21)
 |Skill|Passed|
 |-|-|
 |MG_FIREBOLT|**true**|
@@ -137,11 +137,11 @@
 |MG_FIREBALL|**true**|
 |MG_FIREWALL|**false**|
 |MG_FROSTDIVER|**true**|
-|MG_THUNDERSTORM|**false**|
+|MG_THUNDERSTORM|**true**|
 |MG_NAPALMBEAT|**true**|
 |MG_SOULSTRIKE|**true**|
 |WZ_FIREPILLAR|**false**|
-|WZ_SIGHTRASHER|**false**|
+|WZ_SIGHTRASHER|**true**|
 |WZ_METEOR|**false**|
 |WZ_JUPITEL|**true**|
 |WZ_VERMILION|**false**|
@@ -186,7 +186,7 @@
 |LK_SPIRALPIERCE|**false**|
 |LK_HEADCRUSH|**false**|
 |LK_JOINTBEAT|**true**|
-# Mage (7/9)
+# Mage (8/9)
 |Skill|Passed|
 |-|-|
 |MG_FIREBOLT|**true**|
@@ -195,7 +195,7 @@
 |MG_FIREBALL|**true**|
 |MG_FIREWALL|**false**|
 |MG_FROSTDIVER|**true**|
-|MG_THUNDERSTORM|**false**|
+|MG_THUNDERSTORM|**true**|
 |MG_NAPALMBEAT|**true**|
 |MG_SOULSTRIKE|**true**|
 # Merchant (2/2)
@@ -214,17 +214,17 @@
 |AL_HEAL|**false**|
 |AL_HOLYLIGHT|**true**|
 |MO_BALKYOUNG|**false**|
-# Ninja (4/11)
+# Ninja (0/11)
 |Skill|Passed|
 |-|-|
-|NJ_KOUENKA|**true**|
+|NJ_KOUENKA|**false**|
 |NJ_KAENSIN|**false**|
-|NJ_BAKUENRYU|**true**|
+|NJ_BAKUENRYU|**false**|
 |NJ_HYOUSENSOU|**false**|
 |NJ_HYOUSYOURAKU|**false**|
-|NJ_HUUJIN|**true**|
+|NJ_HUUJIN|**false**|
 |NJ_RAIGEKISAI|**false**|
-|NJ_KAMAITACHI|**true**|
+|NJ_KAMAITACHI|**false**|
 |NJ_KUNAI|**false**|
 |NJ_HUUMA|**false**|
 |NJ_ISSEN|**false**|
@@ -249,7 +249,7 @@
 |PR_TURNUNDEAD|**false**|
 |PR_MAGNUS|**false**|
 |PR_SANCTUARY|**false**|
-# Professor (8/11)
+# Professor (9/11)
 |Skill|Passed|
 |-|-|
 |MG_FIREBOLT|**true**|
@@ -258,12 +258,12 @@
 |MG_FIREBALL|**true**|
 |MG_FIREWALL|**false**|
 |MG_FROSTDIVER|**true**|
-|MG_THUNDERSTORM|**false**|
+|MG_THUNDERSTORM|**true**|
 |MG_NAPALMBEAT|**true**|
 |MG_SOULSTRIKE|**true**|
 |WZ_EARTHSPIKE|**true**|
 |WZ_HEAVENDRIVE|**false**|
-# Rogue (25/56)
+# Rogue (22/56)
 |Skill|Passed|
 |-|-|
 |RG_BACKSTAP|**false**|
@@ -287,9 +287,9 @@
 |MG_COLDBOLT|**true**|
 |MG_FROSTDIVER|**true**|
 |MG_LIGHTNINGBOLT|**true**|
-|MG_THUNDERSTORM|**false**|
+|MG_THUNDERSTORM|**true**|
 |WZ_FIREPILLAR|**false**|
-|WZ_SIGHTRASHER|**false**|
+|WZ_SIGHTRASHER|**true**|
 |WZ_METEOR|**false**|
 |WZ_JUPITEL|**true**|
 |WZ_VERMILION|**false**|
@@ -306,23 +306,23 @@
 |HT_BLASTMINE|**false**|
 |HT_CLAYMORETRAP|**false**|
 |AM_ACIDTERROR|**false**|
-|AM_DEMONSTRATION|**true**|
+|AM_DEMONSTRATION|**false**|
 |TF_SPRINKLESAND|**true**|
 |MO_INVESTIGATE|**false**|
 |MO_FINGEROFFENSIVE|**false**|
 |MO_BALKYOUNG|**false**|
-|NJ_KOUENKA|**true**|
+|NJ_KOUENKA|**false**|
 |NJ_KAENSIN|**false**|
-|NJ_BAKUENRYU|**true**|
+|NJ_BAKUENRYU|**false**|
 |NJ_HYOUSENSOU|**false**|
 |NJ_HYOUSYOURAKU|**false**|
-|NJ_HUUJIN|**true**|
+|NJ_HUUJIN|**false**|
 |NJ_RAIGEKISAI|**false**|
-|NJ_KAMAITACHI|**true**|
+|NJ_KAMAITACHI|**false**|
 |GS_TRIPLEACTION|**true**|
 |GS_BULLSEYE|**false**|
 |GS_MAGICALBULLET|**false**|
-# Sage (8/11)
+# Sage (9/11)
 |Skill|Passed|
 |-|-|
 |MG_FIREBOLT|**true**|
@@ -331,7 +331,7 @@
 |MG_FIREBALL|**true**|
 |MG_FIREWALL|**false**|
 |MG_FROSTDIVER|**true**|
-|MG_THUNDERSTORM|**false**|
+|MG_THUNDERSTORM|**true**|
 |MG_NAPALMBEAT|**true**|
 |MG_SOULSTRIKE|**true**|
 |WZ_EARTHSPIKE|**true**|
@@ -356,7 +356,7 @@
 |SL_STUN|**false**|
 |SL_SMA|**false**|
 |WZ_EARTHSPIKE|**true**|
-# Stalker (20/56)
+# Stalker (17/56)
 |Skill|Passed|
 |-|-|
 |RG_BACKSTAP|**false**|
@@ -380,9 +380,9 @@
 |MG_COLDBOLT|**true**|
 |MG_FROSTDIVER|**true**|
 |MG_LIGHTNINGBOLT|**true**|
-|MG_THUNDERSTORM|**false**|
+|MG_THUNDERSTORM|**true**|
 |WZ_FIREPILLAR|**false**|
-|WZ_SIGHTRASHER|**false**|
+|WZ_SIGHTRASHER|**true**|
 |WZ_METEOR|**false**|
 |WZ_JUPITEL|**true**|
 |WZ_VERMILION|**false**|
@@ -399,19 +399,19 @@
 |HT_BLASTMINE|**false**|
 |HT_CLAYMORETRAP|**false**|
 |AM_ACIDTERROR|**false**|
-|AM_DEMONSTRATION|**true**|
+|AM_DEMONSTRATION|**false**|
 |TF_SPRINKLESAND|**true**|
 |MO_INVESTIGATE|**false**|
 |MO_FINGEROFFENSIVE|**false**|
 |MO_BALKYOUNG|**false**|
-|NJ_KOUENKA|**true**|
+|NJ_KOUENKA|**false**|
 |NJ_KAENSIN|**false**|
-|NJ_BAKUENRYU|**true**|
+|NJ_BAKUENRYU|**false**|
 |NJ_HYOUSENSOU|**false**|
 |NJ_HYOUSYOURAKU|**false**|
-|NJ_HUUJIN|**true**|
+|NJ_HUUJIN|**false**|
 |NJ_RAIGEKISAI|**false**|
-|NJ_KAMAITACHI|**true**|
+|NJ_KAMAITACHI|**false**|
 |GS_TRIPLEACTION|**false**|
 |GS_BULLSEYE|**false**|
 |GS_MAGICALBULLET|**false**|
@@ -422,7 +422,7 @@
 |TK_DOWNKICK|**false**|
 |TK_COUNTER|**false**|
 |WZ_EARTHSPIKE|**true**|
-# Super Novice (10/14)
+# Super Novice (11/14)
 |Skill|Passed|
 |-|-|
 |SM_BASH|**true**|
@@ -436,7 +436,7 @@
 |MG_FIREBALL|**true**|
 |MG_FIREWALL|**false**|
 |MG_FROSTDIVER|**true**|
-|MG_THUNDERSTORM|**false**|
+|MG_THUNDERSTORM|**true**|
 |MG_NAPALMBEAT|**true**|
 |MG_SOULSTRIKE|**true**|
 # Swordsman (2/2)
@@ -461,7 +461,7 @@
 |-|-|
 |MC_MAMMONITE|**true**|
 |MC_CARTREVOLUTION|**true**|
-# Wizard (9/19)
+# Wizard (11/19)
 |Skill|Passed|
 |-|-|
 |MG_FIREBOLT|**true**|
@@ -470,11 +470,11 @@
 |MG_FIREBALL|**true**|
 |MG_FIREWALL|**false**|
 |MG_FROSTDIVER|**true**|
-|MG_THUNDERSTORM|**false**|
+|MG_THUNDERSTORM|**true**|
 |MG_NAPALMBEAT|**true**|
 |MG_SOULSTRIKE|**true**|
 |WZ_FIREPILLAR|**false**|
-|WZ_SIGHTRASHER|**false**|
+|WZ_SIGHTRASHER|**true**|
 |WZ_METEOR|**false**|
 |WZ_JUPITEL|**true**|
 |WZ_VERMILION|**false**|
@@ -514,9 +514,9 @@
 |8ge09q|Thief|TF_SPRINKLESAND|Sword|**passed**| |155/155|155/155|
 |n40p0n|Thief|TF_SPRINKLESAND|Axe|**passed**| |158/158|158/158|
 |3nj2rf|Thief|TF_SPRINKLESAND|Bow|**passed**| |125/125|173/173|
-|km12gi|Acolyte|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|blix56|Acolyte|AL_HEAL|Chain|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|vwlgrg|Acolyte|AL_HEAL|Rod|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
+|km12gi|Acolyte|AL_HEAL|Unarmed|**failed**| |94/0|142/0|
+|blix56|Acolyte|AL_HEAL|Chain|**failed**| |94/0|142/0|
+|vwlgrg|Acolyte|AL_HEAL|Rod|**failed**| |107/0|163/0|
 |7atrhf|Acolyte|AL_HOLYLIGHT|Unarmed|**passed**| |117/117|178/178|
 |g2ko8u|Acolyte|AL_HOLYLIGHT|Chain|**passed**| |117/117|178/178|
 |rhbkf5|Acolyte|AL_HOLYLIGHT|Rod|**passed**| |134/134|204/204|
@@ -535,15 +535,15 @@
 |90d7fl|Mage|MG_FIREBALL|Unarmed|**passed**| |79/79|121/121|
 |s2vrub|Mage|MG_FIREBALL|Knife|**passed**| |79/79|121/121|
 |9sq2c6|Mage|MG_FIREBALL|Rod|**passed**| |91/91|138/138|
-|7blr25|Mage|MG_FIREWALL|Unarmed|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|8oxivo|Mage|MG_FIREWALL|Knife|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|677upp|Mage|MG_FIREWALL|Rod|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
+|7blr25|Mage|MG_FIREWALL|Unarmed|**failed**| |23/322|35/490|
+|8oxivo|Mage|MG_FIREWALL|Knife|**failed**| |23/322|35/490|
+|677upp|Mage|MG_FIREWALL|Rod|**failed**| |26/364|40/560|
 |95tidb|Mage|MG_FROSTDIVER|Unarmed|**passed**| |47/47|71/71|
 |aiokk8|Mage|MG_FROSTDIVER|Knife|**passed**| |47/47|71/71|
 |3921iz|Mage|MG_FROSTDIVER|Rod|**passed**| |53/53|81/81|
-|ra4jxd|Mage|MG_THUNDERSTORM|Unarmed|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|cvfuxo|Mage|MG_THUNDERSTORM|Knife|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|63leiz|Mage|MG_THUNDERSTORM|Rod|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
+|ra4jxd|Mage|MG_THUNDERSTORM|Unarmed|**passed**| |1310/1310|1990/1990|
+|cvfuxo|Mage|MG_THUNDERSTORM|Knife|**passed**| |1310/1310|1990/1990|
+|63leiz|Mage|MG_THUNDERSTORM|Rod|**passed**| |1480/1480|2270/2270|
 |xolh0e|Mage|MG_NAPALMBEAT|Unarmed|**passed**| |159/159|242/242|
 |p3fvvm|Mage|MG_NAPALMBEAT|Knife|**passed**| |159/159|242/242|
 |wmzhuo|Mage|MG_NAPALMBEAT|Rod|**passed**| |182/182|277/277|
@@ -609,21 +609,21 @@
 |upc9lr|Assassin|AS_SPLASHER|Sword|**failed**| |359/1319|359/1319|
 |893y8z|Assassin|AS_SPLASHER|Axe|**failed**| |368/1352|368/1352|
 |1rj08t|Assassin|AS_SPLASHER|Katar|**failed**| |497/1825|725/2661|
-|xr06rg|Assassin|AS_POISONREACT|Unarmed|**failed**| |379/94|379/142|
-|26t3sb|Assassin|AS_POISONREACT|Knife|**failed**| |427/94|427/142|
-|boqyjz|Assassin|AS_POISONREACT|Sword|**failed**| |479/94|479/142|
-|6cdkpp|Assassin|AS_POISONREACT|Axe|**failed**| |491/94|491/142|
-|oxo23x|Assassin|AS_POISONREACT|Katar|**failed**| |663/94|967/142|
+|xr06rg|Assassin|AS_POISONREACT|Unarmed|**failed**|Skill AS_POISONREACT is not an offensive skill|/|/|
+|26t3sb|Assassin|AS_POISONREACT|Knife|**failed**|Skill AS_POISONREACT is not an offensive skill|/|/|
+|boqyjz|Assassin|AS_POISONREACT|Sword|**failed**|Skill AS_POISONREACT is not an offensive skill|/|/|
+|6cdkpp|Assassin|AS_POISONREACT|Axe|**failed**|Skill AS_POISONREACT is not an offensive skill|/|/|
+|oxo23x|Assassin|AS_POISONREACT|Katar|**failed**|Skill AS_POISONREACT is not an offensive skill|/|/|
 |f36ve2|Assassin|TF_SPRINKLESAND|Unarmed|**passed**| |122/122|122/122|
 |glmmwl|Assassin|TF_SPRINKLESAND|Knife|**passed**| |138/138|138/138|
 |ee2cyt|Assassin|TF_SPRINKLESAND|Sword|**passed**| |155/155|155/155|
 |3w1fic|Assassin|TF_SPRINKLESAND|Axe|**passed**| |158/158|158/158|
 |mm0bfk|Assassin|TF_SPRINKLESAND|Katar|**passed**| |214/214|313/313|
-|h860w9|Priest|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|mzpomd|Priest|AL_HEAL|Chain|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|i5uzmw|Priest|AL_HEAL|Rod|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|6bp4ue|Priest|AL_HEAL|Book|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|uczfxw|Priest|AL_HEAL|Claw|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
+|h860w9|Priest|AL_HEAL|Unarmed|**failed**| |94/0|142/0|
+|mzpomd|Priest|AL_HEAL|Chain|**failed**| |94/0|142/0|
+|i5uzmw|Priest|AL_HEAL|Rod|**failed**| |107/0|163/0|
+|6bp4ue|Priest|AL_HEAL|Book|**failed**| |94/0|142/0|
+|uczfxw|Priest|AL_HEAL|Claw|**failed**| |94/0|142/0|
 |ygs7ar|Priest|AL_HOLYLIGHT|Unarmed|**passed**| |117/117|178/178|
 |jg9hiy|Priest|AL_HOLYLIGHT|Chain|**passed**| |117/117|178/178|
 |v8xgo1|Priest|AL_HOLYLIGHT|Rod|**passed**| |134/134|204/204|
@@ -647,9 +647,9 @@
 |721s92|Hunter|AC_DOUBLE|Bow|**passed**| |370/370|510/510|
 |0f5omf|Hunter|AC_SHOWER|Bow|**passed**| |121/121|167/167|
 |7g8ba8|Hunter|AC_CHARGEARROW|Bow|**passed**| |146/146|201/201|
-|n8ufr7|Hunter|HT_BLITZBEAT|Unarmed|**failed**| |0/700|0/700|
-|430hsy|Hunter|HT_BLITZBEAT|Knife|**failed**| |0/700|0/700|
-|5qb2h8|Hunter|HT_BLITZBEAT|Bow|**failed**| |0/700|0/700|
+|n8ufr7|Hunter|HT_BLITZBEAT|Unarmed|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
+|430hsy|Hunter|HT_BLITZBEAT|Knife|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
+|5qb2h8|Hunter|HT_BLITZBEAT|Bow|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
 |tcj6qr|Hunter|HT_LANDMINE|Unarmed|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
 |8b6zaj|Hunter|HT_LANDMINE|Knife|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
 |aznnvf|Hunter|HT_LANDMINE|Bow|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
@@ -672,15 +672,15 @@
 |x4nr6a|Wizard|MG_FIREBALL|Unarmed|**passed**| |80/80|121/121|
 |f9ygzy|Wizard|MG_FIREBALL|Knife|**passed**| |80/80|121/121|
 |fsyo29|Wizard|MG_FIREBALL|Rod|**passed**| |92/92|139/139|
-|fwltha|Wizard|MG_FIREWALL|Unarmed|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|3vd8ql|Wizard|MG_FIREWALL|Knife|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|8dh2qj|Wizard|MG_FIREWALL|Rod|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
+|fwltha|Wizard|MG_FIREWALL|Unarmed|**failed**| |23/322|35/490|
+|3vd8ql|Wizard|MG_FIREWALL|Knife|**failed**| |23/322|35/490|
+|8dh2qj|Wizard|MG_FIREWALL|Rod|**failed**| |27/378|41/574|
 |efpvjj|Wizard|MG_FROSTDIVER|Unarmed|**passed**| |47/47|71/71|
 |ew4e3t|Wizard|MG_FROSTDIVER|Knife|**passed**| |47/47|71/71|
 |w391nb|Wizard|MG_FROSTDIVER|Rod|**passed**| |54/54|82/82|
-|k3q6am|Wizard|MG_THUNDERSTORM|Unarmed|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|1pth8q|Wizard|MG_THUNDERSTORM|Knife|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|5ae6u2|Wizard|MG_THUNDERSTORM|Rod|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
+|k3q6am|Wizard|MG_THUNDERSTORM|Unarmed|**passed**| |1330/1330|1990/1990|
+|1pth8q|Wizard|MG_THUNDERSTORM|Knife|**passed**| |1330/1330|1990/1990|
+|5ae6u2|Wizard|MG_THUNDERSTORM|Rod|**passed**| |1520/1520|2290/2290|
 |2u6q7t|Wizard|MG_NAPALMBEAT|Unarmed|**passed**| |161/161|243/243|
 |hs2e9k|Wizard|MG_NAPALMBEAT|Knife|**passed**| |161/161|243/243|
 |z6o18j|Wizard|MG_NAPALMBEAT|Rod|**passed**| |185/185|279/279|
@@ -690,24 +690,24 @@
 |8duk4h|Wizard|WZ_FIREPILLAR|Unarmed|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
 |nsmie3|Wizard|WZ_FIREPILLAR|Knife|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
 |msnvw4|Wizard|WZ_FIREPILLAR|Rod|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|xepqf7|Wizard|WZ_SIGHTRASHER|Unarmed|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
-|nqc9le|Wizard|WZ_SIGHTRASHER|Knife|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
-|pw1nlg|Wizard|WZ_SIGHTRASHER|Rod|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
+|xepqf7|Wizard|WZ_SIGHTRASHER|Unarmed|**passed**| |142/142|215/215|
+|nqc9le|Wizard|WZ_SIGHTRASHER|Knife|**passed**| |142/142|215/215|
+|pw1nlg|Wizard|WZ_SIGHTRASHER|Rod|**passed**| |163/163|246/246|
 |jeugn6|Wizard|WZ_METEOR|Unarmed|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
 |kq81wh|Wizard|WZ_METEOR|Knife|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
 |9cxv6r|Wizard|WZ_METEOR|Rod|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
 |7njpct|Wizard|WZ_JUPITEL|Unarmed|**passed**| |1992/1992|3000/3000|
 |qt3auy|Wizard|WZ_JUPITEL|Knife|**passed**| |1992/1992|3000/3000|
 |a6w993|Wizard|WZ_JUPITEL|Rod|**passed**| |2280/2280|3444/3444|
-|3t65hq|Wizard|WZ_VERMILION|Unarmed|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
-|qdbo1a|Wizard|WZ_VERMILION|Knife|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
-|o6wmu6|Wizard|WZ_VERMILION|Rod|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
+|3t65hq|Wizard|WZ_VERMILION|Unarmed|**failed**| |631/95|953/143|
+|qdbo1a|Wizard|WZ_VERMILION|Knife|**failed**| |631/95|953/143|
+|o6wmu6|Wizard|WZ_VERMILION|Rod|**failed**| |726/109|1092/164|
 |txcjcc|Wizard|WZ_WATERBALL|Unarmed|**failed**| |59/1475|89/2225|
 |fxvogp|Wizard|WZ_WATERBALL|Knife|**failed**| |59/1475|89/2225|
 |src6v6|Wizard|WZ_WATERBALL|Rod|**failed**| |68/1700|102/2550|
-|5vpidj|Wizard|WZ_FROSTNOVA|Unarmed|**failed**|Skill WZ_FROSTNOVA is not an offensive skill|/|/|
-|p2mza3|Wizard|WZ_FROSTNOVA|Knife|**failed**|Skill WZ_FROSTNOVA is not an offensive skill|/|/|
-|4tuwog|Wizard|WZ_FROSTNOVA|Rod|**failed**|Skill WZ_FROSTNOVA is not an offensive skill|/|/|
+|5vpidj|Wizard|WZ_FROSTNOVA|Unarmed|**failed**| |3166/31|4781/47|
+|p2mza3|Wizard|WZ_FROSTNOVA|Knife|**failed**| |3166/31|4781/47|
+|4tuwog|Wizard|WZ_FROSTNOVA|Rod|**failed**| |3641/36|5478/54|
 |jiff6h|Wizard|WZ_STORMGUST|Unarmed|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
 |wvowoq|Wizard|WZ_STORMGUST|Knife|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
 |f1z689|Wizard|WZ_STORMGUST|Rod|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
@@ -774,24 +774,24 @@
 |c1zuh8|Crusader|CR_HOLYCROSS|Axe|**passed**| |552/552|552/552|
 |m6oazt|Crusader|CR_HOLYCROSS|Two_Handed_Axe|**passed**| |660/660|1046/1047|
 |iyb008|Crusader|CR_HOLYCROSS|Chain|**passed**| |696/696|800/800|
-|nrkud2|Crusader|CR_GRANDCROSS|Unarmed|**failed**| |470/4|712/4|
-|frfyit|Crusader|CR_GRANDCROSS|Knife|**failed**| |470/4|712/4|
-|lh8oip|Crusader|CR_GRANDCROSS|Sword|**failed**| |470/4|712/4|
-|fmyztg|Crusader|CR_GRANDCROSS|Bastard_Sword|**failed**| |470/4|712/4|
-|xg7ugk|Crusader|CR_GRANDCROSS|Spear|**failed**| |470/4|712/4|
-|z1ajri|Crusader|CR_GRANDCROSS|Glaive|**failed**| |470/4|712/4|
-|5bynmv|Crusader|CR_GRANDCROSS|Axe|**failed**| |470/4|712/4|
-|kuwphb|Crusader|CR_GRANDCROSS|Two_Handed_Axe|**failed**| |470/4|712/4|
-|blglzr|Crusader|CR_GRANDCROSS|Chain|**failed**| |470/4|712/4|
-|hwqnkw|Crusader|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|geoj33|Crusader|AL_HEAL|Knife|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|gkni8r|Crusader|AL_HEAL|Sword|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|q7skbd|Crusader|AL_HEAL|Bastard_Sword|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|tapuc3|Crusader|AL_HEAL|Spear|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|dc8z19|Crusader|AL_HEAL|Glaive|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|ifgrf0|Crusader|AL_HEAL|Axe|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|hsp89a|Crusader|AL_HEAL|Two_Handed_Axe|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|bp94al|Crusader|AL_HEAL|Chain|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
+|nrkud2|Crusader|CR_GRANDCROSS|Unarmed|**failed**| |474/4|474/4|
+|frfyit|Crusader|CR_GRANDCROSS|Knife|**failed**| |534/4|534/4|
+|lh8oip|Crusader|CR_GRANDCROSS|Sword|**failed**| |599/4|599/4|
+|fmyztg|Crusader|CR_GRANDCROSS|Bastard_Sword|**failed**| |699/4|899/4|
+|xg7ugk|Crusader|CR_GRANDCROSS|Spear|**failed**| |639/4|639/4|
+|z1ajri|Crusader|CR_GRANDCROSS|Glaive|**failed**| |699/4|859/4|
+|5bynmv|Crusader|CR_GRANDCROSS|Axe|**failed**| |614/4|614/4|
+|kuwphb|Crusader|CR_GRANDCROSS|Two_Handed_Axe|**failed**| |734/4|1164/4|
+|blglzr|Crusader|CR_GRANDCROSS|Chain|**failed**| |774/4|889/4|
+|hwqnkw|Crusader|AL_HEAL|Unarmed|**failed**| |94/0|142/0|
+|geoj33|Crusader|AL_HEAL|Knife|**failed**| |94/0|142/0|
+|gkni8r|Crusader|AL_HEAL|Sword|**failed**| |94/0|142/0|
+|q7skbd|Crusader|AL_HEAL|Bastard_Sword|**failed**| |94/0|142/0|
+|tapuc3|Crusader|AL_HEAL|Spear|**failed**| |94/0|142/0|
+|dc8z19|Crusader|AL_HEAL|Glaive|**failed**| |94/0|142/0|
+|ifgrf0|Crusader|AL_HEAL|Axe|**failed**| |94/0|142/0|
+|hsp89a|Crusader|AL_HEAL|Two_Handed_Axe|**failed**| |94/0|142/0|
+|bp94al|Crusader|AL_HEAL|Chain|**failed**| |94/0|142/0|
 |py62ok|Rogue|RG_BACKSTAP|Unarmed|**passed**| |664/664|664/664|
 |par6j4|Rogue|RG_BACKSTAP|Knife|**passed**| |748/748|748/748|
 |5pfxq9|Rogue|RG_BACKSTAP|Sword|**passed**| |839/839|839/839|
@@ -812,10 +812,10 @@
 |1o6de8|Rogue|SM_MAGNUM|Knife|**passed**| |160/160|160/160|
 |pz2bx2|Rogue|SM_MAGNUM|Sword|**passed**| |179/179|179/179|
 |ne0979|Rogue|SM_MAGNUM|Bow|**passed**| |145/145|200/200|
-|me3ge7|Rogue|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|8hbkp8|Rogue|AL_HEAL|Knife|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|kmtbty|Rogue|AL_HEAL|Sword|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|6u9si8|Rogue|AL_HEAL|Bow|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
+|me3ge7|Rogue|AL_HEAL|Unarmed|**failed**| |94/0|142/0|
+|8hbkp8|Rogue|AL_HEAL|Knife|**failed**| |94/0|142/0|
+|kmtbty|Rogue|AL_HEAL|Sword|**failed**| |94/0|142/0|
+|6u9si8|Rogue|AL_HEAL|Bow|**failed**| |94/0|142/0|
 |67u3wd|Rogue|KN_BOWLINGBASH|Unarmed|**failed**| |474/1422|474/1422|
 |8vdy32|Rogue|KN_BOWLINGBASH|Knife|**failed**| |534/1602|534/1602|
 |c3z1q8|Rogue|KN_BOWLINGBASH|Sword|**failed**| |599/1797|599/1797|
@@ -828,10 +828,10 @@
 |jznr7e|Rogue|CR_HOLYCROSS|Knife|**passed**| |480/480|480/480|
 |1zmtaj|Rogue|CR_HOLYCROSS|Sword|**passed**| |538/539|538/539|
 |6g603m|Rogue|CR_HOLYCROSS|Bow|**passed**| |434/435|602/602|
-|jel22o|Rogue|CR_GRANDCROSS|Unarmed|**failed**| |470/4|712/4|
-|kta6vw|Rogue|CR_GRANDCROSS|Knife|**failed**| |470/4|712/4|
-|z20v45|Rogue|CR_GRANDCROSS|Sword|**failed**| |470/4|712/4|
-|v3j4l6|Rogue|CR_GRANDCROSS|Bow|**failed**| |470/4|712/4|
+|jel22o|Rogue|CR_GRANDCROSS|Unarmed|**failed**| |474/4|474/4|
+|kta6vw|Rogue|CR_GRANDCROSS|Knife|**failed**| |534/4|534/4|
+|z20v45|Rogue|CR_GRANDCROSS|Sword|**failed**| |599/4|599/4|
+|v3j4l6|Rogue|CR_GRANDCROSS|Bow|**failed**| |484/4|669/4|
 |ujksoj|Rogue|CR_SHIELDCHARGE|Unarmed|**passed**| |189/189|189/189|
 |hlo35a|Rogue|CR_SHIELDCHARGE|Knife|**passed**| |213/213|213/213|
 |ti3x08|Rogue|CR_SHIELDCHARGE|Sword|**passed**| |239/239|239/239|
@@ -856,10 +856,10 @@
 |b05eng|Rogue|MG_FIREBALL|Knife|**passed**| |79/79|121/121|
 |1ewia9|Rogue|MG_FIREBALL|Sword|**passed**| |79/79|121/121|
 |ji14qo|Rogue|MG_FIREBALL|Bow|**passed**| |79/79|121/121|
-|foqma6|Rogue|MG_FIREWALL|Unarmed|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|dcly9m|Rogue|MG_FIREWALL|Knife|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|mn0xgk|Rogue|MG_FIREWALL|Sword|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|vg6rs0|Rogue|MG_FIREWALL|Bow|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
+|foqma6|Rogue|MG_FIREWALL|Unarmed|**failed**| |23/322|35/490|
+|dcly9m|Rogue|MG_FIREWALL|Knife|**failed**| |23/322|35/490|
+|mn0xgk|Rogue|MG_FIREWALL|Sword|**failed**| |23/322|35/490|
+|vg6rs0|Rogue|MG_FIREWALL|Bow|**failed**| |23/322|35/490|
 |cushaw|Rogue|MG_COLDBOLT|Unarmed|**passed**| |230/230|350/350|
 |w73tvu|Rogue|MG_COLDBOLT|Knife|**passed**| |230/230|350/350|
 |lnayuf|Rogue|MG_COLDBOLT|Sword|**passed**| |230/230|350/350|
@@ -872,18 +872,18 @@
 |1cw5nw|Rogue|MG_LIGHTNINGBOLT|Knife|**passed**| |1640/1640|2480/2480|
 |9d9rz5|Rogue|MG_LIGHTNINGBOLT|Sword|**passed**| |1640/1640|2480/2480|
 |s24683|Rogue|MG_LIGHTNINGBOLT|Bow|**passed**| |1640/1640|2480/2480|
-|jo7ots|Rogue|MG_THUNDERSTORM|Unarmed|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|d3gkrd|Rogue|MG_THUNDERSTORM|Knife|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|ud2ul3|Rogue|MG_THUNDERSTORM|Sword|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|joc0sj|Rogue|MG_THUNDERSTORM|Bow|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
+|jo7ots|Rogue|MG_THUNDERSTORM|Unarmed|**passed**| |1310/1310|1990/1990|
+|d3gkrd|Rogue|MG_THUNDERSTORM|Knife|**passed**| |1310/1310|1990/1990|
+|ud2ul3|Rogue|MG_THUNDERSTORM|Sword|**passed**| |1310/1310|1990/1990|
+|joc0sj|Rogue|MG_THUNDERSTORM|Bow|**passed**| |1310/1310|1990/1990|
 |ezedwc|Rogue|WZ_FIREPILLAR|Unarmed|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
 |5wgbi7|Rogue|WZ_FIREPILLAR|Knife|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
 |j7capo|Rogue|WZ_FIREPILLAR|Sword|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
 |nksqx2|Rogue|WZ_FIREPILLAR|Bow|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|wx2ner|Rogue|WZ_SIGHTRASHER|Unarmed|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
-|rnu2ci|Rogue|WZ_SIGHTRASHER|Knife|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
-|lsitwf|Rogue|WZ_SIGHTRASHER|Sword|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
-|shn9qd|Rogue|WZ_SIGHTRASHER|Bow|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
+|wx2ner|Rogue|WZ_SIGHTRASHER|Unarmed|**passed**| |141/141|213/213|
+|rnu2ci|Rogue|WZ_SIGHTRASHER|Knife|**passed**| |141/141|213/213|
+|lsitwf|Rogue|WZ_SIGHTRASHER|Sword|**passed**| |141/141|213/213|
+|shn9qd|Rogue|WZ_SIGHTRASHER|Bow|**passed**| |141/141|213/213|
 |05rrp6|Rogue|WZ_METEOR|Unarmed|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
 |wnbl11|Rogue|WZ_METEOR|Knife|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
 |25yhbz|Rogue|WZ_METEOR|Sword|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
@@ -892,10 +892,10 @@
 |bjypun|Rogue|WZ_JUPITEL|Knife|**passed**| |1968/1968|2976/2976|
 |oblgnv|Rogue|WZ_JUPITEL|Sword|**passed**| |1968/1968|2976/2976|
 |5ko33d|Rogue|WZ_JUPITEL|Bow|**passed**| |1968/1968|2976/2976|
-|y9ogec|Rogue|WZ_VERMILION|Unarmed|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
-|l41jfe|Rogue|WZ_VERMILION|Knife|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
-|4eyzgw|Rogue|WZ_VERMILION|Sword|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
-|hjmg1x|Rogue|WZ_VERMILION|Bow|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
+|y9ogec|Rogue|WZ_VERMILION|Unarmed|**failed**| |624/94|946/142|
+|l41jfe|Rogue|WZ_VERMILION|Knife|**failed**| |624/94|946/142|
+|4eyzgw|Rogue|WZ_VERMILION|Sword|**failed**| |624/94|946/142|
+|hjmg1x|Rogue|WZ_VERMILION|Bow|**failed**| |624/94|946/142|
 |7en3tq|Rogue|WZ_WATERBALL|Unarmed|**failed**|Skill WZ_WATERBALL was not found|/|/|
 |m59t5u|Rogue|WZ_WATERBALL|Knife|**failed**|Skill WZ_WATERBALL was not found|/|/|
 |bvv2tf|Rogue|WZ_WATERBALL|Sword|**failed**|Skill WZ_WATERBALL was not found|/|/|
@@ -938,14 +938,14 @@
 |3fml52|Rogue|HT_CLAYMORETRAP|Knife|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
 |h8m767|Rogue|HT_CLAYMORETRAP|Sword|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
 |6uhaju|Rogue|HT_CLAYMORETRAP|Bow|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|ygxtnz|Rogue|AM_ACIDTERROR|Unarmed|**failed**| |284/282|284/282|
-|c0uu14|Rogue|AM_ACIDTERROR|Knife|**failed**| |320/318|320/318|
-|z2uflu|Rogue|AM_ACIDTERROR|Sword|**failed**| |359/357|359/357|
-|m3ig28|Rogue|AM_ACIDTERROR|Bow|**failed**| |290/288|401/399|
-|5w0q6c|Rogue|AM_DEMONSTRATION|Unarmed|**passed**| |94/94|94/94|
-|vfafx8|Rogue|AM_DEMONSTRATION|Knife|**passed**| |106/106|106/106|
-|0zrr2q|Rogue|AM_DEMONSTRATION|Sword|**passed**| |119/119|119/119|
-|hspoa1|Rogue|AM_DEMONSTRATION|Bow|**passed**| |96/96|133/133|
+|ygxtnz|Rogue|AM_ACIDTERROR|Unarmed|**failed**| |94/282|142/282|
+|c0uu14|Rogue|AM_ACIDTERROR|Knife|**failed**| |94/318|142/318|
+|z2uflu|Rogue|AM_ACIDTERROR|Sword|**failed**| |94/357|142/357|
+|m3ig28|Rogue|AM_ACIDTERROR|Bow|**failed**| |94/288|142/399|
+|5w0q6c|Rogue|AM_DEMONSTRATION|Unarmed|**failed**| |47/94|71/94|
+|vfafx8|Rogue|AM_DEMONSTRATION|Knife|**failed**| |47/106|71/106|
+|0zrr2q|Rogue|AM_DEMONSTRATION|Sword|**failed**| |47/119|71/119|
+|hspoa1|Rogue|AM_DEMONSTRATION|Bow|**failed**| |47/96|71/133|
 |j4gjqm|Rogue|TF_SPRINKLESAND|Unarmed|**passed**| |122/122|122/122|
 |f29oyq|Rogue|TF_SPRINKLESAND|Knife|**passed**| |138/138|138/138|
 |30p3vp|Rogue|TF_SPRINKLESAND|Sword|**passed**| |155/155|155/155|
@@ -958,42 +958,42 @@
 |b4qx34|Rogue|MO_FINGEROFFENSIVE|Knife|**failed**| |365/0|365/0|
 |4s7idh|Rogue|MO_FINGEROFFENSIVE|Sword|**failed**| |415/0|415/0|
 |ljkwvn|Rogue|MO_FINGEROFFENSIVE|Bow|**failed**| |330/0|460/0|
-|aufj3h|Rogue|MO_BALKYOUNG|Unarmed|**failed**| |94/284|94/284|
-|oimzo9|Rogue|MO_BALKYOUNG|Knife|**failed**| |106/320|106/320|
-|n4gcoe|Rogue|MO_BALKYOUNG|Sword|**failed**| |119/359|119/359|
-|mwxgjy|Rogue|MO_BALKYOUNG|Bow|**failed**| |96/290|133/401|
-|cfeonv|Rogue|NJ_KOUENKA|Unarmed|**passed**| |420/420|640/640|
-|e4jyai|Rogue|NJ_KOUENKA|Knife|**passed**| |420/420|640/640|
-|16xge3|Rogue|NJ_KOUENKA|Sword|**passed**| |420/420|640/640|
-|hw9e5d|Rogue|NJ_KOUENKA|Bow|**passed**| |420/420|640/640|
-|nizq1a|Rogue|NJ_KAENSIN|Unarmed|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|azwat7|Rogue|NJ_KAENSIN|Knife|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|nsz1pn|Rogue|NJ_KAENSIN|Sword|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|r89t4e|Rogue|NJ_KAENSIN|Bow|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|iwvtnj|Rogue|NJ_BAKUENRYU|Unarmed|**passed**| |423/423|641/641|
-|xhsa2a|Rogue|NJ_BAKUENRYU|Knife|**passed**| |423/423|641/641|
-|3l7ajq|Rogue|NJ_BAKUENRYU|Sword|**passed**| |423/423|641/641|
-|1ne50g|Rogue|NJ_BAKUENRYU|Bow|**passed**| |423/423|641/641|
-|zpewww|Rogue|NJ_HYOUSENSOU|Unarmed|**failed**| |420/276|636/420|
-|c1zi3i|Rogue|NJ_HYOUSENSOU|Knife|**failed**| |420/276|636/420|
-|scshe9|Rogue|NJ_HYOUSENSOU|Sword|**failed**| |420/276|636/420|
-|dshhq4|Rogue|NJ_HYOUSENSOU|Bow|**failed**| |420/276|636/420|
-|s4gr8f|Rogue|NJ_HYOUSYOURAKU|Unarmed|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|0qdpab|Rogue|NJ_HYOUSYOURAKU|Knife|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|9p1px1|Rogue|NJ_HYOUSYOURAKU|Sword|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|p841ei|Rogue|NJ_HYOUSYOURAKU|Bow|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|m615l7|Rogue|NJ_HUUJIN|Unarmed|**passed**| |984/984|1488/1488|
-|a9qdbv|Rogue|NJ_HUUJIN|Knife|**passed**| |984/984|1488/1488|
-|bpc9la|Rogue|NJ_HUUJIN|Sword|**passed**| |984/984|1488/1488|
-|89fwlr|Rogue|NJ_HUUJIN|Bow|**passed**| |984/984|1488/1488|
-|rkyzsh|Rogue|NJ_RAIGEKISAI|Unarmed|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|whi4x0|Rogue|NJ_RAIGEKISAI|Knife|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|xgrteu|Rogue|NJ_RAIGEKISAI|Sword|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|am02ao|Rogue|NJ_RAIGEKISAI|Bow|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|kuf3wz|Rogue|NJ_KAMAITACHI|Unarmed|**passed**| |987/987|1496/1496|
-|1bz4ht|Rogue|NJ_KAMAITACHI|Knife|**passed**| |987/987|1496/1496|
-|n9y6ar|Rogue|NJ_KAMAITACHI|Sword|**passed**| |987/987|1496/1496|
-|bwamuf|Rogue|NJ_KAMAITACHI|Bow|**passed**| |987/987|1496/1496|
+|aufj3h|Rogue|MO_BALKYOUNG|Unarmed|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|oimzo9|Rogue|MO_BALKYOUNG|Knife|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|n4gcoe|Rogue|MO_BALKYOUNG|Sword|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|mwxgjy|Rogue|MO_BALKYOUNG|Bow|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|cfeonv|Rogue|NJ_KOUENKA|Unarmed|**failed**| |0/420|0/640|
+|e4jyai|Rogue|NJ_KOUENKA|Knife|**failed**| |0/420|0/640|
+|16xge3|Rogue|NJ_KOUENKA|Sword|**failed**| |0/420|0/640|
+|hw9e5d|Rogue|NJ_KOUENKA|Bow|**failed**| |0/420|0/640|
+|nizq1a|Rogue|NJ_KAENSIN|Unarmed|**failed**| |0/207|0/315|
+|azwat7|Rogue|NJ_KAENSIN|Knife|**failed**| |0/207|0/315|
+|nsz1pn|Rogue|NJ_KAENSIN|Sword|**failed**| |0/207|0/315|
+|r89t4e|Rogue|NJ_KAENSIN|Bow|**failed**| |0/207|0/315|
+|iwvtnj|Rogue|NJ_BAKUENRYU|Unarmed|**failed**| |0/423|0/641|
+|xhsa2a|Rogue|NJ_BAKUENRYU|Knife|**failed**| |0/423|0/641|
+|3l7ajq|Rogue|NJ_BAKUENRYU|Sword|**failed**| |0/423|0/641|
+|1ne50g|Rogue|NJ_BAKUENRYU|Bow|**failed**| |0/423|0/641|
+|zpewww|Rogue|NJ_HYOUSENSOU|Unarmed|**failed**| |0/276|0/420|
+|c1zi3i|Rogue|NJ_HYOUSENSOU|Knife|**failed**| |0/276|0/420|
+|scshe9|Rogue|NJ_HYOUSENSOU|Sword|**failed**| |0/276|0/420|
+|dshhq4|Rogue|NJ_HYOUSENSOU|Bow|**failed**| |0/276|0/420|
+|s4gr8f|Rogue|NJ_HYOUSYOURAKU|Unarmed|**failed**| |0/82|0/124|
+|0qdpab|Rogue|NJ_HYOUSYOURAKU|Knife|**failed**| |0/82|0/124|
+|9p1px1|Rogue|NJ_HYOUSYOURAKU|Sword|**failed**| |0/82|0/124|
+|p841ei|Rogue|NJ_HYOUSYOURAKU|Bow|**failed**| |0/82|0/124|
+|m615l7|Rogue|NJ_HUUJIN|Unarmed|**failed**| |0/984|0/1488|
+|a9qdbv|Rogue|NJ_HUUJIN|Knife|**failed**| |0/984|0/1488|
+|bpc9la|Rogue|NJ_HUUJIN|Sword|**failed**| |0/984|0/1488|
+|89fwlr|Rogue|NJ_HUUJIN|Bow|**failed**| |0/984|0/1488|
+|rkyzsh|Rogue|NJ_RAIGEKISAI|Unarmed|**failed**| |0/591|0/897|
+|whi4x0|Rogue|NJ_RAIGEKISAI|Knife|**failed**| |0/591|0/897|
+|xgrteu|Rogue|NJ_RAIGEKISAI|Sword|**failed**| |0/591|0/897|
+|am02ao|Rogue|NJ_RAIGEKISAI|Bow|**failed**| |0/591|0/897|
+|kuf3wz|Rogue|NJ_KAMAITACHI|Unarmed|**failed**| |0/987|0/1496|
+|1bz4ht|Rogue|NJ_KAMAITACHI|Knife|**failed**| |0/987|0/1496|
+|n9y6ar|Rogue|NJ_KAMAITACHI|Sword|**failed**| |0/987|0/1496|
+|bwamuf|Rogue|NJ_KAMAITACHI|Bow|**failed**| |0/987|0/1496|
 |a4prnr|Rogue|GS_TRIPLEACTION|Unarmed|**passed**| |423/423|423/423|
 |rfoihu|Rogue|GS_TRIPLEACTION|Knife|**passed**| |477/477|477/477|
 |3cwi8z|Rogue|GS_TRIPLEACTION|Sword|**passed**| |537/537|537/537|
@@ -1030,18 +1030,18 @@
 |83r6we|Monk|MO_EXTREMITYFIST|Chain|**failed**| |154/17848|177/20332|
 |6nh7qp|Monk|MO_EXTREMITYFIST|Rod|**failed**| |109/12988|109/12988|
 |axcnue|Monk|MO_EXTREMITYFIST|Claw|**failed**| |146/17200|157/18388|
-|d98mub|Monk|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|ooid3v|Monk|AL_HEAL|Chain|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|twki2x|Monk|AL_HEAL|Rod|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|ne392w|Monk|AL_HEAL|Claw|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
+|d98mub|Monk|AL_HEAL|Unarmed|**failed**| |94/0|142/0|
+|ooid3v|Monk|AL_HEAL|Chain|**failed**| |94/0|142/0|
+|twki2x|Monk|AL_HEAL|Rod|**failed**| |107/0|163/0|
+|ne392w|Monk|AL_HEAL|Claw|**failed**| |94/0|142/0|
 |jp9rk7|Monk|AL_HOLYLIGHT|Unarmed|**passed**| |117/117|178/178|
 |9nlxsp|Monk|AL_HOLYLIGHT|Chain|**passed**| |117/117|178/178|
 |1mplz0|Monk|AL_HOLYLIGHT|Rod|**passed**| |134/134|204/204|
 |73rtro|Monk|AL_HOLYLIGHT|Claw|**passed**| |117/117|178/178|
-|4r2pvv|Monk|MO_BALKYOUNG|Unarmed|**failed**| |95/287|95/287|
-|49q749|Monk|MO_BALKYOUNG|Chain|**failed**| |155/467|178/536|
-|dva230|Monk|MO_BALKYOUNG|Rod|**failed**| |110/332|110/332|
-|3faeoz|Monk|MO_BALKYOUNG|Claw|**failed**| |149/449|160/482|
+|4r2pvv|Monk|MO_BALKYOUNG|Unarmed|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|49q749|Monk|MO_BALKYOUNG|Chain|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|dva230|Monk|MO_BALKYOUNG|Rod|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|3faeoz|Monk|MO_BALKYOUNG|Claw|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
 |qzwed7|Bard|AC_DOUBLE|Bow|**passed**| |370/370|510/510|
 |mj4m9p|Bard|BA_MUSICALSTRIKE|Lute|**passed**| |407/407|519/519|
 |fwbc1z|Bard|AC_SHOWER|Bow|**passed**| |121/121|167/167|
@@ -1066,18 +1066,18 @@
 |fuvcd4|Sage|MG_FIREBALL|Knife|**passed**| |80/80|121/121|
 |3gymrp|Sage|MG_FIREBALL|Rod|**passed**| |92/92|139/139|
 |6vd691|Sage|MG_FIREBALL|Book|**passed**| |80/80|121/121|
-|rx4h06|Sage|MG_FIREWALL|Unarmed|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|5touvu|Sage|MG_FIREWALL|Knife|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|fonj2j|Sage|MG_FIREWALL|Rod|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|2p6aid|Sage|MG_FIREWALL|Book|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
+|rx4h06|Sage|MG_FIREWALL|Unarmed|**failed**| |23/322|35/490|
+|5touvu|Sage|MG_FIREWALL|Knife|**failed**| |23/322|35/490|
+|fonj2j|Sage|MG_FIREWALL|Rod|**failed**| |27/378|41/574|
+|2p6aid|Sage|MG_FIREWALL|Book|**failed**| |23/322|35/490|
 |rfmke3|Sage|MG_FROSTDIVER|Unarmed|**passed**| |47/47|71/71|
 |cke2za|Sage|MG_FROSTDIVER|Knife|**passed**| |47/47|71/71|
 |b5db9d|Sage|MG_FROSTDIVER|Rod|**passed**| |54/54|82/82|
 |6w7hud|Sage|MG_FROSTDIVER|Book|**passed**| |47/47|71/71|
-|jp9oci|Sage|MG_THUNDERSTORM|Unarmed|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|002iul|Sage|MG_THUNDERSTORM|Knife|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|ku36fz|Sage|MG_THUNDERSTORM|Rod|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|ghb313|Sage|MG_THUNDERSTORM|Book|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
+|jp9oci|Sage|MG_THUNDERSTORM|Unarmed|**passed**| |1330/1330|1990/1990|
+|002iul|Sage|MG_THUNDERSTORM|Knife|**passed**| |1330/1330|1990/1990|
+|ku36fz|Sage|MG_THUNDERSTORM|Rod|**passed**| |1520/1520|2290/2290|
+|ghb313|Sage|MG_THUNDERSTORM|Book|**passed**| |1330/1330|1990/1990|
 |egxjyt|Sage|MG_NAPALMBEAT|Unarmed|**passed**| |161/161|243/243|
 |86n3x3|Sage|MG_NAPALMBEAT|Knife|**passed**| |161/161|243/243|
 |i8s07c|Sage|MG_NAPALMBEAT|Rod|**passed**| |185/185|279/279|
@@ -1106,18 +1106,18 @@
 |mvi6u8|Alchemist|MC_CARTREVOLUTION|Axe|**passed**| |306/305|306/305|
 |el7cgl|Alchemist|MC_CARTREVOLUTION|Two_Handed_Axe|**passed**| |366/365|581/580|
 |9dpyyn|Alchemist|MC_CARTREVOLUTION|Chain|**passed**| |386/385|444/443|
-|10f62c|Alchemist|AM_ACIDTERROR|Unarmed|**failed**| |284/282|284/282|
-|rx9yjk|Alchemist|AM_ACIDTERROR|Knife|**failed**| |320/318|320/318|
-|i8b900|Alchemist|AM_ACIDTERROR|Sword|**failed**| |359/357|359/357|
-|mvggum|Alchemist|AM_ACIDTERROR|Axe|**failed**| |368/366|368/366|
-|pzxdzr|Alchemist|AM_ACIDTERROR|Two_Handed_Axe|**failed**| |440/438|698/696|
-|xb4il6|Alchemist|AM_ACIDTERROR|Chain|**failed**| |464/462|533/531|
-|r8pi1n|Alchemist|AM_DEMONSTRATION|Unarmed|**passed**| |94/94|94/94|
-|my6myv|Alchemist|AM_DEMONSTRATION|Knife|**passed**| |106/106|106/106|
-|bz4q8n|Alchemist|AM_DEMONSTRATION|Sword|**passed**| |119/119|119/119|
-|29eyl5|Alchemist|AM_DEMONSTRATION|Axe|**passed**| |122/122|122/122|
-|ifn37u|Alchemist|AM_DEMONSTRATION|Two_Handed_Axe|**passed**| |146/146|232/232|
-|yxfbaq|Alchemist|AM_DEMONSTRATION|Chain|**passed**| |154/154|177/177|
+|10f62c|Alchemist|AM_ACIDTERROR|Unarmed|**failed**| |95/282|143/282|
+|rx9yjk|Alchemist|AM_ACIDTERROR|Knife|**failed**| |95/318|143/318|
+|i8b900|Alchemist|AM_ACIDTERROR|Sword|**failed**| |95/357|143/357|
+|mvggum|Alchemist|AM_ACIDTERROR|Axe|**failed**| |95/366|143/366|
+|pzxdzr|Alchemist|AM_ACIDTERROR|Two_Handed_Axe|**failed**| |95/438|143/696|
+|xb4il6|Alchemist|AM_ACIDTERROR|Chain|**failed**| |95/462|143/531|
+|r8pi1n|Alchemist|AM_DEMONSTRATION|Unarmed|**failed**| |47/94|71/94|
+|my6myv|Alchemist|AM_DEMONSTRATION|Knife|**failed**| |47/106|71/106|
+|bz4q8n|Alchemist|AM_DEMONSTRATION|Sword|**failed**| |47/119|71/119|
+|29eyl5|Alchemist|AM_DEMONSTRATION|Axe|**failed**| |47/122|71/122|
+|ifn37u|Alchemist|AM_DEMONSTRATION|Two_Handed_Axe|**failed**| |47/146|71/232|
+|yxfbaq|Alchemist|AM_DEMONSTRATION|Chain|**failed**| |47/154|71/177|
 |j0im4z|Super Novice|SM_BASH|Unarmed|**passed**| |383/383|383/383|
 |1k8pk7|Super Novice|SM_BASH|Knife|**passed**| |431/431|431/431|
 |flob6z|Super Novice|SM_BASH|Sword|**passed**| |483/483|483/483|
@@ -1142,12 +1142,12 @@
 |tn36vo|Super Novice|MC_MAMMONITE|Axe|**passed**| |743/743|743/743|
 |k9xpso|Super Novice|MC_MAMMONITE|Chain|**passed**| |935/935|1073/1073|
 |5bq6qf|Super Novice|MC_MAMMONITE|Rod|**passed**| |665/665|665/665|
-|fszmv2|Super Novice|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|i20nim|Super Novice|AL_HEAL|Knife|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|zdj45y|Super Novice|AL_HEAL|Sword|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|60xprk|Super Novice|AL_HEAL|Axe|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|ga4lab|Super Novice|AL_HEAL|Chain|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|bmqg32|Super Novice|AL_HEAL|Rod|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
+|fszmv2|Super Novice|AL_HEAL|Unarmed|**failed**| |94/0|142/0|
+|i20nim|Super Novice|AL_HEAL|Knife|**failed**| |94/0|142/0|
+|zdj45y|Super Novice|AL_HEAL|Sword|**failed**| |94/0|142/0|
+|60xprk|Super Novice|AL_HEAL|Axe|**failed**| |94/0|142/0|
+|ga4lab|Super Novice|AL_HEAL|Chain|**failed**| |94/0|142/0|
+|bmqg32|Super Novice|AL_HEAL|Rod|**failed**| |107/0|163/0|
 |j1zz9w|Super Novice|MG_FIREBOLT|Unarmed|**passed**| |470/470|710/710|
 |0qqdmz|Super Novice|MG_FIREBOLT|Knife|**passed**| |470/470|710/710|
 |svg18y|Super Novice|MG_FIREBOLT|Sword|**passed**| |470/470|710/710|
@@ -1172,24 +1172,24 @@
 |6jq9s7|Super Novice|MG_FIREBALL|Axe|**passed**| |79/79|121/121|
 |v2u6xq|Super Novice|MG_FIREBALL|Chain|**passed**| |79/79|121/121|
 |wnaqse|Super Novice|MG_FIREBALL|Rod|**passed**| |91/91|138/138|
-|gj4wz8|Super Novice|MG_FIREWALL|Unarmed|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|nvoe20|Super Novice|MG_FIREWALL|Knife|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|5l5i0z|Super Novice|MG_FIREWALL|Sword|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|rmt0sm|Super Novice|MG_FIREWALL|Axe|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|y4cex4|Super Novice|MG_FIREWALL|Chain|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|rpr3u0|Super Novice|MG_FIREWALL|Rod|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
+|gj4wz8|Super Novice|MG_FIREWALL|Unarmed|**failed**| |23/322|35/490|
+|nvoe20|Super Novice|MG_FIREWALL|Knife|**failed**| |23/322|35/490|
+|5l5i0z|Super Novice|MG_FIREWALL|Sword|**failed**| |23/322|35/490|
+|rmt0sm|Super Novice|MG_FIREWALL|Axe|**failed**| |23/322|35/490|
+|y4cex4|Super Novice|MG_FIREWALL|Chain|**failed**| |23/322|35/490|
+|rpr3u0|Super Novice|MG_FIREWALL|Rod|**failed**| |26/364|40/560|
 |zolxph|Super Novice|MG_FROSTDIVER|Unarmed|**passed**| |47/47|71/71|
 |3849yx|Super Novice|MG_FROSTDIVER|Knife|**passed**| |47/47|71/71|
 |mnu6e4|Super Novice|MG_FROSTDIVER|Sword|**passed**| |47/47|71/71|
 |amxtr1|Super Novice|MG_FROSTDIVER|Axe|**passed**| |47/47|71/71|
 |52aif7|Super Novice|MG_FROSTDIVER|Chain|**passed**| |47/47|71/71|
 |3ec040|Super Novice|MG_FROSTDIVER|Rod|**passed**| |53/53|81/81|
-|qf3fjr|Super Novice|MG_THUNDERSTORM|Unarmed|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|zzrmqc|Super Novice|MG_THUNDERSTORM|Knife|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|qmzcys|Super Novice|MG_THUNDERSTORM|Sword|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|h0afg3|Super Novice|MG_THUNDERSTORM|Axe|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|rdnb5k|Super Novice|MG_THUNDERSTORM|Chain|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|suzn0i|Super Novice|MG_THUNDERSTORM|Rod|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
+|qf3fjr|Super Novice|MG_THUNDERSTORM|Unarmed|**passed**| |1310/1310|1990/1990|
+|zzrmqc|Super Novice|MG_THUNDERSTORM|Knife|**passed**| |1310/1310|1990/1990|
+|qmzcys|Super Novice|MG_THUNDERSTORM|Sword|**passed**| |1310/1310|1990/1990|
+|h0afg3|Super Novice|MG_THUNDERSTORM|Axe|**passed**| |1310/1310|1990/1990|
+|rdnb5k|Super Novice|MG_THUNDERSTORM|Chain|**passed**| |1310/1310|1990/1990|
+|suzn0i|Super Novice|MG_THUNDERSTORM|Rod|**passed**| |1480/1480|2270/2270|
 |mwv99o|Super Novice|MG_NAPALMBEAT|Unarmed|**passed**| |159/159|242/242|
 |tsb5km|Super Novice|MG_NAPALMBEAT|Knife|**passed**| |159/159|242/242|
 |zimbb0|Super Novice|MG_NAPALMBEAT|Sword|**passed**| |159/159|242/242|
@@ -1272,21 +1272,21 @@
 |kgcy9p|AssassinCross|ASC_METEORASSAULT|Sword|**passed**| |527/527|527/527|
 |r5j0ez|AssassinCross|ASC_METEORASSAULT|Axe|**passed**| |540/540|540/540|
 |1dulxr|AssassinCross|ASC_METEORASSAULT|Katar|**passed**| |729/729|1063/1063|
-|uwoq26|AssassinCross|AS_POISONREACT|Unarmed|**failed**| |379/94|379/142|
-|74vwh1|AssassinCross|AS_POISONREACT|Knife|**failed**| |427/94|427/142|
-|it71k7|AssassinCross|AS_POISONREACT|Sword|**failed**| |479/94|479/142|
-|9g6181|AssassinCross|AS_POISONREACT|Axe|**failed**| |491/94|491/142|
-|3wtxfh|AssassinCross|AS_POISONREACT|Katar|**failed**| |663/94|967/142|
+|uwoq26|AssassinCross|AS_POISONREACT|Unarmed|**failed**|Skill AS_POISONREACT is not an offensive skill|/|/|
+|74vwh1|AssassinCross|AS_POISONREACT|Knife|**failed**|Skill AS_POISONREACT is not an offensive skill|/|/|
+|it71k7|AssassinCross|AS_POISONREACT|Sword|**failed**|Skill AS_POISONREACT is not an offensive skill|/|/|
+|9g6181|AssassinCross|AS_POISONREACT|Axe|**failed**|Skill AS_POISONREACT is not an offensive skill|/|/|
+|3wtxfh|AssassinCross|AS_POISONREACT|Katar|**failed**|Skill AS_POISONREACT is not an offensive skill|/|/|
 |6r1h53|AssassinCross|TF_SPRINKLESAND|Unarmed|**passed**| |122/122|122/122|
 |0d6m3p|AssassinCross|TF_SPRINKLESAND|Knife|**passed**| |138/138|138/138|
 |xu53cd|AssassinCross|TF_SPRINKLESAND|Sword|**passed**| |155/155|155/155|
 |dubnxd|AssassinCross|TF_SPRINKLESAND|Axe|**passed**| |158/158|158/158|
 |2g0cjr|AssassinCross|TF_SPRINKLESAND|Katar|**passed**| |214/214|313/313|
-|flilqc|HighPriest|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|7eeza1|HighPriest|AL_HEAL|Chain|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|en8f41|HighPriest|AL_HEAL|Rod|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|a7mlzk|HighPriest|AL_HEAL|Book|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|pxlylq|HighPriest|AL_HEAL|Claw|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
+|flilqc|HighPriest|AL_HEAL|Unarmed|**failed**| |95/0|143/0|
+|7eeza1|HighPriest|AL_HEAL|Chain|**failed**| |95/0|143/0|
+|en8f41|HighPriest|AL_HEAL|Rod|**failed**| |109/0|164/0|
+|a7mlzk|HighPriest|AL_HEAL|Book|**failed**| |95/0|143/0|
+|pxlylq|HighPriest|AL_HEAL|Claw|**failed**| |95/0|143/0|
 |19am7a|HighPriest|AL_HOLYLIGHT|Unarmed|**passed**| |118/118|179/179|
 |pdduiv|HighPriest|AL_HOLYLIGHT|Chain|**passed**| |118/118|179/179|
 |b17i78|HighPriest|AL_HOLYLIGHT|Rod|**passed**| |136/136|205/205|
@@ -1310,9 +1310,9 @@
 |pdci4e|Sniper|AC_DOUBLE|Bow|**passed**| |370/370|510/510|
 |17fj6k|Sniper|AC_SHOWER|Bow|**passed**| |121/121|167/167|
 |9znyj3|Sniper|AC_CHARGEARROW|Bow|**passed**| |146/146|201/201|
-|w366a4|Sniper|HT_BLITZBEAT|Unarmed|**failed**| |0/700|0/700|
-|w7hfpe|Sniper|HT_BLITZBEAT|Knife|**failed**| |0/700|0/700|
-|m4xbes|Sniper|HT_BLITZBEAT|Bow|**failed**| |0/700|0/700|
+|w366a4|Sniper|HT_BLITZBEAT|Unarmed|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
+|w7hfpe|Sniper|HT_BLITZBEAT|Knife|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
+|m4xbes|Sniper|HT_BLITZBEAT|Bow|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
 |jncxcv|Sniper|HT_LANDMINE|Unarmed|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
 |slfoq8|Sniper|HT_LANDMINE|Knife|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
 |tf9ovl|Sniper|HT_LANDMINE|Bow|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
@@ -1339,15 +1339,15 @@
 |i8z9o3|HighWizard|MG_FIREBALL|Unarmed|**passed**| |80/80|121/121|
 |cea04f|HighWizard|MG_FIREBALL|Knife|**passed**| |80/80|121/121|
 |u5c1h5|HighWizard|MG_FIREBALL|Rod|**passed**| |92/92|139/139|
-|d65fug|HighWizard|MG_FIREWALL|Unarmed|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|9wr7n2|HighWizard|MG_FIREWALL|Knife|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|d7logf|HighWizard|MG_FIREWALL|Rod|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
+|d65fug|HighWizard|MG_FIREWALL|Unarmed|**failed**| |23/322|35/490|
+|9wr7n2|HighWizard|MG_FIREWALL|Knife|**failed**| |23/322|35/490|
+|d7logf|HighWizard|MG_FIREWALL|Rod|**failed**| |27/378|41/574|
 |tsps6c|HighWizard|MG_FROSTDIVER|Unarmed|**passed**| |47/47|71/71|
 |ya1f4m|HighWizard|MG_FROSTDIVER|Knife|**passed**| |47/47|71/71|
 |9wuti8|HighWizard|MG_FROSTDIVER|Rod|**passed**| |54/54|82/82|
-|524zyd|HighWizard|MG_THUNDERSTORM|Unarmed|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|ndmwso|HighWizard|MG_THUNDERSTORM|Knife|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|i5mzn9|HighWizard|MG_THUNDERSTORM|Rod|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
+|524zyd|HighWizard|MG_THUNDERSTORM|Unarmed|**passed**| |1330/1330|1990/1990|
+|ndmwso|HighWizard|MG_THUNDERSTORM|Knife|**passed**| |1330/1330|1990/1990|
+|i5mzn9|HighWizard|MG_THUNDERSTORM|Rod|**passed**| |1520/1520|2290/2290|
 |isrmrz|HighWizard|MG_NAPALMBEAT|Unarmed|**passed**| |161/161|243/243|
 |vsxd5h|HighWizard|MG_NAPALMBEAT|Knife|**passed**| |161/161|243/243|
 |u8p1wy|HighWizard|MG_NAPALMBEAT|Rod|**passed**| |185/185|279/279|
@@ -1357,24 +1357,24 @@
 |9y2k7a|HighWizard|WZ_FIREPILLAR|Unarmed|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
 |1idon7|HighWizard|WZ_FIREPILLAR|Knife|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
 |edp45z|HighWizard|WZ_FIREPILLAR|Rod|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|rpa838|HighWizard|WZ_SIGHTRASHER|Unarmed|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
-|g767lq|HighWizard|WZ_SIGHTRASHER|Knife|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
-|bdboau|HighWizard|WZ_SIGHTRASHER|Rod|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
+|rpa838|HighWizard|WZ_SIGHTRASHER|Unarmed|**passed**| |142/142|215/215|
+|g767lq|HighWizard|WZ_SIGHTRASHER|Knife|**passed**| |142/142|215/215|
+|bdboau|HighWizard|WZ_SIGHTRASHER|Rod|**passed**| |163/163|246/246|
 |acxmt7|HighWizard|WZ_METEOR|Unarmed|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
 |3jzla9|HighWizard|WZ_METEOR|Knife|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
 |wwwoyk|HighWizard|WZ_METEOR|Rod|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
 |5jixf2|HighWizard|WZ_JUPITEL|Unarmed|**passed**| |1992/1992|3000/3000|
 |v05j4k|HighWizard|WZ_JUPITEL|Knife|**passed**| |1992/1992|3000/3000|
 |1gcv4c|HighWizard|WZ_JUPITEL|Rod|**passed**| |2280/2280|3444/3444|
-|a7i5ij|HighWizard|WZ_VERMILION|Unarmed|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
-|iv4guk|HighWizard|WZ_VERMILION|Knife|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
-|c8fl41|HighWizard|WZ_VERMILION|Rod|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
+|a7i5ij|HighWizard|WZ_VERMILION|Unarmed|**failed**| |631/95|953/143|
+|iv4guk|HighWizard|WZ_VERMILION|Knife|**failed**| |631/95|953/143|
+|c8fl41|HighWizard|WZ_VERMILION|Rod|**failed**| |726/109|1092/164|
 |pmyje9|HighWizard|WZ_WATERBALL|Unarmed|**failed**| |59/1475|89/2225|
 |b1e20h|HighWizard|WZ_WATERBALL|Knife|**failed**| |59/1475|89/2225|
 |zjj7xn|HighWizard|WZ_WATERBALL|Rod|**failed**| |68/1700|102/2550|
-|vuzr96|HighWizard|WZ_FROSTNOVA|Unarmed|**failed**|Skill WZ_FROSTNOVA is not an offensive skill|/|/|
-|6dv8fz|HighWizard|WZ_FROSTNOVA|Knife|**failed**|Skill WZ_FROSTNOVA is not an offensive skill|/|/|
-|y2g6dt|HighWizard|WZ_FROSTNOVA|Rod|**failed**|Skill WZ_FROSTNOVA is not an offensive skill|/|/|
+|vuzr96|HighWizard|WZ_FROSTNOVA|Unarmed|**failed**| |3166/31|4781/47|
+|6dv8fz|HighWizard|WZ_FROSTNOVA|Knife|**failed**| |3166/31|4781/47|
+|y2g6dt|HighWizard|WZ_FROSTNOVA|Rod|**failed**| |3641/36|5478/54|
 |odb6h8|HighWizard|WZ_STORMGUST|Unarmed|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
 |sdki6a|HighWizard|WZ_STORMGUST|Knife|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
 |htrbap|HighWizard|WZ_STORMGUST|Rod|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
@@ -1384,9 +1384,9 @@
 |p3akba|HighWizard|WZ_HEAVENDRIVE|Unarmed|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
 |lhku0r|HighWizard|WZ_HEAVENDRIVE|Knife|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
 |8nwlje|HighWizard|WZ_HEAVENDRIVE|Rod|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|gv9fu3|HighWizard|HW_MAGICCRASHER|Unarmed|**failed**| |94/99|94/150|
-|chm1dx|HighWizard|HW_MAGICCRASHER|Knife|**failed**| |106/99|106/150|
-|e9p051|HighWizard|HW_MAGICCRASHER|Rod|**failed**| |109/114|109/172|
+|gv9fu3|HighWizard|HW_MAGICCRASHER|Unarmed|**failed**| |95/99|143/150|
+|chm1dx|HighWizard|HW_MAGICCRASHER|Knife|**failed**| |95/99|143/150|
+|e9p051|HighWizard|HW_MAGICCRASHER|Rod|**failed**| |109/114|164/172|
 |0uibfx|HighWizard|HW_NAPALMVULCAN|Unarmed|**failed**| |475/570|715/860|
 |cvlkat|HighWizard|HW_NAPALMVULCAN|Knife|**failed**| |475/570|715/860|
 |nd9gp0|HighWizard|HW_NAPALMVULCAN|Rod|**failed**| |545/655|820/985|
@@ -1447,24 +1447,24 @@
 |ln2l1w|Paladin|CR_HOLYCROSS|Axe|**passed**| |552/552|552/552|
 |wbmn22|Paladin|CR_HOLYCROSS|Two_Handed_Axe|**passed**| |660/660|1046/1047|
 |8l82up|Paladin|CR_HOLYCROSS|Chain|**passed**| |696/696|800/800|
-|39uufq|Paladin|CR_GRANDCROSS|Unarmed|**failed**| |470/4|712/4|
-|xpnv00|Paladin|CR_GRANDCROSS|Knife|**failed**| |470/4|712/4|
-|aghogt|Paladin|CR_GRANDCROSS|Sword|**failed**| |470/4|712/4|
-|kyyre4|Paladin|CR_GRANDCROSS|Bastard_Sword|**failed**| |470/4|712/4|
-|ldouj7|Paladin|CR_GRANDCROSS|Spear|**failed**| |470/4|712/4|
-|bhguum|Paladin|CR_GRANDCROSS|Glaive|**failed**| |470/4|712/4|
-|fcgw36|Paladin|CR_GRANDCROSS|Axe|**failed**| |470/4|712/4|
-|nriv9c|Paladin|CR_GRANDCROSS|Two_Handed_Axe|**failed**| |470/4|712/4|
-|gcto8m|Paladin|CR_GRANDCROSS|Chain|**failed**| |470/4|712/4|
-|1c4oip|Paladin|PA_PRESSURE|Unarmed|**failed**| |0/2000|0/2000|
-|ijhpw2|Paladin|PA_PRESSURE|Knife|**failed**| |0/2000|0/2000|
-|l3qsk8|Paladin|PA_PRESSURE|Sword|**failed**| |0/2000|0/2000|
-|lpr30s|Paladin|PA_PRESSURE|Bastard_Sword|**failed**| |0/2000|0/2000|
-|nbdeo0|Paladin|PA_PRESSURE|Spear|**failed**| |0/2000|0/2000|
-|sqsmdo|Paladin|PA_PRESSURE|Glaive|**failed**| |0/2000|0/2000|
-|m9xbzo|Paladin|PA_PRESSURE|Axe|**failed**| |0/2000|0/2000|
-|kj7wad|Paladin|PA_PRESSURE|Two_Handed_Axe|**failed**| |0/2000|0/2000|
-|pi3s5x|Paladin|PA_PRESSURE|Chain|**failed**| |0/2000|0/2000|
+|39uufq|Paladin|CR_GRANDCROSS|Unarmed|**failed**| |474/4|474/4|
+|xpnv00|Paladin|CR_GRANDCROSS|Knife|**failed**| |534/4|534/4|
+|aghogt|Paladin|CR_GRANDCROSS|Sword|**failed**| |599/4|599/4|
+|kyyre4|Paladin|CR_GRANDCROSS|Bastard_Sword|**failed**| |699/4|899/4|
+|ldouj7|Paladin|CR_GRANDCROSS|Spear|**failed**| |639/4|639/4|
+|bhguum|Paladin|CR_GRANDCROSS|Glaive|**failed**| |699/4|859/4|
+|fcgw36|Paladin|CR_GRANDCROSS|Axe|**failed**| |614/4|614/4|
+|nriv9c|Paladin|CR_GRANDCROSS|Two_Handed_Axe|**failed**| |734/4|1164/4|
+|gcto8m|Paladin|CR_GRANDCROSS|Chain|**failed**| |774/4|889/4|
+|1c4oip|Paladin|PA_PRESSURE|Unarmed|**failed**| |94/2000|142/2000|
+|ijhpw2|Paladin|PA_PRESSURE|Knife|**failed**| |94/2000|142/2000|
+|l3qsk8|Paladin|PA_PRESSURE|Sword|**failed**| |94/2000|142/2000|
+|lpr30s|Paladin|PA_PRESSURE|Bastard_Sword|**failed**| |94/2000|142/2000|
+|nbdeo0|Paladin|PA_PRESSURE|Spear|**failed**| |94/2000|142/2000|
+|sqsmdo|Paladin|PA_PRESSURE|Glaive|**failed**| |94/2000|142/2000|
+|m9xbzo|Paladin|PA_PRESSURE|Axe|**failed**| |94/2000|142/2000|
+|kj7wad|Paladin|PA_PRESSURE|Two_Handed_Axe|**failed**| |94/2000|142/2000|
+|pi3s5x|Paladin|PA_PRESSURE|Chain|**failed**| |94/2000|142/2000|
 |3l1b2b|Paladin|PA_SACRIFICE|Unarmed|**failed**|Skill PA_SACRIFICE is not an offensive skill|/|/|
 |ubl9wm|Paladin|PA_SACRIFICE|Knife|**failed**|Skill PA_SACRIFICE is not an offensive skill|/|/|
 |ssgr8d|Paladin|PA_SACRIFICE|Sword|**failed**|Skill PA_SACRIFICE is not an offensive skill|/|/|
@@ -1483,15 +1483,15 @@
 |d3vxpz|Paladin|PA_SHIELDCHAIN|Axe|**failed**| |1530/1675|1530/1675|
 |1vugdb|Paladin|PA_SHIELDCHAIN|Two_Handed_Axe|**failed**| |1830/1675|2905/1675|
 |x2y3l5|Paladin|PA_SHIELDCHAIN|Chain|**failed**| |1930/1675|2220/1675|
-|mqbzmx|Paladin|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|p7psmo|Paladin|AL_HEAL|Knife|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|or9nbh|Paladin|AL_HEAL|Sword|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|1q67ov|Paladin|AL_HEAL|Bastard_Sword|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|lk2f88|Paladin|AL_HEAL|Spear|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|kqu6a2|Paladin|AL_HEAL|Glaive|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|2b2l1r|Paladin|AL_HEAL|Axe|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|mr5it1|Paladin|AL_HEAL|Two_Handed_Axe|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|0lqdic|Paladin|AL_HEAL|Chain|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
+|mqbzmx|Paladin|AL_HEAL|Unarmed|**failed**| |94/0|142/0|
+|p7psmo|Paladin|AL_HEAL|Knife|**failed**| |94/0|142/0|
+|or9nbh|Paladin|AL_HEAL|Sword|**failed**| |94/0|142/0|
+|1q67ov|Paladin|AL_HEAL|Bastard_Sword|**failed**| |94/0|142/0|
+|lk2f88|Paladin|AL_HEAL|Spear|**failed**| |94/0|142/0|
+|kqu6a2|Paladin|AL_HEAL|Glaive|**failed**| |94/0|142/0|
+|2b2l1r|Paladin|AL_HEAL|Axe|**failed**| |94/0|142/0|
+|mr5it1|Paladin|AL_HEAL|Two_Handed_Axe|**failed**| |94/0|142/0|
+|0lqdic|Paladin|AL_HEAL|Chain|**failed**| |94/0|142/0|
 |t29sx7|Stalker|RG_BACKSTAP|Unarmed|**passed**| |671/671|671/671|
 |cbc3v1|Stalker|RG_BACKSTAP|Knife|**passed**| |755/755|755/755|
 |gsh9xn|Stalker|RG_BACKSTAP|Sword|**passed**| |846/846|846/846|
@@ -1512,10 +1512,10 @@
 |el4zp1|Stalker|SM_MAGNUM|Knife|**passed**| |161/161|161/161|
 |b8g3iv|Stalker|SM_MAGNUM|Sword|**passed**| |181/181|181/181|
 |elp9p1|Stalker|SM_MAGNUM|Bow|**failed**| |146/145|202/200|
-|5fvcbj|Stalker|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|ds69hz|Stalker|AL_HEAL|Knife|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|h8pyko|Stalker|AL_HEAL|Sword|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|b3o12m|Stalker|AL_HEAL|Bow|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
+|5fvcbj|Stalker|AL_HEAL|Unarmed|**failed**| |94/0|142/0|
+|ds69hz|Stalker|AL_HEAL|Knife|**failed**| |94/0|142/0|
+|h8pyko|Stalker|AL_HEAL|Sword|**failed**| |94/0|142/0|
+|b3o12m|Stalker|AL_HEAL|Bow|**failed**| |94/0|142/0|
 |4a9cio|Stalker|KN_BOWLINGBASH|Unarmed|**failed**| |474/1437|474/1437|
 |3e9bkd|Stalker|KN_BOWLINGBASH|Knife|**failed**| |534/1617|534/1617|
 |8fz6s0|Stalker|KN_BOWLINGBASH|Sword|**failed**| |599/1812|599/1812|
@@ -1528,10 +1528,10 @@
 |e1q33t|Stalker|CR_HOLYCROSS|Knife|**failed**| |480/485|480/485|
 |l9zx8p|Stalker|CR_HOLYCROSS|Sword|**failed**| |538/543|538/543|
 |pltehx|Stalker|CR_HOLYCROSS|Bow|**passed**| |434/435|602/602|
-|skfjvd|Stalker|CR_GRANDCROSS|Unarmed|**failed**| |470/4|712/4|
-|9kt1gi|Stalker|CR_GRANDCROSS|Knife|**failed**| |470/4|712/4|
-|gca4i4|Stalker|CR_GRANDCROSS|Sword|**failed**| |470/4|712/4|
-|64yq0f|Stalker|CR_GRANDCROSS|Bow|**failed**| |470/4|712/4|
+|skfjvd|Stalker|CR_GRANDCROSS|Unarmed|**failed**| |474/4|474/4|
+|9kt1gi|Stalker|CR_GRANDCROSS|Knife|**failed**| |534/4|534/4|
+|gca4i4|Stalker|CR_GRANDCROSS|Sword|**failed**| |599/4|599/4|
+|64yq0f|Stalker|CR_GRANDCROSS|Bow|**failed**| |484/4|669/4|
 |emn01o|Stalker|CR_SHIELDCHARGE|Unarmed|**failed**| |189/191|189/191|
 |enbju0|Stalker|CR_SHIELDCHARGE|Knife|**failed**| |213/215|213/215|
 |9t02g3|Stalker|CR_SHIELDCHARGE|Sword|**failed**| |239/241|239/241|
@@ -1556,10 +1556,10 @@
 |fwo4uk|Stalker|MG_FIREBALL|Knife|**passed**| |79/79|121/121|
 |tpn1zn|Stalker|MG_FIREBALL|Sword|**passed**| |79/79|121/121|
 |iw1wvp|Stalker|MG_FIREBALL|Bow|**passed**| |79/79|121/121|
-|odijhd|Stalker|MG_FIREWALL|Unarmed|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|yy3wco|Stalker|MG_FIREWALL|Knife|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|h63w97|Stalker|MG_FIREWALL|Sword|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|qlwr95|Stalker|MG_FIREWALL|Bow|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
+|odijhd|Stalker|MG_FIREWALL|Unarmed|**failed**| |23/322|35/490|
+|yy3wco|Stalker|MG_FIREWALL|Knife|**failed**| |23/322|35/490|
+|h63w97|Stalker|MG_FIREWALL|Sword|**failed**| |23/322|35/490|
+|qlwr95|Stalker|MG_FIREWALL|Bow|**failed**| |23/322|35/490|
 |st75b8|Stalker|MG_COLDBOLT|Unarmed|**passed**| |230/230|350/350|
 |mlkgs2|Stalker|MG_COLDBOLT|Knife|**passed**| |230/230|350/350|
 |pof0m8|Stalker|MG_COLDBOLT|Sword|**passed**| |230/230|350/350|
@@ -1572,18 +1572,18 @@
 |7vu1l9|Stalker|MG_LIGHTNINGBOLT|Knife|**passed**| |1640/1640|2480/2480|
 |ybvyqh|Stalker|MG_LIGHTNINGBOLT|Sword|**passed**| |1640/1640|2480/2480|
 |j1c0tx|Stalker|MG_LIGHTNINGBOLT|Bow|**passed**| |1640/1640|2480/2480|
-|5jzven|Stalker|MG_THUNDERSTORM|Unarmed|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|uh6xho|Stalker|MG_THUNDERSTORM|Knife|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|bbdbln|Stalker|MG_THUNDERSTORM|Sword|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|exnuw6|Stalker|MG_THUNDERSTORM|Bow|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
+|5jzven|Stalker|MG_THUNDERSTORM|Unarmed|**passed**| |1310/1310|1990/1990|
+|uh6xho|Stalker|MG_THUNDERSTORM|Knife|**passed**| |1310/1310|1990/1990|
+|bbdbln|Stalker|MG_THUNDERSTORM|Sword|**passed**| |1310/1310|1990/1990|
+|exnuw6|Stalker|MG_THUNDERSTORM|Bow|**passed**| |1310/1310|1990/1990|
 |64j2yv|Stalker|WZ_FIREPILLAR|Unarmed|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
 |uj71g0|Stalker|WZ_FIREPILLAR|Knife|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
 |ckwyrv|Stalker|WZ_FIREPILLAR|Sword|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
 |q7c0qr|Stalker|WZ_FIREPILLAR|Bow|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|5bhk9b|Stalker|WZ_SIGHTRASHER|Unarmed|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
-|e23ayr|Stalker|WZ_SIGHTRASHER|Knife|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
-|lu8wni|Stalker|WZ_SIGHTRASHER|Sword|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
-|g3o815|Stalker|WZ_SIGHTRASHER|Bow|**failed**|Skill WZ_SIGHTRASHER is not an offensive skill|/|/|
+|5bhk9b|Stalker|WZ_SIGHTRASHER|Unarmed|**passed**| |141/141|213/213|
+|e23ayr|Stalker|WZ_SIGHTRASHER|Knife|**passed**| |141/141|213/213|
+|lu8wni|Stalker|WZ_SIGHTRASHER|Sword|**passed**| |141/141|213/213|
+|g3o815|Stalker|WZ_SIGHTRASHER|Bow|**passed**| |141/141|213/213|
 |vu7j97|Stalker|WZ_METEOR|Unarmed|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
 |1gtrje|Stalker|WZ_METEOR|Knife|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
 |ewlqgx|Stalker|WZ_METEOR|Sword|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
@@ -1592,10 +1592,10 @@
 |6jar6s|Stalker|WZ_JUPITEL|Knife|**passed**| |1968/1968|2976/2976|
 |9csdm5|Stalker|WZ_JUPITEL|Sword|**passed**| |1968/1968|2976/2976|
 |rqduhz|Stalker|WZ_JUPITEL|Bow|**passed**| |1968/1968|2976/2976|
-|4wkef6|Stalker|WZ_VERMILION|Unarmed|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
-|oi6ccx|Stalker|WZ_VERMILION|Knife|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
-|36ll8f|Stalker|WZ_VERMILION|Sword|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
-|rsqfar|Stalker|WZ_VERMILION|Bow|**failed**|Skill WZ_VERMILION is not an offensive skill|/|/|
+|4wkef6|Stalker|WZ_VERMILION|Unarmed|**failed**| |624/94|946/142|
+|oi6ccx|Stalker|WZ_VERMILION|Knife|**failed**| |624/94|946/142|
+|36ll8f|Stalker|WZ_VERMILION|Sword|**failed**| |624/94|946/142|
+|rsqfar|Stalker|WZ_VERMILION|Bow|**failed**| |624/94|946/142|
 |egzxhz|Stalker|WZ_WATERBALL|Unarmed|**failed**|Skill WZ_WATERBALL was not found|/|/|
 |je36nd|Stalker|WZ_WATERBALL|Knife|**failed**|Skill WZ_WATERBALL was not found|/|/|
 |q1ptjz|Stalker|WZ_WATERBALL|Sword|**failed**|Skill WZ_WATERBALL was not found|/|/|
@@ -1638,14 +1638,14 @@
 |1nsrz9|Stalker|HT_CLAYMORETRAP|Knife|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
 |xqr6ab|Stalker|HT_CLAYMORETRAP|Sword|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
 |91772y|Stalker|HT_CLAYMORETRAP|Bow|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|5eh76i|Stalker|AM_ACIDTERROR|Unarmed|**passed**| |284/285|284/285|
-|0rvmmn|Stalker|AM_ACIDTERROR|Knife|**passed**| |320/321|320/321|
-|5lsed3|Stalker|AM_ACIDTERROR|Sword|**passed**| |359/360|359/360|
-|nh502f|Stalker|AM_ACIDTERROR|Bow|**failed**| |290/288|401/399|
-|kiv6u2|Stalker|AM_DEMONSTRATION|Unarmed|**passed**| |94/95|94/95|
-|qubwmc|Stalker|AM_DEMONSTRATION|Knife|**passed**| |106/107|106/107|
-|yn7a1g|Stalker|AM_DEMONSTRATION|Sword|**passed**| |119/120|119/120|
-|ecsq1y|Stalker|AM_DEMONSTRATION|Bow|**passed**| |96/96|133/133|
+|5eh76i|Stalker|AM_ACIDTERROR|Unarmed|**failed**| |94/285|142/285|
+|0rvmmn|Stalker|AM_ACIDTERROR|Knife|**failed**| |94/321|142/321|
+|5lsed3|Stalker|AM_ACIDTERROR|Sword|**failed**| |94/360|142/360|
+|nh502f|Stalker|AM_ACIDTERROR|Bow|**failed**| |94/288|142/399|
+|kiv6u2|Stalker|AM_DEMONSTRATION|Unarmed|**failed**| |47/95|71/95|
+|qubwmc|Stalker|AM_DEMONSTRATION|Knife|**failed**| |47/107|71/107|
+|yn7a1g|Stalker|AM_DEMONSTRATION|Sword|**failed**| |47/120|71/120|
+|ecsq1y|Stalker|AM_DEMONSTRATION|Bow|**failed**| |47/96|71/133|
 |v5wylh|Stalker|TF_SPRINKLESAND|Unarmed|**passed**| |123/123|123/123|
 |svqppo|Stalker|TF_SPRINKLESAND|Knife|**passed**| |139/139|139/139|
 |3fll9x|Stalker|TF_SPRINKLESAND|Sword|**passed**| |156/156|156/156|
@@ -1658,42 +1658,42 @@
 |j2113g|Stalker|MO_FINGEROFFENSIVE|Knife|**failed**| |365/0|365/0|
 |23qjak|Stalker|MO_FINGEROFFENSIVE|Sword|**failed**| |415/0|415/0|
 |61qb6u|Stalker|MO_FINGEROFFENSIVE|Bow|**failed**| |330/0|460/0|
-|b7jeqw|Stalker|MO_BALKYOUNG|Unarmed|**failed**| |95/287|95/287|
-|g1wcqy|Stalker|MO_BALKYOUNG|Knife|**failed**| |107/323|107/323|
-|85eshn|Stalker|MO_BALKYOUNG|Sword|**failed**| |120/362|120/362|
-|tjbaso|Stalker|MO_BALKYOUNG|Bow|**failed**| |97/290|134/401|
-|3hfpqs|Stalker|NJ_KOUENKA|Unarmed|**passed**| |420/420|640/640|
-|jy5xf0|Stalker|NJ_KOUENKA|Knife|**passed**| |420/420|640/640|
-|z3xu7z|Stalker|NJ_KOUENKA|Sword|**passed**| |420/420|640/640|
-|nurrgo|Stalker|NJ_KOUENKA|Bow|**passed**| |420/420|640/640|
-|17xw3l|Stalker|NJ_KAENSIN|Unarmed|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|vh6lpe|Stalker|NJ_KAENSIN|Knife|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|tau6oy|Stalker|NJ_KAENSIN|Sword|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|1is8om|Stalker|NJ_KAENSIN|Bow|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|dgg7u7|Stalker|NJ_BAKUENRYU|Unarmed|**passed**| |423/423|641/641|
-|olvfpa|Stalker|NJ_BAKUENRYU|Knife|**passed**| |423/423|641/641|
-|73ve62|Stalker|NJ_BAKUENRYU|Sword|**passed**| |423/423|641/641|
-|3aow04|Stalker|NJ_BAKUENRYU|Bow|**passed**| |423/423|641/641|
-|wpxwsh|Stalker|NJ_HYOUSENSOU|Unarmed|**failed**| |420/276|636/420|
-|y48er5|Stalker|NJ_HYOUSENSOU|Knife|**failed**| |420/276|636/420|
-|kq3u41|Stalker|NJ_HYOUSENSOU|Sword|**failed**| |420/276|636/420|
-|3ydv0y|Stalker|NJ_HYOUSENSOU|Bow|**failed**| |420/276|636/420|
-|zwlbi8|Stalker|NJ_HYOUSYOURAKU|Unarmed|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|l0n2am|Stalker|NJ_HYOUSYOURAKU|Knife|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|zahj7x|Stalker|NJ_HYOUSYOURAKU|Sword|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|gqbkne|Stalker|NJ_HYOUSYOURAKU|Bow|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|034zap|Stalker|NJ_HUUJIN|Unarmed|**passed**| |984/984|1488/1488|
-|grqx46|Stalker|NJ_HUUJIN|Knife|**passed**| |984/984|1488/1488|
-|8lotqn|Stalker|NJ_HUUJIN|Sword|**passed**| |984/984|1488/1488|
-|u3xewr|Stalker|NJ_HUUJIN|Bow|**passed**| |984/984|1488/1488|
-|yxcsso|Stalker|NJ_RAIGEKISAI|Unarmed|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|joqw4i|Stalker|NJ_RAIGEKISAI|Knife|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|tpczu9|Stalker|NJ_RAIGEKISAI|Sword|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|t5xk8f|Stalker|NJ_RAIGEKISAI|Bow|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|pc7sjl|Stalker|NJ_KAMAITACHI|Unarmed|**passed**| |987/987|1496/1496|
-|ak8hu7|Stalker|NJ_KAMAITACHI|Knife|**passed**| |987/987|1496/1496|
-|vc2orj|Stalker|NJ_KAMAITACHI|Sword|**passed**| |987/987|1496/1496|
-|v8hncw|Stalker|NJ_KAMAITACHI|Bow|**passed**| |987/987|1496/1496|
+|b7jeqw|Stalker|MO_BALKYOUNG|Unarmed|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|g1wcqy|Stalker|MO_BALKYOUNG|Knife|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|85eshn|Stalker|MO_BALKYOUNG|Sword|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|tjbaso|Stalker|MO_BALKYOUNG|Bow|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|3hfpqs|Stalker|NJ_KOUENKA|Unarmed|**failed**| |0/420|0/640|
+|jy5xf0|Stalker|NJ_KOUENKA|Knife|**failed**| |0/420|0/640|
+|z3xu7z|Stalker|NJ_KOUENKA|Sword|**failed**| |0/420|0/640|
+|nurrgo|Stalker|NJ_KOUENKA|Bow|**failed**| |0/420|0/640|
+|17xw3l|Stalker|NJ_KAENSIN|Unarmed|**failed**| |0/207|0/315|
+|vh6lpe|Stalker|NJ_KAENSIN|Knife|**failed**| |0/207|0/315|
+|tau6oy|Stalker|NJ_KAENSIN|Sword|**failed**| |0/207|0/315|
+|1is8om|Stalker|NJ_KAENSIN|Bow|**failed**| |0/207|0/315|
+|dgg7u7|Stalker|NJ_BAKUENRYU|Unarmed|**failed**| |0/423|0/641|
+|olvfpa|Stalker|NJ_BAKUENRYU|Knife|**failed**| |0/423|0/641|
+|73ve62|Stalker|NJ_BAKUENRYU|Sword|**failed**| |0/423|0/641|
+|3aow04|Stalker|NJ_BAKUENRYU|Bow|**failed**| |0/423|0/641|
+|wpxwsh|Stalker|NJ_HYOUSENSOU|Unarmed|**failed**| |0/276|0/420|
+|y48er5|Stalker|NJ_HYOUSENSOU|Knife|**failed**| |0/276|0/420|
+|kq3u41|Stalker|NJ_HYOUSENSOU|Sword|**failed**| |0/276|0/420|
+|3ydv0y|Stalker|NJ_HYOUSENSOU|Bow|**failed**| |0/276|0/420|
+|zwlbi8|Stalker|NJ_HYOUSYOURAKU|Unarmed|**failed**| |0/82|0/124|
+|l0n2am|Stalker|NJ_HYOUSYOURAKU|Knife|**failed**| |0/82|0/124|
+|zahj7x|Stalker|NJ_HYOUSYOURAKU|Sword|**failed**| |0/82|0/124|
+|gqbkne|Stalker|NJ_HYOUSYOURAKU|Bow|**failed**| |0/82|0/124|
+|034zap|Stalker|NJ_HUUJIN|Unarmed|**failed**| |0/984|0/1488|
+|grqx46|Stalker|NJ_HUUJIN|Knife|**failed**| |0/984|0/1488|
+|8lotqn|Stalker|NJ_HUUJIN|Sword|**failed**| |0/984|0/1488|
+|u3xewr|Stalker|NJ_HUUJIN|Bow|**failed**| |0/984|0/1488|
+|yxcsso|Stalker|NJ_RAIGEKISAI|Unarmed|**failed**| |0/591|0/897|
+|joqw4i|Stalker|NJ_RAIGEKISAI|Knife|**failed**| |0/591|0/897|
+|tpczu9|Stalker|NJ_RAIGEKISAI|Sword|**failed**| |0/591|0/897|
+|t5xk8f|Stalker|NJ_RAIGEKISAI|Bow|**failed**| |0/591|0/897|
+|pc7sjl|Stalker|NJ_KAMAITACHI|Unarmed|**failed**| |0/987|0/1496|
+|ak8hu7|Stalker|NJ_KAMAITACHI|Knife|**failed**| |0/987|0/1496|
+|vc2orj|Stalker|NJ_KAMAITACHI|Sword|**failed**| |0/987|0/1496|
+|v8hncw|Stalker|NJ_KAMAITACHI|Bow|**failed**| |0/987|0/1496|
 |1wkw20|Stalker|GS_TRIPLEACTION|Unarmed|**failed**| |423/429|423/429|
 |x95z6j|Stalker|GS_TRIPLEACTION|Knife|**failed**| |477/483|477/483|
 |gc2g42|Stalker|GS_TRIPLEACTION|Sword|**failed**| |537/540|537/540|
@@ -1730,10 +1730,10 @@
 |nyz2f1|Champion|MO_EXTREMITYFIST|Chain|**failed**| |154/17848|177/20332|
 |uzxy9h|Champion|MO_EXTREMITYFIST|Rod|**failed**| |109/12988|109/12988|
 |dnlvex|Champion|MO_EXTREMITYFIST|Claw|**failed**| |146/17200|157/18388|
-|q8o7gl|Champion|AL_HEAL|Unarmed|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|awp3qf|Champion|AL_HEAL|Chain|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|fh8ruw|Champion|AL_HEAL|Rod|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
-|njajm6|Champion|AL_HEAL|Claw|**failed**|Skill AL_HEAL is not an offensive skill|/|/|
+|q8o7gl|Champion|AL_HEAL|Unarmed|**failed**| |94/0|142/0|
+|awp3qf|Champion|AL_HEAL|Chain|**failed**| |94/0|142/0|
+|fh8ruw|Champion|AL_HEAL|Rod|**failed**| |107/0|163/0|
+|njajm6|Champion|AL_HEAL|Claw|**failed**| |94/0|142/0|
 |qhrjmx|Champion|AL_HOLYLIGHT|Unarmed|**passed**| |117/117|178/178|
 |1bgidw|Champion|AL_HOLYLIGHT|Chain|**passed**| |117/117|178/178|
 |l3h4ko|Champion|AL_HOLYLIGHT|Rod|**passed**| |134/134|204/204|
@@ -1742,18 +1742,18 @@
 |hxpyah|Champion|CH_PALMSTRIKE|Chain|**failed**| |1084/1091|1245/1252|
 |1hy0cu|Champion|CH_PALMSTRIKE|Rod|**failed**| |769/776|769/776|
 |duzutc|Champion|CH_PALMSTRIKE|Claw|**failed**| |1028/1049|1105/1126|
-|i6i3hj|Champion|CH_TIGERFIST|Unarmed|**failed**|Skill CH_TIGERFIST is not an offensive skill|/|/|
-|cxk99q|Champion|CH_TIGERFIST|Chain|**failed**|Skill CH_TIGERFIST is not an offensive skill|/|/|
-|x0zp0q|Champion|CH_TIGERFIST|Rod|**failed**|Skill CH_TIGERFIST is not an offensive skill|/|/|
-|jx09co|Champion|CH_TIGERFIST|Claw|**failed**|Skill CH_TIGERFIST is not an offensive skill|/|/|
+|i6i3hj|Champion|CH_TIGERFIST|Unarmed|**failed**| |94/517|94/517|
+|cxk99q|Champion|CH_TIGERFIST|Chain|**failed**| |154/841|177/965|
+|x0zp0q|Champion|CH_TIGERFIST|Rod|**failed**| |109/598|109/598|
+|jx09co|Champion|CH_TIGERFIST|Claw|**failed**| |146/809|157/868|
 |4sggve|Champion|CH_CHAINCRUSH|Unarmed|**failed**| |1325/1343|1325/1343|
 |3stuqx|Champion|CH_CHAINCRUSH|Chain|**failed**| |2165/2183|2490/2505|
 |komd60|Champion|CH_CHAINCRUSH|Rod|**failed**| |1535/1553|1535/1553|
 |0sbbwd|Champion|CH_CHAINCRUSH|Claw|**failed**| |2055/2099|2210/2253|
-|uk3mpl|Champion|MO_BALKYOUNG|Unarmed|**failed**| |95/287|95/287|
-|5qbgkl|Champion|MO_BALKYOUNG|Chain|**failed**| |155/467|178/536|
-|uedgwr|Champion|MO_BALKYOUNG|Rod|**failed**| |110/332|110/332|
-|v5q4oz|Champion|MO_BALKYOUNG|Claw|**failed**| |149/449|160/482|
+|uk3mpl|Champion|MO_BALKYOUNG|Unarmed|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|5qbgkl|Champion|MO_BALKYOUNG|Chain|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|uedgwr|Champion|MO_BALKYOUNG|Rod|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
+|v5q4oz|Champion|MO_BALKYOUNG|Claw|**failed**|Skill MO_BALKYOUNG is not an offensive skill|/|/|
 |st57uc|Clown|AC_DOUBLE|Bow|**passed**| |366/366|506/506|
 |p5pen8|Clown|BA_MUSICALSTRIKE|Lute|**passed**| |402/402|516/516|
 |0pez1p|Clown|AC_SHOWER|Bow|**passed**| |120/120|166/166|
@@ -1780,18 +1780,18 @@
 |q2b0xv|Professor|MG_FIREBALL|Knife|**passed**| |80/80|121/121|
 |unkj31|Professor|MG_FIREBALL|Rod|**passed**| |92/92|139/139|
 |zgjj2w|Professor|MG_FIREBALL|Book|**passed**| |80/80|121/121|
-|gggoa7|Professor|MG_FIREWALL|Unarmed|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|bwkwub|Professor|MG_FIREWALL|Knife|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|3ebm1p|Professor|MG_FIREWALL|Rod|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
-|bib7u0|Professor|MG_FIREWALL|Book|**failed**|Skill MG_FIREWALL is not an offensive skill|/|/|
+|gggoa7|Professor|MG_FIREWALL|Unarmed|**failed**| |23/322|35/490|
+|bwkwub|Professor|MG_FIREWALL|Knife|**failed**| |23/322|35/490|
+|3ebm1p|Professor|MG_FIREWALL|Rod|**failed**| |27/378|41/574|
+|bib7u0|Professor|MG_FIREWALL|Book|**failed**| |23/322|35/490|
 |pwqfe5|Professor|MG_FROSTDIVER|Unarmed|**passed**| |47/47|71/71|
 |0kdhd8|Professor|MG_FROSTDIVER|Knife|**passed**| |47/47|71/71|
 |g8ko90|Professor|MG_FROSTDIVER|Rod|**passed**| |54/54|82/82|
 |xrd41d|Professor|MG_FROSTDIVER|Book|**passed**| |47/47|71/71|
-|7fk6fz|Professor|MG_THUNDERSTORM|Unarmed|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|7tk8yh|Professor|MG_THUNDERSTORM|Knife|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|yyh2cd|Professor|MG_THUNDERSTORM|Rod|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
-|vfhmcc|Professor|MG_THUNDERSTORM|Book|**failed**|Skill MG_THUNDERSTORM is not an offensive skill|/|/|
+|7fk6fz|Professor|MG_THUNDERSTORM|Unarmed|**passed**| |1330/1330|1990/1990|
+|7tk8yh|Professor|MG_THUNDERSTORM|Knife|**passed**| |1330/1330|1990/1990|
+|yyh2cd|Professor|MG_THUNDERSTORM|Rod|**passed**| |1520/1520|2290/2290|
+|vfhmcc|Professor|MG_THUNDERSTORM|Book|**passed**| |1330/1330|1990/1990|
 |4lsdxz|Professor|MG_NAPALMBEAT|Unarmed|**passed**| |161/161|243/243|
 |psv80a|Professor|MG_NAPALMBEAT|Knife|**passed**| |161/161|243/243|
 |dk5v5l|Professor|MG_NAPALMBEAT|Rod|**passed**| |185/185|279/279|
@@ -1820,24 +1820,24 @@
 |amx1dh|Creator|MC_CARTREVOLUTION|Axe|**passed**| |306/305|306/305|
 |jwacph|Creator|MC_CARTREVOLUTION|Two_Handed_Axe|**passed**| |369/368|581/580|
 |ce4fu2|Creator|MC_CARTREVOLUTION|Chain|**passed**| |389/388|444/443|
-|65usah|Creator|AM_ACIDTERROR|Unarmed|**failed**| |287/282|287/282|
-|s23a7w|Creator|AM_ACIDTERROR|Knife|**failed**| |323/318|323/318|
-|2rvl6y|Creator|AM_ACIDTERROR|Sword|**failed**| |362/357|362/357|
-|t7fhq6|Creator|AM_ACIDTERROR|Axe|**failed**| |371/366|371/366|
-|0qzwfk|Creator|AM_ACIDTERROR|Two_Handed_Axe|**failed**| |446/441|701/696|
-|2ddgd3|Creator|AM_ACIDTERROR|Chain|**failed**| |470/465|536/531|
-|kxnjjd|Creator|AM_DEMONSTRATION|Unarmed|**passed**| |95/94|95/94|
-|zuufd0|Creator|AM_DEMONSTRATION|Knife|**passed**| |107/106|107/106|
-|uhqmjb|Creator|AM_DEMONSTRATION|Sword|**passed**| |120/119|120/119|
-|p1h4ff|Creator|AM_DEMONSTRATION|Axe|**passed**| |123/122|123/122|
-|39fo5n|Creator|AM_DEMONSTRATION|Two_Handed_Axe|**passed**| |148/147|233/232|
-|jn9fv0|Creator|AM_DEMONSTRATION|Chain|**passed**| |156/155|178/177|
-|4rcstm|Creator|CR_ACIDDEMONSTRATION|Unarmed|**failed**| |0/340|0/340|
-|nesejd|Creator|CR_ACIDDEMONSTRATION|Knife|**failed**| |0/340|0/340|
-|dl6j13|Creator|CR_ACIDDEMONSTRATION|Sword|**failed**| |0/340|0/340|
-|o54uiv|Creator|CR_ACIDDEMONSTRATION|Axe|**failed**| |0/340|0/340|
-|4v1389|Creator|CR_ACIDDEMONSTRATION|Two_Handed_Axe|**failed**| |0/340|0/340|
-|p66wuo|Creator|CR_ACIDDEMONSTRATION|Chain|**failed**| |0/340|0/340|
+|65usah|Creator|AM_ACIDTERROR|Unarmed|**failed**| |94/282|142/282|
+|s23a7w|Creator|AM_ACIDTERROR|Knife|**failed**| |94/318|142/318|
+|2rvl6y|Creator|AM_ACIDTERROR|Sword|**failed**| |94/357|142/357|
+|t7fhq6|Creator|AM_ACIDTERROR|Axe|**failed**| |94/366|142/366|
+|0qzwfk|Creator|AM_ACIDTERROR|Two_Handed_Axe|**failed**| |94/441|142/696|
+|2ddgd3|Creator|AM_ACIDTERROR|Chain|**failed**| |94/465|142/531|
+|kxnjjd|Creator|AM_DEMONSTRATION|Unarmed|**failed**| |47/94|71/94|
+|zuufd0|Creator|AM_DEMONSTRATION|Knife|**failed**| |47/106|71/106|
+|uhqmjb|Creator|AM_DEMONSTRATION|Sword|**failed**| |47/119|71/119|
+|p1h4ff|Creator|AM_DEMONSTRATION|Axe|**failed**| |47/122|71/122|
+|39fo5n|Creator|AM_DEMONSTRATION|Two_Handed_Axe|**failed**| |47/147|71/232|
+|jn9fv0|Creator|AM_DEMONSTRATION|Chain|**failed**| |47/155|71/177|
+|4rcstm|Creator|CR_ACIDDEMONSTRATION|Unarmed|**failed**| |90/340|140/340|
+|nesejd|Creator|CR_ACIDDEMONSTRATION|Knife|**failed**| |90/340|140/340|
+|dl6j13|Creator|CR_ACIDDEMONSTRATION|Sword|**failed**| |90/340|140/340|
+|o54uiv|Creator|CR_ACIDDEMONSTRATION|Axe|**failed**| |90/340|140/340|
+|4v1389|Creator|CR_ACIDDEMONSTRATION|Two_Handed_Axe|**failed**| |90/340|140/340|
+|p66wuo|Creator|CR_ACIDDEMONSTRATION|Chain|**failed**| |90/340|140/340|
 |6yg93o|Taekwon|TK_STORMKICK|Unarmed|**failed**| |282/287|282/287|
 |10m42b|Taekwon|TK_DOWNKICK|Unarmed|**failed**| |282/287|282/287|
 |1prvjj|Taekwon|TK_COUNTER|Unarmed|**failed**| |378/381|378/381|
@@ -1862,40 +1862,40 @@
 |ftx9zn|Soul Linker|WZ_EARTHSPIKE|Unarmed|**passed**| |475/475|715/715|
 |df841g|Soul Linker|WZ_EARTHSPIKE|Knife|**passed**| |475/475|715/715|
 |h054gc|Soul Linker|WZ_EARTHSPIKE|Rod|**passed**| |545/545|820/820|
-|2u1k8t|Ninja|NJ_KOUENKA|Unarmed|**passed**| |420/420|640/640|
-|o99eym|Ninja|NJ_KOUENKA|Knife|**passed**| |420/420|640/640|
-|2tsciq|Ninja|NJ_KOUENKA|Huuma_Blaze|**passed**| |420/420|640/640|
-|j70kij|Ninja|NJ_KAENSIN|Unarmed|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|uq5o5n|Ninja|NJ_KAENSIN|Knife|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|756qeu|Ninja|NJ_KAENSIN|Huuma_Blaze|**failed**|Skill NJ_KAENSIN is not an offensive skill|/|/|
-|rlxl3e|Ninja|NJ_BAKUENRYU|Unarmed|**passed**| |423/423|641/641|
-|n5a83k|Ninja|NJ_BAKUENRYU|Knife|**passed**| |423/423|641/641|
-|5zpvs3|Ninja|NJ_BAKUENRYU|Huuma_Blaze|**passed**| |423/423|641/641|
-|zlwsam|Ninja|NJ_HYOUSENSOU|Unarmed|**failed**| |420/276|636/420|
-|do9fan|Ninja|NJ_HYOUSENSOU|Knife|**failed**| |420/276|636/420|
-|9f0hx4|Ninja|NJ_HYOUSENSOU|Huuma_Blaze|**failed**| |420/276|636/420|
-|2blafe|Ninja|NJ_HYOUSYOURAKU|Unarmed|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|ls6tmm|Ninja|NJ_HYOUSYOURAKU|Knife|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|i7cscy|Ninja|NJ_HYOUSYOURAKU|Huuma_Blaze|**failed**|Skill NJ_HYOUSYOURAKU is not an offensive skill|/|/|
-|bwg2j8|Ninja|NJ_HUUJIN|Unarmed|**passed**| |984/984|1488/1488|
-|ak8tje|Ninja|NJ_HUUJIN|Knife|**passed**| |984/984|1488/1488|
-|3jtamt|Ninja|NJ_HUUJIN|Huuma_Blaze|**passed**| |984/984|1488/1488|
-|cxaqy4|Ninja|NJ_RAIGEKISAI|Unarmed|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|ftzl09|Ninja|NJ_RAIGEKISAI|Knife|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|89bc09|Ninja|NJ_RAIGEKISAI|Huuma_Blaze|**failed**|Skill NJ_RAIGEKISAI is not an offensive skill|/|/|
-|2im0x6|Ninja|NJ_KAMAITACHI|Unarmed|**passed**| |987/987|1496/1496|
-|pe6rma|Ninja|NJ_KAMAITACHI|Knife|**passed**| |987/987|1496/1496|
-|9nxccl|Ninja|NJ_KAMAITACHI|Huuma_Blaze|**passed**| |987/987|1496/1496|
+|2u1k8t|Ninja|NJ_KOUENKA|Unarmed|**failed**| |0/420|0/640|
+|o99eym|Ninja|NJ_KOUENKA|Knife|**failed**| |0/420|0/640|
+|2tsciq|Ninja|NJ_KOUENKA|Huuma_Blaze|**failed**| |0/420|0/640|
+|j70kij|Ninja|NJ_KAENSIN|Unarmed|**failed**| |0/207|0/315|
+|uq5o5n|Ninja|NJ_KAENSIN|Knife|**failed**| |0/207|0/315|
+|756qeu|Ninja|NJ_KAENSIN|Huuma_Blaze|**failed**| |0/207|0/315|
+|rlxl3e|Ninja|NJ_BAKUENRYU|Unarmed|**failed**| |0/423|0/641|
+|n5a83k|Ninja|NJ_BAKUENRYU|Knife|**failed**| |0/423|0/641|
+|5zpvs3|Ninja|NJ_BAKUENRYU|Huuma_Blaze|**failed**| |0/423|0/641|
+|zlwsam|Ninja|NJ_HYOUSENSOU|Unarmed|**failed**| |0/276|0/420|
+|do9fan|Ninja|NJ_HYOUSENSOU|Knife|**failed**| |0/276|0/420|
+|9f0hx4|Ninja|NJ_HYOUSENSOU|Huuma_Blaze|**failed**| |0/276|0/420|
+|2blafe|Ninja|NJ_HYOUSYOURAKU|Unarmed|**failed**| |0/82|0/124|
+|ls6tmm|Ninja|NJ_HYOUSYOURAKU|Knife|**failed**| |0/82|0/124|
+|i7cscy|Ninja|NJ_HYOUSYOURAKU|Huuma_Blaze|**failed**| |0/82|0/124|
+|bwg2j8|Ninja|NJ_HUUJIN|Unarmed|**failed**| |0/984|0/1488|
+|ak8tje|Ninja|NJ_HUUJIN|Knife|**failed**| |0/984|0/1488|
+|3jtamt|Ninja|NJ_HUUJIN|Huuma_Blaze|**failed**| |0/984|0/1488|
+|cxaqy4|Ninja|NJ_RAIGEKISAI|Unarmed|**failed**| |0/591|0/897|
+|ftzl09|Ninja|NJ_RAIGEKISAI|Knife|**failed**| |0/591|0/897|
+|89bc09|Ninja|NJ_RAIGEKISAI|Huuma_Blaze|**failed**| |0/591|0/897|
+|2im0x6|Ninja|NJ_KAMAITACHI|Unarmed|**failed**| |0/987|0/1496|
+|pe6rma|Ninja|NJ_KAMAITACHI|Knife|**failed**| |0/987|0/1496|
+|9nxccl|Ninja|NJ_KAMAITACHI|Huuma_Blaze|**failed**| |0/987|0/1496|
 |skxrh2|Ninja|NJ_KUNAI|Unarmed|**failed**| |282/552|282/552|
 |nby5ly|Ninja|NJ_KUNAI|Knife|**failed**| |318/348|318/348|
 |kmfjfi|Ninja|NJ_KUNAI|Huuma_Blaze|**failed**| |480/522|801/684|
 |zg7f84|Ninja|NJ_HUUMA|Huuma_Blaze|**failed**| |1445/760|2410/1250|
-|a670ia|Ninja|NJ_ISSEN|Unarmed|**failed**| |94/3350|94/3350|
-|gwhhlm|Ninja|NJ_ISSEN|Knife|**failed**| |106/3350|106/3350|
-|x7hau8|Ninja|NJ_ISSEN|Huuma_Blaze|**failed**| |160/3350|267/3350|
-|n31jso|Ninja|NJ_ISSEN|Unarmed|**failed**| |94/3350|94/3350|
-|zvk18x|Ninja|NJ_ISSEN|Knife|**failed**| |106/3350|106/3350|
-|wn6kjc|Ninja|NJ_ISSEN|Huuma_Blaze|**failed**| |160/3350|267/3350|
+|a670ia|Ninja|NJ_ISSEN|Unarmed|**failed**| |0/3350|0/3350|
+|gwhhlm|Ninja|NJ_ISSEN|Knife|**failed**| |0/3350|0/3350|
+|x7hau8|Ninja|NJ_ISSEN|Huuma_Blaze|**failed**| |0/3350|0/3350|
+|n31jso|Ninja|NJ_ISSEN|Unarmed|**failed**| |0/3350|0/3350|
+|zvk18x|Ninja|NJ_ISSEN|Knife|**failed**| |0/3350|0/3350|
+|wn6kjc|Ninja|NJ_ISSEN|Huuma_Blaze|**failed**| |0/3350|0/3350|
 |vxa9ja|Gunslinger|GS_TRIPLEACTION|Unarmed|**failed**| |429/423|429/423|
 |t625jo|Gunslinger|GS_TRIPLEACTION|Crimson_Bolt|**passed**| |519/519|738/738|
 |ryxi1i|Gunslinger|GS_TRIPLEACTION|The_Cyclone|**passed**| |756/756|1071/1071|

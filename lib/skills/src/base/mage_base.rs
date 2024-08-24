@@ -80,7 +80,7 @@ impl SkillBase for IncreaseSpRecovery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -170,22 +170,22 @@ impl SkillBase for Sight {
         if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Sight {
+impl OffensiveSkillBase for Sight {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Fire
     }
 }
 // MG_NAPALMBEAT
@@ -276,7 +276,7 @@ impl SkillBase for NapalmBeat {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -534,7 +534,7 @@ impl SkillBase for SafetyWall {
         SkillTargetType::Ground
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -714,7 +714,7 @@ impl SkillBase for SoulStrike {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -999,7 +999,7 @@ impl SkillBase for ColdBolt {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -1314,7 +1314,7 @@ impl SkillBase for FrostDiver {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -1505,7 +1505,7 @@ impl SkillBase for StoneCurse {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -1642,7 +1642,7 @@ impl SkillBase for FireBall {
        25
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -1914,12 +1914,34 @@ impl SkillBase for FireWall {
         0
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for FireWall {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+       Some(0.500)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Fire
     }
 }
 impl GroundSkillBase for FireWall {
@@ -2012,7 +2034,7 @@ impl SkillBase for FireBolt {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -2327,7 +2349,7 @@ impl SkillBase for LightningBolt {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -2723,12 +2745,94 @@ impl SkillBase for ThunderStorm {
        2000
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for ThunderStorm {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        if self.level == 6 {
+            return 6
+        }
+        if self.level == 7 {
+            return 7
+        }
+        if self.level == 8 {
+            return 8
+        }
+        if self.level == 9 {
+            return 9
+        }
+        if self.level == 10 {
+            return 10
+        }
+        0
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(0.800)
+        }
+        if self.level == 2 {
+            return Some(1.600)
+        }
+        if self.level == 3 {
+            return Some(2.400)
+        }
+        if self.level == 4 {
+            return Some(3.200)
+        }
+        if self.level == 5 {
+            return Some(4.000)
+        }
+        if self.level == 6 {
+            return Some(4.800)
+        }
+        if self.level == 7 {
+            return Some(5.600)
+        }
+        if self.level == 8 {
+            return Some(6.400)
+        }
+        if self.level == 9 {
+            return Some(7.200)
+        }
+        if self.level == 10 {
+            return Some(8.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Wind
     }
 }
 impl GroundSkillBase for ThunderStorm {
@@ -2794,7 +2898,7 @@ impl SkillBase for EnergyCoat {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -2808,15 +2912,15 @@ impl SkillBase for EnergyCoat {
        5000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for EnergyCoat {
+impl SupportiveSkillBase for EnergyCoat {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()

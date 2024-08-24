@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::ninja_base::{*};
@@ -52,9 +52,7 @@ impl Skill for ImprovisedDefense {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for ImprovisedDefense {
-}
-impl SelfSkill for ImprovisedDefense {
+impl SupportiveSkill for ImprovisedDefense {
 }
 impl Skill for VanishingSlash {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -86,23 +84,19 @@ impl Skill for CicadaSkinSheeding {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for CicadaSkinSheeding {
-}
 impl Skill for MirrorImage {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for MirrorImage {
+impl OffensiveSkill for MirrorImage {
 }
 impl Skill for SpiritoftheBlade {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl PassiveSkill for SpiritoftheBlade {
 }
 impl Skill for CrimsonFirePetal {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -118,7 +112,7 @@ impl Skill for CrimsonFireFormation {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for CrimsonFireFormation {
+impl OffensiveSkill for CrimsonFireFormation {
 }
 impl Skill for RagingFireDragon {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -142,6 +136,8 @@ impl Skill for HiddenWater {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for HiddenWater {
+}
 impl GroundSkill for HiddenWater {
 }
 impl Skill for IceMeteor {
@@ -150,7 +146,7 @@ impl Skill for IceMeteor {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for IceMeteor {
+impl OffensiveSkill for IceMeteor {
 }
 impl Skill for WindBlade {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -166,7 +162,7 @@ impl Skill for LightningStrikeofDestruction {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for LightningStrikeofDestruction {
+impl OffensiveSkill for LightningStrikeofDestruction {
 }
 impl Skill for Kamaitachi {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -181,8 +177,6 @@ impl Skill for Soul {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl SelfSkill for Soul {
 }
 impl Skill for FinalStrike {
     fn new(level: u8) -> Option<Self> where Self : Sized {

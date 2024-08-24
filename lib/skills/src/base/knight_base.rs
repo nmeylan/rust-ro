@@ -80,13 +80,13 @@ impl SkillBase for SpearMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -157,7 +157,7 @@ impl SkillBase for Pierce {
        7
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -288,7 +288,7 @@ impl SkillBase for BrandishSpear {
        12
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -432,7 +432,7 @@ impl SkillBase for SpearStab {
        9
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -563,7 +563,7 @@ impl SkillBase for SpearBoomerang {
        10
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -764,15 +764,15 @@ impl SkillBase for TwohandQuicken {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for TwohandQuicken {
+impl SupportiveSkillBase for TwohandQuicken {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -902,15 +902,15 @@ impl SkillBase for CounterAttack {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for CounterAttack {
+impl SupportiveSkillBase for CounterAttack {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
@@ -1008,7 +1008,7 @@ impl SkillBase for BowlingBash {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1165,13 +1165,13 @@ impl SkillBase for PecoPecoRiding {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -1242,13 +1242,13 @@ impl SkillBase for CavalierMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -1319,13 +1319,13 @@ impl SkillBase for ChargeAttack {
        40
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1334,24 +1334,6 @@ impl SkillBase for ChargeAttack {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        500
-    }
-    #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
-        Some(self)
-    }
-}
-impl OffensiveSkillBase for ChargeAttack {
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Weapon
     }
 }
 // KN_ONEHAND
@@ -1418,7 +1400,7 @@ impl SkillBase for OnehandQuicken {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1433,15 +1415,15 @@ impl SkillBase for OnehandQuicken {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for OnehandQuicken {
+impl SupportiveSkillBase for OnehandQuicken {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {

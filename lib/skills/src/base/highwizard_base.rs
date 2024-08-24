@@ -80,7 +80,7 @@ impl SkillBase for SoulDrain {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -89,15 +89,23 @@ impl SkillBase for SoulDrain {
         false
     }
     #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl PassiveSkillBase for SoulDrain {
+impl OffensiveSkillBase for SoulDrain {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // HW_MAGICCRASHER
 pub struct StaveCrasher {
@@ -157,13 +165,13 @@ impl SkillBase for StaveCrasher {
        8
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        false
+        true
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -291,7 +299,7 @@ impl SkillBase for MysticalAmplification {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -335,15 +343,15 @@ impl SkillBase for MysticalAmplification {
        700
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for MysticalAmplification {
+impl SupportiveSkillBase for MysticalAmplification {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -466,7 +474,7 @@ impl SkillBase for NapalmVulcan {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true

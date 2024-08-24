@@ -50,13 +50,11 @@ pub enum SkillType {
 pub enum SkillTargetType {
     #[value = 0]
     #[default]
-    Passive,
-    Attack,
-    Ground,
+    Target,
     #[value_string = "Self"]
     MySelf,
-    #[value = 10]
-    Support,
+    Party,
+    Ground,
     #[value = 11]
     Trap,
 }
@@ -74,6 +72,8 @@ pub enum SkillDamageFlags {
     Ignoredefcard,
     Critical,
     Ignorelongcard,
+    IsPhysical,
+    IsMagical,
     Max,
 }
 

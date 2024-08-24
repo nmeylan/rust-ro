@@ -95,10 +95,10 @@ impl SkillBase for GloriaDomini {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        false
+        true
     }
     fn _is_physical(&self) -> bool {
         false
@@ -262,7 +262,7 @@ impl SkillBase for MartyrsReckoning {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -273,15 +273,15 @@ impl SkillBase for MartyrsReckoning {
        2000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for MartyrsReckoning {
+impl SupportiveSkillBase for MartyrsReckoning {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
@@ -422,63 +422,15 @@ impl SkillBase for BattleChant {
         Err(())
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_performance_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_performance_skill(&self) -> Option<&dyn PerformanceSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for BattleChant {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 55.0), 2, tick, 60000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 60.0), 2, tick, 60000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 65.0), 2, tick, 60000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 70.0), 2, tick, 60000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 75.0), 2, tick, 60000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 80.0), 2, tick, 60000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 85.0), 2, tick, 60000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 90.0), 2, tick, 60000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 95.0), 2, tick, 60000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 100.0), 2, tick, 60000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl PerformanceSkillBase for BattleChant {
 }
 // PA_SHIELDCHAIN
 pub struct ShieldChain {
@@ -553,7 +505,7 @@ impl SkillBase for ShieldChain {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false

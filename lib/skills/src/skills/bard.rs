@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::bard_base::{*};
@@ -36,7 +36,7 @@ impl Skill for UnbarringOctave {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for UnbarringOctave {
+impl InteractiveSkill for UnbarringOctave {
 }
 impl Skill for PerfectTablature {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -76,7 +76,7 @@ impl Skill for Amp {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Amp {
+impl InteractiveSkill for Amp {
 }
 impl Skill for Encore {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -84,7 +84,7 @@ impl Skill for Encore {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Encore {
+impl InteractiveSkill for Encore {
 }
 impl Skill for Lullaby {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -156,5 +156,5 @@ impl Skill for PangVoice {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for PangVoice {
+impl SupportiveSkill for PangVoice {
 }

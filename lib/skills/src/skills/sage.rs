@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::sage_base::{*};
@@ -20,7 +20,7 @@ impl Skill for CastCancel {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for CastCancel {
+impl InteractiveSkill for CastCancel {
 }
 impl Skill for MagicRod {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -28,7 +28,7 @@ impl Skill for MagicRod {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for MagicRod {
+impl InteractiveSkill for MagicRod {
 }
 impl Skill for SpellBreaker {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -36,7 +36,7 @@ impl Skill for SpellBreaker {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for SpellBreaker {
+impl InteractiveSkill for SpellBreaker {
 }
 impl Skill for FreeCast {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -52,7 +52,7 @@ impl Skill for Hindsight {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Hindsight {
+impl SupportiveSkill for Hindsight {
 }
 impl Skill for EndowBlaze {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -132,7 +132,7 @@ impl Skill for Dispell {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for Dispell {
+impl SupportiveSkill for Dispell {
 }
 impl Skill for Hocuspocus {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -140,7 +140,7 @@ impl Skill for Hocuspocus {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Hocuspocus {
+impl InteractiveSkill for Hocuspocus {
 }
 impl Skill for CreateElementalConverter {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -148,15 +148,11 @@ impl Skill for CreateElementalConverter {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for CreateElementalConverter {
-}
 impl Skill for ElementalChangeWater {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl OffensiveSkill for ElementalChangeWater {
 }
 impl Skill for ElementalChangeEarth {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -164,21 +160,15 @@ impl Skill for ElementalChangeEarth {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for ElementalChangeEarth {
-}
 impl Skill for ElementalChangeFire {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for ElementalChangeFire {
-}
 impl Skill for ElementalChangeWind {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl OffensiveSkill for ElementalChangeWind {
 }

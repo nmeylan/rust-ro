@@ -620,7 +620,7 @@ impl SkillBase for FreezingTrap {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -635,34 +635,12 @@ impl SkillBase for FreezingTrap {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
-        Some(self)
-    }
-    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
-    }
-}
-impl OffensiveSkillBase for FreezingTrap {
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
-    fn _dmg_atk(&self) -> Option<f32> {
-       Some(1.000)
-    }
-    #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Water
     }
 }
 impl GroundSkillBase for FreezingTrap {
@@ -915,6 +893,16 @@ impl SkillBase for RemoveTrap {
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 5 { Ok(5) } else {Err(())}
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for RemoveTrap {
 }
 // HT_TALKIEBOX
 pub struct TalkieBox {
@@ -1063,13 +1051,13 @@ impl SkillBase for BeastBane {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -1140,7 +1128,7 @@ impl SkillBase for FalconryMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1217,7 +1205,7 @@ impl SkillBase for SteelCrow {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1309,7 +1297,7 @@ impl SkillBase for BlitzBeat {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1354,38 +1342,15 @@ impl SkillBase for BlitzBeat {
        1000
     }
     #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
+    fn is_passive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
         Some(self)
     }
 }
-impl OffensiveSkillBase for BlitzBeat {
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-        if self.level == 1 {
-            return 1
-        }
-        if self.level == 2 {
-            return 2
-        }
-        if self.level == 3 {
-            return 3
-        }
-        if self.level == 4 {
-            return 4
-        }
-        if self.level == 5 {
-            return 5
-        }
-        0
-    }
-    #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Neutral
-    }
+impl PassiveSkillBase for BlitzBeat {
 }
 // HT_DETECTING
 pub struct Detect {
@@ -1556,6 +1521,16 @@ impl SkillBase for SpringTrap {
             Err(())
         }
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for SpringTrap {
 }
 // HT_PHANTASMIC
 pub struct PhantasmicArrow {
@@ -1615,13 +1590,13 @@ impl SkillBase for PhantasmicArrow {
        10
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1634,24 +1609,6 @@ impl SkillBase for PhantasmicArrow {
         } else {
             Err(())
         }
-    }
-    #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
-        Some(self)
-    }
-}
-impl OffensiveSkillBase for PhantasmicArrow {
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Weapon
     }
 }
 // HT_POWER
@@ -1712,7 +1669,7 @@ impl SkillBase for BeastStrafing {
        12
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false

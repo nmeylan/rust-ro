@@ -184,73 +184,15 @@ impl SkillBase for Running {
         0
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Running {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 10), 2, tick, 1000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 20), 2, tick, 1000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 30), 2, tick, 1000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 40), 2, tick, 1000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 50), 2, tick, 1000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 60), 2, tick, 1000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 70), 2, tick, 1000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 80), 2, tick, 1000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 90), 2, tick, 1000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MasteryDamageUsingWeaponType(Fist, 100), 2, tick, 1000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-56), 2, tick, 1000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for Running {
 }
 // TK_READYSTORM
 pub struct TornadoStance {
@@ -323,25 +265,22 @@ impl SkillBase for TornadoStance {
         if status.sp() > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for TornadoStance {
+impl OffensiveSkillBase for TornadoStance {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // TK_STORMKICK
@@ -464,14 +403,6 @@ impl SkillBase for TornadoKick {
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
 }
 impl OffensiveSkillBase for TornadoKick {
     #[inline(always)]
@@ -506,16 +437,6 @@ impl OffensiveSkillBase for TornadoKick {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
-    }
-}
-impl SelfSkillBase for TornadoKick {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 // TK_READYDOWN
@@ -589,25 +510,22 @@ impl SkillBase for HeelDropStance {
         if status.sp() > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for HeelDropStance {
+impl OffensiveSkillBase for HeelDropStance {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // TK_DOWNKICK
@@ -730,14 +648,6 @@ impl SkillBase for HeelDrop {
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
 }
 impl OffensiveSkillBase for HeelDrop {
     #[inline(always)]
@@ -772,16 +682,6 @@ impl OffensiveSkillBase for HeelDrop {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
-    }
-}
-impl SelfSkillBase for HeelDrop {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 // TK_READYTURN
@@ -855,25 +755,22 @@ impl SkillBase for RoundhouseStance {
         if status.sp() > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for RoundhouseStance {
+impl OffensiveSkillBase for RoundhouseStance {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // TK_TURNKICK
@@ -996,14 +893,6 @@ impl SkillBase for RoundhouseKick {
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
 }
 impl OffensiveSkillBase for RoundhouseKick {
     #[inline(always)]
@@ -1038,37 +927,6 @@ impl OffensiveSkillBase for RoundhouseKick {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
-    }
-}
-impl SelfSkillBase for RoundhouseKick {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 // TK_READYCOUNTER
@@ -1142,25 +1000,22 @@ impl SkillBase for CounterKickStance {
         if status.sp() > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for CounterKickStance {
+impl OffensiveSkillBase for CounterKickStance {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // TK_COUNTER
@@ -1283,14 +1138,6 @@ impl SkillBase for CounterKick {
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
 }
 impl OffensiveSkillBase for CounterKick {
     #[inline(always)]
@@ -1325,16 +1172,6 @@ impl OffensiveSkillBase for CounterKick {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
-    }
-}
-impl SelfSkillBase for CounterKick {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 // TK_DODGE
@@ -1408,25 +1245,22 @@ impl SkillBase for Tumbling {
         if status.sp() > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Tumbling {
+impl OffensiveSkillBase for Tumbling {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // TK_JUMPKICK
@@ -1508,7 +1342,7 @@ impl SkillBase for FlyingKick {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1549,14 +1383,6 @@ impl SkillBase for FlyingKick {
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn is_supportive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
-        Some(self)
-    }
 }
 impl OffensiveSkillBase for FlyingKick {
     #[inline(always)]
@@ -1591,12 +1417,6 @@ impl OffensiveSkillBase for FlyingKick {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
-    }
-}
-impl SupportiveSkillBase for FlyingKick {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 // TK_HPTIME
@@ -1657,7 +1477,7 @@ impl SkillBase for PeacefulBreak {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1665,16 +1485,6 @@ impl SkillBase for PeacefulBreak {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
-        Some(self)
-    }
-}
-impl PassiveSkillBase for PeacefulBreak {
 }
 // TK_SPTIME
 pub struct HappyBreak {
@@ -1734,7 +1544,7 @@ impl SkillBase for HappyBreak {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1742,16 +1552,6 @@ impl SkillBase for HappyBreak {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
-        Some(self)
-    }
-}
-impl PassiveSkillBase for HappyBreak {
 }
 // TK_POWER
 pub struct Kihop {
@@ -1811,7 +1611,7 @@ impl SkillBase for Kihop {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1820,15 +1620,19 @@ impl SkillBase for Kihop {
         true
     }
     #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl PassiveSkillBase for Kihop {
+impl OffensiveSkillBase for Kihop {
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // TK_SEVENWIND
 pub struct MildWind {
@@ -1943,22 +1747,22 @@ impl SkillBase for MildWind {
         Err(())
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for MildWind {
+impl OffensiveSkillBase for MildWind {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // TK_HIGHJUMP
@@ -2051,22 +1855,22 @@ impl SkillBase for TaekwonJump {
         0
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for TaekwonJump {
+impl OffensiveSkillBase for TaekwonJump {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // TK_MISSION
@@ -2142,23 +1946,5 @@ impl SkillBase for TaekwonMission {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1000
-    }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for TaekwonMission {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }

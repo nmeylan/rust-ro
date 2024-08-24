@@ -80,13 +80,13 @@ impl SkillBase for MusicLessons {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -172,7 +172,7 @@ impl SkillBase for MelodyStrike {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -481,38 +481,15 @@ impl SkillBase for UnbarringOctave {
        4000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for UnbarringOctave {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for UnbarringOctave {
 }
 // BA_WHISTLE
 pub struct PerfectTablature {
@@ -1181,23 +1158,15 @@ impl SkillBase for Amp {
         if status.sp() > 1 { Ok(1) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Amp {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for Amp {
 }
 // BD_ENCORE
 pub struct Encore {
@@ -1278,23 +1247,15 @@ impl SkillBase for Encore {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Encore {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for Encore {
 }
 // BD_LULLABY
 pub struct Lullaby {
@@ -2126,7 +2087,7 @@ impl SkillBase for PangVoice {
        20
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -2147,17 +2108,21 @@ impl SkillBase for PangVoice {
        2000
     }
     #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl OffensiveSkillBase for PangVoice {
+impl SupportiveSkillBase for PangVoice {
     #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Neutral
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
     }
 }

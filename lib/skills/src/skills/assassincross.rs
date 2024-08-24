@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::assassincross_base::{*};
@@ -20,7 +20,7 @@ impl Skill for EnchantDeadlyPoison {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for EnchantDeadlyPoison {
+impl SupportiveSkill for EnchantDeadlyPoison {
 }
 impl Skill for SoulDestroyer {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -38,13 +38,9 @@ impl Skill for MeteorAssault {
 }
 impl OffensiveSkill for MeteorAssault {
 }
-impl SelfSkill for MeteorAssault {
-}
 impl Skill for CreateDeadlyPoison {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl SelfSkill for CreateDeadlyPoison {
 }

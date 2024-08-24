@@ -95,10 +95,10 @@ impl SkillBase for Assumptio {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -193,6 +193,10 @@ impl SupportiveSkillBase for Assumptio {
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // HP_BASILICA
 pub struct Basilica {
@@ -270,7 +274,7 @@ impl SkillBase for Basilica {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -368,24 +372,6 @@ impl SkillBase for Basilica {
         }
         0
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for Basilica {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // HP_MEDITATIO
 pub struct Meditatio {
@@ -445,24 +431,62 @@ impl SkillBase for Meditatio {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
     }
     #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl PassiveSkillBase for Meditatio {
+impl SupportiveSkillBase for Meditatio {
+    #[inline(always)]
+    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 4 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 5 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 6 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 7 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 8 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 9 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        if self.level == 10 {
+            return TemporaryStatusBonuses(vec![]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
 }
 // HP_MANARECHARGE
 pub struct ManaRecharge {
@@ -522,7 +546,7 @@ impl SkillBase for ManaRecharge {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -530,14 +554,4 @@ impl SkillBase for ManaRecharge {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
-        Some(self)
-    }
-}
-impl PassiveSkillBase for ManaRecharge {
 }

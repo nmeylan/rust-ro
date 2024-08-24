@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::crusader_base::{*};
@@ -12,15 +12,13 @@ impl Skill for Faith {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl PassiveSkill for Faith {
-}
 impl Skill for Guard {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Guard {
+impl SupportiveSkill for Guard {
 }
 impl Skill for Smite {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -44,7 +42,7 @@ impl Skill for ShieldReflect {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for ShieldReflect {
+impl SupportiveSkill for ShieldReflect {
 }
 impl Skill for HolyCross {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -61,8 +59,6 @@ impl Skill for GrandCross {
     }
 }
 impl OffensiveSkill for GrandCross {
-}
-impl SelfSkill for GrandCross {
 }
 impl Skill for Sacrifice {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -86,7 +82,7 @@ impl Skill for DefendingAura {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for DefendingAura {
+impl SupportiveSkill for DefendingAura {
 }
 impl Skill for SpearQuicken {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -94,13 +90,11 @@ impl Skill for SpearQuicken {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for SpearQuicken {
+impl SupportiveSkill for SpearQuicken {
 }
 impl Skill for Shrink {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl SelfSkill for Shrink {
 }

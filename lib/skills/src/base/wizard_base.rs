@@ -309,22 +309,56 @@ impl SkillBase for Sightrasher {
        2000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Sightrasher {
+impl OffensiveSkillBase for Sightrasher {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.200)
+        }
+        if self.level == 2 {
+            return Some(1.400)
+        }
+        if self.level == 3 {
+            return Some(1.600)
+        }
+        if self.level == 4 {
+            return Some(1.800)
+        }
+        if self.level == 5 {
+            return Some(2.000)
+        }
+        if self.level == 6 {
+            return Some(2.200)
+        }
+        if self.level == 7 {
+            return Some(2.400)
+        }
+        if self.level == 8 {
+            return Some(2.600)
+        }
+        if self.level == 9 {
+            return Some(2.800)
+        }
+        if self.level == 10 {
+            return Some(3.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Fire
     }
 }
 // WZ_METEOR
@@ -628,7 +662,7 @@ impl SkillBase for JupitelThunder {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -956,12 +990,64 @@ impl SkillBase for LordofVermilion {
        5000
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for LordofVermilion {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       -10
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(1.200)
+        }
+        if self.level == 3 {
+            return Some(1.400)
+        }
+        if self.level == 4 {
+            return Some(1.600)
+        }
+        if self.level == 5 {
+            return Some(1.800)
+        }
+        if self.level == 6 {
+            return Some(2.000)
+        }
+        if self.level == 7 {
+            return Some(2.200)
+        }
+        if self.level == 8 {
+            return Some(2.400)
+        }
+        if self.level == 9 {
+            return Some(2.600)
+        }
+        if self.level == 10 {
+            return Some(3.800)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Wind
     }
 }
 impl GroundSkillBase for LordofVermilion {
@@ -1054,7 +1140,7 @@ impl SkillBase for WaterBall {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -1253,7 +1339,7 @@ impl SkillBase for IceWall {
         SkillTargetType::Ground
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -1442,52 +1528,56 @@ impl SkillBase for FrostNova {
        1000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for FrostNova {
+impl OffensiveSkillBase for FrostNova {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(73.330)
+        }
+        if self.level == 2 {
+            return Some(80.000)
+        }
+        if self.level == 3 {
+            return Some(86.670)
+        }
+        if self.level == 4 {
+            return Some(93.330)
+        }
+        if self.level == 5 {
+            return Some(100.000)
+        }
+        if self.level == 6 {
+            return Some(106.670)
+        }
+        if self.level == 7 {
+            return Some(113.330)
+        }
+        if self.level == 8 {
+            return Some(120.000)
+        }
+        if self.level == 9 {
+            return Some(126.670)
+        }
+        if self.level == 10 {
+            return Some(133.330)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
     }
 }
 // WZ_STORMGUST
@@ -1682,7 +1772,7 @@ impl SkillBase for EarthSpike {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         true
@@ -1995,7 +2085,7 @@ impl SkillBase for Quagmire {
         SkillTargetType::Ground
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -2092,10 +2182,10 @@ impl SkillBase for Sense {
        10
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -2105,23 +2195,15 @@ impl SkillBase for Sense {
         if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl OffensiveSkillBase for Sense {
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Neutral
-    }
+impl InteractiveSkillBase for Sense {
 }
 // WZ_SIGHTBLASTER
 pub struct SightBlaster {
@@ -2184,7 +2266,7 @@ impl SkillBase for SightBlaster {
         SkillTargetType::MySelf
     }
     fn _is_magic(&self) -> bool {
-        true
+        false
     }
     fn _is_physical(&self) -> bool {
         false
@@ -2196,23 +2278,5 @@ impl SkillBase for SightBlaster {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
-    }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for SightBlaster {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }

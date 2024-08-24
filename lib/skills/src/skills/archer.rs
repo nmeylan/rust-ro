@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::archer_base::{*};
@@ -28,7 +28,7 @@ impl Skill for ImproveConcentration {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for ImproveConcentration {
+impl SupportiveSkill for ImproveConcentration {
 }
 impl Skill for DoubleStrafe {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -54,7 +54,7 @@ impl Skill for ArrowCrafting {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for ArrowCrafting {
+impl InteractiveSkill for ArrowCrafting {
 }
 impl Skill for ArrowRepel {
     fn new(level: u8) -> Option<Self> where Self : Sized {

@@ -80,7 +80,7 @@ impl SkillBase for Faith {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -88,16 +88,6 @@ impl SkillBase for Faith {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
-        Some(self)
-    }
-}
-impl PassiveSkillBase for Faith {
 }
 // CR_AUTOGUARD
 pub struct Guard {
@@ -193,7 +183,7 @@ impl SkillBase for Guard {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -239,15 +229,15 @@ impl SkillBase for Guard {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Guard {
+impl SupportiveSkillBase for Guard {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -365,7 +355,7 @@ impl SkillBase for Smite {
        10
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -482,7 +472,7 @@ impl SkillBase for ShieldBoomerang {
        12
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -639,7 +629,7 @@ impl SkillBase for ShieldReflect {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -685,15 +675,15 @@ impl SkillBase for ShieldReflect {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for ShieldReflect {
+impl SupportiveSkillBase for ShieldReflect {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -831,7 +821,7 @@ impl SkillBase for HolyCross {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1020,7 +1010,7 @@ impl SkillBase for GrandCross {
         true
     }
     fn _is_physical(&self) -> bool {
-        false
+        true
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1070,14 +1060,6 @@ impl SkillBase for GrandCross {
     }
     #[inline(always)]
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
-        Some(self)
-    }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
         Some(self)
     }
 }
@@ -1159,16 +1141,6 @@ impl OffensiveSkillBase for GrandCross {
         Element::Holy
     }
 }
-impl SelfSkillBase for GrandCross {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-}
 // CR_DEVOTION
 pub struct Sacrifice {
     pub(crate) level: u8,
@@ -1227,7 +1199,7 @@ impl SkillBase for Sacrifice {
        25
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1255,6 +1227,10 @@ impl SkillBase for Sacrifice {
 impl SupportiveSkillBase for Sacrifice {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -1316,7 +1292,7 @@ impl SkillBase for ResistantSouls {
        30
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1344,31 +1320,10 @@ impl SkillBase for ResistantSouls {
 impl SupportiveSkillBase for ResistantSouls {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 5), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 5), 2, tick, 180000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 10), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 10), 2, tick, 180000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 15), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 15), 2, tick, 180000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 20), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 20), 2, tick, 180000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 25), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 25), 2, tick, 180000),]);
-        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -1436,7 +1391,7 @@ impl SkillBase for DefendingAura {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1456,15 +1411,15 @@ impl SkillBase for DefendingAura {
        800
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for DefendingAura {
+impl SupportiveSkillBase for DefendingAura {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -1593,7 +1548,7 @@ impl SkillBase for SpearQuicken {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1638,15 +1593,15 @@ impl SkillBase for SpearQuicken {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for SpearQuicken {
+impl SupportiveSkillBase for SpearQuicken {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -1760,7 +1715,7 @@ impl SkillBase for Shrink {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1774,23 +1729,5 @@ impl SkillBase for Shrink {
         } else {
             Err(())
         }
-    }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for Shrink {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }

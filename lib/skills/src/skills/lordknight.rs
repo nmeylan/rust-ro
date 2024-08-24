@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::lordknight_base::{*};
@@ -12,7 +12,7 @@ impl Skill for AuraBlade {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for AuraBlade {
+impl SupportiveSkill for AuraBlade {
 }
 impl Skill for Parrying {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -20,7 +20,7 @@ impl Skill for Parrying {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Parrying {
+impl SupportiveSkill for Parrying {
 }
 impl Skill for Concentration {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -28,7 +28,7 @@ impl Skill for Concentration {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Concentration {
+impl SupportiveSkill for Concentration {
 }
 impl Skill for Relax {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -36,7 +36,7 @@ impl Skill for Relax {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Relax {
+impl SupportiveSkill for Relax {
 }
 impl Skill for Frenzy {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -44,7 +44,7 @@ impl Skill for Frenzy {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Frenzy {
+impl SupportiveSkill for Frenzy {
 }
 impl Skill for SpiralPierce {
     fn new(level: u8) -> Option<Self> where Self : Sized {

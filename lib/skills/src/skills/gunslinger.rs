@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::gunslinger_base::{*};
@@ -12,7 +12,7 @@ impl Skill for FliptheCoin {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for FliptheCoin {
+impl InteractiveSkill for FliptheCoin {
 }
 impl Skill for Fling {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -44,7 +44,7 @@ impl Skill for MadnessCanceller {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for MadnessCanceller {
+impl OffensiveSkill for MadnessCanceller {
 }
 impl Skill for AdJustment {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -52,7 +52,7 @@ impl Skill for AdJustment {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for AdJustment {
+impl OffensiveSkill for AdJustment {
 }
 impl Skill for IncreasingAccuracy {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -60,7 +60,7 @@ impl Skill for IncreasingAccuracy {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for IncreasingAccuracy {
+impl SupportiveSkill for IncreasingAccuracy {
 }
 impl Skill for MagicalBullet {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -84,15 +84,11 @@ impl Skill for SingleAction {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl PassiveSkill for SingleAction {
-}
 impl Skill for SnakeEye {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
-}
-impl PassiveSkill for SnakeEye {
 }
 impl Skill for ChainAction {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -100,7 +96,7 @@ impl Skill for ChainAction {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl PassiveSkill for ChainAction {
+impl OffensiveSkill for ChainAction {
 }
 impl Skill for Tracking {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -142,15 +138,13 @@ impl Skill for Desperado {
 }
 impl OffensiveSkill for Desperado {
 }
-impl SelfSkill for Desperado {
-}
 impl Skill for GatlingFever {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for GatlingFever {
+impl OffensiveSkill for GatlingFever {
 }
 impl Skill for Dust {
     fn new(level: u8) -> Option<Self> where Self : Sized {

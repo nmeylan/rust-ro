@@ -95,7 +95,7 @@ impl SkillBase for RagingPalmStrike {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -274,22 +274,22 @@ impl SkillBase for GlacierFist {
         Err(())
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for GlacierFist {
+impl OffensiveSkillBase for GlacierFist {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Weapon
     }
 }
 // CH_CHAINCRUSH
@@ -430,14 +430,6 @@ impl SkillBase for ChainCrushCombo {
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
 }
 impl OffensiveSkillBase for ChainCrushCombo {
     #[inline(always)]
@@ -513,16 +505,6 @@ impl OffensiveSkillBase for ChainCrushCombo {
         Element::Weapon
     }
 }
-impl SelfSkillBase for ChainCrushCombo {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-}
 // CH_SOULCOLLECT
 pub struct Zen {
     pub(crate) level: u8,
@@ -596,23 +578,5 @@ impl SkillBase for Zen {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        2000
-    }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for Zen {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }

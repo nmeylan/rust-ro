@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 
 
-use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, SelfSkill};
+use crate::{Skill, PassiveSkill, SupportiveSkill, PerformanceSkill, OffensiveSkill, GroundSkill, InteractiveSkill};
 
 
 use crate::base::thief_base::{*};
@@ -28,7 +28,7 @@ impl Skill for Steal {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl OffensiveSkill for Steal {
+impl InteractiveSkill for Steal {
 }
 impl Skill for Hiding {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -36,7 +36,7 @@ impl Skill for Hiding {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for Hiding {
+impl InteractiveSkill for Hiding {
 }
 impl Skill for Envenom {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -68,7 +68,7 @@ impl Skill for BackSlide {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for BackSlide {
+impl InteractiveSkill for BackSlide {
 }
 impl Skill for FindStone {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -76,7 +76,7 @@ impl Skill for FindStone {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SelfSkill for FindStone {
+impl InteractiveSkill for FindStone {
 }
 impl Skill for StoneFling {
     fn new(level: u8) -> Option<Self> where Self : Sized {

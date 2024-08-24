@@ -80,13 +80,13 @@ impl SkillBase for IronFists {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -157,13 +157,13 @@ impl SkillBase for SpiritualCadence {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -251,23 +251,15 @@ impl SkillBase for SummonSpiritSphere {
        1000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for SummonSpiritSphere {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for SummonSpiritSphere {
 }
 // MO_ABSORBSPIRITS
 pub struct AbsorbSpiritSphere {
@@ -327,13 +319,13 @@ impl SkillBase for AbsorbSpiritSphere {
        5
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -344,19 +336,15 @@ impl SkillBase for AbsorbSpiritSphere {
        2000
     }
     #[inline(always)]
-    fn is_supportive_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SupportiveSkillBase for AbsorbSpiritSphere {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for AbsorbSpiritSphere {
 }
 // MO_TRIPLEATTACK
 pub struct RagingTrifectaBlow {
@@ -416,21 +404,13 @@ impl SkillBase for RagingTrifectaBlow {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
-        Some(self)
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -439,50 +419,6 @@ impl SkillBase for RagingTrifectaBlow {
     #[inline(always)]
     fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
         Some(self)
-    }
-}
-impl OffensiveSkillBase for RagingTrifectaBlow {
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       -3
-    }
-    #[inline(always)]
-    fn _dmg_atk(&self) -> Option<f32> {
-        if self.level == 1 {
-            return Some(1.200)
-        }
-        if self.level == 2 {
-            return Some(1.400)
-        }
-        if self.level == 3 {
-            return Some(1.600)
-        }
-        if self.level == 4 {
-            return Some(1.800)
-        }
-        if self.level == 5 {
-            return Some(2.000)
-        }
-        if self.level == 6 {
-            return Some(2.200)
-        }
-        if self.level == 7 {
-            return Some(2.400)
-        }
-        if self.level == 8 {
-            return Some(2.600)
-        }
-        if self.level == 9 {
-            return Some(2.800)
-        }
-        if self.level == 10 {
-            return Some(3.000)
-        }
-        None
-    }
-    #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Weapon
     }
 }
 impl PassiveSkillBase for RagingTrifectaBlow {
@@ -558,6 +494,14 @@ impl SkillBase for Snap {
         if status.sp() > 14 { Ok(14) } else {Err(())}
     }
     #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -565,6 +509,8 @@ impl SkillBase for Snap {
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
+}
+impl InteractiveSkillBase for Snap {
 }
 impl GroundSkillBase for Snap {
 }
@@ -626,13 +572,13 @@ impl SkillBase for Dodge {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -718,7 +664,7 @@ impl SkillBase for OccultImpaction {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -849,7 +795,7 @@ impl SkillBase for ThrowSpiritSphere {
        10
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -986,7 +932,7 @@ impl SkillBase for MentalStrength {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -997,15 +943,15 @@ impl SkillBase for MentalStrength {
        5000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for MentalStrength {
+impl SupportiveSkillBase for MentalStrength {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -1104,7 +1050,7 @@ impl SkillBase for Root {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1120,23 +1066,15 @@ impl SkillBase for Root {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Root {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for Root {
 }
 // MO_EXPLOSIONSPIRITS
 pub struct Fury {
@@ -1202,50 +1140,22 @@ impl SkillBase for Fury {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Fury {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(10.0), 2, tick, 180000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(12.5), 2, tick, 180000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(15.0), 2, tick, 180000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(17.5), 2, tick, 180000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(20.0), 2, tick, 180000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for Fury {
 }
 // MO_EXTREMITYFIST
 pub struct AsuraStrike {
@@ -1305,7 +1215,7 @@ impl SkillBase for AsuraStrike {
        1
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1528,14 +1438,6 @@ impl SkillBase for RagingQuadrupleBlow {
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
 }
 impl OffensiveSkillBase for RagingQuadrupleBlow {
     #[inline(always)]
@@ -1564,16 +1466,6 @@ impl OffensiveSkillBase for RagingQuadrupleBlow {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
-    }
-}
-impl SelfSkillBase for RagingQuadrupleBlow {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 // MO_COMBOFINISH
@@ -1693,14 +1585,6 @@ impl SkillBase for RagingThrust {
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
 }
 impl OffensiveSkillBase for RagingThrust {
     #[inline(always)]
@@ -1729,16 +1613,6 @@ impl OffensiveSkillBase for RagingThrust {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
-    }
-}
-impl SelfSkillBase for RagingThrust {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 // MO_KITRANSLATION
@@ -1799,13 +1673,13 @@ impl SkillBase for KiTranslation {
        40
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1831,6 +1705,10 @@ impl SkillBase for KiTranslation {
 impl SupportiveSkillBase for KiTranslation {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -1892,13 +1770,13 @@ impl SkillBase for KiExplosion {
        20
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1911,23 +1789,5 @@ impl SkillBase for KiExplosion {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
-    }
-    #[inline(always)]
-    fn is_offensive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
-        Some(self)
-    }
-}
-impl OffensiveSkillBase for KiExplosion {
-    #[inline(always)]
-    fn _hit_count(&self) -> i8 {
-       1
-    }
-    #[inline(always)]
-    fn _element(&self) -> Element {
-        Element::Weapon
     }
 }

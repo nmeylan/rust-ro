@@ -93,43 +93,15 @@ impl SkillBase for FliptheCoin {
         if status.sp() > 2 { Ok(2) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for FliptheCoin {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(500, 30.0), 2, tick, 600000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(500, 40.0), 2, tick, 600000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(500, 50.0), 2, tick, 600000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(500, 60.0), 2, tick, 600000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(500, 70.0), 2, tick, 600000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for FliptheCoin {
 }
 // GS_FLING
 pub struct Fling {
@@ -189,13 +161,13 @@ impl SkillBase for Fling {
        10
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        false
+        true
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -278,7 +250,7 @@ impl SkillBase for TripleAction {
        20
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -379,7 +351,7 @@ impl SkillBase for BullsEye {
        30
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -505,27 +477,22 @@ impl SkillBase for MadnessCanceller {
        4000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for MadnessCanceller {
+impl OffensiveSkillBase for MadnessCanceller {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(100), 2, tick, 15000),
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(20.0), 2, tick, 15000),]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // GS_ADJUSTMENT
@@ -607,27 +574,22 @@ impl SkillBase for AdJustment {
        1000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for AdJustment {
+impl OffensiveSkillBase for AdJustment {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Flee(30), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Hit(-30), 2, tick, 30000),]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // GS_INCREASING
@@ -694,7 +656,7 @@ impl SkillBase for IncreasingAccuracy {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -705,15 +667,15 @@ impl SkillBase for IncreasingAccuracy {
        1000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_supportive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for IncreasingAccuracy {
+impl SupportiveSkillBase for IncreasingAccuracy {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
@@ -787,7 +749,7 @@ impl SkillBase for MagicalBullet {
        7
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -884,7 +846,7 @@ impl SkillBase for Cracker {
        10
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -985,7 +947,7 @@ impl SkillBase for SingleAction {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -993,16 +955,6 @@ impl SkillBase for SingleAction {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
-        Some(self)
-    }
-}
-impl PassiveSkillBase for SingleAction {
 }
 // GS_SNAKEEYE
 pub struct SnakeEye {
@@ -1062,7 +1014,7 @@ impl SkillBase for SnakeEye {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1070,16 +1022,6 @@ impl SkillBase for SnakeEye {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
-        Some(self)
-    }
-}
-impl PassiveSkillBase for SnakeEye {
 }
 // GS_CHAINACTION
 pub struct ChainAction {
@@ -1139,7 +1081,7 @@ impl SkillBase for ChainAction {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1148,15 +1090,23 @@ impl SkillBase for ChainAction {
         true
     }
     #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl PassiveSkillBase for ChainAction {
+impl OffensiveSkillBase for ChainAction {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       2
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
 }
 // GS_TRACKING
 pub struct Tracking {
@@ -1246,7 +1196,7 @@ impl SkillBase for Tracking {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1464,7 +1414,7 @@ impl SkillBase for Disarm {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1603,7 +1553,7 @@ impl SkillBase for PiercingShot {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1776,7 +1726,7 @@ impl SkillBase for RapidShower {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -2049,14 +1999,6 @@ impl SkillBase for Desperado {
     fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
 }
 impl OffensiveSkillBase for Desperado {
     #[inline(always)]
@@ -2100,16 +2042,6 @@ impl OffensiveSkillBase for Desperado {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
-    }
-}
-impl SelfSkillBase for Desperado {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 // GS_GATLINGFEVER
@@ -2251,92 +2183,22 @@ impl SkillBase for GatlingFever {
         }
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for GatlingFever {
+impl OffensiveSkillBase for GatlingFever {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(2.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Atk(30), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-5), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 30000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(4.0), 2, tick, 45000),
-                TemporaryStatusBonus::with_duration(BonusType::Atk(40), 2, tick, 45000),
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-10), 2, tick, 45000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 45000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(6.0), 2, tick, 60000),
-                TemporaryStatusBonus::with_duration(BonusType::Atk(50), 2, tick, 60000),
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-15), 2, tick, 60000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 60000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(8.0), 2, tick, 75000),
-                TemporaryStatusBonus::with_duration(BonusType::Atk(60), 2, tick, 75000),
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-20), 2, tick, 75000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 75000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(10.0), 2, tick, 90000),
-                TemporaryStatusBonus::with_duration(BonusType::Atk(70), 2, tick, 90000),
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-25), 2, tick, 90000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 90000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(12.0), 2, tick, 105000),
-                TemporaryStatusBonus::with_duration(BonusType::Atk(80), 2, tick, 105000),
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-30), 2, tick, 105000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 105000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(14.0), 2, tick, 120000),
-                TemporaryStatusBonus::with_duration(BonusType::Atk(90), 2, tick, 120000),
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-35), 2, tick, 120000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 120000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(16.0), 2, tick, 135000),
-                TemporaryStatusBonus::with_duration(BonusType::Atk(100), 2, tick, 135000),
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-40), 2, tick, 135000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 135000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(18.0), 2, tick, 150000),
-                TemporaryStatusBonus::with_duration(BonusType::Atk(110), 2, tick, 150000),
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-45), 2, tick, 150000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 150000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(20.0), 2, tick, 165000),
-                TemporaryStatusBonus::with_duration(BonusType::Atk(120), 2, tick, 165000),
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-50), 2, tick, 165000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-100), 2, tick, 165000),]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
     }
     #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
+    fn _element(&self) -> Element {
+        Element::Ammo
     }
 }
 // GS_DUST
@@ -2427,7 +2289,7 @@ impl SkillBase for Dust {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -2634,7 +2496,7 @@ impl SkillBase for FullBuster {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -2893,7 +2755,7 @@ impl SkillBase for SpreadAttack {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false

@@ -204,13 +204,13 @@ impl SkillBase for FullProtection {
        40
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -240,6 +240,10 @@ impl SkillBase for FullProtection {
 impl SupportiveSkillBase for FullProtection {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -301,10 +305,10 @@ impl SkillBase for AcidDemonstration {
        30
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        false
+        true
     }
     fn _is_physical(&self) -> bool {
         false

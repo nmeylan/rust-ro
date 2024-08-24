@@ -80,13 +80,13 @@ impl SkillBase for AxeMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn is_passive_skill(&self) -> bool {
@@ -157,7 +157,7 @@ impl SkillBase for PotionResearch {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -165,16 +165,6 @@ impl SkillBase for PotionResearch {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
-        Some(self)
-    }
-}
-impl PassiveSkillBase for PotionResearch {
 }
 // AM_PHARMACY
 pub struct PreparePotion {
@@ -255,53 +245,15 @@ impl SkillBase for PreparePotion {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for PreparePotion {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for PreparePotion {
 }
 // AM_DEMONSTRATION
 pub struct Bomb {
@@ -364,10 +316,10 @@ impl SkillBase for Bomb {
         SkillTargetType::Ground
     }
     fn _is_magic(&self) -> bool {
-        false
+        true
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -491,13 +443,13 @@ impl SkillBase for AcidTerror {
        15
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Attack
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        false
+        true
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -611,10 +563,10 @@ impl SkillBase for AidPotion {
        1
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
-        false
+        true
     }
     fn _is_physical(&self) -> bool {
         false
@@ -663,33 +615,22 @@ impl SkillBase for AidPotion {
        500
     }
     #[inline(always)]
-    fn is_supportive_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl SupportiveSkillBase for AidPotion {
+impl OffensiveSkillBase for AidPotion {
     #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 // AM_CANNIBALIZE
@@ -779,6 +720,14 @@ impl SkillBase for SummonFlora {
        500
     }
     #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -786,6 +735,8 @@ impl SkillBase for SummonFlora {
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
+}
+impl InteractiveSkillBase for SummonFlora {
 }
 impl GroundSkillBase for SummonFlora {
 }
@@ -876,6 +827,14 @@ impl SkillBase for SummonMarineSphere {
        500
     }
     #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -883,6 +842,8 @@ impl SkillBase for SummonMarineSphere {
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
+}
+impl InteractiveSkillBase for SummonMarineSphere {
 }
 impl GroundSkillBase for SummonMarineSphere {
 }
@@ -944,13 +905,13 @@ impl SkillBase for AlchemicalWeapon {
        30
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -980,6 +941,10 @@ impl SkillBase for AlchemicalWeapon {
 impl SupportiveSkillBase for AlchemicalWeapon {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -1041,13 +1006,13 @@ impl SkillBase for SynthesizedShield {
        25
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1077,6 +1042,10 @@ impl SkillBase for SynthesizedShield {
 impl SupportiveSkillBase for SynthesizedShield {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -1138,13 +1107,13 @@ impl SkillBase for SyntheticArmor {
        25
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1174,6 +1143,10 @@ impl SkillBase for SyntheticArmor {
 impl SupportiveSkillBase for SyntheticArmor {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -1235,13 +1208,13 @@ impl SkillBase for BiochemicalHelm {
        25
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
     }
     fn _is_physical(&self) -> bool {
-        true
+        false
     }
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
@@ -1271,6 +1244,10 @@ impl SkillBase for BiochemicalHelm {
 impl SupportiveSkillBase for BiochemicalHelm {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -1332,7 +1309,7 @@ impl SkillBase for Bioethics {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Passive
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1340,16 +1317,6 @@ impl SkillBase for Bioethics {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn is_passive_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
-        Some(self)
-    }
-}
-impl PassiveSkillBase for Bioethics {
 }
 // AM_CALLHOMUN
 pub struct CallHomunculus {
@@ -1430,23 +1397,15 @@ impl SkillBase for CallHomunculus {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for CallHomunculus {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for CallHomunculus {
 }
 // AM_REST
 pub struct Vaporize {
@@ -1519,23 +1478,15 @@ impl SkillBase for Vaporize {
         if status.sp() > 50 { Ok(50) } else {Err(())}
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for Vaporize {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for Vaporize {
 }
 // AM_RESURRECTHOMUN
 pub struct HomunculusResurrection {
@@ -1642,23 +1593,15 @@ impl SkillBase for HomunculusResurrection {
        2000
     }
     #[inline(always)]
-    fn is_self_skill(&self) -> bool {
+    fn is_interactive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
         Some(self)
     }
 }
-impl SelfSkillBase for HomunculusResurrection {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
+impl InteractiveSkillBase for HomunculusResurrection {
 }
 // AM_BERSERKPITCHER
 pub struct AidBerserkPotion {
@@ -1718,7 +1661,7 @@ impl SkillBase for AidBerserkPotion {
        10
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Support
+        SkillTargetType::Target
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1754,6 +1697,10 @@ impl SkillBase for AidBerserkPotion {
 impl SupportiveSkillBase for AidBerserkPotion {
     #[inline(always)]
     fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
+    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -1843,24 +1790,6 @@ impl SkillBase for TwilightAlchemy1 {
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for TwilightAlchemy1 {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AM_TWILIGHT2
 pub struct TwilightAlchemy2 {
@@ -1948,24 +1877,6 @@ impl SkillBase for TwilightAlchemy2 {
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
     }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for TwilightAlchemy2 {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AM_TWILIGHT3
 pub struct TwilightAlchemy3 {
@@ -2052,23 +1963,5 @@ impl SkillBase for TwilightAlchemy3 {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
-    }
-    #[inline(always)]
-    fn is_self_skill(&self) -> bool {
-        true
-    }
-    #[inline(always)]
-    fn as_self_skill(&self) -> Option<&dyn SelfSkill> {
-        Some(self)
-    }
-}
-impl SelfSkillBase for TwilightAlchemy3 {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
