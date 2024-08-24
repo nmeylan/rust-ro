@@ -50,12 +50,19 @@ pub enum SkillType {
 pub enum SkillTargetType {
     #[value = 0]
     #[default]
+    Passive,
+    #[value = 1]
     Target,
+    #[value = 2]
+    Ground,
+    #[value = 4]
     #[value_string = "Self"]
     MySelf,
+    #[value = 4]
     Party,
-    Ground,
-    #[value = 11]
+    #[value = 16]
+    Friend,
+    #[value = 32]
     Trap,
 }
 

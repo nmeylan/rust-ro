@@ -1,5 +1,6 @@
 use std::any::Any;
 use models::enums::element::Element;
+use models::enums::EnumWithNumberValue;
 use models::enums::skill::{SkillTargetType, UseSkillFailure};
 use models::enums::status::StatusEffect;
 use models::enums::weapon::{AmmoType};
@@ -131,17 +132,39 @@ pub trait SkillBase {
 
     fn _is_magic(&self) -> bool;
     fn _is_physical(&self) -> bool;
+
+    fn _bonuses_to_self(&self, _tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::empty()
+    }
+    fn _bonuses_to_target(&self, _tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::empty()
+    }
+    fn _bonuses_to_party(&self, _tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::empty()
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        self._target_type().value()
+    }
 }
 
 pub trait Skill: SkillBase {
-    fn as_base(&self) -> &dyn SkillBase where Self: Sized {
+    fn as_base(&self) -> &dyn SkillBase
+    where
+        Self: Sized,
+    {
         self as &dyn SkillBase
     }
-    fn as_base_mut(&mut self) -> &mut dyn SkillBase where Self: Sized {
+    fn as_base_mut(&mut self) -> &mut dyn SkillBase
+    where
+        Self: Sized,
+    {
         self as &mut dyn SkillBase
     }
 
-    fn new(level: u8) -> Option<Self> where Self: Sized;
+    fn new(level: u8) -> Option<Self>
+    where
+        Self: Sized;
     fn level(&self) -> u8 {
         self._level()
     }
@@ -165,7 +188,7 @@ pub trait Skill: SkillBase {
     }
 
     #[inline(always)]
-    fn sp_cost(&self) -> u16{
+    fn sp_cost(&self) -> u16 {
         self._sp_cost()
     }
     #[inline(always)]
@@ -186,11 +209,11 @@ pub trait Skill: SkillBase {
         self._validate_ammo(_character_ammo)
     }
     #[inline(always)]
-    fn validate_state(&self, _status: &StatusSnapshot) -> SkillRequirementResult<()>  {
+    fn validate_state(&self, _status: &StatusSnapshot) -> SkillRequirementResult<()> {
         self._validate_state(_status)
     }
     #[inline(always)]
-    fn validate_zeny(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32>  {
+    fn validate_zeny(&self, _status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         self._validate_zeny(_status)
     }
     #[inline(always)]
@@ -216,7 +239,7 @@ pub trait Skill: SkillBase {
     }
 
     #[inline(always)]
-    fn skip_item_validation(&self, _state: Option<u64>) -> bool  {
+    fn skip_item_validation(&self, _state: Option<u64>) -> bool {
         self._skip_item_validation(_state)
     }
 
@@ -225,7 +248,7 @@ pub trait Skill: SkillBase {
         self._base_cast_time()
     }
     #[inline(always)]
-    fn base_after_cast_act_delay(&self) -> u32{
+    fn base_after_cast_act_delay(&self) -> u32 {
         self._base_after_cast_act_delay()
     }
     #[inline(always)]
@@ -234,7 +257,7 @@ pub trait Skill: SkillBase {
     }
 
     #[inline(always)]
-    fn update_cast_time(&mut self, _new_value: u32)  {
+    fn update_cast_time(&mut self, _new_value: u32) {
         self._update_cast_time(_new_value)
     }
     #[inline(always)]
@@ -242,7 +265,7 @@ pub trait Skill: SkillBase {
         self._update_after_cast_act_delay(_new_value)
     }
     #[inline(always)]
-    fn update_after_cast_walk_delay(&mut self, _new_value: u32)  {
+    fn update_after_cast_walk_delay(&mut self, _new_value: u32) {
         self._update_after_cast_walk_delay(_new_value)
     }
 
@@ -251,7 +274,7 @@ pub trait Skill: SkillBase {
         self._cast_time()
     }
     #[inline(always)]
-    fn after_cast_act_delay(&self) -> u32  {
+    fn after_cast_act_delay(&self) -> u32 {
         self._after_cast_act_delay()
     }
     #[inline(always)]
@@ -266,6 +289,24 @@ pub trait Skill: SkillBase {
     #[inline(always)]
     fn is_physical(&self) -> bool {
         self._is_physical()
+    }
+
+    #[inline(always)]
+    fn bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
+        self._bonuses_to_self(tick)
+    }
+    #[inline(always)]
+    fn bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        self._bonuses_to_target(tick)
+    }
+    #[inline(always)]
+    fn bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
+        self._bonuses_to_party(tick)
+    }
+
+    #[inline(always)]
+    fn client_type(&self) -> usize {
+        self._client_type()
     }
 }
 
@@ -287,8 +328,6 @@ pub trait OffensiveSkillBase: Skill {
     fn _inflict_status_effect(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {
         None
     }
-
-
 }
 pub trait OffensiveSkill: OffensiveSkillBase {
     #[inline(always)]
@@ -313,36 +352,16 @@ pub trait OffensiveSkill: OffensiveSkillBase {
     }
 }
 
-pub trait SupportiveSkillBase: Skill {
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses;
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses;
-}
-pub trait SupportiveSkill: SupportiveSkillBase {
-    #[inline(always)]
-    fn bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        self._bonuses(tick)
-    }
-    #[inline(always)]
-    fn bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        self._bonuses_to_party(tick)
-    }
-}
+pub trait SupportiveSkillBase: Skill {}
+pub trait SupportiveSkill: SupportiveSkillBase {}
 
-pub trait PerformanceSkillBase: Skill {
-}
-pub trait PerformanceSkill: PerformanceSkillBase {
-}
+pub trait PerformanceSkillBase: Skill {}
+pub trait PerformanceSkill: PerformanceSkillBase {}
 
-pub trait PassiveSkillBase: Skill {
-}
-pub trait PassiveSkill: PassiveSkillBase {
-}
+pub trait PassiveSkillBase: Skill {}
+pub trait PassiveSkill: PassiveSkillBase {}
 
-pub trait GroundSkillBase: Skill {
-}
-pub trait GroundSkill: GroundSkillBase {
-}
-pub trait InteractiveSkillBase: Skill {
-}
-pub trait InteractiveSkill: InteractiveSkillBase {
-}
+pub trait GroundSkillBase: Skill {}
+pub trait GroundSkill: GroundSkillBase {}
+pub trait InteractiveSkillBase: Skill {}
+pub trait InteractiveSkill: InteractiveSkillBase {}

@@ -80,7 +80,7 @@ impl SkillBase for SwordMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -157,7 +157,7 @@ impl SkillBase for TwoHandedSwordMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -234,7 +234,7 @@ impl SkillBase for IncreaseHpRecovery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -583,76 +583,12 @@ impl SkillBase for Provoke {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for Provoke {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(6, 73.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(5), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Def(-10), 2, tick, 30000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(6, 76.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(8), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Def(-15), 2, tick, 30000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(6, 79.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(11), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Def(-20), 2, tick, 30000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(6, 82.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(14), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Def(-25), 2, tick, 30000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(6, 85.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(17), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Def(-30), 2, tick, 30000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(6, 88.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(20), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Def(-35), 2, tick, 30000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(6, 91.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(23), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Def(-40), 2, tick, 30000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(6, 94.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(36), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Def(-45), 2, tick, 30000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(6, 97.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(20), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Def(-50), 2, tick, 30000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(6, 100.0), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(32), 2, tick, 30000),
-                TemporaryStatusBonus::with_duration(BonusType::Def(-55), 2, tick, 30000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // SM_MAGNUM
 pub struct MagnumBreak {
@@ -893,56 +829,12 @@ impl SkillBase for Endure {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for Endure {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Mdef(1), 2, tick, 10000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Mdef(2), 2, tick, 13000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Mdef(3), 2, tick, 16000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Mdef(4), 2, tick, 19000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Mdef(5), 2, tick, 22000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Mdef(6), 2, tick, 25000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Mdef(7), 2, tick, 28000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Mdef(8), 2, tick, 31000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Mdef(9), 2, tick, 34000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Mdef(10), 2, tick, 37000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // SM_MOVINGRECOVERY
 pub struct MovingHpRecovery {
@@ -1002,7 +894,7 @@ impl SkillBase for MovingHpRecovery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1079,7 +971,7 @@ impl SkillBase for FatalBlow {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1156,7 +1048,7 @@ impl SkillBase for AutoBerserk {
        1
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false

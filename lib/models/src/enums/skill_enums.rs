@@ -7,49 +7,49 @@
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super Novice Sword Mastery
+    // Swordsman Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
-    // Super Novice Increase HP Recovery
+    // Swordsman Increase HP Recovery
     SmRecovery,
-    // Super Novice Bash
+    // Swordsman Bash
     SmBash,
-    // Super Novice Provoke
+    // Swordsman Provoke
     SmProvoke,
-    // Super Novice Magnum Break
+    // Swordsman Magnum Break
     SmMagnum,
-    // Super Novice Endure
+    // Swordsman Endure
     SmEndure,
-    // Mage Increase SP Recovery
+    // Priest Increase SP Recovery
     MgSrecovery,
-    // Mage Sight
+    // Super Novice Sight
     MgSight,
-    // Mage Napalm Beat
+    // Super Novice Napalm Beat
     MgNapalmbeat,
-    // Mage Safety Wall
+    // Priest Safety Wall
     MgSafetywall,
-    // Mage Soul Strike
+    // Super Novice Soul Strike
     MgSoulstrike,
-    // Mage Cold Bolt
+    // Super Novice Cold Bolt
     MgColdbolt,
-    // Mage Frost Diver
+    // Super Novice Frost Diver
     MgFrostdiver,
-    // Mage Stone Curse
+    // Super Novice Stone Curse
     MgStonecurse,
-    // Mage Fire Ball
+    // Super Novice Fire Ball
     MgFireball,
-    // Mage Fire Wall
+    // Super Novice Fire Wall
     MgFirewall,
-    // Mage Fire Bolt
+    // Super Novice Fire Bolt
     MgFirebolt,
-    // Mage Lightning Bolt
+    // Super Novice Lightning Bolt
     MgLightningbolt,
-    // Mage Thunder Storm
+    // Super Novice Thunder Storm
     MgThunderstorm,
-    // Super Novice Divine Protection
+    // Crusader Divine Protection
     AlDp,
-    // Super Novice Demon Bane
+    // Crusader Demon Bane
     AlDemonbane,
     // Super Novice Ruwach
     AlRuwach,
@@ -59,7 +59,7 @@ pub enum SkillEnum {
     AlTeleport,
     // Super Novice Warp Portal
     AlWarp,
-    // Super Novice Heal
+    // Crusader Heal
     AlHeal,
     // Super Novice Increase AGI
     AlIncagi,
@@ -73,27 +73,27 @@ pub enum SkillEnum {
     AlAngelus,
     // Super Novice Blessing
     AlBlessing,
-    // Super Novice Cure
+    // Crusader Cure
     AlCure,
-    // Merchant Enlarge Weight Limit
+    // Super Novice Enlarge Weight Limit
     McInccarry,
-    // Merchant Discount
+    // Super Novice Discount
     McDiscount,
-    // Merchant Overcharge
+    // Super Novice Overcharge
     McOvercharge,
-    // Merchant Pushcart
+    // Super Novice Pushcart
     McPushcart,
-    // Merchant Item Appraisal
+    // Super Novice Item Appraisal
     McIdentify,
-    // Merchant Vending
+    // Super Novice Vending
     McVending,
-    // Merchant Mammonite
+    // Super Novice Mammonite
     McMammonite,
-    // Archer Owl's Eye
+    // Super Novice Owl's Eye
     AcOwl,
-    // Archer Vulture's Eye
+    // Super Novice Vulture's Eye
     AcVulture,
-    // Archer Improve Concentration
+    // Super Novice Improve Concentration
     AcConcentration,
     // Archer Double Strafe
     AcDouble,
@@ -113,7 +113,7 @@ pub enum SkillEnum {
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Crusader Spear Mastery
+    // Knight Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +129,9 @@ pub enum SkillEnum {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Crusader Peco Peco Riding
+    // Knight Peco Peco Riding
     KnRiding,
-    // Crusader Cavalier Mastery
+    // Knight Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -181,13 +181,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Sage Earth Spike
+    // Wizard Earth Spike
     WzEarthspike,
-    // Sage Heaven's Drive
+    // Wizard Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Sage Sense
+    // Wizard Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,

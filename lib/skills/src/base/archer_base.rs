@@ -80,7 +80,7 @@ impl SkillBase for OwlsEye {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -157,7 +157,7 @@ impl SkillBase for VulturesEye {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -314,66 +314,12 @@ impl SkillBase for ImproveConcentration {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for ImproveConcentration {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(3), 2, tick, 60000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(3), 2, tick, 60000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(4), 2, tick, 80000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(4), 2, tick, 80000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(5), 2, tick, 100000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(5), 2, tick, 100000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(6), 2, tick, 120000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(6), 2, tick, 120000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(7), 2, tick, 140000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(7), 2, tick, 140000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(8), 2, tick, 160000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(8), 2, tick, 160000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(9), 2, tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(9), 2, tick, 180000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(10), 2, tick, 200000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(10), 2, tick, 200000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(11), 2, tick, 220000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(11), 2, tick, 220000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(12), 2, tick, 240000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(12), 2, tick, 240000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AC_DOUBLE
 pub struct DoubleStrafe {

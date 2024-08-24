@@ -9,7 +9,7 @@ use std::slice::Iter;
 use regex_lite::Regex;
 use serde::{Deserialize, Serialize};
 use configuration::configuration::{BonusPerLevel, JobSkillTree, SkillConfig, SkillsConfig};
-use models::enums::{EnumWithMaskValueU16, EnumWithMaskValueU64, EnumWithStringValue};
+use models::enums::{EnumWithMaskValueU16, EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
 use models::enums::element::Element;
 use models::enums::skill::{SkillTargetType, SkillFlags, SkillType, SkillDamageFlags};
 use models::enums::weapon::WeaponType;
@@ -294,6 +294,15 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
     if is_support(skill_config) {
         generate_is_supportive_skill(job_skills_file);
         generate_as_supportive_skill(job_skills_file);
+
+        job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+        job_skills_file.write_all(b"    fn _client_type(&self) -> usize {\n").unwrap();
+        if matches!(skill_config.target_type(), SkillTargetType::Target) {
+            job_skills_file.write_all(format!("        {}\n", SkillTargetType::Friend.value()).as_bytes()).unwrap();
+        } else {
+            job_skills_file.write_all(format!("        {}\n", skill_config.target_type().value()).as_bytes()).unwrap();
+        }
+        job_skills_file.write_all(b"    }\n").unwrap();
     }
     if is_interactive(skill_config) {
         generate_is_interactive_skill(job_skills_file);
@@ -325,7 +334,6 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
     }
     if is_support(skill_config) {
         job_skills_file.write_all(format!("impl SupportiveSkillBase for {} {{\n", to_struct_name(skill_config)).as_bytes()).unwrap();
-        generate_bonuses(job_skills_file, skill_config);
         job_skills_file.write_all(b"}\n").unwrap();
     }
     if is_interactive(skill_config) {
