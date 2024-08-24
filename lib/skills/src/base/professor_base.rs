@@ -590,16 +590,12 @@ impl SkillBase for Foresight {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for Foresight {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // PF_FOGWALL
 pub struct BlindingMist {
@@ -768,20 +764,12 @@ impl SkillBase for FiberLock {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for FiberLock {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-50), 2, tick, 16000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // PF_DOUBLECASTING
 pub struct DoubleCasting {
@@ -895,14 +883,10 @@ impl SkillBase for DoubleCasting {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for DoubleCasting {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }

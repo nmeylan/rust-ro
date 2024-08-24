@@ -80,7 +80,7 @@ impl SkillBase for DivineProtection {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -157,7 +157,7 @@ impl SkillBase for DemonBane {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -873,16 +873,12 @@ impl SkillBase for IncreaseAgi {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for IncreaseAgi {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AL_DECAGI
 pub struct DecreaseAgi {
@@ -1030,76 +1026,12 @@ impl SkillBase for DecreaseAgi {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for DecreaseAgi {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(-3), 2, tick, 40000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 40000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(30, 53.0), 2, tick, 40000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(-4), 2, tick, 50000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 50000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(30, 56.0), 2, tick, 50000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(-5), 2, tick, 60000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 60000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(30, 59.0), 2, tick, 60000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(-6), 2, tick, 70000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 70000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(30, 62.0), 2, tick, 70000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(-7), 2, tick, 80000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 80000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(30, 65.0), 2, tick, 80000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(-8), 2, tick, 90000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 90000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(30, 68.0), 2, tick, 90000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(-9), 2, tick, 100000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 100000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(30, 71.0), 2, tick, 100000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(-10), 2, tick, 110000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 110000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(30, 74.0), 2, tick, 110000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(-11), 2, tick, 120000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 120000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(30, 77.0), 2, tick, 120000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(-12), 2, tick, 130000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-25), 2, tick, 130000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(30, 80.0), 2, tick, 130000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AL_HOLYWATER
 pub struct AquaBenedicta {
@@ -1285,46 +1217,12 @@ impl SkillBase for SignumCrucis {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for SignumCrucis {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AL_ANGELUS
 pub struct Angelus {
@@ -1472,56 +1370,12 @@ impl SkillBase for Angelus {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for Angelus {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::VitDefPercentage(5), 2, tick, 30000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::VitDefPercentage(10), 2, tick, 60000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::VitDefPercentage(15), 2, tick, 90000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::VitDefPercentage(20), 2, tick, 120000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::VitDefPercentage(25), 2, tick, 150000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::VitDefPercentage(30), 2, tick, 180000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::VitDefPercentage(35), 2, tick, 210000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::VitDefPercentage(40), 2, tick, 240000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::VitDefPercentage(45), 2, tick, 270000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::VitDefPercentage(50), 2, tick, 300000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
 }
 // AL_BLESSING
 pub struct Blessing {
@@ -1661,16 +1515,12 @@ impl SkillBase for Blessing {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for Blessing {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AL_CURE
 pub struct Cure {
@@ -1754,16 +1604,12 @@ impl SkillBase for Cure {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for Cure {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AL_HOLYLIGHT
 pub struct HolyLight {

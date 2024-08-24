@@ -80,7 +80,7 @@ impl SkillBase for SpearMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -771,56 +771,12 @@ impl SkillBase for TwohandQuicken {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for TwohandQuicken {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 30000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 60000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 90000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 120000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 150000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 180000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 210000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 240000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 270000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 300000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // KN_AUTOCOUNTER
 pub struct CounterAttack {
@@ -909,16 +865,12 @@ impl SkillBase for CounterAttack {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for CounterAttack {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // KN_BOWLINGBASH
 pub struct BowlingBash {
@@ -1165,7 +1117,7 @@ impl SkillBase for PecoPecoRiding {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1242,7 +1194,7 @@ impl SkillBase for CavalierMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1422,18 +1374,10 @@ impl SkillBase for OnehandQuicken {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for OnehandQuicken {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 2, tick, 300000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }

@@ -35,6 +35,12 @@ impl TemporaryStatusBonus {
 #[derive(Default, Debug, Clone)]
 pub struct TemporaryStatusBonuses(pub Vec<TemporaryStatusBonus>);
 
+impl TemporaryStatusBonuses {
+    pub fn empty() -> Self {
+        Self { 0: vec![] }
+    }
+}
+
 #[derive(Debug, Clone, Copy)]
 pub enum StatusBonusSource {
     Equipment,

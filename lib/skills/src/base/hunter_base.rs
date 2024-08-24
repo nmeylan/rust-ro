@@ -1051,7 +1051,7 @@ impl SkillBase for BeastBane {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1128,7 +1128,7 @@ impl SkillBase for FalconryMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1205,7 +1205,7 @@ impl SkillBase for SteelCrow {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1297,7 +1297,7 @@ impl SkillBase for BlitzBeat {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false

@@ -80,7 +80,7 @@ impl SkillBase for Study {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -404,7 +404,7 @@ impl SkillBase for FreeCast {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -505,56 +505,12 @@ impl SkillBase for Hindsight {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for Hindsight {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 7.0), 2, tick, 120000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 9.0), 2, tick, 150000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 11.0), 2, tick, 180000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 13.0), 2, tick, 210000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 15.0), 2, tick, 240000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 17.0), 2, tick, 270000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 19.0), 2, tick, 300000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 21.0), 2, tick, 330000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 23.0), 2, tick, 360000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(279, 25.0), 2, tick, 390000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // SA_FLAMELAUNCHER
 pub struct EndowBlaze {
@@ -646,16 +602,12 @@ impl SkillBase for EndowBlaze {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for EndowBlaze {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // SA_FROSTWEAPON
 pub struct EndowTsunami {
@@ -747,16 +699,12 @@ impl SkillBase for EndowTsunami {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for EndowTsunami {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // SA_LIGHTNINGLOADER
 pub struct EndowTornado {
@@ -848,16 +796,12 @@ impl SkillBase for EndowTornado {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for EndowTornado {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // SA_SEISMICWEAPON
 pub struct EndowQuake {
@@ -949,16 +893,12 @@ impl SkillBase for EndowQuake {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for EndowQuake {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // SA_DRAGONOLOGY
 pub struct Dragonology {
@@ -1018,7 +958,7 @@ impl SkillBase for Dragonology {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1622,31 +1562,12 @@ impl SkillBase for Dispell {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for Dispell {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // SA_ABRACADABRA
 pub struct Hocuspocus {

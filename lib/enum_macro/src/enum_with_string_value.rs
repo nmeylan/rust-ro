@@ -39,6 +39,24 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
                 };
                 res
             });
+
+        let try_from_value_ignore_case_match_arms =
+            enum_data.variants.iter().enumerate().map(|(_, variant)| {
+                let variant_name = variant.ident.clone();
+                let string_value = get_enum_string_value(variant, "value_string", true);
+
+                let res = if string_value.len() > 1 {
+                    quote! {
+                        #(#string_value )|* => Ok(#enum_name::#variant_name),
+                    }
+                } else {
+                    quote! {
+                        #(#string_value)* => Ok(#enum_name::#variant_name),
+                    }
+                };
+
+                res
+            });
         let from_value_ignore_case_match_arms =
             enum_data.variants.iter().enumerate().map(|(_, variant)| {
                 let variant_name = variant.ident.clone();
@@ -83,6 +101,12 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
                 fn try_from_string(value: &str) -> Result<Self, String> {
                     match value {
                         #(#try_from_value_match_arms)*
+                        _ => Err(format!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value))
+                    }
+                }
+                fn try_from_string_ignore_case(value: &str) -> Result<Self, String> {
+                    match value.to_string().to_lowercase().as_str() {
+                        #(#try_from_value_ignore_case_match_arms)*
                         _ => Err(format!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value))
                     }
                 }

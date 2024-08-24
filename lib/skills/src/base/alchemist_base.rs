@@ -80,7 +80,7 @@ impl SkillBase for AxeMastery {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -157,7 +157,7 @@ impl SkillBase for PotionResearch {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -937,16 +937,12 @@ impl SkillBase for AlchemicalWeapon {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for AlchemicalWeapon {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AM_CP_SHIELD
 pub struct SynthesizedShield {
@@ -1038,16 +1034,12 @@ impl SkillBase for SynthesizedShield {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for SynthesizedShield {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AM_CP_ARMOR
 pub struct SyntheticArmor {
@@ -1139,16 +1131,12 @@ impl SkillBase for SyntheticArmor {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for SyntheticArmor {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AM_CP_HELM
 pub struct BiochemicalHelm {
@@ -1240,16 +1228,12 @@ impl SkillBase for BiochemicalHelm {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for BiochemicalHelm {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AM_BIOETHICS
 pub struct Bioethics {
@@ -1309,7 +1293,7 @@ impl SkillBase for Bioethics {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1693,16 +1677,12 @@ impl SkillBase for AidBerserkPotion {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
 }
 impl SupportiveSkillBase for AidBerserkPotion {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AM_TWILIGHT1
 pub struct TwilightAlchemy1 {

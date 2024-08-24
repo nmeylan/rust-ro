@@ -674,22 +674,12 @@ impl SkillBase for IncreasingAccuracy {
     fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
         Some(self)
     }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
 }
 impl SupportiveSkillBase for IncreasingAccuracy {
-    #[inline(always)]
-    fn _bonuses(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Agi(4), 2, tick, 60000),
-                TemporaryStatusBonus::with_duration(BonusType::Dex(4), 2, tick, 60000),
-                TemporaryStatusBonus::with_duration(BonusType::Hit(20), 2, tick, 60000),]);
-        }
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // GS_MAGICALBULLET
 pub struct MagicalBullet {
@@ -947,7 +937,7 @@ impl SkillBase for SingleAction {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1014,7 +1004,7 @@ impl SkillBase for SnakeEye {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false
@@ -1081,7 +1071,7 @@ impl SkillBase for ChainAction {
         0
     }
     fn _target_type(&self) -> SkillTargetType {
-        SkillTargetType::Target
+        SkillTargetType::Passive
     }
     fn _is_magic(&self) -> bool {
         false

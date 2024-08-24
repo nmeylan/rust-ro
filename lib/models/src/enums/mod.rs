@@ -25,6 +25,9 @@ pub trait EnumWithStringValue {
     fn try_from_string(value: &str) -> Result<Self, String>
         where
             Self: Sized;
+    fn try_from_string_ignore_case(value: &str) -> Result<Self, String>
+        where
+            Self: Sized;
     fn from_string(value: &str) -> Self;
     fn from_string_ignore_case(value: &str) -> Self;
     fn as_str(&self) -> &str;

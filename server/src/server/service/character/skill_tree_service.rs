@@ -65,7 +65,7 @@ impl SkillTreeService {
             let skill = skills::skill_enums::to_object(skill_enum, know_level).unwrap();
             let mut skill_info = SKILLINFO::new(self.configuration_service.packetver());
             skill_info.set_skid(skill.id() as i16);
-            skill_info.set_atype(skill.target_type().value() as i32);
+            skill_info.set_atype(skill.client_type() as i32);
             skill_info.set_level(skill.level() as i16);
 
             skill_info.set_spcost(skill.sp_cost() as i16);
