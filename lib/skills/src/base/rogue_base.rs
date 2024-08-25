@@ -584,31 +584,6 @@ impl SkillBase for SightlessMind {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 13.0), 2, tick, 5000),
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 13.0), 2, tick, 5000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 16.0), 2, tick, 5000),
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 16.0), 2, tick, 5000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 19.0), 2, tick, 5000),
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 19.0), 2, tick, 5000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 22.0), 2, tick, 5000),
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 22.0), 2, tick, 5000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 25.0), 2, tick, 5000),
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 25.0), 2, tick, 5000),]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -766,26 +741,6 @@ impl SkillBase for DivestWeapon {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(215, 10.0), 2, tick, 75000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(215, 15.0), 2, tick, 90000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(215, 20.0), 2, tick, 105000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(215, 25.0), 2, tick, 120000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(215, 30.0), 2, tick, 135000),]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -916,26 +871,6 @@ impl SkillBase for DivestShield {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(216, 10.0), 2, tick, 75000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(216, 15.0), 2, tick, 90000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(216, 20.0), 2, tick, 105000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(216, 25.0), 2, tick, 120000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(216, 30.0), 2, tick, 135000),]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -1066,26 +1001,6 @@ impl SkillBase for DivestArmor {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(217, 10.0), 2, tick, 75000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(217, 15.0), 2, tick, 90000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(217, 20.0), 2, tick, 105000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(217, 25.0), 2, tick, 120000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(217, 30.0), 2, tick, 135000),]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -1216,26 +1131,6 @@ impl SkillBase for DivestHelm {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(218, 10.0), 2, tick, 75000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(218, 15.0), 2, tick, 90000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(218, 20.0), 2, tick, 105000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(218, 25.0), 2, tick, 120000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(218, 30.0), 2, tick, 135000),]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -1358,21 +1253,6 @@ impl SkillBase for Snatch {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {

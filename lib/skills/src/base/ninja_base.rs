@@ -1240,21 +1240,6 @@ impl SkillBase for ShadowSlash {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -1408,26 +1393,6 @@ impl SkillBase for CicadaSkinSheeding {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 20000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 30000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 40000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 50000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 60000),]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -1616,46 +1581,6 @@ impl SkillBase for MirrorImage {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 60000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 80000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 100000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 120000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 140000),]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 160000),]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 180000),]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 200000),]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 220000),]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::NullifyAttackChancePercentage(100), 2, tick, 240000),]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -2992,26 +2917,6 @@ impl SkillBase for IceMeteor {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 20.0), 2, tick, 100),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 30.0), 2, tick, 100),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 40.0), 2, tick, 100),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 50.0), 2, tick, 100),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 60.0), 2, tick, 100),]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -3931,36 +3836,6 @@ impl SkillBase for FinalStrike {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {

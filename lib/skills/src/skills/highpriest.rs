@@ -26,7 +26,7 @@ impl Skill for Meditatio {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl SupportiveSkill for Meditatio {
+impl PassiveSkill for Meditatio {
 }
 impl Skill for ManaRecharge {
     fn new(level: u8) -> Option<Self> where Self : Sized {

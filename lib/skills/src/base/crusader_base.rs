@@ -91,34 +91,54 @@ impl SkillBase for Faith {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxhpPercentage(-56), 0, 248),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromElementPercentage(Holy, 5), 0, 248),]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxhpPercentage(-112), 0, 248),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromElementPercentage(Holy, 10), 0, 248),]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxhpPercentage(88), 0, 248),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromElementPercentage(Holy, 15), 0, 248),]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxhpPercentage(32), 0, 248),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromElementPercentage(Holy, 20), 0, 248),]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxhpPercentage(-24), 0, 248),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromElementPercentage(Holy, 25), 0, 248),]);
         }
         if self.level == 6 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxhpPercentage(-80), 0, 248),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromElementPercentage(Holy, 30), 0, 248),]);
         }
         if self.level == 7 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxhpPercentage(120), 0, 248),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromElementPercentage(Holy, 35), 0, 248),]);
         }
         if self.level == 8 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxhpPercentage(64), 0, 248),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromElementPercentage(Holy, 40), 0, 248),]);
         }
         if self.level == 9 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxhpPercentage(8), 0, 248),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromElementPercentage(Holy, 45), 0, 248),]);
         }
         if self.level == 10 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxhpPercentage(-48), 0, 248),
+                TemporaryStatusBonus::with_passive_skill(BonusType::ResistanceDamageFromElementPercentage(Holy, 50), 0, 248),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -129,6 +149,16 @@ impl SkillBase for Faith {
     fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Faith {
 }
 // CR_AUTOGUARD
 pub struct Guard {
@@ -426,21 +456,6 @@ impl SkillBase for Smite {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -957,36 +972,6 @@ impl SkillBase for HolyCross {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {

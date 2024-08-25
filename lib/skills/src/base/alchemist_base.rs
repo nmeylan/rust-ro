@@ -388,36 +388,6 @@ impl SkillBase for PreparePotion {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 6 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 7 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 8 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 9 {
-            return TemporaryStatusBonuses(vec![]);
-        }
-        if self.level == 10 {
-            return TemporaryStatusBonuses(vec![]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -522,26 +492,6 @@ impl SkillBase for Bomb {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(1), 2, tick, 40000),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(2), 2, tick, 45000),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(3), 2, tick, 50000),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(4), 2, tick, 55000),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(5), 2, tick, 60000),]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
@@ -683,31 +633,6 @@ impl SkillBase for AcidTerror {
     }
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Bleeding, 3.0), 2, tick, 3),
-                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(3), 2, tick, 3),]);
-        }
-        if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Bleeding, 6.0), 2, tick, 7),
-                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(6), 2, tick, 7),]);
-        }
-        if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Bleeding, 9.0), 2, tick, 10),
-                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(9), 2, tick, 10),]);
-        }
-        if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Bleeding, 12.0), 2, tick, 12),
-                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(12), 2, tick, 12),]);
-        }
-        if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Bleeding, 15.0), 2, tick, 13),
-                TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(13), 2, tick, 13),]);
-        }
         TemporaryStatusBonuses::default()
     }
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {

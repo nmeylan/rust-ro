@@ -451,22 +451,22 @@
       "type": "Passive"
     },
 {
-      "description": "Bash",
-      "element": "Weapon",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 5,
-      "maxLevel": 10,
-      "name": "SM_BASH",
-      "range": -1,
-      "targetType": "Target",
-      "type": "Offensive",
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "description": "Bash",
+  "element": "Weapon",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 5,
+  "maxLevel": 10,
+  "name": "SM_BASH",
+  "range": -1,
+  "targetType": "Target",
+  "type": "Offensive",
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 8,
             "level": 1
@@ -508,35 +508,35 @@
             "level": 10
           }
         ],
-        "weaponFlags": {
-          "1hAxe": true,
-          "1hSpear": true,
-          "1hSword": true,
-          "2hAxe": true,
-          "2hMace": true,
-          "2hSpear": true,
-          "2hSword": true,
-          "book": true,
-          "dagger": true,
-          "fist": true,
-          "gatling": true,
-          "grenade": true,
-          "huuma": true,
-          "katar": true,
-          "knuckle": true,
-          "mace": true,
-          "musical": true,
-          "revolver": true,
-          "rifle": true,
-          "shotgun": true,
-          "staff": true,
-          "whip": true
-        }
-      },
-      "damageflags": {
-        "isPhysical": true
-      },
-      "dmgAtkPerLevel": [
+    "weaponFlags": {
+      "1hAxe": true,
+      "1hSpear": true,
+      "1hSword": true,
+      "2hAxe": true,
+      "2hMace": true,
+      "2hSpear": true,
+      "2hSword": true,
+      "book": true,
+      "dagger": true,
+      "fist": true,
+      "gatling": true,
+      "grenade": true,
+      "huuma": true,
+      "katar": true,
+      "knuckle": true,
+      "mace": true,
+      "musical": true,
+      "revolver": true,
+      "rifle": true,
+      "shotgun": true,
+      "staff": true,
+      "whip": true
+    }
+  },
+  "damageflags": {
+    "isPhysical": true
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.3
@@ -578,8 +578,9 @@
           "value": 4
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -651,23 +652,21 @@
           }
         }
       ]
-    },
+},
 {
-      "cooldown": 1000,
-      "description": "Provoke",
-      "duration1": 30000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 6,
-      "maxLevel": 10,
-      "name": "SM_PROVOKE",
-      "range": 9,
-      "targetType": "Target",
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "cooldown": 1000,
+  "description": "Provoke",
+  "duration1": 30000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 6,
+  "maxLevel": 10,
+  "name": "SM_PROVOKE",
+  "range": 9,
+  "targetType": "Target",
+  "damageflags": {},
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 4,
             "level": 1
@@ -709,8 +708,10 @@
             "level": 10
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [],
+  "type": "Support",
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -931,23 +932,22 @@
             "value": -55
           }
         }
-      ],
-      "type": "Support"
-    },
+      ]
+},
 {
-      "afterCastActDelay": 2000,
-      "description": "Magnum Break",
-      "duration2": 10000,
-      "element": "Fire",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 7,
-      "knockback": 2,
-      "maxLevel": 10,
-      "name": "SM_MAGNUM",
-      "targetType": "Self",
-      "type": "Offensive",
-      "splashAreaPerLevel": [
+  "afterCastActDelay": 2000,
+  "description": "Magnum Break",
+  "duration2": 10000,
+  "element": "Fire",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 7,
+  "knockback": 2,
+  "maxLevel": 10,
+  "name": "SM_MAGNUM",
+  "targetType": "Self",
+  "type": "Offensive",
+  "splashAreaPerLevel": [
         {
           "area": 2,
           "level": 1
@@ -993,20 +993,20 @@
           "level": 11
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "splash": true,
-        "isPhysical": true
-      },
-      "flags": {
-        "targetTrap": true
-      },
-      "requires": {
-        "spcost": 30,
-        "hpcostPerLevel": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "splash": true,
+    "isPhysical": true
+  },
+  "flags": {
+    "targetTrap": true
+  },
+  "requires": {
+    "spcost": 30,
+    "hpcostPerLevel": [
           {
             "amount": 20,
             "level": 1
@@ -1048,9 +1048,9 @@
             "level": 10
           }
         ]
-      },
-      "aoesize": "5x5 square1------+++--+++--+++------",
-      "dmgAtkPerLevel": [
+  },
+  "aoesize": "5x5 square1------+++--+++--+++------",
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.2
@@ -1092,7 +1092,7 @@
           "value": 3
         }
       ],
-      "dmgOuterPerLevel": [
+  "dmgOuterPerLevel": [
         {
           "level": 1,
           "value": 0.7
@@ -1134,8 +1134,8 @@
           "value": 2.5
         }
       ],
-      "dmgWaves": 1,
-      "knockbackPerLevel": [
+  "dmgWaves": 1,
+  "knockbackPerLevel": [
         {
           "level": 1,
           "value": 2
@@ -1177,7 +1177,8 @@
           "value": 2
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -1249,7 +1250,7 @@
           }
         }
       ]
-    },
+},
 {
       "cooldown": 10000,
       "description": "Endure",
@@ -1835,18 +1836,18 @@
       "dmgWaves": 1
     },
 {
-      "castCancel": true,
-      "description": "Safety Wall",
-      "element": "Ghost",
-      "damageType": "MultiHit",
-      "hitCount": 1,
-      "id": 12,
-      "maxLevel": 10,
-      "name": "MG_SAFETYWALL",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "castTimePerLevel": [
+  "castCancel": true,
+  "description": "Safety Wall",
+  "element": "Ghost",
+  "damageType": "MultiHit",
+  "hitCount": 1,
+  "id": 12,
+  "maxLevel": 10,
+  "name": "MG_SAFETYWALL",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Ground",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 4000
@@ -1888,7 +1889,7 @@
           "time": 1000
         }
       ],
-      "duration1PerLevel": [
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -1930,17 +1931,17 @@
           "time": 50000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Blue_Gemstone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 30,
             "level": 1
@@ -1982,17 +1983,18 @@
             "level": 10
           }
         ]
-      },
-      "unit": {
-        "id": "Safetywall",
-        "interval": -1,
-        "flag": {
-          "noEnemy": true,
-          "noReiteration": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "bonusToSelf": [
+  },
+  "unit": {
+    "id": "Safetywall",
+    "interval": -1,
+    "flag": {
+      "noEnemy": true,
+      "noReiteration": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -2074,7 +2076,7 @@
           }
         }
       ]
-    },
+},
 {
       "castCancel": true,
       "castTime": 500,
@@ -2547,20 +2549,20 @@
       }
     },
 {
-      "afterCastActDelay": 1500,
-      "castCancel": true,
-      "castTime": 800,
-      "description": "Frost Diver",
-      "element": "Water",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 15,
-      "maxLevel": 10,
-      "name": "MG_FROSTDIVER",
-      "range": 9,
-      "targetType": "Target",
-      "type": "Offensive",
-      "duration2PerLevel": [
+  "afterCastActDelay": 1500,
+  "castCancel": true,
+  "castTime": 800,
+  "description": "Frost Diver",
+  "element": "Water",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 15,
+  "maxLevel": 10,
+  "name": "MG_FROSTDIVER",
+  "range": 9,
+  "targetType": "Target",
+  "type": "Offensive",
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -2606,15 +2608,15 @@
           "time": 30000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "flags": {
-        "isAutoShadowSpell": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "flags": {
+    "isAutoShadowSpell": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 25,
             "level": 1
@@ -2656,8 +2658,8 @@
             "level": 10
           }
         ]
-      },
-      "dmgMatkPerLevel": [
+  },
+  "dmgMatkPerLevel": [
         {
           "level": 1,
           "value": 1.1
@@ -2699,8 +2701,12 @@
           "value": 2
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isMagical": true
+  },
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -2781,43 +2787,40 @@
             "value2": 65
           }
         }
-      ],
-      "damageflags": {
-        "isMagical": true
-      }
-    },
+      ]
+},
 {
-      "castCancel": true,
-      "castTime": 1000,
-      "description": "Stone Curse",
-      "duration1": 5000,
-      "duration2": 20000,
-      "element": "Earth",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 16,
-      "maxLevel": 10,
-      "name": "MG_STONECURSE",
-      "range": 2,
-      "targetType": "Target",
-      "type": "Offensive",
-      "damageflags": {
-        "noDamage": true,
-        "isMagical": true
-      },
-      "skiprequires": {
-        "itemcost": {
-          "state": "SoulLinked"
-        }
-      },
-      "requires": {
-        "itemcost": [
+  "castCancel": true,
+  "castTime": 1000,
+  "description": "Stone Curse",
+  "duration1": 5000,
+  "duration2": 20000,
+  "element": "Earth",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 16,
+  "maxLevel": 10,
+  "name": "MG_STONECURSE",
+  "range": 2,
+  "targetType": "Target",
+  "type": "Offensive",
+  "damageflags": {
+    "noDamage": true,
+    "isMagical": true
+  },
+  "skiprequires": {
+    "itemcost": {
+      "state": "SoulLinked"
+    }
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Red_Gemstone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 25,
             "level": 1
@@ -2859,8 +2862,10 @@
             "level": 10
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -2942,7 +2947,7 @@
           }
         }
       ]
-    },
+},
 {
       "castCancel": true,
       "description": "Fire Ball",
@@ -5118,26 +5123,27 @@
       }
     },
 {
-      "afterCastActDelay": 2000,
-      "castCancel": true,
-      "castTime": 500,
-      "description": "Signum Crucis",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 32,
-      "maxLevel": 10,
-      "name": "AL_CRUCIS",
-      "splashArea": 15,
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-        "splash": true
-      },
-      "requires": {
-        "spcost": 35
-      },
-      "aoesize": "31x31 square",
-      "bonusToSelf": [
+  "afterCastActDelay": 2000,
+  "castCancel": true,
+  "castTime": 500,
+  "description": "Signum Crucis",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 32,
+  "maxLevel": 10,
+  "name": "AL_CRUCIS",
+  "splashArea": 15,
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {
+    "splash": true
+  },
+  "requires": {
+    "spcost": 35
+  },
+  "aoesize": "31x31 square",
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -5289,7 +5295,7 @@
           }
         }
       ]
-    },
+},
 {
       "afterCastActDelay": 3500,
       "castCancel": true,
@@ -7287,26 +7293,26 @@
       ]
     },
 {
-      "description": "Envenom",
-      "duration2": 60000,
-      "element": "Poison",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 52,
-      "maxLevel": 10,
-      "name": "TF_POISON",
-      "range": -2,
-      "targetType": "Target",
-      "type": "Offensive",
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "requires": {
-        "spcost": 12
-      },
-      "dmgAtk": 1,
-      "dmgLvPerLevel": [
+  "description": "Envenom",
+  "duration2": 60000,
+  "element": "Poison",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 52,
+  "maxLevel": 10,
+  "name": "TF_POISON",
+  "range": -2,
+  "targetType": "Target",
+  "type": "Offensive",
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "requires": {
+    "spcost": 12
+  },
+  "dmgAtk": 1,
+  "dmgLvPerLevel": [
         {
           "level": 1,
           "value": 15
@@ -7348,8 +7354,13 @@
           "value": 150
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isPhysical": true
+  },
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -7430,11 +7441,8 @@
             "value2": 50
           }
         }
-      ],
-      "damageflags": {
-        "isPhysical": true
-      }
-    },
+      ]
+},
 {
       "description": "Detoxify",
       "element": "Poison",
@@ -7702,24 +7710,24 @@
       ]
     },
 {
-      "description": "Pierce",
-      "element": "Weapon",
-      "damageType": "MultiHit",
-      "hitCount": 3,
-      "id": 56,
-      "maxLevel": 10,
-      "name": "KN_PIERCE",
-      "range": -2,
-      "targetType": "Target",
-      "type": "Offensive",
-      "requires": {
-        "spcost": 7,
-        "weaponFlags": {
-          "1hSpear": true,
-          "2hSpear": true
-        }
-      },
-      "dmgAtkPerLevel": [
+  "description": "Pierce",
+  "element": "Weapon",
+  "damageType": "MultiHit",
+  "hitCount": 3,
+  "id": 56,
+  "maxLevel": 10,
+  "name": "KN_PIERCE",
+  "range": -2,
+  "targetType": "Target",
+  "type": "Offensive",
+  "requires": {
+    "spcost": 7,
+    "weaponFlags": {
+      "1hSpear": true,
+      "2hSpear": true
+    }
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.1
@@ -7761,8 +7769,12 @@
           "value": 2
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isPhysical": true
+  },
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -7833,11 +7845,8 @@
             "value": 50
           }
         }
-      ],
-      "damageflags": {
-        "isPhysical": true
-      }
-    },
+      ]
+},
 {
       "activeInstance": 5,
       "castTime": 700,
@@ -9624,17 +9633,17 @@
       ]
     },
 {
-      "afterCastActDelay": 3000,
-      "castCancel": true,
-      "description": "Lex Divina",
-      "damageType": "Single",
-      "id": 76,
-      "maxLevel": 10,
-      "name": "PR_LEXDIVINA",
-      "range": 5,
-      "targetType": "Target",
-      "type": "Support",
-      "duration2PerLevel": [
+  "afterCastActDelay": 3000,
+  "castCancel": true,
+  "description": "Lex Divina",
+  "damageType": "Single",
+  "id": 76,
+  "maxLevel": 10,
+  "name": "PR_LEXDIVINA",
+  "range": 5,
+  "targetType": "Target",
+  "type": "Support",
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 30000
@@ -9676,11 +9685,9 @@
           "time": 60000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {},
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 20,
             "level": 1
@@ -9722,8 +9729,10 @@
             "level": 10
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -9805,35 +9814,36 @@
           }
         }
       ]
-    },
+},
 {
-      "afterCastActDelay": 3000,
-      "castCancel": true,
-      "castTime": 1000,
-      "description": "Turn Undead",
-      "element": "Holy",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 77,
-      "maxLevel": 10,
-      "name": "PR_TURNUNDEAD",
-      "range": 5,
-      "targetType": "Target",
-      "type": "Offensive",
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreAtkCard": true,
-        "ignoreDefense": true,
-        "isMagical": true
-      },
-      "requires": {
-        "spcost": 20
-      },
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "afterCastActDelay": 3000,
+  "castCancel": true,
+  "castTime": 1000,
+  "description": "Turn Undead",
+  "element": "Holy",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 77,
+  "maxLevel": 10,
+  "name": "PR_TURNUNDEAD",
+  "range": 5,
+  "targetType": "Target",
+  "type": "Offensive",
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreAtkCard": true,
+    "ignoreDefense": true,
+    "isMagical": true
+  },
+  "requires": {
+    "spcost": 20
+  },
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -9915,7 +9925,7 @@
           }
         }
       ]
-    },
+},
 {
       "afterCastActDelay": 3000,
       "castCancel": true,
@@ -10592,19 +10602,19 @@
       "dmgWaves": 1
     },
 {
-      "castCancel": true,
-      "castTime": 15000,
-      "description": "Meteor Storm",
-      "duration2": 5000,
-      "element": "Fire",
-      "damageType": "MultiHit",
-      "id": 83,
-      "maxLevel": 10,
-      "name": "WZ_METEOR",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "afterCastActDelayPerLevel": [
+  "castCancel": true,
+  "castTime": 15000,
+  "description": "Meteor Storm",
+  "duration2": 5000,
+  "element": "Fire",
+  "damageType": "MultiHit",
+  "id": 83,
+  "maxLevel": 10,
+  "name": "WZ_METEOR",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Ground",
+  "afterCastActDelayPerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -10646,7 +10656,7 @@
           "time": 7000
         }
       ],
-      "duration1PerLevel": [
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -10688,7 +10698,7 @@
           "time": 7000
         }
       ],
-      "hitCountPerLevel": [
+  "hitCountPerLevel": [
         {
           "count": 1,
           "level": 1
@@ -10734,7 +10744,7 @@
           "level": 11
         }
       ],
-      "splashAreaPerLevel": [
+  "splashAreaPerLevel": [
         {
           "area": 3,
           "level": 1
@@ -10780,15 +10790,15 @@
           "level": 11
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "flags": {
-        "isAutoShadowSpell": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "flags": {
+    "isAutoShadowSpell": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 20,
             "level": 1
@@ -10830,19 +10840,19 @@
             "level": 10
           }
         ]
-      },
-      "unit": {
-        "id": "Dummyskill",
-        "interval": 1000,
-        "range": 3,
-        "target": "Enemy",
-        "flag": {
-          "pathCheck": true
-        }
-      },
-      "aoesize": "7x7 square",
-      "aoesplash": 3,
-      "dmgMatkPerLevel": [
+  },
+  "unit": {
+    "id": "Dummyskill",
+    "interval": 1000,
+    "range": 3,
+    "target": "Enemy",
+    "flag": {
+      "pathCheck": true
+    }
+  },
+  "aoesize": "7x7 square",
+  "aoesplash": 3,
+  "dmgMatkPerLevel": [
         {
           "level": 1,
           "value": 1
@@ -10884,7 +10894,7 @@
           "value": 5
         }
       ],
-      "dmgWavesPerLevel": [
+  "dmgWavesPerLevel": [
         {
           "level": 1,
           "value": 2
@@ -10926,7 +10936,12 @@
           "value": 7
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [],
+  "damageflags": {
+    "isMagical": true
+  },
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -11007,11 +11022,8 @@
             "value2": 30
           }
         }
-      ],
-      "damageflags": {
-        "isMagical": true
-      }
-    },
+      ]
+},
 {
       "castCancel": true,
       "description": "Jupitel Thunder",
@@ -11248,21 +11260,21 @@
       }
     },
 {
-      "afterCastActDelay": 5000,
-      "castCancel": true,
-      "description": "Lord of Vermilion",
-      "duration1": 4000,
-      "duration2": 30000,
-      "element": "Wind",
-      "damageType": "MultiHit",
-      "hitCount": -10,
-      "id": 85,
-      "maxLevel": 10,
-      "name": "WZ_VERMILION",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Offensive",
-      "castTimePerLevel": [
+  "afterCastActDelay": 5000,
+  "castCancel": true,
+  "description": "Lord of Vermilion",
+  "duration1": 4000,
+  "duration2": 30000,
+  "element": "Wind",
+  "damageType": "MultiHit",
+  "hitCount": -10,
+  "id": 85,
+  "maxLevel": 10,
+  "name": "WZ_VERMILION",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 15000
@@ -11304,15 +11316,15 @@
           "time": 10500
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "flags": {
-        "isAutoShadowSpell": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "flags": {
+    "isAutoShadowSpell": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 60,
             "level": 1
@@ -11354,13 +11366,13 @@
             "level": 10
           }
         ]
-      },
-      "unit": {
-        "id": "Dummyskill",
-        "interval": 1250,
-        "range": 1,
-        "target": "Enemy",
-        "layoutPerLevel": [
+  },
+  "unit": {
+    "id": "Dummyskill",
+    "interval": 1250,
+    "range": 1,
+    "target": "Enemy",
+    "layoutPerLevel": [
           {
             "level": 1,
             "size": 5
@@ -11406,14 +11418,14 @@
             "size": 7
           }
         ],
-        "flag": {
-          "noOverlap": true,
-          "pathCheck": true
-        }
-      },
-      "aoesize": "11x11 square",
-      "aoesplash": 1,
-      "dmgMatkPerLevel": [
+    "flag": {
+      "noOverlap": true,
+      "pathCheck": true
+    }
+  },
+  "aoesize": "11x11 square",
+  "aoesplash": 1,
+  "dmgMatkPerLevel": [
         {
           "level": 1,
           "value": 1
@@ -11455,8 +11467,13 @@
           "value": 3.8
         }
       ],
-      "dmgWaves": 4,
-      "bonusToSelf": [
+  "dmgWaves": 4,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isMagical": true
+  },
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -11537,11 +11554,8 @@
             "value2": 40
           }
         }
-      ],
-      "damageflags": {
-        "isMagical": true
-      }
-    },
+      ]
+},
 {
       "castCancel": true,
       "description": "Water Ball",
@@ -11901,19 +11915,19 @@
       ]
     },
 {
-      "afterCastActDelay": 1000,
-      "castCancel": true,
-      "description": "Frost Nova",
-      "element": "Water",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 88,
-      "maxLevel": 10,
-      "name": "WZ_FROSTNOVA",
-      "splashArea": 3,
-      "targetType": "Self",
-      "type": "Offensive",
-      "castTimePerLevel": [
+  "afterCastActDelay": 1000,
+  "castCancel": true,
+  "description": "Frost Nova",
+  "element": "Water",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 88,
+  "maxLevel": 10,
+  "name": "WZ_FROSTNOVA",
+  "splashArea": 3,
+  "targetType": "Self",
+  "type": "Offensive",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 6000
@@ -11955,7 +11969,7 @@
           "time": 4000
         }
       ],
-      "duration2PerLevel": [
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 1500
@@ -11997,19 +12011,19 @@
           "time": 15000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "splash": true,
-        "isMagical": true
-      },
-      "flags": {
-        "isAutoShadowSpell": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "splash": true,
+    "isMagical": true
+  },
+  "flags": {
+    "isAutoShadowSpell": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 45,
             "level": 1
@@ -12051,9 +12065,9 @@
             "level": 10
           }
         ]
-      },
-      "aoesize": "5x5 square",
-      "dmgMatkPerLevel": [
+  },
+  "aoesize": "5x5 square",
+  "dmgMatkPerLevel": [
         {
           "level": 1,
           "value": 73.33
@@ -12095,8 +12109,10 @@
           "value": 133.33
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -12178,24 +12194,24 @@
           }
         }
       ]
-    },
+},
 {
-      "afterCastActDelay": 5000,
-      "castCancel": true,
-      "description": "Storm Gust",
-      "duration1": 4600,
-      "duration2": 12000,
-      "element": "Water",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 89,
-      "knockback": 2,
-      "maxLevel": 10,
-      "name": "WZ_STORMGUST",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "castTimePerLevel": [
+  "afterCastActDelay": 5000,
+  "castCancel": true,
+  "description": "Storm Gust",
+  "duration1": 4600,
+  "duration2": 12000,
+  "element": "Water",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 89,
+  "knockback": 2,
+  "maxLevel": 10,
+  "name": "WZ_STORMGUST",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Ground",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 6000
@@ -12237,30 +12253,30 @@
           "time": 15000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "flags": {
-        "isAutoShadowSpell": true
-      },
-      "requires": {
-        "spcost": 78
-      },
-      "unit": {
-        "id": "Dummyskill",
-        "interval": 450,
-        "layout": 4,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noOverlap": true,
-          "pathCheck": true
-        }
-      },
-      "aoesize": "9x9 square",
-      "aoesplash": 1,
-      "dmgMatkPerLevel": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "flags": {
+    "isAutoShadowSpell": true
+  },
+  "requires": {
+    "spcost": 78
+  },
+  "unit": {
+    "id": "Dummyskill",
+    "interval": 450,
+    "layout": 4,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noOverlap": true,
+      "pathCheck": true
+    }
+  },
+  "aoesize": "9x9 square",
+  "aoesplash": 1,
+  "dmgMatkPerLevel": [
         {
           "level": 1,
           "value": 1.4
@@ -12302,8 +12318,8 @@
           "value": 5
         }
       ],
-      "dmgWaves": 10,
-      "knockbackPerLevel": [
+  "dmgWaves": 10,
+  "knockbackPerLevel": [
         {
           "level": 1,
           "value": 2
@@ -12345,7 +12361,12 @@
           "value": 2
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [],
+  "damageflags": {
+    "isMagical": true
+  },
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -12426,11 +12447,8 @@
             "value2": 200
           }
         }
-      ],
-      "damageflags": {
-        "isMagical": true
-      }
-    },
+      ]
+},
 {
       "afterCastActDelay": 700,
       "castCancel": true,
@@ -12672,20 +12690,20 @@
       }
     },
 {
-      "activeInstance": 3,
-      "afterCastActDelay": 1000,
-      "castCancel": true,
-      "description": "Quagmire",
-      "element": "Earth",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 92,
-      "maxLevel": 5,
-      "name": "WZ_QUAGMIRE",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "activeInstance": 3,
+  "afterCastActDelay": 1000,
+  "castCancel": true,
+  "description": "Quagmire",
+  "element": "Earth",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 92,
+  "maxLevel": 5,
+  "name": "WZ_QUAGMIRE",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Ground",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -12707,7 +12725,7 @@
           "time": 25000
         }
       ],
-      "duration2PerLevel": [
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -12729,15 +12747,15 @@
           "time": 25000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "ignoreHovering": true,
-        "targetHidden": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "ignoreHovering": true,
+    "targetHidden": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 5,
             "level": 1
@@ -12759,126 +12777,21 @@
             "level": 5
           }
         ]
-      },
-      "unit": {
-        "id": "Quagmire",
-        "interval": -1,
-        "layout": 2,
-        "target": "Enemy",
-        "flag": {
-          "pathCheck": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "5x5 square",
-      "bonusToSelf": [
-        {
-          "level": 1,
-          "value": {
-            "bonus": "Agi",
-            "value": -10
-          }
-        },
-        {
-          "level": 2,
-          "value": {
-            "bonus": "Agi",
-            "value": -20
-          }
-        },
-        {
-          "level": 3,
-          "value": {
-            "bonus": "Agi",
-            "value": -30
-          }
-        },
-        {
-          "level": 4,
-          "value": {
-            "bonus": "Agi",
-            "value": -40
-          }
-        },
-        {
-          "level": 5,
-          "value": {
-            "bonus": "Agi",
-            "value": -50
-          }
-        },
-        {
-          "level": 1,
-          "value": {
-            "bonus": "Dex",
-            "value": -10
-          }
-        },
-        {
-          "level": 2,
-          "value": {
-            "bonus": "Dex",
-            "value": -20
-          }
-        },
-        {
-          "level": 3,
-          "value": {
-            "bonus": "Dex",
-            "value": -30
-          }
-        },
-        {
-          "level": 4,
-          "value": {
-            "bonus": "Dex",
-            "value": -40
-          }
-        },
-        {
-          "level": 5,
-          "value": {
-            "bonus": "Dex",
-            "value": -50
-          }
-        },
-        {
-          "level": 1,
-          "value": {
-            "bonus": "SpeedPercentage",
-            "value": -50
-          }
-        },
-        {
-          "level": 2,
-          "value": {
-            "bonus": "SpeedPercentage",
-            "value": -50
-          }
-        },
-        {
-          "level": 3,
-          "value": {
-            "bonus": "SpeedPercentage",
-            "value": -50
-          }
-        },
-        {
-          "level": 4,
-          "value": {
-            "bonus": "SpeedPercentage",
-            "value": -50
-          }
-        },
-        {
-          "level": 5,
-          "value": {
-            "bonus": "SpeedPercentage",
-            "value": -50
-          }
-        }
-      ]
-    },
+  },
+  "unit": {
+    "id": "Quagmire",
+    "interval": -1,
+    "layout": 2,
+    "target": "Enemy",
+    "flag": {
+      "pathCheck": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "5x5 square",
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [        {          "level": 1,          "value": {            "bonus": "Agi",            "value": -10          }        },        {          "level": 2,          "value": {            "bonus": "Agi",            "value": -20          }        },        {          "level": 3,          "value": {            "bonus": "Agi",            "value": -30          }        },        {          "level": 4,          "value": {            "bonus": "Agi",            "value": -40          }        },        {          "level": 5,          "value": {            "bonus": "Agi",            "value": -50          }        },        {          "level": 1,          "value": {            "bonus": "Dex",            "value": -10          }        },        {          "level": 2,          "value": {            "bonus": "Dex",            "value": -20          }        },        {          "level": 3,          "value": {            "bonus": "Dex",            "value": -30          }        },        {          "level": 4,          "value": {            "bonus": "Dex",            "value": -40          }        },        {          "level": 5,          "value": {            "bonus": "Dex",            "value": -50          }        },        {          "level": 1,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 2,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 3,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 4,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 5,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        }      ]
+},
 {
       "castCancel": true,
       "description": "Sense",
@@ -13791,17 +13704,17 @@
       ]
     },
 {
-      "description": "Hammer Fall",
-      "duration2": 5000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 110,
-      "maxLevel": 5,
-      "name": "BS_HAMMERFALL",
-      "range": 1,
-      "targetType": "Ground",
-      "type": "Ground",
-      "splashAreaPerLevel": [
+  "description": "Hammer Fall",
+  "duration2": 5000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 110,
+  "maxLevel": 5,
+  "name": "BS_HAMMERFALL",
+  "range": 1,
+  "targetType": "Ground",
+  "type": "Ground",
+  "splashAreaPerLevel": [
         {
           "area": 2,
           "level": 1
@@ -13827,25 +13740,27 @@
           "level": 6
         }
       ],
-      "damageflags": {
-        "noDamage": true,
-        "splash": true
-      },
-      "flags": {
-        "allowOnMado": true
-      },
-      "requires": {
-        "spcost": 10,
-        "weaponFlags": {
-          "1hAxe": true,
-          "1hSword": true,
-          "2hAxe": true,
-          "dagger": true,
-          "mace": true
-        }
-      },
-      "aoesize": "5x5 square",
-      "bonusToSelf": [
+  "damageflags": {
+    "noDamage": true,
+    "splash": true
+  },
+  "flags": {
+    "allowOnMado": true
+  },
+  "requires": {
+    "spcost": 10,
+    "weaponFlags": {
+      "1hAxe": true,
+      "1hSword": true,
+      "2hAxe": true,
+      "dagger": true,
+      "mace": true
+    }
+  },
+  "aoesize": "5x5 square",
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -13927,7 +13842,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Adrenaline Rush",
       "damageType": "Single",
@@ -16806,7 +16721,7 @@
         }
       ],
       "dmgWaves": 1,
-      "bonusToSelf": [
+      "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -16876,7 +16791,8 @@
             "bonus": "AccuracyPercentage",
             "value": 50
           }
-        },
+        }],
+        "bonusToSelfTargetHit": [
         {
           "level": 1,
           "value": {
@@ -17074,17 +16990,17 @@
       ]
     },
 {
-      "description": "Enchant Poison",
-      "element": "Poison",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 138,
-      "maxLevel": 10,
-      "name": "AS_ENCHANTPOISON",
-      "range": 1,
-      "targetType": "Target",
-      "type": "Support",
-      "duration1PerLevel": [
+  "description": "Enchant Poison",
+  "element": "Poison",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 138,
+  "maxLevel": 10,
+  "name": "AS_ENCHANTPOISON",
+  "range": 1,
+  "targetType": "Target",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 30000
@@ -17126,7 +17042,7 @@
           "time": 165000
         }
       ],
-      "duration2PerLevel": [
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 10000
@@ -17168,16 +17084,15 @@
           "time": 100000
         }
       ],
-      "damageflags": {
-
-      },
-      "flags": {
-        "partyOnly": true
-      },
-      "requires": {
-        "spcost": 20
-      },
-      "bonusToTarget": [
+  "damageflags": {},
+  "flags": {
+    "partyOnly": true
+  },
+  "requires": {
+    "spcost": 20
+  },
+  "bonusToTarget": [],
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -17259,7 +17174,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Poison React",
       "damageType": "Single",
@@ -17607,18 +17522,18 @@
       }
     },
 {
-      "description": "Venom Dust",
-      "duration2": 60000,
-      "element": "Poison",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 140,
-      "maxLevel": 10,
-      "name": "AS_VENOMDUST",
-      "range": 2,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Venom Dust",
+  "duration2": 60000,
+  "element": "Poison",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 140,
+  "maxLevel": 10,
+  "name": "AS_VENOMDUST",
+  "range": 2,
+  "targetType": "Ground",
+  "type": "Ground",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -17660,31 +17575,32 @@
           "time": 50000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcost": 20,
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcost": 20,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Red_Gemstone"
           }
         ]
-      },
-      "unit": {
-        "id": "Venomdust",
-        "interval": 1000,
-        "layout": -1,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "3x3 cross",
-      "aoesplash": 1,
-      "bonusToSelf": [
+  },
+  "unit": {
+    "id": "Venomdust",
+    "interval": 1000,
+    "layout": -1,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "3x3 cross",
+  "aoesplash": 1,
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -17766,23 +17682,23 @@
           }
         }
       ]
-    },
+},
 {
-      "castCancel": true,
-      "castTime": 1000,
-      "description": "Venom Splasher",
-      "duration2": 60000,
-      "element": "Weapon",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 141,
-      "maxLevel": 10,
-      "name": "AS_SPLASHER",
-      "range": 1,
-      "splashArea": 2,
-      "targetType": "Target",
-      "type": "Offensive",
-      "duration1PerLevel": [
+  "castCancel": true,
+  "castTime": 1000,
+  "description": "Venom Splasher",
+  "duration2": 60000,
+  "element": "Weapon",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 141,
+  "maxLevel": 10,
+  "name": "AS_SPLASHER",
+  "range": 1,
+  "splashArea": 2,
+  "targetType": "Target",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -17824,24 +17740,24 @@
           "time": 9500
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreElement": true,
-        "ignoreFlee": true,
-        "noDamage": true,
-        "isPhysical": true
-      },
-      "requires": {
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreElement": true,
+    "ignoreFlee": true,
+    "noDamage": true,
+    "isPhysical": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Red_Gemstone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 12,
             "level": 1
@@ -17883,9 +17799,9 @@
             "level": 10
           }
         ]
-      },
-      "aoesize": "5x5 square1------+++--+++--+++------",
-      "dmgAtkPerLevel": [
+  },
+  "aoesize": "5x5 square1------+++--+++--+++------",
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 0.3
@@ -17927,8 +17843,8 @@
           "value": 3
         }
       ],
-      "dmgWaves": 1,
-      "skillDelayInSecPerLevel": [
+  "dmgWaves": 1,
+  "skillDelayInSecPerLevel": [
         {
           "level": 1,
           "value": 7.5
@@ -17970,7 +17886,8 @@
           "value": 12
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -18052,7 +17969,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "First Aid",
       "damageType": "Single",
@@ -18248,26 +18165,30 @@
       "dmgWaves": 1
     },
 {
-      "description": "Sand Attack",
-      "duration2": 30000,
-      "element": "Earth",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 149,
-      "maxLevel": 1,
-      "name": "TF_SPRINKLESAND",
-      "range": 1,
-      "targetType": "Target",
-      "type": "Offensive",
-      "flags": {
-        "isQuest": true
-      },
-      "requires": {
-        "spcost": 9
-      },
-      "dmgAtk": 1.3,
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "description": "Sand Attack",
+  "duration2": 30000,
+  "element": "Earth",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 149,
+  "maxLevel": 1,
+  "name": "TF_SPRINKLESAND",
+  "range": 1,
+  "targetType": "Target",
+  "type": "Offensive",
+  "flags": {
+    "isQuest": true
+  },
+  "requires": {
+    "spcost": 9
+  },
+  "dmgAtk": 1.3,
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isPhysical": true
+  },
+  "bonusToTargetBeforeHit": [
         {
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
@@ -18275,11 +18196,8 @@
             "value2": 20
           }
         }
-      ],
-      "damageflags": {
-        "isPhysical": true
-      }
-    },
+      ]
+},
 {
       "description": "Back Slide",
       "damageType": "Single",
@@ -18323,40 +18241,41 @@
       "type": "Interactive"
     },
 {
-      "description": "Stone Fling",
-      "duration1": 5000,
-      "duration2": 30000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 152,
-      "maxLevel": 1,
-      "name": "TF_THROWSTONE",
-      "range": 7,
-      "targetType": "Target",
-      "type": "Offensive",
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreFlee": true,
-        "isPhysical": true
-      },
-      "flags": {
-        "isQuest": true
-      },
-      "requires": {
-        "spcost": 2,
-        "itemcost": [
+  "description": "Stone Fling",
+  "duration1": 5000,
+  "duration2": 30000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 152,
+  "maxLevel": 1,
+  "name": "TF_THROWSTONE",
+  "range": 7,
+  "targetType": "Target",
+  "type": "Offensive",
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreFlee": true,
+    "isPhysical": true
+  },
+  "flags": {
+    "isQuest": true
+  },
+  "requires": {
+    "spcost": 2,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Stone"
           }
         ]
-      },
-      "dmg": 50,
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  },
+  "dmg": 50,
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
@@ -18372,7 +18291,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Cart Revolution",
       "element": "Weapon",
@@ -18848,32 +18767,32 @@
       ]
     },
 {
-      "description": "Sightless Mind",
-      "duration1": 5000,
-      "duration2": 30000,
-      "element": "Weapon",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 214,
-      "maxLevel": 5,
-      "name": "RG_RAID",
-      "splashArea": 1,
-      "targetType": "Self",
-      "type": "Offensive",
-      "damageflags": {
-        "splash": true,
-        "isPhysical": true
-      },
-      "flags": {
-        "allowWhenHidden": true,
-        "targetTrap": true
-      },
-      "requires": {
-        "spcost": 20,
-        "state": "Hidding"
-      },
-      "aoesize": "3x3 square",
-      "dmgAtkPerLevel": [
+  "description": "Sightless Mind",
+  "duration1": 5000,
+  "duration2": 30000,
+  "element": "Weapon",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 214,
+  "maxLevel": 5,
+  "name": "RG_RAID",
+  "splashArea": 1,
+  "targetType": "Self",
+  "type": "Offensive",
+  "damageflags": {
+    "splash": true,
+    "isPhysical": true
+  },
+  "flags": {
+    "allowWhenHidden": true,
+    "targetTrap": true
+  },
+  "requires": {
+    "spcost": 20,
+    "state": "Hidding"
+  },
+  "aoesize": "3x3 square",
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.6
@@ -18895,8 +18814,9 @@
           "value": 3.2
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -18978,20 +18898,20 @@
           }
         }
       ]
-    },
+},
 {
-      "afterCastActDelay": 1000,
-      "castTime": 1000,
-      "description": "Divest Weapon",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 215,
-      "maxLevel": 5,
-      "name": "RG_STRIPWEAPON",
-      "range": 1,
-      "targetType": "Target",
-      "type": "Interactive",
-      "duration1PerLevel": [
+  "afterCastActDelay": 1000,
+  "castTime": 1000,
+  "description": "Divest Weapon",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 215,
+  "maxLevel": 5,
+  "name": "RG_STRIPWEAPON",
+  "range": 1,
+  "targetType": "Target",
+  "type": "Interactive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 75000
@@ -19013,11 +18933,9 @@
           "time": 135000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {},
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 17,
             "level": 1
@@ -19039,8 +18957,9 @@
             "level": 5
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -19082,20 +19001,20 @@
           }
         }
       ]
-    },
+},
 {
-      "afterCastActDelay": 1000,
-      "castTime": 1000,
-      "description": "Divest Shield",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 216,
-      "maxLevel": 5,
-      "name": "RG_STRIPSHIELD",
-      "range": 1,
-      "targetType": "Target",
-      "type": "Interactive",
-      "duration1PerLevel": [
+  "afterCastActDelay": 1000,
+  "castTime": 1000,
+  "description": "Divest Shield",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 216,
+  "maxLevel": 5,
+  "name": "RG_STRIPSHIELD",
+  "range": 1,
+  "targetType": "Target",
+  "type": "Interactive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 75000
@@ -19117,11 +19036,9 @@
           "time": 135000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {},
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 12,
             "level": 1
@@ -19143,8 +19060,9 @@
             "level": 5
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -19186,20 +19104,20 @@
           }
         }
       ]
-    },
+},
 {
-      "afterCastActDelay": 1000,
-      "castTime": 1000,
-      "description": "Divest Armor",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 217,
-      "maxLevel": 5,
-      "name": "RG_STRIPARMOR",
-      "range": 1,
-      "targetType": "Target",
-      "type": "Interactive",
-      "duration1PerLevel": [
+  "afterCastActDelay": 1000,
+  "castTime": 1000,
+  "description": "Divest Armor",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 217,
+  "maxLevel": 5,
+  "name": "RG_STRIPARMOR",
+  "range": 1,
+  "targetType": "Target",
+  "type": "Interactive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 75000
@@ -19221,11 +19139,9 @@
           "time": 135000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {},
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 17,
             "level": 1
@@ -19247,8 +19163,9 @@
             "level": 5
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -19290,20 +19207,20 @@
           }
         }
       ]
-    },
+},
 {
-      "afterCastActDelay": 1000,
-      "castTime": 1000,
-      "description": "Divest Helm",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 218,
-      "maxLevel": 5,
-      "name": "RG_STRIPHELM",
-      "range": 1,
-      "targetType": "Target",
-      "type": "Interactive",
-      "duration1PerLevel": [
+  "afterCastActDelay": 1000,
+  "castTime": 1000,
+  "description": "Divest Helm",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 218,
+  "maxLevel": 5,
+  "name": "RG_STRIPHELM",
+  "range": 1,
+  "targetType": "Target",
+  "type": "Interactive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 75000
@@ -19325,11 +19242,9 @@
           "time": 135000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {},
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 12,
             "level": 1
@@ -19351,8 +19266,9 @@
             "level": 5
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -19394,20 +19310,20 @@
           }
         }
       ]
-    },
+},
 {
-      "description": "Snatch",
-      "element": "Weapon",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 219,
-      "maxLevel": 5,
-      "name": "RG_INTIMIDATE",
-      "range": 1,
-      "targetType": "Target",
-      "type": "Offensive",
-      "requires": {
-        "spcostPerLevel": [
+  "description": "Snatch",
+  "element": "Weapon",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 219,
+  "maxLevel": 5,
+  "name": "RG_INTIMIDATE",
+  "range": 1,
+  "targetType": "Target",
+  "type": "Offensive",
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 13,
             "level": 1
@@ -19429,8 +19345,8 @@
             "level": 5
           }
         ]
-      },
-      "dmgAtkPerLevel": [
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.3
@@ -19472,8 +19388,12 @@
           "value": 4
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isPhysical": true
+  },
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -19554,11 +19474,8 @@
             "value2": 100
           }
         }
-      ],
-      "damageflags": {
-        "isPhysical": true
-      }
-    },
+      ]
+},
 {
       "description": "Scribble",
       "duration1": 180000,
@@ -20107,25 +20024,25 @@
   "type": "Passive"
 },
 {
-      "description": "Prepare Potion",
-      "damageType": "Single",
-      "id": 228,
-      "maxLevel": 10,
-      "name": "AM_PHARMACY",
-      "targetType": "Self",
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcost": 5,
-        "itemcost": [
+  "description": "Prepare Potion",
+  "damageType": "Single",
+  "id": 228,
+  "maxLevel": 10,
+  "name": "AM_PHARMACY",
+  "targetType": "Self",
+  "damageflags": {},
+  "requires": {
+    "spcost": 5,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Medicine_Bowl"
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [],
+  "type": "Interactive",
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -20206,23 +20123,22 @@
             "value2": 30
           }
         }
-      ],
-      "type": "Interactive"
-    },
+      ]
+},
 {
-      "castCancel": true,
-      "castTime": 1000,
-      "description": "Bomb",
-      "element": "Fire",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 229,
-      "maxLevel": 5,
-      "name": "AM_DEMONSTRATION",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Offensive",
-      "duration1PerLevel": [
+  "castCancel": true,
+  "castTime": 1000,
+  "description": "Bomb",
+  "element": "Fire",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 229,
+  "maxLevel": 5,
+  "name": "AM_DEMONSTRATION",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 40000
@@ -20244,41 +20160,41 @@
           "time": 60000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreAtkCard": true,
-        "noDamage": true,
-        "isMagical": true
-      },
-      "flags": {
-        "ignoreAutoGuard": true,
-        "ignoreCicada": true
-      },
-      "requires": {
-        "spcost": 10,
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreAtkCard": true,
+    "noDamage": true,
+    "isMagical": true
+  },
+  "flags": {
+    "ignoreAutoGuard": true,
+    "ignoreCicada": true
+  },
+  "requires": {
+    "spcost": 10,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Fire_Bottle"
           }
         ]
-      },
-      "unit": {
-        "id": "Demonstration",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoesplash": 1,
-      "dmgAtkPerLevel": [
+  },
+  "unit": {
+    "id": "Demonstration",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoesplash": 1,
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.2
@@ -20300,7 +20216,7 @@
           "value": 2
         }
       ],
-      "dmgWavesPerLevel": [
+  "dmgWavesPerLevel": [
         {
           "level": 1,
           "value": 40
@@ -20322,7 +20238,8 @@
           "value": 60
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -20359,21 +20276,21 @@
           }
         }
       ]
-    },
+},
 {
-      "castCancel": true,
-      "castTime": 1000,
-      "description": "Acid Terror",
-      "duration2": 120000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 230,
-      "maxLevel": 5,
-      "name": "AM_ACIDTERROR",
-      "range": 9,
-      "targetType": "Target",
-      "type": "Offensive",
-      "duration1PerLevel": [
+  "castCancel": true,
+  "castTime": 1000,
+  "description": "Acid Terror",
+  "duration2": 120000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 230,
+  "maxLevel": 5,
+  "name": "AM_ACIDTERROR",
+  "range": 9,
+  "targetType": "Target",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 3
@@ -20395,29 +20312,29 @@
           "time": 13
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreAtkCard": true,
-        "ignoreFlee": true,
-        "isMagical": true
-      },
-      "flags": {
-        "ignoreAutoGuard": true,
-        "ignoreCicada": true
-      },
-      "requires": {
-        "spcost": 15,
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreAtkCard": true,
+    "ignoreFlee": true,
+    "isMagical": true
+  },
+  "flags": {
+    "ignoreAutoGuard": true,
+    "ignoreCicada": true
+  },
+  "requires": {
+    "spcost": 15,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Acid_Bottle"
           }
         ]
-      },
-      "dmgAtkPerLevel": [
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.4
@@ -20439,8 +20356,9 @@
           "value": 3
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -20517,29 +20435,29 @@
           }
         }
       ]
-    },
+},
 {
-      "afterCastActDelay": 500,
-      "castCancel": true,
-      "description": "Aid Potion",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 231,
-      "maxLevel": 5,
-      "name": "AM_POTIONPITCHER",
-      "range": 9,
-      "targetType": "Target",
-      "damageflags": {
-        "noDamage": true,
-        "isMagical": true
-      },
-      "flags": {
-        "guildOnly": true,
-        "partyOnly": true
-      },
-      "requires": {
-        "spcost": 1,
-        "itemcost": [
+  "afterCastActDelay": 500,
+  "castCancel": true,
+  "description": "Aid Potion",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 231,
+  "maxLevel": 5,
+  "name": "AM_POTIONPITCHER",
+  "range": 9,
+  "targetType": "Target",
+  "damageflags": {
+    "noDamage": true,
+    "isMagical": true
+  },
+  "flags": {
+    "guildOnly": true,
+    "partyOnly": true
+  },
+  "requires": {
+    "spcost": 1,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Red_Potion"
@@ -20581,8 +20499,8 @@
             "item": "Berserk_Potion"
           }
         ]
-      },
-      "bonusToTarget": [
+  },
+  "bonusToTarget": [
         {
           "level": 1,
           "value": {
@@ -20654,8 +20572,9 @@
           }
         }
       ],
-      "type": "Offensive"
-    },
+  "type": "Offensive",
+  "bonusToSelfBeforeHit": []
+},
 {
       "activeInstance": 5,
       "afterCastActDelay": 500,
@@ -21137,11 +21056,11 @@
       "type": "Interactive"
     },
 {
-      "description": "Faith",
-      "id": 248,
-      "maxLevel": 10,
-      "name": "CR_TRUST",
-      "bonusToSelf": [
+  "description": "Faith",
+  "id": 248,
+  "maxLevel": 10,
+  "name": "CR_TRUST",
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -21292,8 +21211,9 @@
             "value2": 50
           }
         }
-      ]
-    },
+      ],
+  "type": "Passive"
+},
 {
       "description": "Guard",
       "duration1": 300000,
@@ -21632,17 +21552,17 @@
       ]
     },
 {
-      "description": "Smite",
-      "duration2": 5000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 250,
-      "maxLevel": 5,
-      "name": "CR_SHIELDCHARGE",
-      "range": 3,
-      "targetType": "Target",
-      "type": "Offensive",
-      "knockbackPerLevel": [
+  "description": "Smite",
+  "duration2": 5000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 250,
+  "maxLevel": 5,
+  "name": "CR_SHIELDCHARGE",
+  "range": 3,
+  "targetType": "Target",
+  "type": "Offensive",
+  "knockbackPerLevel": [
         {
           "level": 1,
           "value": 5
@@ -21664,15 +21584,15 @@
           "value": 9
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "requires": {
-        "spcost": 10,
-        "state": "Shield"
-      },
-      "dmgAtkPerLevel": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "requires": {
+    "spcost": 10,
+    "state": "Shield"
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.2
@@ -21694,8 +21614,12 @@
           "value": 2
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isPhysical": true
+  },
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -21736,11 +21660,8 @@
             "value2": 40
           }
         }
-      ],
-      "damageflags": {
-        "isPhysical": true
-      }
-    },
+      ]
+},
 {
       "afterCastActDelay": 700,
       "description": "Shield Boomerang",
@@ -21940,26 +21861,26 @@
       ]
     },
 {
-      "description": "Holy Cross",
-      "duration2": 30000,
-      "element": "Holy",
-      "damageType": "MultiHit",
-      "hitCount": -2,
-      "id": 253,
-      "maxLevel": 10,
-      "name": "CR_HOLYCROSS",
-      "range": -2,
-      "targetType": "Target",
-      "type": "Offensive",
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "flags": {
-        "targetTrap": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "description": "Holy Cross",
+  "duration2": 30000,
+  "element": "Holy",
+  "damageType": "MultiHit",
+  "hitCount": -2,
+  "id": 253,
+  "maxLevel": 10,
+  "name": "CR_HOLYCROSS",
+  "range": -2,
+  "targetType": "Target",
+  "type": "Offensive",
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "flags": {
+    "targetTrap": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 11,
             "level": 1
@@ -22001,8 +21922,8 @@
             "level": 10
           }
         ]
-      },
-      "dmgAtkPerLevel": [
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.35
@@ -22044,8 +21965,12 @@
           "value": 4.5
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isPhysical": true
+  },
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -22126,11 +22051,8 @@
             "value2": 30
           }
         }
-      ],
-      "damageflags": {
-        "isPhysical": true
-      }
-    },
+      ]
+},
 {
       "afterCastActDelay": 1500,
       "afterCastWalkDelay": 1000,
@@ -25907,7 +25829,7 @@
           }
         ]
       },
-      "bonusToSelf": [
+      "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -27261,22 +27183,22 @@
       ]
     },
 {
-      "afterCastActDelay": 4000,
-      "description": "Unbarring Octave",
-      "duration2": 12000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 318,
-      "maxLevel": 5,
-      "name": "BA_FROSTJOKER",
-      "splashArea": -1,
-      "targetType": "Self",
-      "type": "Interactive",
-      "damageflags": {
-        "splash": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "afterCastActDelay": 4000,
+  "description": "Unbarring Octave",
+  "duration2": 12000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 318,
+  "maxLevel": 5,
+  "name": "BA_FROSTJOKER",
+  "splashArea": -1,
+  "targetType": "Self",
+  "type": "Interactive",
+  "damageflags": {
+    "splash": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 12,
             "level": 1
@@ -27298,9 +27220,10 @@
             "level": 5
           }
         ]
-      },
-      "aoesize": "31x31 square",
-      "bonusToSelf": [
+  },
+  "aoesize": "31x31 square",
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -27382,7 +27305,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Perfect Tablature",
       "duration1": 60000,
@@ -28535,22 +28458,22 @@
       ]
     },
 {
-      "afterCastActDelay": 4000,
-      "description": "Dazzler",
-      "duration2": 5000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 326,
-      "maxLevel": 5,
-      "name": "DC_SCREAM",
-      "splashArea": -1,
-      "targetType": "Self",
-      "type": "Interactive",
-      "damageflags": {
-        "splash": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "afterCastActDelay": 4000,
+  "description": "Dazzler",
+  "duration2": 5000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 326,
+  "maxLevel": 5,
+  "name": "DC_SCREAM",
+  "splashArea": -1,
+  "targetType": "Self",
+  "type": "Interactive",
+  "damageflags": {
+    "splash": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 12,
             "level": 1
@@ -28572,9 +28495,10 @@
             "level": 5
           }
         ]
-      },
-      "aoesize": "31x31 square",
-      "bonusToSelf": [
+  },
+  "aoesize": "31x31 square",
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -28656,7 +28580,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Focus Ballet",
       "duration1": 60000,
@@ -30216,12 +30140,12 @@
       "aoesize": "5x5 square"
     },
 {
-      "description": "Meditatio",
-      "id": 363,
-      "maxLevel": 10,
-      "name": "HP_MEDITATIO",
-      "type": "Support",
-      "healPercentagePerLevel": [
+  "description": "Meditatio",
+  "id": 363,
+  "maxLevel": 10,
+  "name": "HP_MEDITATIO",
+  "type": "Passive",
+  "healPercentagePerLevel": [
         {
           "level": 1,
           "value": 2
@@ -30263,7 +30187,7 @@
           "value": 20
         }
       ],
-      "spRegen.PercentagePerLevel": [
+  "spRegen.PercentagePerLevel": [
         {
           "level": 1,
           "value": 3
@@ -30305,7 +30229,7 @@
           "value": 30
         }
       ],
-      "spRegenPercentagePerLevel": [
+  "spRegenPercentagePerLevel": [
         {
           "level": 1,
           "value": 3
@@ -30347,7 +30271,7 @@
           "value": 30
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -30419,7 +30343,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Soul Drain",
       "hitCount": 1,
@@ -32446,31 +32370,31 @@
       }
     },
 {
-      "activeInstance": 14,
-      "afterCastActDelay": 1500,
-      "castCancel": true,
-      "castTime": 2000,
-      "description": "Focused Arrow Strike",
-      "element": "Ammo",
-      "damageType": "MultiHit",
-      "hitCount": 1,
-      "id": 382,
-      "maxLevel": 5,
-      "name": "SN_SHARPSHOOTING",
-      "range": 9,
-      "splashArea": 1,
-      "targetType": "Target",
-      "type": "Offensive",
-      "damageflags": {
-        "critical": true,
-        "isPhysical": true
-      },
-      "flags": {
-        "targetTrap": true
-      },
-      "requires": {
-        "ammoAmount": 1,
-        "spcostPerLevel": [
+  "activeInstance": 14,
+  "afterCastActDelay": 1500,
+  "castCancel": true,
+  "castTime": 2000,
+  "description": "Focused Arrow Strike",
+  "element": "Ammo",
+  "damageType": "MultiHit",
+  "hitCount": 1,
+  "id": 382,
+  "maxLevel": 5,
+  "name": "SN_SHARPSHOOTING",
+  "range": 9,
+  "splashArea": 1,
+  "targetType": "Target",
+  "type": "Offensive",
+  "damageflags": {
+    "critical": true,
+    "isPhysical": true
+  },
+  "flags": {
+    "targetTrap": true
+  },
+  "requires": {
+    "ammoAmount": 1,
+    "spcostPerLevel": [
           {
             "amount": 18,
             "level": 1
@@ -32492,15 +32416,15 @@
             "level": 5
           }
         ],
-        "ammoFlags": {
-          "arrow": true
-        },
-        "weaponFlags": {
-          "bow": true
-        }
-      },
-      "aoesize": "3x14 line12",
-      "dmgAtkPerLevel": [
+    "ammoFlags": {
+      "arrow": true
+    },
+    "weaponFlags": {
+      "bow": true
+    }
+  },
+  "aoesize": "3x14 line12",
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.4
@@ -32522,8 +32446,9 @@
           "value": 6
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -32560,7 +32485,7 @@
           }
         }
       ]
-    },
+},
 {
       "afterCastActDelay": 2000,
       "castCancel": true,
@@ -33983,22 +33908,22 @@
       ]
     },
 {
-      "afterCastActDelay": 500,
-      "description": "Traumatic Blow",
-      "duration2": 120000,
-      "element": "Weapon",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 398,
-      "maxLevel": 5,
-      "name": "LK_HEADCRUSH",
-      "range": 4,
-      "targetType": "Target",
-      "type": "Offensive",
-      "requires": {
-        "spcost": 23
-      },
-      "dmgAtkPerLevel": [
+  "afterCastActDelay": 500,
+  "description": "Traumatic Blow",
+  "duration2": 120000,
+  "element": "Weapon",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 398,
+  "maxLevel": 5,
+  "name": "LK_HEADCRUSH",
+  "range": 4,
+  "targetType": "Target",
+  "type": "Offensive",
+  "requires": {
+    "spcost": 23
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.4
@@ -34020,8 +33945,12 @@
           "value": 3
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isPhysical": true
+  },
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -34062,24 +33991,21 @@
             "value2": 50
           }
         }
-      ],
-      "damageflags": {
-        "isPhysical": true
-      }
-    },
+      ]
+},
 {
-      "description": "Vital Strike",
-      "duration2": 30000,
-      "element": "Weapon",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 399,
-      "maxLevel": 10,
-      "name": "LK_JOINTBEAT",
-      "range": 4,
-      "targetType": "Target",
-      "type": "Offensive",
-      "afterCastActDelayPerLevel": [
+  "description": "Vital Strike",
+  "duration2": 30000,
+  "element": "Weapon",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 399,
+  "maxLevel": 10,
+  "name": "LK_JOINTBEAT",
+  "range": 4,
+  "targetType": "Target",
+  "type": "Offensive",
+  "afterCastActDelayPerLevel": [
         {
           "level": 1,
           "time": 800
@@ -34121,8 +34047,8 @@
           "time": 1000
         }
       ],
-      "requires": {
-        "spcostPerLevel": [
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 12,
             "level": 1
@@ -34164,12 +34090,12 @@
             "level": 10
           }
         ],
-        "weaponFlags": {
-          "1hSpear": true,
-          "2hSpear": true
-        }
-      },
-      "dmgAtkPerLevel": [
+    "weaponFlags": {
+      "1hSpear": true,
+      "2hSpear": true
+    }
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 0.6
@@ -34211,8 +34137,12 @@
           "value": 1.5
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isPhysical": true
+  },
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -34293,27 +34223,24 @@
             "value2": 55
           }
         }
-      ],
-      "damageflags": {
-        "isPhysical": true
-      }
-    },
+      ]
+},
 {
-      "afterCastActDelay": 1000,
-      "castCancel": true,
-      "castTime": 1000,
-      "description": "Napalm Vulcan",
-      "duration2": 30000,
-      "element": "Ghost",
-      "damageType": "MultiHit",
-      "id": 400,
-      "maxLevel": 5,
-      "name": "HW_NAPALMVULCAN",
-      "range": 9,
-      "splashArea": 1,
-      "targetType": "Target",
-      "type": "Offensive",
-      "hitCountPerLevel": [
+  "afterCastActDelay": 1000,
+  "castCancel": true,
+  "castTime": 1000,
+  "description": "Napalm Vulcan",
+  "duration2": 30000,
+  "element": "Ghost",
+  "damageType": "MultiHit",
+  "id": 400,
+  "maxLevel": 5,
+  "name": "HW_NAPALMVULCAN",
+  "range": 9,
+  "splashArea": 1,
+  "targetType": "Target",
+  "type": "Offensive",
+  "hitCountPerLevel": [
         {
           "count": 1,
           "level": 1
@@ -34335,16 +34262,16 @@
           "level": 5
         }
       ],
-      "damageflags": {
-        "splash": true,
-        "splashSplit": true,
-        "isMagical": true
-      },
-      "flags": {
-        "targetTrap": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "splash": true,
+    "splashSplit": true,
+    "isMagical": true
+  },
+  "flags": {
+    "targetTrap": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 10,
             "level": 1
@@ -34366,9 +34293,9 @@
             "level": 5
           }
         ]
-      },
-      "aoesize": "3x3 square",
-      "dmgMatkPerLevel": [
+  },
+  "aoesize": "3x3 square",
+  "dmgMatkPerLevel": [
         {
           "level": 1,
           "value": 1
@@ -34390,8 +34317,9 @@
           "value": 5
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -34433,7 +34361,7 @@
           }
         }
       ]
-    },
+},
 {
       "castCancel": true,
       "castTime": 2000,
@@ -34453,16 +34381,16 @@
       }
     },
 {
-      "description": "Mind Breaker",
-      "duration1": 30000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 402,
-      "maxLevel": 5,
-      "name": "PF_MINDBREAKER",
-      "range": 9,
-      "targetType": "Target",
-      "afterCastActDelayPerLevel": [
+  "description": "Mind Breaker",
+  "duration1": 30000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 402,
+  "maxLevel": 5,
+  "name": "PF_MINDBREAKER",
+  "range": 9,
+  "targetType": "Target",
+  "afterCastActDelayPerLevel": [
         {
           "level": 1,
           "time": 800
@@ -34484,11 +34412,11 @@
           "time": 1200
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 12,
             "level": 1
@@ -34510,8 +34438,8 @@
             "level": 5
           }
         ]
-      },
-      "smdefPercentagePerLevel": [
+  },
+  "smdefPercentagePerLevel": [
         {
           "level": 1,
           "value": -12
@@ -34533,7 +34461,8 @@
           "value": -60
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -34610,7 +34539,7 @@
           }
         }
       ]
-    },
+},
 {
       "castCancel": true,
       "castTime": 5000,
@@ -34726,19 +34655,19 @@
       ]
     },
 {
-      "afterCastActDelay": 500,
-      "castTime": 500,
-      "description": "Meteor Assault",
-      "element": "Weapon",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 406,
-      "maxLevel": 10,
-      "name": "ASC_METEORASSAULT",
-      "splashArea": 2,
-      "targetType": "Self",
-      "type": "Offensive",
-      "duration2PerLevel": [
+  "afterCastActDelay": 500,
+  "castTime": 500,
+  "description": "Meteor Assault",
+  "element": "Weapon",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 406,
+  "maxLevel": 10,
+  "name": "ASC_METEORASSAULT",
+  "splashArea": 2,
+  "targetType": "Self",
+  "type": "Offensive",
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 30000
@@ -34752,18 +34681,18 @@
           "time": 120000
         }
       ],
-      "damageflags": {
-        "ignoreAtkCard": true,
-        "splash": true,
-        "isPhysical": true
-      },
-      "flags": {
-        "ignoreAutoGuard": true,
-        "ignoreCicada": true,
-        "targetTrap": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "ignoreAtkCard": true,
+    "splash": true,
+    "isPhysical": true
+  },
+  "flags": {
+    "ignoreAutoGuard": true,
+    "ignoreCicada": true,
+    "targetTrap": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 10,
             "level": 1
@@ -34805,9 +34734,9 @@
             "level": 10
           }
         ]
-      },
-      "aoesize": "5x5 square",
-      "dmgAtkPerLevel": [
+  },
+  "aoesize": "5x5 square",
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 0.8
@@ -34849,8 +34778,10 @@
           "value": 4.4
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -35092,22 +35023,24 @@
           }
         }
       ]
-    },
+},
 {
-      "afterCastActDelay": 500,
-      "description": "Create Deadly Poison",
-      "damageType": "Single",
-      "id": 407,
-      "maxLevel": 1,
-      "name": "ASC_CDP",
-      "targetType": "Self",
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcost": 50
-      },
-      "bonusToSelf": [
+  "afterCastActDelay": 500,
+  "description": "Create Deadly Poison",
+  "damageType": "Single",
+  "id": 407,
+  "maxLevel": 1,
+  "name": "ASC_CDP",
+  "targetType": "Self",
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcost": 50
+  },
+  "bonusToSelf": [],
+  "type": "Interactive",
+  "bonusToSelfBeforeHit": [
         {
           "value": {
             "bonus": "SkillIdSuccessPercentage",
@@ -35116,7 +35049,7 @@
           }
         }
       ]
-    },
+},
 {
       "castCancel": true,
       "castTime": 3000,
@@ -39617,18 +39550,18 @@
       }
     },
 {
-      "afterCastActDelay": 1000,
-      "castCancel": true,
-      "description": "Divest All",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 476,
-      "maxLevel": 5,
-      "name": "ST_FULLSTRIP",
-      "range": 1,
-      "targetType": "Target",
-      "type": "Offensive",
-      "duration1PerLevel": [
+  "afterCastActDelay": 1000,
+  "castCancel": true,
+  "description": "Divest All",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 476,
+  "maxLevel": 5,
+  "name": "ST_FULLSTRIP",
+  "range": 1,
+  "targetType": "Target",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 75000
@@ -39650,11 +39583,11 @@
           "time": 135000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 22,
             "level": 1
@@ -39676,8 +39609,9 @@
             "level": 5
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -39719,7 +39653,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Upgrade Weapon",
       "damageType": "Single",
@@ -40172,17 +40106,17 @@
       }
     },
 {
-      "afterCastActDelay": 2000,
-      "castTime": 3000,
-      "description": "Ganbantein",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 483,
-      "maxLevel": 1,
-      "name": "HW_GANBANTEIN",
-      "range": 18,
-      "targetType": "Ground",
-      "splashAreaPerLevel": [
+  "afterCastActDelay": 2000,
+  "castTime": 3000,
+  "description": "Ganbantein",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 483,
+  "maxLevel": 1,
+  "name": "HW_GANBANTEIN",
+  "range": 18,
+  "targetType": "Ground",
+  "splashAreaPerLevel": [
         {
           "area": 1,
           "level": 1
@@ -40204,12 +40138,12 @@
           "level": 5
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcost": 40,
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcost": 40,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Yellow_Gemstone"
@@ -40219,9 +40153,10 @@
             "item": "Blue_Gemstone"
           }
         ]
-      },
-      "aoesize": "3x3 square",
-      "bonusToSelf": [
+  },
+  "aoesize": "3x3 square",
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "value": {
             "bonus": "SkillIdSuccessPercentage",
@@ -40230,7 +40165,7 @@
           }
         }
       ]
-    },
+},
 {
       "afterCastActDelay": 2000,
       "castCancel": true,
@@ -40384,30 +40319,30 @@
       ]
     },
 {
-      "description": "Cart Termination",
-      "duration2": 5000,
-      "element": "Weapon",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 485,
-      "maxLevel": 10,
-      "name": "WS_CARTTERMINATION",
-      "range": -2,
-      "targetType": "Target",
-      "type": "Offensive",
-      "damageflags": {
-        "ignoreAtkCard": true,
-        "isPhysical": true
-      },
-      "flags": {
-        "allowOnMado": true,
-        "ignoreAutoGuard": true,
-        "ignoreCicada": true
-      },
-      "requires": {
-        "spcost": 15,
-        "state": "CartBoost",
-        "zenycostPerLevel": [
+  "description": "Cart Termination",
+  "duration2": 5000,
+  "element": "Weapon",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 485,
+  "maxLevel": 10,
+  "name": "WS_CARTTERMINATION",
+  "range": -2,
+  "targetType": "Target",
+  "type": "Offensive",
+  "damageflags": {
+    "ignoreAtkCard": true,
+    "isPhysical": true
+  },
+  "flags": {
+    "allowOnMado": true,
+    "ignoreAutoGuard": true,
+    "ignoreCicada": true
+  },
+  "requires": {
+    "spcost": 15,
+    "state": "CartBoost",
+    "zenycostPerLevel": [
           {
             "amount": 600,
             "level": 1
@@ -40449,32 +40384,32 @@
             "level": 10
           }
         ],
-        "weaponFlags": {
-          "1hAxe": true,
-          "1hSpear": true,
-          "1hSword": true,
-          "2hAxe": true,
-          "2hMace": true,
-          "2hSpear": true,
-          "2hSword": true,
-          "book": true,
-          "dagger": true,
-          "fist": true,
-          "gatling": true,
-          "grenade": true,
-          "huuma": true,
-          "katar": true,
-          "knuckle": true,
-          "mace": true,
-          "musical": true,
-          "revolver": true,
-          "rifle": true,
-          "shotgun": true,
-          "staff": true,
-          "whip": true
-        }
-      },
-      "dmgAtkPerLevel": [
+    "weaponFlags": {
+      "1hAxe": true,
+      "1hSpear": true,
+      "1hSword": true,
+      "2hAxe": true,
+      "2hMace": true,
+      "2hSpear": true,
+      "2hSword": true,
+      "book": true,
+      "dagger": true,
+      "fist": true,
+      "gatling": true,
+      "grenade": true,
+      "huuma": true,
+      "katar": true,
+      "knuckle": true,
+      "mace": true,
+      "musical": true,
+      "revolver": true,
+      "rifle": true,
+      "shotgun": true,
+      "staff": true,
+      "whip": true
+    }
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 5.33
@@ -40516,8 +40451,8 @@
           "value": 13.33
         }
       ],
-      "dmgWaves": 1,
-      "zenyPerLevel": [
+  "dmgWaves": 1,
+  "zenyPerLevel": [
         {
           "level": 1,
           "value": 600
@@ -40559,7 +40494,8 @@
           "value": 1500
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -40641,7 +40577,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Maximum Power Thrust",
       "duration1": 180000,
@@ -41015,27 +40951,28 @@
       "aoesize": "7x7 square"
     },
 {
-      "afterCastActDelay": 3000,
-      "castTime": 1000,
-      "description": "Tarot Card of Fate",
-      "duration2": 30000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 489,
-      "maxLevel": 5,
-      "name": "CG_TAROTCARD",
-      "range": 9,
-      "targetType": "Target",
-      "type": "Offensive",
-      "damageflags": {
-        "ignoreFlee": true,
-        "noDamage": true,
-        "isMagical": true
-      },
-      "requires": {
-        "spcost": 40
-      },
-      "bonusToSelf": [
+  "afterCastActDelay": 3000,
+  "castTime": 1000,
+  "description": "Tarot Card of Fate",
+  "duration2": 30000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 489,
+  "maxLevel": 5,
+  "name": "CG_TAROTCARD",
+  "range": 9,
+  "targetType": "Target",
+  "type": "Offensive",
+  "damageflags": {
+    "ignoreFlee": true,
+    "noDamage": true,
+    "isMagical": true
+  },
+  "requires": {
+    "spcost": 40
+  },
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -41077,7 +41014,7 @@
           }
         }
       ]
-    },
+},
 {
       "afterCastActDelay": 1000,
       "castCancel": true,
@@ -41151,21 +41088,21 @@
       }
     },
 {
-      "description": "Plant Cultivation",
-      "duration1": 300000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 491,
-      "maxLevel": 2,
-      "name": "CR_CULTIVATION",
-      "range": 1,
-      "targetType": "Ground",
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcost": 10,
-        "itemcost": [
+  "description": "Plant Cultivation",
+  "duration1": 300000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 491,
+  "maxLevel": 2,
+  "name": "CR_CULTIVATION",
+  "range": 1,
+  "targetType": "Ground",
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcost": 10,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Mushroom_Spore"
@@ -41175,9 +41112,9 @@
             "item": "Stem"
           }
         ]
-      },
-      "aoesize": "1x1 square",
-      "plantTypePerLevel": [
+  },
+  "aoesize": "1x1 square",
+  "plantTypePerLevel": [
         {
           "level": 1,
           "value": "Mushroom"
@@ -41187,7 +41124,9 @@
           "value": "Plant"
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [],
+  "type": "Interactive",
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -41205,7 +41144,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Weapon Enchantment",
       "duration1": 180000,
@@ -41494,23 +41433,24 @@
       }
     },
 {
-      "description": "Flip the Coin",
-      "duration1": 600000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 500,
-      "maxLevel": 5,
-      "name": "GS_GLITTERING",
-      "targetType": "Self",
-      "type": "Interactive",
-      "damageflags": {
-        "ignoreFlee": true
-      },
-      "requires": {
-        "spcost": 2,
-        "zenyCost": 1
-      },
-      "bonusToSelf": [
+  "description": "Flip the Coin",
+  "duration1": 600000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 500,
+  "maxLevel": 5,
+  "name": "GS_GLITTERING",
+  "targetType": "Self",
+  "type": "Interactive",
+  "damageflags": {
+    "ignoreFlee": true
+  },
+  "requires": {
+    "spcost": 2,
+    "zenyCost": 1
+  },
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -41552,7 +41492,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Fling",
       "duration1": 30000,
@@ -41818,39 +41758,40 @@
       }
     },
 {
-      "afterCastActDelay": 1000,
-      "description": "Cracker",
-      "duration2": 5000,
-      "element": "Ammo",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 508,
-      "maxLevel": 1,
-      "name": "GS_CRACKER",
-      "range": -9,
-      "targetType": "Target",
-      "type": "Offensive",
-      "damageflags": {
-        "noDamage": true,
-        "isPhysical": true
-      },
-      "requires": {
-        "ammoAmount": 1,
-        "spcost": 10,
-        "spiritSphereCost": 1,
-        "ammoFlags": {
-          "arrow": true,
-          "bullet": true,
-          "cannonball": true,
-          "dagger": true,
-          "grenade": true,
-          "kunai": true,
-          "shell": true,
-          "shuriken": true,
-          "throwweapon": true
-        }
-      },
-      "bonusToSelf": [
+  "afterCastActDelay": 1000,
+  "description": "Cracker",
+  "duration2": 5000,
+  "element": "Ammo",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 508,
+  "maxLevel": 1,
+  "name": "GS_CRACKER",
+  "range": -9,
+  "targetType": "Target",
+  "type": "Offensive",
+  "damageflags": {
+    "noDamage": true,
+    "isPhysical": true
+  },
+  "requires": {
+    "ammoAmount": 1,
+    "spcost": 10,
+    "spiritSphereCost": 1,
+    "ammoFlags": {
+      "arrow": true,
+      "bullet": true,
+      "cannonball": true,
+      "dagger": true,
+      "grenade": true,
+      "kunai": true,
+      "shell": true,
+      "shuriken": true,
+      "throwweapon": true
+    }
+  },
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -41884,7 +41825,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Single Action",
       "id": 509,
@@ -42344,28 +42285,28 @@
       }
     },
 {
-      "castTime": 1500,
-      "description": "Piercing Shot",
-      "duration2": 120000,
-      "element": "Ammo",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 514,
-      "maxLevel": 5,
-      "name": "GS_PIERCINGSHOT",
-      "range": -9,
-      "targetType": "Target",
-      "type": "Offensive",
-      "damageflags": {
-        "ignoreDefense": true,
-        "isPhysical": true
-      },
-      "flags": {
-        "alterRangeSnakeEye": true
-      },
-      "requires": {
-        "ammoAmount": 1,
-        "spcostPerLevel": [
+  "castTime": 1500,
+  "description": "Piercing Shot",
+  "duration2": 120000,
+  "element": "Ammo",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 514,
+  "maxLevel": 5,
+  "name": "GS_PIERCINGSHOT",
+  "range": -9,
+  "targetType": "Target",
+  "type": "Offensive",
+  "damageflags": {
+    "ignoreDefense": true,
+    "isPhysical": true
+  },
+  "flags": {
+    "alterRangeSnakeEye": true
+  },
+  "requires": {
+    "ammoAmount": 1,
+    "spcostPerLevel": [
           {
             "amount": 11,
             "level": 1
@@ -42387,15 +42328,15 @@
             "level": 5
           }
         ],
-        "ammoFlags": {
-          "bullet": true
-        },
-        "weaponFlags": {
-          "revolver": true,
-          "rifle": true
-        }
-      },
-      "dmgAtkPerLevel": [
+    "ammoFlags": {
+      "bullet": true
+    },
+    "weaponFlags": {
+      "revolver": true,
+      "rifle": true
+    }
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.8
@@ -42417,7 +42358,7 @@
           "value": 3
         }
       ],
-      "dmgPistolPerLevel": [
+  "dmgPistolPerLevel": [
         {
           "level": 1,
           "value": 1.2
@@ -42439,8 +42380,9 @@
           "value": 2
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -42482,7 +42424,7 @@
           }
         }
       ]
-    },
+},
 {
       "afterCastActDelay": 1000,
       "description": "Rapid Shower",
@@ -43258,19 +43200,19 @@
       }
     },
 {
-      "castCancel": true,
-      "description": "Full Buster",
-      "duration2": 10000,
-      "element": "Ammo",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 519,
-      "maxLevel": 10,
-      "name": "GS_FULLBUSTER",
-      "range": -9,
-      "targetType": "Target",
-      "type": "Offensive",
-      "afterCastActDelayPerLevel": [
+  "castCancel": true,
+  "description": "Full Buster",
+  "duration2": 10000,
+  "element": "Ammo",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 519,
+  "maxLevel": 10,
+  "name": "GS_FULLBUSTER",
+  "range": -9,
+  "targetType": "Target",
+  "type": "Offensive",
+  "afterCastActDelayPerLevel": [
         {
           "level": 1,
           "time": 1200
@@ -43312,11 +43254,11 @@
           "time": 3000
         }
       ],
-      "flags": {
-        "alterRangeSnakeEye": true
-      },
-      "requires": {
-        "ammoFlagsamount": [
+  "flags": {
+    "alterRangeSnakeEye": true
+  },
+  "requires": {
+    "ammoFlagsamount": [
           {
             "amount": 2,
             "level": 1
@@ -43358,7 +43300,7 @@
             "level": 10
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 20,
             "level": 1
@@ -43400,14 +43342,14 @@
             "level": 10
           }
         ],
-        "ammoFlags": {
-          "bullet": true
-        },
-        "weaponFlags": {
-          "shotgun": true
-        }
-      },
-      "dmgAtkPerLevel": [
+    "ammoFlags": {
+      "bullet": true
+    },
+    "weaponFlags": {
+      "shotgun": true
+    }
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 12
@@ -43449,8 +43391,12 @@
           "value": 11
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "damageflags": {
+    "isPhysical": true
+  },
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -43531,11 +43477,8 @@
             "value2": 16
           }
         }
-      ],
-      "damageflags": {
-        "isPhysical": true
-      }
-    },
+      ]
+},
 {
       "description": "Spread Attack",
       "element": "Ammo",
@@ -44656,16 +44599,16 @@
       }
     },
 {
-      "description": "Shadow Slash",
-      "element": "Weapon",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 530,
-      "maxLevel": 5,
-      "name": "NJ_KIRIKAGE",
-      "targetType": "Target",
-      "type": "Offensive",
-      "rangePerLevel": [
+  "description": "Shadow Slash",
+  "element": "Weapon",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 530,
+  "maxLevel": 5,
+  "name": "NJ_KIRIKAGE",
+  "targetType": "Target",
+  "type": "Offensive",
+  "rangePerLevel": [
         {
           "level": 1,
           "size": 5
@@ -44687,20 +44630,20 @@
           "size": 9
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "critical": true
-      },
-      "flags": {
-        "allowWhenHidden": true,
-        "alterRangeShadowJump": true
-      },
-      "requires": {
-        "state": "Hidding",
-        "spcostPerLevel": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "critical": true
+  },
+  "flags": {
+    "allowWhenHidden": true,
+    "alterRangeShadowJump": true
+  },
+  "requires": {
+    "state": "Hidding",
+    "spcostPerLevel": [
           {
             "amount": 14,
             "level": 1
@@ -44722,8 +44665,8 @@
             "level": 5
           }
         ]
-      },
-      "dmgAtkPerLevel": [
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1
@@ -44745,8 +44688,9 @@
           "value": 5
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -44783,18 +44727,18 @@
           }
         }
       ]
-    },
+},
 {
-      "afterCastActDelay": 1000,
-      "description": "Cicada Skin Sheeding",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 531,
-      "knockback": 7,
-      "maxLevel": 5,
-      "name": "NJ_UTSUSEMI",
-      "targetType": "Self",
-      "duration1PerLevel": [
+  "afterCastActDelay": 1000,
+  "description": "Cicada Skin Sheeding",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 531,
+  "knockback": 7,
+  "maxLevel": 5,
+  "name": "NJ_UTSUSEMI",
+  "targetType": "Self",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 20000
@@ -44816,15 +44760,15 @@
           "time": 60000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 12,
             "level": 1
@@ -44846,8 +44790,8 @@
             "level": 5
           }
         ]
-      },
-      "knockbackPerLevel": [
+  },
+  "knockbackPerLevel": [
         {
           "level": 1,
           "value": 7
@@ -44869,7 +44813,8 @@
           "value": 7
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -44911,19 +44856,19 @@
           }
         }
       ]
-    },
+},
 {
-      "afterCastActDelay": 1000,
-      "castCancel": true,
-      "description": "Mirror Image",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 532,
-      "maxLevel": 10,
-      "name": "NJ_BUNSINJYUTSU",
-      "targetType": "Self",
-      "type": "Offensive",
-      "castTimePerLevel": [
+  "afterCastActDelay": 1000,
+  "castCancel": true,
+  "description": "Mirror Image",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 532,
+  "maxLevel": 10,
+  "name": "NJ_BUNSINJYUTSU",
+  "targetType": "Self",
+  "type": "Offensive",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 4000
@@ -44965,7 +44910,7 @@
           "time": 1000
         }
       ],
-      "duration1PerLevel": [
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 60000
@@ -45007,17 +44952,17 @@
           "time": 240000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Shadow_Orb"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 30,
             "level": 1
@@ -45059,8 +45004,9 @@
             "level": 10
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -45142,7 +45088,7 @@
           }
         }
       ]
-    },
+},
 {
       "description": "Spirit of the Blade",
       "id": 533,
@@ -46273,19 +46219,19 @@
       ]
     },
 {
-      "afterCastActDelay": 2000,
-      "castCancel": true,
-      "description": "Ice Meteor",
-      "duration1": 100,
-      "element": "Water",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 539,
-      "maxLevel": 5,
-      "name": "NJ_HYOUSYOURAKU",
-      "targetType": "Self",
-      "type": "Offensive",
-      "castTimePerLevel": [
+  "afterCastActDelay": 2000,
+  "castCancel": true,
+  "description": "Ice Meteor",
+  "duration1": 100,
+  "element": "Water",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 539,
+  "maxLevel": 5,
+  "name": "NJ_HYOUSYOURAKU",
+  "targetType": "Self",
+  "type": "Offensive",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -46307,7 +46253,7 @@
           "time": 4000
         }
       ],
-      "duration2PerLevel": [
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -46329,18 +46275,18 @@
           "time": 25000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "requires": {
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Ice_Stone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 40,
             "level": 1
@@ -46362,18 +46308,18 @@
             "level": 5
           }
         ]
-      },
-      "unit": {
-        "id": "Dummyskill",
-        "interval": 1000,
-        "layout": 3,
-        "target": "Enemy",
-        "flag": {
-          "pathCheck": true
-        }
-      },
-      "aoesize": "7x7 square",
-      "dmgMatkPerLevel": [
+  },
+  "unit": {
+    "id": "Dummyskill",
+    "interval": 1000,
+    "layout": 3,
+    "target": "Enemy",
+    "flag": {
+      "pathCheck": true
+    }
+  },
+  "aoesize": "7x7 square",
+  "dmgMatkPerLevel": [
         {
           "level": 1,
           "value": 1.5
@@ -46395,8 +46341,9 @@
           "value": 3.5
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -46438,7 +46385,7 @@
           }
         }
       ]
-    },
+},
 {
       "afterCastActDelay": 1000,
       "castCancel": true,
@@ -47046,20 +46993,20 @@
       ]
     },
 {
-      "description": "Final Strike",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 544,
-      "maxLevel": 10,
-      "name": "NJ_ISSEN",
-      "range": -5,
-      "targetType": "Target",
-      "type": "Offensive",
-      "damageflags": {
-        "ignoreFlee": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "description": "Final Strike",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 544,
+  "maxLevel": 10,
+  "name": "NJ_ISSEN",
+  "range": -5,
+  "targetType": "Target",
+  "type": "Offensive",
+  "damageflags": {
+    "ignoreFlee": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 55,
             "level": 1
@@ -47101,8 +47048,8 @@
             "level": 10
           }
         ]
-      },
-      "dmgLvPerLevel": [
+  },
+  "dmgLvPerLevel": [
         {
           "level": 1,
           "value": 40
@@ -47144,7 +47091,7 @@
           "value": 400
         }
       ],
-      "dmgPerLevel": [
+  "dmgPerLevel": [
         {
           "level": 1,
           "value": 400
@@ -47186,8 +47133,9 @@
           "value": 4000
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -47259,7 +47207,7 @@
           }
         }
       ]
-    },
+},
 {
       "afterCastActDelay": 500,
       "castTime": 1000,
