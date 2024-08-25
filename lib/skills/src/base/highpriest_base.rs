@@ -460,34 +460,44 @@ impl SkillBase for Meditatio {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxspPercentage(1), 0, 363),]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxspPercentage(2), 0, 363),]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxspPercentage(3), 0, 363),]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxspPercentage(4), 0, 363),]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxspPercentage(5), 0, 363),]);
         }
         if self.level == 6 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxspPercentage(6), 0, 363),]);
         }
         if self.level == 7 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxspPercentage(7), 0, 363),]);
         }
         if self.level == 8 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxspPercentage(8), 0, 363),]);
         }
         if self.level == 9 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxspPercentage(9), 0, 363),]);
         }
         if self.level == 10 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_passive_skill(BonusType::MaxspPercentage(10), 0, 363),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -499,19 +509,15 @@ impl SkillBase for Meditatio {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
-    fn is_supportive_skill(&self) -> bool {
+    fn is_passive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn _client_type(&self) -> usize {
-        0
-    }
 }
-impl SupportiveSkillBase for Meditatio {
+impl PassiveSkillBase for Meditatio {
 }
 // HP_MANARECHARGE
 pub struct ManaRecharge {

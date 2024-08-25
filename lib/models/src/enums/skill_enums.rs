@@ -21,13 +21,13 @@ pub enum SkillEnum {
     SmMagnum,
     // Super_Baby Endure
     SmEndure,
-    // Priest Increase SP Recovery
+    // Super_Baby Increase SP Recovery
     MgSrecovery,
     // Super_Baby Sight
     MgSight,
     // Super_Baby Napalm Beat
     MgNapalmbeat,
-    // Priest Safety Wall
+    // Super_Baby Safety Wall
     MgSafetywall,
     // Super_Baby Soul Strike
     MgSoulstrike,
@@ -89,11 +89,11 @@ pub enum SkillEnum {
     McVending,
     // Super_Baby Mammonite
     McMammonite,
-    // Archer Owl's Eye
+    // Super_Baby Owl's Eye
     AcOwl,
-    // Archer Vulture's Eye
+    // Super_Baby Vulture's Eye
     AcVulture,
-    // Archer Improve Concentration
+    // Super_Baby Improve Concentration
     AcConcentration,
     // Archer Double Strafe
     AcDouble,
@@ -113,7 +113,7 @@ pub enum SkillEnum {
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Crusader Spear Mastery
+    // Knight Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +129,9 @@ pub enum SkillEnum {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Crusader Peco Peco Riding
+    // Knight Peco Peco Riding
     KnRiding,
-    // Crusader Cavalier Mastery
+    // Knight Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -181,13 +181,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Sage Earth Spike
+    // Wizard Earth Spike
     WzEarthspike,
-    // Sage Heaven's Drive
+    // Wizard Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Sage Sense
+    // Wizard Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -287,7 +287,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice High Play Dead
+    // Novice Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,
