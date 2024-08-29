@@ -27193,7 +27193,7 @@
   "name": "BA_FROSTJOKER",
   "splashArea": -1,
   "targetType": "Self",
-  "type": "Interactive",
+  "type": "Offensive",
   "damageflags": {
     "splash": true
   },
@@ -28468,7 +28468,7 @@
   "name": "DC_SCREAM",
   "splashArea": -1,
   "targetType": "Self",
-  "type": "Interactive",
+  "type": "Offensive",
   "damageflags": {
     "splash": true
   },
@@ -28498,7 +28498,8 @@
   },
   "aoesize": "31x31 square",
   "bonusToSelf": [],
-  "bonusToSelfBeforeHit": [
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
