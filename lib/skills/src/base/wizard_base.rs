@@ -162,12 +162,60 @@ impl SkillBase for FirePillar {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for FirePillar {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 3
+        }
+        if self.level == 2 {
+            return 4
+        }
+        if self.level == 3 {
+            return 5
+        }
+        if self.level == 4 {
+            return 6
+        }
+        if self.level == 5 {
+            return 7
+        }
+        if self.level == 6 {
+            return 8
+        }
+        if self.level == 7 {
+            return 9
+        }
+        if self.level == 8 {
+            return 10
+        }
+        if self.level == 9 {
+            return 11
+        }
+        if self.level == 10 {
+            return 12
+        }
+        0
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Fire
     }
 }
 impl GroundSkillBase for FirePillar {
@@ -597,12 +645,97 @@ impl SkillBase for MeteorStorm {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for MeteorStorm {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 1
+        }
+        if self.level == 3 {
+            return 2
+        }
+        if self.level == 4 {
+            return 2
+        }
+        if self.level == 5 {
+            return 3
+        }
+        if self.level == 6 {
+            return 3
+        }
+        if self.level == 7 {
+            return 4
+        }
+        if self.level == 8 {
+            return 4
+        }
+        if self.level == 9 {
+            return 5
+        }
+        if self.level == 10 {
+            return 5
+        }
+        if self.level == 11 {
+            return 15
+        }
+        0
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(1.000)
+        }
+        if self.level == 3 {
+            return Some(2.000)
+        }
+        if self.level == 4 {
+            return Some(2.000)
+        }
+        if self.level == 5 {
+            return Some(3.000)
+        }
+        if self.level == 6 {
+            return Some(3.000)
+        }
+        if self.level == 7 {
+            return Some(4.000)
+        }
+        if self.level == 8 {
+            return Some(4.000)
+        }
+        if self.level == 9 {
+            return Some(5.000)
+        }
+        if self.level == 10 {
+            return Some(5.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Fire
     }
 }
 impl GroundSkillBase for MeteorStorm {
@@ -1426,12 +1559,30 @@ impl SkillBase for IceWall {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for IceWall {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
     }
 }
 impl GroundSkillBase for IceWall {
@@ -1788,12 +1939,64 @@ impl SkillBase for StormGust {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for StormGust {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.400)
+        }
+        if self.level == 2 {
+            return Some(1.800)
+        }
+        if self.level == 3 {
+            return Some(2.200)
+        }
+        if self.level == 4 {
+            return Some(2.600)
+        }
+        if self.level == 5 {
+            return Some(3.000)
+        }
+        if self.level == 6 {
+            return Some(3.400)
+        }
+        if self.level == 7 {
+            return Some(3.800)
+        }
+        if self.level == 8 {
+            return Some(4.200)
+        }
+        if self.level == 9 {
+            return Some(4.600)
+        }
+        if self.level == 10 {
+            return Some(5.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
     }
 }
 impl GroundSkillBase for StormGust {
@@ -2120,12 +2323,64 @@ impl SkillBase for HeavensDrive {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for HeavensDrive {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+        if self.level == 1 {
+            return 1
+        }
+        if self.level == 2 {
+            return 2
+        }
+        if self.level == 3 {
+            return 3
+        }
+        if self.level == 4 {
+            return 4
+        }
+        if self.level == 5 {
+            return 5
+        }
+        0
+    }
+    #[inline(always)]
+    fn _dmg_matk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(1.000)
+        }
+        if self.level == 2 {
+            return Some(2.000)
+        }
+        if self.level == 3 {
+            return Some(3.000)
+        }
+        if self.level == 4 {
+            return Some(4.000)
+        }
+        if self.level == 5 {
+            return Some(5.000)
+        }
+        None
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Earth
     }
 }
 impl GroundSkillBase for HeavensDrive {
@@ -2246,12 +2501,30 @@ impl SkillBase for Quagmire {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for Quagmire {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Earth
     }
 }
 impl GroundSkillBase for Quagmire {

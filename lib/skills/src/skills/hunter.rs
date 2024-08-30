@@ -12,6 +12,8 @@ impl Skill for SkidTrap {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for SkidTrap {
+}
 impl GroundSkill for SkidTrap {
 }
 impl Skill for LandMine {
@@ -19,6 +21,8 @@ impl Skill for LandMine {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for LandMine {
 }
 impl GroundSkill for LandMine {
 }
@@ -28,6 +32,8 @@ impl Skill for AnkleSnare {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for AnkleSnare {
+}
 impl GroundSkill for AnkleSnare {
 }
 impl Skill for ShockwaveTrap {
@@ -35,6 +41,8 @@ impl Skill for ShockwaveTrap {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for ShockwaveTrap {
 }
 impl GroundSkill for ShockwaveTrap {
 }
@@ -44,6 +52,8 @@ impl Skill for Sandman {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for Sandman {
+}
 impl GroundSkill for Sandman {
 }
 impl Skill for Flasher {
@@ -51,6 +61,8 @@ impl Skill for Flasher {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for Flasher {
 }
 impl GroundSkill for Flasher {
 }
@@ -60,6 +72,8 @@ impl Skill for FreezingTrap {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for FreezingTrap {
+}
 impl GroundSkill for FreezingTrap {
 }
 impl Skill for BlastMine {
@@ -68,6 +82,8 @@ impl Skill for BlastMine {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for BlastMine {
+}
 impl GroundSkill for BlastMine {
 }
 impl Skill for ClaymoreTrap {
@@ -75,6 +91,8 @@ impl Skill for ClaymoreTrap {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for ClaymoreTrap {
 }
 impl GroundSkill for ClaymoreTrap {
 }
@@ -91,6 +109,8 @@ impl Skill for TalkieBox {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for TalkieBox {
 }
 impl GroundSkill for TalkieBox {
 }
@@ -131,6 +151,8 @@ impl Skill for Detect {
         if level > 4 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for Detect {
 }
 impl GroundSkill for Detect {
 }

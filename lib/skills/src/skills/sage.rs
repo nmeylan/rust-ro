@@ -100,6 +100,8 @@ impl Skill for Volcano {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl SupportiveSkill for Volcano {
+}
 impl GroundSkill for Volcano {
 }
 impl Skill for Deluge {
@@ -107,6 +109,8 @@ impl Skill for Deluge {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl SupportiveSkill for Deluge {
 }
 impl GroundSkill for Deluge {
 }
@@ -116,6 +120,8 @@ impl Skill for Whirlwind {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl SupportiveSkill for Whirlwind {
+}
 impl GroundSkill for Whirlwind {
 }
 impl Skill for MagneticEarth {
@@ -123,6 +129,8 @@ impl Skill for MagneticEarth {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for MagneticEarth {
 }
 impl GroundSkill for MagneticEarth {
 }

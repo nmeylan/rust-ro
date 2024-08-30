@@ -1846,7 +1846,7 @@
   "name": "MG_SAFETYWALL",
   "range": 9,
   "targetType": "Ground",
-  "type": "Ground",
+  "type": "Support",
   "castTimePerLevel": [
         {
           "level": 1,
@@ -4239,35 +4239,35 @@
       "dmgWaves": 1
     },
 {
-      "castCancel": true,
-      "description": "Pneuma",
-      "duration1": 10000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 25,
-      "maxLevel": 1,
-      "name": "AL_PNEUMA",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcost": 10
-      },
-      "unit": {
-        "id": "Pneuma",
-        "interval": -1,
-        "layout": 1,
-        "flag": {
-          "noEnemy": true,
-          "noReiteration": true,
-          "rangedSingleUnit": true
-        }
-      },
-      "aoesize": "3x3 square"
-    },
+  "castCancel": true,
+  "description": "Pneuma",
+  "duration1": 10000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 25,
+  "maxLevel": 1,
+  "name": "AL_PNEUMA",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcost": 10
+  },
+  "unit": {
+    "id": "Pneuma",
+    "interval": -1,
+    "layout": 1,
+    "flag": {
+      "noEnemy": true,
+      "noReiteration": true,
+      "rangedSingleUnit": true
+    }
+  },
+  "aoesize": "3x3 square"
+},
 {
       "castCancel": true,
       "description": "Teleport",
@@ -8955,18 +8955,18 @@
       }
     },
 {
-      "castCancel": true,
-      "description": "B.S. Sacramenti",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 69,
-      "maxLevel": 5,
-      "name": "PR_BENEDICTIO",
-      "range": 9,
-      "splashArea": 1,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "castCancel": true,
+  "description": "B.S. Sacramenti",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 69,
+  "maxLevel": 5,
+  "name": "PR_BENEDICTIO",
+  "range": 9,
+  "splashArea": 1,
+  "targetType": "Ground",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 40000
@@ -8988,38 +8988,38 @@
           "time": 200000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreDefense": true,
-        "noDamage": true,
-        "splash": true
-      },
-      "flags": {
-        "isEnsemble": true
-      },
-      "requires": {
-        "spcost": 20
-      },
-      "aoesize": "3x3 square"
-    },
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreDefense": true,
+    "noDamage": true,
+    "splash": true
+  },
+  "flags": {
+    "isEnsemble": true
+  },
+  "requires": {
+    "spcost": 20
+  },
+  "aoesize": "3x3 square"
+},
 {
-      "castCancel": true,
-      "castTime": 5000,
-      "description": "Sanctuary",
-      "element": "Holy",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 70,
-      "knockback": 2,
-      "maxLevel": 10,
-      "name": "PR_SANCTUARY",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "castCancel": true,
+  "castTime": 5000,
+  "description": "Sanctuary",
+  "element": "Holy",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 70,
+  "knockback": 2,
+  "maxLevel": 10,
+  "name": "PR_SANCTUARY",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 3900
@@ -9061,22 +9061,22 @@
           "time": 30900
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreDefense": true,
-        "noDamage": true
-      },
-      "requires": {
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreDefense": true,
+    "noDamage": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Blue_Gemstone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 15,
             "level": 1
@@ -9118,20 +9118,20 @@
             "level": 10
           }
         ]
-      },
-      "unit": {
-        "id": "Sanctuary",
-        "interval": 1000,
-        "layout": -1,
-        "range": 1,
-        "flag": {
-          "noOverlap": true,
-          "pathCheck": true
-        }
-      },
-      "aoesize": "5x5 cross",
-      "aoesplash": 1,
-      "dmgWavesPerLevel": [
+  },
+  "unit": {
+    "id": "Sanctuary",
+    "interval": 1000,
+    "layout": -1,
+    "range": 1,
+    "flag": {
+      "noOverlap": true,
+      "pathCheck": true
+    }
+  },
+  "aoesize": "5x5 cross",
+  "aoesplash": 1,
+  "dmgWavesPerLevel": [
         {
           "level": 1,
           "value": 8
@@ -9173,7 +9173,7 @@
           "value": 26
         }
       ],
-      "healhpPerLevel": [
+  "healhpPerLevel": [
         {
           "level": 1,
           "value": 100
@@ -9215,7 +9215,7 @@
           "value": 777
         }
       ],
-      "knockbackPerLevel": [
+  "knockbackPerLevel": [
         {
           "level": 1,
           "value": 2
@@ -9257,7 +9257,7 @@
           "value": 2
         }
       ]
-    },
+},
 {
       "castCancel": true,
       "description": "Slow Poison",
@@ -9946,19 +9946,19 @@
       }
     },
 {
-      "afterCastActDelay": 4000,
-      "castCancel": true,
-      "castTime": 15000,
-      "description": "Magnus Exorcismus",
-      "element": "Holy",
-      "damageType": "MultiHit",
-      "id": 79,
-      "maxLevel": 10,
-      "name": "PR_MAGNUS",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "afterCastActDelay": 4000,
+  "castCancel": true,
+  "castTime": 15000,
+  "description": "Magnus Exorcismus",
+  "element": "Holy",
+  "damageType": "MultiHit",
+  "id": 79,
+  "maxLevel": 10,
+  "name": "PR_MAGNUS",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -10000,7 +10000,7 @@
           "time": 14000
         }
       ],
-      "hitCountPerLevel": [
+  "hitCountPerLevel": [
         {
           "count": 1,
           "level": 1
@@ -10042,18 +10042,18 @@
           "level": 10
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "requires": {
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Blue_Gemstone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 40,
             "level": 1
@@ -10095,22 +10095,22 @@
             "level": 10
           }
         ]
-      },
-      "unit": {
-        "id": "Magnus",
-        "interval": 3000,
-        "layout": -1,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noOverlap": true,
-          "pathCheck": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "7x7 cross",
-      "aoesplash": 1,
-      "dmgMatkPerLevel": [
+  },
+  "unit": {
+    "id": "Magnus",
+    "interval": 3000,
+    "layout": -1,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noOverlap": true,
+      "pathCheck": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "7x7 cross",
+  "aoesplash": 1,
+  "dmgMatkPerLevel": [
         {
           "level": 1,
           "value": 1
@@ -10152,7 +10152,7 @@
           "value": 10
         }
       ],
-      "dmgWavesPerLevel": [
+  "dmgWavesPerLevel": [
         {
           "level": 1,
           "value": 2
@@ -10194,25 +10194,25 @@
           "value": 5
         }
       ],
-      "damageflags": {
-        "isMagical": true
-      }
-    },
+  "damageflags": {
+    "isMagical": true
+  }
+},
 {
-      "activeInstance": 5,
-      "afterCastActDelay": 1000,
-      "castCancel": true,
-      "description": "Fire Pillar",
-      "duration1": 30000,
-      "element": "Fire",
-      "damageType": "MultiHit",
-      "id": 80,
-      "maxLevel": 10,
-      "name": "WZ_FIREPILLAR",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "castTimePerLevel": [
+  "activeInstance": 5,
+  "afterCastActDelay": 1000,
+  "castCancel": true,
+  "description": "Fire Pillar",
+  "duration1": 30000,
+  "element": "Fire",
+  "damageType": "MultiHit",
+  "id": 80,
+  "maxLevel": 10,
+  "name": "WZ_FIREPILLAR",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -10254,7 +10254,7 @@
           "time": 300
         }
       ],
-      "duration2PerLevel": [
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 600
@@ -10296,7 +10296,7 @@
           "time": 2400
         }
       ],
-      "hitCountPerLevel": [
+  "hitCountPerLevel": [
         {
           "count": 3,
           "level": 1
@@ -10338,7 +10338,7 @@
           "level": 10
         }
       ],
-      "splashAreaPerLevel": [
+  "splashAreaPerLevel": [
         {
           "area": 1,
           "level": 1
@@ -10384,21 +10384,21 @@
           "level": 11
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreDefense": true,
-        "isMagical": true
-      },
-      "flags": {
-        "isAutoShadowSpell": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 75,
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreDefense": true,
+    "isMagical": true
+  },
+  "flags": {
+    "isAutoShadowSpell": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 75,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Blue_Gemstone",
@@ -10425,20 +10425,20 @@
             "level": 10
           }
         ]
-      },
-      "unit": {
-        "alternateId": "Firepillar_Active",
-        "id": "Firepillar_Waiting",
-        "interval": 2000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoeactPerLevel": [
+  },
+  "unit": {
+    "alternateId": "Firepillar_Active",
+    "id": "Firepillar_Waiting",
+    "interval": 2000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoeactPerLevel": [
         {
           "level": 1,
           "value": "-"
@@ -10480,9 +10480,9 @@
           "value": "-"
         }
       ],
-      "aoesplash": 1,
-      "dmgWaves": 1
-    },
+  "aoesplash": 1,
+  "dmgWaves": 1
+},
 {
       "afterCastActDelay": 2000,
       "castCancel": true,
@@ -10613,7 +10613,7 @@
   "name": "WZ_METEOR",
   "range": 9,
   "targetType": "Ground",
-  "type": "Ground",
+  "type": "Offensive",
   "afterCastActDelayPerLevel": [
         {
           "level": 1,
@@ -11801,35 +11801,35 @@
       }
     },
 {
-      "castCancel": true,
-      "description": "Ice Wall",
-      "element": "Water",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 87,
-      "maxLevel": 10,
-      "name": "WZ_ICEWALL",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcost": 20
-      },
-      "unit": {
-        "id": "Icewall",
-        "interval": 1000,
-        "layout": -1,
-        "flag": {
-          "noKnockback": true,
-          "pathCheck": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "5x1 line12",
-      "wallHpLossPerLevel": [
+  "castCancel": true,
+  "description": "Ice Wall",
+  "element": "Water",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 87,
+  "maxLevel": 10,
+  "name": "WZ_ICEWALL",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcost": 20
+  },
+  "unit": {
+    "id": "Icewall",
+    "interval": 1000,
+    "layout": -1,
+    "flag": {
+      "noKnockback": true,
+      "pathCheck": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "5x1 line12",
+  "wallHpLossPerLevel": [
         {
           "level": 1,
           "value": "50 HP / s"
@@ -11871,7 +11871,7 @@
           "value": "50 HP / s"
         }
       ],
-      "wallHpPerLevel": [
+  "wallHpPerLevel": [
         {
           "level": 1,
           "value": 400
@@ -11913,7 +11913,7 @@
           "value": 2200
         }
       ]
-    },
+},
 {
   "afterCastActDelay": 1000,
   "castCancel": true,
@@ -12210,7 +12210,7 @@
   "name": "WZ_STORMGUST",
   "range": 9,
   "targetType": "Ground",
-  "type": "Ground",
+  "type": "Offensive",
   "castTimePerLevel": [
         {
           "level": 1,
@@ -12564,19 +12564,19 @@
       }
     },
 {
-      "afterCastActDelay": 700,
-      "castCancel": true,
-      "description": "Heaven's Drive",
-      "duration1": 100,
-      "element": "Earth",
-      "damageType": "MultiHit",
-      "id": 91,
-      "maxLevel": 5,
-      "name": "WZ_HEAVENDRIVE",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "castTimePerLevel": [
+  "afterCastActDelay": 700,
+  "castCancel": true,
+  "description": "Heaven's Drive",
+  "duration1": 100,
+  "element": "Earth",
+  "damageType": "MultiHit",
+  "id": 91,
+  "maxLevel": 5,
+  "name": "WZ_HEAVENDRIVE",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 1000
@@ -12598,7 +12598,7 @@
           "time": 5000
         }
       ],
-      "hitCountPerLevel": [
+  "hitCountPerLevel": [
         {
           "count": 1,
           "level": 1
@@ -12620,16 +12620,16 @@
           "level": 5
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "flags": {
-        "isAutoShadowSpell": true,
-        "targetHidden": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "flags": {
+    "isAutoShadowSpell": true,
+    "targetHidden": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 28,
             "level": 1
@@ -12651,18 +12651,18 @@
             "level": 5
           }
         ]
-      },
-      "unit": {
-        "id": "Dummyskill",
-        "interval": 1000,
-        "layout": 2,
-        "target": "Enemy",
-        "flag": {
-          "pathCheck": true
-        }
-      },
-      "aoesize": "5x5 square",
-      "dmgMatkPerLevel": [
+  },
+  "unit": {
+    "id": "Dummyskill",
+    "interval": 1000,
+    "layout": 2,
+    "target": "Enemy",
+    "flag": {
+      "pathCheck": true
+    }
+  },
+  "aoesize": "5x5 square",
+  "dmgMatkPerLevel": [
         {
           "level": 1,
           "value": 1
@@ -12684,11 +12684,11 @@
           "value": 5
         }
       ],
-      "dmgWaves": 1,
-      "damageflags": {
-        "isMagical": true
-      }
-    },
+  "dmgWaves": 1,
+  "damageflags": {
+    "isMagical": true
+  }
+},
 {
   "activeInstance": 3,
   "afterCastActDelay": 1000,
@@ -12702,7 +12702,7 @@
   "name": "WZ_QUAGMIRE",
   "range": 9,
   "targetType": "Ground",
-  "type": "Ground",
+  "type": "Offensive",
   "duration1PerLevel": [
         {
           "level": 1,
@@ -13713,7 +13713,7 @@
   "name": "BS_HAMMERFALL",
   "range": 1,
   "targetType": "Ground",
-  "type": "Ground",
+  "type": "Offensive",
   "splashAreaPerLevel": [
         {
           "area": 2,
@@ -14382,17 +14382,17 @@
       ]
     },
 {
-      "description": "Skid Trap",
-      "duration2": 3000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 115,
-      "maxLevel": 5,
-      "name": "HT_SKIDTRAP",
-      "range": 3,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Skid Trap",
+  "duration2": 3000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 115,
+  "maxLevel": 5,
+  "name": "HT_SKIDTRAP",
+  "range": 3,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 300000
@@ -14414,7 +14414,7 @@
           "time": 60000
         }
       ],
-      "knockbackPerLevel": [
+  "knockbackPerLevel": [
         {
           "level": 1,
           "value": 6
@@ -14436,37 +14436,37 @@
           "value": 10
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 10,
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 10,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Booby_Trap"
           }
         ]
-      },
-      "unit": {
-        "id": "Skidtrap",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoesplash": 1,
-      "trapHpPerLevel": [
+  },
+  "unit": {
+    "id": "Skidtrap",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoesplash": 1,
+  "trapHpPerLevel": [
         {
           "level": 1,
           "value": 3500
@@ -14488,20 +14488,20 @@
           "value": 3500
         }
       ]
-    },
+},
 {
-      "description": "Land Mine",
-      "duration2": 5000,
-      "element": "Earth",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 116,
-      "maxLevel": 5,
-      "name": "HT_LANDMINE",
-      "range": 3,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Land Mine",
+  "duration2": 5000,
+  "element": "Earth",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 116,
+  "maxLevel": 5,
+  "name": "HT_LANDMINE",
+  "range": 3,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 200000
@@ -14523,42 +14523,42 @@
           "time": 40000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreDefCard": true,
-        "ignoreFlee": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "alterRangeResearchTrap": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 10,
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreDefCard": true,
+    "ignoreFlee": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "alterRangeResearchTrap": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 10,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Booby_Trap"
           }
         ]
-      },
-      "unit": {
-        "id": "Landmine",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoeactPerLevel": [
+  },
+  "unit": {
+    "id": "Landmine",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoeactPerLevel": [
         {
           "level": 1,
           "value": "3x3 square"
@@ -14580,9 +14580,9 @@
           "value": "3x3 square"
         }
       ],
-      "aoesplash": 1,
-      "dmgWaves": 1,
-      "intDexPerLevel": [
+  "aoesplash": 1,
+  "dmgWaves": 1,
+  "intDexPerLevel": [
         {
           "level": 1,
           "value": 60
@@ -14628,7 +14628,7 @@
           "value": 160
         }
       ],
-      "trapHpPerLevel": [
+  "trapHpPerLevel": [
         {
           "level": 1,
           "value": 3500
@@ -14650,7 +14650,7 @@
           "value": 3500
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -14692,18 +14692,18 @@
           }
         }
       ]
-    },
+},
 {
-      "description": "Ankle Snare",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 117,
-      "maxLevel": 5,
-      "name": "HT_ANKLESNARE",
-      "range": 3,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Ankle Snare",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 117,
+  "maxLevel": 5,
+  "name": "HT_ANKLESNARE",
+  "range": 3,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 250000
@@ -14725,7 +14725,7 @@
           "time": 50000
         }
       ],
-      "duration2PerLevel": [
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 4000
@@ -14747,38 +14747,38 @@
           "time": 20000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 12,
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 12,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Booby_Trap"
           }
         ]
-      },
-      "unit": {
-        "id": "Anklesnare",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noKnockback": true,
-          "noReiteration": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoesplash": 1,
-      "knockbackPerLevel": [
+  },
+  "unit": {
+    "id": "Anklesnare",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noKnockback": true,
+      "noReiteration": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoesplash": 1,
+  "knockbackPerLevel": [
         {
           "level": 1,
           "value": 1
@@ -14800,7 +14800,7 @@
           "value": 1
         }
       ],
-      "snareDurationPerLevel": [
+  "snareDurationPerLevel": [
         {
           "level": 1,
           "value": 40
@@ -14822,7 +14822,7 @@
           "value": 200
         }
       ],
-      "trapHpPerLevel": [
+  "trapHpPerLevel": [
         {
           "level": 1,
           "value": 3500
@@ -14844,19 +14844,19 @@
           "value": 3500
         }
       ]
-    },
+},
 {
-      "description": "Shockwave Trap",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 118,
-      "maxLevel": 5,
-      "name": "HT_SHOCKWAVE",
-      "range": 3,
-      "splashArea": 1,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Shockwave Trap",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 118,
+  "maxLevel": 5,
+  "name": "HT_SHOCKWAVE",
+  "range": 3,
+  "splashArea": 1,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 200000
@@ -14878,37 +14878,37 @@
           "time": 40000
         }
       ],
-      "damageflags": {
-        "noDamage": true,
-        "splash": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 45,
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true,
+    "splash": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 45,
+    "itemcost": [
           {
             "amount": 2,
             "item": "Booby_Trap"
           }
         ]
-      },
-      "unit": {
-        "id": "Shockwave",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoeactPerLevel": [
+  },
+  "unit": {
+    "id": "Shockwave",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoeactPerLevel": [
         {
           "level": 1,
           "value": "3x3 square"
@@ -14930,8 +14930,8 @@
           "value": "3x3 square"
         }
       ],
-      "aoesplash": 1,
-      "trapHpPerLevel": [
+  "aoesplash": 1,
+  "trapHpPerLevel": [
         {
           "level": 1,
           "value": 3500
@@ -14953,7 +14953,7 @@
           "value": 3500
         }
       ],
-      "dmgSPPercentagePerLevel": [
+  "dmgSPPercentagePerLevel": [
         {
           "level": 1,
           "value": 20
@@ -14975,20 +14975,20 @@
           "value": 80
         }
       ]
-    },
+},
 {
-      "description": "Sandman",
-      "duration2": 30000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 119,
-      "maxLevel": 5,
-      "name": "HT_SANDMAN",
-      "range": 3,
-      "splashArea": 2,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Sandman",
+  "duration2": 30000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 119,
+  "maxLevel": 5,
+  "name": "HT_SANDMAN",
+  "range": 3,
+  "splashArea": 2,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 150000
@@ -15010,37 +15010,37 @@
           "time": 30000
         }
       ],
-      "damageflags": {
-        "noDamage": true,
-        "splash": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 12,
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true,
+    "splash": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 12,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Booby_Trap"
           }
         ]
-      },
-      "unit": {
-        "id": "Sandman",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoeactPerLevel": [
+  },
+  "unit": {
+    "id": "Sandman",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoeactPerLevel": [
         {
           "level": 1,
           "value": "5x5 square"
@@ -15062,8 +15062,8 @@
           "value": "5x5 square"
         }
       ],
-      "aoesplash": 1,
-      "trapHpPerLevel": [
+  "aoesplash": 1,
+  "trapHpPerLevel": [
         {
           "level": 1,
           "value": 3500
@@ -15085,7 +15085,7 @@
           "value": 3500
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -15127,20 +15127,20 @@
           }
         }
       ]
-    },
+},
 {
-      "description": "Flasher",
-      "duration2": 30000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 120,
-      "maxLevel": 5,
-      "name": "HT_FLASHER",
-      "range": 3,
-      "splashArea": 1,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Flasher",
+  "duration2": 30000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 120,
+  "maxLevel": 5,
+  "name": "HT_FLASHER",
+  "range": 3,
+  "splashArea": 1,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 150000
@@ -15162,37 +15162,37 @@
           "time": 30000
         }
       ],
-      "damageflags": {
-        "noDamage": true,
-        "splash": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 12,
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true,
+    "splash": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 12,
+    "itemcost": [
           {
             "amount": 2,
             "item": "Booby_Trap"
           }
         ]
-      },
-      "unit": {
-        "id": "Flasher",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoeactPerLevel": [
+  },
+  "unit": {
+    "id": "Flasher",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoeactPerLevel": [
         {
           "level": 1,
           "value": "3x3 square"
@@ -15214,8 +15214,8 @@
           "value": "3x3 square"
         }
       ],
-      "aoesplash": 1,
-      "blindDurationPerLevel": [
+  "aoesplash": 1,
+  "blindDurationPerLevel": [
         {
           "level": 1,
           "value": 30
@@ -15237,7 +15237,7 @@
           "value": 30
         }
       ],
-      "trapHpPerLevel": [
+  "trapHpPerLevel": [
         {
           "level": 1,
           "value": 3500
@@ -15259,20 +15259,20 @@
           "value": 3500
         }
       ]
-    },
+},
 {
-      "description": "Freezing Trap",
-      "element": "Water",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 121,
-      "maxLevel": 5,
-      "name": "HT_FREEZINGTRAP",
-      "range": 3,
-      "splashArea": 1,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Freezing Trap",
+  "element": "Water",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 121,
+  "maxLevel": 5,
+  "name": "HT_FREEZINGTRAP",
+  "range": 3,
+  "splashArea": 1,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 150000
@@ -15294,7 +15294,7 @@
           "time": 30000
         }
       ],
-      "duration2PerLevel": [
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 3000
@@ -15316,42 +15316,42 @@
           "time": 15000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreFlee": true,
-        "splash": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "alterRangeResearchTrap": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 10,
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreFlee": true,
+    "splash": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "alterRangeResearchTrap": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 10,
+    "itemcost": [
           {
             "amount": 2,
             "item": "Booby_Trap"
           }
         ]
-      },
-      "unit": {
-        "id": "Freezingtrap",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoeactPerLevel": [
+  },
+  "unit": {
+    "id": "Freezingtrap",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoeactPerLevel": [
         {
           "level": 1,
           "value": "3x3 square"
@@ -15373,10 +15373,10 @@
           "value": "3x3 square"
         }
       ],
-      "aoesplash": 1,
-      "dmgAtk": 1,
-      "dmgWaves": 1,
-      "freezeDurationPerLevel": [
+  "aoesplash": 1,
+  "dmgAtk": 1,
+  "dmgWaves": 1,
+  "freezeDurationPerLevel": [
         {
           "level": 1,
           "value": 3
@@ -15398,7 +15398,7 @@
           "value": 15
         }
       ],
-      "trapHpPerLevel": [
+  "trapHpPerLevel": [
         {
           "level": 1,
           "value": 3500
@@ -15420,7 +15420,7 @@
           "value": 3500
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -15462,20 +15462,20 @@
           }
         }
       ]
-    },
+},
 {
-      "description": "Blast Mine",
-      "element": "Wind",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 122,
-      "maxLevel": 5,
-      "name": "HT_BLASTMINE",
-      "range": 3,
-      "splashArea": 1,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Blast Mine",
+  "element": "Wind",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 122,
+  "maxLevel": 5,
+  "name": "HT_BLASTMINE",
+  "range": 3,
+  "splashArea": 1,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 25000
@@ -15497,43 +15497,43 @@
           "time": 5000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreDefCard": true,
-        "ignoreFlee": true,
-        "splash": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "alterRangeResearchTrap": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 10,
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreDefCard": true,
+    "ignoreFlee": true,
+    "splash": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "alterRangeResearchTrap": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 10,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Booby_Trap"
           }
         ]
-      },
-      "unit": {
-        "id": "Blastmine",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoeactPerLevel": [
+  },
+  "unit": {
+    "id": "Blastmine",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoeactPerLevel": [
         {
           "level": 1,
           "value": "3x3 square"
@@ -15555,9 +15555,9 @@
           "value": "3x3 square"
         }
       ],
-      "aoesplash": 1,
-      "dmgWaves": 1,
-      "intDexPerLevel": [
+  "aoesplash": 1,
+  "dmgWaves": 1,
+  "intDexPerLevel": [
         {
           "level": 1,
           "value": 60
@@ -15603,7 +15603,7 @@
           "value": 160
         }
       ],
-      "trapHpPerLevel": [
+  "trapHpPerLevel": [
         {
           "level": 1,
           "value": 3500
@@ -15625,20 +15625,20 @@
           "value": 3500
         }
       ]
-    },
+},
 {
-      "description": "Claymore Trap",
-      "element": "Fire",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 123,
-      "maxLevel": 5,
-      "name": "HT_CLAYMORETRAP",
-      "range": 3,
-      "splashArea": 2,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Claymore Trap",
+  "element": "Fire",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 123,
+  "maxLevel": 5,
+  "name": "HT_CLAYMORETRAP",
+  "range": 3,
+  "splashArea": 2,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 20000
@@ -15660,44 +15660,44 @@
           "time": 100000
         }
       ],
-      "copyflags": {
-        "plagiarism": true,
-        "reproduce": true
-      },
-      "damageflags": {
-        "ignoreDefCard": true,
-        "ignoreFlee": true,
-        "splash": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "alterRangeResearchTrap": true,
-        "ignoreHovering": true,
-        "isTrap": true,
-        "targetTrap": true
-      },
-      "requires": {
-        "spcost": 15,
-        "itemcost": [
+  "copyflags": {
+    "plagiarism": true,
+    "reproduce": true
+  },
+  "damageflags": {
+    "ignoreDefCard": true,
+    "ignoreFlee": true,
+    "splash": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "alterRangeResearchTrap": true,
+    "ignoreHovering": true,
+    "isTrap": true,
+    "targetTrap": true
+  },
+  "requires": {
+    "spcost": 15,
+    "itemcost": [
           {
             "amount": 2,
             "item": "Booby_Trap"
           }
         ]
-      },
-      "unit": {
-        "id": "Claymoretrap",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoeactPerLevel": [
+  },
+  "unit": {
+    "id": "Claymoretrap",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoeactPerLevel": [
         {
           "level": 1,
           "value": "5x5 square"
@@ -15719,9 +15719,9 @@
           "value": "5x5 square"
         }
       ],
-      "aoesplash": 1,
-      "dmgWaves": 1,
-      "intDexPerLevel": [
+  "aoesplash": 1,
+  "dmgWaves": 1,
+  "intDexPerLevel": [
         {
           "level": 1,
           "value": 60
@@ -15767,7 +15767,7 @@
           "value": 160
         }
       ],
-      "trapHpPerLevel": [
+  "trapHpPerLevel": [
         {
           "level": 1,
           "value": 3500
@@ -15789,7 +15789,7 @@
           "value": 3500
         }
       ]
-    },
+},
 {
       "description": "Remove Trap",
       "damageType": "Single",
@@ -15811,44 +15811,44 @@
       }
     },
 {
-      "description": "Talkie Box",
-      "duration1": 600000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 125,
-      "maxLevel": 1,
-      "name": "HT_TALKIEBOX",
-      "range": 3,
-      "targetType": "Ground",
-      "type": "Ground",
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 1,
-        "itemcost": [
+  "description": "Talkie Box",
+  "duration1": 600000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 125,
+  "maxLevel": 1,
+  "name": "HT_TALKIEBOX",
+  "range": 3,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 1,
+    "itemcost": [
           {
             "amount": 1,
             "item": "Booby_Trap"
           }
         ]
-      },
-      "unit": {
-        "id": "Talkiebox",
-        "interval": 1000,
-        "range": 1,
-        "flag": {
-          "notMob": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "1x1 square",
-      "aoesplash": 1
-    },
+  },
+  "unit": {
+    "id": "Talkiebox",
+    "interval": 1000,
+    "range": 1,
+    "flag": {
+      "notMob": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "1x1 square",
+  "aoesplash": 1
+},
 {
       "description": "Beast Bane",
       "id": 126,
@@ -16143,16 +16143,16 @@
       }
     },
 {
-      "description": "Detect",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 130,
-      "maxLevel": 4,
-      "name": "HT_DETECTING",
-      "splashArea": 3,
-      "targetType": "Ground",
-      "type": "Ground",
-      "rangePerLevel": [
+  "description": "Detect",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 130,
+  "maxLevel": 4,
+  "name": "HT_DETECTING",
+  "splashArea": 3,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "rangePerLevel": [
         {
           "level": 1,
           "size": 3
@@ -16170,16 +16170,16 @@
           "size": 9
         }
       ],
-      "damageflags": {
-        "noDamage": true,
-        "splash": true
-      },
-      "requires": {
-        "spcost": 8,
-        "state": "Falcon"
-      },
-      "aoesize": "3x3 square"
-    },
+  "damageflags": {
+    "noDamage": true,
+    "splash": true
+  },
+  "requires": {
+    "spcost": 8,
+    "state": "Falcon"
+  },
+  "aoesize": "3x3 square"
+},
 {
       "description": "Spring Trap",
       "damageType": "Single",
@@ -17532,7 +17532,7 @@
   "name": "AS_VENOMDUST",
   "range": 2,
   "targetType": "Ground",
-  "type": "Ground",
+  "type": "Offensive",
   "duration1PerLevel": [
         {
           "level": 1,
@@ -25199,19 +25199,19 @@
       ]
     },
 {
-      "castCancel": true,
-      "castTime": 5000,
-      "description": "Volcano",
-      "element": "Fire",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 285,
-      "maxLevel": 5,
-      "name": "SA_VOLCANO",
-      "range": 2,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "castCancel": true,
+  "castTime": 5000,
+  "description": "Volcano",
+  "element": "Fire",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 285,
+  "maxLevel": 5,
+  "name": "SA_VOLCANO",
+  "range": 2,
+  "targetType": "Ground",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 60000
@@ -25233,20 +25233,20 @@
           "time": 300000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "ignoreHovering": true
-      },
-      "requires": {
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "ignoreHovering": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Yellow_Gemstone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 48,
             "level": 1
@@ -25268,18 +25268,18 @@
             "level": 5
           }
         ]
-      },
-      "unit": {
-        "id": "Volcano",
-        "interval": -1,
-        "layout": 3,
-        "flag": {
-          "pathCheck": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "7x7 square",
-      "bonusToSelf": [
+  },
+  "unit": {
+    "id": "Volcano",
+    "interval": -1,
+    "layout": 3,
+    "flag": {
+      "pathCheck": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "7x7 square",
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -25356,21 +25356,21 @@
           }
         }
       ]
-    },
+},
 {
-      "castCancel": true,
-      "castTime": 5000,
-      "description": "Deluge",
-      "element": "Water",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 286,
-      "maxLevel": 5,
-      "name": "SA_DELUGE",
-      "range": 2,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "castCancel": true,
+  "castTime": 5000,
+  "description": "Deluge",
+  "element": "Water",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 286,
+  "maxLevel": 5,
+  "name": "SA_DELUGE",
+  "range": 2,
+  "targetType": "Ground",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 60000
@@ -25392,20 +25392,20 @@
           "time": 300000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "ignoreHovering": true
-      },
-      "requires": {
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "ignoreHovering": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Yellow_Gemstone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 48,
             "level": 1
@@ -25427,18 +25427,18 @@
             "level": 5
           }
         ]
-      },
-      "unit": {
-        "id": "Deluge",
-        "interval": -1,
-        "layout": 3,
-        "flag": {
-          "pathCheck": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "7x7 square",
-      "bonusToSelf": [
+  },
+  "unit": {
+    "id": "Deluge",
+    "interval": -1,
+    "layout": 3,
+    "flag": {
+      "pathCheck": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "7x7 square",
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -25515,21 +25515,21 @@
           }
         }
       ]
-    },
+},
 {
-      "castCancel": true,
-      "castTime": 5000,
-      "description": "Whirlwind",
-      "element": "Wind",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 287,
-      "maxLevel": 5,
-      "name": "SA_VIOLENTGALE",
-      "range": 2,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "castCancel": true,
+  "castTime": 5000,
+  "description": "Whirlwind",
+  "element": "Wind",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 287,
+  "maxLevel": 5,
+  "name": "SA_VIOLENTGALE",
+  "range": 2,
+  "targetType": "Ground",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 60000
@@ -25551,20 +25551,20 @@
           "time": 300000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "ignoreHovering": true
-      },
-      "requires": {
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "ignoreHovering": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Yellow_Gemstone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 48,
             "level": 1
@@ -25586,18 +25586,18 @@
             "level": 5
           }
         ]
-      },
-      "unit": {
-        "id": "Violentgale",
-        "interval": -1,
-        "layout": 3,
-        "flag": {
-          "pathCheck": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "7x7 square",
-      "bonusToSelf": [
+  },
+  "unit": {
+    "id": "Violentgale",
+    "interval": -1,
+    "layout": 3,
+    "flag": {
+      "pathCheck": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "7x7 square",
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -25674,20 +25674,20 @@
           }
         }
       ]
-    },
+},
 {
-      "castCancel": true,
-      "castTime": 5000,
-      "description": "Magnetic Earth",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 288,
-      "maxLevel": 5,
-      "name": "SA_LANDPROTECTOR",
-      "range": 2,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "castCancel": true,
+  "castTime": 5000,
+  "description": "Magnetic Earth",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 288,
+  "maxLevel": 5,
+  "name": "SA_LANDPROTECTOR",
+  "range": 2,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 165000
@@ -25709,11 +25709,11 @@
           "time": 345000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Blue_Gemstone"
@@ -25723,7 +25723,7 @@
             "item": "Yellow_Gemstone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 66,
             "level": 1
@@ -25745,11 +25745,11 @@
             "level": 5
           }
         ]
-      },
-      "unit": {
-        "id": "Landprotector",
-        "interval": -1,
-        "layoutPerLevel": [
+  },
+  "unit": {
+    "id": "Landprotector",
+    "interval": -1,
+    "layoutPerLevel": [
           {
             "level": 1,
             "size": 3
@@ -25771,12 +25771,12 @@
             "size": 5
           }
         ],
-        "flag": {
-          "pathCheck": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesizePerLevel": [
+    "flag": {
+      "pathCheck": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesizePerLevel": [
         {
           "level": 1,
           "value": "7x7"
@@ -25798,7 +25798,7 @@
           "value": "11x11"
         }
       ]
-    },
+},
 {
       "castCancel": true,
       "castTime": 2000,
@@ -29985,19 +29985,19 @@
       }
     },
 {
-      "activeInstance": 1,
-      "castCancel": true,
-      "description": "Basilica",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 362,
-      "knockback": 2,
-      "maxLevel": 5,
-      "name": "HP_BASILICA",
-      "range": 4,
-      "targetType": "Self",
-      "type": "Ground",
-      "afterCastActDelayPerLevel": [
+  "activeInstance": 1,
+  "castCancel": true,
+  "description": "Basilica",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 362,
+  "knockback": 2,
+  "maxLevel": 5,
+  "name": "HP_BASILICA",
+  "range": 4,
+  "targetType": "Self",
+  "type": "Support",
+  "afterCastActDelayPerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -30019,7 +30019,7 @@
           "time": 6000
         }
       ],
-      "castTimePerLevel": [
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -30041,7 +30041,7 @@
           "time": 9000
         }
       ],
-      "duration1PerLevel": [
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 20000
@@ -30063,7 +30063,7 @@
           "time": 40000
         }
       ],
-      "duration2PerLevel": [
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 20000
@@ -30085,11 +30085,11 @@
           "time": 40000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Yellow_Gemstone"
@@ -30107,7 +30107,7 @@
             "item": "Holy_Water"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 80,
             "level": 1
@@ -30129,17 +30129,17 @@
             "level": 5
           }
         ]
-      },
-      "unit": {
-        "id": "Basilica",
-        "interval": 300,
-        "layout": 2,
-        "flag": {
-          "rangedSingleUnit": true
-        }
-      },
-      "aoesize": "5x5 square"
-    },
+  },
+  "unit": {
+    "id": "Basilica",
+    "interval": 300,
+    "layout": 2,
+    "flag": {
+      "rangedSingleUnit": true
+    }
+  },
+  "aoesize": "5x5 square"
+},
 {
   "description": "Meditatio",
   "id": 363,
@@ -34563,42 +34563,42 @@
       }
     },
 {
-      "activeInstance": 2,
-      "castCancel": true,
-      "description": "Blinding Mist",
-      "duration1": 20000,
-      "duration2": 10000,
-      "element": "Earth",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 404,
-      "maxLevel": 5,
-      "name": "PF_FOGWALL",
-      "range": 9,
-      "targetType": "Ground",
-      "type": "Ground",
-      "damageflags": {
-        "noDamage": true,
-        "isMagical": true
-      },
-      "flags": {
-        "targetHidden": true,
-        "targetSelf": true
-      },
-      "requires": {
-        "spcost": 25
-      },
-      "unit": {
-        "id": "Fogwall",
-        "interval": -1,
-        "layout": -1,
-        "flag": {
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "5x3 square",
-      "skillFailureChance": 75,
-      "bonusToSelf": [
+  "activeInstance": 2,
+  "castCancel": true,
+  "description": "Blinding Mist",
+  "duration1": 20000,
+  "duration2": 10000,
+  "element": "Earth",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 404,
+  "maxLevel": 5,
+  "name": "PF_FOGWALL",
+  "range": 9,
+  "targetType": "Ground",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true,
+    "isMagical": true
+  },
+  "flags": {
+    "targetHidden": true,
+    "targetSelf": true
+  },
+  "requires": {
+    "spcost": 25
+  },
+  "unit": {
+    "id": "Fogwall",
+    "interval": -1,
+    "layout": -1,
+    "flag": {
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "5x3 square",
+  "skillFailureChance": 75,
+  "bonusToSelf": [
         {
           "value": {
             "bonus": "ChanceToInflictStatusOnAttackPercentage",
@@ -34607,7 +34607,7 @@
           }
         }
       ]
-    },
+},
 {
       "activeInstance": 3,
       "description": "Fiber Lock",
@@ -40168,20 +40168,20 @@
       ]
 },
 {
-      "afterCastActDelay": 2000,
-      "castCancel": true,
-      "castTime": 5000,
-      "description": "Gravitation Field",
-      "element": "Earth",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 484,
-      "maxLevel": 5,
-      "name": "HW_GRAVITATION",
-      "range": 18,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "afterCastActDelay": 2000,
+  "castCancel": true,
+  "castTime": 5000,
+  "description": "Gravitation Field",
+  "element": "Earth",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 484,
+  "maxLevel": 5,
+  "name": "HW_GRAVITATION",
+  "range": 18,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 5000
@@ -40203,27 +40203,27 @@
           "time": 9000
         }
       ],
-      "damageflags": {
-        "ignoreDefCard": true,
-        "ignoreElement": true,
-        "ignoreFlee": true,
-        "noDamage": true
-      },
-      "flags": {
-        "ignoreBgReduction": true,
-        "ignoreGvgReduction": true,
-        "ignoreHovering": true,
-        "targetEmperium": true,
-        "targetHidden": true
-      },
-      "requires": {
-        "itemcost": [
+  "damageflags": {
+    "ignoreDefCard": true,
+    "ignoreElement": true,
+    "ignoreFlee": true,
+    "noDamage": true
+  },
+  "flags": {
+    "ignoreBgReduction": true,
+    "ignoreGvgReduction": true,
+    "ignoreHovering": true,
+    "targetEmperium": true,
+    "targetHidden": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Blue_Gemstone"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 20,
             "level": 1
@@ -40245,21 +40245,21 @@
             "level": 5
           }
         ]
-      },
-      "unit": {
-        "id": "Gravitation",
-        "interval": 1000,
-        "layout": 2,
-        "target": "Enemy",
-        "flag": {
-          "dualMode": true,
-          "noOverlap": true,
-          "pathCheck": true,
-          "removedByFireRain": true
-        }
-      },
-      "aoesize": "5x5 square",
-      "dmgLvPerLevel": [
+  },
+  "unit": {
+    "id": "Gravitation",
+    "interval": 1000,
+    "layout": 2,
+    "target": "Enemy",
+    "flag": {
+      "dualMode": true,
+      "noOverlap": true,
+      "pathCheck": true,
+      "removedByFireRain": true
+    }
+  },
+  "aoesize": "5x5 square",
+  "dmgLvPerLevel": [
         {
           "level": 1,
           "value": 400
@@ -40281,7 +40281,7 @@
           "value": 1200
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -40318,7 +40318,7 @@
           }
         }
       ]
-    },
+},
 {
   "description": "Cart Termination",
   "duration2": 5000,
@@ -51034,16 +51034,16 @@
       }
     },
 {
-      "description": "Skid_Trap",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 8209,
-      "maxLevel": 5,
-      "name": "MA_SKIDTRAP",
-      "range": 3,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Skid_Trap",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 8209,
+  "maxLevel": 5,
+  "name": "MA_SKIDTRAP",
+  "range": 3,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 300000
@@ -51065,7 +51065,7 @@
           "time": 60000
         }
       ],
-      "knockbackPerLevel": [
+  "knockbackPerLevel": [
         {
           "amount": 6,
           "level": 1
@@ -51087,41 +51087,41 @@
           "level": 5
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 10
-      },
-      "unit": {
-        "id": "Skidtrap",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true
-        }
-      }
-    },
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 10
+  },
+  "unit": {
+    "id": "Skidtrap",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true
+    }
+  }
+},
 {
-      "description": "Land_Mine",
-      "duration2": 5000,
-      "element": "Earth",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 8210,
-      "maxLevel": 5,
-      "name": "MA_LANDMINE",
-      "range": 3,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Land_Mine",
+  "duration2": 5000,
+  "element": "Earth",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 8210,
+  "maxLevel": 5,
+  "name": "MA_LANDMINE",
+  "range": 3,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 200000
@@ -51143,41 +51143,41 @@
           "time": 40000
         }
       ],
-      "damageflags": {
-        "ignoreDefCard": true,
-        "ignoreFlee": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "alterRangeResearchTrap": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 10
-      },
-      "unit": {
-        "id": "Landmine",
-        "interval": 1000,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true
-        }
-      }
-    },
+  "damageflags": {
+    "ignoreDefCard": true,
+    "ignoreFlee": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "alterRangeResearchTrap": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 10
+  },
+  "unit": {
+    "id": "Landmine",
+    "interval": 1000,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true
+    }
+  }
+},
 {
-      "description": "Sandman",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 8211,
-      "maxLevel": 5,
-      "name": "MA_SANDMAN",
-      "range": 3,
-      "splashArea": 2,
-      "targetType": "Ground",
-      "type": "Ground",
-      "duration1PerLevel": [
+  "description": "Sandman",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 8211,
+  "maxLevel": 5,
+  "name": "MA_SANDMAN",
+  "range": 3,
+  "splashArea": 2,
+  "targetType": "Ground",
+  "type": "Offensive",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 150000
@@ -51199,7 +51199,7 @@
           "time": 30000
         }
       ],
-      "duration2PerLevel": [
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 12000
@@ -51221,29 +51221,29 @@
           "time": 20000
         }
       ],
-      "damageflags": {
-        "noDamage": true,
-        "splash": true
-      },
-      "flags": {
-        "allowOnWarg": true,
-        "ignoreHovering": true,
-        "isTrap": true
-      },
-      "requires": {
-        "spcost": 12
-      },
-      "unit": {
-        "id": "Sandman",
-        "interval": 1000,
-        "range": 1,
-        "target": "Enemy",
-        "flag": {
-          "noFootSet": true,
-          "noReiteration": true
-        }
-      }
-    },
+  "damageflags": {
+    "noDamage": true,
+    "splash": true
+  },
+  "flags": {
+    "allowOnWarg": true,
+    "ignoreHovering": true,
+    "isTrap": true
+  },
+  "requires": {
+    "spcost": 12
+  },
+  "unit": {
+    "id": "Sandman",
+    "interval": 1000,
+    "range": 1,
+    "target": "Enemy",
+    "flag": {
+      "noFootSet": true,
+      "noReiteration": true
+    }
+  }
+},
 {
       "description": "Freezing_Trap",
       "element": "Water",
@@ -51324,25 +51324,25 @@
       }
     },
 {
-      "description": "Remove_Trap",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 8213,
-      "maxLevel": 1,
-      "name": "MA_REMOVETRAP",
-      "range": 2,
-      "targetType": "Trap",
-      "type": "Ground",
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "targetTrap": true
-      },
-      "requires": {
-        "spcost": 5
-      }
-    },
+  "description": "Remove_Trap",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 8213,
+  "maxLevel": 1,
+  "name": "MA_REMOVETRAP",
+  "range": 2,
+  "targetType": "Trap",
+  "type": "Offensive",
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "targetTrap": true
+  },
+  "requires": {
+    "spcost": 5
+  }
+},
 {
       "castTime": 1500,
       "description": "Arrow_Repel",

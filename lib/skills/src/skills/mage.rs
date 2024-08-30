@@ -36,6 +36,8 @@ impl Skill for SafetyWall {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl SupportiveSkill for SafetyWall {
+}
 impl GroundSkill for SafetyWall {
 }
 impl Skill for SoulStrike {

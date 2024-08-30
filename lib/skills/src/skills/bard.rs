@@ -36,7 +36,7 @@ impl Skill for UnbarringOctave {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl InteractiveSkill for UnbarringOctave {
+impl OffensiveSkill for UnbarringOctave {
 }
 impl Skill for PerfectTablature {
     fn new(level: u8) -> Option<Self> where Self : Sized {

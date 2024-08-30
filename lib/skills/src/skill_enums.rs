@@ -3,76 +3,76 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use crate::skills::whitesmith::{*};
-use crate::base::whitesmith_base::{*};
-use crate::skills::novice::{*};
-use crate::base::novice_base::{*};
-use crate::skills::priest::{*};
-use crate::base::priest_base::{*};
 use crate::skills::stalker::{*};
 use crate::base::stalker_base::{*};
-use crate::skills::wizard::{*};
-use crate::base::wizard_base::{*};
-use crate::skills::highpriest::{*};
-use crate::base::highpriest_base::{*};
-use crate::skills::alchemist::{*};
-use crate::base::alchemist_base::{*};
-use crate::skills::monk::{*};
-use crate::base::monk_base::{*};
-use crate::skills::blacksmith::{*};
-use crate::base::blacksmith_base::{*};
-use crate::skills::hunter::{*};
-use crate::base::hunter_base::{*};
-use crate::skills::crusader::{*};
-use crate::base::crusader_base::{*};
-use crate::skills::thief::{*};
-use crate::base::thief_base::{*};
-use crate::skills::swordsman::{*};
-use crate::base::swordsman_base::{*};
-use crate::skills::sniper::{*};
-use crate::base::sniper_base::{*};
-use crate::skills::archer::{*};
-use crate::base::archer_base::{*};
-use crate::skills::paladin::{*};
-use crate::base::paladin_base::{*};
-use crate::skills::creator::{*};
-use crate::base::creator_base::{*};
-use crate::skills::assassin::{*};
-use crate::base::assassin_base::{*};
-use crate::skills::merchant::{*};
-use crate::base::merchant_base::{*};
-use crate::skills::dancer::{*};
-use crate::base::dancer_base::{*};
-use crate::skills::knight::{*};
-use crate::base::knight_base::{*};
-use crate::skills::lordknight::{*};
-use crate::base::lordknight_base::{*};
-use crate::skills::bard::{*};
-use crate::base::bard_base::{*};
-use crate::skills::acolyte::{*};
-use crate::base::acolyte_base::{*};
-use crate::skills::clown::{*};
-use crate::base::clown_base::{*};
 use crate::skills::gunslinger::{*};
 use crate::base::gunslinger_base::{*};
 use crate::skills::rogue::{*};
 use crate::base::rogue_base::{*};
-use crate::skills::mage::{*};
-use crate::base::mage_base::{*};
+use crate::skills::knight::{*};
+use crate::base::knight_base::{*};
+use crate::skills::wizard::{*};
+use crate::base::wizard_base::{*};
 use crate::skills::taekwon::{*};
 use crate::base::taekwon_base::{*};
-use crate::skills::sage::{*};
-use crate::base::sage_base::{*};
-use crate::skills::highwizard::{*};
-use crate::base::highwizard_base::{*};
-use crate::skills::ninja::{*};
-use crate::base::ninja_base::{*};
+use crate::skills::highpriest::{*};
+use crate::base::highpriest_base::{*};
+use crate::skills::bard::{*};
+use crate::base::bard_base::{*};
+use crate::skills::crusader::{*};
+use crate::base::crusader_base::{*};
 use crate::skills::professor::{*};
 use crate::base::professor_base::{*};
+use crate::skills::whitesmith::{*};
+use crate::base::whitesmith_base::{*};
+use crate::skills::hunter::{*};
+use crate::base::hunter_base::{*};
+use crate::skills::alchemist::{*};
+use crate::base::alchemist_base::{*};
+use crate::skills::highwizard::{*};
+use crate::base::highwizard_base::{*};
+use crate::skills::clown::{*};
+use crate::base::clown_base::{*};
+use crate::skills::sage::{*};
+use crate::base::sage_base::{*};
+use crate::skills::lordknight::{*};
+use crate::base::lordknight_base::{*};
+use crate::skills::archer::{*};
+use crate::base::archer_base::{*};
+use crate::skills::sniper::{*};
+use crate::base::sniper_base::{*};
+use crate::skills::paladin::{*};
+use crate::base::paladin_base::{*};
 use crate::skills::assassincross::{*};
 use crate::base::assassincross_base::{*};
+use crate::skills::creator::{*};
+use crate::base::creator_base::{*};
+use crate::skills::priest::{*};
+use crate::base::priest_base::{*};
 use crate::skills::champion::{*};
 use crate::base::champion_base::{*};
+use crate::skills::acolyte::{*};
+use crate::base::acolyte_base::{*};
+use crate::skills::blacksmith::{*};
+use crate::base::blacksmith_base::{*};
+use crate::skills::ninja::{*};
+use crate::base::ninja_base::{*};
+use crate::skills::dancer::{*};
+use crate::base::dancer_base::{*};
+use crate::skills::novice::{*};
+use crate::base::novice_base::{*};
+use crate::skills::merchant::{*};
+use crate::base::merchant_base::{*};
+use crate::skills::thief::{*};
+use crate::base::thief_base::{*};
+use crate::skills::swordsman::{*};
+use crate::base::swordsman_base::{*};
+use crate::skills::mage::{*};
+use crate::base::mage_base::{*};
+use crate::skills::monk::{*};
+use crate::base::monk_base::{*};
+use crate::skills::assassin::{*};
+use crate::base::assassin_base::{*};
 use models::enums::skill_enums::SkillEnum;
 
 use crate::{Skill, OffensiveSkill};
@@ -515,14 +515,34 @@ pub fn to_offensive_skill(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn Of
         SkillEnum::KnSpearboomerang => SpearBoomerang::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::KnBowlingbash => BowlingBash::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::PrTurnundead => TurnUndead::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::PrMagnus => MagnusExorcismus::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::WzFirepillar => FirePillar::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::WzSightrasher => Sightrasher::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::WzMeteor => MeteorStorm::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::WzJupitel => JupitelThunder::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::WzVermilion => LordofVermilion::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::WzWaterball => WaterBall::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::WzIcewall => IceWall::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::WzFrostnova => FrostNova::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::WzStormgust => StormGust::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::WzEarthspike => EarthSpike::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::WzHeavendrive => HeavensDrive::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::WzQuagmire => Quagmire::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::BsHammerfall => HammerFall::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtSkidtrap => SkidTrap::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtLandmine => LandMine::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtAnklesnare => AnkleSnare::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtShockwave => ShockwaveTrap::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtSandman => Sandman::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtFlasher => Flasher::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtFreezingtrap => FreezingTrap::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtBlastmine => BlastMine::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtClaymoretrap => ClaymoreTrap::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtTalkiebox => TalkieBox::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtDetecting => Detect::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::AsSonicblow => SonicBlow::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::AsGrimtooth => Grimtooth::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::AsVenomdust => VenomDust::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::AsSplasher => VenomSplasher::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::AcChargearrow => ArrowRepel::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::TfSprinklesand => SandAttack::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
@@ -544,8 +564,11 @@ pub fn to_offensive_skill(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn Of
         SkillEnum::MoExtremityfist => AsuraStrike::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::MoChaincombo => RagingQuadrupleBlow::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::MoCombofinish => RagingThrust::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::SaLandprotector => MagneticEarth::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::BaMusicalstrike => MelodyStrike::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::BaFrostjoker => UnbarringOctave::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::DcThrowarrow => SlingingArrow::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::DcScream => Dazzler::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::HwSouldrain => SoulDrain::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::HwMagiccrasher => StaveCrasher::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::PaPressure => GloriaDomini::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
@@ -577,6 +600,7 @@ pub fn to_offensive_skill(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn Of
         SkillEnum::TkHighjump => TaekwonJump::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::StFullstrip => DivestAll::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::PaShieldchain => ShieldChain::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HwGravitation => GravitationField::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::WsCarttermination => CartTermination::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::CgTarotcard => TarotCardofFate::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::CrAciddemonstration => AcidDemonstration::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),

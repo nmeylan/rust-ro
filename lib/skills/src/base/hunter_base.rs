@@ -112,12 +112,30 @@ impl SkillBase for SkidTrap {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for SkidTrap {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 impl GroundSkillBase for SkidTrap {
@@ -232,12 +250,30 @@ impl SkillBase for LandMine {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for LandMine {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Earth
     }
 }
 impl GroundSkillBase for LandMine {
@@ -332,12 +368,30 @@ impl SkillBase for AnkleSnare {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for AnkleSnare {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 impl GroundSkillBase for AnkleSnare {
@@ -432,12 +486,30 @@ impl SkillBase for ShockwaveTrap {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for ShockwaveTrap {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 impl GroundSkillBase for ShockwaveTrap {
@@ -552,12 +624,30 @@ impl SkillBase for Sandman {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for Sandman {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 impl GroundSkillBase for Sandman {
@@ -652,12 +742,30 @@ impl SkillBase for Flasher {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for Flasher {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 impl GroundSkillBase for Flasher {
@@ -772,12 +880,34 @@ impl SkillBase for FreezingTrap {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for FreezingTrap {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+       Some(1.000)
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Water
     }
 }
 impl GroundSkillBase for FreezingTrap {
@@ -872,12 +1002,30 @@ impl SkillBase for BlastMine {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for BlastMine {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Wind
     }
 }
 impl GroundSkillBase for BlastMine {
@@ -972,12 +1120,30 @@ impl SkillBase for ClaymoreTrap {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for ClaymoreTrap {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Fire
     }
 }
 impl GroundSkillBase for ClaymoreTrap {
@@ -1164,12 +1330,30 @@ impl SkillBase for TalkieBox {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for TalkieBox {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 impl GroundSkillBase for TalkieBox {
@@ -1718,12 +1902,30 @@ impl SkillBase for Detect {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for Detect {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 impl GroundSkillBase for Detect {

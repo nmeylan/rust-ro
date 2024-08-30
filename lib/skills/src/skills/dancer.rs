@@ -36,7 +36,7 @@ impl Skill for Dazzler {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
-impl InteractiveSkill for Dazzler {
+impl OffensiveSkill for Dazzler {
 }
 impl Skill for FocusBallet {
     fn new(level: u8) -> Option<Self> where Self : Sized {
