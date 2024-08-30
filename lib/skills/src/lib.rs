@@ -136,7 +136,13 @@ pub trait SkillBase {
     fn _bonuses_to_self(&self, _tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::empty()
     }
+    fn _bonuses_to_self_before_hit(&self, _tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::empty()
+    }
     fn _bonuses_to_target(&self, _tick: u128) -> TemporaryStatusBonuses {
+        TemporaryStatusBonuses::empty()
+    }
+    fn _bonuses_to_target_before_hit(&self, _tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::empty()
     }
     fn _bonuses_to_party(&self, _tick: u128) -> TemporaryStatusBonuses {
@@ -145,6 +151,11 @@ pub trait SkillBase {
     #[inline(always)]
     fn _client_type(&self) -> usize {
         self._target_type().value()
+    }
+
+    #[inline(always)]
+    fn _success_chance(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> f32 {
+        100.0
     }
 }
 
@@ -296,17 +307,31 @@ pub trait Skill: SkillBase {
         self._bonuses_to_self(tick)
     }
     #[inline(always)]
+    fn bonuses_to_self_before_hit(&self, tick: u128) -> TemporaryStatusBonuses {
+        self._bonuses_to_self_before_hit(tick)
+    }
+    #[inline(always)]
     fn bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
         self._bonuses_to_target(tick)
+    }
+    #[inline(always)]
+    fn bonuses_to_target_before_hit(&self, tick: u128) -> TemporaryStatusBonuses {
+        self._bonuses_to_target_before_hit(tick)
     }
     #[inline(always)]
     fn bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         self._bonuses_to_party(tick)
     }
 
+    // Type in packet to send to client. it is use by the client to determine if target is valid or if it should display specific cursor
     #[inline(always)]
     fn client_type(&self) -> usize {
         self._client_type()
+    }
+
+    #[inline(always)]
+    fn success_chance(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> f32 {
+        100.0
     }
 }
 
@@ -327,6 +352,9 @@ pub trait OffensiveSkillBase: Skill {
     #[inline(always)]
     fn _inflict_status_effect(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {
         None
+    }
+    fn _damage_if_failed(&self) -> f64 {
+        0.0
     }
 }
 pub trait OffensiveSkill: OffensiveSkillBase {
@@ -349,6 +377,9 @@ pub trait OffensiveSkill: OffensiveSkillBase {
     #[inline(always)]
     fn inflict_status_effect(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {
         self._inflict_status_effect(_status, _target_status)
+    }
+    fn damage_if_failed(&self) -> f64 {
+        self._damage_if_failed()
     }
 }
 

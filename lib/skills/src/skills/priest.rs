@@ -44,6 +44,8 @@ impl Skill for BsSacramenti {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl SupportiveSkill for BsSacramenti {
+}
 impl GroundSkill for BsSacramenti {
 }
 impl Skill for Sanctuary {
@@ -51,6 +53,8 @@ impl Skill for Sanctuary {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl SupportiveSkill for Sanctuary {
 }
 impl GroundSkill for Sanctuary {
 }
@@ -123,6 +127,8 @@ impl Skill for MagnusExorcismus {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for MagnusExorcismus {
 }
 impl GroundSkill for MagnusExorcismus {
 }

@@ -575,15 +575,23 @@ impl SkillBase for Dazzler {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
-    fn is_interactive_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for Dazzler {
+impl OffensiveSkillBase for Dazzler {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // DC_HUMMING
 pub struct FocusBallet {

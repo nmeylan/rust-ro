@@ -76,6 +76,8 @@ impl Skill for VenomDust {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for VenomDust {
+}
 impl GroundSkill for VenomDust {
 }
 impl Skill for VenomSplasher {

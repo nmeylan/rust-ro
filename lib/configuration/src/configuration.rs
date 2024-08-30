@@ -819,6 +819,16 @@ pub struct SkillConfig {
     default
     )]
     bonus_to_party: Vec<BonusPerLevel>,
+    #[serde(
+        rename = "bonusToSelfBeforeHit",
+        default
+    )]
+    bonus_to_self_before_hit: Vec<BonusPerLevel>,
+    #[serde(
+        rename = "bonusToTargetBeforeHit",
+        default
+    )]
+    bonus_to_target_before_hit: Vec<BonusPerLevel>,
 }
 
 #[derive(Deserialize, Debug, Clone, GettersAll)]

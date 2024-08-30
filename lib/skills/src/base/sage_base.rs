@@ -1502,6 +1502,18 @@ impl SkillBase for Volcano {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        2
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1509,6 +1521,8 @@ impl SkillBase for Volcano {
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
+}
+impl SupportiveSkillBase for Volcano {
 }
 impl GroundSkillBase for Volcano {
 }
@@ -1661,6 +1675,18 @@ impl SkillBase for Deluge {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        2
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1668,6 +1694,8 @@ impl SkillBase for Deluge {
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
+}
+impl SupportiveSkillBase for Deluge {
 }
 impl GroundSkillBase for Deluge {
 }
@@ -1820,6 +1848,18 @@ impl SkillBase for Whirlwind {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        2
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1827,6 +1867,8 @@ impl SkillBase for Whirlwind {
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
+}
+impl SupportiveSkillBase for Whirlwind {
 }
 impl GroundSkillBase for Whirlwind {
 }
@@ -1957,12 +1999,30 @@ impl SkillBase for MagneticEarth {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for MagneticEarth {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
     }
 }
 impl GroundSkillBase for MagneticEarth {

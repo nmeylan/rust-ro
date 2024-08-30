@@ -12,6 +12,8 @@ impl Skill for FirePillar {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for FirePillar {
+}
 impl GroundSkill for FirePillar {
 }
 impl Skill for Sightrasher {
@@ -27,6 +29,8 @@ impl Skill for MeteorStorm {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for MeteorStorm {
 }
 impl GroundSkill for MeteorStorm {
 }
@@ -62,6 +66,8 @@ impl Skill for IceWall {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for IceWall {
+}
 impl GroundSkill for IceWall {
 }
 impl Skill for FrostNova {
@@ -77,6 +83,8 @@ impl Skill for StormGust {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for StormGust {
 }
 impl GroundSkill for StormGust {
 }
@@ -94,6 +102,8 @@ impl Skill for HeavensDrive {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for HeavensDrive {
+}
 impl GroundSkill for HeavensDrive {
 }
 impl Skill for Quagmire {
@@ -101,6 +111,8 @@ impl Skill for Quagmire {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl OffensiveSkill for Quagmire {
 }
 impl GroundSkill for Quagmire {
 }

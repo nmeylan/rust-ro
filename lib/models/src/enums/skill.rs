@@ -43,7 +43,6 @@ pub enum SkillType {
     Performance,
     Support,
     Passive,
-    Ground
 }
 
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq, Default)]

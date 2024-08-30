@@ -754,6 +754,18 @@ impl SkillBase for BlindingMist {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        2
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -761,6 +773,8 @@ impl SkillBase for BlindingMist {
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
+}
+impl SupportiveSkillBase for BlindingMist {
 }
 impl GroundSkillBase for BlindingMist {
 }

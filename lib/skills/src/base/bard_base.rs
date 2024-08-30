@@ -575,15 +575,23 @@ impl SkillBase for UnbarringOctave {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
-    fn is_interactive_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
 }
-impl InteractiveSkillBase for UnbarringOctave {
+impl OffensiveSkillBase for UnbarringOctave {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // BA_WHISTLE
 pub struct PerfectTablature {

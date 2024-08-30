@@ -7,7 +7,7 @@
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Super_Baby Sword Mastery
+    // Rogue Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
@@ -21,81 +21,81 @@ pub enum SkillEnum {
     SmMagnum,
     // Super_Baby Endure
     SmEndure,
-    // Super_Baby Increase SP Recovery
+    // Mage Increase SP Recovery
     MgSrecovery,
-    // Super_Baby Sight
+    // Mage Sight
     MgSight,
-    // Super_Baby Napalm Beat
+    // Mage Napalm Beat
     MgNapalmbeat,
-    // Super_Baby Safety Wall
+    // Mage Safety Wall
     MgSafetywall,
-    // Super_Baby Soul Strike
+    // Mage Soul Strike
     MgSoulstrike,
-    // Super_Baby Cold Bolt
+    // Mage Cold Bolt
     MgColdbolt,
-    // Super_Baby Frost Diver
+    // Mage Frost Diver
     MgFrostdiver,
-    // Super_Baby Stone Curse
+    // Mage Stone Curse
     MgStonecurse,
-    // Super_Baby Fire Ball
+    // Mage Fire Ball
     MgFireball,
-    // Super_Baby Fire Wall
+    // Mage Fire Wall
     MgFirewall,
-    // Super_Baby Fire Bolt
+    // Mage Fire Bolt
     MgFirebolt,
-    // Super_Baby Lightning Bolt
+    // Mage Lightning Bolt
     MgLightningbolt,
-    // Super_Baby Thunder Storm
+    // Mage Thunder Storm
     MgThunderstorm,
-    // Super_Baby Divine Protection
+    // Acolyte Divine Protection
     AlDp,
-    // Super_Baby Demon Bane
+    // Acolyte Demon Bane
     AlDemonbane,
-    // Super_Baby Ruwach
+    // Acolyte Ruwach
     AlRuwach,
-    // Super_Baby Pneuma
+    // Acolyte Pneuma
     AlPneuma,
-    // Super_Baby Teleport
+    // Acolyte Teleport
     AlTeleport,
-    // Super_Baby Warp Portal
+    // Acolyte Warp Portal
     AlWarp,
-    // Super_Baby Heal
+    // Acolyte Heal
     AlHeal,
-    // Super_Baby Increase AGI
+    // Acolyte Increase AGI
     AlIncagi,
-    // Super_Baby Decrease AGI
+    // Acolyte Decrease AGI
     AlDecagi,
-    // Super_Baby Aqua Benedicta
+    // Acolyte Aqua Benedicta
     AlHolywater,
-    // Super_Baby Signum Crucis
+    // Acolyte Signum Crucis
     AlCrucis,
-    // Super_Baby Angelus
+    // Acolyte Angelus
     AlAngelus,
-    // Super_Baby Blessing
+    // Acolyte Blessing
     AlBlessing,
-    // Super_Baby Cure
+    // Acolyte Cure
     AlCure,
-    // Super_Baby Enlarge Weight Limit
+    // Merchant Enlarge Weight Limit
     McInccarry,
-    // Super_Baby Discount
+    // Merchant Discount
     McDiscount,
-    // Super_Baby Overcharge
+    // Merchant Overcharge
     McOvercharge,
-    // Super_Baby Pushcart
+    // Merchant Pushcart
     McPushcart,
-    // Super_Baby Item Appraisal
+    // Merchant Item Appraisal
     McIdentify,
-    // Super_Baby Vending
+    // Merchant Vending
     McVending,
-    // Super_Baby Mammonite
+    // Merchant Mammonite
     McMammonite,
     // Super_Baby Owl's Eye
     AcOwl,
-    // Super_Baby Vulture's Eye
+    // Rogue Vulture's Eye
     AcVulture,
     // Super_Baby Improve Concentration
     AcConcentration,
-    // Archer Double Strafe
+    // Rogue Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // HighPriest Slow Poison
+    // Priest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -181,13 +181,13 @@ pub enum SkillEnum {
     WzFrostnova,
     // Wizard Storm Gust
     WzStormgust,
-    // Wizard Earth Spike
+    // Sage Earth Spike
     WzEarthspike,
-    // Wizard Heaven's Drive
+    // Sage Heaven's Drive
     WzHeavendrive,
     // Wizard Quagmire
     WzQuagmire,
-    // Wizard Sense
+    // Sage Sense
     WzEstimation,
     // Blacksmith Iron Tempering
     BsIron,
@@ -249,7 +249,7 @@ pub enum SkillEnum {
     HtBlastmine,
     // Hunter Claymore Trap
     HtClaymoretrap,
-    // Hunter Remove Trap
+    // Rogue Remove Trap
     HtRemovetrap,
     // Hunter Talkie Box
     HtTalkiebox,
@@ -287,7 +287,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice Play Dead
+    // Novice High Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,

@@ -140,6 +140,8 @@ impl Skill for HammerFall {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for HammerFall {
+}
 impl GroundSkill for HammerFall {
 }
 impl Skill for AdrenalineRush {
