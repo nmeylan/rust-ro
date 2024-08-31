@@ -103,7 +103,6 @@ pub enum BonusType {
 
     ChanceToInflictStatusToSelfOnAttackPercentage(StatusEffect, f32),
     ChanceToInflictStatusToPartyOnAttackPercentage(StatusEffect, f32),
-    ChanceToInflictStatusWhenHitPercentage(StatusEffect, f32),
     ChanceToInflictStatusOnAttackPercentage(StatusEffect, f32),
     ResistanceToStatusPercentage(StatusEffect, f32),
 
