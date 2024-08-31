@@ -1,4 +1,5 @@
 use std::any::Any;
+use models::enums::bonus::BonusType;
 use models::enums::element::Element;
 use models::enums::EnumWithNumberValue;
 use models::enums::skill::{SkillTargetType, UseSkillFailure};
@@ -136,17 +137,16 @@ pub trait SkillBase {
     fn _bonuses_to_self(&self, _tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::empty()
     }
-    fn _bonuses_to_self_before_hit(&self, _tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::empty()
-    }
+
     fn _bonuses_to_target(&self, _tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::empty()
-    }
-    fn _bonuses_to_target_before_hit(&self, _tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::empty()
     }
     fn _bonuses_to_party(&self, _tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::empty()
+    }
+
+    fn _bonuses_on_cast(&self) -> Vec<BonusType> {
+        vec![]
     }
     #[inline(always)]
     fn _client_type(&self) -> usize {
@@ -156,6 +156,10 @@ pub trait SkillBase {
     #[inline(always)]
     fn _success_chance(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> f32 {
         100.0
+    }
+
+    fn _dispell_skills(&self) -> Vec<u32> {
+        vec![]
     }
 }
 
@@ -306,18 +310,12 @@ pub trait Skill: SkillBase {
     fn bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         self._bonuses_to_self(tick)
     }
-    #[inline(always)]
-    fn bonuses_to_self_before_hit(&self, tick: u128) -> TemporaryStatusBonuses {
-        self._bonuses_to_self_before_hit(tick)
-    }
+
     #[inline(always)]
     fn bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
         self._bonuses_to_target(tick)
     }
-    #[inline(always)]
-    fn bonuses_to_target_before_hit(&self, tick: u128) -> TemporaryStatusBonuses {
-        self._bonuses_to_target_before_hit(tick)
-    }
+
     #[inline(always)]
     fn bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         self._bonuses_to_party(tick)
@@ -332,6 +330,15 @@ pub trait Skill: SkillBase {
     #[inline(always)]
     fn success_chance(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> f32 {
         100.0
+    }
+    #[inline(always)]
+    fn bonuses_on_cast(&self) -> Vec<BonusType> {
+        self._bonuses_on_cast()
+    }
+
+    #[inline(always)]
+    fn dispell_skills(&self) -> Vec<u32> {
+        self._dispell_skills()
     }
 }
 
@@ -350,7 +357,11 @@ pub trait OffensiveSkillBase: Skill {
     }
     fn _element(&self) -> Element;
     #[inline(always)]
-    fn _inflict_status_effect(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {
+        None
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_self(&self, _status: &StatusSnapshot) -> Option<StatusEffect> {
         None
     }
     fn _damage_if_failed(&self) -> f64 {
@@ -375,15 +386,20 @@ pub trait OffensiveSkill: OffensiveSkillBase {
         self._element()
     }
     #[inline(always)]
-    fn inflict_status_effect(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {
-        self._inflict_status_effect(_status, _target_status)
+    fn inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {
+        self._inflict_status_effect_to_target(_status, _target_status)
+    }
+    #[inline(always)]
+    fn inflict_status_effect_to_self(&self, _status: &StatusSnapshot) -> Option<StatusEffect> {
+        self._inflict_status_effect_to_self(_status)
     }
     fn damage_if_failed(&self) -> f64 {
         self._damage_if_failed()
     }
 }
 
-pub trait SupportiveSkillBase: Skill {}
+pub trait SupportiveSkillBase: Skill {
+}
 pub trait SupportiveSkill: SupportiveSkillBase {}
 
 pub trait PerformanceSkillBase: Skill {}
@@ -392,7 +408,15 @@ pub trait PerformanceSkill: PerformanceSkillBase {}
 pub trait PassiveSkillBase: Skill {}
 pub trait PassiveSkill: PassiveSkillBase {}
 
-pub trait GroundSkillBase: Skill {}
-pub trait GroundSkill: GroundSkillBase {}
+pub trait GroundSkillBase: Skill {
+    fn _mitigate_skills(&self) -> Vec<u32> {
+        vec![]
+    }
+}
+pub trait GroundSkill: GroundSkillBase {
+    fn mitigate_skills(&self) -> Vec<u32> {
+       self._mitigate_skills()
+    }
+}
 pub trait InteractiveSkillBase: Skill {}
 pub trait InteractiveSkill: InteractiveSkillBase {}

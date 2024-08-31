@@ -10,6 +10,7 @@ use regex_lite::Regex;
 use serde::{Deserialize, Serialize};
 use configuration::configuration::{BonusPerLevel, JobSkillTree, SkillConfig, SkillsConfig};
 use models::enums::{EnumWithMaskValueU16, EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
+use models::enums::bonus::BonusType;
 use models::enums::element::Element;
 use models::enums::skill::{SkillTargetType, SkillFlags, SkillType, SkillDamageFlags};
 use models::enums::weapon::WeaponType;
@@ -295,14 +296,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
     if is_support(skill_config) {
         generate_is_supportive_skill(job_skills_file);
         generate_as_supportive_skill(job_skills_file);
-        job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
-        job_skills_file.write_all(b"    fn _client_type(&self) -> usize {\n").unwrap();
-        if matches!(skill_config.target_type(), SkillTargetType::Target) {
-            job_skills_file.write_all(format!("        {}\n", SkillTargetType::Friend.value()).as_bytes()).unwrap();
-        } else {
-            job_skills_file.write_all(format!("        {}\n", skill_config.target_type().value()).as_bytes()).unwrap();
-        }
-        job_skills_file.write_all(b"    }\n").unwrap();
+        generate_client_type(job_skills_file, skill_config);
     }
     if is_interactive(skill_config) {
         generate_is_interactive_skill(job_skills_file);
@@ -353,7 +347,6 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
         job_skills_file.write_all(b"}\n").unwrap();
     }
 }
-
 /*
 *   Skills structure
 *
@@ -591,6 +584,20 @@ fn generate_skip_validation_item(job_skills_file: &mut File, skill_config: &Skil
         }
     }
 }
+/*
+* Other common methods
+*
+ */
+fn generate_client_type(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+    job_skills_file.write_all(b"    fn _client_type(&self) -> usize {\n").unwrap();
+    if matches!(skill_config.target_type(), SkillTargetType::Target) {
+        job_skills_file.write_all(format!("        {}\n", SkillTargetType::Friend.value()).as_bytes()).unwrap();
+    } else {
+        job_skills_file.write_all(format!("        {}\n", skill_config.target_type().value()).as_bytes()).unwrap();
+    }
+    job_skills_file.write_all(b"    }\n").unwrap();
+}
 
 /*
 *   Skills offensive methods
@@ -633,6 +640,18 @@ fn generate_element(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 
+fn generate_inflict_status(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+    job_skills_file.write_all(b"    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {\n").unwrap();
+    if skill_config.bonus_to_target_before_hit().is_empty() {
+        job_skills_file.write_all(b"        None\n").unwrap();
+    } else {
+        // skill_config.bonus_to_target_before_hit().iter()
+        //     .filter(|b| matches!(b.value.0, BonusType::ChanceToInflictStatusOnAttackPercentage(_))
+    }
+    job_skills_file.write_all(b"    }\n").unwrap();
+
+}
 
 fn generate_bonuses(job_skills_file: &mut File, skill_config: &SkillConfig) {
         job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();

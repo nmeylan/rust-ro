@@ -21,31 +21,31 @@ pub enum SkillEnum {
     SmMagnum,
     // Super_Baby Endure
     SmEndure,
-    // Mage Increase SP Recovery
+    // Super_Baby Increase SP Recovery
     MgSrecovery,
-    // Mage Sight
+    // Super_Baby Sight
     MgSight,
-    // Mage Napalm Beat
+    // Super_Baby Napalm Beat
     MgNapalmbeat,
-    // Mage Safety Wall
+    // Super_Baby Safety Wall
     MgSafetywall,
-    // Mage Soul Strike
+    // Super_Baby Soul Strike
     MgSoulstrike,
-    // Mage Cold Bolt
+    // Super_Baby Cold Bolt
     MgColdbolt,
-    // Mage Frost Diver
+    // Super_Baby Frost Diver
     MgFrostdiver,
-    // Mage Stone Curse
+    // Super_Baby Stone Curse
     MgStonecurse,
-    // Mage Fire Ball
+    // Super_Baby Fire Ball
     MgFireball,
-    // Mage Fire Wall
+    // Super_Baby Fire Wall
     MgFirewall,
-    // Mage Fire Bolt
+    // Super_Baby Fire Bolt
     MgFirebolt,
-    // Mage Lightning Bolt
+    // Super_Baby Lightning Bolt
     MgLightningbolt,
-    // Mage Thunder Storm
+    // Super_Baby Thunder Storm
     MgThunderstorm,
     // Acolyte Divine Protection
     AlDp,
@@ -89,13 +89,13 @@ pub enum SkillEnum {
     McVending,
     // Merchant Mammonite
     McMammonite,
-    // Super_Baby Owl's Eye
+    // Archer Owl's Eye
     AcOwl,
-    // Rogue Vulture's Eye
+    // Archer Vulture's Eye
     AcVulture,
-    // Super_Baby Improve Concentration
+    // Archer Improve Concentration
     AcConcentration,
-    // Rogue Double Strafe
+    // Archer Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
@@ -113,7 +113,7 @@ pub enum SkillEnum {
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
-    // Knight Spear Mastery
+    // Crusader Spear Mastery
     KnSpearmastery,
     // Knight Pierce
     KnPierce,
@@ -129,9 +129,9 @@ pub enum SkillEnum {
     KnAutocounter,
     // Knight Bowling Bash
     KnBowlingbash,
-    // Knight Peco Peco Riding
+    // Crusader Peco Peco Riding
     KnRiding,
-    // Knight Cavalier Mastery
+    // Crusader Cavalier Mastery
     KnCavaliermastery,
     // Priest Mace Mastery
     PrMacemastery,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // HighPriest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -287,7 +287,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice First Aid
     NvFirstaid,
-    // Novice High Play Dead
+    // Novice Play Dead
     NvTrickdead,
     // Swordsman Moving HP-Recovery
     SmMovingrecovery,

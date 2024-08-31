@@ -710,7 +710,7 @@
         ]
   },
   "bonusToSelf": [],
-  "type": "Support",
+  "type": "Offensive",
   "bonusToSelfBeforeHit": [
         {
           "level": 1,
@@ -9642,7 +9642,7 @@
   "name": "PR_LEXDIVINA",
   "range": 5,
   "targetType": "Target",
-  "type": "Support",
+  "type": "Offensive",
   "duration2PerLevel": [
         {
           "level": 1,
@@ -12790,7 +12790,8 @@
   },
   "aoesize": "5x5 square",
   "bonusToSelf": [],
-  "bonusToSelfBeforeHit": [        {          "level": 1,          "value": {            "bonus": "Agi",            "value": -10          }        },        {          "level": 2,          "value": {            "bonus": "Agi",            "value": -20          }        },        {          "level": 3,          "value": {            "bonus": "Agi",            "value": -30          }        },        {          "level": 4,          "value": {            "bonus": "Agi",            "value": -40          }        },        {          "level": 5,          "value": {            "bonus": "Agi",            "value": -50          }        },        {          "level": 1,          "value": {            "bonus": "Dex",            "value": -10          }        },        {          "level": 2,          "value": {            "bonus": "Dex",            "value": -20          }        },        {          "level": 3,          "value": {            "bonus": "Dex",            "value": -30          }        },        {          "level": 4,          "value": {            "bonus": "Dex",            "value": -40          }        },        {          "level": 5,          "value": {            "bonus": "Dex",            "value": -50          }        },        {          "level": 1,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 2,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 3,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 4,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 5,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        }      ]
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [        {          "level": 1,          "value": {            "bonus": "Agi",            "value": -10          }        },        {          "level": 2,          "value": {            "bonus": "Agi",            "value": -20          }        },        {          "level": 3,          "value": {            "bonus": "Agi",            "value": -30          }        },        {          "level": 4,          "value": {            "bonus": "Agi",            "value": -40          }        },        {          "level": 5,          "value": {            "bonus": "Agi",            "value": -50          }        },        {          "level": 1,          "value": {            "bonus": "Dex",            "value": -10          }        },        {          "level": 2,          "value": {            "bonus": "Dex",            "value": -20          }        },        {          "level": 3,          "value": {            "bonus": "Dex",            "value": -30          }        },        {          "level": 4,          "value": {            "bonus": "Dex",            "value": -40          }        },        {          "level": 5,          "value": {            "bonus": "Dex",            "value": -50          }        },        {          "level": 1,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 2,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 3,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 4,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        },        {          "level": 5,          "value": {            "bonus": "SpeedPercentage",            "value": -50          }        }      ]
 },
 {
       "castCancel": true,
@@ -21619,48 +21620,8 @@
   "damageflags": {
     "isPhysical": true
   },
-  "bonusToSelfBeforeHit": [
-        {
-          "level": 1,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Stun",
-            "value2": 20
-          }
-        },
-        {
-          "level": 2,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Stun",
-            "value2": 25
-          }
-        },
-        {
-          "level": 3,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Stun",
-            "value2": 30
-          }
-        },
-        {
-          "level": 4,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Stun",
-            "value2": 35
-          }
-        },
-        {
-          "level": 5,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Stun",
-            "value2": 40
-          }
-        }
-      ]
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [        {          "level": 1,          "value": {            "bonus": "ChanceToInflictStatusOnAttackPercentage",            "value": "Stun",            "value2": 20          }        },        {          "level": 2,          "value": {            "bonus": "ChanceToInflictStatusOnAttackPercentage",            "value": "Stun",            "value2": 25          }        },        {          "level": 3,          "value": {            "bonus": "ChanceToInflictStatusOnAttackPercentage",            "value": "Stun",            "value2": 30          }        },        {          "level": 4,          "value": {            "bonus": "ChanceToInflictStatusOnAttackPercentage",            "value": "Stun",            "value2": 35          }        },        {          "level": 5,          "value": {            "bonus": "ChanceToInflictStatusOnAttackPercentage",            "value": "Stun",            "value2": 40          }        }      ]
 },
 {
       "afterCastActDelay": 700,
@@ -21970,88 +21931,8 @@
   "damageflags": {
     "isPhysical": true
   },
-  "bonusToSelfBeforeHit": [
-        {
-          "level": 1,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind",
-            "value2": 3
-          }
-        },
-        {
-          "level": 2,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind",
-            "value2": 6
-          }
-        },
-        {
-          "level": 3,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind",
-            "value2": 9
-          }
-        },
-        {
-          "level": 4,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind",
-            "value2": 12
-          }
-        },
-        {
-          "level": 5,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind",
-            "value2": 15
-          }
-        },
-        {
-          "level": 6,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind",
-            "value2": 18
-          }
-        },
-        {
-          "level": 7,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind",
-            "value2": 21
-          }
-        },
-        {
-          "level": 8,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind",
-            "value2": 24
-          }
-        },
-        {
-          "level": 9,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind",
-            "value2": 27
-          }
-        },
-        {
-          "level": 10,
-          "value": {
-            "bonus": "ChanceToInflictStatusOnAttackPercentage",
-            "value": "Blind",
-            "value2": 30
-          }
-        }
-      ]
+  "bonusToSelfBeforeHit": [],
+  "bonusToTargetBeforeHit": [        {          "level": 1,          "value": {            "bonus": "ChanceToInflictStatusOnAttackPercentage",            "value": "Stun",            "value2": 20          }        },        {          "level": 2,          "value": {            "bonus": "ChanceToInflictStatusOnAttackPercentage",            "value": "Stun",            "value2": 25          }        },        {          "level": 3,          "value": {            "bonus": "ChanceToInflictStatusOnAttackPercentage",            "value": "Stun",            "value2": 30          }        },        {          "level": 4,          "value": {            "bonus": "ChanceToInflictStatusOnAttackPercentage",            "value": "Stun",            "value2": 35          }        },        {          "level": 5,          "value": {            "bonus": "ChanceToInflictStatusOnAttackPercentage",            "value": "Stun",            "value2": 40          }        }      ]
 },
 {
       "afterCastActDelay": 1500,
@@ -43397,7 +43278,8 @@
   "damageflags": {
     "isPhysical": true
   },
-  "bonusToTargetBeforeHit": [
+  "bonusToTargetBeforeHit": [],
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {

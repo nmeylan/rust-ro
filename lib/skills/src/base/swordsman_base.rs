@@ -771,19 +771,23 @@ impl SkillBase for Provoke {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
-    fn is_supportive_skill(&self) -> bool {
+    fn is_offensive_skill(&self) -> bool {
         true
     }
     #[inline(always)]
-    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
         Some(self)
     }
-    #[inline(always)]
-    fn _client_type(&self) -> usize {
-        16
-    }
 }
-impl SupportiveSkillBase for Provoke {
+impl OffensiveSkillBase for Provoke {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
 }
 // SM_MAGNUM
 pub struct MagnumBreak {

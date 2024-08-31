@@ -345,7 +345,7 @@ impl BonusScriptHandler {
                    bonus!(self, BonusType::ChanceToInflictStatusToSelfOnAttackPercentage(StatusEffect::from_value(value1 as usize), value2 as f32 / 100.0))
                 }
                 "baddeffwhenhit" => {
-                    bonus!(self, BonusType::ChanceToInflictStatusWhenHitPercentage(StatusEffect::from_value(value1 as usize), value2 as f32 / 100.0))
+                    bonus!(self, BonusType::ChanceToInflictStatusOnAttackPercentage(StatusEffect::from_value(value1 as usize), value2 as f32 / 100.0))
                 }
                 "baddele" => {
                     bonus!(self, BonusType::PhysicalDamageAgainstElementPercentage(Element::from_value(value1 as usize), value2 as i8))

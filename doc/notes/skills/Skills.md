@@ -64,6 +64,10 @@ BS_HILTBINDING:
 TF_MISS:
 - movement for assassin only
 
+WZ_QUAGMIRE:
+- Mitigate effect of some skills (improve concentration, one hand quicken, increase agi...) while in the zone
+- Max 3 active quagmire per wizard -> unit should have a limit
+
 ## Skill bonus
 - negate penalty (music lesson negate speed penalty when using performance skill)
 ## Misc
