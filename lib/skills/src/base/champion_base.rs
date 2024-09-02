@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// CH_PALMSTRIKE
+// CH_PALMSTRIKE - Raging Palm Strike
 pub struct RagingPalmStrike {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -188,7 +188,7 @@ impl OffensiveSkillBase for RagingPalmStrike {
         vec![]
     }
 }
-// CH_TIGERFIST
+// CH_TIGERFIST - Glacier Fist
 pub struct GlacierFist {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -322,7 +322,7 @@ impl OffensiveSkillBase for GlacierFist {
         vec![]
     }
 }
-// CH_CHAINCRUSH
+// CH_CHAINCRUSH - Chain Crush Combo
 pub struct ChainCrushCombo {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -550,7 +550,7 @@ impl OffensiveSkillBase for ChainCrushCombo {
         vec![]
     }
 }
-// CH_SOULCOLLECT
+// CH_SOULCOLLECT - Zen
 pub struct Zen {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

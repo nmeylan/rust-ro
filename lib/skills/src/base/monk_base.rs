@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// MO_IRONHAND
+// MO_IRONHAND - Iron Fists
 pub struct IronFists {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -150,7 +150,7 @@ impl SkillBase for IronFists {
 }
 impl PassiveSkillBase for IronFists {
 }
-// MO_SPIRITSRECOVERY
+// MO_SPIRITSRECOVERY - Spiritual Cadence
 pub struct SpiritualCadence {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -273,7 +273,7 @@ impl SkillBase for SpiritualCadence {
 }
 impl PassiveSkillBase for SpiritualCadence {
 }
-// MO_CALLSPIRITS
+// MO_CALLSPIRITS - Summon Spirit Sphere
 pub struct SummonSpiritSphere {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -369,7 +369,7 @@ impl SkillBase for SummonSpiritSphere {
 }
 impl InteractiveSkillBase for SummonSpiritSphere {
 }
-// MO_ABSORBSPIRITS
+// MO_ABSORBSPIRITS - Absorb Spirit Sphere
 pub struct AbsorbSpiritSphere {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -465,7 +465,7 @@ impl SkillBase for AbsorbSpiritSphere {
 }
 impl InteractiveSkillBase for AbsorbSpiritSphere {
 }
-// MO_TRIPLEATTACK
+// MO_TRIPLEATTACK - Raging Trifecta Blow
 pub struct RagingTrifectaBlow {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -593,7 +593,7 @@ impl SkillBase for RagingTrifectaBlow {
 }
 impl PassiveSkillBase for RagingTrifectaBlow {
 }
-// MO_BODYRELOCATION
+// MO_BODYRELOCATION - Snap
 pub struct Snap {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -695,7 +695,7 @@ impl InteractiveSkillBase for Snap {
 }
 impl GroundSkillBase for Snap {
 }
-// MO_DODGE
+// MO_DODGE - Dodge
 pub struct Dodge {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -823,7 +823,7 @@ impl SkillBase for Dodge {
 }
 impl PassiveSkillBase for Dodge {
 }
-// MO_INVESTIGATE
+// MO_INVESTIGATE - Occult Impaction
 pub struct OccultImpaction {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -984,7 +984,7 @@ impl OffensiveSkillBase for OccultImpaction {
         vec![]
     }
 }
-// MO_FINGEROFFENSIVE
+// MO_FINGEROFFENSIVE - Throw Spirit Sphere
 pub struct ThrowSpiritSphere {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1130,7 +1130,7 @@ impl OffensiveSkillBase for ThrowSpiritSphere {
         vec![]
     }
 }
-// MO_STEELBODY
+// MO_STEELBODY - Mental Strength
 pub struct MentalStrength {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1255,7 +1255,7 @@ impl SkillBase for MentalStrength {
 }
 impl SupportiveSkillBase for MentalStrength {
 }
-// MO_BLADESTOP
+// MO_BLADESTOP - Root
 pub struct Root {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1356,7 +1356,7 @@ impl SkillBase for Root {
 }
 impl InteractiveSkillBase for Root {
 }
-// MO_EXPLOSIONSPIRITS
+// MO_EXPLOSIONSPIRITS - Fury
 pub struct Fury {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1468,7 +1468,7 @@ impl SkillBase for Fury {
 }
 impl InteractiveSkillBase for Fury {
 }
-// MO_EXTREMITYFIST
+// MO_EXTREMITYFIST - Asura Strike
 pub struct AsuraStrike {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1647,7 +1647,7 @@ impl OffensiveSkillBase for AsuraStrike {
         vec![]
     }
 }
-// MO_CHAINCOMBO
+// MO_CHAINCOMBO - Raging Quadruple Blow
 pub struct RagingQuadrupleBlow {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1809,7 +1809,7 @@ impl OffensiveSkillBase for RagingQuadrupleBlow {
         vec![]
     }
 }
-// MO_COMBOFINISH
+// MO_COMBOFINISH - Raging Thrust
 pub struct RagingThrust {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1971,7 +1971,7 @@ impl OffensiveSkillBase for RagingThrust {
         vec![]
     }
 }
-// MO_KITRANSLATION
+// MO_KITRANSLATION - Ki Translation
 pub struct KiTranslation {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2075,7 +2075,7 @@ impl SkillBase for KiTranslation {
 }
 impl SupportiveSkillBase for KiTranslation {
 }
-// MO_BALKYOUNG
+// MO_BALKYOUNG - Ki Explosion
 pub struct KiExplosion {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

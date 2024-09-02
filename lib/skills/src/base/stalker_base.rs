@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// ST_CHASEWALK
+// ST_CHASEWALK - Stealth
 pub struct Stealth {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -133,7 +133,7 @@ impl SkillBase for Stealth {
         TemporaryStatusBonuses::default()
     }
 }
-// ST_REJECTSWORD
+// ST_REJECTSWORD - Counter Instinct
 pub struct CounterInstinct {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -279,7 +279,7 @@ impl SkillBase for CounterInstinct {
 }
 impl SupportiveSkillBase for CounterInstinct {
 }
-// ST_PRESERVE
+// ST_PRESERVE - Preserve
 pub struct Preserve {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -365,7 +365,7 @@ impl SkillBase for Preserve {
         TemporaryStatusBonuses::default()
     }
 }
-// ST_FULLSTRIP
+// ST_FULLSTRIP - Divest All
 pub struct DivestAll {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

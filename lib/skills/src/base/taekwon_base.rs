@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// TK_RUN
+// TK_RUN - Running
 pub struct Running {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -255,7 +255,7 @@ impl SkillBase for Running {
 }
 impl InteractiveSkillBase for Running {
 }
-// TK_READYSTORM
+// TK_READYSTORM - Tornado Stance
 pub struct TornadoStance {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -362,7 +362,7 @@ impl OffensiveSkillBase for TornadoStance {
         vec![]
     }
 }
-// TK_STORMKICK
+// TK_STORMKICK - Tornado Kick
 pub struct TornadoKick {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -533,7 +533,7 @@ impl OffensiveSkillBase for TornadoKick {
         vec![]
     }
 }
-// TK_READYDOWN
+// TK_READYDOWN - Heel Drop Stance
 pub struct HeelDropStance {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -640,7 +640,7 @@ impl OffensiveSkillBase for HeelDropStance {
         vec![]
     }
 }
-// TK_DOWNKICK
+// TK_DOWNKICK - Heel Drop
 pub struct HeelDrop {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -811,7 +811,7 @@ impl OffensiveSkillBase for HeelDrop {
         vec![]
     }
 }
-// TK_READYTURN
+// TK_READYTURN - Roundhouse Stance
 pub struct RoundhouseStance {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -918,7 +918,7 @@ impl OffensiveSkillBase for RoundhouseStance {
         vec![]
     }
 }
-// TK_TURNKICK
+// TK_TURNKICK - Roundhouse Kick
 pub struct RoundhouseKick {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1110,7 +1110,7 @@ impl OffensiveSkillBase for RoundhouseKick {
         vec![]
     }
 }
-// TK_READYCOUNTER
+// TK_READYCOUNTER - Counter Kick Stance
 pub struct CounterKickStance {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1217,7 +1217,7 @@ impl OffensiveSkillBase for CounterKickStance {
         vec![]
     }
 }
-// TK_COUNTER
+// TK_COUNTER - Counter Kick
 pub struct CounterKick {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1388,7 +1388,7 @@ impl OffensiveSkillBase for CounterKick {
         vec![]
     }
 }
-// TK_DODGE
+// TK_DODGE - Tumbling
 pub struct Tumbling {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1495,7 +1495,7 @@ impl OffensiveSkillBase for Tumbling {
         vec![]
     }
 }
-// TK_JUMPKICK
+// TK_JUMPKICK - Flying Kick
 pub struct FlyingKick {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1666,7 +1666,7 @@ impl OffensiveSkillBase for FlyingKick {
         vec![]
     }
 }
-// TK_HPTIME
+// TK_HPTIME - Peaceful Break
 pub struct PeacefulBreak {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1774,7 +1774,7 @@ impl SkillBase for PeacefulBreak {
         TemporaryStatusBonuses::default()
     }
 }
-// TK_SPTIME
+// TK_SPTIME - Happy Break
 pub struct HappyBreak {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1892,7 +1892,7 @@ impl SkillBase for HappyBreak {
         TemporaryStatusBonuses::default()
     }
 }
-// TK_POWER
+// TK_POWER - Kihop
 pub struct Kihop {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2003,7 +2003,7 @@ impl OffensiveSkillBase for Kihop {
         vec![]
     }
 }
-// TK_SEVENWIND
+// TK_SEVENWIND - Mild Wind
 pub struct MildWind {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2149,7 +2149,7 @@ impl OffensiveSkillBase for MildWind {
         vec![]
     }
 }
-// TK_HIGHJUMP
+// TK_HIGHJUMP - Taekwon Jump
 pub struct TaekwonJump {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2272,7 +2272,7 @@ impl OffensiveSkillBase for TaekwonJump {
         vec![]
     }
 }
-// TK_MISSION
+// TK_MISSION - Taekwon Mission
 pub struct TaekwonMission {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

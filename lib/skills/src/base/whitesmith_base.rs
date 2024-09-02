@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// WS_MELTDOWN
+// WS_MELTDOWN - Shattering Strike
 pub struct ShatteringStrike {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -262,7 +262,7 @@ impl SkillBase for ShatteringStrike {
 }
 impl SupportiveSkillBase for ShatteringStrike {
 }
-// WS_CARTBOOST
+// WS_CARTBOOST - Cart Boost
 pub struct CartBoost {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -371,7 +371,7 @@ impl SkillBase for CartBoost {
 }
 impl SupportiveSkillBase for CartBoost {
 }
-// WS_WEAPONREFINE
+// WS_WEAPONREFINE - Upgrade Weapon
 pub struct UpgradeWeapon {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -463,7 +463,7 @@ impl SkillBase for UpgradeWeapon {
 }
 impl InteractiveSkillBase for UpgradeWeapon {
 }
-// WS_CARTTERMINATION
+// WS_CARTTERMINATION - Cart Termination
 pub struct CartTermination {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -705,7 +705,7 @@ impl OffensiveSkillBase for CartTermination {
         effects
     }
 }
-// WS_OVERTHRUSTMAX
+// WS_OVERTHRUSTMAX - Maximum Power Thrust
 pub struct MaximumPowerThrust {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

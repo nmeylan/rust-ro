@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// MC_INCCARRY
+// MC_INCCARRY - Enlarge Weight Limit
 pub struct EnlargeWeightLimit {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -110,7 +110,7 @@ impl SkillBase for EnlargeWeightLimit {
 }
 impl InteractiveSkillBase for EnlargeWeightLimit {
 }
-// MC_DISCOUNT
+// MC_DISCOUNT - Discount
 pub struct Discount {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -198,7 +198,7 @@ impl SkillBase for Discount {
 }
 impl InteractiveSkillBase for Discount {
 }
-// MC_OVERCHARGE
+// MC_OVERCHARGE - Overcharge
 pub struct Overcharge {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -286,7 +286,7 @@ impl SkillBase for Overcharge {
 }
 impl InteractiveSkillBase for Overcharge {
 }
-// MC_PUSHCART
+// MC_PUSHCART - Pushcart
 pub struct Pushcart {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -414,7 +414,7 @@ impl SkillBase for Pushcart {
 }
 impl PassiveSkillBase for Pushcart {
 }
-// MC_IDENTIFY
+// MC_IDENTIFY - Item Appraisal
 pub struct ItemAppraisal {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -506,7 +506,7 @@ impl SkillBase for ItemAppraisal {
 }
 impl InteractiveSkillBase for ItemAppraisal {
 }
-// MC_VENDING
+// MC_VENDING - Vending
 pub struct Vending {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -607,7 +607,7 @@ impl SkillBase for Vending {
 }
 impl InteractiveSkillBase for Vending {
 }
-// MC_MAMMONITE
+// MC_MAMMONITE - Mammonite
 pub struct Mammonite {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -779,7 +779,7 @@ impl OffensiveSkillBase for Mammonite {
         vec![]
     }
 }
-// MC_CARTREVOLUTION
+// MC_CARTREVOLUTION - Cart Revolution
 pub struct CartRevolution {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -896,7 +896,7 @@ impl OffensiveSkillBase for CartRevolution {
         vec![]
     }
 }
-// MC_CHANGECART
+// MC_CHANGECART - Change Cart
 pub struct ChangeCart {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -997,7 +997,7 @@ impl SkillBase for ChangeCart {
 }
 impl InteractiveSkillBase for ChangeCart {
 }
-// MC_LOUD
+// MC_LOUD - Crazy Uproar
 pub struct CrazyUproar {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

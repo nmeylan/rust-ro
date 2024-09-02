@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// LK_AURABLADE
+// LK_AURABLADE - Aura Blade
 pub struct AuraBlade {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -176,7 +176,7 @@ impl SkillBase for AuraBlade {
 }
 impl SupportiveSkillBase for AuraBlade {
 }
-// LK_PARRYING
+// LK_PARRYING - Parrying
 pub struct Parrying {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -320,7 +320,7 @@ impl SkillBase for Parrying {
 }
 impl SupportiveSkillBase for Parrying {
 }
-// LK_CONCENTRATION
+// LK_CONCENTRATION - Concentration
 pub struct Concentration {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -471,7 +471,7 @@ impl SkillBase for Concentration {
 }
 impl SupportiveSkillBase for Concentration {
 }
-// LK_TENSIONRELAX
+// LK_TENSIONRELAX - Relax
 pub struct Relax {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -567,7 +567,7 @@ impl SkillBase for Relax {
 }
 impl SupportiveSkillBase for Relax {
 }
-// LK_BERSERK
+// LK_BERSERK - Frenzy
 pub struct Frenzy {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -663,7 +663,7 @@ impl SkillBase for Frenzy {
 }
 impl SupportiveSkillBase for Frenzy {
 }
-// LK_SPIRALPIERCE
+// LK_SPIRALPIERCE - Spiral Pierce
 pub struct SpiralPierce {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -877,7 +877,7 @@ impl OffensiveSkillBase for SpiralPierce {
         vec![]
     }
 }
-// LK_HEADCRUSH
+// LK_HEADCRUSH - Traumatic Blow
 pub struct TraumaticBlow {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1031,7 +1031,7 @@ impl OffensiveSkillBase for TraumaticBlow {
         effects
     }
 }
-// LK_JOINTBEAT
+// LK_JOINTBEAT - Vital Strike
 pub struct VitalStrike {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

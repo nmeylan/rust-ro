@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// CR_SLIMPITCHER
+// CR_SLIMPITCHER - Aid Condensed Potion
 pub struct AidCondensedPotion {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -187,7 +187,7 @@ impl SkillBase for AidCondensedPotion {
 }
 impl GroundSkillBase for AidCondensedPotion {
 }
-// CR_FULLPROTECTION
+// CR_FULLPROTECTION - Full Protection
 pub struct FullProtection {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -295,7 +295,7 @@ impl SkillBase for FullProtection {
 }
 impl SupportiveSkillBase for FullProtection {
 }
-// CR_ACIDDEMONSTRATION
+// CR_ACIDDEMONSTRATION - Acid Demonstration
 pub struct AcidDemonstration {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -448,7 +448,7 @@ impl OffensiveSkillBase for AcidDemonstration {
         vec![]
     }
 }
-// CR_CULTIVATION
+// CR_CULTIVATION - Plant Cultivation
 pub struct PlantCultivation {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

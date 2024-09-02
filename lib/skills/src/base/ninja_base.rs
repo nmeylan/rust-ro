@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// NJ_TOBIDOUGU
+// NJ_TOBIDOUGU - Shuriken Training
 pub struct ShurikenTraining {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -150,7 +150,7 @@ impl SkillBase for ShurikenTraining {
 }
 impl PassiveSkillBase for ShurikenTraining {
 }
-// NJ_SYURIKEN
+// NJ_SYURIKEN - Throw Shuriken
 pub struct ThrowShuriken {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -266,7 +266,7 @@ impl OffensiveSkillBase for ThrowShuriken {
         vec![]
     }
 }
-// NJ_KUNAI
+// NJ_KUNAI - Throw Kunai
 pub struct ThrowKunai {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -416,7 +416,7 @@ impl OffensiveSkillBase for ThrowKunai {
         vec![]
     }
 }
-// NJ_HUUMA
+// NJ_HUUMA - Throw Huuma Shuriken
 pub struct ThrowHuumaShuriken {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -600,7 +600,7 @@ impl OffensiveSkillBase for ThrowHuumaShuriken {
         vec![]
     }
 }
-// NJ_ZENYNAGE
+// NJ_ZENYNAGE - Throw Zeny
 pub struct ThrowZeny {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -742,7 +742,7 @@ impl OffensiveSkillBase for ThrowZeny {
         vec![]
     }
 }
-// NJ_TATAMIGAESHI
+// NJ_TATAMIGAESHI - Improvised Defense
 pub struct ImprovisedDefense {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -842,7 +842,7 @@ impl SkillBase for ImprovisedDefense {
 }
 impl SupportiveSkillBase for ImprovisedDefense {
 }
-// NJ_KASUMIKIRI
+// NJ_KASUMIKIRI - Vanishing Slash
 pub struct VanishingSlash {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1044,7 +1044,7 @@ impl OffensiveSkillBase for VanishingSlash {
         vec![]
     }
 }
-// NJ_SHADOWJUMP
+// NJ_SHADOWJUMP - Shadow Leap
 pub struct ShadowLeap {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1149,7 +1149,7 @@ impl SkillBase for ShadowLeap {
 }
 impl GroundSkillBase for ShadowLeap {
 }
-// NJ_KIRIKAGE
+// NJ_KIRIKAGE - Shadow Slash
 pub struct ShadowSlash {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1311,7 +1311,7 @@ impl OffensiveSkillBase for ShadowSlash {
         vec![]
     }
 }
-// NJ_UTSUSEMI
+// NJ_UTSUSEMI - Cicada Skin Sheeding
 pub struct CicadaSkinSheeding {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1427,7 +1427,7 @@ impl SkillBase for CicadaSkinSheeding {
         TemporaryStatusBonuses::default()
     }
 }
-// NJ_BUNSINJYUTSU
+// NJ_BUNSINJYUTSU - Mirror Image
 pub struct MirrorImage {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1637,7 +1637,7 @@ impl OffensiveSkillBase for MirrorImage {
         vec![]
     }
 }
-// NJ_NINPOU
+// NJ_NINPOU - Spirit of the Blade
 pub struct SpiritoftheBlade {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1749,7 +1749,7 @@ impl SkillBase for SpiritoftheBlade {
         TemporaryStatusBonuses::default()
     }
 }
-// NJ_KOUENKA
+// NJ_KOUENKA - Crimson Fire Petal
 pub struct CrimsonFirePetal {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2011,7 +2011,7 @@ impl OffensiveSkillBase for CrimsonFirePetal {
         vec![]
     }
 }
-// NJ_KAENSIN
+// NJ_KAENSIN - Crimson Fire Formation
 pub struct CrimsonFireFormation {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2165,7 +2165,7 @@ impl OffensiveSkillBase for CrimsonFireFormation {
         vec![]
     }
 }
-// NJ_BAKUENRYU
+// NJ_BAKUENRYU - Raging Fire Dragon
 pub struct RagingFireDragon {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2334,7 +2334,7 @@ impl OffensiveSkillBase for RagingFireDragon {
         vec![]
     }
 }
-// NJ_HYOUSENSOU
+// NJ_HYOUSENSOU - Spear of Ice
 pub struct SpearofIce {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2596,7 +2596,7 @@ impl OffensiveSkillBase for SpearofIce {
         vec![]
     }
 }
-// NJ_SUITON
+// NJ_SUITON - Hidden Water
 pub struct HiddenWater {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2832,7 +2832,7 @@ impl OffensiveSkillBase for HiddenWater {
 }
 impl GroundSkillBase for HiddenWater {
 }
-// NJ_HYOUSYOURAKU
+// NJ_HYOUSYOURAKU - Ice Meteor
 pub struct IceMeteor {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -3043,7 +3043,7 @@ impl OffensiveSkillBase for IceMeteor {
         effects
     }
 }
-// NJ_HUUJIN
+// NJ_HUUJIN - Wind Blade
 pub struct WindBlade {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -3309,7 +3309,7 @@ impl OffensiveSkillBase for WindBlade {
         vec![]
     }
 }
-// NJ_RAIGEKISAI
+// NJ_RAIGEKISAI - Lightning Strike of Destruction
 pub struct LightningStrikeofDestruction {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -3474,7 +3474,7 @@ impl OffensiveSkillBase for LightningStrikeofDestruction {
         vec![]
     }
 }
-// NJ_KAMAITACHI
+// NJ_KAMAITACHI - Kamaitachi
 pub struct Kamaitachi {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -3639,7 +3639,7 @@ impl OffensiveSkillBase for Kamaitachi {
         vec![]
     }
 }
-// NJ_NEN
+// NJ_NEN - Soul
 pub struct Soul {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -3795,7 +3795,7 @@ impl SkillBase for Soul {
         TemporaryStatusBonuses::default()
     }
 }
-// NJ_ISSEN
+// NJ_ISSEN - Final Strike
 pub struct FinalStrike {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

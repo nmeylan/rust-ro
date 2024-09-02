@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// PF_HPCONVERSION
+// PF_HPCONVERSION - Indulge
 pub struct Indulge {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -182,7 +182,7 @@ impl SkillBase for Indulge {
 }
 impl InteractiveSkillBase for Indulge {
 }
-// PF_SOULCHANGE
+// PF_SOULCHANGE - Soul Exhale
 pub struct SoulExhale {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -272,7 +272,7 @@ impl SkillBase for SoulExhale {
         TemporaryStatusBonuses::default()
     }
 }
-// PF_SOULBURN
+// PF_SOULBURN - Soul Siphon
 pub struct SoulSiphon {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -406,7 +406,7 @@ impl OffensiveSkillBase for SoulSiphon {
         vec![]
     }
 }
-// PF_MINDBREAKER
+// PF_MINDBREAKER - Mind Breaker
 pub struct MindBreaker {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -556,7 +556,7 @@ impl SkillBase for MindBreaker {
         TemporaryStatusBonuses::default()
     }
 }
-// PF_MEMORIZE
+// PF_MEMORIZE - Foresight
 pub struct Foresight {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -656,7 +656,7 @@ impl SkillBase for Foresight {
 }
 impl SupportiveSkillBase for Foresight {
 }
-// PF_FOGWALL
+// PF_FOGWALL - Blinding Mist
 pub struct BlindingMist {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -782,7 +782,7 @@ impl SupportiveSkillBase for BlindingMist {
 }
 impl GroundSkillBase for BlindingMist {
 }
-// PF_SPIDERWEB
+// PF_SPIDERWEB - Fiber Lock
 pub struct FiberLock {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -890,7 +890,7 @@ impl SkillBase for FiberLock {
 }
 impl SupportiveSkillBase for FiberLock {
 }
-// PF_DOUBLECASTING
+// PF_DOUBLECASTING - Double Casting
 pub struct DoubleCasting {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

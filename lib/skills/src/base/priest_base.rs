@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// PR_MACEMASTERY
+// PR_MACEMASTERY - Mace Mastery
 pub struct MaceMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -150,7 +150,7 @@ impl SkillBase for MaceMastery {
 }
 impl PassiveSkillBase for MaceMastery {
 }
-// PR_IMPOSITIO
+// PR_IMPOSITIO - Impositio Manus
 pub struct ImpositioManus {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -300,7 +300,7 @@ impl SkillBase for ImpositioManus {
 }
 impl SupportiveSkillBase for ImpositioManus {
 }
-// PR_SUFFRAGIUM
+// PR_SUFFRAGIUM - Suffragium
 pub struct Suffragium {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -400,7 +400,7 @@ impl SkillBase for Suffragium {
 }
 impl SupportiveSkillBase for Suffragium {
 }
-// PR_ASPERSIO
+// PR_ASPERSIO - Aspersio
 pub struct Aspersio {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -538,7 +538,7 @@ impl SkillBase for Aspersio {
 }
 impl SupportiveSkillBase for Aspersio {
 }
-// PR_BENEDICTIO
+// PR_BENEDICTIO - B.S. Sacramenti
 pub struct BsSacramenti {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -644,7 +644,7 @@ impl SupportiveSkillBase for BsSacramenti {
 }
 impl GroundSkillBase for BsSacramenti {
 }
-// PR_SANCTUARY
+// PR_SANCTUARY - Sanctuary
 pub struct Sanctuary {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -822,7 +822,7 @@ impl SupportiveSkillBase for Sanctuary {
 }
 impl GroundSkillBase for Sanctuary {
 }
-// PR_SLOWPOISON
+// PR_SLOWPOISON - Slow Poison
 pub struct SlowPoison {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -942,7 +942,7 @@ impl SkillBase for SlowPoison {
 }
 impl SupportiveSkillBase for SlowPoison {
 }
-// PR_STRECOVERY
+// PR_STRECOVERY - Status Recovery
 pub struct StatusRecovery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1042,7 +1042,7 @@ impl SkillBase for StatusRecovery {
 }
 impl SupportiveSkillBase for StatusRecovery {
 }
-// PR_KYRIE
+// PR_KYRIE - Kyrie Eleison
 pub struct KyrieEleison {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1246,7 +1246,7 @@ impl SkillBase for KyrieEleison {
 }
 impl SupportiveSkillBase for KyrieEleison {
 }
-// PR_MAGNIFICAT
+// PR_MAGNIFICAT - Magnificat
 pub struct Magnificat {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1350,7 +1350,7 @@ impl SkillBase for Magnificat {
 }
 impl SupportiveSkillBase for Magnificat {
 }
-// PR_GLORIA
+// PR_GLORIA - Gloria
 pub struct Gloria {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1470,7 +1470,7 @@ impl SkillBase for Gloria {
 }
 impl SupportiveSkillBase for Gloria {
 }
-// PR_LEXDIVINA
+// PR_LEXDIVINA - Lex Divina
 pub struct LexDivina {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1686,7 +1686,7 @@ impl OffensiveSkillBase for LexDivina {
         effects
     }
 }
-// PR_TURNUNDEAD
+// PR_TURNUNDEAD - Turn Undead
 pub struct TurnUndead {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1798,7 +1798,7 @@ impl OffensiveSkillBase for TurnUndead {
         vec![]
     }
 }
-// PR_LEXAETERNA
+// PR_LEXAETERNA - Lex Aeterna
 pub struct LexAeterna {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1898,7 +1898,7 @@ impl SkillBase for LexAeterna {
 }
 impl SupportiveSkillBase for LexAeterna {
 }
-// PR_MAGNUS
+// PR_MAGNUS - Magnus Exorcismus
 pub struct MagnusExorcismus {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2152,7 +2152,7 @@ impl OffensiveSkillBase for MagnusExorcismus {
 }
 impl GroundSkillBase for MagnusExorcismus {
 }
-// PR_REDEMPTIO
+// PR_REDEMPTIO - Redemptio
 pub struct Redemptio {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

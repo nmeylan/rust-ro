@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// PA_PRESSURE
+// PA_PRESSURE - Gloria Domini
 pub struct GloriaDomini {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -213,7 +213,7 @@ impl OffensiveSkillBase for GloriaDomini {
         vec![]
     }
 }
-// PA_SACRIFICE
+// PA_SACRIFICE - Martyr's Reckoning
 pub struct MartyrsReckoning {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -313,7 +313,7 @@ impl SkillBase for MartyrsReckoning {
 }
 impl SupportiveSkillBase for MartyrsReckoning {
 }
-// PA_GOSPEL
+// PA_GOSPEL - Battle Chant
 pub struct BattleChant {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -505,7 +505,7 @@ impl SkillBase for BattleChant {
 }
 impl PerformanceSkillBase for BattleChant {
 }
-// PA_SHIELDCHAIN
+// PA_SHIELDCHAIN - Shield Chain
 pub struct ShieldChain {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// DC_DANCINGLESSON
+// DC_DANCINGLESSON - Dance Lessons
 pub struct DanceLessons {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -160,7 +160,7 @@ impl SkillBase for DanceLessons {
 }
 impl PassiveSkillBase for DanceLessons {
 }
-// DC_THROWARROW
+// DC_THROWARROW - Slinging Arrow
 pub struct SlingingArrow {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -333,7 +333,7 @@ impl OffensiveSkillBase for SlingingArrow {
         vec![]
     }
 }
-// DC_UGLYDANCE
+// DC_UGLYDANCE - Hip Shaker
 pub struct HipShaker {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -463,7 +463,7 @@ impl SkillBase for HipShaker {
 }
 impl PerformanceSkillBase for HipShaker {
 }
-// DC_SCREAM
+// DC_SCREAM - Dazzler
 pub struct Dazzler {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -628,7 +628,7 @@ impl OffensiveSkillBase for Dazzler {
         effects
     }
 }
-// DC_HUMMING
+// DC_HUMMING - Focus Ballet
 pub struct FocusBallet {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -788,7 +788,7 @@ impl SkillBase for FocusBallet {
 }
 impl PerformanceSkillBase for FocusBallet {
 }
-// DC_DONTFORGETME
+// DC_DONTFORGETME - Slow Grace
 pub struct SlowGrace {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -998,7 +998,7 @@ impl SkillBase for SlowGrace {
 }
 impl PerformanceSkillBase for SlowGrace {
 }
-// DC_FORTUNEKISS
+// DC_FORTUNEKISS - Lady Luck
 pub struct LadyLuck {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1198,7 +1198,7 @@ impl SkillBase for LadyLuck {
 }
 impl PerformanceSkillBase for LadyLuck {
 }
-// DC_SERVICEFORYOU
+// DC_SERVICEFORYOU - Gypsy's Kiss
 pub struct GypsysKiss {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1398,7 +1398,7 @@ impl SkillBase for GypsysKiss {
 }
 impl PerformanceSkillBase for GypsysKiss {
 }
-// DC_WINKCHARM
+// DC_WINKCHARM - Wink of Charm
 pub struct WinkofCharm {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
