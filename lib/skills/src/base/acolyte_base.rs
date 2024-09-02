@@ -351,6 +351,10 @@ impl OffensiveSkillBase for Ruwach {
     fn _element(&self) -> Element {
         Element::Holy
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // AL_PNEUMA
 pub struct Pneuma {
@@ -862,6 +866,10 @@ impl OffensiveSkillBase for Heal {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Holy
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // AL_INCAGI
@@ -2145,5 +2153,9 @@ impl OffensiveSkillBase for HolyLight {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Holy
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }

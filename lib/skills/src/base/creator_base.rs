@@ -443,6 +443,10 @@ impl OffensiveSkillBase for AcidDemonstration {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // CR_CULTIVATION
 pub struct PlantCultivation {

@@ -269,6 +269,10 @@ impl OffensiveSkillBase for Sight {
     fn _element(&self) -> Element {
         Element::Fire
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // MG_NAPALMBEAT
 pub struct NapalmBeat {
@@ -534,6 +538,10 @@ impl OffensiveSkillBase for NapalmBeat {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ghost
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // MG_SAFETYWALL
@@ -1039,6 +1047,10 @@ impl OffensiveSkillBase for SoulStrike {
     fn _element(&self) -> Element {
         Element::Ghost
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // MG_COLDBOLT
 pub struct ColdBolt {
@@ -1365,6 +1377,10 @@ impl OffensiveSkillBase for ColdBolt {
     fn _element(&self) -> Element {
         Element::Water
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // MG_FROSTDIVER
 pub struct FrostDiver {
@@ -1567,6 +1583,62 @@ impl OffensiveSkillBase for FrostDiver {
     fn _element(&self) -> Element {
         Element::Water
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 38 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 41 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 44 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 47 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 50 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 6 {
+            if chance <= 53 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 7 {
+            if chance <= 56 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 8 {
+            if chance <= 59 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 9 {
+            if chance <= 62 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 10 {
+            if chance <= 65 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        effects
+    }
 }
 // MG_STONECURSE
 pub struct StoneCurse {
@@ -1744,6 +1816,62 @@ impl OffensiveSkillBase for StoneCurse {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Earth
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 24 {
+                effects.push(StatusEffect::Stone);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 28 {
+                effects.push(StatusEffect::Stone);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 32 {
+                effects.push(StatusEffect::Stone);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 36 {
+                effects.push(StatusEffect::Stone);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 40 {
+                effects.push(StatusEffect::Stone);
+            }
+        }
+        if self.level == 6 {
+            if chance <= 44 {
+                effects.push(StatusEffect::Stone);
+            }
+        }
+        if self.level == 7 {
+            if chance <= 48 {
+                effects.push(StatusEffect::Stone);
+            }
+        }
+        if self.level == 8 {
+            if chance <= 52 {
+                effects.push(StatusEffect::Stone);
+            }
+        }
+        if self.level == 9 {
+            if chance <= 56 {
+                effects.push(StatusEffect::Stone);
+            }
+        }
+        if self.level == 10 {
+            if chance <= 60 {
+                effects.push(StatusEffect::Stone);
+            }
+        }
+        effects
     }
 }
 // MG_FIREBALL
@@ -1981,6 +2109,10 @@ impl OffensiveSkillBase for FireBall {
     fn _element(&self) -> Element {
         Element::Fire
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // MG_FIREWALL
 pub struct FireWall {
@@ -2126,6 +2258,10 @@ impl OffensiveSkillBase for FireWall {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Fire
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for FireWall {
@@ -2455,6 +2591,10 @@ impl OffensiveSkillBase for FireBolt {
     fn _element(&self) -> Element {
         Element::Fire
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // MG_LIGHTNINGBOLT
 pub struct LightningBolt {
@@ -2781,6 +2921,10 @@ impl OffensiveSkillBase for LightningBolt {
     fn _element(&self) -> Element {
         Element::Wind
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // MG_THUNDERSTORM
 pub struct ThunderStorm {
@@ -3050,6 +3194,10 @@ impl OffensiveSkillBase for ThunderStorm {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Wind
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for ThunderStorm {

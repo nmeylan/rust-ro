@@ -774,6 +774,10 @@ impl OffensiveSkillBase for Mammonite {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // MC_CARTREVOLUTION
 pub struct CartRevolution {
@@ -886,6 +890,10 @@ impl OffensiveSkillBase for CartRevolution {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // MC_CHANGECART

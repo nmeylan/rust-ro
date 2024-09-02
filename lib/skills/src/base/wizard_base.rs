@@ -217,6 +217,10 @@ impl OffensiveSkillBase for FirePillar {
     fn _element(&self) -> Element {
         Element::Fire
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 impl GroundSkillBase for FirePillar {
 }
@@ -429,6 +433,10 @@ impl OffensiveSkillBase for Sightrasher {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Fire
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // WZ_METEOR
@@ -737,6 +745,62 @@ impl OffensiveSkillBase for MeteorStorm {
     fn _element(&self) -> Element {
         Element::Fire
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 3 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 6 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 9 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 12 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 15 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 6 {
+            if chance <= 18 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 7 {
+            if chance <= 21 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 8 {
+            if chance <= 24 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 9 {
+            if chance <= 27 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 10 {
+            if chance <= 30 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        effects
+    }
 }
 impl GroundSkillBase for MeteorStorm {
 }
@@ -997,6 +1061,10 @@ impl OffensiveSkillBase for JupitelThunder {
     fn _element(&self) -> Element {
         Element::Wind
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // WZ_VERMILION
 pub struct LordofVermilion {
@@ -1237,6 +1305,62 @@ impl OffensiveSkillBase for LordofVermilion {
     fn _element(&self) -> Element {
         Element::Wind
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 4 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 8 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 12 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 16 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 20 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 6 {
+            if chance <= 24 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 7 {
+            if chance <= 28 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 8 {
+            if chance <= 32 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 9 {
+            if chance <= 36 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 10 {
+            if chance <= 40 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        effects
+    }
 }
 impl GroundSkillBase for LordofVermilion {
 }
@@ -1476,6 +1600,10 @@ impl OffensiveSkillBase for WaterBall {
     fn _element(&self) -> Element {
         Element::Water
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // WZ_ICEWALL
 pub struct IceWall {
@@ -1583,6 +1711,10 @@ impl OffensiveSkillBase for IceWall {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Water
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for IceWall {
@@ -1818,6 +1950,62 @@ impl OffensiveSkillBase for FrostNova {
     fn _element(&self) -> Element {
         Element::Water
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 38 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 43 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 48 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 53 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 58 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 6 {
+            if chance <= 63 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 7 {
+            if chance <= 68 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 8 {
+            if chance <= 73 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 9 {
+            if chance <= 78 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 10 {
+            if chance <= 83 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        effects
+    }
 }
 // WZ_STORMGUST
 pub struct StormGust {
@@ -1997,6 +2185,62 @@ impl OffensiveSkillBase for StormGust {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Water
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 200 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 200 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 200 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 200 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 200 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 6 {
+            if chance <= 200 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 7 {
+            if chance <= 200 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 8 {
+            if chance <= 200 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 9 {
+            if chance <= 200 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 10 {
+            if chance <= 200 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        effects
     }
 }
 impl GroundSkillBase for StormGust {
@@ -2186,6 +2430,10 @@ impl OffensiveSkillBase for EarthSpike {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Earth
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // WZ_HEAVENDRIVE
@@ -2382,6 +2630,10 @@ impl OffensiveSkillBase for HeavensDrive {
     fn _element(&self) -> Element {
         Element::Earth
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 impl GroundSkillBase for HeavensDrive {
 }
@@ -2525,6 +2777,10 @@ impl OffensiveSkillBase for Quagmire {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Earth
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for Quagmire {

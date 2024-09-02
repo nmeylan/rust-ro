@@ -208,6 +208,10 @@ impl OffensiveSkillBase for GloriaDomini {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // PA_SACRIFICE
 pub struct MartyrsReckoning {
@@ -665,5 +669,9 @@ impl OffensiveSkillBase for ShieldChain {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }

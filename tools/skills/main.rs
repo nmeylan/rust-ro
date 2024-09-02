@@ -324,6 +324,7 @@ fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_nam
         generate_dmg_atk(job_skills_file, skill_config);
         generate_dmg_matk(job_skills_file, skill_config);
         generate_element(job_skills_file, skill_config);
+        generate_inflict_status(job_skills_file, skill_config);
         job_skills_file.write_all(b"}\n").unwrap();
     }
     if is_support(skill_config) {
@@ -642,12 +643,56 @@ fn generate_element(job_skills_file: &mut File, skill_config: &SkillConfig) {
 
 fn generate_inflict_status(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
-    job_skills_file.write_all(b"    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {\n").unwrap();
+    job_skills_file.write_all(b"    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {\n").unwrap();
     if skill_config.bonus_to_target_before_hit().is_empty() {
-        job_skills_file.write_all(b"        None\n").unwrap();
+        job_skills_file.write_all(b"        vec![]\n").unwrap();
     } else {
-        // skill_config.bonus_to_target_before_hit().iter()
-        //     .filter(|b| matches!(b.value.0, BonusType::ChanceToInflictStatusOnAttackPercentage(_))
+        let change_to_inflict_status_effects = skill_config.bonus_to_target_before_hit().iter()
+            .filter(|b| matches!(b.value.0, BonusType::ChanceToInflictStatusOnAttackPercentage(_, _)));
+        if change_to_inflict_status_effects.clone().count() == 0 {
+            job_skills_file.write_all(b"        vec![]\n").unwrap();
+        } else {
+            // We need to group per effect, because skills like meteor assault can cause multiple effect
+            let mut map: HashMap<String, Vec<BonusPerLevel>> = HashMap::new();
+            for bonus in change_to_inflict_status_effects {
+                match bonus.value.0 {
+                    BonusType::ChanceToInflictStatusOnAttackPercentage(effect, _) => {
+                        map.entry(format!("{:?}", effect))
+                            .or_insert_with(Vec::new)
+                            .push(bonus.clone());
+                    },
+                    _ => {}
+                }
+            }
+            let change_to_inflict_status_effects_grouped: Vec<Vec<BonusPerLevel>> = map.into_values().collect::<Vec<Vec<BonusPerLevel>>>();
+            job_skills_file.write_all(format!("        let mut effects = Vec::with_capacity({});\n", change_to_inflict_status_effects_grouped.len()).as_bytes()).unwrap();
+            for j in 0..change_to_inflict_status_effects_grouped.len() {
+                job_skills_file.write_all(b"        let chance = _rng.u8(1..=100);\n").unwrap();
+                for i in 1..=skill_config.max_level() {
+                    job_skills_file.write_all(format!("        if self.level == {} {{\n", i).as_bytes()).unwrap();
+                    for bonus in change_to_inflict_status_effects_grouped[j].iter() {
+                        let mut write_inflict_effect = || match bonus.value.0 {
+                            BonusType::ChanceToInflictStatusOnAttackPercentage(effect, chance) => {
+                                job_skills_file.write_all(format!("            if chance <= {} {{\n", chance).as_bytes()).unwrap();
+                                job_skills_file.write_all(format!("                effects.push(StatusEffect::{:?});\n", effect).as_bytes()).unwrap();
+                                job_skills_file.write_all(b"            }\n").unwrap();
+                            }
+                            _ => panic!("Can't go there")
+                        };
+                        if let Some(level) = bonus.level {
+                            if level == i as u8 {
+                                write_inflict_effect();
+                            }
+                        } else {
+                            write_inflict_effect();
+                        }
+                    }
+                    job_skills_file.write_all(b"        }\n").unwrap();
+                }
+            }
+
+            job_skills_file.write_all(b"        effects\n").unwrap();
+        }
     }
     job_skills_file.write_all(b"    }\n").unwrap();
 

@@ -183,6 +183,10 @@ impl OffensiveSkillBase for RagingPalmStrike {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // CH_TIGERFIST
 pub struct GlacierFist {
@@ -312,6 +316,10 @@ impl OffensiveSkillBase for GlacierFist {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // CH_CHAINCRUSH
@@ -536,6 +544,10 @@ impl OffensiveSkillBase for ChainCrushCombo {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // CH_SOULCOLLECT

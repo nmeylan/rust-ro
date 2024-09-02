@@ -261,6 +261,10 @@ impl OffensiveSkillBase for ThrowShuriken {
     fn _element(&self) -> Element {
         Element::Ammo
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // NJ_KUNAI
 pub struct ThrowKunai {
@@ -406,6 +410,10 @@ impl OffensiveSkillBase for ThrowKunai {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // NJ_HUUMA
@@ -587,6 +595,10 @@ impl OffensiveSkillBase for ThrowHuumaShuriken {
     fn _element(&self) -> Element {
         Element::Ammo
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // NJ_ZENYNAGE
 pub struct ThrowZeny {
@@ -724,6 +736,10 @@ impl OffensiveSkillBase for ThrowZeny {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // NJ_TATAMIGAESHI
@@ -1023,6 +1039,10 @@ impl OffensiveSkillBase for VanishingSlash {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // NJ_SHADOWJUMP
 pub struct ShadowLeap {
@@ -1285,6 +1305,10 @@ impl OffensiveSkillBase for ShadowSlash {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // NJ_UTSUSEMI
@@ -1607,6 +1631,10 @@ impl OffensiveSkillBase for MirrorImage {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // NJ_NINPOU
@@ -1978,6 +2006,10 @@ impl OffensiveSkillBase for CrimsonFirePetal {
     fn _element(&self) -> Element {
         Element::Fire
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // NJ_KAENSIN
 pub struct CrimsonFireFormation {
@@ -2127,6 +2159,10 @@ impl OffensiveSkillBase for CrimsonFireFormation {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Fire
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // NJ_BAKUENRYU
@@ -2292,6 +2328,10 @@ impl OffensiveSkillBase for RagingFireDragon {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Fire
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // NJ_HYOUSENSOU
@@ -2551,6 +2591,10 @@ impl OffensiveSkillBase for SpearofIce {
     fn _element(&self) -> Element {
         Element::Water
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // NJ_SUITON
 pub struct HiddenWater {
@@ -2781,6 +2825,10 @@ impl OffensiveSkillBase for HiddenWater {
     fn _element(&self) -> Element {
         Element::Water
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 impl GroundSkillBase for HiddenWater {
 }
@@ -2962,6 +3010,37 @@ impl OffensiveSkillBase for IceMeteor {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Water
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 20 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 30 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 40 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 50 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 60 {
+                effects.push(StatusEffect::Freeze);
+            }
+        }
+        effects
     }
 }
 // NJ_HUUJIN
@@ -3225,6 +3304,10 @@ impl OffensiveSkillBase for WindBlade {
     fn _element(&self) -> Element {
         Element::Wind
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // NJ_RAIGEKISAI
 pub struct LightningStrikeofDestruction {
@@ -3386,6 +3469,10 @@ impl OffensiveSkillBase for LightningStrikeofDestruction {
     fn _element(&self) -> Element {
         Element::Wind
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // NJ_KAMAITACHI
 pub struct Kamaitachi {
@@ -3546,6 +3633,10 @@ impl OffensiveSkillBase for Kamaitachi {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Wind
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // NJ_NEN
@@ -3862,5 +3953,9 @@ impl OffensiveSkillBase for FinalStrike {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }

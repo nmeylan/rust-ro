@@ -357,6 +357,10 @@ impl OffensiveSkillBase for TornadoStance {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // TK_STORMKICK
 pub struct TornadoKick {
@@ -524,6 +528,10 @@ impl OffensiveSkillBase for TornadoKick {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // TK_READYDOWN
 pub struct HeelDropStance {
@@ -626,6 +634,10 @@ impl OffensiveSkillBase for HeelDropStance {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // TK_DOWNKICK
@@ -794,6 +806,10 @@ impl OffensiveSkillBase for HeelDrop {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // TK_READYTURN
 pub struct RoundhouseStance {
@@ -896,6 +912,10 @@ impl OffensiveSkillBase for RoundhouseStance {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // TK_TURNKICK
@@ -1085,6 +1105,10 @@ impl OffensiveSkillBase for RoundhouseKick {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // TK_READYCOUNTER
 pub struct CounterKickStance {
@@ -1187,6 +1211,10 @@ impl OffensiveSkillBase for CounterKickStance {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // TK_COUNTER
@@ -1355,6 +1383,10 @@ impl OffensiveSkillBase for CounterKick {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // TK_DODGE
 pub struct Tumbling {
@@ -1457,6 +1489,10 @@ impl OffensiveSkillBase for Tumbling {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // TK_JUMPKICK
@@ -1624,6 +1660,10 @@ impl OffensiveSkillBase for FlyingKick {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // TK_HPTIME
@@ -1958,6 +1998,10 @@ impl OffensiveSkillBase for Kihop {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // TK_SEVENWIND
 pub struct MildWind {
@@ -2100,6 +2144,10 @@ impl OffensiveSkillBase for MildWind {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // TK_HIGHJUMP
 pub struct TaekwonJump {
@@ -2218,6 +2266,10 @@ impl OffensiveSkillBase for TaekwonJump {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // TK_MISSION

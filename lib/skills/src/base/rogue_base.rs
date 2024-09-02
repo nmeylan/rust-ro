@@ -409,6 +409,10 @@ impl OffensiveSkillBase for BackStab {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // RG_TUNNELDRIVE
 pub struct Stalk {
@@ -629,6 +633,63 @@ impl OffensiveSkillBase for SightlessMind {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(2);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 13 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 16 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 19 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 22 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 25 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 13 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 16 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 19 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 22 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 25 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        effects
     }
 }
 // RG_STRIPWEAPON
@@ -1313,6 +1374,10 @@ impl OffensiveSkillBase for Snatch {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // RG_GRAFFITI

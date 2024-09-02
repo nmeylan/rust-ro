@@ -7,7 +7,7 @@
 pub enum SkillEnum {
     // Novice Basic Skill
     NvBasic,
-    // Rogue Sword Mastery
+    // Super_Baby Sword Mastery
     SmSword,
     // Swordsman Two-Handed Sword Mastery
     SmTwohand,
@@ -21,13 +21,13 @@ pub enum SkillEnum {
     SmMagnum,
     // Super_Baby Endure
     SmEndure,
-    // Super_Baby Increase SP Recovery
+    // Priest Increase SP Recovery
     MgSrecovery,
     // Super_Baby Sight
     MgSight,
     // Super_Baby Napalm Beat
     MgNapalmbeat,
-    // Super_Baby Safety Wall
+    // Priest Safety Wall
     MgSafetywall,
     // Super_Baby Soul Strike
     MgSoulstrike,
@@ -47,9 +47,9 @@ pub enum SkillEnum {
     MgLightningbolt,
     // Super_Baby Thunder Storm
     MgThunderstorm,
-    // Acolyte Divine Protection
+    // Crusader Divine Protection
     AlDp,
-    // Acolyte Demon Bane
+    // Crusader Demon Bane
     AlDemonbane,
     // Acolyte Ruwach
     AlRuwach,
@@ -59,7 +59,7 @@ pub enum SkillEnum {
     AlTeleport,
     // Acolyte Warp Portal
     AlWarp,
-    // Acolyte Heal
+    // Crusader Heal
     AlHeal,
     // Acolyte Increase AGI
     AlIncagi,
@@ -73,43 +73,43 @@ pub enum SkillEnum {
     AlAngelus,
     // Acolyte Blessing
     AlBlessing,
-    // Acolyte Cure
+    // Crusader Cure
     AlCure,
-    // Merchant Enlarge Weight Limit
+    // Super_Baby Enlarge Weight Limit
     McInccarry,
-    // Merchant Discount
+    // Super_Baby Discount
     McDiscount,
-    // Merchant Overcharge
+    // Super_Baby Overcharge
     McOvercharge,
-    // Merchant Pushcart
+    // Super_Baby Pushcart
     McPushcart,
-    // Merchant Item Appraisal
+    // Super_Baby Item Appraisal
     McIdentify,
-    // Merchant Vending
+    // Super_Baby Vending
     McVending,
-    // Merchant Mammonite
+    // Super_Baby Mammonite
     McMammonite,
-    // Archer Owl's Eye
+    // Super_Baby Owl's Eye
     AcOwl,
-    // Archer Vulture's Eye
+    // Super_Baby Vulture's Eye
     AcVulture,
-    // Archer Improve Concentration
+    // Super_Baby Improve Concentration
     AcConcentration,
     // Archer Double Strafe
     AcDouble,
     // Archer Arrow Shower
     AcShower,
-    // Super_Baby Double Attack
+    // Thief Double Attack
     TfDouble,
-    // Super_Baby Improve Dodge
+    // Thief Improve Dodge
     TfMiss,
-    // Super_Baby Steal
+    // Thief Steal
     TfSteal,
-    // Super_Baby Hiding
+    // Thief Hiding
     TfHiding,
-    // Super_Baby Envenom
+    // Thief Envenom
     TfPoison,
-    // Super_Baby Detoxify
+    // Thief Detoxify
     TfDetoxify,
     // Priest Resurrection
     AllResurrection,
@@ -145,7 +145,7 @@ pub enum SkillEnum {
     PrBenedictio,
     // Priest Sanctuary
     PrSanctuary,
-    // HighPriest Slow Poison
+    // Priest Slow Poison
     PrSlowpoison,
     // Priest Status Recovery
     PrStrecovery,
@@ -249,7 +249,7 @@ pub enum SkillEnum {
     HtBlastmine,
     // Hunter Claymore Trap
     HtClaymoretrap,
-    // Rogue Remove Trap
+    // Hunter Remove Trap
     HtRemovetrap,
     // Hunter Talkie Box
     HtTalkiebox,

@@ -384,6 +384,10 @@ impl OffensiveSkillBase for FalconAssault {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // SN_SHARPSHOOTING
 pub struct FocusedArrowStrike {
@@ -556,6 +560,10 @@ impl OffensiveSkillBase for FocusedArrowStrike {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // SN_WINDWALK

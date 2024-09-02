@@ -328,6 +328,10 @@ impl OffensiveSkillBase for SlingingArrow {
     fn _element(&self) -> Element {
         Element::Ammo
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // DC_UGLYDANCE
 pub struct HipShaker {
@@ -591,6 +595,37 @@ impl OffensiveSkillBase for Dazzler {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 20 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 25 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 30 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 35 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 40 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        effects
     }
 }
 // DC_HUMMING
