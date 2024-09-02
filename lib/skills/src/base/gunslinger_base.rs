@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// GS_GLITTERING
+// GS_GLITTERING - Flip the Coin
 pub struct FliptheCoin {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -114,7 +114,7 @@ impl SkillBase for FliptheCoin {
 }
 impl InteractiveSkillBase for FliptheCoin {
 }
-// GS_FLING
+// GS_FLING - Fling
 pub struct Fling {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -222,7 +222,7 @@ impl OffensiveSkillBase for Fling {
         vec![]
     }
 }
-// GS_TRIPLEACTION
+// GS_TRIPLEACTION - Triple Action
 pub struct TripleAction {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -338,7 +338,7 @@ impl OffensiveSkillBase for TripleAction {
         vec![]
     }
 }
-// GS_BULLSEYE
+// GS_BULLSEYE - Bulls Eye
 pub struct BullsEye {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -461,7 +461,7 @@ impl OffensiveSkillBase for BullsEye {
         vec![]
     }
 }
-// GS_MADNESSCANCEL
+// GS_MADNESSCANCEL - Madness Canceller
 pub struct MadnessCanceller {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -578,7 +578,7 @@ impl OffensiveSkillBase for MadnessCanceller {
         vec![]
     }
 }
-// GS_ADJUSTMENT
+// GS_ADJUSTMENT - AdJustment
 pub struct AdJustment {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -695,7 +695,7 @@ impl OffensiveSkillBase for AdJustment {
         vec![]
     }
 }
-// GS_INCREASING
+// GS_INCREASING - Increasing Accuracy
 pub struct IncreasingAccuracy {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -801,7 +801,7 @@ impl SkillBase for IncreasingAccuracy {
 }
 impl SupportiveSkillBase for IncreasingAccuracy {
 }
-// GS_MAGICALBULLET
+// GS_MAGICALBULLET - Magical Bullet
 pub struct MagicalBullet {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -913,7 +913,7 @@ impl OffensiveSkillBase for MagicalBullet {
         vec![]
     }
 }
-// GS_CRACKER
+// GS_CRACKER - Cracker
 pub struct Cracker {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1036,7 +1036,7 @@ impl OffensiveSkillBase for Cracker {
         effects
     }
 }
-// GS_SINGLEACTION
+// GS_SINGLEACTION - Single Action
 pub struct SingleAction {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1144,7 +1144,7 @@ impl SkillBase for SingleAction {
         TemporaryStatusBonuses::default()
     }
 }
-// GS_SNAKEEYE
+// GS_SNAKEEYE - Snake Eye
 pub struct SnakeEye {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1222,7 +1222,7 @@ impl SkillBase for SnakeEye {
         TemporaryStatusBonuses::default()
     }
 }
-// GS_CHAINACTION
+// GS_CHAINACTION - Chain Action
 pub struct ChainAction {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1352,7 +1352,7 @@ impl OffensiveSkillBase for ChainAction {
         vec![]
     }
 }
-// GS_TRACKING
+// GS_TRACKING - Tracking
 pub struct Tracking {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1600,7 +1600,7 @@ impl OffensiveSkillBase for Tracking {
         vec![]
     }
 }
-// GS_DISARM
+// GS_DISARM - Disarm
 pub struct Disarm {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1754,7 +1754,7 @@ impl OffensiveSkillBase for Disarm {
         vec![]
     }
 }
-// GS_PIERCINGSHOT
+// GS_PIERCINGSHOT - Piercing Shot
 pub struct PiercingShot {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1954,7 +1954,7 @@ impl OffensiveSkillBase for PiercingShot {
         effects
     }
 }
-// GS_RAPIDSHOWER
+// GS_RAPIDSHOWER - Rapid Shower
 pub struct RapidShower {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2172,7 +2172,7 @@ impl OffensiveSkillBase for RapidShower {
         vec![]
     }
 }
-// GS_DESPERADO
+// GS_DESPERADO - Desperado
 pub struct Desperado {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2390,7 +2390,7 @@ impl OffensiveSkillBase for Desperado {
         vec![]
     }
 }
-// GS_GATLINGFEVER
+// GS_GATLINGFEVER - Gatling Fever
 pub struct GatlingFever {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2632,7 +2632,7 @@ impl OffensiveSkillBase for GatlingFever {
         vec![]
     }
 }
-// GS_DUST
+// GS_DUST - Dust
 pub struct Dust {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2854,7 +2854,7 @@ impl OffensiveSkillBase for Dust {
         vec![]
     }
 }
-// GS_FULLBUSTER
+// GS_FULLBUSTER - Full Buster
 pub struct FullBuster {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -3128,7 +3128,7 @@ impl OffensiveSkillBase for FullBuster {
         vec![]
     }
 }
-// GS_SPREADATTACK
+// GS_SPREADATTACK - Spread Attack
 pub struct SpreadAttack {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -3342,7 +3342,7 @@ impl OffensiveSkillBase for SpreadAttack {
         vec![]
     }
 }
-// GS_GROUNDDRIFT
+// GS_GROUNDDRIFT - Ground Drift
 pub struct GroundDrift {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

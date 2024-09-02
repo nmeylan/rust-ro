@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// NV_BASIC
+// NV_BASIC - Basic Skill
 pub struct BasicSkill {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -110,7 +110,7 @@ impl SkillBase for BasicSkill {
 }
 impl PassiveSkillBase for BasicSkill {
 }
-// NV_FIRSTAID
+// NV_FIRSTAID - First Aid
 pub struct FirstAid {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -202,7 +202,7 @@ impl SkillBase for FirstAid {
 }
 impl PassiveSkillBase for FirstAid {
 }
-// NV_TRICKDEAD
+// NV_TRICKDEAD - Play Dead
 pub struct PlayDead {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

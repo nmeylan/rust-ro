@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// WZ_FIREPILLAR
+// WZ_FIREPILLAR - Fire Pillar
 pub struct FirePillar {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -224,7 +224,7 @@ impl OffensiveSkillBase for FirePillar {
 }
 impl GroundSkillBase for FirePillar {
 }
-// WZ_SIGHTRASHER
+// WZ_SIGHTRASHER - Sightrasher
 pub struct Sightrasher {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -439,7 +439,7 @@ impl OffensiveSkillBase for Sightrasher {
         vec![]
     }
 }
-// WZ_METEOR
+// WZ_METEOR - Meteor Storm
 pub struct MeteorStorm {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -804,7 +804,7 @@ impl OffensiveSkillBase for MeteorStorm {
 }
 impl GroundSkillBase for MeteorStorm {
 }
-// WZ_JUPITEL
+// WZ_JUPITEL - Jupitel Thunder
 pub struct JupitelThunder {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1066,7 +1066,7 @@ impl OffensiveSkillBase for JupitelThunder {
         vec![]
     }
 }
-// WZ_VERMILION
+// WZ_VERMILION - Lord of Vermilion
 pub struct LordofVermilion {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1364,7 +1364,7 @@ impl OffensiveSkillBase for LordofVermilion {
 }
 impl GroundSkillBase for LordofVermilion {
 }
-// WZ_WATERBALL
+// WZ_WATERBALL - Water Ball
 pub struct WaterBall {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1605,7 +1605,7 @@ impl OffensiveSkillBase for WaterBall {
         vec![]
     }
 }
-// WZ_ICEWALL
+// WZ_ICEWALL - Ice Wall
 pub struct IceWall {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1719,7 +1719,7 @@ impl OffensiveSkillBase for IceWall {
 }
 impl GroundSkillBase for IceWall {
 }
-// WZ_FROSTNOVA
+// WZ_FROSTNOVA - Frost Nova
 pub struct FrostNova {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2007,7 +2007,7 @@ impl OffensiveSkillBase for FrostNova {
         effects
     }
 }
-// WZ_STORMGUST
+// WZ_STORMGUST - Storm Gust
 pub struct StormGust {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2245,7 +2245,7 @@ impl OffensiveSkillBase for StormGust {
 }
 impl GroundSkillBase for StormGust {
 }
-// WZ_EARTHSPIKE
+// WZ_EARTHSPIKE - Earth Spike
 pub struct EarthSpike {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2436,7 +2436,7 @@ impl OffensiveSkillBase for EarthSpike {
         vec![]
     }
 }
-// WZ_HEAVENDRIVE
+// WZ_HEAVENDRIVE - Heaven's Drive
 pub struct HeavensDrive {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2637,7 +2637,7 @@ impl OffensiveSkillBase for HeavensDrive {
 }
 impl GroundSkillBase for HeavensDrive {
 }
-// WZ_QUAGMIRE
+// WZ_QUAGMIRE - Quagmire
 pub struct Quagmire {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2785,7 +2785,7 @@ impl OffensiveSkillBase for Quagmire {
 }
 impl GroundSkillBase for Quagmire {
 }
-// WZ_ESTIMATION
+// WZ_ESTIMATION - Sense
 pub struct Sense {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2877,7 +2877,7 @@ impl SkillBase for Sense {
 }
 impl InteractiveSkillBase for Sense {
 }
-// WZ_SIGHTBLASTER
+// WZ_SIGHTBLASTER - Sight Blaster
 pub struct SightBlaster {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

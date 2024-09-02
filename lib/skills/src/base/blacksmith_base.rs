@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// BS_IRON
+// BS_IRON - Iron Tempering
 pub struct IronTempering {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -130,7 +130,7 @@ impl SkillBase for IronTempering {
 }
 impl PassiveSkillBase for IronTempering {
 }
-// BS_STEEL
+// BS_STEEL - Steel Tempering
 pub struct SteelTempering {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -238,7 +238,7 @@ impl SkillBase for SteelTempering {
 }
 impl PassiveSkillBase for SteelTempering {
 }
-// BS_ENCHANTEDSTONE
+// BS_ENCHANTEDSTONE - Enchanted Stone Craft
 pub struct EnchantedStoneCraft {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -346,7 +346,7 @@ impl SkillBase for EnchantedStoneCraft {
 }
 impl PassiveSkillBase for EnchantedStoneCraft {
 }
-// BS_ORIDEOCON
+// BS_ORIDEOCON - Oridecon Research
 pub struct OrideconResearch {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -454,7 +454,7 @@ impl SkillBase for OrideconResearch {
 }
 impl PassiveSkillBase for OrideconResearch {
 }
-// BS_DAGGER
+// BS_DAGGER - Smith Dagger
 pub struct SmithDagger {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -554,7 +554,7 @@ impl SkillBase for SmithDagger {
 }
 impl PassiveSkillBase for SmithDagger {
 }
-// BS_SWORD
+// BS_SWORD - Smith Sword
 pub struct SmithSword {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -654,7 +654,7 @@ impl SkillBase for SmithSword {
 }
 impl PassiveSkillBase for SmithSword {
 }
-// BS_TWOHANDSWORD
+// BS_TWOHANDSWORD - Smith Two-handed Sword
 pub struct SmithTwohandedSword {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -754,7 +754,7 @@ impl SkillBase for SmithTwohandedSword {
 }
 impl PassiveSkillBase for SmithTwohandedSword {
 }
-// BS_AXE
+// BS_AXE - Smith Axe
 pub struct SmithAxe {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -854,7 +854,7 @@ impl SkillBase for SmithAxe {
 }
 impl PassiveSkillBase for SmithAxe {
 }
-// BS_MACE
+// BS_MACE - Smith Mace
 pub struct SmithMace {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -954,7 +954,7 @@ impl SkillBase for SmithMace {
 }
 impl PassiveSkillBase for SmithMace {
 }
-// BS_KNUCKLE
+// BS_KNUCKLE - Smith Knucklebrace
 pub struct SmithKnucklebrace {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1054,7 +1054,7 @@ impl SkillBase for SmithKnucklebrace {
 }
 impl PassiveSkillBase for SmithKnucklebrace {
 }
-// BS_SPEAR
+// BS_SPEAR - Smith Spear
 pub struct SmithSpear {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1154,7 +1154,7 @@ impl SkillBase for SmithSpear {
 }
 impl PassiveSkillBase for SmithSpear {
 }
-// BS_HILTBINDING
+// BS_HILTBINDING - Hilt Binding
 pub struct HiltBinding {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1247,7 +1247,7 @@ impl SkillBase for HiltBinding {
 }
 impl PassiveSkillBase for HiltBinding {
 }
-// BS_FINDINGORE
+// BS_FINDINGORE - Ore Discovery
 pub struct OreDiscovery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1335,7 +1335,7 @@ impl SkillBase for OreDiscovery {
 }
 impl PassiveSkillBase for OreDiscovery {
 }
-// BS_WEAPONRESEARCH
+// BS_WEAPONRESEARCH - Weaponry Research
 pub struct WeaponryResearch {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1483,7 +1483,7 @@ impl SkillBase for WeaponryResearch {
 }
 impl PassiveSkillBase for WeaponryResearch {
 }
-// BS_REPAIRWEAPON
+// BS_REPAIRWEAPON - Weapon Repair
 pub struct WeaponRepair {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1579,7 +1579,7 @@ impl SkillBase for WeaponRepair {
 }
 impl InteractiveSkillBase for WeaponRepair {
 }
-// BS_SKINTEMPER
+// BS_SKINTEMPER - Skin Tempering
 pub struct SkinTempering {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1692,7 +1692,7 @@ impl SkillBase for SkinTempering {
 }
 impl PassiveSkillBase for SkinTempering {
 }
-// BS_HAMMERFALL
+// BS_HAMMERFALL - Hammer Fall
 pub struct HammerFall {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1841,7 +1841,7 @@ impl OffensiveSkillBase for HammerFall {
 }
 impl GroundSkillBase for HammerFall {
 }
-// BS_ADRENALINE
+// BS_ADRENALINE - Adrenaline Rush
 pub struct AdrenalineRush {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2015,7 +2015,7 @@ impl SkillBase for AdrenalineRush {
 }
 impl SupportiveSkillBase for AdrenalineRush {
 }
-// BS_WEAPONPERFECT
+// BS_WEAPONPERFECT - Weapon Perfection
 pub struct WeaponPerfection {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2141,7 +2141,7 @@ impl SkillBase for WeaponPerfection {
 }
 impl SupportiveSkillBase for WeaponPerfection {
 }
-// BS_OVERTHRUST
+// BS_OVERTHRUST - Power-Thrust
 pub struct PowerThrust {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2320,7 +2320,7 @@ impl SkillBase for PowerThrust {
 }
 impl SupportiveSkillBase for PowerThrust {
 }
-// BS_MAXIMIZE
+// BS_MAXIMIZE - Maximize Power
 pub struct MaximizePower {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2416,7 +2416,7 @@ impl SkillBase for MaximizePower {
 }
 impl SupportiveSkillBase for MaximizePower {
 }
-// BS_UNFAIRLYTRICK
+// BS_UNFAIRLYTRICK - Unfair Trick
 pub struct UnfairTrick {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2494,7 +2494,7 @@ impl SkillBase for UnfairTrick {
         TemporaryStatusBonuses::default()
     }
 }
-// BS_GREED
+// BS_GREED - Greed
 pub struct Greed {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2580,7 +2580,7 @@ impl SkillBase for Greed {
         TemporaryStatusBonuses::default()
     }
 }
-// BS_ADRENALINE2
+// BS_ADRENALINE2 - Advanced Adrenaline Rush
 pub struct AdvancedAdrenalineRush {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

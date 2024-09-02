@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// CG_ARROWVULCAN
+// CG_ARROWVULCAN - Vulcan Arrow
 pub struct VulcanArrow {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -338,7 +338,7 @@ impl OffensiveSkillBase for VulcanArrow {
         vec![]
     }
 }
-// CG_MOONLIT
+// CG_MOONLIT - Sheltering Bliss
 pub struct ShelteringBliss {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -468,7 +468,7 @@ impl SkillBase for ShelteringBliss {
 }
 impl PerformanceSkillBase for ShelteringBliss {
 }
-// CG_MARIONETTE
+// CG_MARIONETTE - Marionette Control
 pub struct MarionetteControl {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -564,7 +564,7 @@ impl SkillBase for MarionetteControl {
 }
 impl SupportiveSkillBase for MarionetteControl {
 }
-// CG_LONGINGFREEDOM
+// CG_LONGINGFREEDOM - Longing for Freedom
 pub struct LongingforFreedom {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -671,7 +671,7 @@ impl SkillBase for LongingforFreedom {
         TemporaryStatusBonuses::default()
     }
 }
-// CG_HERMODE
+// CG_HERMODE - Wand of Hermode
 pub struct WandofHermode {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -801,7 +801,7 @@ impl SkillBase for WandofHermode {
 }
 impl PerformanceSkillBase for WandofHermode {
 }
-// CG_TAROTCARD
+// CG_TAROTCARD - Tarot Card of Fate
 pub struct TarotCardofFate {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

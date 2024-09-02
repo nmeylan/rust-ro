@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// CR_TRUST
+// CR_TRUST - Faith
 pub struct Faith {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -160,7 +160,7 @@ impl SkillBase for Faith {
 }
 impl PassiveSkillBase for Faith {
 }
-// CR_AUTOGUARD
+// CR_AUTOGUARD - Guard
 pub struct Guard {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -375,7 +375,7 @@ impl SkillBase for Guard {
 }
 impl SupportiveSkillBase for Guard {
 }
-// CR_SHIELDCHARGE
+// CR_SHIELDCHARGE - Smite
 pub struct Smite {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -534,7 +534,7 @@ impl OffensiveSkillBase for Smite {
         effects
     }
 }
-// CR_SHIELDBOOMERANG
+// CR_SHIELDBOOMERANG - Shield Boomerang
 pub struct ShieldBoomerang {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -670,7 +670,7 @@ impl OffensiveSkillBase for ShieldBoomerang {
         vec![]
     }
 }
-// CR_REFLECTSHIELD
+// CR_REFLECTSHIELD - Shield Reflect
 pub struct ShieldReflect {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -875,7 +875,7 @@ impl SkillBase for ShieldReflect {
 }
 impl SupportiveSkillBase for ShieldReflect {
 }
-// CR_HOLYCROSS
+// CR_HOLYCROSS - Holy Cross
 pub struct HolyCross {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1110,7 +1110,7 @@ impl OffensiveSkillBase for HolyCross {
         effects
     }
 }
-// CR_GRANDCROSS
+// CR_GRANDCROSS - Grand Cross
 pub struct GrandCross {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1350,7 +1350,7 @@ impl OffensiveSkillBase for GrandCross {
         vec![]
     }
 }
-// CR_DEVOTION
+// CR_DEVOTION - Sacrifice
 pub struct Sacrifice {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1450,7 +1450,7 @@ impl SkillBase for Sacrifice {
 }
 impl SupportiveSkillBase for Sacrifice {
 }
-// CR_PROVIDENCE
+// CR_PROVIDENCE - Resistant Souls
 pub struct ResistantSouls {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1575,7 +1575,7 @@ impl SkillBase for ResistantSouls {
 }
 impl SupportiveSkillBase for ResistantSouls {
 }
-// CR_DEFENDER
+// CR_DEFENDER - Defending Aura
 pub struct DefendingAura {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1709,7 +1709,7 @@ impl SkillBase for DefendingAura {
 }
 impl SupportiveSkillBase for DefendingAura {
 }
-// CR_SPEARQUICKEN
+// CR_SPEARQUICKEN - Spear Quicken
 pub struct SpearQuicken {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1913,7 +1913,7 @@ impl SkillBase for SpearQuicken {
 }
 impl SupportiveSkillBase for SpearQuicken {
 }
-// CR_SHRINK
+// CR_SHRINK - Shrink
 pub struct Shrink {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

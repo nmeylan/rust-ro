@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// BA_MUSICALLESSON
+// BA_MUSICALLESSON - Music Lessons
 pub struct MusicLessons {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -160,7 +160,7 @@ impl SkillBase for MusicLessons {
 }
 impl PassiveSkillBase for MusicLessons {
 }
-// BA_MUSICALSTRIKE
+// BA_MUSICALSTRIKE - Melody Strike
 pub struct MelodyStrike {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -333,7 +333,7 @@ impl OffensiveSkillBase for MelodyStrike {
         vec![]
     }
 }
-// BA_DISSONANCE
+// BA_DISSONANCE - Unchained Serenade
 pub struct UnchainedSerenade {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -463,7 +463,7 @@ impl SkillBase for UnchainedSerenade {
 }
 impl PerformanceSkillBase for UnchainedSerenade {
 }
-// BA_FROSTJOKER
+// BA_FROSTJOKER - Unbarring Octave
 pub struct UnbarringOctave {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -628,7 +628,7 @@ impl OffensiveSkillBase for UnbarringOctave {
         effects
     }
 }
-// BA_WHISTLE
+// BA_WHISTLE - Perfect Tablature
 pub struct PerfectTablature {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -838,7 +838,7 @@ impl SkillBase for PerfectTablature {
 }
 impl PerformanceSkillBase for PerfectTablature {
 }
-// BA_ASSASSINCROSS
+// BA_ASSASSINCROSS - Impressive Riff
 pub struct ImpressiveRiff {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1038,7 +1038,7 @@ impl SkillBase for ImpressiveRiff {
 }
 impl PerformanceSkillBase for ImpressiveRiff {
 }
-// BA_POEMBRAGI
+// BA_POEMBRAGI - Magic Strings
 pub struct MagicStrings {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1198,7 +1198,7 @@ impl SkillBase for MagicStrings {
 }
 impl PerformanceSkillBase for MagicStrings {
 }
-// BA_APPLEIDUN
+// BA_APPLEIDUN - Song of Lutie
 pub struct SongofLutie {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1398,7 +1398,7 @@ impl SkillBase for SongofLutie {
 }
 impl PerformanceSkillBase for SongofLutie {
 }
-// BD_ADAPTATION
+// BD_ADAPTATION - Amp
 pub struct Amp {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1490,7 +1490,7 @@ impl SkillBase for Amp {
 }
 impl InteractiveSkillBase for Amp {
 }
-// BD_ENCORE
+// BD_ENCORE - Encore
 pub struct Encore {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1590,7 +1590,7 @@ impl SkillBase for Encore {
 }
 impl InteractiveSkillBase for Encore {
 }
-// BD_LULLABY
+// BD_LULLABY - Lullaby
 pub struct Lullaby {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1690,7 +1690,7 @@ impl SkillBase for Lullaby {
 }
 impl PerformanceSkillBase for Lullaby {
 }
-// BD_RICHMANKIM
+// BD_RICHMANKIM - Mental Sensing
 pub struct MentalSensing {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1790,7 +1790,7 @@ impl SkillBase for MentalSensing {
 }
 impl PerformanceSkillBase for MentalSensing {
 }
-// BD_ETERNALCHAOS
+// BD_ETERNALCHAOS - Down Tempo
 pub struct DownTempo {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1894,7 +1894,7 @@ impl SkillBase for DownTempo {
 }
 impl PerformanceSkillBase for DownTempo {
 }
-// BD_DRUMBATTLEFIELD
+// BD_DRUMBATTLEFIELD - Battle Theme
 pub struct BattleTheme {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2049,7 +2049,7 @@ impl SkillBase for BattleTheme {
 }
 impl PerformanceSkillBase for BattleTheme {
 }
-// BD_RINGNIBELUNGEN
+// BD_RINGNIBELUNGEN - Harmonic Lick
 pub struct HarmonicLick {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2199,7 +2199,7 @@ impl SkillBase for HarmonicLick {
 }
 impl PerformanceSkillBase for HarmonicLick {
 }
-// BD_ROKISWEIL
+// BD_ROKISWEIL - Classical Pluck
 pub struct ClassicalPluck {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2299,7 +2299,7 @@ impl SkillBase for ClassicalPluck {
 }
 impl PerformanceSkillBase for ClassicalPluck {
 }
-// BD_INTOABYSS
+// BD_INTOABYSS - Power Chord
 pub struct PowerChord {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2399,7 +2399,7 @@ impl SkillBase for PowerChord {
 }
 impl PerformanceSkillBase for PowerChord {
 }
-// BD_SIEGFRIED
+// BD_SIEGFRIED - Acoustic Rhythm
 pub struct AcousticRhythm {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2519,7 +2519,7 @@ impl SkillBase for AcousticRhythm {
 }
 impl PerformanceSkillBase for AcousticRhythm {
 }
-// BA_PANGVOICE
+// BA_PANGVOICE - Pang Voice
 pub struct PangVoice {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

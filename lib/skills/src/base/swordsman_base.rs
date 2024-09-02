@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// SM_SWORD
+// SM_SWORD - Sword Mastery
 pub struct SwordMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -150,7 +150,7 @@ impl SkillBase for SwordMastery {
 }
 impl PassiveSkillBase for SwordMastery {
 }
-// SM_TWOHAND
+// SM_TWOHAND - Two-Handed Sword Mastery
 pub struct TwoHandedSwordMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -278,7 +278,7 @@ impl SkillBase for TwoHandedSwordMastery {
 }
 impl PassiveSkillBase for TwoHandedSwordMastery {
 }
-// SM_RECOVERY
+// SM_RECOVERY - Increase HP Recovery
 pub struct IncreaseHpRecovery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -426,7 +426,7 @@ impl SkillBase for IncreaseHpRecovery {
 }
 impl PassiveSkillBase for IncreaseHpRecovery {
 }
-// SM_BASH
+// SM_BASH - Bash
 pub struct Bash {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -633,7 +633,7 @@ impl OffensiveSkillBase for Bash {
         vec![]
     }
 }
-// SM_PROVOKE
+// SM_PROVOKE - Provoke
 pub struct Provoke {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -797,7 +797,7 @@ impl OffensiveSkillBase for Provoke {
         vec![]
     }
 }
-// SM_MAGNUM
+// SM_MAGNUM - Magnum Break
 pub struct MagnumBreak {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -973,7 +973,7 @@ impl OffensiveSkillBase for MagnumBreak {
         vec![]
     }
 }
-// SM_ENDURE
+// SM_ENDURE - Endure
 pub struct Endure {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1109,7 +1109,7 @@ impl SkillBase for Endure {
 }
 impl SupportiveSkillBase for Endure {
 }
-// SM_MOVINGRECOVERY
+// SM_MOVINGRECOVERY - Moving HP-Recovery
 pub struct MovingHpRecovery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1197,7 +1197,7 @@ impl SkillBase for MovingHpRecovery {
 }
 impl PassiveSkillBase for MovingHpRecovery {
 }
-// SM_FATALBLOW
+// SM_FATALBLOW - Fatal Blow
 pub struct FatalBlow {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1285,7 +1285,7 @@ impl SkillBase for FatalBlow {
 }
 impl PassiveSkillBase for FatalBlow {
 }
-// SM_AUTOBERSERK
+// SM_AUTOBERSERK - Auto Berserk
 pub struct AutoBerserk {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

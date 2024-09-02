@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// HW_SOULDRAIN
+// HW_SOULDRAIN - Soul Drain
 pub struct SoulDrain {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -152,7 +152,7 @@ impl OffensiveSkillBase for SoulDrain {
         vec![]
     }
 }
-// HW_MAGICCRASHER
+// HW_MAGICCRASHER - Stave Crasher
 pub struct StaveCrasher {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -268,7 +268,7 @@ impl OffensiveSkillBase for StaveCrasher {
         vec![]
     }
 }
-// HW_MAGICPOWER
+// HW_MAGICPOWER - Mystical Amplification
 pub struct MysticalAmplification {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -468,7 +468,7 @@ impl SkillBase for MysticalAmplification {
 }
 impl SupportiveSkillBase for MysticalAmplification {
 }
-// HW_NAPALMVULCAN
+// HW_NAPALMVULCAN - Napalm Vulcan
 pub struct NapalmVulcan {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -671,7 +671,7 @@ impl OffensiveSkillBase for NapalmVulcan {
         effects
     }
 }
-// HW_GANBANTEIN
+// HW_GANBANTEIN - Ganbantein
 pub struct Ganbantein {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -782,7 +782,7 @@ impl SkillBase for Ganbantein {
 }
 impl GroundSkillBase for Ganbantein {
 }
-// HW_GRAVITATION
+// HW_GRAVITATION - Gravitation Field
 pub struct GravitationField {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

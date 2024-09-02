@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// TF_DOUBLE
+// TF_DOUBLE - Double Attack
 pub struct DoubleAttack {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -160,7 +160,7 @@ impl SkillBase for DoubleAttack {
 }
 impl PassiveSkillBase for DoubleAttack {
 }
-// TF_MISS
+// TF_MISS - Improve Dodge
 pub struct ImproveDodge {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -288,7 +288,7 @@ impl SkillBase for ImproveDodge {
 }
 impl PassiveSkillBase for ImproveDodge {
 }
-// TF_STEAL
+// TF_STEAL - Steal
 pub struct Steal {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -410,7 +410,7 @@ impl SkillBase for Steal {
 }
 impl InteractiveSkillBase for Steal {
 }
-// TF_HIDING
+// TF_HIDING - Hiding
 pub struct Hiding {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -502,7 +502,7 @@ impl SkillBase for Hiding {
 }
 impl InteractiveSkillBase for Hiding {
 }
-// TF_POISON
+// TF_POISON - Envenom
 pub struct Envenom {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -662,7 +662,7 @@ impl OffensiveSkillBase for Envenom {
         effects
     }
 }
-// TF_DETOXIFY
+// TF_DETOXIFY - Detoxify
 pub struct Detoxify {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -758,7 +758,7 @@ impl SkillBase for Detoxify {
 }
 impl SupportiveSkillBase for Detoxify {
 }
-// TF_SPRINKLESAND
+// TF_SPRINKLESAND - Sand Attack
 pub struct SandAttack {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -873,7 +873,7 @@ impl OffensiveSkillBase for SandAttack {
         effects
     }
 }
-// TF_BACKSLIDING
+// TF_BACKSLIDING - Back Slide
 pub struct BackSlide {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -965,7 +965,7 @@ impl SkillBase for BackSlide {
 }
 impl InteractiveSkillBase for BackSlide {
 }
-// TF_PICKSTONE
+// TF_PICKSTONE - Find Stone
 pub struct FindStone {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1070,7 +1070,7 @@ impl SkillBase for FindStone {
 }
 impl InteractiveSkillBase for FindStone {
 }
-// TF_THROWSTONE
+// TF_THROWSTONE - Stone Fling
 pub struct StoneFling {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1183,13 +1183,13 @@ impl OffensiveSkillBase for StoneFling {
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 3 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 3 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         effects

@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// AL_DP
+// AL_DP - Divine Protection
 pub struct DivineProtection {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -110,7 +110,7 @@ impl SkillBase for DivineProtection {
 }
 impl PassiveSkillBase for DivineProtection {
 }
-// AL_DEMONBANE
+// AL_DEMONBANE - Demon Bane
 pub struct DemonBane {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -248,7 +248,7 @@ impl SkillBase for DemonBane {
 }
 impl PassiveSkillBase for DemonBane {
 }
-// AL_RUWACH
+// AL_RUWACH - Ruwach
 pub struct Ruwach {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -356,7 +356,7 @@ impl OffensiveSkillBase for Ruwach {
         vec![]
     }
 }
-// AL_PNEUMA
+// AL_PNEUMA - Pneuma
 pub struct Pneuma {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -462,7 +462,7 @@ impl SupportiveSkillBase for Pneuma {
 }
 impl GroundSkillBase for Pneuma {
 }
-// AL_TELEPORT
+// AL_TELEPORT - Teleport
 pub struct Teleport {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -566,7 +566,7 @@ impl SkillBase for Teleport {
 }
 impl InteractiveSkillBase for Teleport {
 }
-// AL_WARP
+// AL_WARP - Warp Portal
 pub struct WarpPortal {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -704,7 +704,7 @@ impl InteractiveSkillBase for WarpPortal {
 }
 impl GroundSkillBase for WarpPortal {
 }
-// AL_HEAL
+// AL_HEAL - Heal
 pub struct Heal {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -872,7 +872,7 @@ impl OffensiveSkillBase for Heal {
         vec![]
     }
 }
-// AL_INCAGI
+// AL_INCAGI - Increase AGI
 pub struct IncreaseAgi {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1090,7 +1090,7 @@ impl SkillBase for IncreaseAgi {
 }
 impl SupportiveSkillBase for IncreaseAgi {
 }
-// AL_DECAGI
+// AL_DECAGI - Decrease AGI
 pub struct DecreaseAgi {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1314,7 +1314,7 @@ impl SkillBase for DecreaseAgi {
 }
 impl SupportiveSkillBase for DecreaseAgi {
 }
-// AL_HOLYWATER
+// AL_HOLYWATER - Aqua Benedicta
 pub struct AquaBenedicta {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1423,7 +1423,7 @@ impl SkillBase for AquaBenedicta {
 }
 impl InteractiveSkillBase for AquaBenedicta {
 }
-// AL_CRUCIS
+// AL_CRUCIS - Signum Crucis
 pub struct SignumCrucis {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1527,7 +1527,7 @@ impl SkillBase for SignumCrucis {
 }
 impl SupportiveSkillBase for SignumCrucis {
 }
-// AL_ANGELUS
+// AL_ANGELUS - Angelus
 pub struct Angelus {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1731,7 +1731,7 @@ impl SkillBase for Angelus {
 }
 impl SupportiveSkillBase for Angelus {
 }
-// AL_BLESSING
+// AL_BLESSING - Blessing
 pub struct Blessing {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1947,7 +1947,7 @@ impl SkillBase for Blessing {
 }
 impl SupportiveSkillBase for Blessing {
 }
-// AL_CURE
+// AL_CURE - Cure
 pub struct Cure {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2047,7 +2047,7 @@ impl SkillBase for Cure {
 }
 impl SupportiveSkillBase for Cure {
 }
-// AL_HOLYLIGHT
+// AL_HOLYLIGHT - Holy Light
 pub struct HolyLight {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

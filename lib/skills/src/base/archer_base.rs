@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// AC_OWL
+// AC_OWL - Owl's Eye
 pub struct OwlsEye {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -150,7 +150,7 @@ impl SkillBase for OwlsEye {
 }
 impl PassiveSkillBase for OwlsEye {
 }
-// AC_VULTURE
+// AC_VULTURE - Vulture's Eye
 pub struct VulturesEye {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -238,7 +238,7 @@ impl SkillBase for VulturesEye {
 }
 impl PassiveSkillBase for VulturesEye {
 }
-// AC_CONCENTRATION
+// AC_CONCENTRATION - Improve Concentration
 pub struct ImproveConcentration {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -444,7 +444,7 @@ impl SkillBase for ImproveConcentration {
 }
 impl SupportiveSkillBase for ImproveConcentration {
 }
-// AC_DOUBLE
+// AC_DOUBLE - Double Strafe
 pub struct DoubleStrafe {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -598,7 +598,7 @@ impl OffensiveSkillBase for DoubleStrafe {
         vec![]
     }
 }
-// AC_SHOWER
+// AC_SHOWER - Arrow Shower
 pub struct ArrowShower {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -762,7 +762,7 @@ impl OffensiveSkillBase for ArrowShower {
 }
 impl GroundSkillBase for ArrowShower {
 }
-// AC_MAKINGARROW
+// AC_MAKINGARROW - Arrow Crafting
 pub struct ArrowCrafting {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -863,7 +863,7 @@ impl SkillBase for ArrowCrafting {
 }
 impl InteractiveSkillBase for ArrowCrafting {
 }
-// AC_CHARGEARROW
+// AC_CHARGEARROW - Arrow Repel
 pub struct ArrowRepel {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

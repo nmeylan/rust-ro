@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// SA_ADVANCEDBOOK
+// SA_ADVANCEDBOOK - Study
 pub struct Study {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -160,7 +160,7 @@ impl SkillBase for Study {
 }
 impl PassiveSkillBase for Study {
 }
-// SA_CASTCANCEL
+// SA_CASTCANCEL - Cast Cancel
 pub struct CastCancel {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -252,7 +252,7 @@ impl SkillBase for CastCancel {
 }
 impl InteractiveSkillBase for CastCancel {
 }
-// SA_MAGICROD
+// SA_MAGICROD - Magic Rod
 pub struct MagicRod {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -344,7 +344,7 @@ impl SkillBase for MagicRod {
 }
 impl InteractiveSkillBase for MagicRod {
 }
-// SA_SPELLBREAKER
+// SA_SPELLBREAKER - Spell Breaker
 pub struct SpellBreaker {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -440,7 +440,7 @@ impl SkillBase for SpellBreaker {
 }
 impl InteractiveSkillBase for SpellBreaker {
 }
-// SA_FREECAST
+// SA_FREECAST - Free Cast
 pub struct FreeCast {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -578,7 +578,7 @@ impl SkillBase for FreeCast {
 }
 impl PassiveSkillBase for FreeCast {
 }
-// SA_AUTOSPELL
+// SA_AUTOSPELL - Hindsight
 pub struct Hindsight {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -718,7 +718,7 @@ impl SkillBase for Hindsight {
 }
 impl SupportiveSkillBase for Hindsight {
 }
-// SA_FLAMELAUNCHER
+// SA_FLAMELAUNCHER - Endow Blaze
 pub struct EndowBlaze {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -846,7 +846,7 @@ impl SkillBase for EndowBlaze {
 }
 impl SupportiveSkillBase for EndowBlaze {
 }
-// SA_FROSTWEAPON
+// SA_FROSTWEAPON - Endow Tsunami
 pub struct EndowTsunami {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -974,7 +974,7 @@ impl SkillBase for EndowTsunami {
 }
 impl SupportiveSkillBase for EndowTsunami {
 }
-// SA_LIGHTNINGLOADER
+// SA_LIGHTNINGLOADER - Endow Tornado
 pub struct EndowTornado {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1102,7 +1102,7 @@ impl SkillBase for EndowTornado {
 }
 impl SupportiveSkillBase for EndowTornado {
 }
-// SA_SEISMICWEAPON
+// SA_SEISMICWEAPON - Endow Quake
 pub struct EndowQuake {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1230,7 +1230,7 @@ impl SkillBase for EndowQuake {
 }
 impl SupportiveSkillBase for EndowQuake {
 }
-// SA_DRAGONOLOGY
+// SA_DRAGONOLOGY - Dragonology
 pub struct Dragonology {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1353,7 +1353,7 @@ impl SkillBase for Dragonology {
 }
 impl PassiveSkillBase for Dragonology {
 }
-// SA_VOLCANO
+// SA_VOLCANO - Volcano
 pub struct Volcano {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1526,7 +1526,7 @@ impl SupportiveSkillBase for Volcano {
 }
 impl GroundSkillBase for Volcano {
 }
-// SA_DELUGE
+// SA_DELUGE - Deluge
 pub struct Deluge {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1699,7 +1699,7 @@ impl SupportiveSkillBase for Deluge {
 }
 impl GroundSkillBase for Deluge {
 }
-// SA_VIOLENTGALE
+// SA_VIOLENTGALE - Whirlwind
 pub struct Whirlwind {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1872,7 +1872,7 @@ impl SupportiveSkillBase for Whirlwind {
 }
 impl GroundSkillBase for Whirlwind {
 }
-// SA_LANDPROTECTOR
+// SA_LANDPROTECTOR - Magnetic Earth
 pub struct MagneticEarth {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2031,7 +2031,7 @@ impl OffensiveSkillBase for MagneticEarth {
 }
 impl GroundSkillBase for MagneticEarth {
 }
-// SA_DISPELL
+// SA_DISPELL - Dispell
 pub struct Dispell {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2139,7 +2139,7 @@ impl SkillBase for Dispell {
 }
 impl SupportiveSkillBase for Dispell {
 }
-// SA_ABRACADABRA
+// SA_ABRACADABRA - Hocus-pocus
 pub struct Hocuspocus {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2239,7 +2239,7 @@ impl SkillBase for Hocuspocus {
 }
 impl InteractiveSkillBase for Hocuspocus {
 }
-// SA_CREATECON
+// SA_CREATECON - Create Elemental Converter
 pub struct CreateElementalConverter {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2321,7 +2321,7 @@ impl SkillBase for CreateElementalConverter {
         TemporaryStatusBonuses::default()
     }
 }
-// SA_ELEMENTWATER
+// SA_ELEMENTWATER - Elemental Change Water
 pub struct ElementalChangeWater {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2419,7 +2419,7 @@ impl SkillBase for ElementalChangeWater {
         TemporaryStatusBonuses::default()
     }
 }
-// SA_ELEMENTGROUND
+// SA_ELEMENTGROUND - Elemental Change Earth
 pub struct ElementalChangeEarth {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2517,7 +2517,7 @@ impl SkillBase for ElementalChangeEarth {
         TemporaryStatusBonuses::default()
     }
 }
-// SA_ELEMENTFIRE
+// SA_ELEMENTFIRE - Elemental Change Fire
 pub struct ElementalChangeFire {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2615,7 +2615,7 @@ impl SkillBase for ElementalChangeFire {
         TemporaryStatusBonuses::default()
     }
 }
-// SA_ELEMENTWIND
+// SA_ELEMENTWIND - Elemental Change Wind
 pub struct ElementalChangeWind {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

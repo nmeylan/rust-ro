@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// HP_ASSUMPTIO
+// HP_ASSUMPTIO - Assumptio
 pub struct Assumptio {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -205,7 +205,7 @@ impl SkillBase for Assumptio {
 }
 impl SupportiveSkillBase for Assumptio {
 }
-// HP_BASILICA
+// HP_BASILICA - Basilica
 pub struct Basilica {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -405,7 +405,7 @@ impl SkillBase for Basilica {
 }
 impl SupportiveSkillBase for Basilica {
 }
-// HP_MEDITATIO
+// HP_MEDITATIO - Meditatio
 pub struct Meditatio {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -533,7 +533,7 @@ impl SkillBase for Meditatio {
 }
 impl PassiveSkillBase for Meditatio {
 }
-// HP_MANARECHARGE
+// HP_MANARECHARGE - Mana Recharge
 pub struct ManaRecharge {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

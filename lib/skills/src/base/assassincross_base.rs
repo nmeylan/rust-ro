@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// ASC_KATAR
+// ASC_KATAR - Advanced Katar Mastery
 pub struct AdvancedKatarMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -130,7 +130,7 @@ impl SkillBase for AdvancedKatarMastery {
 }
 impl PassiveSkillBase for AdvancedKatarMastery {
 }
-// ASC_EDP
+// ASC_EDP - Enchant Deadly Poison
 pub struct EnchantDeadlyPoison {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -293,7 +293,7 @@ impl SkillBase for EnchantDeadlyPoison {
 }
 impl SupportiveSkillBase for EnchantDeadlyPoison {
 }
-// ASC_BREAKER
+// ASC_BREAKER - Soul Destroyer
 pub struct SoulDestroyer {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -563,7 +563,7 @@ impl OffensiveSkillBase for SoulDestroyer {
         vec![]
     }
 }
-// ASC_METEORASSAULT
+// ASC_METEORASSAULT - Meteor Assault
 pub struct MeteorAssault {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -821,109 +821,109 @@ impl OffensiveSkillBase for MeteorAssault {
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 10 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 2 {
             if chance <= 15 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 3 {
             if chance <= 20 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 4 {
             if chance <= 25 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 5 {
             if chance <= 30 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 6 {
             if chance <= 35 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 7 {
             if chance <= 40 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 8 {
             if chance <= 45 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 9 {
             if chance <= 50 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 10 {
             if chance <= 55 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 10 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 2 {
             if chance <= 15 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 3 {
             if chance <= 20 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 4 {
             if chance <= 25 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 5 {
             if chance <= 30 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 6 {
             if chance <= 35 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 7 {
             if chance <= 40 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 8 {
             if chance <= 45 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 9 {
             if chance <= 50 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 10 {
             if chance <= 55 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         effects
     }
 }
-// ASC_CDP
+// ASC_CDP - Create Deadly Poison
 pub struct CreateDeadlyPoison {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

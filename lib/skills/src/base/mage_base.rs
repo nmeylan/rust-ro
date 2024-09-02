@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// MG_SRECOVERY
+// MG_SRECOVERY - Increase SP Recovery
 pub struct IncreaseSpRecovery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -170,7 +170,7 @@ impl SkillBase for IncreaseSpRecovery {
 }
 impl PassiveSkillBase for IncreaseSpRecovery {
 }
-// MG_SIGHT
+// MG_SIGHT - Sight
 pub struct Sight {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -274,7 +274,7 @@ impl OffensiveSkillBase for Sight {
         vec![]
     }
 }
-// MG_NAPALMBEAT
+// MG_NAPALMBEAT - Napalm Beat
 pub struct NapalmBeat {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -544,7 +544,7 @@ impl OffensiveSkillBase for NapalmBeat {
         vec![]
     }
 }
-// MG_SAFETYWALL
+// MG_SAFETYWALL - Safety Wall
 pub struct SafetyWall {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -752,7 +752,7 @@ impl SupportiveSkillBase for SafetyWall {
 }
 impl GroundSkillBase for SafetyWall {
 }
-// MG_SOULSTRIKE
+// MG_SOULSTRIKE - Soul Strike
 pub struct SoulStrike {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1052,7 +1052,7 @@ impl OffensiveSkillBase for SoulStrike {
         vec![]
     }
 }
-// MG_COLDBOLT
+// MG_COLDBOLT - Cold Bolt
 pub struct ColdBolt {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1382,7 +1382,7 @@ impl OffensiveSkillBase for ColdBolt {
         vec![]
     }
 }
-// MG_FROSTDIVER
+// MG_FROSTDIVER - Frost Diver
 pub struct FrostDiver {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1640,7 +1640,7 @@ impl OffensiveSkillBase for FrostDiver {
         effects
     }
 }
-// MG_STONECURSE
+// MG_STONECURSE - Stone Curse
 pub struct StoneCurse {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1874,7 +1874,7 @@ impl OffensiveSkillBase for StoneCurse {
         effects
     }
 }
-// MG_FIREBALL
+// MG_FIREBALL - Fire Ball
 pub struct FireBall {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2114,7 +2114,7 @@ impl OffensiveSkillBase for FireBall {
         vec![]
     }
 }
-// MG_FIREWALL
+// MG_FIREWALL - Fire Wall
 pub struct FireWall {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2266,7 +2266,7 @@ impl OffensiveSkillBase for FireWall {
 }
 impl GroundSkillBase for FireWall {
 }
-// MG_FIREBOLT
+// MG_FIREBOLT - Fire Bolt
 pub struct FireBolt {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2596,7 +2596,7 @@ impl OffensiveSkillBase for FireBolt {
         vec![]
     }
 }
-// MG_LIGHTNINGBOLT
+// MG_LIGHTNINGBOLT - Lightning Bolt
 pub struct LightningBolt {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2926,7 +2926,7 @@ impl OffensiveSkillBase for LightningBolt {
         vec![]
     }
 }
-// MG_THUNDERSTORM
+// MG_THUNDERSTORM - Thunder Storm
 pub struct ThunderStorm {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -3202,7 +3202,7 @@ impl OffensiveSkillBase for ThunderStorm {
 }
 impl GroundSkillBase for ThunderStorm {
 }
-// MG_ENERGYCOAT
+// MG_ENERGYCOAT - Energy Coat
 pub struct EnergyCoat {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

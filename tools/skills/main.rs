@@ -4,7 +4,7 @@ use std::io::Write;
 use std::path::Path;
 use convert_case::{Case, Casing};
 use lazy_static::lazy_static;
-use std::collections::{BTreeSet, HashMap, HashSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 use std::slice::Iter;
 use regex_lite::Regex;
 use serde::{Deserialize, Serialize};
@@ -17,7 +17,7 @@ use models::enums::weapon::WeaponType;
 use models::status_bonus::StatusBonusFlag;
 
 lazy_static! {
-    pub static ref SHORT_CLASS_NAME: HashMap<&'static str, &'static str> = HashMap::from([
+    pub static ref SHORT_CLASS_NAME: BTreeMap<&'static str, &'static str> = BTreeMap::from([
         ("novice", "nv"),
         ("swordsman", "sm"),
         ("acolyte", "al"),
@@ -116,7 +116,7 @@ pub fn main() {
 
     let item_models = serde_json::from_str::<ItemModels>(&fs::read_to_string("./config/items.json").unwrap());
     let items: Vec<ItemModel> = item_models.unwrap().into();
-    let mut items_name_id: HashMap<String, u32> = Default::default();
+    let mut items_name_id: BTreeMap<String, u32> = Default::default();
     items.iter().for_each(|item| {
         items_name_id.insert(item.name_aegis.clone(), item.id as u32);
     });
@@ -129,7 +129,7 @@ pub fn main() {
     generate_skills_enum_to_object(output_path, &skills, &skill_tree, &skills_already_generated, &jobs_with_skills);
 }
 
-fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, skills_already_generated: &mut BTreeSet<String>, jobs_with_skills: &mut BTreeSet<String>, item_name_ids: &HashMap<String, u32>) {
+fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, skills_already_generated: &mut BTreeSet<String>, jobs_with_skills: &mut BTreeSet<String>, item_name_ids: &BTreeMap<String, u32>) {
     let file_path_base = output_path.join("base").join("mod.rs");
     if !output_path.join("base").exists() {
         std::fs::create_dir(output_path.join("base")).unwrap();
@@ -264,8 +264,8 @@ fn write_file_header_comments(file: &mut File) {
     file.write_all("#![allow(dead_code, unused_must_use, unused_imports, unused_variables)]\n\n".to_string().as_bytes()).unwrap();
 }
 
-fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_name_ids: &HashMap<String, u32>) {
-    job_skills_file.write_all(format!("// {}\n", skill_config.name).as_bytes()).unwrap();
+fn write_skills(job_skills_file: &mut File, skill_config: &SkillConfig, item_name_ids: &BTreeMap<String, u32>) {
+    job_skills_file.write_all(format!("// {} - {}\n", skill_config.name, skill_config.description).as_bytes()).unwrap();
 
     generate_struct(job_skills_file, skill_config);
 
@@ -525,7 +525,7 @@ fn generate_validate_zeny(job_skills_file: &mut File, skill_config: &SkillConfig
     job_skills_file.write_all(b"    }\n").unwrap();
 }
 
-fn generate_validate_item(job_skills_file: &mut File, skill_config: &SkillConfig, item_name_ids: &HashMap<String, u32>) {
+fn generate_validate_item(job_skills_file: &mut File, skill_config: &SkillConfig, item_name_ids: &BTreeMap<String, u32>) {
     if let Some(requirements) = skill_config.requires() {
         if !requirements.item_cost().is_empty() {
             job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
@@ -1083,6 +1083,9 @@ fn get_skill_config<'a>(skill_name: &String, skills: &'a Vec<SkillConfig>) -> Op
 
 fn class_name(skill_config: &SkillConfig, skill_tree: &Vec<JobSkillTree>) -> Option<String> {
     for job_tree in skill_tree.iter() {
+        if job_tree.name().eq("Super Novice") || job_tree.name().ends_with("High") || job_tree.name().eq("Super_Baby"){
+            continue;
+        }
         for skill in job_tree.tree().iter() {
             if skill_config.name().to_lowercase().starts_with("bd") {
                 return Some("Bard".to_string());

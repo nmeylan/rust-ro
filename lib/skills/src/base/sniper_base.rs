@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// SN_SIGHT
+// SN_SIGHT - Falcon Eyes
 pub struct FalconEyes {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -238,7 +238,7 @@ impl SkillBase for FalconEyes {
 }
 impl SupportiveSkillBase for FalconEyes {
 }
-// SN_FALCONASSAULT
+// SN_FALCONASSAULT - Falcon Assault
 pub struct FalconAssault {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -389,7 +389,7 @@ impl OffensiveSkillBase for FalconAssault {
         vec![]
     }
 }
-// SN_SHARPSHOOTING
+// SN_SHARPSHOOTING - Focused Arrow Strike
 pub struct FocusedArrowStrike {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -566,7 +566,7 @@ impl OffensiveSkillBase for FocusedArrowStrike {
         vec![]
     }
 }
-// SN_WINDWALK
+// SN_WINDWALK - Wind Walker
 pub struct WindWalker {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

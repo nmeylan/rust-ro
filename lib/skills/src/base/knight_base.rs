@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// KN_SPEARMASTERY
+// KN_SPEARMASTERY - Spear Mastery
 pub struct SpearMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -160,7 +160,7 @@ impl SkillBase for SpearMastery {
 }
 impl PassiveSkillBase for SpearMastery {
 }
-// KN_PIERCE
+// KN_PIERCE - Pierce
 pub struct Pierce {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -306,7 +306,7 @@ impl OffensiveSkillBase for Pierce {
         vec![]
     }
 }
-// KN_BRANDISHSPEAR
+// KN_BRANDISHSPEAR - Brandish Spear
 pub struct BrandishSpear {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -465,7 +465,7 @@ impl OffensiveSkillBase for BrandishSpear {
         vec![]
     }
 }
-// KN_SPEARSTAB
+// KN_SPEARSTAB - Spear Stab
 pub struct SpearStab {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -611,7 +611,7 @@ impl OffensiveSkillBase for SpearStab {
         vec![]
     }
 }
-// KN_SPEARBOOMERANG
+// KN_SPEARBOOMERANG - Spear Boomerang
 pub struct SpearBoomerang {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -746,7 +746,7 @@ impl OffensiveSkillBase for SpearBoomerang {
         vec![]
     }
 }
-// KN_TWOHANDQUICKEN
+// KN_TWOHANDQUICKEN - Twohand Quicken
 pub struct TwohandQuicken {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -950,7 +950,7 @@ impl SkillBase for TwohandQuicken {
 }
 impl SupportiveSkillBase for TwohandQuicken {
 }
-// KN_AUTOCOUNTER
+// KN_AUTOCOUNTER - Counter Attack
 pub struct CounterAttack {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1055,7 +1055,7 @@ impl SkillBase for CounterAttack {
 }
 impl SupportiveSkillBase for CounterAttack {
 }
-// KN_BOWLINGBASH
+// KN_BOWLINGBASH - Bowling Bash
 pub struct BowlingBash {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1257,7 +1257,7 @@ impl OffensiveSkillBase for BowlingBash {
         vec![]
     }
 }
-// KN_RIDING
+// KN_RIDING - Peco Peco Riding
 pub struct PecoPecoRiding {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1345,7 +1345,7 @@ impl SkillBase for PecoPecoRiding {
 }
 impl PassiveSkillBase for PecoPecoRiding {
 }
-// KN_CAVALIERMASTERY
+// KN_CAVALIERMASTERY - Cavalier Mastery
 pub struct CavalierMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1453,7 +1453,7 @@ impl SkillBase for CavalierMastery {
 }
 impl PassiveSkillBase for CavalierMastery {
 }
-// KN_CHARGEATK
+// KN_CHARGEATK - Charge Attack
 pub struct ChargeAttack {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1539,7 +1539,7 @@ impl SkillBase for ChargeAttack {
         TemporaryStatusBonuses::default()
     }
 }
-// KN_ONEHAND
+// KN_ONEHAND - Onehand Quicken
 pub struct OnehandQuicken {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

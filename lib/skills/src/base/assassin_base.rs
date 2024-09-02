@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// AS_RIGHT
+// AS_RIGHT - Righthand Mastery
 pub struct RighthandMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -130,7 +130,7 @@ impl SkillBase for RighthandMastery {
 }
 impl PassiveSkillBase for RighthandMastery {
 }
-// AS_LEFT
+// AS_LEFT - Lefthand Mastery
 pub struct LefthandMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -238,7 +238,7 @@ impl SkillBase for LefthandMastery {
 }
 impl PassiveSkillBase for LefthandMastery {
 }
-// AS_KATAR
+// AS_KATAR - Katar Mastery
 pub struct KatarMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -366,7 +366,7 @@ impl SkillBase for KatarMastery {
 }
 impl PassiveSkillBase for KatarMastery {
 }
-// AS_CLOAKING
+// AS_CLOAKING - Cloaking
 pub struct Cloaking {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -498,7 +498,7 @@ impl SkillBase for Cloaking {
 }
 impl InteractiveSkillBase for Cloaking {
 }
-// AS_SONICBLOW
+// AS_SONICBLOW - Sonic Blow
 pub struct SonicBlow {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -760,7 +760,7 @@ impl OffensiveSkillBase for SonicBlow {
         effects
     }
 }
-// AS_GRIMTOOTH
+// AS_GRIMTOOTH - Grimtooth
 pub struct Grimtooth {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -915,7 +915,7 @@ impl OffensiveSkillBase for Grimtooth {
         vec![]
     }
 }
-// AS_ENCHANTPOISON
+// AS_ENCHANTPOISON - Enchant Poison
 pub struct EnchantPoison {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1051,7 +1051,7 @@ impl SkillBase for EnchantPoison {
 }
 impl SupportiveSkillBase for EnchantPoison {
 }
-// AS_POISONREACT
+// AS_POISONREACT - Poison React
 pub struct PoisonReact {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1257,7 +1257,7 @@ impl SkillBase for PoisonReact {
 }
 impl SupportiveSkillBase for PoisonReact {
 }
-// AS_VENOMDUST
+// AS_VENOMDUST - Venom Dust
 pub struct VenomDust {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1431,7 +1431,7 @@ impl OffensiveSkillBase for VenomDust {
 }
 impl GroundSkillBase for VenomDust {
 }
-// AS_SPLASHER
+// AS_SPLASHER - Venom Splasher
 pub struct VenomSplasher {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1693,7 +1693,7 @@ impl OffensiveSkillBase for VenomSplasher {
         effects
     }
 }
-// AS_SONICACCEL
+// AS_SONICACCEL - Sonic Acceleration
 pub struct SonicAcceleration {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1771,7 +1771,7 @@ impl SkillBase for SonicAcceleration {
         TemporaryStatusBonuses::default()
     }
 }
-// AS_VENOMKNIFE
+// AS_VENOMKNIFE - Throw Venom Knife
 pub struct ThrowVenomKnife {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

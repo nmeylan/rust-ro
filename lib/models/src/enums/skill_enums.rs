@@ -287,7 +287,7 @@ pub enum SkillEnum {
     AsSplasher,
     // Novice: First Aid
     NvFirstaid,
-    // Novice High: Play Dead
+    // Novice: Play Dead
     NvTrickdead,
     // Swordsman: Moving HP-Recovery
     SmMovingrecovery,

@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// RG_SNATCHER
+// RG_SNATCHER - Gank
 pub struct Gank {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -150,7 +150,7 @@ impl SkillBase for Gank {
 }
 impl PassiveSkillBase for Gank {
 }
-// RG_STEALCOIN
+// RG_STEALCOIN - Mug
 pub struct Mug {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -272,7 +272,7 @@ impl SkillBase for Mug {
 }
 impl InteractiveSkillBase for Mug {
 }
-// RG_BACKSTAP
+// RG_BACKSTAP - Back Stab
 pub struct BackStab {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -414,7 +414,7 @@ impl OffensiveSkillBase for BackStab {
         vec![]
     }
 }
-// RG_TUNNELDRIVE
+// RG_TUNNELDRIVE - Stalk
 pub struct Stalk {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -507,7 +507,7 @@ impl SkillBase for Stalk {
         TemporaryStatusBonuses::default()
     }
 }
-// RG_RAID
+// RG_RAID - Sightless Mind
 pub struct SightlessMind {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -692,7 +692,7 @@ impl OffensiveSkillBase for SightlessMind {
         effects
     }
 }
-// RG_STRIPWEAPON
+// RG_STRIPWEAPON - Divest Weapon
 pub struct DivestWeapon {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -822,7 +822,7 @@ impl SkillBase for DivestWeapon {
 }
 impl InteractiveSkillBase for DivestWeapon {
 }
-// RG_STRIPSHIELD
+// RG_STRIPSHIELD - Divest Shield
 pub struct DivestShield {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -952,7 +952,7 @@ impl SkillBase for DivestShield {
 }
 impl InteractiveSkillBase for DivestShield {
 }
-// RG_STRIPARMOR
+// RG_STRIPARMOR - Divest Armor
 pub struct DivestArmor {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1082,7 +1082,7 @@ impl SkillBase for DivestArmor {
 }
 impl InteractiveSkillBase for DivestArmor {
 }
-// RG_STRIPHELM
+// RG_STRIPHELM - Divest Helm
 pub struct DivestHelm {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1212,7 +1212,7 @@ impl SkillBase for DivestHelm {
 }
 impl InteractiveSkillBase for DivestHelm {
 }
-// RG_INTIMIDATE
+// RG_INTIMIDATE - Snatch
 pub struct Snatch {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1380,7 +1380,7 @@ impl OffensiveSkillBase for Snatch {
         vec![]
     }
 }
-// RG_GRAFFITI
+// RG_GRAFFITI - Scribble
 pub struct Scribble {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1490,7 +1490,7 @@ impl InteractiveSkillBase for Scribble {
 }
 impl GroundSkillBase for Scribble {
 }
-// RG_FLAGGRAFFITI
+// RG_FLAGGRAFFITI - Piece
 pub struct Piece {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1582,7 +1582,7 @@ impl SkillBase for Piece {
 }
 impl GroundSkillBase for Piece {
 }
-// RG_CLEANER
+// RG_CLEANER - Remover
 pub struct Remover {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1674,7 +1674,7 @@ impl SkillBase for Remover {
 }
 impl GroundSkillBase for Remover {
 }
-// RG_GANGSTER
+// RG_GANGSTER - Slyness
 pub struct Slyness {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1752,7 +1752,7 @@ impl SkillBase for Slyness {
         TemporaryStatusBonuses::default()
     }
 }
-// RG_COMPULSION
+// RG_COMPULSION - Haggle
 pub struct Haggle {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1830,7 +1830,7 @@ impl SkillBase for Haggle {
         TemporaryStatusBonuses::default()
     }
 }
-// RG_PLAGIARISM
+// RG_PLAGIARISM - Intimidate
 pub struct Intimidate {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1908,7 +1908,7 @@ impl SkillBase for Intimidate {
         TemporaryStatusBonuses::default()
     }
 }
-// RG_CLOSECONFINE
+// RG_CLOSECONFINE - Close Confine
 pub struct CloseConfine {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

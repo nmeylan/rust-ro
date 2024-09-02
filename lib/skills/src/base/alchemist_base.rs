@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// AM_AXEMASTERY
+// AM_AXEMASTERY - Axe Mastery
 pub struct AxeMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -160,7 +160,7 @@ impl SkillBase for AxeMastery {
 }
 impl PassiveSkillBase for AxeMastery {
 }
-// AM_LEARNINGPOTION
+// AM_LEARNINGPOTION - Potion Research
 pub struct PotionResearch {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -308,7 +308,7 @@ impl SkillBase for PotionResearch {
 }
 impl PassiveSkillBase for PotionResearch {
 }
-// AM_PHARMACY
+// AM_PHARMACY - Prepare Potion
 pub struct PreparePotion {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -408,7 +408,7 @@ impl SkillBase for PreparePotion {
 }
 impl InteractiveSkillBase for PreparePotion {
 }
-// AM_DEMONSTRATION
+// AM_DEMONSTRATION - Bomb
 pub struct Bomb {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -553,7 +553,7 @@ impl OffensiveSkillBase for Bomb {
 }
 impl GroundSkillBase for Bomb {
 }
-// AM_ACIDTERROR
+// AM_ACIDTERROR - Acid Terror
 pub struct AcidTerror {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -715,7 +715,7 @@ impl OffensiveSkillBase for AcidTerror {
         effects
     }
 }
-// AM_POTIONPITCHER
+// AM_POTIONPITCHER - Aid Potion
 pub struct AidPotion {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -873,7 +873,7 @@ impl OffensiveSkillBase for AidPotion {
         vec![]
     }
 }
-// AM_CANNIBALIZE
+// AM_CANNIBALIZE - Summon Flora
 pub struct SummonFlora {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -991,7 +991,7 @@ impl InteractiveSkillBase for SummonFlora {
 }
 impl GroundSkillBase for SummonFlora {
 }
-// AM_SPHEREMINE
+// AM_SPHEREMINE - Summon Marine Sphere
 pub struct SummonMarineSphere {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1109,7 +1109,7 @@ impl InteractiveSkillBase for SummonMarineSphere {
 }
 impl GroundSkillBase for SummonMarineSphere {
 }
-// AM_CP_WEAPON
+// AM_CP_WEAPON - Alchemical Weapon
 pub struct AlchemicalWeapon {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1217,7 +1217,7 @@ impl SkillBase for AlchemicalWeapon {
 }
 impl SupportiveSkillBase for AlchemicalWeapon {
 }
-// AM_CP_SHIELD
+// AM_CP_SHIELD - Synthesized Shield
 pub struct SynthesizedShield {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1325,7 +1325,7 @@ impl SkillBase for SynthesizedShield {
 }
 impl SupportiveSkillBase for SynthesizedShield {
 }
-// AM_CP_ARMOR
+// AM_CP_ARMOR - Synthetic Armor
 pub struct SyntheticArmor {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1433,7 +1433,7 @@ impl SkillBase for SyntheticArmor {
 }
 impl SupportiveSkillBase for SyntheticArmor {
 }
-// AM_CP_HELM
+// AM_CP_HELM - Biochemical Helm
 pub struct BiochemicalHelm {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1541,7 +1541,7 @@ impl SkillBase for BiochemicalHelm {
 }
 impl SupportiveSkillBase for BiochemicalHelm {
 }
-// AM_BIOETHICS
+// AM_BIOETHICS - Bioethics
 pub struct Bioethics {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1619,7 +1619,7 @@ impl SkillBase for Bioethics {
         TemporaryStatusBonuses::default()
     }
 }
-// AM_CALLHOMUN
+// AM_CALLHOMUN - Call Homunculus
 pub struct CallHomunculus {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1719,7 +1719,7 @@ impl SkillBase for CallHomunculus {
 }
 impl InteractiveSkillBase for CallHomunculus {
 }
-// AM_REST
+// AM_REST - Vaporize
 pub struct Vaporize {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1811,7 +1811,7 @@ impl SkillBase for Vaporize {
 }
 impl InteractiveSkillBase for Vaporize {
 }
-// AM_RESURRECTHOMUN
+// AM_RESURRECTHOMUN - Homunculus Resurrection
 pub struct HomunculusResurrection {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1937,7 +1937,7 @@ impl SkillBase for HomunculusResurrection {
 }
 impl InteractiveSkillBase for HomunculusResurrection {
 }
-// AM_BERSERKPITCHER
+// AM_BERSERKPITCHER - Aid Berserk Potion
 pub struct AidBerserkPotion {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2045,7 +2045,7 @@ impl SkillBase for AidBerserkPotion {
 }
 impl SupportiveSkillBase for AidBerserkPotion {
 }
-// AM_TWILIGHT1
+// AM_TWILIGHT1 - Twilight Alchemy 1
 pub struct TwilightAlchemy1 {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2143,7 +2143,7 @@ impl SkillBase for TwilightAlchemy1 {
         TemporaryStatusBonuses::default()
     }
 }
-// AM_TWILIGHT2
+// AM_TWILIGHT2 - Twilight Alchemy 2
 pub struct TwilightAlchemy2 {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2241,7 +2241,7 @@ impl SkillBase for TwilightAlchemy2 {
         TemporaryStatusBonuses::default()
     }
 }
-// AM_TWILIGHT3
+// AM_TWILIGHT3 - Twilight Alchemy 3
 pub struct TwilightAlchemy3 {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,

@@ -22,7 +22,7 @@ use crate::{*};
 
 use crate::base::*;
 use std::any::Any;
-// HT_SKIDTRAP
+// HT_SKIDTRAP - Skid Trap
 pub struct SkidTrap {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -144,7 +144,7 @@ impl OffensiveSkillBase for SkidTrap {
 }
 impl GroundSkillBase for SkidTrap {
 }
-// HT_LANDMINE
+// HT_LANDMINE - Land Mine
 pub struct LandMine {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -286,7 +286,7 @@ impl OffensiveSkillBase for LandMine {
 }
 impl GroundSkillBase for LandMine {
 }
-// HT_ANKLESNARE
+// HT_ANKLESNARE - Ankle Snare
 pub struct AnkleSnare {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -408,7 +408,7 @@ impl OffensiveSkillBase for AnkleSnare {
 }
 impl GroundSkillBase for AnkleSnare {
 }
-// HT_SHOCKWAVE
+// HT_SHOCKWAVE - Shockwave Trap
 pub struct ShockwaveTrap {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -530,7 +530,7 @@ impl OffensiveSkillBase for ShockwaveTrap {
 }
 impl GroundSkillBase for ShockwaveTrap {
 }
-// HT_SANDMAN
+// HT_SANDMAN - Sandman
 pub struct Sandman {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -672,7 +672,7 @@ impl OffensiveSkillBase for Sandman {
 }
 impl GroundSkillBase for Sandman {
 }
-// HT_FLASHER
+// HT_FLASHER - Flasher
 pub struct Flasher {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -794,7 +794,7 @@ impl OffensiveSkillBase for Flasher {
 }
 impl GroundSkillBase for Flasher {
 }
-// HT_FREEZINGTRAP
+// HT_FREEZINGTRAP - Freezing Trap
 pub struct FreezingTrap {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -940,7 +940,7 @@ impl OffensiveSkillBase for FreezingTrap {
 }
 impl GroundSkillBase for FreezingTrap {
 }
-// HT_BLASTMINE
+// HT_BLASTMINE - Blast Mine
 pub struct BlastMine {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1062,7 +1062,7 @@ impl OffensiveSkillBase for BlastMine {
 }
 impl GroundSkillBase for BlastMine {
 }
-// HT_CLAYMORETRAP
+// HT_CLAYMORETRAP - Claymore Trap
 pub struct ClaymoreTrap {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1184,7 +1184,7 @@ impl OffensiveSkillBase for ClaymoreTrap {
 }
 impl GroundSkillBase for ClaymoreTrap {
 }
-// HT_REMOVETRAP
+// HT_REMOVETRAP - Remove Trap
 pub struct RemoveTrap {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1276,7 +1276,7 @@ impl SkillBase for RemoveTrap {
 }
 impl InteractiveSkillBase for RemoveTrap {
 }
-// HT_TALKIEBOX
+// HT_TALKIEBOX - Talkie Box
 pub struct TalkieBox {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1398,7 +1398,7 @@ impl OffensiveSkillBase for TalkieBox {
 }
 impl GroundSkillBase for TalkieBox {
 }
-// HT_BEASTBANE
+// HT_BEASTBANE - Beast Bane
 pub struct BeastBane {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1536,7 +1536,7 @@ impl SkillBase for BeastBane {
 }
 impl PassiveSkillBase for BeastBane {
 }
-// HT_FALCON
+// HT_FALCON - Falconry Mastery
 pub struct FalconryMastery {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1624,7 +1624,7 @@ impl SkillBase for FalconryMastery {
 }
 impl PassiveSkillBase for FalconryMastery {
 }
-// HT_STEELCROW
+// HT_STEELCROW - Steel Crow
 pub struct SteelCrow {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1712,7 +1712,7 @@ impl SkillBase for SteelCrow {
 }
 impl PassiveSkillBase for SteelCrow {
 }
-// HT_BLITZBEAT
+// HT_BLITZBEAT - Blitz Beat
 pub struct BlitzBeat {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1851,7 +1851,7 @@ impl SkillBase for BlitzBeat {
 }
 impl PassiveSkillBase for BlitzBeat {
 }
-// HT_DETECTING
+// HT_DETECTING - Detect
 pub struct Detect {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -1974,7 +1974,7 @@ impl OffensiveSkillBase for Detect {
 }
 impl GroundSkillBase for Detect {
 }
-// HT_SPRINGTRAP
+// HT_SPRINGTRAP - Spring Trap
 pub struct SpringTrap {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2075,7 +2075,7 @@ impl SkillBase for SpringTrap {
 }
 impl InteractiveSkillBase for SpringTrap {
 }
-// HT_PHANTASMIC
+// HT_PHANTASMIC - Phantasmic Arrow
 pub struct PhantasmicArrow {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
@@ -2165,7 +2165,7 @@ impl SkillBase for PhantasmicArrow {
         TemporaryStatusBonuses::default()
     }
 }
-// HT_POWER
+// HT_POWER - Beast Strafing
 pub struct BeastStrafing {
     pub(crate) level: u8,
     pub(crate) cast_time: u32,
