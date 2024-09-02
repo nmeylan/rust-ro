@@ -770,52 +770,52 @@ impl OffensiveSkillBase for MeteorAssault {
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 10 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Bleeding);
             }
         }
         if self.level == 2 {
             if chance <= 15 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Bleeding);
             }
         }
         if self.level == 3 {
             if chance <= 20 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Bleeding);
             }
         }
         if self.level == 4 {
             if chance <= 25 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Bleeding);
             }
         }
         if self.level == 5 {
             if chance <= 30 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Bleeding);
             }
         }
         if self.level == 6 {
             if chance <= 35 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Bleeding);
             }
         }
         if self.level == 7 {
             if chance <= 40 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Bleeding);
             }
         }
         if self.level == 8 {
             if chance <= 45 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Bleeding);
             }
         }
         if self.level == 9 {
             if chance <= 50 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Bleeding);
             }
         }
         if self.level == 10 {
             if chance <= 55 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Bleeding);
             }
         }
         let chance = _rng.u8(1..=100);
@@ -872,52 +872,52 @@ impl OffensiveSkillBase for MeteorAssault {
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 10 {
-                effects.push(StatusEffect::Bleeding);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 2 {
             if chance <= 15 {
-                effects.push(StatusEffect::Bleeding);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 3 {
             if chance <= 20 {
-                effects.push(StatusEffect::Bleeding);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 4 {
             if chance <= 25 {
-                effects.push(StatusEffect::Bleeding);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 5 {
             if chance <= 30 {
-                effects.push(StatusEffect::Bleeding);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 6 {
             if chance <= 35 {
-                effects.push(StatusEffect::Bleeding);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 7 {
             if chance <= 40 {
-                effects.push(StatusEffect::Bleeding);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 8 {
             if chance <= 45 {
-                effects.push(StatusEffect::Bleeding);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 9 {
             if chance <= 50 {
-                effects.push(StatusEffect::Bleeding);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 10 {
             if chance <= 55 {
-                effects.push(StatusEffect::Bleeding);
+                effects.push(StatusEffect::Blind);
             }
         }
         effects

@@ -4,7 +4,7 @@ use std::io::Write;
 use std::path::Path;
 use convert_case::{Case, Casing};
 use lazy_static::lazy_static;
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeSet, HashMap, HashSet};
 use std::slice::Iter;
 use regex_lite::Regex;
 use serde::{Deserialize, Serialize};
@@ -121,15 +121,15 @@ pub fn main() {
         items_name_id.insert(item.name_aegis.clone(), item.id as u32);
     });
 
-    let mut skills_already_generated: HashSet<String> = HashSet::with_capacity(1000);
-    let mut jobs_with_skills: HashSet<String> = HashSet::with_capacity(100);
+    let mut skills_already_generated: BTreeSet<String> = BTreeSet::new();
+    let mut jobs_with_skills: BTreeSet<String> = BTreeSet::new();
 
     generate_skills_impl(output_path, &skills, &skill_tree, &mut skills_already_generated, &mut jobs_with_skills, &items_name_id);
     generate_skills_enum(output_enum_path, &skills, &skill_tree, &skills_already_generated, &jobs_with_skills);
     generate_skills_enum_to_object(output_path, &skills, &skill_tree, &skills_already_generated, &jobs_with_skills);
 }
 
-fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, skills_already_generated: &mut HashSet<String>, jobs_with_skills: &mut HashSet<String>, item_name_ids: &HashMap<String, u32>) {
+fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, skills_already_generated: &mut BTreeSet<String>, jobs_with_skills: &mut BTreeSet<String>, item_name_ids: &HashMap<String, u32>) {
     let file_path_base = output_path.join("base").join("mod.rs");
     if !output_path.join("base").exists() {
         std::fs::create_dir(output_path.join("base")).unwrap();
@@ -894,7 +894,7 @@ fn generate_as_passive_skill(job_skills_file: &mut File) {
 *   Skill Enum
 *
  */
-fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, _skills_already_generated: &HashSet<String>, _jobs_with_skills: &HashSet<String>) {
+fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tree: &Vec<JobSkillTree>, _skills_already_generated: &BTreeSet<String>, _jobs_with_skills: &BTreeSet<String>) {
     let file_path = output_path.join("skill_enums.rs");
     let mut file = File::create(file_path.clone()).unwrap();
     write_file_header_comments(&mut file);
@@ -904,7 +904,7 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
         let enum_name = to_enum_name(skill);
         let class_name = class_name(skill, skill_tree);
         if let Some(class_name) = class_name {
-            file.write_all(format!("    // {} {}\n", class_name, skill.description).as_bytes()).unwrap();
+            file.write_all(format!("    // {}: {}\n", class_name, skill.description).as_bytes()).unwrap();
         } else {
             file.write_all(format!("    // {}\n", skill.description).as_bytes()).unwrap();
         }
@@ -966,7 +966,7 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     println!("Skills enum generated at {}", file_path.to_str().unwrap());
 }
 
-fn generate_skills_enum_to_object(output_path: &Path, skills: &Vec<SkillConfig>, _skill_tree: &Vec<JobSkillTree>, skills_already_generated: &HashSet<String>, jobs_with_skills: &HashSet<String>) {
+fn generate_skills_enum_to_object(output_path: &Path, skills: &Vec<SkillConfig>, _skill_tree: &Vec<JobSkillTree>, skills_already_generated: &BTreeSet<String>, jobs_with_skills: &BTreeSet<String>) {
     let file_path = output_path.join("skill_enums.rs");
     let mut file = File::create(file_path.clone()).unwrap();
     write_file_header_comments(&mut file);
@@ -1090,7 +1090,7 @@ fn class_name(skill_config: &SkillConfig, skill_tree: &Vec<JobSkillTree>) -> Opt
             if skill_config.name().to_lowercase().starts_with("cg") {
                 return Some("Clown".to_string());
             }
-            if skill.name().eq(skill_config.name()) {
+            if skill.name().eq(skill_config.name()) && job_tree.name().chars().nth(0).unwrap().to_lowercase().eq(skill.name().chars().nth(0).unwrap().to_lowercase()) {
                 return Some(job_tree.name().clone());
             }
         }
