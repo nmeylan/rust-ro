@@ -5,467 +5,467 @@
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum SkillEnum {
-    // Novice Basic Skill
+    // Novice: Basic Skill
     NvBasic,
-    // Super_Baby Sword Mastery
+    // Swordsman: Sword Mastery
     SmSword,
-    // Swordsman Two-Handed Sword Mastery
+    // Swordsman: Two-Handed Sword Mastery
     SmTwohand,
-    // Super_Baby Increase HP Recovery
+    // Swordsman: Increase HP Recovery
     SmRecovery,
-    // Super_Baby Bash
+    // Swordsman: Bash
     SmBash,
-    // Super_Baby Provoke
+    // Swordsman: Provoke
     SmProvoke,
-    // Super_Baby Magnum Break
+    // Swordsman: Magnum Break
     SmMagnum,
-    // Super_Baby Endure
+    // Swordsman: Endure
     SmEndure,
-    // Priest Increase SP Recovery
+    // Mage: Increase SP Recovery
     MgSrecovery,
-    // Super_Baby Sight
+    // Mage: Sight
     MgSight,
-    // Super_Baby Napalm Beat
+    // Mage: Napalm Beat
     MgNapalmbeat,
-    // Priest Safety Wall
+    // Mage: Safety Wall
     MgSafetywall,
-    // Super_Baby Soul Strike
+    // Mage: Soul Strike
     MgSoulstrike,
-    // Super_Baby Cold Bolt
+    // Mage: Cold Bolt
     MgColdbolt,
-    // Super_Baby Frost Diver
+    // Mage: Frost Diver
     MgFrostdiver,
-    // Super_Baby Stone Curse
+    // Mage: Stone Curse
     MgStonecurse,
-    // Super_Baby Fire Ball
+    // Mage: Fire Ball
     MgFireball,
-    // Super_Baby Fire Wall
+    // Mage: Fire Wall
     MgFirewall,
-    // Super_Baby Fire Bolt
+    // Mage: Fire Bolt
     MgFirebolt,
-    // Super_Baby Lightning Bolt
+    // Mage: Lightning Bolt
     MgLightningbolt,
-    // Super_Baby Thunder Storm
+    // Mage: Thunder Storm
     MgThunderstorm,
-    // Crusader Divine Protection
+    // Acolyte: Divine Protection
     AlDp,
-    // Crusader Demon Bane
+    // Acolyte: Demon Bane
     AlDemonbane,
-    // Acolyte Ruwach
+    // Acolyte: Ruwach
     AlRuwach,
-    // Acolyte Pneuma
+    // Acolyte: Pneuma
     AlPneuma,
-    // Acolyte Teleport
+    // Acolyte: Teleport
     AlTeleport,
-    // Acolyte Warp Portal
+    // Acolyte: Warp Portal
     AlWarp,
-    // Crusader Heal
+    // Acolyte: Heal
     AlHeal,
-    // Acolyte Increase AGI
+    // Acolyte: Increase AGI
     AlIncagi,
-    // Acolyte Decrease AGI
+    // Acolyte: Decrease AGI
     AlDecagi,
-    // Acolyte Aqua Benedicta
+    // Acolyte: Aqua Benedicta
     AlHolywater,
-    // Acolyte Signum Crucis
+    // Acolyte: Signum Crucis
     AlCrucis,
-    // Acolyte Angelus
+    // Acolyte: Angelus
     AlAngelus,
-    // Acolyte Blessing
+    // Acolyte: Blessing
     AlBlessing,
-    // Crusader Cure
+    // Acolyte: Cure
     AlCure,
-    // Super_Baby Enlarge Weight Limit
+    // Merchant: Enlarge Weight Limit
     McInccarry,
-    // Super_Baby Discount
+    // Merchant: Discount
     McDiscount,
-    // Super_Baby Overcharge
+    // Merchant: Overcharge
     McOvercharge,
-    // Super_Baby Pushcart
+    // Merchant: Pushcart
     McPushcart,
-    // Super_Baby Item Appraisal
+    // Merchant: Item Appraisal
     McIdentify,
-    // Super_Baby Vending
+    // Merchant: Vending
     McVending,
-    // Super_Baby Mammonite
+    // Merchant: Mammonite
     McMammonite,
-    // Super_Baby Owl's Eye
+    // Archer: Owl's Eye
     AcOwl,
-    // Super_Baby Vulture's Eye
+    // Archer: Vulture's Eye
     AcVulture,
-    // Super_Baby Improve Concentration
+    // Archer: Improve Concentration
     AcConcentration,
-    // Archer Double Strafe
+    // Archer: Double Strafe
     AcDouble,
-    // Archer Arrow Shower
+    // Archer: Arrow Shower
     AcShower,
-    // Thief Double Attack
+    // Thief: Double Attack
     TfDouble,
-    // Thief Improve Dodge
+    // Thief: Improve Dodge
     TfMiss,
-    // Thief Steal
+    // Thief: Steal
     TfSteal,
-    // Thief Hiding
+    // Thief: Hiding
     TfHiding,
-    // Thief Envenom
+    // Thief: Envenom
     TfPoison,
-    // Thief Detoxify
+    // Thief: Detoxify
     TfDetoxify,
-    // Priest Resurrection
+    // Resurrection
     AllResurrection,
-    // Crusader Spear Mastery
+    // Knight: Spear Mastery
     KnSpearmastery,
-    // Knight Pierce
+    // Knight: Pierce
     KnPierce,
-    // Knight Brandish Spear
+    // Knight: Brandish Spear
     KnBrandishspear,
-    // Knight Spear Stab
+    // Knight: Spear Stab
     KnSpearstab,
-    // Knight Spear Boomerang
+    // Knight: Spear Boomerang
     KnSpearboomerang,
-    // Knight Twohand Quicken
+    // Knight: Twohand Quicken
     KnTwohandquicken,
-    // Knight Counter Attack
+    // Knight: Counter Attack
     KnAutocounter,
-    // Knight Bowling Bash
+    // Knight: Bowling Bash
     KnBowlingbash,
-    // Crusader Peco Peco Riding
+    // Knight: Peco Peco Riding
     KnRiding,
-    // Crusader Cavalier Mastery
+    // Knight: Cavalier Mastery
     KnCavaliermastery,
-    // Priest Mace Mastery
+    // Priest: Mace Mastery
     PrMacemastery,
-    // Priest Impositio Manus
+    // Priest: Impositio Manus
     PrImpositio,
-    // Priest Suffragium
+    // Priest: Suffragium
     PrSuffragium,
-    // Priest Aspersio
+    // Priest: Aspersio
     PrAspersio,
-    // Priest B.S. Sacramenti
+    // Priest: B.S. Sacramenti
     PrBenedictio,
-    // Priest Sanctuary
+    // Priest: Sanctuary
     PrSanctuary,
-    // Priest Slow Poison
+    // Priest: Slow Poison
     PrSlowpoison,
-    // Priest Status Recovery
+    // Priest: Status Recovery
     PrStrecovery,
-    // Priest Kyrie Eleison
+    // Priest: Kyrie Eleison
     PrKyrie,
-    // Priest Magnificat
+    // Priest: Magnificat
     PrMagnificat,
-    // Priest Gloria
+    // Priest: Gloria
     PrGloria,
-    // Priest Lex Divina
+    // Priest: Lex Divina
     PrLexdivina,
-    // Priest Turn Undead
+    // Priest: Turn Undead
     PrTurnundead,
-    // Priest Lex Aeterna
+    // Priest: Lex Aeterna
     PrLexaeterna,
-    // Priest Magnus Exorcismus
+    // Priest: Magnus Exorcismus
     PrMagnus,
-    // Wizard Fire Pillar
+    // Wizard: Fire Pillar
     WzFirepillar,
-    // Wizard Sightrasher
+    // Wizard: Sightrasher
     WzSightrasher,
-    // Wizard Meteor Storm
+    // Wizard: Meteor Storm
     WzMeteor,
-    // Wizard Jupitel Thunder
+    // Wizard: Jupitel Thunder
     WzJupitel,
-    // Wizard Lord of Vermilion
+    // Wizard: Lord of Vermilion
     WzVermilion,
-    // Wizard Water Ball
+    // Wizard: Water Ball
     WzWaterball,
-    // Wizard Ice Wall
+    // Wizard: Ice Wall
     WzIcewall,
-    // Wizard Frost Nova
+    // Wizard: Frost Nova
     WzFrostnova,
-    // Wizard Storm Gust
+    // Wizard: Storm Gust
     WzStormgust,
-    // Sage Earth Spike
+    // Wizard: Earth Spike
     WzEarthspike,
-    // Sage Heaven's Drive
+    // Wizard: Heaven's Drive
     WzHeavendrive,
-    // Wizard Quagmire
+    // Wizard: Quagmire
     WzQuagmire,
-    // Sage Sense
+    // Wizard: Sense
     WzEstimation,
-    // Blacksmith Iron Tempering
+    // Blacksmith: Iron Tempering
     BsIron,
-    // Blacksmith Steel Tempering
+    // Blacksmith: Steel Tempering
     BsSteel,
-    // Blacksmith Enchanted Stone Craft
+    // Blacksmith: Enchanted Stone Craft
     BsEnchantedstone,
-    // Blacksmith Oridecon Research
+    // Blacksmith: Oridecon Research
     BsOrideocon,
-    // Blacksmith Smith Dagger
+    // Blacksmith: Smith Dagger
     BsDagger,
-    // Blacksmith Smith Sword
+    // Blacksmith: Smith Sword
     BsSword,
-    // Blacksmith Smith Two-handed Sword
+    // Blacksmith: Smith Two-handed Sword
     BsTwohandsword,
-    // Blacksmith Smith Axe
+    // Blacksmith: Smith Axe
     BsAxe,
-    // Blacksmith Smith Mace
+    // Blacksmith: Smith Mace
     BsMace,
-    // Blacksmith Smith Knucklebrace
+    // Blacksmith: Smith Knucklebrace
     BsKnuckle,
-    // Blacksmith Smith Spear
+    // Blacksmith: Smith Spear
     BsSpear,
-    // Blacksmith Hilt Binding
+    // Blacksmith: Hilt Binding
     BsHiltbinding,
-    // Blacksmith Ore Discovery
+    // Blacksmith: Ore Discovery
     BsFindingore,
-    // Blacksmith Weaponry Research
+    // Blacksmith: Weaponry Research
     BsWeaponresearch,
-    // Blacksmith Weapon Repair
+    // Blacksmith: Weapon Repair
     BsRepairweapon,
-    // Blacksmith Skin Tempering
+    // Blacksmith: Skin Tempering
     BsSkintemper,
-    // Blacksmith Hammer Fall
+    // Blacksmith: Hammer Fall
     BsHammerfall,
-    // Blacksmith Adrenaline Rush
+    // Blacksmith: Adrenaline Rush
     BsAdrenaline,
-    // Blacksmith Weapon Perfection
+    // Blacksmith: Weapon Perfection
     BsWeaponperfect,
-    // Blacksmith Power-Thrust
+    // Blacksmith: Power-Thrust
     BsOverthrust,
-    // Blacksmith Maximize Power
+    // Blacksmith: Maximize Power
     BsMaximize,
-    // Hunter Skid Trap
+    // Hunter: Skid Trap
     HtSkidtrap,
-    // Hunter Land Mine
+    // Hunter: Land Mine
     HtLandmine,
-    // Hunter Ankle Snare
+    // Hunter: Ankle Snare
     HtAnklesnare,
-    // Hunter Shockwave Trap
+    // Hunter: Shockwave Trap
     HtShockwave,
-    // Hunter Sandman
+    // Hunter: Sandman
     HtSandman,
-    // Hunter Flasher
+    // Hunter: Flasher
     HtFlasher,
-    // Hunter Freezing Trap
+    // Hunter: Freezing Trap
     HtFreezingtrap,
-    // Hunter Blast Mine
+    // Hunter: Blast Mine
     HtBlastmine,
-    // Hunter Claymore Trap
+    // Hunter: Claymore Trap
     HtClaymoretrap,
-    // Hunter Remove Trap
+    // Hunter: Remove Trap
     HtRemovetrap,
-    // Hunter Talkie Box
+    // Hunter: Talkie Box
     HtTalkiebox,
-    // Hunter Beast Bane
+    // Hunter: Beast Bane
     HtBeastbane,
-    // Hunter Falconry Mastery
+    // Hunter: Falconry Mastery
     HtFalcon,
-    // Hunter Steel Crow
+    // Hunter: Steel Crow
     HtSteelcrow,
-    // Hunter Blitz Beat
+    // Hunter: Blitz Beat
     HtBlitzbeat,
-    // Hunter Detect
+    // Hunter: Detect
     HtDetecting,
-    // Hunter Spring Trap
+    // Hunter: Spring Trap
     HtSpringtrap,
-    // Assassin Righthand Mastery
+    // Assassin: Righthand Mastery
     AsRight,
-    // Assassin Lefthand Mastery
+    // Assassin: Lefthand Mastery
     AsLeft,
-    // Assassin Katar Mastery
+    // Assassin: Katar Mastery
     AsKatar,
-    // Assassin Cloaking
+    // Assassin: Cloaking
     AsCloaking,
-    // Assassin Sonic Blow
+    // Assassin: Sonic Blow
     AsSonicblow,
-    // Assassin Grimtooth
+    // Assassin: Grimtooth
     AsGrimtooth,
-    // Assassin Enchant Poison
+    // Assassin: Enchant Poison
     AsEnchantpoison,
-    // Assassin Poison React
+    // Assassin: Poison React
     AsPoisonreact,
-    // Assassin Venom Dust
+    // Assassin: Venom Dust
     AsVenomdust,
-    // Assassin Venom Splasher
+    // Assassin: Venom Splasher
     AsSplasher,
-    // Novice First Aid
+    // Novice: First Aid
     NvFirstaid,
-    // Novice Play Dead
+    // Novice High: Play Dead
     NvTrickdead,
-    // Swordsman Moving HP-Recovery
+    // Swordsman: Moving HP-Recovery
     SmMovingrecovery,
-    // Swordsman Fatal Blow
+    // Swordsman: Fatal Blow
     SmFatalblow,
-    // Swordsman Auto Berserk
+    // Swordsman: Auto Berserk
     SmAutoberserk,
-    // Archer Arrow Crafting
+    // Archer: Arrow Crafting
     AcMakingarrow,
-    // Archer Arrow Repel
+    // Archer: Arrow Repel
     AcChargearrow,
-    // Thief Sand Attack
+    // Thief: Sand Attack
     TfSprinklesand,
-    // Thief Back Slide
+    // Thief: Back Slide
     TfBacksliding,
-    // Thief Find Stone
+    // Thief: Find Stone
     TfPickstone,
-    // Thief Stone Fling
+    // Thief: Stone Fling
     TfThrowstone,
-    // Merchant Cart Revolution
+    // Merchant: Cart Revolution
     McCartrevolution,
-    // Merchant Change Cart
+    // Merchant: Change Cart
     McChangecart,
-    // Merchant Crazy Uproar
+    // Merchant: Crazy Uproar
     McLoud,
-    // Acolyte Holy Light
+    // Acolyte: Holy Light
     AlHolylight,
-    // Mage Energy Coat
+    // Mage: Energy Coat
     MgEnergycoat,
-    // Rogue Gank
+    // Rogue: Gank
     RgSnatcher,
-    // Rogue Mug
+    // Rogue: Mug
     RgStealcoin,
-    // Rogue Back Stab
+    // Rogue: Back Stab
     RgBackstap,
-    // Rogue Stalk
+    // Rogue: Stalk
     RgTunneldrive,
-    // Rogue Sightless Mind
+    // Rogue: Sightless Mind
     RgRaid,
-    // Rogue Divest Weapon
+    // Rogue: Divest Weapon
     RgStripweapon,
-    // Rogue Divest Shield
+    // Rogue: Divest Shield
     RgStripshield,
-    // Rogue Divest Armor
+    // Rogue: Divest Armor
     RgStriparmor,
-    // Rogue Divest Helm
+    // Rogue: Divest Helm
     RgStriphelm,
-    // Rogue Snatch
+    // Rogue: Snatch
     RgIntimidate,
-    // Rogue Scribble
+    // Rogue: Scribble
     RgGraffiti,
-    // Rogue Piece
+    // Rogue: Piece
     RgFlaggraffiti,
-    // Rogue Remover
+    // Rogue: Remover
     RgCleaner,
-    // Rogue Slyness
+    // Rogue: Slyness
     RgGangster,
-    // Rogue Haggle
+    // Rogue: Haggle
     RgCompulsion,
-    // Rogue Intimidate
+    // Rogue: Intimidate
     RgPlagiarism,
-    // Alchemist Axe Mastery
+    // Alchemist: Axe Mastery
     AmAxemastery,
-    // Alchemist Potion Research
+    // Alchemist: Potion Research
     AmLearningpotion,
-    // Alchemist Prepare Potion
+    // Alchemist: Prepare Potion
     AmPharmacy,
-    // Alchemist Bomb
+    // Alchemist: Bomb
     AmDemonstration,
-    // Alchemist Acid Terror
+    // Alchemist: Acid Terror
     AmAcidterror,
-    // Alchemist Aid Potion
+    // Alchemist: Aid Potion
     AmPotionpitcher,
-    // Alchemist Summon Flora
+    // Alchemist: Summon Flora
     AmCannibalize,
-    // Alchemist Summon Marine Sphere
+    // Alchemist: Summon Marine Sphere
     AmSpheremine,
-    // Alchemist Alchemical Weapon
+    // Alchemist: Alchemical Weapon
     AmCpWeapon,
-    // Alchemist Synthesized Shield
+    // Alchemist: Synthesized Shield
     AmCpShield,
-    // Alchemist Synthetic Armor
+    // Alchemist: Synthetic Armor
     AmCpArmor,
-    // Alchemist Biochemical Helm
+    // Alchemist: Biochemical Helm
     AmCpHelm,
-    // Alchemist Bioethics
+    // Alchemist: Bioethics
     AmBioethics,
-    // Alchemist Call Homunculus
+    // Alchemist: Call Homunculus
     AmCallhomun,
-    // Alchemist Vaporize
+    // Alchemist: Vaporize
     AmRest,
-    // Alchemist Homunculus Resurrection
+    // Alchemist: Homunculus Resurrection
     AmResurrecthomun,
-    // Crusader Faith
+    // Crusader: Faith
     CrTrust,
-    // Crusader Guard
+    // Crusader: Guard
     CrAutoguard,
-    // Crusader Smite
+    // Crusader: Smite
     CrShieldcharge,
-    // Crusader Shield Boomerang
+    // Crusader: Shield Boomerang
     CrShieldboomerang,
-    // Crusader Shield Reflect
+    // Crusader: Shield Reflect
     CrReflectshield,
-    // Crusader Holy Cross
+    // Crusader: Holy Cross
     CrHolycross,
-    // Crusader Grand Cross
+    // Crusader: Grand Cross
     CrGrandcross,
-    // Crusader Sacrifice
+    // Crusader: Sacrifice
     CrDevotion,
-    // Crusader Resistant Souls
+    // Crusader: Resistant Souls
     CrProvidence,
-    // Crusader Defending Aura
+    // Crusader: Defending Aura
     CrDefender,
-    // Crusader Spear Quicken
+    // Crusader: Spear Quicken
     CrSpearquicken,
-    // Monk Iron Fists
+    // Monk: Iron Fists
     MoIronhand,
-    // Monk Spiritual Cadence
+    // Monk: Spiritual Cadence
     MoSpiritsrecovery,
-    // Monk Summon Spirit Sphere
+    // Monk: Summon Spirit Sphere
     MoCallspirits,
-    // Monk Absorb Spirit Sphere
+    // Monk: Absorb Spirit Sphere
     MoAbsorbspirits,
-    // Monk Raging Trifecta Blow
+    // Monk: Raging Trifecta Blow
     MoTripleattack,
-    // Monk Snap
+    // Monk: Snap
     MoBodyrelocation,
-    // Monk Dodge
+    // Monk: Dodge
     MoDodge,
-    // Monk Occult Impaction
+    // Monk: Occult Impaction
     MoInvestigate,
-    // Monk Throw Spirit Sphere
+    // Monk: Throw Spirit Sphere
     MoFingeroffensive,
-    // Monk Mental Strength
+    // Monk: Mental Strength
     MoSteelbody,
-    // Monk Root
+    // Monk: Root
     MoBladestop,
-    // Monk Fury
+    // Monk: Fury
     MoExplosionspirits,
-    // Monk Asura Strike
+    // Monk: Asura Strike
     MoExtremityfist,
-    // Monk Raging Quadruple Blow
+    // Monk: Raging Quadruple Blow
     MoChaincombo,
-    // Monk Raging Thrust
+    // Monk: Raging Thrust
     MoCombofinish,
-    // Sage Study
+    // Sage: Study
     SaAdvancedbook,
-    // Sage Cast Cancel
+    // Sage: Cast Cancel
     SaCastcancel,
-    // Sage Magic Rod
+    // Sage: Magic Rod
     SaMagicrod,
-    // Sage Spell Breaker
+    // Sage: Spell Breaker
     SaSpellbreaker,
-    // Sage Free Cast
+    // Sage: Free Cast
     SaFreecast,
-    // Sage Hindsight
+    // Sage: Hindsight
     SaAutospell,
-    // Sage Endow Blaze
+    // Sage: Endow Blaze
     SaFlamelauncher,
-    // Sage Endow Tsunami
+    // Sage: Endow Tsunami
     SaFrostweapon,
-    // Sage Endow Tornado
+    // Sage: Endow Tornado
     SaLightningloader,
-    // Sage Endow Quake
+    // Sage: Endow Quake
     SaSeismicweapon,
-    // Sage Dragonology
+    // Sage: Dragonology
     SaDragonology,
-    // Sage Volcano
+    // Sage: Volcano
     SaVolcano,
-    // Sage Deluge
+    // Sage: Deluge
     SaDeluge,
-    // Sage Whirlwind
+    // Sage: Whirlwind
     SaViolentgale,
-    // Sage Magnetic Earth
+    // Sage: Magnetic Earth
     SaLandprotector,
-    // Sage Dispell
+    // Sage: Dispell
     SaDispell,
-    // Sage Hocus-pocus
+    // Sage: Hocus-pocus
     SaAbracadabra,
     // Monocell
     SaMonocell,
@@ -493,57 +493,57 @@ pub enum SkillEnum {
     SaFullrecovery,
     // Coma
     SaComa,
-    // Bard Amp
+    // Bard: Amp
     BdAdaptation,
-    // Bard Encore
+    // Bard: Encore
     BdEncore,
-    // Bard Lullaby
+    // Bard: Lullaby
     BdLullaby,
-    // Bard Mental Sensing
+    // Bard: Mental Sensing
     BdRichmankim,
-    // Bard Down Tempo
+    // Bard: Down Tempo
     BdEternalchaos,
-    // Bard Battle Theme
+    // Bard: Battle Theme
     BdDrumbattlefield,
-    // Bard Harmonic Lick
+    // Bard: Harmonic Lick
     BdRingnibelungen,
-    // Bard Classical Pluck
+    // Bard: Classical Pluck
     BdRokisweil,
-    // Bard Power Chord
+    // Bard: Power Chord
     BdIntoabyss,
-    // Bard Acoustic Rhythm
+    // Bard: Acoustic Rhythm
     BdSiegfried,
-    // Bard Music Lessons
+    // Bard: Music Lessons
     BaMusicallesson,
-    // Bard Melody Strike
+    // Bard: Melody Strike
     BaMusicalstrike,
-    // Bard Unchained Serenade
+    // Bard: Unchained Serenade
     BaDissonance,
-    // Bard Unbarring Octave
+    // Bard: Unbarring Octave
     BaFrostjoker,
-    // Bard Perfect Tablature
+    // Bard: Perfect Tablature
     BaWhistle,
-    // Bard Impressive Riff
+    // Bard: Impressive Riff
     BaAssassincross,
-    // Bard Magic Strings
+    // Bard: Magic Strings
     BaPoembragi,
-    // Bard Song of Lutie
+    // Bard: Song of Lutie
     BaAppleidun,
-    // Dancer Dance Lessons
+    // Dancer: Dance Lessons
     DcDancinglesson,
-    // Dancer Slinging Arrow
+    // Dancer: Slinging Arrow
     DcThrowarrow,
-    // Dancer Hip Shaker
+    // Dancer: Hip Shaker
     DcUglydance,
-    // Dancer Dazzler
+    // Dancer: Dazzler
     DcScream,
-    // Dancer Focus Ballet
+    // Dancer: Focus Ballet
     DcHumming,
-    // Dancer Slow Grace
+    // Dancer: Slow Grace
     DcDontforgetme,
-    // Dancer Lady Luck
+    // Dancer: Lady Luck
     DcFortunekiss,
-    // Dancer Gypsy's Kiss
+    // Dancer: Gypsy's Kiss
     DcServiceforyou,
     // I Will Protect You
     WeMale,
@@ -553,379 +553,379 @@ pub enum SkillEnum {
     WeCallpartner,
     // Throw Tomahawk
     ItmTomahawk,
-    // LordKnight Aura Blade
+    // LordKnight: Aura Blade
     LkAurablade,
-    // LordKnight Parrying
+    // LordKnight: Parrying
     LkParrying,
-    // LordKnight Concentration
+    // LordKnight: Concentration
     LkConcentration,
-    // LordKnight Relax
+    // LordKnight: Relax
     LkTensionrelax,
-    // LordKnight Frenzy
+    // LordKnight: Frenzy
     LkBerserk,
     // Fury
     LkFury,
-    // HighPriest Assumptio
+    // HighPriest: Assumptio
     HpAssumptio,
-    // HighPriest Basilica
+    // HighPriest: Basilica
     HpBasilica,
-    // HighPriest Meditatio
+    // HighPriest: Meditatio
     HpMeditatio,
-    // HighWizard Soul Drain
+    // HighWizard: Soul Drain
     HwSouldrain,
-    // HighWizard Stave Crasher
+    // HighWizard: Stave Crasher
     HwMagiccrasher,
-    // HighWizard Mystical Amplification
+    // HighWizard: Mystical Amplification
     HwMagicpower,
-    // Paladin Gloria Domini
+    // Paladin: Gloria Domini
     PaPressure,
-    // Paladin Martyr's Reckoning
+    // Paladin: Martyr's Reckoning
     PaSacrifice,
-    // Paladin Battle Chant
+    // Paladin: Battle Chant
     PaGospel,
-    // Champion Raging Palm Strike
+    // Champion: Raging Palm Strike
     ChPalmstrike,
-    // Champion Glacier Fist
+    // Champion: Glacier Fist
     ChTigerfist,
-    // Champion Chain Crush Combo
+    // Champion: Chain Crush Combo
     ChChaincrush,
-    // Professor Indulge
+    // Professor: Indulge
     PfHpconversion,
-    // Professor Soul Exhale
+    // Professor: Soul Exhale
     PfSoulchange,
-    // Professor Soul Siphon
+    // Professor: Soul Siphon
     PfSoulburn,
-    // AssassinCross Advanced Katar Mastery
+    // AssassinCross: Advanced Katar Mastery
     AscKatar,
-    // AssassinCross Enchant Deadly Poison
+    // AssassinCross: Enchant Deadly Poison
     AscEdp,
-    // AssassinCross Soul Destroyer
+    // AssassinCross: Soul Destroyer
     AscBreaker,
-    // Sniper Falcon Eyes
+    // Sniper: Falcon Eyes
     SnSight,
-    // Sniper Falcon Assault
+    // Sniper: Falcon Assault
     SnFalconassault,
-    // Sniper Focused Arrow Strike
+    // Sniper: Focused Arrow Strike
     SnSharpshooting,
-    // Sniper Wind Walker
+    // Sniper: Wind Walker
     SnWindwalk,
-    // Whitesmith Shattering Strike
+    // Whitesmith: Shattering Strike
     WsMeltdown,
     // Create Coins
     WsCreatecoin,
     // Create Nuggets
     WsCreatenugget,
-    // Whitesmith Cart Boost
+    // Whitesmith: Cart Boost
     WsCartboost,
     // Auto Attack System
     WsSystemcreate,
-    // Stalker Stealth
+    // Stalker: Stealth
     StChasewalk,
-    // Stalker Counter Instinct
+    // Stalker: Counter Instinct
     StRejectsword,
     // Alchemy
     CrAlchemy,
     // Potion Synthesis
     CrSynthesispotion,
-    // Clown Vulcan Arrow
+    // Clown: Vulcan Arrow
     CgArrowvulcan,
-    // Clown Sheltering Bliss
+    // Clown: Sheltering Bliss
     CgMoonlit,
-    // Clown Marionette Control
+    // Clown: Marionette Control
     CgMarionette,
-    // LordKnight Spiral Pierce
+    // LordKnight: Spiral Pierce
     LkSpiralpierce,
-    // LordKnight Traumatic Blow
+    // LordKnight: Traumatic Blow
     LkHeadcrush,
-    // LordKnight Vital Strike
+    // LordKnight: Vital Strike
     LkJointbeat,
-    // HighWizard Napalm Vulcan
+    // HighWizard: Napalm Vulcan
     HwNapalmvulcan,
-    // Champion Zen
+    // Champion: Zen
     ChSoulcollect,
-    // Professor Mind Breaker
+    // Professor: Mind Breaker
     PfMindbreaker,
-    // Professor Foresight
+    // Professor: Foresight
     PfMemorize,
-    // Professor Blinding Mist
+    // Professor: Blinding Mist
     PfFogwall,
-    // Professor Fiber Lock
+    // Professor: Fiber Lock
     PfSpiderweb,
-    // AssassinCross Meteor Assault
+    // AssassinCross: Meteor Assault
     AscMeteorassault,
-    // AssassinCross Create Deadly Poison
+    // AssassinCross: Create Deadly Poison
     AscCdp,
-    // Baby Baby
+    // Baby
     WeBaby,
-    // Baby Call Parent
+    // Call Parent
     WeCallparent,
-    // Novice Call Baby
+    // Call Baby
     WeCallbaby,
-    // Taekwon Running
+    // Taekwon: Running
     TkRun,
-    // Taekwon Tornado Stance
+    // Taekwon: Tornado Stance
     TkReadystorm,
-    // Taekwon Tornado Kick
+    // Taekwon: Tornado Kick
     TkStormkick,
-    // Taekwon Heel Drop Stance
+    // Taekwon: Heel Drop Stance
     TkReadydown,
-    // Taekwon Heel Drop
+    // Taekwon: Heel Drop
     TkDownkick,
-    // Taekwon Roundhouse Stance
+    // Taekwon: Roundhouse Stance
     TkReadyturn,
-    // Taekwon Roundhouse Kick
+    // Taekwon: Roundhouse Kick
     TkTurnkick,
-    // Taekwon Counter Kick Stance
+    // Taekwon: Counter Kick Stance
     TkReadycounter,
-    // Taekwon Counter Kick
+    // Taekwon: Counter Kick
     TkCounter,
-    // Taekwon Tumbling
+    // Taekwon: Tumbling
     TkDodge,
-    // Taekwon Flying Kick
+    // Taekwon: Flying Kick
     TkJumpkick,
-    // Taekwon Peaceful Break
+    // Taekwon: Peaceful Break
     TkHptime,
-    // Taekwon Happy Break
+    // Taekwon: Happy Break
     TkSptime,
-    // Taekwon Kihop
+    // Taekwon: Kihop
     TkPower,
-    // Taekwon Mild Wind
+    // Taekwon: Mild Wind
     TkSevenwind,
-    // Taekwon Taekwon Jump
+    // Taekwon: Taekwon Jump
     TkHighjump,
-    // Star_Gladiator Feeling the Sun Moon and Stars
+    // Star_Gladiator: Feeling the Sun Moon and Stars
     SgFeel,
-    // Star_Gladiator Warmth of the Sun
+    // Star_Gladiator: Warmth of the Sun
     SgSunWarm,
-    // Star_Gladiator Warmth of the Moon
+    // Star_Gladiator: Warmth of the Moon
     SgMoonWarm,
-    // Star_Gladiator Warmth of the Stars
+    // Star_Gladiator: Warmth of the Stars
     SgStarWarm,
-    // Star_Gladiator Comfort of the Sun
+    // Star_Gladiator: Comfort of the Sun
     SgSunComfort,
-    // Star_Gladiator Comfort of the Moon
+    // Star_Gladiator: Comfort of the Moon
     SgMoonComfort,
-    // Star_Gladiator Comfort of the Stars
+    // Star_Gladiator: Comfort of the Stars
     SgStarComfort,
-    // Star_Gladiator Hatred of the Sun Moon and Stars
+    // Star_Gladiator: Hatred of the Sun Moon and Stars
     SgHate,
-    // Star_Gladiator Anger of the Sun
+    // Star_Gladiator: Anger of the Sun
     SgSunAnger,
-    // Star_Gladiator Anger of the Moon
+    // Star_Gladiator: Anger of the Moon
     SgMoonAnger,
-    // Star_Gladiator Anger of the Stars
+    // Star_Gladiator: Anger of the Stars
     SgStarAnger,
-    // Star_Gladiator Blessing of the Sun
+    // Star_Gladiator: Blessing of the Sun
     SgSunBless,
-    // Star_Gladiator Blessing of the Moon
+    // Star_Gladiator: Blessing of the Moon
     SgMoonBless,
-    // Star_Gladiator Blessing of the Stars
+    // Star_Gladiator: Blessing of the Stars
     SgStarBless,
-    // Star_Gladiator Demon of the Sun Moon and Stars
+    // Star_Gladiator: Demon of the Sun Moon and Stars
     SgDevil,
-    // Star_Gladiator Friend of the Sun Moon and Stars
+    // Star_Gladiator: Friend of the Sun Moon and Stars
     SgFriend,
-    // Star_Gladiator Knowledge of the Sun Moon and Stars
+    // Star_Gladiator: Knowledge of the Sun Moon and Stars
     SgKnowledge,
-    // Star_Gladiator Union of the Sun Moon and Stars
+    // Star_Gladiator: Union of the Sun Moon and Stars
     SgFusion,
-    // Soul_Linker Spirit of the Alchemist
+    // Soul_Linker: Spirit of the Alchemist
     SlAlchemist,
-    // Alchemist Aid Berserk Potion
+    // Alchemist: Aid Berserk Potion
     AmBerserkpitcher,
-    // Soul_Linker Spirit of the Monk
+    // Soul_Linker: Spirit of the Monk
     SlMonk,
-    // Soul_Linker Spirit of the Star Gladiator
+    // Soul_Linker: Spirit of the Star Gladiator
     SlStar,
-    // Soul_Linker Spirit of the Sage
+    // Soul_Linker: Spirit of the Sage
     SlSage,
-    // Soul_Linker Spirit of the Crusader
+    // Soul_Linker: Spirit of the Crusader
     SlCrusader,
-    // Soul_Linker Spirit of the Supernovice
+    // Soul_Linker: Spirit of the Supernovice
     SlSupernovice,
-    // Soul_Linker Spirit of the Knight
+    // Soul_Linker: Spirit of the Knight
     SlKnight,
-    // Soul_Linker Spirit of the Wizard
+    // Soul_Linker: Spirit of the Wizard
     SlWizard,
-    // Soul_Linker Spirit of the Priest
+    // Soul_Linker: Spirit of the Priest
     SlPriest,
-    // Soul_Linker Spirit of the Artist
+    // Soul_Linker: Spirit of the Artist
     SlBarddancer,
-    // Soul_Linker Spirit of the Rogue
+    // Soul_Linker: Spirit of the Rogue
     SlRogue,
-    // Soul_Linker Spirit of the Assasin
+    // Soul_Linker: Spirit of the Assasin
     SlAssasin,
-    // Soul_Linker Spirit of the Blacksmith
+    // Soul_Linker: Spirit of the Blacksmith
     SlBlacksmith,
-    // Blacksmith Advanced Adrenaline Rush
+    // Blacksmith: Advanced Adrenaline Rush
     BsAdrenaline2,
-    // Soul_Linker Spirit of the Hunter
+    // Soul_Linker: Spirit of the Hunter
     SlHunter,
-    // Soul_Linker Spirit of the Soul Linker
+    // Soul_Linker: Spirit of the Soul Linker
     SlSoullinker,
-    // Soul_Linker Kaizel
+    // Soul_Linker: Kaizel
     SlKaizel,
-    // Soul_Linker Kaahi
+    // Soul_Linker: Kaahi
     SlKaahi,
-    // Soul_Linker Kaupe
+    // Soul_Linker: Kaupe
     SlKaupe,
-    // Soul_Linker Kaite
+    // Soul_Linker: Kaite
     SlKaite,
-    // Soul_Linker Kaina
+    // Soul_Linker: Kaina
     SlKaina,
-    // Soul_Linker Estin
+    // Soul_Linker: Estin
     SlStin,
-    // Soul_Linker Estun
+    // Soul_Linker: Estun
     SlStun,
-    // Soul_Linker Esma
+    // Soul_Linker: Esma
     SlSma,
-    // Soul_Linker Eswoo
+    // Soul_Linker: Eswoo
     SlSwoo,
-    // Soul_Linker Eske
+    // Soul_Linker: Eske
     SlSke,
-    // Soul_Linker Eska
+    // Soul_Linker: Eska
     SlSka,
     // Provoke Self
     SmSelfprovoke,
-    // Stalker Preserve
+    // Stalker: Preserve
     StPreserve,
-    // Stalker Divest All
+    // Stalker: Divest All
     StFullstrip,
-    // Whitesmith Upgrade Weapon
+    // Whitesmith: Upgrade Weapon
     WsWeaponrefine,
-    // Creator Aid Condensed Potion
+    // Creator: Aid Condensed Potion
     CrSlimpitcher,
-    // Creator Full Protection
+    // Creator: Full Protection
     CrFullprotection,
-    // Paladin Shield Chain
+    // Paladin: Shield Chain
     PaShieldchain,
-    // HighPriest Mana Recharge
+    // HighPriest: Mana Recharge
     HpManarecharge,
-    // Professor Double Casting
+    // Professor: Double Casting
     PfDoublecasting,
-    // HighWizard Ganbantein
+    // HighWizard: Ganbantein
     HwGanbantein,
-    // HighWizard Gravitation Field
+    // HighWizard: Gravitation Field
     HwGravitation,
-    // Whitesmith Cart Termination
+    // Whitesmith: Cart Termination
     WsCarttermination,
-    // Whitesmith Maximum Power Thrust
+    // Whitesmith: Maximum Power Thrust
     WsOverthrustmax,
-    // Clown Longing for Freedom
+    // Clown: Longing for Freedom
     CgLongingfreedom,
-    // Clown Wand of Hermode
+    // Clown: Wand of Hermode
     CgHermode,
-    // Clown Tarot Card of Fate
+    // Clown: Tarot Card of Fate
     CgTarotcard,
-    // Creator Acid Demonstration
+    // Creator: Acid Demonstration
     CrAciddemonstration,
-    // Creator Plant Cultivation
+    // Creator: Plant Cultivation
     CrCultivation,
     // Weapon Enchantment
     ItemEnchantarms,
-    // Taekwon Taekwon Mission
+    // Taekwon: Taekwon Mission
     TkMission,
-    // Soul_Linker Spirit of Rebirth
+    // Soul_Linker: Spirit of Rebirth
     SlHigh,
-    // Knight Onehand Quicken
+    // Knight: Onehand Quicken
     KnOnehand,
-    // Alchemist Twilight Alchemy 1
+    // Alchemist: Twilight Alchemy 1
     AmTwilight1,
-    // Alchemist Twilight Alchemy 2
+    // Alchemist: Twilight Alchemy 2
     AmTwilight2,
-    // Alchemist Twilight Alchemy 3
+    // Alchemist: Twilight Alchemy 3
     AmTwilight3,
-    // Hunter Beast Strafing
+    // Hunter: Beast Strafing
     HtPower,
-    // Gunslinger Flip the Coin
+    // Gunslinger: Flip the Coin
     GsGlittering,
-    // Gunslinger Fling
+    // Gunslinger: Fling
     GsFling,
-    // Gunslinger Triple Action
+    // Gunslinger: Triple Action
     GsTripleaction,
-    // Gunslinger Bulls Eye
+    // Gunslinger: Bulls Eye
     GsBullseye,
-    // Gunslinger Madness Canceller
+    // Gunslinger: Madness Canceller
     GsMadnesscancel,
-    // Gunslinger AdJustment
+    // Gunslinger: AdJustment
     GsAdjustment,
-    // Gunslinger Increasing Accuracy
+    // Gunslinger: Increasing Accuracy
     GsIncreasing,
-    // Gunslinger Magical Bullet
+    // Gunslinger: Magical Bullet
     GsMagicalbullet,
-    // Gunslinger Cracker
+    // Gunslinger: Cracker
     GsCracker,
-    // Gunslinger Single Action
+    // Gunslinger: Single Action
     GsSingleaction,
-    // Gunslinger Snake Eye
+    // Gunslinger: Snake Eye
     GsSnakeeye,
-    // Gunslinger Chain Action
+    // Gunslinger: Chain Action
     GsChainaction,
-    // Gunslinger Tracking
+    // Gunslinger: Tracking
     GsTracking,
-    // Gunslinger Disarm
+    // Gunslinger: Disarm
     GsDisarm,
-    // Gunslinger Piercing Shot
+    // Gunslinger: Piercing Shot
     GsPiercingshot,
-    // Gunslinger Rapid Shower
+    // Gunslinger: Rapid Shower
     GsRapidshower,
-    // Gunslinger Desperado
+    // Gunslinger: Desperado
     GsDesperado,
-    // Gunslinger Gatling Fever
+    // Gunslinger: Gatling Fever
     GsGatlingfever,
-    // Gunslinger Dust
+    // Gunslinger: Dust
     GsDust,
-    // Gunslinger Full Buster
+    // Gunslinger: Full Buster
     GsFullbuster,
-    // Gunslinger Spread Attack
+    // Gunslinger: Spread Attack
     GsSpreadattack,
-    // Gunslinger Ground Drift
+    // Gunslinger: Ground Drift
     GsGrounddrift,
-    // Ninja Shuriken Training
+    // Ninja: Shuriken Training
     NjTobidougu,
-    // Ninja Throw Shuriken
+    // Ninja: Throw Shuriken
     NjSyuriken,
-    // Ninja Throw Kunai
+    // Ninja: Throw Kunai
     NjKunai,
-    // Ninja Throw Huuma Shuriken
+    // Ninja: Throw Huuma Shuriken
     NjHuuma,
-    // Ninja Throw Zeny
+    // Ninja: Throw Zeny
     NjZenynage,
-    // Ninja Improvised Defense
+    // Ninja: Improvised Defense
     NjTatamigaeshi,
-    // Ninja Vanishing Slash
+    // Ninja: Vanishing Slash
     NjKasumikiri,
-    // Ninja Shadow Leap
+    // Ninja: Shadow Leap
     NjShadowjump,
-    // Ninja Shadow Slash
+    // Ninja: Shadow Slash
     NjKirikage,
-    // Ninja Cicada Skin Sheeding
+    // Ninja: Cicada Skin Sheeding
     NjUtsusemi,
-    // Ninja Mirror Image
+    // Ninja: Mirror Image
     NjBunsinjyutsu,
-    // Ninja Spirit of the Blade
+    // Ninja: Spirit of the Blade
     NjNinpou,
-    // Ninja Crimson Fire Petal
+    // Ninja: Crimson Fire Petal
     NjKouenka,
-    // Ninja Crimson Fire Formation
+    // Ninja: Crimson Fire Formation
     NjKaensin,
-    // Ninja Raging Fire Dragon
+    // Ninja: Raging Fire Dragon
     NjBakuenryu,
-    // Ninja Spear of Ice
+    // Ninja: Spear of Ice
     NjHyousensou,
-    // Ninja Hidden Water
+    // Ninja: Hidden Water
     NjSuiton,
-    // Ninja Ice Meteor
+    // Ninja: Ice Meteor
     NjHyousyouraku,
-    // Ninja Wind Blade
+    // Ninja: Wind Blade
     NjHuujin,
-    // Ninja Lightning Strike of Destruction
+    // Ninja: Lightning Strike of Destruction
     NjRaigekisai,
-    // Ninja Kamaitachi
+    // Ninja: Kamaitachi
     NjKamaitachi,
-    // Ninja Soul
+    // Ninja: Soul
     NjNen,
-    // Ninja Final Strike
+    // Ninja: Final Strike
     NjIssen,
     // SL_DEATHKNIGHT
     SlDeathknight,
@@ -955,43 +955,43 @@ pub enum SkillEnum {
     AllReverseorcish,
     // Christmas Carol
     AllWewish,
-    // Knight Charge Attack
+    // Knight: Charge Attack
     KnChargeatk,
-    // Crusader Shrink
+    // Crusader: Shrink
     CrShrink,
-    // Assassin Sonic Acceleration
+    // Assassin: Sonic Acceleration
     AsSonicaccel,
-    // Assassin Throw Venom Knife
+    // Assassin: Throw Venom Knife
     AsVenomknife,
-    // Rogue Close Confine
+    // Rogue: Close Confine
     RgCloseconfine,
-    // Wizard Sight Blaster
+    // Wizard: Sight Blaster
     WzSightblaster,
-    // Sage Create Elemental Converter
+    // Sage: Create Elemental Converter
     SaCreatecon,
-    // Sage Elemental Change Water
+    // Sage: Elemental Change Water
     SaElementwater,
-    // Hunter Phantasmic Arrow
+    // Hunter: Phantasmic Arrow
     HtPhantasmic,
-    // Bard Pang Voice
+    // Bard: Pang Voice
     BaPangvoice,
-    // Dancer Wink of Charm
+    // Dancer: Wink of Charm
     DcWinkcharm,
-    // Blacksmith Unfair Trick
+    // Blacksmith: Unfair Trick
     BsUnfairlytrick,
-    // Blacksmith Greed
+    // Blacksmith: Greed
     BsGreed,
-    // Priest Redemptio
+    // Priest: Redemptio
     PrRedemptio,
-    // Monk Ki Translation
+    // Monk: Ki Translation
     MoKitranslation,
-    // Monk Ki Explosion
+    // Monk: Ki Explosion
     MoBalkyoung,
-    // Sage Elemental Change Earth
+    // Sage: Elemental Change Earth
     SaElementground,
-    // Sage Elemental Change Fire
+    // Sage: Elemental Change Fire
     SaElementfire,
-    // Sage Elemental Change Wind
+    // Sage: Elemental Change Wind
     SaElementwind,
     // Healing Touch
     HlifHeal,
