@@ -217,6 +217,10 @@ impl OffensiveSkillBase for Fling {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // GS_TRIPLEACTION
 pub struct TripleAction {
@@ -328,6 +332,10 @@ impl OffensiveSkillBase for TripleAction {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // GS_BULLSEYE
@@ -448,6 +456,10 @@ impl OffensiveSkillBase for BullsEye {
     fn _element(&self) -> Element {
         Element::Ammo
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // GS_MADNESSCANCEL
 pub struct MadnessCanceller {
@@ -561,6 +573,10 @@ impl OffensiveSkillBase for MadnessCanceller {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // GS_ADJUSTMENT
 pub struct AdJustment {
@@ -673,6 +689,10 @@ impl OffensiveSkillBase for AdJustment {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // GS_INCREASING
@@ -888,6 +908,10 @@ impl OffensiveSkillBase for MagicalBullet {
     fn _element(&self) -> Element {
         Element::Ghost
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // GS_CRACKER
 pub struct Cracker {
@@ -999,6 +1023,17 @@ impl OffensiveSkillBase for Cracker {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 50 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        effects
     }
 }
 // GS_SINGLEACTION
@@ -1312,6 +1347,10 @@ impl OffensiveSkillBase for ChainAction {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // GS_TRACKING
 pub struct Tracking {
@@ -1556,6 +1595,10 @@ impl OffensiveSkillBase for Tracking {
     fn _element(&self) -> Element {
         Element::Ammo
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // GS_DISARM
 pub struct Disarm {
@@ -1705,6 +1748,10 @@ impl OffensiveSkillBase for Disarm {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // GS_PIERCINGSHOT
@@ -1874,6 +1921,37 @@ impl OffensiveSkillBase for PiercingShot {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 3 {
+                effects.push(StatusEffect::Bleeding);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 6 {
+                effects.push(StatusEffect::Bleeding);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 9 {
+                effects.push(StatusEffect::Bleeding);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 12 {
+                effects.push(StatusEffect::Bleeding);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 15 {
+                effects.push(StatusEffect::Bleeding);
+            }
+        }
+        effects
     }
 }
 // GS_RAPIDSHOWER
@@ -2089,6 +2167,10 @@ impl OffensiveSkillBase for RapidShower {
     fn _element(&self) -> Element {
         Element::Ammo
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // GS_DESPERADO
 pub struct Desperado {
@@ -2302,6 +2384,10 @@ impl OffensiveSkillBase for Desperado {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // GS_GATLINGFEVER
@@ -2541,6 +2627,10 @@ impl OffensiveSkillBase for GatlingFever {
     fn _element(&self) -> Element {
         Element::Ammo
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // GS_DUST
 pub struct Dust {
@@ -2758,6 +2848,10 @@ impl OffensiveSkillBase for Dust {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // GS_FULLBUSTER
@@ -3029,6 +3123,10 @@ impl OffensiveSkillBase for FullBuster {
     fn _element(&self) -> Element {
         Element::Ammo
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // GS_SPREADATTACK
 pub struct SpreadAttack {
@@ -3239,6 +3337,10 @@ impl OffensiveSkillBase for SpreadAttack {
     fn _element(&self) -> Element {
         Element::Ammo
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // GS_GROUNDDRIFT
 pub struct GroundDrift {
@@ -3430,6 +3532,10 @@ impl OffensiveSkillBase for GroundDrift {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for GroundDrift {

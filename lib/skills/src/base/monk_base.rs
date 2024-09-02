@@ -979,6 +979,10 @@ impl OffensiveSkillBase for OccultImpaction {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // MO_FINGEROFFENSIVE
 pub struct ThrowSpiritSphere {
@@ -1120,6 +1124,10 @@ impl OffensiveSkillBase for ThrowSpiritSphere {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // MO_STEELBODY
@@ -1634,6 +1642,10 @@ impl OffensiveSkillBase for AsuraStrike {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // MO_CHAINCOMBO
 pub struct RagingQuadrupleBlow {
@@ -1792,6 +1804,10 @@ impl OffensiveSkillBase for RagingQuadrupleBlow {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // MO_COMBOFINISH
 pub struct RagingThrust {
@@ -1949,6 +1965,10 @@ impl OffensiveSkillBase for RagingThrust {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // MO_KITRANSLATION

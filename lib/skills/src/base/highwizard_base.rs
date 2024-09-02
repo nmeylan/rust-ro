@@ -147,6 +147,10 @@ impl OffensiveSkillBase for SoulDrain {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // HW_MAGICCRASHER
 pub struct StaveCrasher {
@@ -258,6 +262,10 @@ impl OffensiveSkillBase for StaveCrasher {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // HW_MAGICPOWER
@@ -631,6 +639,37 @@ impl OffensiveSkillBase for NapalmVulcan {
     fn _element(&self) -> Element {
         Element::Ghost
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 5 {
+                effects.push(StatusEffect::Curse);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 10 {
+                effects.push(StatusEffect::Curse);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 15 {
+                effects.push(StatusEffect::Curse);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 20 {
+                effects.push(StatusEffect::Curse);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 25 {
+                effects.push(StatusEffect::Curse);
+            }
+        }
+        effects
+    }
 }
 // HW_GANBANTEIN
 pub struct Ganbantein {
@@ -915,6 +954,10 @@ impl OffensiveSkillBase for GravitationField {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Earth
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for GravitationField {

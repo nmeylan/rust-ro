@@ -357,11 +357,11 @@ pub trait OffensiveSkillBase: Skill {
     }
     fn _element(&self) -> Element;
     #[inline(always)]
-    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {
-        None
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
     #[inline(always)]
-    fn _inflict_status_effect_to_self(&self, _status: &StatusSnapshot) -> Option<StatusEffect> {
+    fn _inflict_status_effect_to_self(&self, _status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Option<StatusEffect> {
         None
     }
     fn _damage_if_failed(&self) -> f64 {
@@ -386,12 +386,12 @@ pub trait OffensiveSkill: OffensiveSkillBase {
         self._element()
     }
     #[inline(always)]
-    fn inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> Option<StatusEffect> {
-        self._inflict_status_effect_to_target(_status, _target_status)
+    fn inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        self._inflict_status_effect_to_target(_status, _target_status, _rng)
     }
     #[inline(always)]
-    fn inflict_status_effect_to_self(&self, _status: &StatusSnapshot) -> Option<StatusEffect> {
-        self._inflict_status_effect_to_self(_status)
+    fn inflict_status_effect_to_self(&self, _status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Option<StatusEffect> {
+        self._inflict_status_effect_to_self(_status, _rng)
     }
     fn damage_if_failed(&self) -> f64 {
         self._damage_if_failed()

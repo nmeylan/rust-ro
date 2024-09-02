@@ -593,6 +593,10 @@ impl OffensiveSkillBase for DoubleStrafe {
     fn _element(&self) -> Element {
         Element::Ammo
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // AC_SHOWER
 pub struct ArrowShower {
@@ -750,6 +754,10 @@ impl OffensiveSkillBase for ArrowShower {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for ArrowShower {
@@ -977,5 +985,9 @@ impl OffensiveSkillBase for ArrowRepel {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Ammo
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }

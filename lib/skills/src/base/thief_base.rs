@@ -605,6 +605,62 @@ impl OffensiveSkillBase for Envenom {
     fn _element(&self) -> Element {
         Element::Poison
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 14 {
+                effects.push(StatusEffect::Poisoned);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 18 {
+                effects.push(StatusEffect::Poisoned);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 22 {
+                effects.push(StatusEffect::Poisoned);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 26 {
+                effects.push(StatusEffect::Poisoned);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 30 {
+                effects.push(StatusEffect::Poisoned);
+            }
+        }
+        if self.level == 6 {
+            if chance <= 34 {
+                effects.push(StatusEffect::Poisoned);
+            }
+        }
+        if self.level == 7 {
+            if chance <= 38 {
+                effects.push(StatusEffect::Poisoned);
+            }
+        }
+        if self.level == 8 {
+            if chance <= 42 {
+                effects.push(StatusEffect::Poisoned);
+            }
+        }
+        if self.level == 9 {
+            if chance <= 46 {
+                effects.push(StatusEffect::Poisoned);
+            }
+        }
+        if self.level == 10 {
+            if chance <= 50 {
+                effects.push(StatusEffect::Poisoned);
+            }
+        }
+        effects
+    }
 }
 // TF_DETOXIFY
 pub struct Detoxify {
@@ -804,6 +860,17 @@ impl OffensiveSkillBase for SandAttack {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Earth
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 20 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        effects
     }
 }
 // TF_BACKSLIDING
@@ -1109,5 +1176,22 @@ impl OffensiveSkillBase for StoneFling {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(2);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 3 {
+                effects.push(StatusEffect::Stun);
+            }
+        }
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 3 {
+                effects.push(StatusEffect::Blind);
+            }
+        }
+        effects
     }
 }

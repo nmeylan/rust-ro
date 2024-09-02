@@ -628,6 +628,10 @@ impl OffensiveSkillBase for Bash {
     fn _element(&self) -> Element {
         Element::Weapon
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // SM_PROVOKE
 pub struct Provoke {
@@ -787,6 +791,10 @@ impl OffensiveSkillBase for Provoke {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // SM_MAGNUM
@@ -959,6 +967,10 @@ impl OffensiveSkillBase for MagnumBreak {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Fire
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // SM_ENDURE

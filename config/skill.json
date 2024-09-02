@@ -16616,24 +16616,24 @@
       ]
     },
 {
-      "afterCastActDelay": 2000,
-      "afterCastWalkDelay": 2000,
-      "description": "Sonic Blow",
-      "duration2": 5000,
-      "element": "Weapon",
-      "damageType": "MultiHit",
-      "hitCount": -8,
-      "id": 136,
-      "maxLevel": 10,
-      "name": "AS_SONICBLOW",
-      "range": 1,
-      "targetType": "Target",
-      "type": "Offensive",
-      "castdelayflags": {
-        "ignoreStatus": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "afterCastActDelay": 2000,
+  "afterCastWalkDelay": 2000,
+  "description": "Sonic Blow",
+  "duration2": 5000,
+  "element": "Weapon",
+  "damageType": "MultiHit",
+  "hitCount": -8,
+  "id": 136,
+  "maxLevel": 10,
+  "name": "AS_SONICBLOW",
+  "range": 1,
+  "targetType": "Target",
+  "type": "Offensive",
+  "castdelayflags": {
+    "ignoreStatus": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 16,
             "level": 1
@@ -16675,11 +16675,11 @@
             "level": 10
           }
         ],
-        "weaponFlags": {
-          "katar": true
-        }
-      },
-      "dmgAtkPerLevel": [
+    "weaponFlags": {
+      "katar": true
+    }
+  },
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 5.5
@@ -16721,8 +16721,8 @@
           "value": 10
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelfBeforeHit": [
+  "dmgWaves": 1,
+  "bonusToSelfBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -16793,7 +16793,7 @@
             "value": 50
           }
         }],
-        "bonusToSelfTargetHit": [
+  "bonusToTargetBeforeHit": [
         {
           "level": 1,
           "value": {
@@ -16875,10 +16875,10 @@
           }
         }
       ],
-      "damageflags": {
-        "isPhysical": true
-      }
-    },
+  "damageflags": {
+    "isPhysical": true
+  }
+  },
 {
       "description": "Grimtooth",
       "duration2": 1000,

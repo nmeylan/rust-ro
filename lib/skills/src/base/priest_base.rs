@@ -1629,6 +1629,62 @@ impl OffensiveSkillBase for LexDivina {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        let mut effects = Vec::with_capacity(1);
+        let chance = _rng.u8(1..=100);
+        if self.level == 1 {
+            if chance <= 100 {
+                effects.push(StatusEffect::Silence);
+            }
+        }
+        if self.level == 2 {
+            if chance <= 100 {
+                effects.push(StatusEffect::Silence);
+            }
+        }
+        if self.level == 3 {
+            if chance <= 100 {
+                effects.push(StatusEffect::Silence);
+            }
+        }
+        if self.level == 4 {
+            if chance <= 100 {
+                effects.push(StatusEffect::Silence);
+            }
+        }
+        if self.level == 5 {
+            if chance <= 100 {
+                effects.push(StatusEffect::Silence);
+            }
+        }
+        if self.level == 6 {
+            if chance <= 100 {
+                effects.push(StatusEffect::Silence);
+            }
+        }
+        if self.level == 7 {
+            if chance <= 100 {
+                effects.push(StatusEffect::Silence);
+            }
+        }
+        if self.level == 8 {
+            if chance <= 100 {
+                effects.push(StatusEffect::Silence);
+            }
+        }
+        if self.level == 9 {
+            if chance <= 100 {
+                effects.push(StatusEffect::Silence);
+            }
+        }
+        if self.level == 10 {
+            if chance <= 100 {
+                effects.push(StatusEffect::Silence);
+            }
+        }
+        effects
+    }
 }
 // PR_TURNUNDEAD
 pub struct TurnUndead {
@@ -1736,6 +1792,10 @@ impl OffensiveSkillBase for TurnUndead {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Holy
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 // PR_LEXAETERNA
@@ -2084,6 +2144,10 @@ impl OffensiveSkillBase for MagnusExorcismus {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Holy
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for MagnusExorcismus {

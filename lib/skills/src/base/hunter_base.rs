@@ -137,6 +137,10 @@ impl OffensiveSkillBase for SkidTrap {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 impl GroundSkillBase for SkidTrap {
 }
@@ -275,6 +279,10 @@ impl OffensiveSkillBase for LandMine {
     fn _element(&self) -> Element {
         Element::Earth
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 impl GroundSkillBase for LandMine {
 }
@@ -393,6 +401,10 @@ impl OffensiveSkillBase for AnkleSnare {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 impl GroundSkillBase for AnkleSnare {
 }
@@ -510,6 +522,10 @@ impl OffensiveSkillBase for ShockwaveTrap {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for ShockwaveTrap {
@@ -649,6 +665,10 @@ impl OffensiveSkillBase for Sandman {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 impl GroundSkillBase for Sandman {
 }
@@ -766,6 +786,10 @@ impl OffensiveSkillBase for Flasher {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for Flasher {
@@ -909,6 +933,10 @@ impl OffensiveSkillBase for FreezingTrap {
     fn _element(&self) -> Element {
         Element::Water
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 impl GroundSkillBase for FreezingTrap {
 }
@@ -1027,6 +1055,10 @@ impl OffensiveSkillBase for BlastMine {
     fn _element(&self) -> Element {
         Element::Wind
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 impl GroundSkillBase for BlastMine {
 }
@@ -1144,6 +1176,10 @@ impl OffensiveSkillBase for ClaymoreTrap {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Fire
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for ClaymoreTrap {
@@ -1354,6 +1390,10 @@ impl OffensiveSkillBase for TalkieBox {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for TalkieBox {
@@ -1927,6 +1967,10 @@ impl OffensiveSkillBase for Detect {
     fn _element(&self) -> Element {
         Element::Neutral
     }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 impl GroundSkillBase for Detect {
 }
@@ -2239,5 +2283,9 @@ impl OffensiveSkillBase for BeastStrafing {
     #[inline(always)]
     fn _element(&self) -> Element {
         Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
