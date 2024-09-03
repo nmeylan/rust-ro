@@ -133,33 +133,54 @@ pub trait SkillBase {
 
     fn _is_magic(&self) -> bool;
     fn _is_physical(&self) -> bool;
-
+    // Support skills can provide bonus to self, like Improve concentration
+    // Passive skills can provide bonus to self, like demon bane
+    // Offensive skills can provide bonus to self, like spiral spear
+    #[inline(always)]
     fn _bonuses_to_self(&self, _tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::empty()
     }
 
+    // Support skills can provide bonus to self, like Increase Agi
+    #[inline(always)]
     fn _bonuses_to_target(&self, _tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::empty()
     }
+
+    // Support skills can provide bonus to self, like Maximize power
+    #[inline(always)]
     fn _bonuses_to_party(&self, _tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::empty()
     }
 
-    fn _bonuses_on_cast(&self) -> Vec<BonusType> {
-        vec![]
-    }
+    // Type in packet to send to client. it is use by the client to determine if target is valid or if it should display specific cursor
     #[inline(always)]
     fn _client_type(&self) -> usize {
         self._target_type().value()
     }
 
+    // Increase chance of success of skills, like FullStripe
     #[inline(always)]
     fn _success_chance(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> f32 {
         100.0
     }
 
+    #[inline(always)]
     fn _dispell_skills(&self) -> Vec<u32> {
         vec![]
+    }
+
+    #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        false
+    }
+    #[inline(always)]
+    fn _has_bonuses_to_target(&self) -> bool {
+        false
+    }
+    #[inline(always)]
+    fn _has_bonuses_to_party(&self) -> bool {
+        false
     }
 }
 
@@ -321,7 +342,6 @@ pub trait Skill: SkillBase {
         self._bonuses_to_party(tick)
     }
 
-    // Type in packet to send to client. it is use by the client to determine if target is valid or if it should display specific cursor
     #[inline(always)]
     fn client_type(&self) -> usize {
         self._client_type()
@@ -331,14 +351,22 @@ pub trait Skill: SkillBase {
     fn success_chance(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot) -> f32 {
         100.0
     }
-    #[inline(always)]
-    fn bonuses_on_cast(&self) -> Vec<BonusType> {
-        self._bonuses_on_cast()
-    }
 
     #[inline(always)]
     fn dispell_skills(&self) -> Vec<u32> {
         self._dispell_skills()
+    }
+    #[inline(always)]
+    fn has_bonuses_to_self(&self) -> bool {
+        self._has_bonuses_to_self()
+    }
+    #[inline(always)]
+    fn has_bonuses_to_target(&self) -> bool {
+        self._has_bonuses_to_target()
+    }
+    #[inline(always)]
+    fn has_bonuses_to_party(&self) -> bool {
+        self._has_bonuses_to_party()
     }
 }
 

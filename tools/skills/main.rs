@@ -141,7 +141,7 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     mod_file_base.write_all("#![allow(dead_code)]\n\n".to_string().as_bytes()).unwrap();
 
     #[cfg(feature = "generate_override_stub")]
-        let mut mod_file = {
+    let mut mod_file = {
         let file_path = output_path.join("skills").join("mod.rs");
         if !output_path.join("skills").exists() {
             std::fs::create_dir(output_path.join("skills")).unwrap();
@@ -168,7 +168,7 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
 
         let file_name = job_tree.name().to_lowercase().replace(' ', "").to_string();
         #[cfg(feature = "generate_override_stub")]
-            let mut job_skills_file = {
+        let mut job_skills_file = {
             // // Override stub
             mod_file.write_all(format!("pub mod {};\n", file_name).as_bytes()).unwrap();
             let mut job_skills_file = File::create(output_path.join("skills").join(format!("{}.rs", file_name))).unwrap();
@@ -660,7 +660,7 @@ fn generate_inflict_status(job_skills_file: &mut File, skill_config: &SkillConfi
                         map.entry(format!("{:?}", effect))
                             .or_insert_with(Vec::new)
                             .push(bonus.clone());
-                    },
+                    }
                     _ => {}
                 }
             }
@@ -695,18 +695,37 @@ fn generate_inflict_status(job_skills_file: &mut File, skill_config: &SkillConfi
         }
     }
     job_skills_file.write_all(b"    }\n").unwrap();
-
 }
 
 fn generate_bonuses(job_skills_file: &mut File, skill_config: &SkillConfig) {
+    if skill_config.bonus_to_self().len() > 0 {
+        job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+        job_skills_file.write_all(b"    fn _has_bonuses_to_self(&self) -> bool {\n").unwrap();
+        job_skills_file.write_all(b"        true\n").unwrap();
+        job_skills_file.write_all(b"    }\n").unwrap();
+
         job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
         job_skills_file.write_all(b"    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {\n").unwrap();
         generate_for_each_bonus_level(job_skills_file, skill_config, &skill_config.bonus_to_self());
         job_skills_file.write_all(b"        TemporaryStatusBonuses::default()\n").unwrap();
         job_skills_file.write_all(b"    }\n").unwrap();
+    }
+    if skill_config.bonus_to_target().len() > 0 {
+        job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+        job_skills_file.write_all(b"    fn _has_bonuses_to_target(&self) -> bool {\n").unwrap();
+        job_skills_file.write_all(b"        true\n").unwrap();
+        job_skills_file.write_all(b"    }\n").unwrap();
+
         job_skills_file.write_all(b"    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {\n").unwrap();
         generate_for_each_bonus_level(job_skills_file, skill_config, &skill_config.bonus_to_target());
         job_skills_file.write_all(b"        TemporaryStatusBonuses::default()\n").unwrap();
+        job_skills_file.write_all(b"    }\n").unwrap();
+    }
+
+    if skill_config.bonus_to_party().len() > 0 {
+        job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
+        job_skills_file.write_all(b"    fn _has_bonuses_to_party(&self) -> bool {\n").unwrap();
+        job_skills_file.write_all(b"        true\n").unwrap();
         job_skills_file.write_all(b"    }\n").unwrap();
 
         job_skills_file.write_all(b"    #[inline(always)]\n").unwrap();
@@ -714,6 +733,7 @@ fn generate_bonuses(job_skills_file: &mut File, skill_config: &SkillConfig) {
         generate_for_each_bonus_level(job_skills_file, skill_config, &skill_config.bonus_to_party());
         job_skills_file.write_all(b"        TemporaryStatusBonuses::default()\n").unwrap();
         job_skills_file.write_all(b"    }\n").unwrap();
+    }
 }
 
 fn generate_for_each_bonus_level(job_skills_file: &mut File, skill_config: &SkillConfig, bonuses: &&Vec<BonusPerLevel>) {
@@ -737,7 +757,7 @@ fn generate_for_each_bonus_level(job_skills_file: &mut File, skill_config: &Skil
 }
 
 fn write_bonus(job_skills_file: &mut File, bonus: &BonusPerLevel, skill_config: &SkillConfig, level: Option<u32>) {
-    if skill_config.skill_type().is_some() && matches!(skill_config.skill_type().unwrap(), SkillType::Passive)  {
+    if skill_config.skill_type().is_some() && matches!(skill_config.skill_type().unwrap(), SkillType::Passive) {
         job_skills_file.write_all(format!("\n                TemporaryStatusBonus::with_passive_skill({:?}, {}, {}),",
                                           bonus.value(),
                                           StatusBonusFlag::Default.as_flag(), skill_config.id)
@@ -887,7 +907,6 @@ fn generate_as_passive_skill(job_skills_file: &mut File) {
     job_skills_file.write_all(b"        Some(self)\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
 }
-
 
 /*
 *
@@ -1083,7 +1102,7 @@ fn get_skill_config<'a>(skill_name: &String, skills: &'a Vec<SkillConfig>) -> Op
 
 fn class_name(skill_config: &SkillConfig, skill_tree: &Vec<JobSkillTree>) -> Option<String> {
     for job_tree in skill_tree.iter() {
-        if job_tree.name().eq("Super Novice") || job_tree.name().ends_with("High") || job_tree.name().eq("Super_Baby"){
+        if job_tree.name().eq("Super Novice") || job_tree.name().ends_with("High") || job_tree.name().eq("Super_Baby") {
             continue;
         }
         for skill in job_tree.tree().iter() {
@@ -1112,7 +1131,6 @@ fn is_passive(skill_config: &SkillConfig) -> bool {
 fn is_ground(skill_config: &SkillConfig) -> bool {
     matches!(skill_config.target_type(), SkillTargetType::Ground)
 }
-
 
 fn is_support(skill_config: &SkillConfig) -> bool {
     skill_config.skill_type().map_or(false, |skill_type| matches!(skill_type, SkillType::Support))
