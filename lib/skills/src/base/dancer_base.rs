@@ -89,6 +89,10 @@ impl SkillBase for DanceLessons {
         false
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -140,13 +144,6 @@ impl SkillBase for DanceLessons {
                 TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Whip, 30), 0, 323),
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-112), 0, 323),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -279,17 +276,6 @@ impl SkillBase for SlingingArrow {
     #[inline(always)]
     fn _base_cast_time(&self) -> u32 {
        1500
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -442,17 +428,6 @@ impl SkillBase for HipShaker {
         }
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_performance_skill(&self) -> bool {
         true
     }
@@ -566,17 +541,6 @@ impl SkillBase for Dazzler {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        4000
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -767,17 +731,6 @@ impl SkillBase for FocusBallet {
         }
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_performance_skill(&self) -> bool {
         true
     }
@@ -927,6 +880,10 @@ impl SkillBase for SlowGrace {
         }
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -978,13 +935,6 @@ impl SkillBase for SlowGrace {
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-35.0), 2, tick, 180000),
                 TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-35), 2, tick, 180000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -1137,6 +1087,10 @@ impl SkillBase for LadyLuck {
         }
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -1178,13 +1132,6 @@ impl SkillBase for LadyLuck {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_duration(BonusType::Crit(20.0), 2, tick, 120000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -1337,6 +1284,10 @@ impl SkillBase for GypsysKiss {
         }
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -1378,13 +1329,6 @@ impl SkillBase for GypsysKiss {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(20), 2, tick, 180000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -1475,17 +1419,6 @@ impl SkillBase for WinkofCharm {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_supportive_skill(&self) -> bool {

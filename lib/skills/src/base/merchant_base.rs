@@ -89,17 +89,6 @@ impl SkillBase for EnlargeWeightLimit {
         false
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -175,17 +164,6 @@ impl SkillBase for Discount {
     }
     fn _is_physical(&self) -> bool {
         false
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
@@ -265,17 +243,6 @@ impl SkillBase for Overcharge {
         false
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -353,6 +320,10 @@ impl SkillBase for Pushcart {
         false
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -394,13 +365,6 @@ impl SkillBase for Pushcart {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(0), 0, 39),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -483,17 +447,6 @@ impl SkillBase for ItemAppraisal {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 10 { Ok(10) } else {Err(())}
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
@@ -584,17 +537,6 @@ impl SkillBase for Vending {
         } else {
             Err(())
         }
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
@@ -710,17 +652,6 @@ impl SkillBase for Mammonite {
             if status.zeny() >= 1000 { return Ok(1000) } else {return Err(())}
         }
         Err(())
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -859,17 +790,6 @@ impl SkillBase for CartRevolution {
         }
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
@@ -976,17 +896,6 @@ impl SkillBase for ChangeCart {
         }
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -1068,18 +977,15 @@ impl SkillBase for CrazyUproar {
         if status.sp() > 8 { Ok(8) } else {Err(())}
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_duration(BonusType::Str(4), 2, tick, 300000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]

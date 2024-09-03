@@ -153,6 +153,10 @@ impl SkillBase for FalconEyes {
         Err(())
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -214,13 +218,6 @@ impl SkillBase for FalconEyes {
                 TemporaryStatusBonus::with_duration(BonusType::Crit(10.0), 2, tick, 30000),
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(20), 2, tick, 30000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -354,17 +351,6 @@ impl SkillBase for FalconAssault {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        3000
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -512,17 +498,6 @@ impl SkillBase for FocusedArrowStrike {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1500
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -735,6 +710,10 @@ impl SkillBase for WindWalker {
        2000
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -786,13 +765,6 @@ impl SkillBase for WindWalker {
                 TemporaryStatusBonus::with_duration(BonusType::Flee(5), 2, tick, 400000),
                 TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(20), 2, tick, 400000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]

@@ -89,6 +89,10 @@ impl SkillBase for RighthandMastery {
         false
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -110,13 +114,6 @@ impl SkillBase for RighthandMastery {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AtkPercentage(0), 0, 132),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -197,6 +194,10 @@ impl SkillBase for LefthandMastery {
         false
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -218,13 +219,6 @@ impl SkillBase for LefthandMastery {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AtkPercentage(-20), 0, 133),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -305,6 +299,10 @@ impl SkillBase for KatarMastery {
         false
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -346,13 +344,6 @@ impl SkillBase for KatarMastery {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Katar, 30), 0, 134),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -437,6 +428,10 @@ impl SkillBase for Cloaking {
         if status.sp() > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -478,13 +473,6 @@ impl SkillBase for Cloaking {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(0), 2, tick, 9000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -639,17 +627,6 @@ impl SkillBase for SonicBlow {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -848,6 +825,10 @@ impl SkillBase for Grimtooth {
         }
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![]);
@@ -864,13 +845,6 @@ impl SkillBase for Grimtooth {
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -986,6 +960,10 @@ impl SkillBase for EnchantPoison {
         if status.sp() > 20 { Ok(20) } else {Err(())}
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -1027,13 +1005,6 @@ impl SkillBase for EnchantPoison {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Poisoned, 7.0), 2, tick, 165000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -1182,6 +1153,10 @@ impl SkillBase for PoisonReact {
         Err(())
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -1233,13 +1208,6 @@ impl SkillBase for PoisonReact {
                 TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(139, 50.0), 2, tick, 65000),
                 TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Poisoned, 50.0), 2, tick, 65000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -1334,17 +1302,6 @@ impl SkillBase for VenomDust {
             return Err(UseSkillFailure::RedGemstone);
         }
         Ok(Some(required_items))
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -1574,17 +1531,6 @@ impl SkillBase for VenomSplasher {
        1000
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
@@ -1759,17 +1705,6 @@ impl SkillBase for SonicAcceleration {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // AS_VENOMKNIFE - Throw Venom Knife
 pub struct ThrowVenomKnife {
@@ -1848,16 +1783,5 @@ impl SkillBase for ThrowVenomKnife {
         } else {
             Err(())
         }
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }

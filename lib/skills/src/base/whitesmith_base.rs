@@ -187,6 +187,10 @@ impl SkillBase for ShatteringStrike {
         0
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -238,13 +242,6 @@ impl SkillBase for ShatteringStrike {
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(7.0), 2, tick, 60000),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(10), 2, tick, 60000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -342,18 +339,15 @@ impl SkillBase for CartBoost {
         }
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(25), 2, tick, 60000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -440,17 +434,6 @@ impl SkillBase for UpgradeWeapon {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 5 { Ok(5) } else {Err(())}
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
@@ -584,17 +567,6 @@ impl SkillBase for CartTermination {
             // Allow to use Fist
             Ok(())
         }
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -804,6 +776,10 @@ impl SkillBase for MaximumPowerThrust {
         }
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -830,13 +806,6 @@ impl SkillBase for MaximumPowerThrust {
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(100), 2, tick, 180000),
                 TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 2, tick, 180000),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]

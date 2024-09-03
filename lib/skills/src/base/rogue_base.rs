@@ -89,6 +89,10 @@ impl SkillBase for Gank {
         false
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
@@ -130,13 +134,6 @@ impl SkillBase for Gank {
             return TemporaryStatusBonuses(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 20.5), 0, 210),]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -221,6 +218,10 @@ impl SkillBase for Mug {
         if status.sp() > 15 { Ok(15) } else {Err(())}
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![]);
@@ -252,13 +253,6 @@ impl SkillBase for Mug {
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
     #[inline(always)]
@@ -345,17 +339,6 @@ impl SkillBase for BackStab {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        500
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -481,6 +464,10 @@ impl SkillBase for Stalk {
         false
     }
     #[inline(always)]
+    fn _has_bonuses_to_self(&self) -> bool {
+        true
+    }
+    #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![]);
@@ -497,13 +484,6 @@ impl SkillBase for Stalk {
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![]);
         }
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
         TemporaryStatusBonuses::default()
     }
 }
@@ -587,17 +567,6 @@ impl SkillBase for SightlessMind {
         }
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
         true
     }
@@ -640,53 +609,53 @@ impl OffensiveSkillBase for SightlessMind {
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 13 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 2 {
             if chance <= 16 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 3 {
             if chance <= 19 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 4 {
             if chance <= 22 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 5 {
             if chance <= 25 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 13 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 2 {
             if chance <= 16 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 3 {
             if chance <= 19 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 4 {
             if chance <= 22 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 5 {
             if chance <= 25 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         effects
@@ -799,17 +768,6 @@ impl SkillBase for DivestWeapon {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
@@ -931,17 +889,6 @@ impl SkillBase for DivestShield {
        1000
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -1059,17 +1006,6 @@ impl SkillBase for DivestArmor {
     #[inline(always)]
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
@@ -1191,17 +1127,6 @@ impl SkillBase for DivestHelm {
        1000
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -1311,17 +1236,6 @@ impl SkillBase for Snatch {
             if status.sp() >= 25 { return Ok(25) } else {return Err(())}
         }
         Err(())
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
     #[inline(always)]
     fn is_offensive_skill(&self) -> bool {
@@ -1459,17 +1373,6 @@ impl SkillBase for Scribble {
         Ok(Some(required_items))
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_interactive_skill(&self) -> bool {
         true
     }
@@ -1561,17 +1464,6 @@ impl SkillBase for Piece {
         if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1653,17 +1545,6 @@ impl SkillBase for Remover {
         if status.sp() > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1740,17 +1621,6 @@ impl SkillBase for Slyness {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // RG_COMPULSION - Haggle
 pub struct Haggle {
@@ -1818,17 +1688,6 @@ impl SkillBase for Haggle {
     fn _is_physical(&self) -> bool {
         false
     }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
 }
 // RG_PLAGIARISM - Intimidate
 pub struct Intimidate {
@@ -1895,17 +1754,6 @@ impl SkillBase for Intimidate {
     }
     fn _is_physical(&self) -> bool {
         false
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
 // RG_CLOSECONFINE - Close Confine
@@ -1977,16 +1825,5 @@ impl SkillBase for CloseConfine {
     #[inline(always)]
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 25 { Ok(25) } else {Err(())}
-    }
-    #[inline(always)]
-    fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
-    }
-    #[inline(always)]
-    fn _bonuses_to_party(&self, tick: u128) -> TemporaryStatusBonuses {
-        TemporaryStatusBonuses::default()
     }
 }
