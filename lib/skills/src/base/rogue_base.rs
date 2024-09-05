@@ -3,7 +3,7 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};
+use models::enums::{*};
 use models::enums::skill::*;
 use models::enums::weapon::AmmoType;
 use models::enums::element::Element::{*};
@@ -15,7 +15,7 @@ use models::item::NormalInventoryItem;
 use models::enums::weapon::WeaponType::{*};
 use models::enums::bonus::{BonusType};
 use models::enums::status::StatusEffect::{*};
-use models::status_bonus::{TemporaryStatusBonus};
+use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
 use models::enums::mob::MobRace::{*};
 
 use crate::{*};
@@ -96,43 +96,43 @@ impl SkillBase for Gank {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 7.0), 0, 210),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 7.0), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 8.5), 0, 210),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 8.5), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 10.0), 0, 210),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 10.0), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 11.5), 0, 210),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 11.5), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 13.0), 0, 210),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 13.0), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 14.5), 0, 210),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 14.5), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 16.0), 0, 210),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 16.0), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 17.5), 0, 210),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 17.5), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 19.0), 0, 210),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 19.0), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 20.5), 0, 210),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 20.5), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         TemporaryStatusBonuses::default()
     }

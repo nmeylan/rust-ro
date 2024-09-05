@@ -241,7 +241,7 @@ fn generate_skills_impl(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
 
 fn write_file_header(file: &mut File) {
     write_file_header_comments(file);
-    file.write_all(b"use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};\n").unwrap();
+    file.write_all(b"use models::enums::{*};\n").unwrap();
     file.write_all(b"use models::enums::skill::*;\n").unwrap();
     file.write_all(b"use models::enums::weapon::AmmoType;\n").unwrap();
     file.write_all(b"use models::enums::element::Element::{*};\n").unwrap();
@@ -251,7 +251,7 @@ fn write_file_header(file: &mut File) {
     file.write_all(b"use models::enums::weapon::WeaponType::{*};\n").unwrap();
     file.write_all(b"use models::enums::bonus::{BonusType};\n").unwrap();
     file.write_all(b"use models::enums::status::StatusEffect::{*};\n").unwrap();
-    file.write_all(b"use models::status_bonus::{TemporaryStatusBonus};\n").unwrap();
+    file.write_all(b"use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};\n").unwrap();
     file.write_all(b"use models::enums::mob::MobRace::{*};\n").unwrap();
     file.write_all(b"\nuse crate::{*};\n\n").unwrap();
     file.write_all(b"use crate::base::*;\n").unwrap();
@@ -758,9 +758,8 @@ fn generate_for_each_bonus_level(job_skills_file: &mut File, skill_config: &Skil
 
 fn write_bonus(job_skills_file: &mut File, bonus: &BonusPerLevel, skill_config: &SkillConfig, level: Option<u32>) {
     if skill_config.skill_type().is_some() && matches!(skill_config.skill_type().unwrap(), SkillType::Passive) {
-        job_skills_file.write_all(format!("\n                TemporaryStatusBonus::with_passive_skill({:?}, {}, {}),",
-                                          bonus.value(),
-                                          StatusBonusFlag::Default.as_flag(), skill_config.id)
+        job_skills_file.write_all(format!("\n                TemporaryStatusBonus::with_passive_skill({:?}, StatusBonusFlag::Default.as_flag(), {}),",
+                                          bonus.value(), skill_config.id)
             .as_bytes()).unwrap();
         return;
     }
@@ -772,9 +771,8 @@ fn write_bonus(job_skills_file: &mut File, bonus: &BonusPerLevel, skill_config: 
         println!("No duration found for bonus for skill {}, will not generate bonus", skill_config.name);
         return;
     };
-    job_skills_file.write_all(format!("\n                TemporaryStatusBonus::with_duration({:?}, {}, tick, {}),",
-                                      bonus.value(),
-                                      StatusBonusFlag::Unique.as_flag(), duration)
+    job_skills_file.write_all(format!("\n                TemporaryStatusBonus::with_duration({:?}, StatusBonusFlag::Default.as_flag(), tick, {}),",
+                                      bonus.value(), duration)
         .as_bytes()).unwrap();
 }
 

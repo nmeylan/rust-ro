@@ -3,7 +3,7 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};
+use models::enums::{*};
 use models::enums::skill::*;
 use models::enums::weapon::AmmoType;
 use models::enums::element::Element::{*};
@@ -15,7 +15,7 @@ use models::item::NormalInventoryItem;
 use models::enums::weapon::WeaponType::{*};
 use models::enums::bonus::{BonusType};
 use models::enums::status::StatusEffect::{*};
-use models::status_bonus::{TemporaryStatusBonus};
+use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
 use models::enums::mob::MobRace::{*};
 
 use crate::{*};
@@ -96,63 +96,63 @@ impl SkillBase for IncreaseSpRecovery {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(3, 10), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(0.2), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(10), 0, 9),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(3, 10), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(0.2), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(10), StatusBonusFlag::Default.as_flag(), 9),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(6, 10), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(0.4), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(20), 0, 9),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(6, 10), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(0.4), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(20), StatusBonusFlag::Default.as_flag(), 9),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(9, 10), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(0.6), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(30), 0, 9),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(9, 10), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(0.6), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(30), StatusBonusFlag::Default.as_flag(), 9),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(12, 10), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(0.8), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(40), 0, 9),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(12, 10), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(0.8), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(40), StatusBonusFlag::Default.as_flag(), 9),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(15, 10), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(1.0), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(50), 0, 9),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(15, 10), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(1.0), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(50), StatusBonusFlag::Default.as_flag(), 9),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(18, 10), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(1.2), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(60), 0, 9),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(18, 10), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(1.2), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(60), StatusBonusFlag::Default.as_flag(), 9),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(21, 10), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(1.4), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(70), 0, 9),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(21, 10), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(1.4), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(70), StatusBonusFlag::Default.as_flag(), 9),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(24, 10), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(1.6), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(80), 0, 9),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(24, 10), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(1.6), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(80), StatusBonusFlag::Default.as_flag(), 9),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(27, 10), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(1.8), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(90), 0, 9),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(27, 10), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(1.8), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(90), StatusBonusFlag::Default.as_flag(), 9),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(30, 10), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(2.0), 0, 9),
-                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(100), 0, 9),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenEveryMs(30, 10), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRecoveryMaxSpPercentage(2.0), StatusBonusFlag::Default.as_flag(), 9),
+                TemporaryStatusBonus::with_passive_skill(BonusType::SpRegenFromItemPercentage(100), StatusBonusFlag::Default.as_flag(), 9),]);
         }
         TemporaryStatusBonuses::default()
     }

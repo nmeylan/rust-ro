@@ -3,7 +3,7 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};
+use models::enums::{*};
 use models::enums::skill::*;
 use models::enums::weapon::AmmoType;
 use models::enums::element::Element::{*};
@@ -15,7 +15,7 @@ use models::item::NormalInventoryItem;
 use models::enums::weapon::WeaponType::{*};
 use models::enums::bonus::{BonusType};
 use models::enums::status::StatusEffect::{*};
-use models::status_bonus::{TemporaryStatusBonus};
+use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
 use models::enums::mob::MobRace::{*};
 
 use crate::{*};
@@ -96,43 +96,43 @@ impl SkillBase for MaceMastery {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 3), 0, 65),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 3), StatusBonusFlag::Default.as_flag(), 65),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 6), 0, 65),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 6), StatusBonusFlag::Default.as_flag(), 65),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 9), 0, 65),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 9), StatusBonusFlag::Default.as_flag(), 65),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 12), 0, 65),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 12), StatusBonusFlag::Default.as_flag(), 65),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 15), 0, 65),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 15), StatusBonusFlag::Default.as_flag(), 65),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 18), 0, 65),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 18), StatusBonusFlag::Default.as_flag(), 65),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 21), 0, 65),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 21), StatusBonusFlag::Default.as_flag(), 65),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 24), 0, 65),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 24), StatusBonusFlag::Default.as_flag(), 65),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 27), 0, 65),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 27), StatusBonusFlag::Default.as_flag(), 65),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 30), 0, 65),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::MasteryDamageUsingWeaponType(Mace, 30), StatusBonusFlag::Default.as_flag(), 65),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -258,23 +258,23 @@ impl SkillBase for ImpositioManus {
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(5), 2, tick, 60000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Atk(5), StatusBonusFlag::Default.as_flag(), tick, 60000),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(10), 2, tick, 60000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Atk(10), StatusBonusFlag::Default.as_flag(), tick, 60000),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(15), 2, tick, 60000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Atk(15), StatusBonusFlag::Default.as_flag(), tick, 60000),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(20), 2, tick, 60000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Atk(20), StatusBonusFlag::Default.as_flag(), tick, 60000),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Atk(25), 2, tick, 60000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Atk(25), StatusBonusFlag::Default.as_flag(), tick, 60000),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -1114,43 +1114,43 @@ impl SkillBase for KyrieEleison {
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(5), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(5), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(6), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(6), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(6), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(6), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(7), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(7), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(7), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(7), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(8), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(8), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(8), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(8), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(9), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(9), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(9), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(9), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(10), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(10), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -1344,23 +1344,23 @@ impl SkillBase for Gloria {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Luk(30), 2, tick, 10000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Luk(30), StatusBonusFlag::Default.as_flag(), tick, 10000),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Luk(30), 2, tick, 15000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Luk(30), StatusBonusFlag::Default.as_flag(), tick, 15000),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Luk(30), 2, tick, 20000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Luk(30), StatusBonusFlag::Default.as_flag(), tick, 20000),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Luk(30), 2, tick, 25000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Luk(30), StatusBonusFlag::Default.as_flag(), tick, 25000),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Luk(30), 2, tick, 30000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Luk(30), StatusBonusFlag::Default.as_flag(), tick, 30000),]);
         }
         TemporaryStatusBonuses::default()
     }
