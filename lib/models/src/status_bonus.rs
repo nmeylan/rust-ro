@@ -2,7 +2,7 @@ use accessor::GettersAll;
 use enum_macro::{WithMaskValueU64, WithStringValue};
 use crate::enums::bonus::BonusType;
 use crate::enums::{EnumWithMaskValueU64, EnumWithStringValue};
-
+use crate::enums::skill_enums::SkillEnum;
 
 #[derive(Default, Debug, Clone)]
 pub struct StatusBonuses(Vec<StatusBonus>);
@@ -19,7 +19,7 @@ pub struct TemporaryStatusBonus {
     flags: u64,
     expirency: BonusExpiry,
     state: StatusBonusState,
-    source: Option<u16>,
+    source: Option<StatusBonusSource>,
 }
 
 impl TemporaryStatusBonus {
@@ -29,7 +29,7 @@ impl TemporaryStatusBonus {
             flags,
             expirency: BonusExpiry::Time(tick + duration as u128),
             state: StatusBonusState::No,
-            source: Some(skill_id),
+            source: Some(StatusBonusSource::Skill(skill_id)),
         }
     }
 
@@ -39,7 +39,7 @@ impl TemporaryStatusBonus {
             flags,
             expirency: BonusExpiry::Never,
             state: StatusBonusState::No,
-            source: Some(skill_id)
+            source: Some(StatusBonusSource::PassiveSkill(skill_id))
         }
     }
 
@@ -48,6 +48,19 @@ impl TemporaryStatusBonus {
     }
 
     pub fn icon(&self) -> Option<u16> {
+        if !self.has_icon() {
+            return None;
+        }
+        if let Some(ref source) = self.source {
+            match source {
+                StatusBonusSource::Skill(skill_id) => {
+                    let skill = SkillEnum::from_id(*skill_id as u32);
+                    // skill.client_icon()
+                }
+                StatusBonusSource::PassiveSkill(_) => {}
+                StatusBonusSource::Item(_) => {}
+            }
+        }
         None
     }
 }
@@ -63,10 +76,9 @@ impl TemporaryStatusBonuses {
 
 #[derive(Debug, Clone, Copy)]
 pub enum StatusBonusSource {
-    Equipment,
-    PassiveSkill,
-    TargetSkill,
-    SelfSkill,
+    Skill(u16),
+    PassiveSkill(u16),
+    Item(u32)
 }
 
 
