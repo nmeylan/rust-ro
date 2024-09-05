@@ -3,7 +3,7 @@
 
 #![allow(dead_code, unused_must_use, unused_imports, unused_variables)]
 
-use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue};
+use models::enums::{*};
 use models::enums::skill::*;
 use models::enums::weapon::AmmoType;
 use models::enums::element::Element::{*};
@@ -15,7 +15,7 @@ use models::item::NormalInventoryItem;
 use models::enums::weapon::WeaponType::{*};
 use models::enums::bonus::{BonusType};
 use models::enums::status::StatusEffect::{*};
-use models::status_bonus::{TemporaryStatusBonus};
+use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
 use models::enums::mob::MobRace::{*};
 
 use crate::{*};
@@ -219,23 +219,23 @@ impl SkillBase for LandMine {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 10.0), 2, tick, 200000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 10.0), StatusBonusFlag::Default.as_flag(), tick, 200000),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 10.0), 2, tick, 160000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 10.0), StatusBonusFlag::Default.as_flag(), tick, 160000),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 10.0), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 10.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 10.0), 2, tick, 80000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 10.0), StatusBonusFlag::Default.as_flag(), tick, 80000),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 10.0), 2, tick, 40000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Stun, 10.0), StatusBonusFlag::Default.as_flag(), tick, 40000),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -580,23 +580,23 @@ impl SkillBase for Sandman {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Sleep, 50.0), 2, tick, 150000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Sleep, 50.0), StatusBonusFlag::Default.as_flag(), tick, 150000),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Sleep, 60.0), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Sleep, 60.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Sleep, 70.0), 2, tick, 90000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Sleep, 70.0), StatusBonusFlag::Default.as_flag(), tick, 90000),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Sleep, 80.0), 2, tick, 60000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Sleep, 80.0), StatusBonusFlag::Default.as_flag(), tick, 60000),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Sleep, 90.0), 2, tick, 30000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Sleep, 90.0), StatusBonusFlag::Default.as_flag(), tick, 30000),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -830,23 +830,23 @@ impl SkillBase for FreezingTrap {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 100.0), 2, tick, 150000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 100.0), StatusBonusFlag::Default.as_flag(), tick, 150000),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 100.0), 2, tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 100.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 100.0), 2, tick, 90000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 100.0), StatusBonusFlag::Default.as_flag(), tick, 90000),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 100.0), 2, tick, 60000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 100.0), StatusBonusFlag::Default.as_flag(), tick, 60000),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 100.0), 2, tick, 30000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Freeze, 100.0), StatusBonusFlag::Default.as_flag(), tick, 30000),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -1375,53 +1375,53 @@ impl SkillBase for BeastBane {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 4), 0, 126),
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 4), 0, 126),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 4), StatusBonusFlag::Default.as_flag(), 126),
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 4), StatusBonusFlag::Default.as_flag(), 126),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 8), 0, 126),
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 8), 0, 126),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 8), StatusBonusFlag::Default.as_flag(), 126),
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 8), StatusBonusFlag::Default.as_flag(), 126),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 12), 0, 126),
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 12), 0, 126),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 12), StatusBonusFlag::Default.as_flag(), 126),
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 12), StatusBonusFlag::Default.as_flag(), 126),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 16), 0, 126),
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 16), 0, 126),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 16), StatusBonusFlag::Default.as_flag(), 126),
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 16), StatusBonusFlag::Default.as_flag(), 126),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 20), 0, 126),
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 20), 0, 126),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 20), StatusBonusFlag::Default.as_flag(), 126),
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 20), StatusBonusFlag::Default.as_flag(), 126),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 24), 0, 126),
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 24), 0, 126),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 24), StatusBonusFlag::Default.as_flag(), 126),
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 24), StatusBonusFlag::Default.as_flag(), 126),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 28), 0, 126),
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 28), 0, 126),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 28), StatusBonusFlag::Default.as_flag(), 126),
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 28), StatusBonusFlag::Default.as_flag(), 126),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 32), 0, 126),
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 32), 0, 126),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 32), StatusBonusFlag::Default.as_flag(), 126),
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 32), StatusBonusFlag::Default.as_flag(), 126),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 36), 0, 126),
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 36), 0, 126),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 36), StatusBonusFlag::Default.as_flag(), 126),
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 36), StatusBonusFlag::Default.as_flag(), 126),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 40), 0, 126),
-                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 40), 0, 126),]);
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Insect, 40), StatusBonusFlag::Default.as_flag(), 126),
+                TemporaryStatusBonus::with_passive_skill(BonusType::AtkBaneAgainstRace(Brute, 40), StatusBonusFlag::Default.as_flag(), 126),]);
         }
         TemporaryStatusBonuses::default()
     }
