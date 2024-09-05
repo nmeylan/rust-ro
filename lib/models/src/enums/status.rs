@@ -278,6 +278,13 @@ pub enum StatusEffect {
     WeaponBreak,
     ArmorBreak,
     VitalStrike,
+    StripArmor,
+    StripShoulder,
+    StripHelm,
+    StripShield,
+    StripShoes,
+    StripWeapon,
+    StripAll,
     #[mask_all]
     AllStatusEffect,
 }

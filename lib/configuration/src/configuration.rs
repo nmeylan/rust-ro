@@ -14,6 +14,7 @@ use serde::{Deserialize, Deserializer, Serialize};
 use std::collections::{BTreeMap, HashMap};
 use std::path::Path;
 use std::{env, fs};
+use models::status_bonus::StatusBonusFlag;
 use crate::bonus_type_wrapper::BonusTypeWrapper;
 
 const DEFAULT_LOG_LEVEL: &str = "info";
@@ -229,6 +230,12 @@ pub struct SkillConfig {
     default
     )]
     damage_flags: Option<u64>,
+    #[serde(
+        rename = "bonusflags",
+        deserialize_with = "deserialize_bonus_flags",
+        default
+    )]
+    bonus_flags: Option<u64>,
     #[serde(
     rename = "flags",
     deserialize_with = "deserialize_skill_flags",
@@ -1055,6 +1062,13 @@ fn deserialize_skill_flags<'de, D>(deserializer: D) -> Result<Option<u64>, D::Er
         D: Deserializer<'de>,
 {
     deserialize_flags::<_, SkillFlags>(deserializer)
+}
+
+fn deserialize_bonus_flags<'de, D>(deserializer: D) -> Result<Option<u64>, D::Error>
+    where
+        D: Deserializer<'de>,
+{
+    deserialize_flags::<_, StatusBonusFlag>(deserializer)
 }
 
 fn deserialize_weapon_flags<'de, D>(deserializer: D) -> Result<Option<u64>, D::Error>

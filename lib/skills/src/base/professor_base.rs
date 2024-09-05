@@ -679,23 +679,23 @@ impl SkillBase for BlindingMist {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 1000.0), StatusBonusFlag::Default.as_flag(), tick, 20000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 1000.0), 0, tick, 20000, 404),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 1000.0), StatusBonusFlag::Default.as_flag(), tick, 20000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 1000.0), 0, tick, 20000, 404),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 1000.0), StatusBonusFlag::Default.as_flag(), tick, 20000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 1000.0), 0, tick, 20000, 404),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 1000.0), StatusBonusFlag::Default.as_flag(), tick, 20000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 1000.0), 0, tick, 20000, 404),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 1000.0), StatusBonusFlag::Default.as_flag(), tick, 20000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ChanceToInflictStatusOnAttackPercentage(Blind, 1000.0), 0, tick, 20000, 404),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -810,7 +810,7 @@ impl SkillBase for FiberLock {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Flee(-50), StatusBonusFlag::Default.as_flag(), tick, 16000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Flee(-50), 0, tick, 16000, 405),]);
         }
         TemporaryStatusBonuses::default()
     }
