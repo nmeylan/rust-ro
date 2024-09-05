@@ -8,7 +8,7 @@ use crate::enums::EnumWithMaskValueU64;
 use crate::enums::mob::MobRace;
 use crate::enums::status::StatusEffect;
 use crate::enums::weapon::WeaponType;
-use crate::status_bonus::{StatusBonus, StatusBonuses};
+use crate::status_bonus::{StatusBonus, StatusBonuses, TemporaryStatusBonuses};
 
 #[derive(SettersAll, GettersAll, Debug, Default, Clone)]
 pub struct Status {
@@ -37,8 +37,10 @@ pub struct Status {
     pub equipments: Vec<WearGear>,
     pub ammo: Option<WearAmmo>,
     pub known_skills: Vec<KnownSkill>,
-    pub effect: Option<StatusEffect>,
-    pub bonuses: StatusBonuses,
+    pub effects: Vec<StatusEffect>,
+    pub equipment_bonuses: StatusBonuses,
+    // Skills bonuses, food bonuses
+    pub temporary_bonuses: TemporaryStatusBonuses,
 }
 
 #[derive(Clone, Debug, SettersAll, GettersAll)]
@@ -96,7 +98,7 @@ pub struct StatusSnapshot {
     accessory_left: Option<WearGearSnapshot>,
     accessory_right: Option<WearGearSnapshot>,
     ammo: Option<WearAmmoSnapshot>,
-    effect: Option<StatusEffect>,
+    effects: Vec<StatusEffect>,
     known_skills: Vec<KnownSkill>,
     bonuses: Vec<StatusBonus>,
 }
@@ -163,7 +165,7 @@ impl StatusSnapshot {
             accessory_left: None,
             accessory_right: None,
             ammo: None,
-            effect: None,
+            effects: vec![],
             known_skills: vec![],
             bonuses: vec![],
         }
@@ -224,7 +226,7 @@ impl StatusSnapshot {
             accessory_left: None,
             accessory_right: None,
             ammo: status.equipped_ammo().map(|a| a.to_snapshot()),
-            effect: status.effect,
+            effects: status.effects.clone(),
             known_skills: status.known_skills.clone(),
             bonuses: vec![],
         };

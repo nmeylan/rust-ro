@@ -845,43 +845,43 @@ impl SkillBase for TwohandQuicken {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 30000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 30000, 60),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 60000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 60000, 60),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 90000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 90000, 60),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 120000, 60),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 150000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 150000, 60),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 180000, 60),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 210000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 210000, 60),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 240000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 240000, 60),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 270000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 270000, 60),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 300000, 60),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -1528,7 +1528,7 @@ impl SkillBase for OnehandQuicken {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 300000, 495),]);
         }
         TemporaryStatusBonuses::default()
     }

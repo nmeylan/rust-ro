@@ -1252,17 +1252,17 @@
       ]
 },
 {
-      "cooldown": 10000,
-      "description": "Endure",
-      "duration2": 10000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 8,
-      "maxLevel": 10,
-      "name": "SM_ENDURE",
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "cooldown": 10000,
+  "description": "Endure",
+  "duration2": 10000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 8,
+  "maxLevel": 10,
+  "name": "SM_ENDURE",
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 10000
@@ -1304,13 +1304,11 @@
           "time": 37000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcost": 10
-      },
-      "skillDelayInSecPerLevel": [
+  "damageflags": {},
+  "requires": {
+    "spcost": 10
+  },
+  "skillDelayInSecPerLevel": [
         {
           "level": 1,
           "value": 10
@@ -1352,7 +1350,7 @@
           "value": 10
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -1423,8 +1421,13 @@
             "value": 10
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
+},
 {
       "description": "Increase SP Recovery",
       "id": 9,
@@ -4525,19 +4528,19 @@
       ]
     },
 {
-      "afterCastActDelay": 1000,
-      "castCancel": true,
-      "castTime": 1000,
-      "description": "Increase AGI",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 29,
-      "maxLevel": 10,
-      "name": "AL_INCAGI",
-      "range": 9,
-      "targetType": "Target",
-      "type": "Support",
-      "duration1PerLevel": [
+  "afterCastActDelay": 1000,
+  "castCancel": true,
+  "castTime": 1000,
+  "description": "Increase AGI",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 29,
+  "maxLevel": 10,
+  "name": "AL_INCAGI",
+  "range": 9,
+  "targetType": "Target",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 60000
@@ -4579,15 +4582,13 @@
           "time": 240000
         }
       ],
-      "damageflags": {
-
-      },
-      "flags": {
-        "ignoreHovering": true
-      },
-      "requires": {
-        "hpcost": 15,
-        "spcostPerLevel": [
+  "damageflags": {},
+  "flags": {
+    "ignoreHovering": true
+  },
+  "requires": {
+    "hpcost": 15,
+    "spcostPerLevel": [
           {
             "amount": 18,
             "level": 1
@@ -4629,8 +4630,8 @@
             "level": 10
           }
         ]
-      },
-      "bonusToTarget": [
+  },
+  "bonusToTarget": [
         {
           "level": 1,
           "value": {
@@ -4771,22 +4772,27 @@
             "value": 25
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
+},
 {
-      "afterCastActDelay": 1000,
-      "castCancel": true,
-      "castTime": 1000,
-      "description": "Decrease AGI",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 30,
-      "maxLevel": 10,
-      "name": "AL_DECAGI",
-      "range": 9,
-      "targetType": "Target",
-      "type": "Support",
-      "duration1PerLevel": [
+  "afterCastActDelay": 1000,
+  "castCancel": true,
+  "castTime": 1000,
+  "description": "Decrease AGI",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 30,
+  "maxLevel": 10,
+  "name": "AL_DECAGI",
+  "range": 9,
+  "targetType": "Target",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 40000
@@ -4832,11 +4838,9 @@
           "time": 130000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {},
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 15,
             "level": 1
@@ -4878,8 +4882,8 @@
             "level": 10
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -5100,8 +5104,9 @@
             "value2": 80
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "afterCastActDelay": 500,
       "castCancel": true,
@@ -5575,6 +5580,11 @@
           }
         ]
       },
+      "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      },
       "bonusToTarget": [
         {
           "level": 1,
@@ -5956,12 +5966,12 @@
       "type": "Interactive"
     },
 {
-      "description": "Pushcart",
-      "id": 39,
-      "maxLevel": 10,
-      "name": "MC_PUSHCART",
-      "range": 1,
-      "bonusToSelf": [
+  "description": "Pushcart",
+  "id": 39,
+  "maxLevel": 10,
+  "name": "MC_PUSHCART",
+  "range": 1,
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -6033,8 +6043,9 @@
           }
         }
       ],
-      "type": "Passive"
-    },
+  "type": "Passive",
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Item Appraisal",
       "damageType": "Single",
@@ -6357,16 +6368,16 @@
       "type": "Passive"
     },
 {
-      "description": "Improve Concentration",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 45,
-      "maxLevel": 10,
-      "name": "AC_CONCENTRATION",
-      "splashArea": 3,
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "description": "Improve Concentration",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 45,
+  "maxLevel": 10,
+  "name": "AC_CONCENTRATION",
+  "splashArea": 3,
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 60000
@@ -6408,11 +6419,11 @@
           "time": 240000
         }
       ],
-      "damageflags": {
-        "splash": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "splash": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 25,
             "level": 1
@@ -6454,9 +6465,9 @@
             "level": 10
           }
         ]
-      },
-      "aoesize": "3x3 square",
-      "bonusToSelf": [
+  },
+  "aoesize": "3x3 square",
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -6597,8 +6608,9 @@
             "value": 12
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Double Strafe",
       "duration1": 100,
@@ -8184,15 +8196,15 @@
       }
     },
 {
-      "description": "Twohand Quicken",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 60,
-      "maxLevel": 10,
-      "name": "KN_TWOHANDQUICKEN",
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "description": "Twohand Quicken",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 60,
+  "maxLevel": 10,
+  "name": "KN_TWOHANDQUICKEN",
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 30000
@@ -8238,11 +8250,9 @@
           "time": 300000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {},
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 14,
             "level": 1
@@ -8284,11 +8294,11 @@
             "level": 10
           }
         ],
-        "weaponFlags": {
-          "2hSword": true
-        }
-      },
-      "bonusToSelf": [
+    "weaponFlags": {
+      "2hSword": true
+    }
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -8359,8 +8369,9 @@
             "value": 30
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Counter Attack",
       "element": "Weapon",
@@ -8767,23 +8778,21 @@
       ]
     },
 {
-      "afterCastActDelay": 3000,
-      "castCancel": true,
-      "description": "Impositio Manus",
-      "duration1": 60000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 66,
-      "maxLevel": 5,
-      "name": "PR_IMPOSITIO",
-      "range": 9,
-      "targetType": "Target",
-      "type": "Support",
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "afterCastActDelay": 3000,
+  "castCancel": true,
+  "description": "Impositio Manus",
+  "duration1": 60000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 66,
+  "maxLevel": 5,
+  "name": "PR_IMPOSITIO",
+  "range": 9,
+  "targetType": "Target",
+  "type": "Support",
+  "damageflags": {},
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 13,
             "level": 1
@@ -8805,8 +8814,8 @@
             "level": 5
           }
         ]
-      },
-      "bonusToTarget": [
+  },
+  "bonusToTarget": [
         {
           "level": 1,
           "value": {
@@ -8842,8 +8851,13 @@
             "value": 25
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
+},
 {
       "afterCastActDelay": 2000,
       "castCancel": true,
@@ -9332,25 +9346,25 @@
       }
     },
 {
-      "afterCastActDelay": 2000,
-      "castCancel": true,
-      "castTime": 2000,
-      "description": "Kyrie Eleison",
-      "duration1": 120000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 73,
-      "maxLevel": 10,
-      "name": "PR_KYRIE",
-      "range": 9,
-      "targetType": "Target",
-      "type": "Support",
-      "damageflags": {
-        "noDamage": true,
-        "isMagical": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "afterCastActDelay": 2000,
+  "castCancel": true,
+  "castTime": 2000,
+  "description": "Kyrie Eleison",
+  "duration1": 120000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 73,
+  "maxLevel": 10,
+  "name": "PR_KYRIE",
+  "range": 9,
+  "targetType": "Target",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true,
+    "isMagical": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 20,
             "level": 1
@@ -9392,8 +9406,8 @@
             "level": 10
           }
         ]
-      },
-      "barrierHpPercentagePerLevel": [
+  },
+  "barrierHpPercentagePerLevel": [
         {
           "level": 1,
           "value": "12 HP"
@@ -9435,7 +9449,7 @@
           "value": "30 HP"
         }
       ],
-      "bonusToTarget": [
+  "bonusToTarget": [
         {
           "level": 1,
           "value": {
@@ -9506,8 +9520,13 @@
             "value": 10
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
+},
 {
       "afterCastActDelay": 2000,
       "castCancel": true,
@@ -9552,18 +9571,18 @@
       "aoesize": "37x37 square"
     },
 {
-      "afterCastActDelay": 2000,
-      "castCancel": true,
-      "description": "Gloria",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 75,
-      "maxLevel": 5,
-      "name": "PR_GLORIA",
-      "splashArea": -1,
-      "targetType": "Party",
-      "type": "Support",
-      "duration1PerLevel": [
+  "afterCastActDelay": 2000,
+  "castCancel": true,
+  "description": "Gloria",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 75,
+  "maxLevel": 5,
+  "name": "PR_GLORIA",
+  "splashArea": -1,
+  "targetType": "Party",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 10000
@@ -9585,16 +9604,16 @@
           "time": 30000
         }
       ],
-      "damageflags": {
-        "noDamage": true,
-        "splash": true,
-        "isMagical": true
-      },
-      "requires": {
-        "spcost": 20
-      },
-      "aoesize": "37x37 square",
-      "bonusToSelf": [
+  "damageflags": {
+    "noDamage": true,
+    "splash": true,
+    "isMagical": true
+  },
+  "requires": {
+    "spcost": 20
+  },
+  "aoesize": "37x37 square",
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -9630,8 +9649,9 @@
             "value": 30
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
   "afterCastActDelay": 3000,
   "castCancel": true,
@@ -13845,16 +13865,16 @@
       ]
 },
 {
-      "description": "Adrenaline Rush",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 111,
-      "maxLevel": 5,
-      "name": "BS_ADRENALINE",
-      "splashArea": -1,
-      "targetType": "Party",
-      "type": "Support",
-      "duration1PerLevel": [
+  "description": "Adrenaline Rush",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 111,
+  "maxLevel": 5,
+  "name": "BS_ADRENALINE",
+  "splashArea": -1,
+  "targetType": "Party",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 30000
@@ -13876,14 +13896,14 @@
           "time": 150000
         }
       ],
-      "damageflags": {
-        "splash": true
-      },
-      "flags": {
-        "allowOnMado": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "splash": true
+  },
+  "flags": {
+    "allowOnMado": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 20,
             "level": 1
@@ -13905,14 +13925,14 @@
             "level": 5
           }
         ],
-        "weaponFlags": {
-          "1hAxe": true,
-          "2hAxe": true,
-          "mace": true
-        }
-      },
-      "aoesize": "37x37 square",
-      "bonusToSelf": [
+    "weaponFlags": {
+      "1hAxe": true,
+      "2hAxe": true,
+      "mace": true
+    }
+  },
+  "aoesize": "37x37 square",
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -13984,7 +14004,7 @@
           }
         }
       ],
-      "bonusToTarget": [
+  "bonusToTarget": [
         {
           "level": 1,
           "value": {
@@ -14055,8 +14075,9 @@
             "value": 25
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Weapon Perfection",
       "damageType": "Single",
@@ -14122,16 +14143,16 @@
       "aoesize": "37x37 square"
     },
 {
-      "description": "Power-Thrust",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 113,
-      "maxLevel": 5,
-      "name": "BS_OVERTHRUST",
-      "splashArea": -1,
-      "targetType": "Party",
-      "type": "Support",
-      "duration1PerLevel": [
+  "description": "Power-Thrust",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 113,
+  "maxLevel": 5,
+  "name": "BS_OVERTHRUST",
+  "splashArea": -1,
+  "targetType": "Party",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 20000
@@ -14153,14 +14174,14 @@
           "time": 100000
         }
       ],
-      "damageflags": {
-        "splash": true
-      },
-      "flags": {
-        "allowOnMado": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "splash": true
+  },
+  "flags": {
+    "allowOnMado": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 18,
             "level": 1
@@ -14182,34 +14203,34 @@
             "level": 5
           }
         ],
-        "weaponFlags": {
-          "1hAxe": true,
-          "1hSpear": true,
-          "1hSword": true,
-          "2hAxe": true,
-          "2hMace": true,
-          "2hSpear": true,
-          "2hStaff": true,
-          "2hSword": true,
-          "book": true,
-          "bow": true,
-          "dagger": true,
-          "gatling": true,
-          "grenade": true,
-          "huuma": true,
-          "katar": true,
-          "knuckle": true,
-          "mace": true,
-          "musical": true,
-          "revolver": true,
-          "rifle": true,
-          "shotgun": true,
-          "staff": true,
-          "whip": true
-        }
-      },
-      "aoesize": "37x37 square",
-      "bonusToSelf": [
+    "weaponFlags": {
+      "1hAxe": true,
+      "1hSpear": true,
+      "1hSword": true,
+      "2hAxe": true,
+      "2hMace": true,
+      "2hSpear": true,
+      "2hStaff": true,
+      "2hSword": true,
+      "book": true,
+      "bow": true,
+      "dagger": true,
+      "gatling": true,
+      "grenade": true,
+      "huuma": true,
+      "katar": true,
+      "knuckle": true,
+      "mace": true,
+      "musical": true,
+      "revolver": true,
+      "rifle": true,
+      "shotgun": true,
+      "staff": true,
+      "whip": true
+    }
+  },
+  "aoesize": "37x37 square",
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -14281,7 +14302,7 @@
           }
         }
       ],
-      "bonusToTarget": [
+  "bonusToTarget": [
         {
           "level": 1,
           "value": {
@@ -14317,8 +14338,9 @@
             "value": 5
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Maximize Power",
       "damageType": "Single",
@@ -17174,18 +17196,19 @@
             "value2": 7
           }
         }
-      ]
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
 },
 {
-      "description": "Poison React",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 139,
-      "maxLevel": 10,
-      "name": "AS_POISONREACT",
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "description": "Poison React",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 139,
+  "maxLevel": 10,
+  "name": "AS_POISONREACT",
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 20000
@@ -17227,8 +17250,8 @@
           "time": 65000
         }
       ],
-      "requires": {
-        "spcostPerLevel": [
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 25,
             "level": 1
@@ -17270,8 +17293,8 @@
             "level": 10
           }
         ]
-      },
-      "autospellLimitPerLevel": [
+  },
+  "autospellLimitPerLevel": [
         {
           "level": 1,
           "value": 1
@@ -17313,7 +17336,7 @@
           "value": 5
         }
       ],
-      "dmgAtkPerLevel": [
+  "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 1.3
@@ -17355,8 +17378,8 @@
           "value": 4
         }
       ],
-      "dmgWaves": 1,
-      "bonusToSelf": [
+  "dmgWaves": 1,
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -17518,10 +17541,11 @@
           }
         }
       ],
-      "damageflags": {
-        "isMagical": true
-      }
-    },
+  "damageflags": {
+    "isMagical": true
+  },
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
   "description": "Venom Dust",
   "duration2": 60000,
@@ -18344,34 +18368,33 @@
       "type": "Interactive"
     },
 {
-      "description": "Crazy Uproar",
-      "duration1": 300000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 155,
-      "maxLevel": 1,
-      "name": "MC_LOUD",
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-
-      },
-      "flags": {
-        "allowOnMado": true,
-        "isQuest": true
-      },
-      "requires": {
-        "spcost": 8
-      },
-      "bonusToSelf": [
+  "description": "Crazy Uproar",
+  "duration1": 300000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 155,
+  "maxLevel": 1,
+  "name": "MC_LOUD",
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {},
+  "flags": {
+    "allowOnMado": true,
+    "isQuest": true
+  },
+  "requires": {
+    "spcost": 8
+  },
+  "bonusToSelf": [
         {
           "value": {
             "bonus": "Str",
             "value": 4
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "castCancel": true,
       "castTime": 2000,
@@ -19001,7 +19024,12 @@
             "value2": 30
           }
         }
-      ]
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
 },
 {
   "afterCastActDelay": 1000,
@@ -19104,7 +19132,12 @@
             "value2": 30
           }
         }
-      ]
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
 },
 {
   "afterCastActDelay": 1000,
@@ -19207,7 +19240,12 @@
             "value2": 30
           }
         }
-      ]
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
 },
 {
   "afterCastActDelay": 1000,
@@ -19310,7 +19348,12 @@
             "value2": 30
           }
         }
-      ]
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
 },
 {
   "description": "Snatch",
@@ -19475,7 +19518,12 @@
             "value2": 100
           }
         }
-      ]
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
 },
 {
       "description": "Scribble",
@@ -20276,7 +20324,12 @@
             "value": 5
           }
         }
-      ]
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
 },
 {
   "castCancel": true,
@@ -21216,21 +21269,19 @@
   "type": "Passive"
 },
 {
-      "description": "Guard",
-      "duration1": 300000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 249,
-      "maxLevel": 10,
-      "name": "CR_AUTOGUARD",
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-
-      },
-      "requires": {
-        "state": "Shield",
-        "spcostPerLevel": [
+  "description": "Guard",
+  "duration1": 300000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 249,
+  "maxLevel": 10,
+  "name": "CR_AUTOGUARD",
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {},
+  "requires": {
+    "state": "Shield",
+    "spcostPerLevel": [
           {
             "amount": 12,
             "level": 1
@@ -21272,8 +21323,8 @@
             "level": 10
           }
         ]
-      },
-      "knockbackPerLevel": [
+  },
+  "knockbackPerLevel": [
         {
           "level": 1,
           "value": 2
@@ -21315,7 +21366,7 @@
           "value": 2
         }
       ],
-      "delaypartyInSecPerLevel": [
+  "delaypartyInSecPerLevel": [
         {
           "level": 1,
           "value": 0.3
@@ -21357,7 +21408,7 @@
           "value": 0.1
         }
       ],
-      "delayuserInSecPerLevel": [
+  "delayuserInSecPerLevel": [
         {
           "level": 1,
           "value": 0.3
@@ -21399,7 +21450,7 @@
           "value": 0.3
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -21550,8 +21601,9 @@
             "value": 30
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
   "description": "Smite",
   "duration2": 5000,
@@ -21691,21 +21743,19 @@
       }
     },
 {
-      "description": "Shield Reflect",
-      "duration1": 300000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 252,
-      "maxLevel": 10,
-      "name": "CR_REFLECTSHIELD",
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-
-      },
-      "requires": {
-        "state": "Shield",
-        "spcostPerLevel": [
+  "description": "Shield Reflect",
+  "duration1": 300000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 252,
+  "maxLevel": 10,
+  "name": "CR_REFLECTSHIELD",
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {},
+  "requires": {
+    "state": "Shield",
+    "spcostPerLevel": [
           {
             "amount": 35,
             "level": 1
@@ -21747,8 +21797,8 @@
             "level": 10
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -21819,8 +21869,9 @@
             "value": 40
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
   "description": "Holy Cross",
   "duration2": 30000,
@@ -22194,27 +22245,25 @@
       "type": "Support"
     },
 {
-      "castCancel": true,
-      "castTime": 3000,
-      "description": "Resistant Souls",
-      "duration1": 180000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 256,
-      "maxLevel": 5,
-      "name": "CR_PROVIDENCE",
-      "range": 9,
-      "targetType": "Target",
-      "damageflags": {
-
-      },
-      "flags": {
-        "noTargetSelf": true
-      },
-      "requires": {
-        "spcost": 30
-      },
-      "bonusToTarget": [
+  "castCancel": true,
+  "castTime": 3000,
+  "description": "Resistant Souls",
+  "duration1": 180000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 256,
+  "maxLevel": 5,
+  "name": "CR_PROVIDENCE",
+  "range": 9,
+  "targetType": "Target",
+  "damageflags": {},
+  "flags": {
+    "noTargetSelf": true
+  },
+  "requires": {
+    "spcost": 30
+  },
+  "bonusToTarget": [
         {
           "level": 1,
           "value": {
@@ -22296,27 +22345,30 @@
           }
         }
       ],
-      "type": "Support"
-    },
+  "type": "Support",
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
+},
 {
-      "afterCastActDelay": 800,
-      "description": "Defending Aura",
-      "duration1": 180000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 257,
-      "maxLevel": 5,
-      "name": "CR_DEFENDER",
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcost": 30,
-        "state": "Shield"
-      },
-      "bonusToSelf": [
+  "afterCastActDelay": 800,
+  "description": "Defending Aura",
+  "duration1": 180000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 257,
+  "maxLevel": 5,
+  "name": "CR_DEFENDER",
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {},
+  "requires": {
+    "spcost": 30,
+    "state": "Shield"
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -22387,18 +22439,19 @@
             "value": -33
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
-      "description": "Spear Quicken",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 258,
-      "maxLevel": 10,
-      "name": "CR_SPEARQUICKEN",
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "description": "Spear Quicken",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 258,
+  "maxLevel": 10,
+  "name": "CR_SPEARQUICKEN",
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 30000
@@ -22440,11 +22493,9 @@
           "time": 300000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {},
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 24,
             "level": 1
@@ -22486,11 +22537,11 @@
             "level": 10
           }
         ],
-        "weaponFlags": {
-          "2hSpear": true
-        }
-      },
-      "bonusToSelf": [
+    "weaponFlags": {
+      "2hSpear": true
+    }
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -22561,8 +22612,9 @@
             "value": 30
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Iron Fists",
       "id": 259,
@@ -23319,16 +23371,16 @@
       }
     },
 {
-      "castTime": 5000,
-      "description": "Mental Strength",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 268,
-      "maxLevel": 5,
-      "name": "MO_STEELBODY",
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "castTime": 5000,
+  "description": "Mental Strength",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 268,
+  "maxLevel": 5,
+  "name": "MO_STEELBODY",
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 30000
@@ -23350,14 +23402,12 @@
           "time": 150000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcost": 200,
-        "spiritSphereCost": 5
-      },
-      "bonusToSelf": [
+  "damageflags": {},
+  "requires": {
+    "spcost": 200,
+    "spiritSphereCost": 5
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -23428,8 +23478,9 @@
             "value": -25
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Root",
       "damageType": "Single",
@@ -24398,17 +24449,17 @@
       ]
     },
 {
-      "castCancel": true,
-      "castTime": 3000,
-      "description": "Hindsight",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 279,
-      "maxLevel": 10,
-      "name": "SA_AUTOSPELL",
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "castCancel": true,
+  "castTime": 3000,
+  "description": "Hindsight",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 279,
+  "maxLevel": 10,
+  "name": "SA_AUTOSPELL",
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 120000
@@ -24450,13 +24501,11 @@
           "time": 390000
         }
       ],
-      "damageflags": {
-
-      },
-      "requires": {
-        "spcost": 35
-      },
-      "bonusToSelf": [
+  "damageflags": {},
+  "requires": {
+    "spcost": 35
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -24537,8 +24586,9 @@
             "value2": 25
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "castCancel": true,
       "castTime": 3000,
@@ -29326,15 +29376,15 @@
       }
     },
 {
-      "description": "Aura Blade",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 355,
-      "maxLevel": 5,
-      "name": "LK_AURABLADE",
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "description": "Aura Blade",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 355,
+  "maxLevel": 5,
+  "name": "LK_AURABLADE",
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 40000
@@ -29356,11 +29406,11 @@
           "time": 120000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 18,
             "level": 1
@@ -29382,32 +29432,32 @@
             "level": 5
           }
         ],
-        "weaponFlags": {
-          "1hAxe": true,
-          "1hSpear": true,
-          "1hSword": true,
-          "2hAxe": true,
-          "2hMace": true,
-          "2hSpear": true,
-          "2hSword": true,
-          "book": true,
-          "bow": true,
-          "dagger": true,
-          "gatling": true,
-          "grenade": true,
-          "huuma": true,
-          "katar": true,
-          "knuckle": true,
-          "mace": true,
-          "musical": true,
-          "revolver": true,
-          "rifle": true,
-          "shotgun": true,
-          "staff": true,
-          "whip": true
-        }
-      },
-      "bonusToSelf": [
+    "weaponFlags": {
+      "1hAxe": true,
+      "1hSpear": true,
+      "1hSword": true,
+      "2hAxe": true,
+      "2hMace": true,
+      "2hSpear": true,
+      "2hSword": true,
+      "book": true,
+      "bow": true,
+      "dagger": true,
+      "gatling": true,
+      "grenade": true,
+      "huuma": true,
+      "katar": true,
+      "knuckle": true,
+      "mace": true,
+      "musical": true,
+      "revolver": true,
+      "rifle": true,
+      "shotgun": true,
+      "staff": true,
+      "whip": true
+    }
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -29443,18 +29493,19 @@
             "value": 100
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
-      "description": "Parrying",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 356,
-      "maxLevel": 10,
-      "name": "LK_PARRYING",
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "description": "Parrying",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 356,
+  "maxLevel": 10,
+  "name": "LK_PARRYING",
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 15000
@@ -29496,16 +29547,16 @@
           "time": 60000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcost": 50,
-        "weaponFlags": {
-          "2hSword": true
-        }
-      },
-      "bonusToSelf": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcost": 50,
+    "weaponFlags": {
+      "2hSword": true
+    }
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -29576,18 +29627,19 @@
             "value": 50
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
-      "description": "Concentration",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 357,
-      "maxLevel": 5,
-      "name": "LK_CONCENTRATION",
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "description": "Concentration",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 357,
+  "maxLevel": 5,
+  "name": "LK_CONCENTRATION",
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 25000
@@ -29609,11 +29661,11 @@
           "time": 45000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 14,
             "level": 1
@@ -29635,8 +29687,8 @@
             "level": 5
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -29707,8 +29759,9 @@
             "value": -25
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Relax",
       "duration1": 180000,
@@ -30375,25 +30428,25 @@
       }
     },
 {
-      "castTime": 700,
-      "description": "Mystical Amplification",
-      "duration1": 30000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 366,
-      "maxLevel": 10,
-      "name": "HW_MAGICPOWER",
-      "targetType": "Self",
-      "type": "Support",
-      "casttimeflags": {
-        "ignoreDex": true,
-        "ignoreItemBonus": true
-      },
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "castTime": 700,
+  "description": "Mystical Amplification",
+  "duration1": 30000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 366,
+  "maxLevel": 10,
+  "name": "HW_MAGICPOWER",
+  "targetType": "Self",
+  "type": "Support",
+  "casttimeflags": {
+    "ignoreDex": true,
+    "ignoreItemBonus": true
+  },
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 14,
             "level": 1
@@ -30435,8 +30488,8 @@
             "level": 10
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -30507,8 +30560,9 @@
             "value": 50
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Gloria Domini",
       "damageType": "MultiHit",
@@ -31583,17 +31637,17 @@
       ]
     },
 {
-      "afterCastActDelay": 2000,
-      "description": "Enchant Deadly Poison",
-      "element": "Poison",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 378,
-      "maxLevel": 5,
-      "name": "ASC_EDP",
-      "targetType": "Self",
-      "type": "Support",
-      "duration1PerLevel": [
+  "afterCastActDelay": 2000,
+  "description": "Enchant Deadly Poison",
+  "element": "Poison",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 378,
+  "maxLevel": 5,
+  "name": "ASC_EDP",
+  "targetType": "Self",
+  "type": "Support",
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 40000
@@ -31615,7 +31669,7 @@
           "time": 60000
         }
       ],
-      "duration2PerLevel": [
+  "duration2PerLevel": [
         {
           "level": 1,
           "time": 20000
@@ -31637,17 +31691,17 @@
           "time": 60000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "itemcost": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "itemcost": [
           {
             "amount": 1,
             "item": "Poison_Bottle"
           }
         ],
-        "spcostPerLevel": [
+    "spcostPerLevel": [
           {
             "amount": 60,
             "level": 1
@@ -31669,8 +31723,8 @@
             "level": 5
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -31746,8 +31800,9 @@
             "value2": 5
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "castCancel": true,
       "castTime": 700,
@@ -31939,20 +31994,20 @@
       "dmgWaves": 1
     },
 {
-      "description": "Falcon Eyes",
-      "duration1": 30000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 380,
-      "maxLevel": 10,
-      "name": "SN_SIGHT",
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "description": "Falcon Eyes",
+  "duration1": 30000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 380,
+  "maxLevel": 10,
+  "name": "SN_SIGHT",
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 20,
             "level": 1
@@ -31994,8 +32049,8 @@
             "level": 10
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -32206,8 +32261,9 @@
             "value": 20
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "afterCastActDelay": 3000,
       "castCancel": true,
@@ -32369,18 +32425,18 @@
       ]
 },
 {
-      "afterCastActDelay": 2000,
-      "castCancel": true,
-      "description": "Wind Walker",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 383,
-      "maxLevel": 10,
-      "name": "SN_WINDWALK",
-      "splashArea": -1,
-      "targetType": "Self",
-      "type": "Support",
-      "castTimePerLevel": [
+  "afterCastActDelay": 2000,
+  "castCancel": true,
+  "description": "Wind Walker",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 383,
+  "maxLevel": 10,
+  "name": "SN_WINDWALK",
+  "splashArea": -1,
+  "targetType": "Self",
+  "type": "Support",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 2000
@@ -32422,7 +32478,7 @@
           "time": 5600
         }
       ],
-      "duration1PerLevel": [
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 130000
@@ -32464,12 +32520,12 @@
           "time": 400000
         }
       ],
-      "damageflags": {
-        "noDamage": true,
-        "splash": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "noDamage": true,
+    "splash": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 46,
             "level": 1
@@ -32511,9 +32567,9 @@
             "level": 10
           }
         ]
-      },
-      "aoesize": "37x37 square",
-      "bonusToSelf": [
+  },
+  "aoesize": "37x37 square",
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -32654,19 +32710,20 @@
             "value": 20
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
-      "castCancel": true,
-      "description": "Shattering Strike",
-      "duration2": 5000,
-      "hitCount": 1,
-      "id": 384,
-      "maxLevel": 10,
-      "name": "WS_MELTDOWN",
-      "targetType": "Self",
-      "type": "Support",
-      "castTimePerLevel": [
+  "castCancel": true,
+  "description": "Shattering Strike",
+  "duration2": 5000,
+  "hitCount": 1,
+  "id": 384,
+  "maxLevel": 10,
+  "name": "WS_MELTDOWN",
+  "targetType": "Self",
+  "type": "Support",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 500
@@ -32708,7 +32765,7 @@
           "time": 1000
         }
       ],
-      "duration1PerLevel": [
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 15000
@@ -32750,14 +32807,14 @@
           "time": 60000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "allowOnMado": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "allowOnMado": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 50,
             "level": 1
@@ -32799,8 +32856,8 @@
             "level": 10
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -32941,8 +32998,9 @@
             "value": 10
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "castCancel": true,
       "description": "Create Coins",
@@ -32974,34 +33032,35 @@
       }
     },
 {
-      "description": "Cart Boost",
-      "duration1": 60000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 387,
-      "maxLevel": 1,
-      "name": "WS_CARTBOOST",
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "allowOnMado": true
-      },
-      "requires": {
-        "spcost": 20,
-        "state": "Cart"
-      },
-      "bonusToSelf": [
+  "description": "Cart Boost",
+  "duration1": 60000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 387,
+  "maxLevel": 1,
+  "name": "WS_CARTBOOST",
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "allowOnMado": true
+  },
+  "requires": {
+    "spcost": 20,
+    "state": "Cart"
+  },
+  "bonusToSelf": [
         {
           "value": {
             "bonus": "SpeedPercentage",
             "value": 25
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Auto Attack System",
       "damageType": "Single",
@@ -33140,20 +33199,20 @@
       ]
     },
 {
-      "castCancel": true,
-      "description": "Counter Instinct",
-      "duration1": 300000,
-      "hitCount": 1,
-      "id": 390,
-      "maxLevel": 5,
-      "name": "ST_REJECTSWORD",
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "castCancel": true,
+  "description": "Counter Instinct",
+  "duration1": 300000,
+  "hitCount": 1,
+  "id": 390,
+  "maxLevel": 5,
+  "name": "ST_REJECTSWORD",
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 10,
             "level": 1
@@ -33175,8 +33234,8 @@
             "level": 5
           }
         ]
-      },
-      "bonusToSelf": [
+  },
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -33212,8 +33271,9 @@
             "value": 75
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "castCancel": true,
       "description": "Alchemy",
@@ -38113,47 +38173,47 @@
       }
     },
 {
-      "description": "Advanced Adrenaline Rush",
-      "duration1": 150000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 459,
-      "maxLevel": 1,
-      "name": "BS_ADRENALINE2",
-      "splashArea": -1,
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-        "noDamage": true,
-        "splash": true
-      },
-      "flags": {
-        "allowOnMado": true,
-        "isSpirit": true
-      },
-      "requires": {
-        "spcost": 64,
-        "weaponFlags": {
-          "1hAxe": true,
-          "1hSpear": true,
-          "1hSword": true,
-          "2hAxe": true,
-          "2hMace": true,
-          "2hSpear": true,
-          "2hSword": true,
-          "book": true,
-          "dagger": true,
-          "fist": true,
-          "katar": true,
-          "knuckle": true,
-          "mace": true,
-          "musical": true,
-          "staff": true,
-          "whip": true
-        }
-      },
-      "aoesize": "37x37 square",
-      "bonusToSelf": [
+  "description": "Advanced Adrenaline Rush",
+  "duration1": 150000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 459,
+  "maxLevel": 1,
+  "name": "BS_ADRENALINE2",
+  "splashArea": -1,
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true,
+    "splash": true
+  },
+  "flags": {
+    "allowOnMado": true,
+    "isSpirit": true
+  },
+  "requires": {
+    "spcost": 64,
+    "weaponFlags": {
+      "1hAxe": true,
+      "1hSpear": true,
+      "1hSword": true,
+      "2hAxe": true,
+      "2hMace": true,
+      "2hSpear": true,
+      "2hSword": true,
+      "book": true,
+      "dagger": true,
+      "fist": true,
+      "katar": true,
+      "knuckle": true,
+      "mace": true,
+      "musical": true,
+      "staff": true,
+      "whip": true
+    }
+  },
+  "aoesize": "37x37 square",
+  "bonusToSelf": [
         {
           "value": {
             "bonus": "AspdPercentage",
@@ -38161,15 +38221,16 @@
           }
         }
       ],
-      "bonusToTarget": [
+  "bonusToTarget": [
         {
           "value": {
             "bonus": "AspdPercentage",
             "value": 25
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "afterCastActDelay": 500,
       "castCancel": true,
@@ -38495,24 +38556,24 @@
       ]
     },
 {
-      "afterCastActDelay": 500,
-      "castCancel": true,
-      "castTime": 500,
-      "description": "Kaupe",
-      "duration1": 600000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 464,
-      "maxLevel": 3,
-      "name": "SL_KAUPE",
-      "range": 9,
-      "targetType": "Target",
-      "type": "Support",
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcostPerLevel": [
+  "afterCastActDelay": 500,
+  "castCancel": true,
+  "castTime": 500,
+  "description": "Kaupe",
+  "duration1": 600000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 464,
+  "maxLevel": 3,
+  "name": "SL_KAUPE",
+  "range": 9,
+  "targetType": "Target",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcostPerLevel": [
           {
             "amount": 20,
             "level": 1
@@ -38526,8 +38587,8 @@
             "level": 3
           }
         ]
-      },
-      "bonusToTarget": [
+  },
+  "bonusToTarget": [
         {
           "level": 1,
           "value": {
@@ -38552,20 +38613,25 @@
             "value2": 100
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
+},
 {
-      "castCancel": true,
-      "description": "Kaite",
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 465,
-      "maxLevel": 7,
-      "name": "SL_KAITE",
-      "range": 9,
-      "targetType": "Target",
-      "type": "Support",
-      "castTimePerLevel": [
+  "castCancel": true,
+  "description": "Kaite",
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 465,
+  "maxLevel": 7,
+  "name": "SL_KAITE",
+  "range": 9,
+  "targetType": "Target",
+  "type": "Support",
+  "castTimePerLevel": [
         {
           "level": 1,
           "time": 6000
@@ -38595,7 +38661,7 @@
           "time": 3000
         }
       ],
-      "duration1PerLevel": [
+  "duration1PerLevel": [
         {
           "level": 1,
           "time": 60000
@@ -38625,13 +38691,13 @@
           "time": 600000
         }
       ],
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcost": 70
-      },
-      "bonusToTarget": [
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcost": 70
+  },
+  "bonusToTarget": [
         {
           "level": 1,
           "value": {
@@ -38688,8 +38754,13 @@
             "value2": 2
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {
+        "persist": true,
+        "unique": true,
+        "icon": true
+      }
+},
 {
       "castCancel": true,
       "description": "Kaina",
@@ -40461,24 +40532,24 @@
       ]
 },
 {
-      "description": "Maximum Power Thrust",
-      "duration1": 180000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 486,
-      "maxLevel": 5,
-      "name": "WS_OVERTHRUSTMAX",
-      "targetType": "Party",
-      "type": "Support",
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "allowOnMado": true
-      },
-      "requires": {
-        "spcost": 15,
-        "zenycostPerLevel": [
+  "description": "Maximum Power Thrust",
+  "duration1": 180000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 486,
+  "maxLevel": 5,
+  "name": "WS_OVERTHRUSTMAX",
+  "targetType": "Party",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "allowOnMado": true
+  },
+  "requires": {
+    "spcost": 15,
+    "zenycostPerLevel": [
           {
             "amount": 3000,
             "level": 1
@@ -40500,32 +40571,32 @@
             "level": 5
           }
         ],
-        "weaponFlags": {
-          "1hAxe": true,
-          "1hSpear": true,
-          "1hSword": true,
-          "2hAxe": true,
-          "2hMace": true,
-          "2hSpear": true,
-          "2hSword": true,
-          "book": true,
-          "dagger": true,
-          "fist": true,
-          "gatling": true,
-          "grenade": true,
-          "huuma": true,
-          "katar": true,
-          "knuckle": true,
-          "mace": true,
-          "musical": true,
-          "revolver": true,
-          "rifle": true,
-          "shotgun": true,
-          "staff": true,
-          "whip": true
-        }
-      },
-      "zenyPerLevel": [
+    "weaponFlags": {
+      "1hAxe": true,
+      "1hSpear": true,
+      "1hSword": true,
+      "2hAxe": true,
+      "2hMace": true,
+      "2hSpear": true,
+      "2hSword": true,
+      "book": true,
+      "dagger": true,
+      "fist": true,
+      "gatling": true,
+      "grenade": true,
+      "huuma": true,
+      "katar": true,
+      "knuckle": true,
+      "mace": true,
+      "musical": true,
+      "revolver": true,
+      "rifle": true,
+      "shotgun": true,
+      "staff": true,
+      "whip": true
+    }
+  },
+  "zenyPerLevel": [
         {
           "level": 1,
           "value": 3000
@@ -40547,7 +40618,7 @@
           "value": 5000
         }
       ],
-      "bonusToSelf": [
+  "bonusToSelf": [
         {
           "level": 1,
           "value": {
@@ -40618,8 +40689,9 @@
             "value": 0.1
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Longing for Freedom",
       "duration1": 180000,
@@ -41168,36 +41240,37 @@
       }
     },
 {
-      "description": "Onehand Quicken",
-      "duration1": 300000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 495,
-      "maxLevel": 1,
-      "name": "KN_ONEHAND",
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-        "noDamage": true
-      },
-      "flags": {
-        "isSpirit": true
-      },
-      "requires": {
-        "spcost": 100,
-        "weaponFlags": {
-          "1hSword": true
-        }
-      },
-      "bonusToSelf": [
+  "description": "Onehand Quicken",
+  "duration1": 300000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 495,
+  "maxLevel": 1,
+  "name": "KN_ONEHAND",
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true
+  },
+  "flags": {
+    "isSpirit": true
+  },
+  "requires": {
+    "spcost": 100,
+    "weaponFlags": {
+      "1hSword": true
+    }
+  },
+  "bonusToSelf": [
         {
           "value": {
             "bonus": "AspdPercentage",
             "value": 30
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "afterCastActDelay": 10000,
       "castTime": 3000,
@@ -41579,24 +41652,24 @@
       ]
     },
 {
-      "afterCastActDelay": 1000,
-      "description": "Increasing Accuracy",
-      "duration1": 60000,
-      "damageType": "Single",
-      "hitCount": 1,
-      "id": 506,
-      "maxLevel": 1,
-      "name": "GS_INCREASING",
-      "targetType": "Self",
-      "type": "Support",
-      "damageflags": {
-        "noDamage": true
-      },
-      "requires": {
-        "spcost": 30,
-        "spiritSphereCost": 4
-      },
-      "bonusToSelf": [
+  "afterCastActDelay": 1000,
+  "description": "Increasing Accuracy",
+  "duration1": 60000,
+  "damageType": "Single",
+  "hitCount": 1,
+  "id": 506,
+  "maxLevel": 1,
+  "name": "GS_INCREASING",
+  "targetType": "Self",
+  "type": "Support",
+  "damageflags": {
+    "noDamage": true
+  },
+  "requires": {
+    "spcost": 30,
+    "spiritSphereCost": 4
+  },
+  "bonusToSelf": [
         {
           "value": {
             "bonus": "Agi",
@@ -41615,8 +41688,9 @@
             "value": 20
           }
         }
-      ]
-    },
+      ],
+  "bonusflags": {        "persist": true,        "unique": true,        "icon": true      }
+},
 {
       "description": "Magical Bullet",
       "element": "Ghost",

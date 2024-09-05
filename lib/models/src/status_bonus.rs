@@ -1,7 +1,7 @@
 use accessor::GettersAll;
-use enum_macro::{WithMaskValueU16};
+use enum_macro::{WithMaskValueU64, WithStringValue};
 use crate::enums::bonus::BonusType;
-use crate::enums::EnumWithMaskValueU16;
+use crate::enums::{EnumWithMaskValueU64, EnumWithStringValue};
 
 
 #[derive(Default, Debug, Clone)]
@@ -10,34 +10,45 @@ pub struct StatusBonuses(Vec<StatusBonus>);
 #[derive(GettersAll, Debug, Clone, Copy)]
 pub struct StatusBonus {
     bonus: BonusType,
-    flags: u16,
+    flags: u64,
 }
 
 #[derive(GettersAll, Debug, Clone, Copy)]
 pub struct TemporaryStatusBonus {
     bonus: BonusType,
-    flags: u16,
+    flags: u64,
     expirency: BonusExpiry,
-    state: StatusBonusState
+    state: StatusBonusState,
+    source: Option<u16>,
 }
 
 impl TemporaryStatusBonus {
-    pub fn with_duration(bonus: BonusType, flags: u16, tick: u128, duration: u32) -> Self {
+    pub fn with_duration(bonus: BonusType, flags: u64, tick: u128, duration: u32, skill_id: u16) -> Self {
         Self {
             bonus,
             flags,
             expirency: BonusExpiry::Time(tick + duration as u128),
             state: StatusBonusState::No,
+            source: Some(skill_id),
         }
     }
 
-    pub fn with_passive_skill(bonus: BonusType, flags: u16, skill_id: u16) -> Self {
+    pub fn with_passive_skill(bonus: BonusType, flags: u64, skill_id: u16) -> Self {
         Self {
             bonus,
             flags,
-            expirency: BonusExpiry::NeverButLinkedToPassiveSkill(skill_id),
+            expirency: BonusExpiry::Never,
             state: StatusBonusState::No,
+            source: Some(skill_id)
         }
+    }
+
+    pub fn has_icon(&self) -> bool {
+        self.flags & StatusBonusFlag::Icon.as_flag() > 0
+    }
+
+    pub fn icon(&self) -> Option<u16> {
+        None
     }
 }
 
@@ -59,12 +70,13 @@ pub enum StatusBonusSource {
 }
 
 
-#[derive(WithMaskValueU16, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithMaskValueU64, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum StatusBonusFlag {
     #[mask_value = 0]
     Default,
-    Unique, // Meaning that the same BonusType cannot be present more than once in StatusBonuses, when adding an already present BonusType, the new one will replace the old one
-    ShouldPersistOnDbOnSessionClose,
+    Unique, // Meaning that the same BonusType with the same source, cannot be present more than once in StatusBonuses, when adding an already present BonusType, the new one will replace the old one
+    Persist,
+    Icon, // If there is an icon to display on client side
 }
 
 impl StatusBonus {
@@ -80,7 +92,6 @@ impl StatusBonus {
 #[derive(Debug, Clone, Copy)]
 pub enum BonusExpiry {
     Never,
-    NeverButLinkedToPassiveSkill(u16), // skill id
     Time(u128),
     Counter(u64), // counter can be a number of hit (eg: Safety wall) or an amount of damage received (eg: kyrie eleison)
 }

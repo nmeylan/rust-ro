@@ -887,53 +887,53 @@ impl SkillBase for SlowGrace {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-8.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-8), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-8.0), 0, tick, 180000, 328),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-8), 0, tick, 180000, 328),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-11.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-11), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-11.0), 0, tick, 180000, 328),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-11), 0, tick, 180000, 328),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-14.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-14), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-14.0), 0, tick, 180000, 328),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-14), 0, tick, 180000, 328),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-17.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-17), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-17.0), 0, tick, 180000, 328),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-17), 0, tick, 180000, 328),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-20.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-20), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-20.0), 0, tick, 180000, 328),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-20), 0, tick, 180000, 328),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-23.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-23), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-23.0), 0, tick, 180000, 328),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-23), 0, tick, 180000, 328),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-26.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-26), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-26.0), 0, tick, 180000, 328),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-26), 0, tick, 180000, 328),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-29.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-29), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-29.0), 0, tick, 180000, 328),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-29), 0, tick, 180000, 328),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-32.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-32), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-32.0), 0, tick, 180000, 328),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-32), 0, tick, 180000, 328),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-35.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-35), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-35.0), 0, tick, 180000, 328),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-35), 0, tick, 180000, 328),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -1094,43 +1094,43 @@ impl SkillBase for LadyLuck {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(11.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Crit(11.0), 0, tick, 120000, 329),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(12.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Crit(12.0), 0, tick, 120000, 329),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(13.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Crit(13.0), 0, tick, 120000, 329),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(14.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Crit(14.0), 0, tick, 120000, 329),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(15.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Crit(15.0), 0, tick, 120000, 329),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(16.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Crit(16.0), 0, tick, 120000, 329),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(17.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Crit(17.0), 0, tick, 120000, 329),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(18.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Crit(18.0), 0, tick, 120000, 329),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(19.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Crit(19.0), 0, tick, 120000, 329),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Crit(20.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Crit(20.0), 0, tick, 120000, 329),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -1291,43 +1291,43 @@ impl SkillBase for GypsysKiss {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(11), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(11), 0, tick, 180000, 330),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(12), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(12), 0, tick, 180000, 330),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(13), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(13), 0, tick, 180000, 330),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(14), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(14), 0, tick, 180000, 330),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(15), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(15), 0, tick, 180000, 330),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(16), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(16), 0, tick, 180000, 330),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(17), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(17), 0, tick, 180000, 330),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(18), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(18), 0, tick, 180000, 330),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(19), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(19), 0, tick, 180000, 330),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(20), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::MaxspPercentage(20), 0, tick, 180000, 330),]);
         }
         TemporaryStatusBonuses::default()
     }

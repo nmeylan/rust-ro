@@ -984,7 +984,7 @@ impl SkillBase for CrazyUproar {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::Str(4), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::Str(4), 14, tick, 300000, 155),]);
         }
         TemporaryStatusBonuses::default()
     }

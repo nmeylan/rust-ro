@@ -771,8 +771,8 @@ fn write_bonus(job_skills_file: &mut File, bonus: &BonusPerLevel, skill_config: 
         println!("No duration found for bonus for skill {}, will not generate bonus", skill_config.name);
         return;
     };
-    job_skills_file.write_all(format!("\n                TemporaryStatusBonus::with_duration({:?}, StatusBonusFlag::Default.as_flag(), tick, {}),",
-                                      bonus.value(), duration)
+    job_skills_file.write_all(format!("\n                TemporaryStatusBonus::with_duration({:?}, {}, tick, {}, {}),",
+                                      bonus.value(), skill_config.bonus_flags().unwrap_or(StatusBonusFlag::Default.as_flag()), duration, skill_config.id)
         .as_bytes()).unwrap();
 }
 

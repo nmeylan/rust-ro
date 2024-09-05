@@ -304,53 +304,53 @@ impl SkillBase for Guard {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 5.0), StatusBonusFlag::Default.as_flag(), tick, 300000),
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(5), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 5.0), 14, tick, 300000, 249),
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(5), 14, tick, 300000, 249),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 10.0), StatusBonusFlag::Default.as_flag(), tick, 300000),
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(10), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 10.0), 14, tick, 300000, 249),
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(10), 14, tick, 300000, 249),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 15.0), StatusBonusFlag::Default.as_flag(), tick, 300000),
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(14), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 15.0), 14, tick, 300000, 249),
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(14), 14, tick, 300000, 249),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 20.0), StatusBonusFlag::Default.as_flag(), tick, 300000),
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(18), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 20.0), 14, tick, 300000, 249),
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(18), 14, tick, 300000, 249),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 25.0), StatusBonusFlag::Default.as_flag(), tick, 300000),
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(21), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 25.0), 14, tick, 300000, 249),
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(21), 14, tick, 300000, 249),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 30.0), StatusBonusFlag::Default.as_flag(), tick, 300000),
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(24), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 30.0), 14, tick, 300000, 249),
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(24), 14, tick, 300000, 249),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 35.0), StatusBonusFlag::Default.as_flag(), tick, 300000),
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(26), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 35.0), 14, tick, 300000, 249),
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(26), 14, tick, 300000, 249),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 40.0), StatusBonusFlag::Default.as_flag(), tick, 300000),
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(28), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 40.0), 14, tick, 300000, 249),
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(28), 14, tick, 300000, 249),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 45.0), StatusBonusFlag::Default.as_flag(), tick, 300000),
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(29), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 45.0), 14, tick, 300000, 249),
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(29), 14, tick, 300000, 249),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 50.0), StatusBonusFlag::Default.as_flag(), tick, 300000),
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(30), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AutospellSkillIdChancePercentage(249, 50.0), 14, tick, 300000, 249),
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackBlockChancePercentage(30), 14, tick, 300000, 249),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -789,43 +789,43 @@ impl SkillBase for ShieldReflect {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(13), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(13), 14, tick, 300000, 252),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(16), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(16), 14, tick, 300000, 252),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(19), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(19), 14, tick, 300000, 252),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(22), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(22), 14, tick, 300000, 252),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(25), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(25), 14, tick, 300000, 252),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(28), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(28), 14, tick, 300000, 252),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(31), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(31), 14, tick, 300000, 252),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(34), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(34), 14, tick, 300000, 252),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(37), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(37), 14, tick, 300000, 252),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(40), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::PhysicalAttackReflectChancePercentage(40), 14, tick, 300000, 252),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -1467,28 +1467,28 @@ impl SkillBase for ResistantSouls {
     fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 5), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 5), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 5), 14, tick, 180000, 256),
+                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 5), 14, tick, 180000, 256),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 10), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 10), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 10), 14, tick, 180000, 256),
+                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 10), 14, tick, 180000, 256),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 15), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 15), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 15), 14, tick, 180000, 256),
+                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 15), 14, tick, 180000, 256),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 20), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 20), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 20), 14, tick, 180000, 256),
+                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 20), 14, tick, 180000, 256),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 25), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 25), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromRacePercentage(Demon, 25), 14, tick, 180000, 256),
+                TemporaryStatusBonus::with_duration(BonusType::ResistanceDamageFromElementPercentage(Holy, 25), 14, tick, 180000, 256),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -1598,28 +1598,28 @@ impl SkillBase for DefendingAura {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-20.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-33), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-20.0), 14, tick, 180000, 257),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-33), 14, tick, 180000, 257),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-15.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-33), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-15.0), 14, tick, 180000, 257),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-33), 14, tick, 180000, 257),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-10.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-33), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-10.0), 14, tick, 180000, 257),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-33), 14, tick, 180000, 257),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-5.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-33), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-5.0), 14, tick, 180000, 257),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-33), 14, tick, 180000, 257),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(0.0), StatusBonusFlag::Default.as_flag(), tick, 180000),
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-33), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(0.0), 14, tick, 180000, 257),
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-33), 14, tick, 180000, 257),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -1784,43 +1784,43 @@ impl SkillBase for SpearQuicken {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(21.0), StatusBonusFlag::Default.as_flag(), tick, 30000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(21.0), 14, tick, 30000, 258),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(22.0), StatusBonusFlag::Default.as_flag(), tick, 60000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(22.0), 14, tick, 60000, 258),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(23.0), StatusBonusFlag::Default.as_flag(), tick, 90000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(23.0), 14, tick, 90000, 258),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(24.0), StatusBonusFlag::Default.as_flag(), tick, 120000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(24.0), 14, tick, 120000, 258),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(25.0), StatusBonusFlag::Default.as_flag(), tick, 150000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(25.0), 14, tick, 150000, 258),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(26.0), StatusBonusFlag::Default.as_flag(), tick, 180000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(26.0), 14, tick, 180000, 258),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(27.0), StatusBonusFlag::Default.as_flag(), tick, 210000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(27.0), 14, tick, 210000, 258),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(28.0), StatusBonusFlag::Default.as_flag(), tick, 240000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(28.0), 14, tick, 240000, 258),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(29.0), StatusBonusFlag::Default.as_flag(), tick, 270000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(29.0), 14, tick, 270000, 258),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), StatusBonusFlag::Default.as_flag(), tick, 300000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(30.0), 14, tick, 300000, 258),]);
         }
         TemporaryStatusBonuses::default()
     }

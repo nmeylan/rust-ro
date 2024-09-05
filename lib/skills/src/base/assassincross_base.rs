@@ -247,28 +247,28 @@ impl SkillBase for EnchantDeadlyPoison {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(100), StatusBonusFlag::Default.as_flag(), tick, 40000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 3.0), StatusBonusFlag::Default.as_flag(), tick, 40000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(100), 14, tick, 40000, 378),
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 3.0), 14, tick, 40000, 378),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(-106), StatusBonusFlag::Default.as_flag(), tick, 45000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 3.5), StatusBonusFlag::Default.as_flag(), tick, 45000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(-106), 14, tick, 45000, 378),
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 3.5), 14, tick, 45000, 378),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(-56), StatusBonusFlag::Default.as_flag(), tick, 50000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 4.0), StatusBonusFlag::Default.as_flag(), tick, 50000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(-56), 14, tick, 50000, 378),
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 4.0), 14, tick, 50000, 378),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(-6), StatusBonusFlag::Default.as_flag(), tick, 55000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 4.5), StatusBonusFlag::Default.as_flag(), tick, 55000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(-6), 14, tick, 55000, 378),
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 4.5), 14, tick, 55000, 378),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(44), StatusBonusFlag::Default.as_flag(), tick, 60000),
-                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 5.0), StatusBonusFlag::Default.as_flag(), tick, 60000),]);
+                TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(44), 14, tick, 60000, 378),
+                TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 5.0), 14, tick, 60000, 378),]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -793,103 +793,103 @@ impl OffensiveSkillBase for MeteorAssault {
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 10 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 2 {
             if chance <= 15 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 3 {
             if chance <= 20 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 4 {
             if chance <= 25 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 5 {
             if chance <= 30 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 6 {
             if chance <= 35 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 7 {
             if chance <= 40 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 8 {
             if chance <= 45 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 9 {
             if chance <= 50 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 10 {
             if chance <= 55 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 10 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 2 {
             if chance <= 15 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 3 {
             if chance <= 20 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 4 {
             if chance <= 25 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 5 {
             if chance <= 30 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 6 {
             if chance <= 35 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 7 {
             if chance <= 40 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 8 {
             if chance <= 45 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 9 {
             if chance <= 50 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 10 {
             if chance <= 55 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         effects
