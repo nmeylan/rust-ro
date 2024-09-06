@@ -1,0 +1,14 @@
+# 2024-09-06
+planned:
+- Add client_icon() method to skill enum
+- use this client_icon method in status bonus to return the icon associated to a bonus
+
+# 2024-09-05
+planned:
+- Implement support skills
+done:
+- Investigated how it is persisted in db in rathena
+- Investigated how icon works client site
+- Implemented enum for client side effect icon
+- Rework uniq flag on status bonus: they are uniq per source
+- Status bonus now have source
