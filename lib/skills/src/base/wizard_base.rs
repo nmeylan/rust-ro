@@ -37,6 +37,9 @@ impl SkillBase for FirePillar {
     fn _id(&self) -> u32 {
         80
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -227,6 +230,9 @@ impl SkillBase for Sightrasher {
     }
     fn _id(&self) -> u32 {
         81
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -431,6 +437,9 @@ impl SkillBase for MeteorStorm {
     }
     fn _id(&self) -> u32 {
         83
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -786,6 +795,9 @@ impl SkillBase for JupitelThunder {
     fn _id(&self) -> u32 {
         84
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1036,6 +1048,9 @@ impl SkillBase for LordofVermilion {
     }
     fn _id(&self) -> u32 {
         85
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1324,6 +1339,9 @@ impl SkillBase for WaterBall {
     fn _id(&self) -> u32 {
         86
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1554,6 +1572,9 @@ impl SkillBase for IceWall {
     fn _id(&self) -> u32 {
         87
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1656,6 +1677,9 @@ impl SkillBase for FrostNova {
     }
     fn _id(&self) -> u32 {
         88
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1934,6 +1958,9 @@ impl SkillBase for StormGust {
     fn _id(&self) -> u32 {
         89
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2161,6 +2188,9 @@ impl SkillBase for EarthSpike {
     fn _id(&self) -> u32 {
         90
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2340,6 +2370,9 @@ impl SkillBase for HeavensDrive {
     }
     fn _id(&self) -> u32 {
         91
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2531,6 +2564,9 @@ impl SkillBase for Quagmire {
     fn _id(&self) -> u32 {
         92
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2668,6 +2704,9 @@ impl SkillBase for Sense {
     fn _id(&self) -> u32 {
         93
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2749,6 +2788,9 @@ impl SkillBase for SightBlaster {
     fn _id(&self) -> u32 {
         1006
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2808,4 +2850,18 @@ impl SkillBase for SightBlaster {
     fn _base_cast_time(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
+}
+impl SupportiveSkillBase for SightBlaster {
 }

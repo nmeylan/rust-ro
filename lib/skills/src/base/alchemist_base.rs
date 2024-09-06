@@ -37,6 +37,9 @@ impl SkillBase for AxeMastery {
     fn _id(&self) -> u32 {
         226
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -171,6 +174,9 @@ impl SkillBase for PotionResearch {
     }
     fn _id(&self) -> u32 {
         227
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -317,6 +323,9 @@ impl SkillBase for PreparePotion {
     fn _id(&self) -> u32 {
         228
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -405,6 +414,9 @@ impl SkillBase for Bomb {
     }
     fn _id(&self) -> u32 {
         229
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -539,6 +551,9 @@ impl SkillBase for AcidTerror {
     }
     fn _id(&self) -> u32 {
         230
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -690,6 +705,9 @@ impl SkillBase for AidPotion {
     }
     fn _id(&self) -> u32 {
         231
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -845,6 +863,9 @@ impl SkillBase for SummonFlora {
     fn _id(&self) -> u32 {
         232
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -951,6 +972,9 @@ impl SkillBase for SummonMarineSphere {
     }
     fn _id(&self) -> u32 {
         233
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1059,6 +1083,9 @@ impl SkillBase for AlchemicalWeapon {
     fn _id(&self) -> u32 {
         234
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1155,6 +1182,9 @@ impl SkillBase for SynthesizedShield {
     }
     fn _id(&self) -> u32 {
         235
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1253,6 +1283,9 @@ impl SkillBase for SyntheticArmor {
     fn _id(&self) -> u32 {
         236
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1349,6 +1382,9 @@ impl SkillBase for BiochemicalHelm {
     }
     fn _id(&self) -> u32 {
         237
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1447,6 +1483,9 @@ impl SkillBase for Bioethics {
     fn _id(&self) -> u32 {
         238
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1498,6 +1537,16 @@ impl SkillBase for Bioethics {
     fn _is_physical(&self) -> bool {
         false
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for Bioethics {
 }
 // AM_CALLHOMUN - Call Homunculus
 pub struct CallHomunculus {
@@ -1513,6 +1562,9 @@ impl SkillBase for CallHomunculus {
     }
     fn _id(&self) -> u32 {
         243
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1603,6 +1655,9 @@ impl SkillBase for Vaporize {
     fn _id(&self) -> u32 {
         244
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1683,6 +1738,9 @@ impl SkillBase for HomunculusResurrection {
     }
     fn _id(&self) -> u32 {
         247
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1799,6 +1857,9 @@ impl SkillBase for AidBerserkPotion {
     fn _id(&self) -> u32 {
         446
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1896,6 +1957,9 @@ impl SkillBase for TwilightAlchemy1 {
     fn _id(&self) -> u32 {
         496
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1967,6 +2031,20 @@ impl SkillBase for TwilightAlchemy1 {
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
+}
+impl SupportiveSkillBase for TwilightAlchemy1 {
 }
 // AM_TWILIGHT2 - Twilight Alchemy 2
 pub struct TwilightAlchemy2 {
@@ -1983,6 +2061,9 @@ impl SkillBase for TwilightAlchemy2 {
     fn _id(&self) -> u32 {
         497
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2054,6 +2135,20 @@ impl SkillBase for TwilightAlchemy2 {
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
+}
+impl SupportiveSkillBase for TwilightAlchemy2 {
 }
 // AM_TWILIGHT3 - Twilight Alchemy 3
 pub struct TwilightAlchemy3 {
@@ -2070,6 +2165,9 @@ impl SkillBase for TwilightAlchemy3 {
     fn _id(&self) -> u32 {
         498
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2141,4 +2239,18 @@ impl SkillBase for TwilightAlchemy3 {
     fn _base_after_cast_act_delay(&self) -> u32 {
        10000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
+}
+impl SupportiveSkillBase for TwilightAlchemy3 {
 }

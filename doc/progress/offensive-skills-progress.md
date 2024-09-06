@@ -1,4 +1,4 @@
-667/1440 tests passed, fixture file was [src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json](/server/src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json)
+689/1440 tests passed, fixture file was [src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json](/server/src/tests/common/fixtures/data/battle-all-skills-weapon-no-passives.json)
 
 # Acolyte (1/2)
 |Skill|Passed|
@@ -128,7 +128,7 @@
 |PR_TURNUNDEAD|**false**|
 |PR_MAGNUS|**false**|
 |PR_SANCTUARY|**false**|
-# HighWizard (11/21)
+# HighWizard (12/21)
 |Skill|Passed|
 |-|-|
 |MG_FIREBOLT|**true**|
@@ -149,7 +149,7 @@
 |WZ_FROSTNOVA|**false**|
 |WZ_STORMGUST|**false**|
 |WZ_EARTHSPIKE|**true**|
-|WZ_HEAVENDRIVE|**false**|
+|WZ_HEAVENDRIVE|**true**|
 |HW_MAGICCRASHER|**false**|
 |HW_NAPALMVULCAN|**false**|
 # Hunter (3/8)
@@ -249,7 +249,7 @@
 |PR_TURNUNDEAD|**false**|
 |PR_MAGNUS|**false**|
 |PR_SANCTUARY|**false**|
-# Professor (9/11)
+# Professor (10/11)
 |Skill|Passed|
 |-|-|
 |MG_FIREBOLT|**true**|
@@ -262,8 +262,8 @@
 |MG_NAPALMBEAT|**true**|
 |MG_SOULSTRIKE|**true**|
 |WZ_EARTHSPIKE|**true**|
-|WZ_HEAVENDRIVE|**false**|
-# Rogue (22/56)
+|WZ_HEAVENDRIVE|**true**|
+# Rogue (23/56)
 |Skill|Passed|
 |-|-|
 |RG_BACKSTAP|**false**|
@@ -296,7 +296,7 @@
 |WZ_WATERBALL|**false**|
 |WZ_STORMGUST|**false**|
 |WZ_EARTHSPIKE|**true**|
-|WZ_HEAVENDRIVE|**false**|
+|WZ_HEAVENDRIVE|**true**|
 |AL_HOLYLIGHT|**true**|
 |AC_SHOWER|**true**|
 |AC_CHARGEARROW|**true**|
@@ -322,7 +322,7 @@
 |GS_TRIPLEACTION|**true**|
 |GS_BULLSEYE|**false**|
 |GS_MAGICALBULLET|**false**|
-# Sage (9/11)
+# Sage (10/11)
 |Skill|Passed|
 |-|-|
 |MG_FIREBOLT|**true**|
@@ -335,7 +335,7 @@
 |MG_NAPALMBEAT|**true**|
 |MG_SOULSTRIKE|**true**|
 |WZ_EARTHSPIKE|**true**|
-|WZ_HEAVENDRIVE|**false**|
+|WZ_HEAVENDRIVE|**true**|
 # Sniper (3/10)
 |Skill|Passed|
 |-|-|
@@ -356,7 +356,7 @@
 |SL_STUN|**false**|
 |SL_SMA|**false**|
 |WZ_EARTHSPIKE|**true**|
-# Stalker (17/56)
+# Stalker (18/56)
 |Skill|Passed|
 |-|-|
 |RG_BACKSTAP|**false**|
@@ -389,7 +389,7 @@
 |WZ_WATERBALL|**false**|
 |WZ_STORMGUST|**false**|
 |WZ_EARTHSPIKE|**true**|
-|WZ_HEAVENDRIVE|**false**|
+|WZ_HEAVENDRIVE|**true**|
 |AL_HOLYLIGHT|**true**|
 |AC_SHOWER|**true**|
 |AC_CHARGEARROW|**true**|
@@ -461,7 +461,7 @@
 |-|-|
 |MC_MAMMONITE|**true**|
 |MC_CARTREVOLUTION|**true**|
-# Wizard (11/19)
+# Wizard (12/19)
 |Skill|Passed|
 |-|-|
 |MG_FIREBOLT|**true**|
@@ -482,7 +482,7 @@
 |WZ_FROSTNOVA|**false**|
 |WZ_STORMGUST|**false**|
 |WZ_EARTHSPIKE|**true**|
-|WZ_HEAVENDRIVE|**false**|
+|WZ_HEAVENDRIVE|**true**|
 # All results
 |Id|Job|Skill|Weapon|Passed|Comment|Min dmg (actual/expected)|Max dmg(actual/expected)|
 |-|-|-|-|-|-|-|-|
@@ -634,11 +634,11 @@
 |r1lq3u|Priest|PR_TURNUNDEAD|Rod|**failed**| |107/0|163/0|
 |49r0kb|Priest|PR_TURNUNDEAD|Book|**failed**| |94/0|142/0|
 |77e6qy|Priest|PR_TURNUNDEAD|Claw|**failed**| |94/0|142/0|
-|04v4cg|Priest|PR_MAGNUS|Unarmed|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|a29s17|Priest|PR_MAGNUS|Chain|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|vz0d6x|Priest|PR_MAGNUS|Rod|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|pkd0qc|Priest|PR_MAGNUS|Book|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|d4ydjh|Priest|PR_MAGNUS|Claw|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
+|04v4cg|Priest|PR_MAGNUS|Unarmed|**failed**| |940/0|1420/0|
+|a29s17|Priest|PR_MAGNUS|Chain|**failed**| |940/0|1420/0|
+|vz0d6x|Priest|PR_MAGNUS|Rod|**failed**| |1070/0|1630/0|
+|pkd0qc|Priest|PR_MAGNUS|Book|**failed**| |940/0|1420/0|
+|d4ydjh|Priest|PR_MAGNUS|Claw|**failed**| |940/0|1420/0|
 |1715h5|Priest|PR_SANCTUARY|Unarmed|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
 |z2qx4n|Priest|PR_SANCTUARY|Chain|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
 |560wvv|Priest|PR_SANCTUARY|Rod|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
@@ -650,15 +650,15 @@
 |n8ufr7|Hunter|HT_BLITZBEAT|Unarmed|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
 |430hsy|Hunter|HT_BLITZBEAT|Knife|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
 |5qb2h8|Hunter|HT_BLITZBEAT|Bow|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
-|tcj6qr|Hunter|HT_LANDMINE|Unarmed|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|8b6zaj|Hunter|HT_LANDMINE|Knife|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|aznnvf|Hunter|HT_LANDMINE|Bow|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|bye9y4|Hunter|HT_BLASTMINE|Unarmed|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|t8c5lj|Hunter|HT_BLASTMINE|Knife|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|op8pve|Hunter|HT_BLASTMINE|Bow|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|7pu5e2|Hunter|HT_CLAYMORETRAP|Unarmed|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|twagpe|Hunter|HT_CLAYMORETRAP|Knife|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|e9s443|Hunter|HT_CLAYMORETRAP|Bow|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
+|tcj6qr|Hunter|HT_LANDMINE|Unarmed|**failed**| |0/945|0/945|
+|8b6zaj|Hunter|HT_LANDMINE|Knife|**failed**| |0/945|0/945|
+|aznnvf|Hunter|HT_LANDMINE|Bow|**failed**| |0/945|0/945|
+|bye9y4|Hunter|HT_BLASTMINE|Unarmed|**failed**| |0/990|0/990|
+|t8c5lj|Hunter|HT_BLASTMINE|Knife|**failed**| |0/990|0/990|
+|op8pve|Hunter|HT_BLASTMINE|Bow|**failed**| |0/990|0/990|
+|7pu5e2|Hunter|HT_CLAYMORETRAP|Unarmed|**failed**| |0/376|0/376|
+|twagpe|Hunter|HT_CLAYMORETRAP|Knife|**failed**| |0/376|0/376|
+|e9s443|Hunter|HT_CLAYMORETRAP|Bow|**failed**| |0/376|0/376|
 |l40t6e|Hunter|HT_POWER|Bow|**failed**| |96/0|132/0|
 |h5kjzp|Wizard|MG_FIREBOLT|Unarmed|**passed**| |470/470|710/710|
 |d2p3ae|Wizard|MG_FIREBOLT|Knife|**passed**| |470/470|710/710|
@@ -687,15 +687,15 @@
 |mhtnd3|Wizard|MG_SOULSTRIKE|Unarmed|**passed**| |475/475|715/715|
 |b1cinc|Wizard|MG_SOULSTRIKE|Knife|**passed**| |475/475|715/715|
 |xy1hpv|Wizard|MG_SOULSTRIKE|Rod|**passed**| |545/545|820/820|
-|8duk4h|Wizard|WZ_FIREPILLAR|Unarmed|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|nsmie3|Wizard|WZ_FIREPILLAR|Knife|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|msnvw4|Wizard|WZ_FIREPILLAR|Rod|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
+|8duk4h|Wizard|WZ_FIREPILLAR|Unarmed|**failed**| |36/420|60/480|
+|nsmie3|Wizard|WZ_FIREPILLAR|Knife|**failed**| |36/420|60/480|
+|msnvw4|Wizard|WZ_FIREPILLAR|Rod|**failed**| |48/432|72/504|
 |xepqf7|Wizard|WZ_SIGHTRASHER|Unarmed|**passed**| |142/142|215/215|
 |nqc9le|Wizard|WZ_SIGHTRASHER|Knife|**passed**| |142/142|215/215|
 |pw1nlg|Wizard|WZ_SIGHTRASHER|Rod|**passed**| |163/163|246/246|
-|jeugn6|Wizard|WZ_METEOR|Unarmed|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
-|kq81wh|Wizard|WZ_METEOR|Knife|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
-|9cxv6r|Wizard|WZ_METEOR|Rod|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
+|jeugn6|Wizard|WZ_METEOR|Unarmed|**failed**| |235/1645|355/2485|
+|kq81wh|Wizard|WZ_METEOR|Knife|**failed**| |235/1645|355/2485|
+|9cxv6r|Wizard|WZ_METEOR|Rod|**failed**| |270/1890|410/2870|
 |7njpct|Wizard|WZ_JUPITEL|Unarmed|**passed**| |1992/1992|3000/3000|
 |qt3auy|Wizard|WZ_JUPITEL|Knife|**passed**| |1992/1992|3000/3000|
 |a6w993|Wizard|WZ_JUPITEL|Rod|**passed**| |2280/2280|3444/3444|
@@ -708,15 +708,15 @@
 |5vpidj|Wizard|WZ_FROSTNOVA|Unarmed|**failed**| |3166/31|4781/47|
 |p2mza3|Wizard|WZ_FROSTNOVA|Knife|**failed**| |3166/31|4781/47|
 |4tuwog|Wizard|WZ_FROSTNOVA|Rod|**failed**| |3641/36|5478/54|
-|jiff6h|Wizard|WZ_STORMGUST|Unarmed|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
-|wvowoq|Wizard|WZ_STORMGUST|Knife|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
-|f1z689|Wizard|WZ_STORMGUST|Rod|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
+|jiff6h|Wizard|WZ_STORMGUST|Unarmed|**failed**| |118/590|179/895|
+|wvowoq|Wizard|WZ_STORMGUST|Knife|**failed**| |118/590|179/895|
+|f1z689|Wizard|WZ_STORMGUST|Rod|**failed**| |136/680|205/1025|
 |i74s11|Wizard|WZ_EARTHSPIKE|Unarmed|**passed**| |475/475|715/715|
 |l2z6in|Wizard|WZ_EARTHSPIKE|Knife|**passed**| |475/475|715/715|
 |xa1q7q|Wizard|WZ_EARTHSPIKE|Rod|**passed**| |545/545|820/820|
-|z7hxn2|Wizard|WZ_HEAVENDRIVE|Unarmed|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|802lbh|Wizard|WZ_HEAVENDRIVE|Knife|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|a2qebk|Wizard|WZ_HEAVENDRIVE|Rod|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
+|z7hxn2|Wizard|WZ_HEAVENDRIVE|Unarmed|**passed**| |475/475|715/715|
+|802lbh|Wizard|WZ_HEAVENDRIVE|Knife|**passed**| |475/475|715/715|
+|a2qebk|Wizard|WZ_HEAVENDRIVE|Rod|**passed**| |545/545|820/820|
 |s1r3jh|Blacksmith|MC_MAMMONITE|Unarmed|**passed**| |569/569|569/569|
 |xz9yea|Blacksmith|MC_MAMMONITE|Knife|**passed**| |641/641|641/641|
 |q5vnhc|Blacksmith|MC_MAMMONITE|Sword|**passed**| |719/719|719/719|
@@ -876,18 +876,18 @@
 |d3gkrd|Rogue|MG_THUNDERSTORM|Knife|**passed**| |1310/1310|1990/1990|
 |ud2ul3|Rogue|MG_THUNDERSTORM|Sword|**passed**| |1310/1310|1990/1990|
 |joc0sj|Rogue|MG_THUNDERSTORM|Bow|**passed**| |1310/1310|1990/1990|
-|ezedwc|Rogue|WZ_FIREPILLAR|Unarmed|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|5wgbi7|Rogue|WZ_FIREPILLAR|Knife|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|j7capo|Rogue|WZ_FIREPILLAR|Sword|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|nksqx2|Rogue|WZ_FIREPILLAR|Bow|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
+|ezedwc|Rogue|WZ_FIREPILLAR|Unarmed|**failed**| |36/408|60/480|
+|5wgbi7|Rogue|WZ_FIREPILLAR|Knife|**failed**| |36/408|60/480|
+|j7capo|Rogue|WZ_FIREPILLAR|Sword|**failed**| |36/408|60/480|
+|nksqx2|Rogue|WZ_FIREPILLAR|Bow|**failed**| |36/408|60/480|
 |wx2ner|Rogue|WZ_SIGHTRASHER|Unarmed|**passed**| |141/141|213/213|
 |rnu2ci|Rogue|WZ_SIGHTRASHER|Knife|**passed**| |141/141|213/213|
 |lsitwf|Rogue|WZ_SIGHTRASHER|Sword|**passed**| |141/141|213/213|
 |shn9qd|Rogue|WZ_SIGHTRASHER|Bow|**passed**| |141/141|213/213|
-|05rrp6|Rogue|WZ_METEOR|Unarmed|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
-|wnbl11|Rogue|WZ_METEOR|Knife|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
-|25yhbz|Rogue|WZ_METEOR|Sword|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
-|c5fu5n|Rogue|WZ_METEOR|Bow|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
+|05rrp6|Rogue|WZ_METEOR|Unarmed|**failed**| |235/1645|355/2485|
+|wnbl11|Rogue|WZ_METEOR|Knife|**failed**| |235/1645|355/2485|
+|25yhbz|Rogue|WZ_METEOR|Sword|**failed**| |235/1645|355/2485|
+|c5fu5n|Rogue|WZ_METEOR|Bow|**failed**| |235/1645|355/2485|
 |3vboi8|Rogue|WZ_JUPITEL|Unarmed|**passed**| |1968/1968|2976/2976|
 |bjypun|Rogue|WZ_JUPITEL|Knife|**passed**| |1968/1968|2976/2976|
 |oblgnv|Rogue|WZ_JUPITEL|Sword|**passed**| |1968/1968|2976/2976|
@@ -900,18 +900,18 @@
 |m59t5u|Rogue|WZ_WATERBALL|Knife|**failed**|Skill WZ_WATERBALL was not found|/|/|
 |bvv2tf|Rogue|WZ_WATERBALL|Sword|**failed**|Skill WZ_WATERBALL was not found|/|/|
 |k4gzfp|Rogue|WZ_WATERBALL|Bow|**failed**|Skill WZ_WATERBALL was not found|/|/|
-|qos5hd|Rogue|WZ_STORMGUST|Unarmed|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
-|tyrwuv|Rogue|WZ_STORMGUST|Knife|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
-|ru7wph|Rogue|WZ_STORMGUST|Sword|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
-|5zx6nx|Rogue|WZ_STORMGUST|Bow|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
+|qos5hd|Rogue|WZ_STORMGUST|Unarmed|**failed**| |117/585|178/890|
+|tyrwuv|Rogue|WZ_STORMGUST|Knife|**failed**| |117/585|178/890|
+|ru7wph|Rogue|WZ_STORMGUST|Sword|**failed**| |117/585|178/890|
+|5zx6nx|Rogue|WZ_STORMGUST|Bow|**failed**| |117/585|178/890|
 |zwhd9r|Rogue|WZ_EARTHSPIKE|Unarmed|**passed**| |470/470|710/710|
 |hordwh|Rogue|WZ_EARTHSPIKE|Knife|**passed**| |470/470|710/710|
 |6gkxia|Rogue|WZ_EARTHSPIKE|Sword|**passed**| |470/470|710/710|
 |nj2ssh|Rogue|WZ_EARTHSPIKE|Bow|**passed**| |470/470|710/710|
-|7nmi1b|Rogue|WZ_HEAVENDRIVE|Unarmed|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|5x1aqw|Rogue|WZ_HEAVENDRIVE|Knife|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|k60nk0|Rogue|WZ_HEAVENDRIVE|Sword|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|5qahnh|Rogue|WZ_HEAVENDRIVE|Bow|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
+|7nmi1b|Rogue|WZ_HEAVENDRIVE|Unarmed|**passed**| |470/470|710/710|
+|5x1aqw|Rogue|WZ_HEAVENDRIVE|Knife|**passed**| |470/470|710/710|
+|k60nk0|Rogue|WZ_HEAVENDRIVE|Sword|**passed**| |470/470|710/710|
+|5qahnh|Rogue|WZ_HEAVENDRIVE|Bow|**passed**| |470/470|710/710|
 |4j72gd|Rogue|AL_HOLYLIGHT|Unarmed|**passed**| |117/117|178/178|
 |w0p2b9|Rogue|AL_HOLYLIGHT|Knife|**passed**| |117/117|178/178|
 |v6thha|Rogue|AL_HOLYLIGHT|Sword|**passed**| |117/117|178/178|
@@ -922,22 +922,22 @@
 |ast64k|Rogue|PR_TURNUNDEAD|Knife|**failed**| |94/0|142/0|
 |43qysj|Rogue|PR_TURNUNDEAD|Sword|**failed**| |94/0|142/0|
 |tihike|Rogue|PR_TURNUNDEAD|Bow|**failed**| |94/0|142/0|
-|ofg0dv|Rogue|PR_MAGNUS|Unarmed|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|5edten|Rogue|PR_MAGNUS|Knife|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|mlwxyf|Rogue|PR_MAGNUS|Sword|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|8hylf0|Rogue|PR_MAGNUS|Bow|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|mz12a1|Rogue|HT_LANDMINE|Unarmed|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|3ukl9a|Rogue|HT_LANDMINE|Knife|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|do2s1w|Rogue|HT_LANDMINE|Sword|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|82atlc|Rogue|HT_LANDMINE|Bow|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|ofa326|Rogue|HT_BLASTMINE|Unarmed|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|6zn5k9|Rogue|HT_BLASTMINE|Knife|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|m3smu5|Rogue|HT_BLASTMINE|Sword|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|o8hpy3|Rogue|HT_BLASTMINE|Bow|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|lyim21|Rogue|HT_CLAYMORETRAP|Unarmed|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|3fml52|Rogue|HT_CLAYMORETRAP|Knife|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|h8m767|Rogue|HT_CLAYMORETRAP|Sword|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|6uhaju|Rogue|HT_CLAYMORETRAP|Bow|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
+|ofg0dv|Rogue|PR_MAGNUS|Unarmed|**failed**| |940/0|1420/0|
+|5edten|Rogue|PR_MAGNUS|Knife|**failed**| |940/0|1420/0|
+|mlwxyf|Rogue|PR_MAGNUS|Sword|**failed**| |940/0|1420/0|
+|8hylf0|Rogue|PR_MAGNUS|Bow|**failed**| |940/0|1420/0|
+|mz12a1|Rogue|HT_LANDMINE|Unarmed|**failed**| |0/937|0/937|
+|3ukl9a|Rogue|HT_LANDMINE|Knife|**failed**| |0/937|0/937|
+|do2s1w|Rogue|HT_LANDMINE|Sword|**failed**| |0/937|0/937|
+|82atlc|Rogue|HT_LANDMINE|Bow|**failed**| |0/937|0/937|
+|ofa326|Rogue|HT_BLASTMINE|Unarmed|**failed**| |0/984|0/984|
+|6zn5k9|Rogue|HT_BLASTMINE|Knife|**failed**| |0/984|0/984|
+|m3smu5|Rogue|HT_BLASTMINE|Sword|**failed**| |0/984|0/984|
+|o8hpy3|Rogue|HT_BLASTMINE|Bow|**failed**| |0/984|0/984|
+|lyim21|Rogue|HT_CLAYMORETRAP|Unarmed|**failed**| |0/375|0/375|
+|3fml52|Rogue|HT_CLAYMORETRAP|Knife|**failed**| |0/375|0/375|
+|h8m767|Rogue|HT_CLAYMORETRAP|Sword|**failed**| |0/375|0/375|
+|6uhaju|Rogue|HT_CLAYMORETRAP|Bow|**failed**| |0/375|0/375|
 |ygxtnz|Rogue|AM_ACIDTERROR|Unarmed|**failed**| |94/282|142/282|
 |c0uu14|Rogue|AM_ACIDTERROR|Knife|**failed**| |94/318|142/318|
 |z2uflu|Rogue|AM_ACIDTERROR|Sword|**failed**| |94/357|142/357|
@@ -1090,10 +1090,10 @@
 |yl8r9m|Sage|WZ_EARTHSPIKE|Knife|**passed**| |475/475|715/715|
 |1veylk|Sage|WZ_EARTHSPIKE|Rod|**passed**| |545/545|820/820|
 |yzicgl|Sage|WZ_EARTHSPIKE|Book|**passed**| |475/475|715/715|
-|disrvv|Sage|WZ_HEAVENDRIVE|Unarmed|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|cwvv36|Sage|WZ_HEAVENDRIVE|Knife|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|ty3zah|Sage|WZ_HEAVENDRIVE|Rod|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|gqva83|Sage|WZ_HEAVENDRIVE|Book|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
+|disrvv|Sage|WZ_HEAVENDRIVE|Unarmed|**passed**| |475/475|715/715|
+|cwvv36|Sage|WZ_HEAVENDRIVE|Knife|**passed**| |475/475|715/715|
+|ty3zah|Sage|WZ_HEAVENDRIVE|Rod|**passed**| |545/545|820/820|
+|gqva83|Sage|WZ_HEAVENDRIVE|Book|**passed**| |475/475|715/715|
 |ua9b9t|Alchemist|MC_MAMMONITE|Unarmed|**passed**| |569/569|569/569|
 |48xn96|Alchemist|MC_MAMMONITE|Knife|**passed**| |641/641|641/641|
 |0awzmv|Alchemist|MC_MAMMONITE|Sword|**passed**| |719/719|719/719|
@@ -1297,11 +1297,11 @@
 |aid5t4|HighPriest|PR_TURNUNDEAD|Rod|**failed**| |109/0|164/0|
 |81117i|HighPriest|PR_TURNUNDEAD|Book|**failed**| |95/0|143/0|
 |l5v70r|HighPriest|PR_TURNUNDEAD|Claw|**failed**| |95/0|143/0|
-|26azsb|HighPriest|PR_MAGNUS|Unarmed|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|tpw0cf|HighPriest|PR_MAGNUS|Chain|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|lmlrk9|HighPriest|PR_MAGNUS|Rod|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|xopiza|HighPriest|PR_MAGNUS|Book|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|j6r8ao|HighPriest|PR_MAGNUS|Claw|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
+|26azsb|HighPriest|PR_MAGNUS|Unarmed|**failed**| |950/0|1430/0|
+|tpw0cf|HighPriest|PR_MAGNUS|Chain|**failed**| |950/0|1430/0|
+|lmlrk9|HighPriest|PR_MAGNUS|Rod|**failed**| |1090/0|1640/0|
+|xopiza|HighPriest|PR_MAGNUS|Book|**failed**| |950/0|1430/0|
+|j6r8ao|HighPriest|PR_MAGNUS|Claw|**failed**| |950/0|1430/0|
 |o6q74k|HighPriest|PR_SANCTUARY|Unarmed|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
 |x0x2mt|HighPriest|PR_SANCTUARY|Chain|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
 |vmz6lo|HighPriest|PR_SANCTUARY|Rod|**failed**|Skill PR_SANCTUARY is not an offensive skill|/|/|
@@ -1313,15 +1313,15 @@
 |w366a4|Sniper|HT_BLITZBEAT|Unarmed|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
 |w7hfpe|Sniper|HT_BLITZBEAT|Knife|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
 |m4xbes|Sniper|HT_BLITZBEAT|Bow|**failed**|Skill HT_BLITZBEAT is not an offensive skill|/|/|
-|jncxcv|Sniper|HT_LANDMINE|Unarmed|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|slfoq8|Sniper|HT_LANDMINE|Knife|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|tf9ovl|Sniper|HT_LANDMINE|Bow|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|rnqdv5|Sniper|HT_BLASTMINE|Unarmed|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|dxhax5|Sniper|HT_BLASTMINE|Knife|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|gig0hc|Sniper|HT_BLASTMINE|Bow|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|60faln|Sniper|HT_CLAYMORETRAP|Unarmed|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|udivxw|Sniper|HT_CLAYMORETRAP|Knife|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|k3nsw5|Sniper|HT_CLAYMORETRAP|Bow|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
+|jncxcv|Sniper|HT_LANDMINE|Unarmed|**failed**| |0/945|0/945|
+|slfoq8|Sniper|HT_LANDMINE|Knife|**failed**| |0/945|0/945|
+|tf9ovl|Sniper|HT_LANDMINE|Bow|**failed**| |0/945|0/945|
+|rnqdv5|Sniper|HT_BLASTMINE|Unarmed|**failed**| |0/990|0/990|
+|dxhax5|Sniper|HT_BLASTMINE|Knife|**failed**| |0/990|0/990|
+|gig0hc|Sniper|HT_BLASTMINE|Bow|**failed**| |0/990|0/990|
+|60faln|Sniper|HT_CLAYMORETRAP|Unarmed|**failed**| |0/376|0/376|
+|udivxw|Sniper|HT_CLAYMORETRAP|Knife|**failed**| |0/376|0/376|
+|k3nsw5|Sniper|HT_CLAYMORETRAP|Bow|**failed**| |0/376|0/376|
 |58ihg1|Sniper|SN_SIGHT|Unarmed|**failed**|Skill SN_SIGHT is not an offensive skill|/|/|
 |i4dlfr|Sniper|SN_SIGHT|Knife|**failed**|Skill SN_SIGHT is not an offensive skill|/|/|
 |cqyn8c|Sniper|SN_SIGHT|Bow|**failed**|Skill SN_SIGHT is not an offensive skill|/|/|
@@ -1354,15 +1354,15 @@
 |7qm2np|HighWizard|MG_SOULSTRIKE|Unarmed|**passed**| |475/475|715/715|
 |73buzi|HighWizard|MG_SOULSTRIKE|Knife|**passed**| |475/475|715/715|
 |jkv1mm|HighWizard|MG_SOULSTRIKE|Rod|**passed**| |545/545|820/820|
-|9y2k7a|HighWizard|WZ_FIREPILLAR|Unarmed|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|1idon7|HighWizard|WZ_FIREPILLAR|Knife|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|edp45z|HighWizard|WZ_FIREPILLAR|Rod|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
+|9y2k7a|HighWizard|WZ_FIREPILLAR|Unarmed|**failed**| |36/420|60/480|
+|1idon7|HighWizard|WZ_FIREPILLAR|Knife|**failed**| |36/420|60/480|
+|edp45z|HighWizard|WZ_FIREPILLAR|Rod|**failed**| |48/432|72/504|
 |rpa838|HighWizard|WZ_SIGHTRASHER|Unarmed|**passed**| |142/142|215/215|
 |g767lq|HighWizard|WZ_SIGHTRASHER|Knife|**passed**| |142/142|215/215|
 |bdboau|HighWizard|WZ_SIGHTRASHER|Rod|**passed**| |163/163|246/246|
-|acxmt7|HighWizard|WZ_METEOR|Unarmed|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
-|3jzla9|HighWizard|WZ_METEOR|Knife|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
-|wwwoyk|HighWizard|WZ_METEOR|Rod|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
+|acxmt7|HighWizard|WZ_METEOR|Unarmed|**failed**| |235/1645|355/2485|
+|3jzla9|HighWizard|WZ_METEOR|Knife|**failed**| |235/1645|355/2485|
+|wwwoyk|HighWizard|WZ_METEOR|Rod|**failed**| |270/1890|410/2870|
 |5jixf2|HighWizard|WZ_JUPITEL|Unarmed|**passed**| |1992/1992|3000/3000|
 |v05j4k|HighWizard|WZ_JUPITEL|Knife|**passed**| |1992/1992|3000/3000|
 |1gcv4c|HighWizard|WZ_JUPITEL|Rod|**passed**| |2280/2280|3444/3444|
@@ -1375,15 +1375,15 @@
 |vuzr96|HighWizard|WZ_FROSTNOVA|Unarmed|**failed**| |3166/31|4781/47|
 |6dv8fz|HighWizard|WZ_FROSTNOVA|Knife|**failed**| |3166/31|4781/47|
 |y2g6dt|HighWizard|WZ_FROSTNOVA|Rod|**failed**| |3641/36|5478/54|
-|odb6h8|HighWizard|WZ_STORMGUST|Unarmed|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
-|sdki6a|HighWizard|WZ_STORMGUST|Knife|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
-|htrbap|HighWizard|WZ_STORMGUST|Rod|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
+|odb6h8|HighWizard|WZ_STORMGUST|Unarmed|**failed**| |118/590|179/895|
+|sdki6a|HighWizard|WZ_STORMGUST|Knife|**failed**| |118/590|179/895|
+|htrbap|HighWizard|WZ_STORMGUST|Rod|**failed**| |136/680|205/1025|
 |9ig05h|HighWizard|WZ_EARTHSPIKE|Unarmed|**passed**| |475/475|715/715|
 |e7a989|HighWizard|WZ_EARTHSPIKE|Knife|**passed**| |475/475|715/715|
 |dp85f1|HighWizard|WZ_EARTHSPIKE|Rod|**passed**| |545/545|820/820|
-|p3akba|HighWizard|WZ_HEAVENDRIVE|Unarmed|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|lhku0r|HighWizard|WZ_HEAVENDRIVE|Knife|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|8nwlje|HighWizard|WZ_HEAVENDRIVE|Rod|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
+|p3akba|HighWizard|WZ_HEAVENDRIVE|Unarmed|**passed**| |475/475|715/715|
+|lhku0r|HighWizard|WZ_HEAVENDRIVE|Knife|**passed**| |475/475|715/715|
+|8nwlje|HighWizard|WZ_HEAVENDRIVE|Rod|**passed**| |545/545|820/820|
 |gv9fu3|HighWizard|HW_MAGICCRASHER|Unarmed|**failed**| |95/99|143/150|
 |chm1dx|HighWizard|HW_MAGICCRASHER|Knife|**failed**| |95/99|143/150|
 |e9p051|HighWizard|HW_MAGICCRASHER|Rod|**failed**| |109/114|164/172|
@@ -1576,18 +1576,18 @@
 |uh6xho|Stalker|MG_THUNDERSTORM|Knife|**passed**| |1310/1310|1990/1990|
 |bbdbln|Stalker|MG_THUNDERSTORM|Sword|**passed**| |1310/1310|1990/1990|
 |exnuw6|Stalker|MG_THUNDERSTORM|Bow|**passed**| |1310/1310|1990/1990|
-|64j2yv|Stalker|WZ_FIREPILLAR|Unarmed|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|uj71g0|Stalker|WZ_FIREPILLAR|Knife|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|ckwyrv|Stalker|WZ_FIREPILLAR|Sword|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
-|q7c0qr|Stalker|WZ_FIREPILLAR|Bow|**failed**|Skill WZ_FIREPILLAR is not an offensive skill|/|/|
+|64j2yv|Stalker|WZ_FIREPILLAR|Unarmed|**failed**| |36/408|60/480|
+|uj71g0|Stalker|WZ_FIREPILLAR|Knife|**failed**| |36/408|60/480|
+|ckwyrv|Stalker|WZ_FIREPILLAR|Sword|**failed**| |36/408|60/480|
+|q7c0qr|Stalker|WZ_FIREPILLAR|Bow|**failed**| |36/408|60/480|
 |5bhk9b|Stalker|WZ_SIGHTRASHER|Unarmed|**passed**| |141/141|213/213|
 |e23ayr|Stalker|WZ_SIGHTRASHER|Knife|**passed**| |141/141|213/213|
 |lu8wni|Stalker|WZ_SIGHTRASHER|Sword|**passed**| |141/141|213/213|
 |g3o815|Stalker|WZ_SIGHTRASHER|Bow|**passed**| |141/141|213/213|
-|vu7j97|Stalker|WZ_METEOR|Unarmed|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
-|1gtrje|Stalker|WZ_METEOR|Knife|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
-|ewlqgx|Stalker|WZ_METEOR|Sword|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
-|w4dtmi|Stalker|WZ_METEOR|Bow|**failed**|Skill WZ_METEOR is not an offensive skill|/|/|
+|vu7j97|Stalker|WZ_METEOR|Unarmed|**failed**| |235/1645|355/2485|
+|1gtrje|Stalker|WZ_METEOR|Knife|**failed**| |235/1645|355/2485|
+|ewlqgx|Stalker|WZ_METEOR|Sword|**failed**| |235/1645|355/2485|
+|w4dtmi|Stalker|WZ_METEOR|Bow|**failed**| |235/1645|355/2485|
 |xueav3|Stalker|WZ_JUPITEL|Unarmed|**passed**| |1968/1968|2976/2976|
 |6jar6s|Stalker|WZ_JUPITEL|Knife|**passed**| |1968/1968|2976/2976|
 |9csdm5|Stalker|WZ_JUPITEL|Sword|**passed**| |1968/1968|2976/2976|
@@ -1600,18 +1600,18 @@
 |je36nd|Stalker|WZ_WATERBALL|Knife|**failed**|Skill WZ_WATERBALL was not found|/|/|
 |q1ptjz|Stalker|WZ_WATERBALL|Sword|**failed**|Skill WZ_WATERBALL was not found|/|/|
 |0ocx1o|Stalker|WZ_WATERBALL|Bow|**failed**|Skill WZ_WATERBALL was not found|/|/|
-|a29nqe|Stalker|WZ_STORMGUST|Unarmed|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
-|6f0sz8|Stalker|WZ_STORMGUST|Knife|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
-|hxe27a|Stalker|WZ_STORMGUST|Sword|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
-|twerbn|Stalker|WZ_STORMGUST|Bow|**failed**|Skill WZ_STORMGUST is not an offensive skill|/|/|
+|a29nqe|Stalker|WZ_STORMGUST|Unarmed|**failed**| |117/585|178/890|
+|6f0sz8|Stalker|WZ_STORMGUST|Knife|**failed**| |117/585|178/890|
+|hxe27a|Stalker|WZ_STORMGUST|Sword|**failed**| |117/585|178/890|
+|twerbn|Stalker|WZ_STORMGUST|Bow|**failed**| |117/585|178/890|
 |h0tljl|Stalker|WZ_EARTHSPIKE|Unarmed|**passed**| |470/470|710/710|
 |nf4b0q|Stalker|WZ_EARTHSPIKE|Knife|**passed**| |470/470|710/710|
 |yc7e13|Stalker|WZ_EARTHSPIKE|Sword|**passed**| |470/470|710/710|
 |7ewxfp|Stalker|WZ_EARTHSPIKE|Bow|**passed**| |470/470|710/710|
-|1ofbhg|Stalker|WZ_HEAVENDRIVE|Unarmed|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|03npli|Stalker|WZ_HEAVENDRIVE|Knife|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|nix0p3|Stalker|WZ_HEAVENDRIVE|Sword|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|v00om2|Stalker|WZ_HEAVENDRIVE|Bow|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
+|1ofbhg|Stalker|WZ_HEAVENDRIVE|Unarmed|**passed**| |470/470|710/710|
+|03npli|Stalker|WZ_HEAVENDRIVE|Knife|**passed**| |470/470|710/710|
+|nix0p3|Stalker|WZ_HEAVENDRIVE|Sword|**passed**| |470/470|710/710|
+|v00om2|Stalker|WZ_HEAVENDRIVE|Bow|**passed**| |470/470|710/710|
 |qaj7q5|Stalker|AL_HOLYLIGHT|Unarmed|**passed**| |117/117|178/178|
 |v9b7n6|Stalker|AL_HOLYLIGHT|Knife|**passed**| |117/117|178/178|
 |thhc50|Stalker|AL_HOLYLIGHT|Sword|**passed**| |117/117|178/178|
@@ -1622,22 +1622,22 @@
 |wob7zs|Stalker|PR_TURNUNDEAD|Knife|**failed**| |94/0|142/0|
 |mh07kr|Stalker|PR_TURNUNDEAD|Sword|**failed**| |94/0|142/0|
 |1b8he1|Stalker|PR_TURNUNDEAD|Bow|**failed**| |94/0|142/0|
-|bl1qcl|Stalker|PR_MAGNUS|Unarmed|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|fw1s7r|Stalker|PR_MAGNUS|Knife|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|9hzck6|Stalker|PR_MAGNUS|Sword|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|hhipuk|Stalker|PR_MAGNUS|Bow|**failed**|Skill PR_MAGNUS is not an offensive skill|/|/|
-|9522ai|Stalker|HT_LANDMINE|Unarmed|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|znymcr|Stalker|HT_LANDMINE|Knife|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|mu7xoq|Stalker|HT_LANDMINE|Sword|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|sson2d|Stalker|HT_LANDMINE|Bow|**failed**|Skill HT_LANDMINE is not an offensive skill|/|/|
-|uxg6i3|Stalker|HT_BLASTMINE|Unarmed|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|837g3n|Stalker|HT_BLASTMINE|Knife|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|buvk4b|Stalker|HT_BLASTMINE|Sword|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|1zyth2|Stalker|HT_BLASTMINE|Bow|**failed**|Skill HT_BLASTMINE is not an offensive skill|/|/|
-|v6qunl|Stalker|HT_CLAYMORETRAP|Unarmed|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|1nsrz9|Stalker|HT_CLAYMORETRAP|Knife|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|xqr6ab|Stalker|HT_CLAYMORETRAP|Sword|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
-|91772y|Stalker|HT_CLAYMORETRAP|Bow|**failed**|Skill HT_CLAYMORETRAP is not an offensive skill|/|/|
+|bl1qcl|Stalker|PR_MAGNUS|Unarmed|**failed**| |940/0|1420/0|
+|fw1s7r|Stalker|PR_MAGNUS|Knife|**failed**| |940/0|1420/0|
+|9hzck6|Stalker|PR_MAGNUS|Sword|**failed**| |940/0|1420/0|
+|hhipuk|Stalker|PR_MAGNUS|Bow|**failed**| |940/0|1420/0|
+|9522ai|Stalker|HT_LANDMINE|Unarmed|**failed**| |0/937|0/937|
+|znymcr|Stalker|HT_LANDMINE|Knife|**failed**| |0/937|0/937|
+|mu7xoq|Stalker|HT_LANDMINE|Sword|**failed**| |0/937|0/937|
+|sson2d|Stalker|HT_LANDMINE|Bow|**failed**| |0/937|0/937|
+|uxg6i3|Stalker|HT_BLASTMINE|Unarmed|**failed**| |0/984|0/984|
+|837g3n|Stalker|HT_BLASTMINE|Knife|**failed**| |0/984|0/984|
+|buvk4b|Stalker|HT_BLASTMINE|Sword|**failed**| |0/984|0/984|
+|1zyth2|Stalker|HT_BLASTMINE|Bow|**failed**| |0/984|0/984|
+|v6qunl|Stalker|HT_CLAYMORETRAP|Unarmed|**failed**| |0/375|0/375|
+|1nsrz9|Stalker|HT_CLAYMORETRAP|Knife|**failed**| |0/375|0/375|
+|xqr6ab|Stalker|HT_CLAYMORETRAP|Sword|**failed**| |0/375|0/375|
+|91772y|Stalker|HT_CLAYMORETRAP|Bow|**failed**| |0/375|0/375|
 |5eh76i|Stalker|AM_ACIDTERROR|Unarmed|**failed**| |94/285|142/285|
 |0rvmmn|Stalker|AM_ACIDTERROR|Knife|**failed**| |94/321|142/321|
 |5lsed3|Stalker|AM_ACIDTERROR|Sword|**failed**| |94/360|142/360|
@@ -1804,10 +1804,10 @@
 |y7wo11|Professor|WZ_EARTHSPIKE|Knife|**passed**| |475/475|715/715|
 |x2ge60|Professor|WZ_EARTHSPIKE|Rod|**passed**| |545/545|820/820|
 |yy1s3o|Professor|WZ_EARTHSPIKE|Book|**passed**| |475/475|715/715|
-|sqgyhn|Professor|WZ_HEAVENDRIVE|Unarmed|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|8b3mez|Professor|WZ_HEAVENDRIVE|Knife|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|otum80|Professor|WZ_HEAVENDRIVE|Rod|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
-|woqejj|Professor|WZ_HEAVENDRIVE|Book|**failed**|Skill WZ_HEAVENDRIVE is not an offensive skill|/|/|
+|sqgyhn|Professor|WZ_HEAVENDRIVE|Unarmed|**passed**| |475/475|715/715|
+|8b3mez|Professor|WZ_HEAVENDRIVE|Knife|**passed**| |475/475|715/715|
+|otum80|Professor|WZ_HEAVENDRIVE|Rod|**passed**| |545/545|820/820|
+|woqejj|Professor|WZ_HEAVENDRIVE|Book|**passed**| |475/475|715/715|
 |t05qiv|Creator|MC_MAMMONITE|Unarmed|**passed**| |569/569|569/569|
 |f5ms5y|Creator|MC_MAMMONITE|Knife|**passed**| |641/641|641/641|
 |ruhbfk|Creator|MC_MAMMONITE|Sword|**passed**| |719/719|719/719|

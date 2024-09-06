@@ -37,6 +37,9 @@ impl SkillBase for GloriaDomini {
     fn _id(&self) -> u32 {
         367
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -217,6 +220,9 @@ impl SkillBase for MartyrsReckoning {
     fn _id(&self) -> u32 {
         368
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -305,6 +311,9 @@ impl SkillBase for BattleChant {
     }
     fn _id(&self) -> u32 {
         369
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
     }
     fn _level(&self) -> u8 {
         self.level
@@ -494,6 +503,9 @@ impl SkillBase for ShieldChain {
     }
     fn _id(&self) -> u32 {
         480
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

@@ -372,6 +372,9 @@ fn generate_getters(job_skills_file: &mut File, skill_config: &SkillConfig) {
     job_skills_file.write_all(b"    fn _id(&self) -> u32 {\n").unwrap();
     job_skills_file.write_all(format!("        {}\n", skill_config.id).as_bytes()).unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();
+    job_skills_file.write_all(b"    fn skill_type(&self) -> SkillType {\n").unwrap();
+    job_skills_file.write_all(format!("        SkillType::{:?}\n", skill_config.skill_type().expect(format!("Expected a skill type for skill {}", skill_config.name()).as_str())).as_bytes()).unwrap();
+    job_skills_file.write_all(b"    }\n").unwrap();
     job_skills_file.write_all(b"    fn _level(&self) -> u8 {\n").unwrap();
     job_skills_file.write_all(b"        self.level\n").unwrap();
     job_skills_file.write_all(b"    }\n").unwrap();

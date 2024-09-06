@@ -50,11 +50,13 @@ mod tests {
     use models::enums::class::JobName;
 
     use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+    use models::enums::bonus::BonusType;
     use models::enums::skill::UseSkillFailure;
     use crate::tests::common::assert_helper::*;
     use models::position::Position;
     use models::enums::skill_enums::SkillEnum;
     use models::status::{KnownSkill, Status};
+    use models::status_bonus::{StatusBonus, StatusBonuses};
     use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseskillAck2};
 
     use skills::{Skill, SkillBase};
@@ -328,6 +330,36 @@ mod tests {
     #[ignore = "not yet implemented"]
     fn start_use_skill_should_consume_item_on_success() {
         // freezing trap, acid demonstration, stone curse
+    }
+
+    #[test]
+    fn use_skill_should_apply_bonuses() {
+        // Given
+        let context = before_each();
+        let mut character = create_character();
+        #[derive(Clone)]
+        struct TestResult {
+            skill: KnownSkill,
+            expected_bonuses: StatusBonuses
+        }
+        let scenario = vec![
+            TestResult { skill: KnownSkill { value: SkillEnum::AlBlessing, level: 10 }, expected_bonuses: StatusBonuses::new(vec![StatusBonus::new(BonusType::Dex(10)), StatusBonus::new(BonusType::Str(10)), StatusBonus::new(BonusType::Int(10))]) },
+            TestResult { skill: KnownSkill { value: SkillEnum::AlIncagi, level: 10 }, expected_bonuses: StatusBonuses::new(vec![StatusBonus::new(BonusType::Agi(12)), StatusBonus::new(BonusType::SpeedPercentage(25))]) },
+        ];
+        // When
+        for scenarii in scenario {
+            let source_status = status_snapshot!(context, character);
+            let target_status = status_snapshot!(context, character);
+            // character.set_skill_in_use()
+            // context.skill_service.do_use_skill(&mut character, Some(character.clone()), source_status, Some(target_status.clone()), scenarii.skill.value.id(), scenarii.skill.level, 0);
+        }
+        // Then
+    }
+    #[test]
+    fn use_skill_should_send_par_change_packets() {
+        // Given
+        // When
+        // Then
     }
 
     #[test]

@@ -37,6 +37,9 @@ impl SkillBase for SkidTrap {
     fn _id(&self) -> u32 {
         115
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -147,6 +150,9 @@ impl SkillBase for LandMine {
     }
     fn _id(&self) -> u32 {
         116
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -287,6 +293,9 @@ impl SkillBase for AnkleSnare {
     fn _id(&self) -> u32 {
         117
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -398,6 +407,9 @@ impl SkillBase for ShockwaveTrap {
     fn _id(&self) -> u32 {
         118
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -508,6 +520,9 @@ impl SkillBase for Sandman {
     }
     fn _id(&self) -> u32 {
         119
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -648,6 +663,9 @@ impl SkillBase for Flasher {
     fn _id(&self) -> u32 {
         120
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -758,6 +776,9 @@ impl SkillBase for FreezingTrap {
     }
     fn _id(&self) -> u32 {
         121
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -902,6 +923,9 @@ impl SkillBase for BlastMine {
     fn _id(&self) -> u32 {
         122
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1012,6 +1036,9 @@ impl SkillBase for ClaymoreTrap {
     }
     fn _id(&self) -> u32 {
         123
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1124,6 +1151,9 @@ impl SkillBase for RemoveTrap {
     fn _id(&self) -> u32 {
         124
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1204,6 +1234,9 @@ impl SkillBase for TalkieBox {
     }
     fn _id(&self) -> u32 {
         125
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1315,6 +1348,9 @@ impl SkillBase for BeastBane {
     }
     fn _id(&self) -> u32 {
         126
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1451,6 +1487,9 @@ impl SkillBase for FalconryMastery {
     fn _id(&self) -> u32 {
         127
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1528,6 +1567,9 @@ impl SkillBase for SteelCrow {
     fn _id(&self) -> u32 {
         128
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1604,6 +1646,9 @@ impl SkillBase for BlitzBeat {
     }
     fn _id(&self) -> u32 {
         129
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1733,6 +1778,9 @@ impl SkillBase for Detect {
     fn _id(&self) -> u32 {
         130
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1845,6 +1893,9 @@ impl SkillBase for SpringTrap {
     fn _id(&self) -> u32 {
         131
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1935,6 +1986,9 @@ impl SkillBase for PhantasmicArrow {
     fn _id(&self) -> u32 {
         1009
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1998,6 +2052,28 @@ impl SkillBase for PhantasmicArrow {
             Err(())
         }
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for PhantasmicArrow {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // HT_POWER - Beast Strafing
 pub struct BeastStrafing {
@@ -2013,6 +2089,9 @@ impl SkillBase for BeastStrafing {
     }
     fn _id(&self) -> u32 {
         499
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

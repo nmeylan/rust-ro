@@ -44,6 +44,8 @@ impl Skill for Ganbantein {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl OffensiveSkill for Ganbantein {
+}
 impl GroundSkill for Ganbantein {
 }
 impl Skill for GravitationField {

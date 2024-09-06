@@ -20,6 +20,8 @@ impl Skill for SoulExhale {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for SoulExhale {
+}
 impl Skill for SoulSiphon {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 5 { return None }
@@ -33,6 +35,8 @@ impl Skill for MindBreaker {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for MindBreaker {
 }
 impl Skill for Foresight {
     fn new(level: u8) -> Option<Self> where Self : Sized {

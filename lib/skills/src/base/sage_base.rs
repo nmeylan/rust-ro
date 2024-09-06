@@ -37,6 +37,9 @@ impl SkillBase for Study {
     fn _id(&self) -> u32 {
         274
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -172,6 +175,9 @@ impl SkillBase for CastCancel {
     fn _id(&self) -> u32 {
         275
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -253,6 +259,9 @@ impl SkillBase for MagicRod {
     fn _id(&self) -> u32 {
         276
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -333,6 +342,9 @@ impl SkillBase for SpellBreaker {
     }
     fn _id(&self) -> u32 {
         277
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -418,6 +430,9 @@ impl SkillBase for FreeCast {
     }
     fn _id(&self) -> u32 {
         278
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -553,6 +568,9 @@ impl SkillBase for Hindsight {
     }
     fn _id(&self) -> u32 {
         279
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -691,6 +709,9 @@ impl SkillBase for EndowBlaze {
     fn _id(&self) -> u32 {
         280
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -814,6 +835,9 @@ impl SkillBase for EndowTsunami {
     }
     fn _id(&self) -> u32 {
         281
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -939,6 +963,9 @@ impl SkillBase for EndowTornado {
     fn _id(&self) -> u32 {
         282
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1062,6 +1089,9 @@ impl SkillBase for EndowQuake {
     }
     fn _id(&self) -> u32 {
         283
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1187,6 +1217,9 @@ impl SkillBase for Dragonology {
     fn _id(&self) -> u32 {
         284
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1306,6 +1339,9 @@ impl SkillBase for Volcano {
     }
     fn _id(&self) -> u32 {
         285
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1477,6 +1513,9 @@ impl SkillBase for Deluge {
     fn _id(&self) -> u32 {
         286
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1646,6 +1685,9 @@ impl SkillBase for Whirlwind {
     }
     fn _id(&self) -> u32 {
         287
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1817,6 +1859,9 @@ impl SkillBase for MagneticEarth {
     fn _id(&self) -> u32 {
         288
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1965,6 +2010,9 @@ impl SkillBase for Dispell {
     fn _id(&self) -> u32 {
         289
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2062,6 +2110,9 @@ impl SkillBase for Hocuspocus {
     fn _id(&self) -> u32 {
         290
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2151,6 +2202,9 @@ impl SkillBase for CreateElementalConverter {
     fn _id(&self) -> u32 {
         1007
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2206,6 +2260,16 @@ impl SkillBase for CreateElementalConverter {
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 30 { Ok(30) } else {Err(())}
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for CreateElementalConverter {
 }
 // SA_ELEMENTWATER - Elemental Change Water
 pub struct ElementalChangeWater {
@@ -2221,6 +2285,9 @@ impl SkillBase for ElementalChangeWater {
     }
     fn _id(&self) -> u32 {
         1008
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2293,6 +2360,16 @@ impl SkillBase for ElementalChangeWater {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for ElementalChangeWater {
 }
 // SA_ELEMENTGROUND - Elemental Change Earth
 pub struct ElementalChangeEarth {
@@ -2308,6 +2385,9 @@ impl SkillBase for ElementalChangeEarth {
     }
     fn _id(&self) -> u32 {
         1017
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2380,6 +2460,16 @@ impl SkillBase for ElementalChangeEarth {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for ElementalChangeEarth {
 }
 // SA_ELEMENTFIRE - Elemental Change Fire
 pub struct ElementalChangeFire {
@@ -2395,6 +2485,9 @@ impl SkillBase for ElementalChangeFire {
     }
     fn _id(&self) -> u32 {
         1018
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2467,6 +2560,16 @@ impl SkillBase for ElementalChangeFire {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for ElementalChangeFire {
 }
 // SA_ELEMENTWIND - Elemental Change Wind
 pub struct ElementalChangeWind {
@@ -2482,6 +2585,9 @@ impl SkillBase for ElementalChangeWind {
     }
     fn _id(&self) -> u32 {
         1019
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2554,4 +2660,14 @@ impl SkillBase for ElementalChangeWind {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for ElementalChangeWind {
 }

@@ -37,6 +37,9 @@ impl SkillBase for ShatteringStrike {
     fn _id(&self) -> u32 {
         384
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -274,6 +277,9 @@ impl SkillBase for CartBoost {
     fn _id(&self) -> u32 {
         387
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -380,6 +386,9 @@ impl SkillBase for UpgradeWeapon {
     fn _id(&self) -> u32 {
         477
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -460,6 +469,9 @@ impl SkillBase for CartTermination {
     }
     fn _id(&self) -> u32 {
         485
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -691,6 +703,9 @@ impl SkillBase for MaximumPowerThrust {
     }
     fn _id(&self) -> u32 {
         486
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level

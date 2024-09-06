@@ -37,6 +37,9 @@ impl SkillBase for Faith {
     fn _id(&self) -> u32 {
         248
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -171,6 +174,9 @@ impl SkillBase for Guard {
     }
     fn _id(&self) -> u32 {
         249
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -384,6 +390,9 @@ impl SkillBase for Smite {
     fn _id(&self) -> u32 {
         250
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -532,6 +541,9 @@ impl SkillBase for ShieldBoomerang {
     fn _id(&self) -> u32 {
         251
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -656,6 +668,9 @@ impl SkillBase for ShieldReflect {
     }
     fn _id(&self) -> u32 {
         252
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -858,6 +873,9 @@ impl SkillBase for HolyCross {
     }
     fn _id(&self) -> u32 {
         253
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1082,6 +1100,9 @@ impl SkillBase for GrandCross {
     }
     fn _id(&self) -> u32 {
         254
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1312,6 +1333,9 @@ impl SkillBase for Sacrifice {
     fn _id(&self) -> u32 {
         255
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1400,6 +1424,9 @@ impl SkillBase for ResistantSouls {
     }
     fn _id(&self) -> u32 {
         256
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1521,6 +1548,9 @@ impl SkillBase for DefendingAura {
     }
     fn _id(&self) -> u32 {
         257
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1652,6 +1682,9 @@ impl SkillBase for SpearQuicken {
     }
     fn _id(&self) -> u32 {
         258
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1854,6 +1887,9 @@ impl SkillBase for Shrink {
     fn _id(&self) -> u32 {
         1002
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1918,4 +1954,18 @@ impl SkillBase for Shrink {
             Err(())
         }
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
+}
+impl SupportiveSkillBase for Shrink {
 }

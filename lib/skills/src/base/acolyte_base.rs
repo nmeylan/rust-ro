@@ -37,6 +37,9 @@ impl SkillBase for DivineProtection {
     fn _id(&self) -> u32 {
         22
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -113,6 +116,9 @@ impl SkillBase for DemonBane {
     }
     fn _id(&self) -> u32 {
         23
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -249,6 +255,9 @@ impl SkillBase for Ruwach {
     fn _id(&self) -> u32 {
         24
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -346,6 +355,9 @@ impl SkillBase for Pneuma {
     fn _id(&self) -> u32 {
         25
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -441,6 +453,9 @@ impl SkillBase for Teleport {
     fn _id(&self) -> u32 {
         26
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -533,6 +548,9 @@ impl SkillBase for WarpPortal {
     }
     fn _id(&self) -> u32 {
         27
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -660,6 +678,9 @@ impl SkillBase for Heal {
     }
     fn _id(&self) -> u32 {
         28
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -817,6 +838,9 @@ impl SkillBase for IncreaseAgi {
     }
     fn _id(&self) -> u32 {
         29
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1031,6 +1055,9 @@ impl SkillBase for DecreaseAgi {
     }
     fn _id(&self) -> u32 {
         30
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1253,6 +1280,9 @@ impl SkillBase for AquaBenedicta {
     fn _id(&self) -> u32 {
         31
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1351,6 +1381,9 @@ impl SkillBase for SignumCrucis {
     fn _id(&self) -> u32 {
         32
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1443,6 +1476,9 @@ impl SkillBase for Angelus {
     }
     fn _id(&self) -> u32 {
         33
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1644,6 +1680,9 @@ impl SkillBase for Blessing {
     }
     fn _id(&self) -> u32 {
         34
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1857,6 +1896,9 @@ impl SkillBase for Cure {
     fn _id(&self) -> u32 {
         35
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1945,6 +1987,9 @@ impl SkillBase for HolyLight {
     }
     fn _id(&self) -> u32 {
         156
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

@@ -37,6 +37,9 @@ impl SkillBase for RighthandMastery {
     fn _id(&self) -> u32 {
         132
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -142,6 +145,9 @@ impl SkillBase for LefthandMastery {
     fn _id(&self) -> u32 {
         133
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -246,6 +252,9 @@ impl SkillBase for KatarMastery {
     }
     fn _id(&self) -> u32 {
         134
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -371,6 +380,9 @@ impl SkillBase for Cloaking {
     }
     fn _id(&self) -> u32 {
         135
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -500,6 +512,9 @@ impl SkillBase for SonicBlow {
     }
     fn _id(&self) -> u32 {
         136
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -752,6 +767,9 @@ impl SkillBase for Grimtooth {
     fn _id(&self) -> u32 {
         137
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -904,6 +922,9 @@ impl SkillBase for EnchantPoison {
     fn _id(&self) -> u32 {
         138
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1036,6 +1057,9 @@ impl SkillBase for PoisonReact {
     }
     fn _id(&self) -> u32 {
         139
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1240,6 +1264,9 @@ impl SkillBase for VenomDust {
     fn _id(&self) -> u32 {
         140
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1402,6 +1429,9 @@ impl SkillBase for VenomSplasher {
     }
     fn _id(&self) -> u32 {
         141
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1654,6 +1684,9 @@ impl SkillBase for SonicAcceleration {
     fn _id(&self) -> u32 {
         1003
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1705,6 +1738,16 @@ impl SkillBase for SonicAcceleration {
     fn _is_physical(&self) -> bool {
         false
     }
+    #[inline(always)]
+    fn is_passive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_passive_skill(&self) -> Option<&dyn PassiveSkill> {
+        Some(self)
+    }
+}
+impl PassiveSkillBase for SonicAcceleration {
 }
 // AS_VENOMKNIFE - Throw Venom Knife
 pub struct ThrowVenomKnife {
@@ -1720,6 +1763,9 @@ impl SkillBase for ThrowVenomKnife {
     }
     fn _id(&self) -> u32 {
         1004
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1784,4 +1830,18 @@ impl SkillBase for ThrowVenomKnife {
             Err(())
         }
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
+}
+impl SupportiveSkillBase for ThrowVenomKnife {
 }

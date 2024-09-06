@@ -37,6 +37,9 @@ impl SkillBase for Gank {
     fn _id(&self) -> u32 {
         210
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -162,6 +165,9 @@ impl SkillBase for Mug {
     fn _id(&self) -> u32 {
         211
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -280,6 +286,9 @@ impl SkillBase for BackStab {
     }
     fn _id(&self) -> u32 {
         212
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -412,6 +421,9 @@ impl SkillBase for Stalk {
     fn _id(&self) -> u32 {
         213
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -486,6 +498,16 @@ impl SkillBase for Stalk {
         }
         TemporaryStatusBonuses::default()
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for Stalk {
 }
 // RG_RAID - Sightless Mind
 pub struct SightlessMind {
@@ -501,6 +523,9 @@ impl SkillBase for SightlessMind {
     }
     fn _id(&self) -> u32 {
         214
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -609,53 +634,53 @@ impl OffensiveSkillBase for SightlessMind {
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 13 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 2 {
             if chance <= 16 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 3 {
             if chance <= 19 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 4 {
             if chance <= 22 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 5 {
             if chance <= 25 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 13 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 2 {
             if chance <= 16 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 3 {
             if chance <= 19 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 4 {
             if chance <= 22 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 5 {
             if chance <= 25 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         effects
@@ -675,6 +700,9 @@ impl SkillBase for DivestWeapon {
     }
     fn _id(&self) -> u32 {
         215
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -795,6 +823,9 @@ impl SkillBase for DivestShield {
     fn _id(&self) -> u32 {
         216
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -913,6 +944,9 @@ impl SkillBase for DivestArmor {
     }
     fn _id(&self) -> u32 {
         217
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1033,6 +1067,9 @@ impl SkillBase for DivestHelm {
     fn _id(&self) -> u32 {
         218
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1151,6 +1188,9 @@ impl SkillBase for Snatch {
     }
     fn _id(&self) -> u32 {
         219
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1309,6 +1349,9 @@ impl SkillBase for Scribble {
     fn _id(&self) -> u32 {
         220
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1408,6 +1451,9 @@ impl SkillBase for Piece {
     fn _id(&self) -> u32 {
         221
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1464,6 +1510,14 @@ impl SkillBase for Piece {
         if status.sp() > 10 { Ok(10) } else {Err(())}
     }
     #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1471,6 +1525,8 @@ impl SkillBase for Piece {
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
+}
+impl InteractiveSkillBase for Piece {
 }
 impl GroundSkillBase for Piece {
 }
@@ -1488,6 +1544,9 @@ impl SkillBase for Remover {
     }
     fn _id(&self) -> u32 {
         222
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1545,6 +1604,14 @@ impl SkillBase for Remover {
         if status.sp() > 5 { Ok(5) } else {Err(())}
     }
     #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1552,6 +1619,8 @@ impl SkillBase for Remover {
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
+}
+impl InteractiveSkillBase for Remover {
 }
 impl GroundSkillBase for Remover {
 }
@@ -1569,6 +1638,9 @@ impl SkillBase for Slyness {
     }
     fn _id(&self) -> u32 {
         223
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1621,6 +1693,16 @@ impl SkillBase for Slyness {
     fn _is_physical(&self) -> bool {
         false
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for Slyness {
 }
 // RG_COMPULSION - Haggle
 pub struct Haggle {
@@ -1636,6 +1718,9 @@ impl SkillBase for Haggle {
     }
     fn _id(&self) -> u32 {
         224
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1688,6 +1773,16 @@ impl SkillBase for Haggle {
     fn _is_physical(&self) -> bool {
         false
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for Haggle {
 }
 // RG_PLAGIARISM - Intimidate
 pub struct Intimidate {
@@ -1703,6 +1798,9 @@ impl SkillBase for Intimidate {
     }
     fn _id(&self) -> u32 {
         225
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1755,6 +1853,16 @@ impl SkillBase for Intimidate {
     fn _is_physical(&self) -> bool {
         false
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for Intimidate {
 }
 // RG_CLOSECONFINE - Close Confine
 pub struct CloseConfine {
@@ -1770,6 +1878,9 @@ impl SkillBase for CloseConfine {
     }
     fn _id(&self) -> u32 {
         1005
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1826,4 +1937,18 @@ impl SkillBase for CloseConfine {
     fn _validate_sp(&self, status: &StatusSnapshot) -> SkillRequirementResult<u32> {
         if status.sp() > 25 { Ok(25) } else {Err(())}
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
+}
+impl SupportiveSkillBase for CloseConfine {
 }

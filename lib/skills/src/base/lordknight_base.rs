@@ -37,6 +37,9 @@ impl SkillBase for AuraBlade {
     fn _id(&self) -> u32 {
         355
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -188,6 +191,9 @@ impl SkillBase for Parrying {
     fn _id(&self) -> u32 {
         356
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -328,6 +334,9 @@ impl SkillBase for Concentration {
     }
     fn _id(&self) -> u32 {
         357
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -477,6 +486,9 @@ impl SkillBase for Relax {
     fn _id(&self) -> u32 {
         358
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -562,6 +574,9 @@ impl SkillBase for Frenzy {
     fn _id(&self) -> u32 {
         359
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -646,6 +661,9 @@ impl SkillBase for SpiralPierce {
     }
     fn _id(&self) -> u32 {
         397
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -858,6 +876,9 @@ impl SkillBase for TraumaticBlow {
     fn _id(&self) -> u32 {
         398
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1000,6 +1021,9 @@ impl SkillBase for VitalStrike {
     }
     fn _id(&self) -> u32 {
         399
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

@@ -2,7 +2,7 @@ use std::any::Any;
 use models::enums::bonus::BonusType;
 use models::enums::element::Element;
 use models::enums::EnumWithNumberValue;
-use models::enums::skill::{SkillTargetType, UseSkillFailure};
+use models::enums::skill::{SkillTargetType, SkillType, UseSkillFailure};
 use models::enums::status::StatusEffect;
 use models::enums::weapon::{AmmoType};
 use models::item::{NormalInventoryItem};
@@ -18,6 +18,9 @@ type SkillRequirementResult<T> = std::result::Result<T, ()>;
 pub trait SkillBase {
     fn _level(&self) -> u8;
     fn _id(&self) -> u32;
+
+    #[inline(always)]
+    fn skill_type(&self) -> SkillType;
 
     fn as_any(&self) -> &dyn Any;
     #[inline(always)]

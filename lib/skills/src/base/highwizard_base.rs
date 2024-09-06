@@ -37,6 +37,9 @@ impl SkillBase for SoulDrain {
     fn _id(&self) -> u32 {
         364
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -164,6 +167,9 @@ impl SkillBase for StaveCrasher {
     fn _id(&self) -> u32 {
         365
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -268,6 +274,9 @@ impl SkillBase for MysticalAmplification {
     }
     fn _id(&self) -> u32 {
         366
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -466,6 +475,9 @@ impl SkillBase for NapalmVulcan {
     fn _id(&self) -> u32 {
         400
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -658,6 +670,9 @@ impl SkillBase for Ganbantein {
     fn _id(&self) -> u32 {
         483
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -733,12 +748,34 @@ impl SkillBase for Ganbantein {
        2000
     }
     #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
     #[inline(always)]
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
+    }
+}
+impl OffensiveSkillBase for Ganbantein {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
     }
 }
 impl GroundSkillBase for Ganbantein {
@@ -757,6 +794,9 @@ impl SkillBase for GravitationField {
     }
     fn _id(&self) -> u32 {
         484
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

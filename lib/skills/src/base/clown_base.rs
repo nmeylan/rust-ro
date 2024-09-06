@@ -37,6 +37,9 @@ impl SkillBase for VulcanArrow {
     fn _id(&self) -> u32 {
         394
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -342,6 +345,9 @@ impl SkillBase for ShelteringBliss {
     fn _id(&self) -> u32 {
         395
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -461,6 +467,9 @@ impl SkillBase for MarionetteControl {
     fn _id(&self) -> u32 {
         396
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -545,6 +554,9 @@ impl SkillBase for LongingforFreedom {
     }
     fn _id(&self) -> u32 {
         487
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -634,6 +646,28 @@ impl SkillBase for LongingforFreedom {
         }
         TemporaryStatusBonuses::default()
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for LongingforFreedom {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Neutral
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // CG_HERMODE - Wand of Hermode
 pub struct WandofHermode {
@@ -649,6 +683,9 @@ impl SkillBase for WandofHermode {
     }
     fn _id(&self) -> u32 {
         488
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
     }
     fn _level(&self) -> u8 {
         self.level
@@ -768,6 +805,9 @@ impl SkillBase for TarotCardofFate {
     }
     fn _id(&self) -> u32 {
         489
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

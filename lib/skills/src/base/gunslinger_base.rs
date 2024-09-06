@@ -37,6 +37,9 @@ impl SkillBase for FliptheCoin {
     fn _id(&self) -> u32 {
         500
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -117,6 +120,9 @@ impl SkillBase for Fling {
     }
     fn _id(&self) -> u32 {
         501
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -223,6 +229,9 @@ impl SkillBase for TripleAction {
     fn _id(&self) -> u32 {
         502
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -327,6 +336,9 @@ impl SkillBase for BullsEye {
     }
     fn _id(&self) -> u32 {
         503
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -448,6 +460,9 @@ impl SkillBase for MadnessCanceller {
     fn _id(&self) -> u32 {
         504
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -561,6 +576,9 @@ impl SkillBase for AdJustment {
     }
     fn _id(&self) -> u32 {
         505
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -676,6 +694,9 @@ impl SkillBase for IncreasingAccuracy {
     fn _id(&self) -> u32 {
         506
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -779,6 +800,9 @@ impl SkillBase for MagicalBullet {
     fn _id(&self) -> u32 {
         507
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -879,6 +903,9 @@ impl SkillBase for Cracker {
     }
     fn _id(&self) -> u32 {
         508
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -992,6 +1019,9 @@ impl SkillBase for SingleAction {
     fn _id(&self) -> u32 {
         509
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1081,6 +1111,16 @@ impl SkillBase for SingleAction {
         }
         TemporaryStatusBonuses::default()
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for SingleAction {
 }
 // GS_SNAKEEYE - Snake Eye
 pub struct SnakeEye {
@@ -1096,6 +1136,9 @@ impl SkillBase for SnakeEye {
     }
     fn _id(&self) -> u32 {
         510
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1148,6 +1191,16 @@ impl SkillBase for SnakeEye {
     fn _is_physical(&self) -> bool {
         false
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for SnakeEye {
 }
 // GS_CHAINACTION - Chain Action
 pub struct ChainAction {
@@ -1163,6 +1216,9 @@ impl SkillBase for ChainAction {
     }
     fn _id(&self) -> u32 {
         511
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1290,6 +1346,9 @@ impl SkillBase for Tracking {
     }
     fn _id(&self) -> u32 {
         512
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1528,6 +1587,9 @@ impl SkillBase for Disarm {
     fn _id(&self) -> u32 {
         513
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1670,6 +1732,9 @@ impl SkillBase for PiercingShot {
     }
     fn _id(&self) -> u32 {
         514
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1859,6 +1924,9 @@ impl SkillBase for RapidShower {
     }
     fn _id(&self) -> u32 {
         515
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2067,6 +2135,9 @@ impl SkillBase for Desperado {
     fn _id(&self) -> u32 {
         516
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2273,6 +2344,9 @@ impl SkillBase for GatlingFever {
     }
     fn _id(&self) -> u32 {
         517
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2513,6 +2587,9 @@ impl SkillBase for Dust {
     fn _id(&self) -> u32 {
         518
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2723,6 +2800,9 @@ impl SkillBase for FullBuster {
     }
     fn _id(&self) -> u32 {
         519
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2987,6 +3067,9 @@ impl SkillBase for SpreadAttack {
     fn _id(&self) -> u32 {
         520
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -3189,6 +3272,9 @@ impl SkillBase for GroundDrift {
     }
     fn _id(&self) -> u32 {
         521
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

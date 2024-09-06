@@ -37,6 +37,9 @@ impl SkillBase for MusicLessons {
     fn _id(&self) -> u32 {
         315
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -171,6 +174,9 @@ impl SkillBase for MelodyStrike {
     }
     fn _id(&self) -> u32 {
         316
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -334,6 +340,9 @@ impl SkillBase for UnchainedSerenade {
     fn _id(&self) -> u32 {
         317
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -452,6 +461,9 @@ impl SkillBase for UnbarringOctave {
     }
     fn _id(&self) -> u32 {
         318
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -606,6 +618,9 @@ impl SkillBase for PerfectTablature {
     }
     fn _id(&self) -> u32 {
         319
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
     }
     fn _level(&self) -> u8 {
         self.level
@@ -814,6 +829,9 @@ impl SkillBase for ImpressiveRiff {
     fn _id(&self) -> u32 {
         320
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1011,6 +1029,9 @@ impl SkillBase for MagicStrings {
     fn _id(&self) -> u32 {
         321
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1159,6 +1180,9 @@ impl SkillBase for SongofLutie {
     }
     fn _id(&self) -> u32 {
         322
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1357,6 +1381,9 @@ impl SkillBase for Amp {
     fn _id(&self) -> u32 {
         304
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1437,6 +1464,9 @@ impl SkillBase for Encore {
     }
     fn _id(&self) -> u32 {
         305
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1527,6 +1557,9 @@ impl SkillBase for Lullaby {
     fn _id(&self) -> u32 {
         306
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1616,6 +1649,9 @@ impl SkillBase for MentalSensing {
     fn _id(&self) -> u32 {
         307
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1704,6 +1740,9 @@ impl SkillBase for DownTempo {
     }
     fn _id(&self) -> u32 {
         308
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1805,6 +1844,9 @@ impl SkillBase for BattleTheme {
     }
     fn _id(&self) -> u32 {
         309
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1958,6 +2000,9 @@ impl SkillBase for HarmonicLick {
     fn _id(&self) -> u32 {
         310
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2105,6 +2150,9 @@ impl SkillBase for ClassicalPluck {
     fn _id(&self) -> u32 {
         311
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2194,6 +2242,9 @@ impl SkillBase for PowerChord {
     fn _id(&self) -> u32 {
         312
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2282,6 +2333,9 @@ impl SkillBase for AcousticRhythm {
     }
     fn _id(&self) -> u32 {
         313
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2399,6 +2453,9 @@ impl SkillBase for PangVoice {
     }
     fn _id(&self) -> u32 {
         1010
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
