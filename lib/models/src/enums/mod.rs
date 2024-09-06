@@ -20,7 +20,7 @@ pub mod weapon;
 pub mod bonus;
 pub mod mob;
 pub mod trigger;
-mod client_effect_icon;
+pub mod client_effect_icon;
 
 pub trait EnumWithStringValue {
     fn try_from_string(value: &str) -> Result<Self, String>

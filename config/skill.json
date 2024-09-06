@@ -935,7 +935,7 @@
           }
         }
       ],
-      "clientIcon": "Provoke"
+      "effectClientIcon": "Provoke"
     },
     {
       "afterCastActDelay": 2000,
@@ -1430,7 +1430,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Endure"
+      "effectClientIcon": "Endure"
     },
     {
       "description": "Increase SP Recovery",
@@ -4778,7 +4778,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "IncAgi"
+      "effectClientIcon": "IncAgi"
     },
     {
       "afterCastActDelay": 1000,
@@ -5111,7 +5111,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "DecAgi"
+      "effectClientIcon": "DecAgi"
     },
     {
       "afterCastActDelay": 500,
@@ -5304,7 +5304,7 @@
           }
         }
       ],
-      "clientIcon": "Crucis"
+      "effectClientIcon": "Crucis"
     },
     {
       "afterCastActDelay": 3500,
@@ -5481,7 +5481,7 @@
           }
         }
       ],
-      "clientIcon": "Angelus"
+      "effectClientIcon": "Angelus"
     },
     {
       "castCancel": true,
@@ -5801,7 +5801,7 @@
           }
         }
       ],
-      "clientIcon": "Blessing"
+      "effectClientIcon": "Blessing"
     },
     {
       "afterCastActDelay": 1000,
@@ -6617,7 +6617,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Concentration"
+      "effectClientIcon": "Concentration"
     },
     {
       "description": "Double Strafe",
@@ -7307,7 +7307,7 @@
           "value": 0.0714
         }
       ],
-      "clientIcon": "Hiding"
+      "effectClientIcon": "Hiding"
     },
     {
       "description": "Envenom",
@@ -8376,7 +8376,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Twohandquicken"
+      "effectClientIcon": "Twohandquicken"
     },
     {
       "description": "Counter Attack",
@@ -8444,7 +8444,7 @@
       },
       "dmgMatk": 1,
       "dmgWaves": 1,
-      "clientIcon": "Autocounter"
+      "effectClientIcon": "Autocounter"
     },
     {
       "castTime": 700,
@@ -8864,7 +8864,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Impositio"
+      "effectClientIcon": "Impositio"
     },
     {
       "afterCastActDelay": 2000,
@@ -8899,7 +8899,7 @@
       "requires": {
         "spcost": 8
       },
-      "clientIcon": "Suffragium"
+      "effectClientIcon": "Suffragium"
     },
     {
       "afterCastActDelay": 2000,
@@ -8974,7 +8974,7 @@
           }
         ]
       },
-      "clientIcon": "Aspersio"
+      "effectClientIcon": "Aspersio"
     },
     {
       "castCancel": true,
@@ -9026,7 +9026,7 @@
         "spcost": 20
       },
       "aoesize": "3x3 square",
-      "clientIcon": "Benedictio"
+      "effectClientIcon": "Benedictio"
     },
     {
       "castCancel": true,
@@ -9331,7 +9331,7 @@
           }
         ]
       },
-      "clientIcon": "Slowpoison"
+      "effectClientIcon": "Slowpoison"
     },
     {
       "afterCastActDelay": 2000,
@@ -9532,7 +9532,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Kyrie"
+      "effectClientIcon": "Kyrie"
     },
     {
       "afterCastActDelay": 2000,
@@ -9576,7 +9576,7 @@
         "spcost": 40
       },
       "aoesize": "37x37 square",
-      "clientIcon": "Magnificat"
+      "effectClientIcon": "Magnificat"
     },
     {
       "afterCastActDelay": 2000,
@@ -9663,7 +9663,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Gloria"
+      "effectClientIcon": "Gloria"
     },
     {
       "afterCastActDelay": 3000,
@@ -9975,7 +9975,7 @@
       "requires": {
         "spcost": 10
       },
-      "clientIcon": "Lexaeterna"
+      "effectClientIcon": "Lexaeterna"
     },
     {
       "afterCastActDelay": 4000,
@@ -12930,7 +12930,7 @@
           }
         }
       ],
-      "clientIcon": "Quagmire"
+      "effectClientIcon": "Quagmire"
     },
     {
       "castCancel": true,
@@ -14196,7 +14196,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Adrenaline"
+      "effectClientIcon": "Adrenaline"
     },
     {
       "description": "Weapon Perfection",
@@ -14261,7 +14261,7 @@
         ]
       },
       "aoesize": "37x37 square",
-      "clientIcon": "Weaponperfect"
+      "effectClientIcon": "Weaponperfect"
     },
     {
       "description": "Power-Thrust",
@@ -14465,7 +14465,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Overthrust"
+      "effectClientIcon": "Overthrust"
     },
     {
       "description": "Maximize Power",
@@ -14527,7 +14527,7 @@
           "value": 0.2
         }
       ],
-      "clientIcon": "Maximize"
+      "effectClientIcon": "Maximize"
     },
     {
       "description": "Skid Trap",
@@ -14992,7 +14992,7 @@
           "value": 3500
         }
       ],
-      "clientIcon": "Anklesnare"
+      "effectClientIcon": "Anklesnare"
     },
     {
       "description": "Shockwave Trap",
@@ -16760,7 +16760,7 @@
         "icon": true,
         "unique": true
       },
-      "clientIcon": "Cloaking"
+      "effectClientIcon": "Cloaking"
     },
     {
       "afterCastActDelay": 2000,
@@ -17328,7 +17328,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Enchantpoison"
+      "effectClientIcon": "Enchantpoison"
     },
     {
       "description": "Poison React",
@@ -17680,7 +17680,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Poisonreact"
+      "effectClientIcon": "Poisonreact"
     },
     {
       "description": "Venom Dust",
@@ -18130,7 +18130,7 @@
           }
         }
       ],
-      "clientIcon": "Splasher"
+      "effectClientIcon": "Splasher"
     },
     {
       "description": "First Aid",
@@ -18166,7 +18166,7 @@
         "spcost": 5
       },
       "type": "Support",
-      "clientIcon": "Trickdead"
+      "effectClientIcon": "Trickdead"
     },
     {
       "description": "Moving HP-Recovery",
@@ -18264,7 +18264,7 @@
           }
         }
       ],
-      "clientIcon": "Autoberserk"
+      "effectClientIcon": "Autoberserk"
     },
     {
       "description": "Arrow Crafting",
@@ -18523,7 +18523,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Shout"
+      "effectClientIcon": "Shout"
     },
     {
       "castCancel": true,
@@ -18573,7 +18573,7 @@
       "requires": {
         "spcost": 30
       },
-      "clientIcon": "Energycoat"
+      "effectClientIcon": "Energycoat"
     },
     {
       "description": "Gank",
@@ -19158,7 +19158,7 @@
           }
         }
       ],
-      "clientIcon": "Noequipweapon"
+      "effectClientIcon": "Noequipweapon"
     },
     {
       "afterCastActDelay": 1000,
@@ -19268,7 +19268,7 @@
           }
         }
       ],
-      "clientIcon": "Noequipshield"
+      "effectClientIcon": "Noequipshield"
     },
     {
       "afterCastActDelay": 1000,
@@ -19378,7 +19378,7 @@
           }
         }
       ],
-      "clientIcon": "Noequiparmor"
+      "effectClientIcon": "Noequiparmor"
     },
     {
       "afterCastActDelay": 1000,
@@ -19488,7 +19488,7 @@
           }
         }
       ],
-      "clientIcon": "Noequiphelm"
+      "effectClientIcon": "Noequiphelm"
     },
     {
       "description": "Snatch",
@@ -20989,7 +20989,7 @@
           }
         ]
       },
-      "clientIcon": "Protectweapon"
+      "effectClientIcon": "Protectweapon"
     },
     {
       "castCancel": true,
@@ -21035,7 +21035,7 @@
           }
         ]
       },
-      "clientIcon": "Protectshield"
+      "effectClientIcon": "Protectshield"
     },
     {
       "castCancel": true,
@@ -21081,7 +21081,7 @@
           }
         ]
       },
-      "clientIcon": "Protectarmor"
+      "effectClientIcon": "Protectarmor"
     },
     {
       "castCancel": true,
@@ -21127,7 +21127,7 @@
           }
         ]
       },
-      "clientIcon": "Protecthelm"
+      "effectClientIcon": "Protecthelm"
     },
     {
       "description": "Bioethics",
@@ -21726,7 +21726,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Autoguard"
+      "effectClientIcon": "Autoguard"
     },
     {
       "description": "Smite",
@@ -22040,7 +22040,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Reflectshield"
+      "effectClientIcon": "Reflectshield"
     },
     {
       "description": "Holy Cross",
@@ -22452,7 +22452,7 @@
         }
       ],
       "type": "Support",
-      "clientIcon": "Devotion"
+      "effectClientIcon": "Devotion"
     },
     {
       "castCancel": true,
@@ -22561,7 +22561,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Providence"
+      "effectClientIcon": "Providence"
     },
     {
       "afterCastActDelay": 800,
@@ -22656,7 +22656,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Defender"
+      "effectClientIcon": "Defender"
     },
     {
       "description": "Spear Quicken",
@@ -22834,7 +22834,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Spearquicken"
+      "effectClientIcon": "Spearquicken"
     },
     {
       "description": "Iron Fists",
@@ -23699,7 +23699,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Steelbody"
+      "effectClientIcon": "Steelbody"
     },
     {
       "description": "Root",
@@ -23805,7 +23805,7 @@
           "value": 60
         }
       ],
-      "clientIcon": "Bladestop"
+      "effectClientIcon": "Bladestop"
     },
     {
       "description": "Fury",
@@ -23859,7 +23859,7 @@
           }
         }
       ],
-      "clientIcon": "Explosionspirits"
+      "effectClientIcon": "Explosionspirits"
     },
     {
       "castCancel": true,
@@ -24427,7 +24427,7 @@
           "value": 100
         }
       ],
-      "clientIcon": "Magicrod"
+      "effectClientIcon": "Magicrod"
     },
     {
       "castCancel": true,
@@ -24805,7 +24805,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Autospell"
+      "effectClientIcon": "Autospell"
     },
     {
       "castCancel": true,
@@ -24898,7 +24898,7 @@
           }
         }
       ],
-      "clientIcon": "Propertyfire"
+      "effectClientIcon": "Propertyfire"
     },
     {
       "castCancel": true,
@@ -24991,7 +24991,7 @@
           }
         }
       ],
-      "clientIcon": "Propertywater"
+      "effectClientIcon": "Propertywater"
     },
     {
       "castCancel": true,
@@ -25084,7 +25084,7 @@
           }
         }
       ],
-      "clientIcon": "Propertywind"
+      "effectClientIcon": "Propertywind"
     },
     {
       "castCancel": true,
@@ -25177,7 +25177,7 @@
           }
         }
       ],
-      "clientIcon": "Propertyground"
+      "effectClientIcon": "Propertyground"
     },
     {
       "description": "Dragonology",
@@ -25501,7 +25501,7 @@
           }
         }
       ],
-      "clientIcon": "Groundmagic"
+      "effectClientIcon": "Groundmagic"
     },
     {
       "castCancel": true,
@@ -25661,7 +25661,7 @@
           }
         }
       ],
-      "clientIcon": "Groundmagic"
+      "effectClientIcon": "Groundmagic"
     },
     {
       "castCancel": true,
@@ -25821,7 +25821,7 @@
           }
         }
       ],
-      "clientIcon": "Groundmagic"
+      "effectClientIcon": "Groundmagic"
     },
     {
       "castCancel": true,
@@ -26383,7 +26383,7 @@
         }
       },
       "type": "Interactive",
-      "clientIcon": "Bdplaying"
+      "effectClientIcon": "Bdplaying"
     },
     {
       "description": "Lullaby",
@@ -26504,7 +26504,7 @@
           "value": 90
         }
       ],
-      "clientIcon": "Richmankim"
+      "effectClientIcon": "Richmankim"
     },
     {
       "description": "Down Tempo",
@@ -26549,7 +26549,7 @@
           }
         }
       ],
-      "clientIcon": "Eternalchaos"
+      "effectClientIcon": "Eternalchaos"
     },
     {
       "description": "Battle Theme",
@@ -26700,7 +26700,7 @@
           }
         }
       ],
-      "clientIcon": "Drumbattlefield"
+      "effectClientIcon": "Drumbattlefield"
     },
     {
       "description": "Harmonic Lick",
@@ -26821,7 +26821,7 @@
           }
         }
       ],
-      "clientIcon": "Ringnibelungen"
+      "effectClientIcon": "Ringnibelungen"
     },
     {
       "description": "Classical Pluck",
@@ -26857,7 +26857,7 @@
       },
       "aoesize": "9x9 square",
       "spLossPerSecond": 0.25,
-      "clientIcon": "Rokisweil"
+      "effectClientIcon": "Rokisweil"
     },
     {
       "description": "Power Chord",
@@ -26895,7 +26895,7 @@
       },
       "aoesize": "9x9 square",
       "spLossPerSecond": 0.2,
-      "clientIcon": "Intoabyss"
+      "effectClientIcon": "Intoabyss"
     },
     {
       "description": "Acoustic Rhythm",
@@ -26995,7 +26995,7 @@
           }
         }
       ],
-      "clientIcon": "Siegfried"
+      "effectClientIcon": "Siegfried"
     },
     {
       "description": "Music Lessons",
@@ -27728,7 +27728,7 @@
           }
         }
       ],
-      "clientIcon": "Whistle"
+      "effectClientIcon": "Whistle"
     },
     {
       "description": "Impressive Riff",
@@ -27920,7 +27920,7 @@
           }
         }
       ],
-      "clientIcon": "Assassincross"
+      "effectClientIcon": "Assassincross"
     },
     {
       "description": "Magic Strings",
@@ -28040,7 +28040,7 @@
           "value": 0.2
         }
       ],
-      "clientIcon": "Poembragi"
+      "effectClientIcon": "Poembragi"
     },
     {
       "description": "Song of Lutie",
@@ -28275,7 +28275,7 @@
           }
         }
       ],
-      "clientIcon": "Appleidun"
+      "effectClientIcon": "Appleidun"
     },
     {
       "description": "Dance Lessons",
@@ -28852,7 +28852,7 @@
           "value": 0.2
         }
       ],
-      "clientIcon": "Humming"
+      "effectClientIcon": "Humming"
     },
     {
       "description": "Slow Grace",
@@ -29114,7 +29114,7 @@
           }
         }
       ],
-      "clientIcon": "Dontforgetme"
+      "effectClientIcon": "Dontforgetme"
     },
     {
       "description": "Lady Luck",
@@ -29306,7 +29306,7 @@
           }
         }
       ],
-      "clientIcon": "Fortunekiss"
+      "effectClientIcon": "Fortunekiss"
     },
     {
       "description": "Gypsy's Kiss",
@@ -29498,7 +29498,7 @@
           }
         }
       ],
-      "clientIcon": "Serviceforyou"
+      "effectClientIcon": "Serviceforyou"
     },
     {
       "castCancel": true,
@@ -29724,7 +29724,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Aurablade"
+      "effectClientIcon": "Aurablade"
     },
     {
       "description": "Parrying",
@@ -29863,7 +29863,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Parrying"
+      "effectClientIcon": "Parrying"
     },
     {
       "description": "Concentration",
@@ -30000,7 +30000,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Lkconcentration"
+      "effectClientIcon": "Lkconcentration"
     },
     {
       "description": "Relax",
@@ -30018,7 +30018,7 @@
       "requires": {
         "spcost": 15
       },
-      "clientIcon": "Tensionrelax"
+      "effectClientIcon": "Tensionrelax"
     },
     {
       "description": "Frenzy",
@@ -30038,7 +30038,7 @@
         "spcost": 200,
         "joblevel": 50
       },
-      "clientIcon": "Berserk"
+      "effectClientIcon": "Berserk"
     },
     {
       "description": "Fury",
@@ -30159,7 +30159,7 @@
           }
         ]
       },
-      "clientIcon": "Assumptio"
+      "effectClientIcon": "Assumptio"
     },
     {
       "activeInstance": 1,
@@ -30809,7 +30809,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Magicpower"
+      "effectClientIcon": "Magicpower"
     },
     {
       "description": "Gloria Domini",
@@ -31268,7 +31268,7 @@
           }
         }
       ],
-      "clientIcon": "Gospel"
+      "effectClientIcon": "Gospel"
     },
     {
       "afterCastActDelay": 300,
@@ -32055,7 +32055,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Edp"
+      "effectClientIcon": "Edp"
     },
     {
       "castCancel": true,
@@ -32521,7 +32521,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Truesight"
+      "effectClientIcon": "Truesight"
     },
     {
       "afterCastActDelay": 3000,
@@ -32975,7 +32975,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Windwalk"
+      "effectClientIcon": "Windwalk"
     },
     {
       "castCancel": true,
@@ -33268,7 +33268,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Meltdown"
+      "effectClientIcon": "Meltdown"
     },
     {
       "castCancel": true,
@@ -33333,7 +33333,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Cartboost"
+      "effectClientIcon": "Cartboost"
     },
     {
       "description": "Auto Attack System",
@@ -33471,7 +33471,7 @@
           }
         }
       ],
-      "clientIcon": "Chasewalk"
+      "effectClientIcon": "Chasewalk"
     },
     {
       "castCancel": true,
@@ -33552,7 +33552,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Swordreject"
+      "effectClientIcon": "Swordreject"
     },
     {
       "castCancel": true,
@@ -33899,7 +33899,7 @@
         "spcost": 100
       },
       "type": "Support",
-      "clientIcon": "Marionette"
+      "effectClientIcon": "Marionette"
     },
     {
       "description": "Spiral Pierce",
@@ -34447,7 +34447,7 @@
           }
         }
       ],
-      "clientIcon": "Jointbeat"
+      "effectClientIcon": "Jointbeat"
     },
     {
       "afterCastActDelay": 1000,
@@ -34763,7 +34763,7 @@
           }
         }
       ],
-      "clientIcon": "Mindbreaker"
+      "effectClientIcon": "Mindbreaker"
     },
     {
       "castCancel": true,
@@ -34785,7 +34785,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "Memorize"
+      "effectClientIcon": "Memorize"
     },
     {
       "activeInstance": 2,
@@ -34832,7 +34832,7 @@
           }
         }
       ],
-      "clientIcon": "Fogwall"
+      "effectClientIcon": "Fogwall"
     },
     {
       "activeInstance": 3,
@@ -34880,7 +34880,7 @@
           }
         }
       ],
-      "clientIcon": "Spiderweb"
+      "effectClientIcon": "Spiderweb"
     },
     {
       "afterCastActDelay": 500,
@@ -35304,7 +35304,7 @@
         "spRateCost": -10
       },
       "aoesize": "31x31 square",
-      "clientIcon": "Protectexp"
+      "effectClientIcon": "Protectexp"
     },
     {
       "activeInstance": 1,
@@ -35607,7 +35607,7 @@
           }
         }
       ],
-      "clientIcon": "Strup"
+      "effectClientIcon": "Strup"
     },
     {
       "description": "Tornado Stance",
@@ -35634,7 +35634,7 @@
           }
         }
       ],
-      "clientIcon": "StormkickOn"
+      "effectClientIcon": "StormkickOn"
     },
     {
       "description": "Tornado Kick",
@@ -35746,7 +35746,7 @@
           }
         }
       ],
-      "clientIcon": "DownkickOn"
+      "effectClientIcon": "DownkickOn"
     },
     {
       "description": "Heel Drop",
@@ -35885,7 +35885,7 @@
           }
         }
       ],
-      "clientIcon": "TurnkickOn"
+      "effectClientIcon": "TurnkickOn"
     },
     {
       "description": "Roundhouse Kick",
@@ -36086,7 +36086,7 @@
           }
         }
       ],
-      "clientIcon": "CounterOn"
+      "effectClientIcon": "CounterOn"
     },
     {
       "description": "Counter Kick",
@@ -36194,7 +36194,7 @@
           }
         }
       ],
-      "clientIcon": "DodgeOn"
+      "effectClientIcon": "DodgeOn"
     },
     {
       "description": "Flying Kick",
@@ -36313,7 +36313,7 @@
           }
         }
       ],
-      "clientIcon": "Earthscroll"
+      "effectClientIcon": "Earthscroll"
     },
     {
       "description": "Kihop",
@@ -36438,7 +36438,7 @@
           }
         ]
       },
-      "clientIcon": "Propertytelekinesis"
+      "effectClientIcon": "Propertytelekinesis"
     },
     {
       "description": "Taekwon Jump",
@@ -36629,7 +36629,7 @@
           }
         }
       ],
-      "clientIcon": "SgSunWarm"
+      "effectClientIcon": "SgSunWarm"
     },
     {
       "afterCastActDelay": 1000,
@@ -36947,7 +36947,7 @@
           }
         }
       ],
-      "clientIcon": "SunComfort"
+      "effectClientIcon": "SunComfort"
     },
     {
       "afterCastActDelay": 1000,
@@ -37073,7 +37073,7 @@
           }
         }
       ],
-      "clientIcon": "MoonComfort"
+      "effectClientIcon": "MoonComfort"
     },
     {
       "afterCastActDelay": 1000,
@@ -37199,7 +37199,7 @@
           }
         }
       ],
-      "clientIcon": "StarComfort"
+      "effectClientIcon": "StarComfort"
     },
     {
       "castCancel": true,
@@ -38531,7 +38531,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Adrenaline2"
+      "effectClientIcon": "Adrenaline2"
     },
     {
       "afterCastActDelay": 500,
@@ -38776,7 +38776,7 @@
           "value": 70
         }
       ],
-      "clientIcon": "Kaizel"
+      "effectClientIcon": "Kaizel"
     },
     {
       "afterCastActDelay": 500,
@@ -38857,7 +38857,7 @@
           "value": 35
         }
       ],
-      "clientIcon": "Kaahi"
+      "effectClientIcon": "Kaahi"
     },
     {
       "afterCastActDelay": 500,
@@ -38923,7 +38923,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Kaupe"
+      "effectClientIcon": "Kaupe"
     },
     {
       "castCancel": true,
@@ -39065,7 +39065,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Kaite"
+      "effectClientIcon": "Kaite"
     },
     {
       "castCancel": true,
@@ -39485,7 +39485,7 @@
         }
       ],
       "dmgWaves": 1,
-      "clientIcon": "SmaReady"
+      "effectClientIcon": "SmaReady"
     },
     {
       "afterCastActDelay": 500,
@@ -39615,7 +39615,7 @@
           }
         }
       ],
-      "clientIcon": "Swoo"
+      "effectClientIcon": "Swoo"
     },
     {
       "afterCastActDelay": 500,
@@ -39809,7 +39809,7 @@
       "requires": {
         "spcost": 30
       },
-      "clientIcon": "Preserve"
+      "effectClientIcon": "Preserve"
     },
     {
       "afterCastActDelay": 1000,
@@ -40366,7 +40366,7 @@
           }
         ]
       },
-      "clientIcon": "Doublecasting"
+      "effectClientIcon": "Doublecasting"
     },
     {
       "afterCastActDelay": 2000,
@@ -40580,7 +40580,7 @@
           }
         }
       ],
-      "clientIcon": "Gravitation"
+      "effectClientIcon": "Gravitation"
     },
     {
       "description": "Cart Termination",
@@ -41006,7 +41006,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Overthrustmax"
+      "effectClientIcon": "Overthrustmax"
     },
     {
       "description": "Longing for Freedom",
@@ -41120,7 +41120,7 @@
           }
         }
       ],
-      "clientIcon": "Longing"
+      "effectClientIcon": "Longing"
     },
     {
       "description": "Wand of Hermode",
@@ -41220,7 +41220,7 @@
         }
       },
       "aoesize": "7x7 square",
-      "clientIcon": "Hermode"
+      "effectClientIcon": "Hermode"
     },
     {
       "afterCastActDelay": 3000,
@@ -41286,7 +41286,7 @@
           }
         }
       ],
-      "clientIcon": "Tarotcard"
+      "effectClientIcon": "Tarotcard"
     },
     {
       "afterCastActDelay": 1000,
@@ -41478,7 +41478,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "Weaponproperty"
+      "effectClientIcon": "Weaponproperty"
     },
     {
       "castTime": 1000,
@@ -41558,7 +41558,7 @@
           }
         ]
       },
-      "clientIcon": "Soullink"
+      "effectClientIcon": "Soullink"
     },
     {
       "description": "Onehand Quicken",
@@ -41595,7 +41595,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "Onehandquicken"
+      "effectClientIcon": "Onehandquicken"
     },
     {
       "afterCastActDelay": 10000,
@@ -41941,7 +41941,7 @@
           }
         }
       ],
-      "clientIcon": "GsMadnesscancel"
+      "effectClientIcon": "GsMadnesscancel"
     },
     {
       "afterCastActDelay": 1000,
@@ -41977,7 +41977,7 @@
           }
         }
       ],
-      "clientIcon": "GsAdjustment"
+      "effectClientIcon": "GsAdjustment"
     },
     {
       "afterCastActDelay": 1000,
@@ -42022,7 +42022,7 @@
         "unique": true,
         "icon": true
       },
-      "clientIcon": "GsAccuracy"
+      "effectClientIcon": "GsAccuracy"
     },
     {
       "description": "Magical Bullet",
@@ -43333,7 +43333,7 @@
           }
         }
       ],
-      "clientIcon": "GsGatlingfever"
+      "effectClientIcon": "GsGatlingfever"
     },
     {
       "afterCastActDelay": 1000,
@@ -45147,7 +45147,7 @@
           }
         }
       ],
-      "clientIcon": "NjUtsusemi"
+      "effectClientIcon": "NjUtsusemi"
     },
     {
       "afterCastActDelay": 1000,
@@ -45380,7 +45380,7 @@
           }
         }
       ],
-      "clientIcon": "NjBunsinjyutsu"
+      "effectClientIcon": "NjBunsinjyutsu"
     },
     {
       "description": "Spirit of the Blade",
@@ -46510,7 +46510,7 @@
           }
         }
       ],
-      "clientIcon": "NjSuiton"
+      "effectClientIcon": "NjSuiton"
     },
     {
       "afterCastActDelay": 2000,
@@ -47285,7 +47285,7 @@
           }
         }
       ],
-      "clientIcon": "NjNen"
+      "effectClientIcon": "NjNen"
     },
     {
       "description": "Final Strike",
@@ -47845,7 +47845,7 @@
       "flags": {
         "isNpc": true
       },
-      "clientIcon": "Partyflee"
+      "effectClientIcon": "Partyflee"
     },
     {
       "afterCastActDelay": 12000,
@@ -47935,7 +47935,7 @@
         "spcost": 15,
         "state": "Shield"
       },
-      "clientIcon": "CrShrink"
+      "effectClientIcon": "CrShrink"
     },
     {
       "description": "Sonic Acceleration",
@@ -48036,7 +48036,7 @@
       "requires": {
         "spcost": 25
       },
-      "clientIcon": "RgCconfineS"
+      "effectClientIcon": "RgCconfineS"
     },
     {
       "castCancel": true,
@@ -48063,7 +48063,7 @@
       "requires": {
         "spcost": 40
       },
-      "clientIcon": "WzSightblaster"
+      "effectClientIcon": "WzSightblaster"
     },
     {
       "description": "Create Elemental Converter",
@@ -48177,7 +48177,7 @@
       "requires": {
         "spcost": 40
       },
-      "clientIcon": "DcWinkcharm"
+      "effectClientIcon": "DcWinkcharm"
     },
     {
       "description": "Unfair Trick",
@@ -49169,7 +49169,7 @@
           }
         ]
       },
-      "clientIcon": "NeedleOfParalyze"
+      "effectClientIcon": "NeedleOfParalyze"
     },
     {
       "activeInstance": 1,
@@ -49364,7 +49364,7 @@
         ]
       },
       "type": "Support",
-      "clientIcon": "PainKiller"
+      "effectClientIcon": "PainKiller"
     },
     {
       "description": "Light of Regene",
@@ -49423,7 +49423,7 @@
           }
         ]
       },
-      "clientIcon": "LightOfRegene"
+      "effectClientIcon": "LightOfRegene"
     },
     {
       "description": "Overed Boost",
@@ -49504,7 +49504,7 @@
           }
         ]
       },
-      "clientIcon": "OveredBoost"
+      "effectClientIcon": "OveredBoost"
     },
     {
       "afterCastActDelay": 2000,
@@ -50115,7 +50115,7 @@
           }
         ]
       },
-      "clientIcon": "GoldeneFerse"
+      "effectClientIcon": "GoldeneFerse"
     },
     {
       "castTime": 1000,
@@ -50346,7 +50346,7 @@
           }
         ]
       },
-      "clientIcon": "AngriffsModus"
+      "effectClientIcon": "AngriffsModus"
     },
     {
       "castTime": 1000,
@@ -50407,7 +50407,7 @@
           }
         ]
       },
-      "clientIcon": "TinderBreaker"
+      "effectClientIcon": "TinderBreaker"
     },
     {
       "description": "Continual Break Combo",
@@ -50446,7 +50446,7 @@
           }
         ]
       },
-      "clientIcon": "Cbc"
+      "effectClientIcon": "Cbc"
     },
     {
       "afterCastActDelay": 1000,
@@ -50486,7 +50486,7 @@
           }
         ]
       },
-      "clientIcon": "Eqc"
+      "effectClientIcon": "Eqc"
     },
     {
       "afterCastActDelay": 1000,
@@ -50591,7 +50591,7 @@
           }
         ]
       },
-      "clientIcon": "MagmaFlow"
+      "effectClientIcon": "MagmaFlow"
     },
     {
       "afterCastActDelay": 1000,
@@ -50652,7 +50652,7 @@
           }
         ]
       },
-      "clientIcon": "GraniticArmor"
+      "effectClientIcon": "GraniticArmor"
     },
     {
       "activeInstance": 1,
@@ -50852,7 +50852,7 @@
           }
         ]
       },
-      "clientIcon": "Pyroclastic"
+      "effectClientIcon": "Pyroclastic"
     },
     {
       "activeInstance": 3,
@@ -50946,7 +50946,7 @@
           "rangedSingleUnit": true
         }
       },
-      "clientIcon": "VolcanicAsh"
+      "effectClientIcon": "VolcanicAsh"
     },
     {
       "description": "Bash",
@@ -52947,7 +52947,7 @@
       "requires": {
         "spcost": 40
       },
-      "clientIcon": "CircleOfFireOption"
+      "effectClientIcon": "CircleOfFireOption"
     },
     {
       "description": "Fire Cloak",
@@ -52963,7 +52963,7 @@
       "requires": {
         "spcost": 60
       },
-      "clientIcon": "FireCloakOption"
+      "effectClientIcon": "FireCloakOption"
     },
     {
       "activeInstance": 3,
@@ -53006,7 +53006,7 @@
       "requires": {
         "spcost": 40
       },
-      "clientIcon": "WaterScreenOption"
+      "effectClientIcon": "WaterScreenOption"
     },
     {
       "description": "Water Drop",
@@ -53022,7 +53022,7 @@
       "requires": {
         "spcost": 60
       },
-      "clientIcon": "WaterDropOption"
+      "effectClientIcon": "WaterDropOption"
     },
     {
       "castTime": 1000,
@@ -53051,7 +53051,7 @@
           "rangedSingleUnit": true
         }
       },
-      "clientIcon": "WaterBarrier"
+      "effectClientIcon": "WaterBarrier"
     },
     {
       "description": "Wind Step",
@@ -53068,7 +53068,7 @@
       "requires": {
         "spcost": 40
       },
-      "clientIcon": "WindStepOption"
+      "effectClientIcon": "WindStepOption"
     },
     {
       "description": "Wind Curtain",
@@ -53084,7 +53084,7 @@
       "requires": {
         "spcost": 60
       },
-      "clientIcon": "WindCurtainOption"
+      "effectClientIcon": "WindCurtainOption"
     },
     {
       "description": "Zephyr",
@@ -53112,7 +53112,7 @@
           "rangedSingleUnit": true
         }
       },
-      "clientIcon": "Zephyr"
+      "effectClientIcon": "Zephyr"
     },
     {
       "description": "Solid Skin",
@@ -53128,7 +53128,7 @@
       "requires": {
         "spcost": 40
       },
-      "clientIcon": "SolidSkinOption"
+      "effectClientIcon": "SolidSkinOption"
     },
     {
       "description": "Stone Shield",
@@ -53144,7 +53144,7 @@
       "requires": {
         "spcost": 60
       },
-      "clientIcon": "StoneShieldOption"
+      "effectClientIcon": "StoneShieldOption"
     },
     {
       "description": "Power of Gaia",
@@ -53172,7 +53172,7 @@
           "rangedSingleUnit": true
         }
       },
-      "clientIcon": "PowerOfGaia"
+      "effectClientIcon": "PowerOfGaia"
     },
     {
       "description": "Pyrotechnic",
@@ -53188,7 +53188,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "PyrotechnicOption"
+      "effectClientIcon": "PyrotechnicOption"
     },
     {
       "description": "Heater",
@@ -53204,7 +53204,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "HeaterOption"
+      "effectClientIcon": "HeaterOption"
     },
     {
       "description": "Tropic",
@@ -53220,7 +53220,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "TropicOption"
+      "effectClientIcon": "TropicOption"
     },
     {
       "description": "Aqua Play",
@@ -53236,7 +53236,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "AquaplayOption"
+      "effectClientIcon": "AquaplayOption"
     },
     {
       "description": "Cooler",
@@ -53252,7 +53252,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "CoolerOption"
+      "effectClientIcon": "CoolerOption"
     },
     {
       "description": "Cool Air",
@@ -53268,7 +53268,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "ChillyAirOption"
+      "effectClientIcon": "ChillyAirOption"
     },
     {
       "description": "Gust",
@@ -53284,7 +53284,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "GustOption"
+      "effectClientIcon": "GustOption"
     },
     {
       "description": "Blast",
@@ -53300,7 +53300,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "BlastOption"
+      "effectClientIcon": "BlastOption"
     },
     {
       "description": "Wild Storm",
@@ -53316,7 +53316,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "WildStormOption"
+      "effectClientIcon": "WildStormOption"
     },
     {
       "description": "Petrology",
@@ -53332,7 +53332,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "PetrologyOption"
+      "effectClientIcon": "PetrologyOption"
     },
     {
       "description": "Cursed Soil",
@@ -53348,7 +53348,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "CursedSoilOption"
+      "effectClientIcon": "CursedSoilOption"
     },
     {
       "description": "Upheaval",
@@ -53364,7 +53364,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "UpheavalOption"
+      "effectClientIcon": "UpheavalOption"
     },
     {
       "description": "Fire Arrow",
@@ -53498,7 +53498,7 @@
       "requires": {
         "spcost": 80
       },
-      "clientIcon": "TidalWeaponOption"
+      "effectClientIcon": "TidalWeaponOption"
     },
     {
       "castTime": 1000,
@@ -53607,7 +53607,7 @@
       "requires": {
         "spcost": 60
       },
-      "clientIcon": "RockCrusher"
+      "effectClientIcon": "RockCrusher"
     },
     {
       "description": "Rock Launcher Attack",
@@ -53624,7 +53624,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "RockCrusherAtk"
+      "effectClientIcon": "RockCrusherAtk"
     },
     {
       "description": "Stone Rain",
@@ -53799,7 +53799,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "GdskillBattleorder"
+      "effectClientIcon": "GdskillBattleorder"
     },
     {
       "castCancel": true,
@@ -53825,7 +53825,7 @@
       "requires": {
         "spcost": 1
       },
-      "clientIcon": "GdskillRegeneration"
+      "effectClientIcon": "GdskillRegeneration"
     },
     {
       "castCancel": true,

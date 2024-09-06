@@ -435,43 +435,43 @@ impl SkillBase for Cloaking {
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-27), 0, tick, 500, 135),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-27), 10, tick, 500, 135),]);
         }
         if self.level == 2 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-24), 0, tick, 1000, 135),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-24), 10, tick, 1000, 135),]);
         }
         if self.level == 3 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-21), 0, tick, 2000, 135),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-21), 10, tick, 2000, 135),]);
         }
         if self.level == 4 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-18), 0, tick, 3000, 135),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-18), 10, tick, 3000, 135),]);
         }
         if self.level == 5 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-15), 0, tick, 4000, 135),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-15), 10, tick, 4000, 135),]);
         }
         if self.level == 6 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-12), 0, tick, 5000, 135),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-12), 10, tick, 5000, 135),]);
         }
         if self.level == 7 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-9), 0, tick, 6000, 135),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-9), 10, tick, 6000, 135),]);
         }
         if self.level == 8 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-6), 0, tick, 7000, 135),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-6), 10, tick, 7000, 135),]);
         }
         if self.level == 9 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-3), 0, tick, 8000, 135),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-3), 10, tick, 8000, 135),]);
         }
         if self.level == 10 {
             return TemporaryStatusBonuses(vec![
-                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(0), 0, tick, 9000, 135),]);
+                TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(0), 10, tick, 9000, 135),]);
         }
         TemporaryStatusBonuses::default()
     }
