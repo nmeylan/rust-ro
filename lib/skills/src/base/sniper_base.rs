@@ -37,6 +37,9 @@ impl SkillBase for FalconEyes {
     fn _id(&self) -> u32 {
         380
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -250,6 +253,9 @@ impl SkillBase for FalconAssault {
     fn _id(&self) -> u32 {
         381
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -389,6 +395,9 @@ impl SkillBase for FocusedArrowStrike {
     }
     fn _id(&self) -> u32 {
         382
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -555,6 +564,9 @@ impl SkillBase for WindWalker {
     }
     fn _id(&self) -> u32 {
         383
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level

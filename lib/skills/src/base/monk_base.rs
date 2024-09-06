@@ -37,6 +37,9 @@ impl SkillBase for IronFists {
     fn _id(&self) -> u32 {
         259
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -162,6 +165,9 @@ impl SkillBase for SpiritualCadence {
     fn _id(&self) -> u32 {
         260
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -282,6 +288,9 @@ impl SkillBase for SummonSpiritSphere {
     fn _id(&self) -> u32 {
         261
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -367,6 +376,9 @@ impl SkillBase for AbsorbSpiritSphere {
     fn _id(&self) -> u32 {
         262
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -451,6 +463,9 @@ impl SkillBase for RagingTrifectaBlow {
     }
     fn _id(&self) -> u32 {
         263
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -577,6 +592,9 @@ impl SkillBase for Snap {
     fn _id(&self) -> u32 {
         264
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -667,6 +685,9 @@ impl SkillBase for Dodge {
     }
     fn _id(&self) -> u32 {
         265
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -792,6 +813,9 @@ impl SkillBase for OccultImpaction {
     }
     fn _id(&self) -> u32 {
         266
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -943,6 +967,9 @@ impl SkillBase for ThrowSpiritSphere {
     fn _id(&self) -> u32 {
         267
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1078,6 +1105,9 @@ impl SkillBase for MentalStrength {
     fn _id(&self) -> u32 {
         268
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1200,6 +1230,9 @@ impl SkillBase for Root {
     fn _id(&self) -> u32 {
         269
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1289,6 +1322,9 @@ impl SkillBase for Fury {
     }
     fn _id(&self) -> u32 {
         270
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1398,6 +1434,9 @@ impl SkillBase for AsuraStrike {
     }
     fn _id(&self) -> u32 {
         271
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1567,6 +1606,9 @@ impl SkillBase for RagingQuadrupleBlow {
     fn _id(&self) -> u32 {
         272
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1717,6 +1759,9 @@ impl SkillBase for RagingThrust {
     }
     fn _id(&self) -> u32 {
         273
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1869,6 +1914,9 @@ impl SkillBase for KiTranslation {
     fn _id(&self) -> u32 {
         1015
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1962,6 +2010,9 @@ impl SkillBase for KiExplosion {
     fn _id(&self) -> u32 {
         1016
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2025,4 +2076,18 @@ impl SkillBase for KiExplosion {
     fn _base_after_cast_act_delay(&self) -> u32 {
        2000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        16
+    }
+}
+impl SupportiveSkillBase for KiExplosion {
 }

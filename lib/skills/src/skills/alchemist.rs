@@ -114,6 +114,8 @@ impl Skill for Bioethics {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl PassiveSkill for Bioethics {
+}
 impl Skill for CallHomunculus {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
@@ -152,15 +154,21 @@ impl Skill for TwilightAlchemy1 {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl SupportiveSkill for TwilightAlchemy1 {
+}
 impl Skill for TwilightAlchemy2 {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl SupportiveSkill for TwilightAlchemy2 {
+}
 impl Skill for TwilightAlchemy3 {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl SupportiveSkill for TwilightAlchemy3 {
 }

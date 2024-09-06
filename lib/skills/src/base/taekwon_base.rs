@@ -37,6 +37,9 @@ impl SkillBase for Running {
     fn _id(&self) -> u32 {
         411
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -267,6 +270,9 @@ impl SkillBase for TornadoStance {
     fn _id(&self) -> u32 {
         412
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -370,6 +376,9 @@ impl SkillBase for TornadoKick {
     }
     fn _id(&self) -> u32 {
         413
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -531,6 +540,9 @@ impl SkillBase for HeelDropStance {
     fn _id(&self) -> u32 {
         414
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -634,6 +646,9 @@ impl SkillBase for HeelDrop {
     }
     fn _id(&self) -> u32 {
         415
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -795,6 +810,9 @@ impl SkillBase for RoundhouseStance {
     fn _id(&self) -> u32 {
         416
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -898,6 +916,9 @@ impl SkillBase for RoundhouseKick {
     }
     fn _id(&self) -> u32 {
         417
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1088,6 +1109,9 @@ impl SkillBase for CounterKickStance {
     fn _id(&self) -> u32 {
         418
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1191,6 +1215,9 @@ impl SkillBase for CounterKick {
     }
     fn _id(&self) -> u32 {
         419
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1352,6 +1379,9 @@ impl SkillBase for Tumbling {
     fn _id(&self) -> u32 {
         420
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1455,6 +1485,9 @@ impl SkillBase for FlyingKick {
     }
     fn _id(&self) -> u32 {
         421
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1616,6 +1649,9 @@ impl SkillBase for PeacefulBreak {
     fn _id(&self) -> u32 {
         422
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1705,6 +1741,16 @@ impl SkillBase for PeacefulBreak {
         }
         TemporaryStatusBonuses::default()
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for PeacefulBreak {
 }
 // TK_SPTIME - Happy Break
 pub struct HappyBreak {
@@ -1721,6 +1767,9 @@ impl SkillBase for HappyBreak {
     fn _id(&self) -> u32 {
         423
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1820,6 +1869,16 @@ impl SkillBase for HappyBreak {
         }
         TemporaryStatusBonuses::default()
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for HappyBreak {
 }
 // TK_POWER - Kihop
 pub struct Kihop {
@@ -1835,6 +1894,9 @@ impl SkillBase for Kihop {
     }
     fn _id(&self) -> u32 {
         424
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1943,6 +2005,9 @@ impl SkillBase for MildWind {
     }
     fn _id(&self) -> u32 {
         425
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2079,6 +2144,9 @@ impl SkillBase for TaekwonJump {
     fn _id(&self) -> u32 {
         426
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2191,6 +2259,9 @@ impl SkillBase for TaekwonMission {
     fn _id(&self) -> u32 {
         493
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2250,4 +2321,14 @@ impl SkillBase for TaekwonMission {
     fn _base_cast_time(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for TaekwonMission {
 }

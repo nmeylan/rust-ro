@@ -37,6 +37,9 @@ impl SkillBase for DanceLessons {
     fn _id(&self) -> u32 {
         323
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -171,6 +174,9 @@ impl SkillBase for SlingingArrow {
     }
     fn _id(&self) -> u32 {
         324
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -334,6 +340,9 @@ impl SkillBase for HipShaker {
     fn _id(&self) -> u32 {
         325
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -452,6 +461,9 @@ impl SkillBase for Dazzler {
     }
     fn _id(&self) -> u32 {
         326
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -607,6 +619,9 @@ impl SkillBase for FocusBallet {
     fn _id(&self) -> u32 {
         327
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -755,6 +770,9 @@ impl SkillBase for SlowGrace {
     }
     fn _id(&self) -> u32 {
         328
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
     }
     fn _level(&self) -> u8 {
         self.level
@@ -963,6 +981,9 @@ impl SkillBase for LadyLuck {
     fn _id(&self) -> u32 {
         329
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1160,6 +1181,9 @@ impl SkillBase for GypsysKiss {
     fn _id(&self) -> u32 {
         330
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Performance
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1356,6 +1380,9 @@ impl SkillBase for WinkofCharm {
     }
     fn _id(&self) -> u32 {
         1011
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level

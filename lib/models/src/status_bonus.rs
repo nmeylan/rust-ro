@@ -7,10 +7,15 @@ use crate::enums::skill_enums::SkillEnum;
 #[derive(Default, Debug, Clone)]
 pub struct StatusBonuses(Vec<StatusBonus>);
 
+impl StatusBonuses {
+    pub fn new(bonuses: Vec<StatusBonus>) -> Self {
+        Self(bonuses)
+    }
+}
+
 #[derive(GettersAll, Debug, Clone, Copy)]
 pub struct StatusBonus {
     bonus: BonusType,
-    flags: u64,
 }
 
 #[derive(GettersAll, Debug, Clone, Copy)]
@@ -94,8 +99,7 @@ pub enum StatusBonusFlag {
 impl StatusBonus {
     pub fn new(bonus: BonusType) -> StatusBonus {
         Self {
-            bonus,
-            flags: StatusBonusFlag::Default.as_flag(),
+            bonus
         }
     }
 

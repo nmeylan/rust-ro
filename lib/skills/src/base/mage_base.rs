@@ -37,6 +37,9 @@ impl SkillBase for IncreaseSpRecovery {
     fn _id(&self) -> u32 {
         9
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -182,6 +185,9 @@ impl SkillBase for Sight {
     fn _id(&self) -> u32 {
         10
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -274,6 +280,9 @@ impl SkillBase for NapalmBeat {
     }
     fn _id(&self) -> u32 {
         11
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -534,6 +543,9 @@ impl SkillBase for SafetyWall {
     fn _id(&self) -> u32 {
         12
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -730,6 +742,9 @@ impl SkillBase for SoulStrike {
     }
     fn _id(&self) -> u32 {
         13
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1019,6 +1034,9 @@ impl SkillBase for ColdBolt {
     }
     fn _id(&self) -> u32 {
         14
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1339,6 +1357,9 @@ impl SkillBase for FrostDiver {
     fn _id(&self) -> u32 {
         15
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1586,6 +1607,9 @@ impl SkillBase for StoneCurse {
     fn _id(&self) -> u32 {
         16
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1808,6 +1832,9 @@ impl SkillBase for FireBall {
     }
     fn _id(&self) -> u32 {
         17
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2038,6 +2065,9 @@ impl SkillBase for FireWall {
     fn _id(&self) -> u32 {
         18
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2178,6 +2208,9 @@ impl SkillBase for FireBolt {
     }
     fn _id(&self) -> u32 {
         19
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2498,6 +2531,9 @@ impl SkillBase for LightningBolt {
     fn _id(&self) -> u32 {
         20
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2817,6 +2853,9 @@ impl SkillBase for ThunderStorm {
     fn _id(&self) -> u32 {
         21
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -3081,6 +3120,9 @@ impl SkillBase for EnergyCoat {
     }
     fn _id(&self) -> u32 {
         157
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level

@@ -36,6 +36,8 @@ impl Skill for Stalk {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for Stalk {
+}
 impl Skill for SightlessMind {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 5 { return None }
@@ -100,6 +102,8 @@ impl Skill for Piece {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for Piece {
+}
 impl GroundSkill for Piece {
 }
 impl Skill for Remover {
@@ -107,6 +111,8 @@ impl Skill for Remover {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for Remover {
 }
 impl GroundSkill for Remover {
 }
@@ -116,11 +122,15 @@ impl Skill for Slyness {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for Slyness {
+}
 impl Skill for Haggle {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for Haggle {
 }
 impl Skill for Intimidate {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -128,9 +138,13 @@ impl Skill for Intimidate {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for Intimidate {
+}
 impl Skill for CloseConfine {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl SupportiveSkill for CloseConfine {
 }

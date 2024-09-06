@@ -37,6 +37,9 @@ impl SkillBase for Stealth {
     fn _id(&self) -> u32 {
         389
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -129,6 +132,16 @@ impl SkillBase for Stealth {
         }
         TemporaryStatusBonuses::default()
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for Stealth {
 }
 // ST_REJECTSWORD - Counter Instinct
 pub struct CounterInstinct {
@@ -144,6 +157,9 @@ impl SkillBase for CounterInstinct {
     }
     fn _id(&self) -> u32 {
         390
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -288,6 +304,9 @@ impl SkillBase for Preserve {
     fn _id(&self) -> u32 {
         475
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -347,6 +366,20 @@ impl SkillBase for Preserve {
     fn _base_cast_time(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
+}
+impl SupportiveSkillBase for Preserve {
 }
 // ST_FULLSTRIP - Divest All
 pub struct DivestAll {
@@ -362,6 +395,9 @@ impl SkillBase for DivestAll {
     }
     fn _id(&self) -> u32 {
         476
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

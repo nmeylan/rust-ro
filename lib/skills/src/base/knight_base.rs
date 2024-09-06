@@ -37,6 +37,9 @@ impl SkillBase for SpearMastery {
     fn _id(&self) -> u32 {
         55
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -172,6 +175,9 @@ impl SkillBase for Pierce {
     fn _id(&self) -> u32 {
         56
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -306,6 +312,9 @@ impl SkillBase for BrandishSpear {
     }
     fn _id(&self) -> u32 {
         57
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -455,6 +464,9 @@ impl SkillBase for SpearStab {
     fn _id(&self) -> u32 {
         58
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -590,6 +602,9 @@ impl SkillBase for SpearBoomerang {
     fn _id(&self) -> u32 {
         59
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -713,6 +728,9 @@ impl SkillBase for TwohandQuicken {
     }
     fn _id(&self) -> u32 {
         60
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -915,6 +933,9 @@ impl SkillBase for CounterAttack {
     fn _id(&self) -> u32 {
         61
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1008,6 +1029,9 @@ impl SkillBase for BowlingBash {
     }
     fn _id(&self) -> u32 {
         62
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1200,6 +1224,9 @@ impl SkillBase for PecoPecoRiding {
     fn _id(&self) -> u32 {
         63
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1276,6 +1303,9 @@ impl SkillBase for CavalierMastery {
     }
     fn _id(&self) -> u32 {
         64
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1382,6 +1412,9 @@ impl SkillBase for ChargeAttack {
     fn _id(&self) -> u32 {
         1001
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1441,6 +1474,28 @@ impl SkillBase for ChargeAttack {
     fn _base_cast_time(&self) -> u32 {
        500
     }
+    #[inline(always)]
+    fn is_offensive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_offensive_skill(&self) -> Option<&dyn OffensiveSkill> {
+        Some(self)
+    }
+}
+impl OffensiveSkillBase for ChargeAttack {
+    #[inline(always)]
+    fn _hit_count(&self) -> i8 {
+       1
+    }
+    #[inline(always)]
+    fn _element(&self) -> Element {
+        Element::Weapon
+    }
+    #[inline(always)]
+    fn _inflict_status_effect_to_target(&self, _status: &StatusSnapshot, _target_status: &StatusSnapshot, mut _rng: fastrand::Rng) -> Vec<StatusEffect> {
+        vec![]
+    }
 }
 // KN_ONEHAND - Onehand Quicken
 pub struct OnehandQuicken {
@@ -1456,6 +1511,9 @@ impl SkillBase for OnehandQuicken {
     }
     fn _id(&self) -> u32 {
         495
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level

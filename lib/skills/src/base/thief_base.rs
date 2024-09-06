@@ -37,6 +37,9 @@ impl SkillBase for DoubleAttack {
     fn _id(&self) -> u32 {
         48
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -172,6 +175,9 @@ impl SkillBase for ImproveDodge {
     fn _id(&self) -> u32 {
         49
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -297,6 +303,9 @@ impl SkillBase for Steal {
     fn _id(&self) -> u32 {
         50
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -416,6 +425,9 @@ impl SkillBase for Hiding {
     fn _id(&self) -> u32 {
         51
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -496,6 +508,9 @@ impl SkillBase for Envenom {
     }
     fn _id(&self) -> u32 {
         52
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -646,6 +661,9 @@ impl SkillBase for Detoxify {
     fn _id(&self) -> u32 {
         53
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -730,6 +748,9 @@ impl SkillBase for SandAttack {
     }
     fn _id(&self) -> u32 {
         149
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -835,6 +856,9 @@ impl SkillBase for BackSlide {
     fn _id(&self) -> u32 {
         150
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -915,6 +939,9 @@ impl SkillBase for FindStone {
     }
     fn _id(&self) -> u32 {
         151
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1009,6 +1036,9 @@ impl SkillBase for StoneFling {
     }
     fn _id(&self) -> u32 {
         152
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

@@ -602,8 +602,10 @@ pub fn to_offensive_skill(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn Of
         SkillEnum::TkHighjump => TaekwonJump::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::StFullstrip => DivestAll::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::PaShieldchain => ShieldChain::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HwGanbantein => Ganbantein::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::HwGravitation => GravitationField::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::WsCarttermination => CartTermination::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::CgLongingfreedom => LongingforFreedom::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::CgTarotcard => TarotCardofFate::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::CrAciddemonstration => AcidDemonstration::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::HtPower => BeastStrafing::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
@@ -642,6 +644,8 @@ pub fn to_offensive_skill(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn Of
         SkillEnum::NjRaigekisai => LightningStrikeofDestruction::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::NjKamaitachi => Kamaitachi::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
         SkillEnum::NjIssen => FinalStrike::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::KnChargeatk => ChargeAttack::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
+        SkillEnum::HtPhantasmic => PhantasmicArrow::new(level).map(|s| Box::new(s) as Box<dyn OffensiveSkill>),
     _ => None
     }
 }

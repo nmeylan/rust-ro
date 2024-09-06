@@ -37,6 +37,9 @@ impl SkillBase for Assumptio {
     fn _id(&self) -> u32 {
         361
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -208,6 +211,9 @@ impl SkillBase for Basilica {
     }
     fn _id(&self) -> u32 {
         362
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -398,6 +404,9 @@ impl SkillBase for Meditatio {
     fn _id(&self) -> u32 {
         363
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -523,6 +532,9 @@ impl SkillBase for ManaRecharge {
     fn _id(&self) -> u32 {
         481
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -574,4 +586,18 @@ impl SkillBase for ManaRecharge {
     fn _is_physical(&self) -> bool {
         false
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        0
+    }
+}
+impl SupportiveSkillBase for ManaRecharge {
 }

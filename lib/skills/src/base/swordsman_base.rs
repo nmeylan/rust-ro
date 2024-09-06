@@ -37,6 +37,9 @@ impl SkillBase for SwordMastery {
     fn _id(&self) -> u32 {
         2
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -162,6 +165,9 @@ impl SkillBase for TwoHandedSwordMastery {
     fn _id(&self) -> u32 {
         3
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -286,6 +292,9 @@ impl SkillBase for IncreaseHpRecovery {
     }
     fn _id(&self) -> u32 {
         4
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -431,6 +440,9 @@ impl SkillBase for Bash {
     }
     fn _id(&self) -> u32 {
         5
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -628,6 +640,9 @@ impl SkillBase for Provoke {
     fn _id(&self) -> u32 {
         6
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -780,6 +795,9 @@ impl SkillBase for MagnumBreak {
     }
     fn _id(&self) -> u32 {
         7
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -946,6 +964,9 @@ impl SkillBase for Endure {
     fn _id(&self) -> u32 {
         8
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1079,6 +1100,9 @@ impl SkillBase for MovingHpRecovery {
     fn _id(&self) -> u32 {
         144
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1156,6 +1180,9 @@ impl SkillBase for FatalBlow {
     fn _id(&self) -> u32 {
         145
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1232,6 +1259,9 @@ impl SkillBase for AutoBerserk {
     }
     fn _id(&self) -> u32 {
         146
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level

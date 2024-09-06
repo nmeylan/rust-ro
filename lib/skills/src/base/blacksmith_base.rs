@@ -37,6 +37,9 @@ impl SkillBase for IronTempering {
     fn _id(&self) -> u32 {
         94
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -141,6 +144,9 @@ impl SkillBase for SteelTempering {
     }
     fn _id(&self) -> u32 {
         95
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -247,6 +253,9 @@ impl SkillBase for EnchantedStoneCraft {
     fn _id(&self) -> u32 {
         96
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -351,6 +360,9 @@ impl SkillBase for OrideconResearch {
     }
     fn _id(&self) -> u32 {
         97
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -457,6 +469,9 @@ impl SkillBase for SmithDagger {
     fn _id(&self) -> u32 {
         98
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -553,6 +568,9 @@ impl SkillBase for SmithSword {
     }
     fn _id(&self) -> u32 {
         99
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -651,6 +669,9 @@ impl SkillBase for SmithTwohandedSword {
     fn _id(&self) -> u32 {
         100
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -747,6 +768,9 @@ impl SkillBase for SmithAxe {
     }
     fn _id(&self) -> u32 {
         101
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -845,6 +869,9 @@ impl SkillBase for SmithMace {
     fn _id(&self) -> u32 {
         102
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -941,6 +968,9 @@ impl SkillBase for SmithKnucklebrace {
     }
     fn _id(&self) -> u32 {
         103
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1039,6 +1069,9 @@ impl SkillBase for SmithSpear {
     fn _id(&self) -> u32 {
         104
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1136,6 +1169,9 @@ impl SkillBase for HiltBinding {
     fn _id(&self) -> u32 {
         105
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1226,6 +1262,9 @@ impl SkillBase for OreDiscovery {
     fn _id(&self) -> u32 {
         106
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1302,6 +1341,9 @@ impl SkillBase for WeaponryResearch {
     }
     fn _id(&self) -> u32 {
         107
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1448,6 +1490,9 @@ impl SkillBase for WeaponRepair {
     fn _id(&self) -> u32 {
         108
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1532,6 +1577,9 @@ impl SkillBase for SkinTempering {
     }
     fn _id(&self) -> u32 {
         109
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1642,6 +1690,9 @@ impl SkillBase for HammerFall {
     }
     fn _id(&self) -> u32 {
         110
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1780,6 +1831,9 @@ impl SkillBase for AdrenalineRush {
     }
     fn _id(&self) -> u32 {
         111
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1959,6 +2013,9 @@ impl SkillBase for WeaponPerfection {
     fn _id(&self) -> u32 {
         112
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2073,6 +2130,9 @@ impl SkillBase for PowerThrust {
     }
     fn _id(&self) -> u32 {
         113
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2257,6 +2317,9 @@ impl SkillBase for MaximizePower {
     fn _id(&self) -> u32 {
         114
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2342,6 +2405,9 @@ impl SkillBase for UnfairTrick {
     fn _id(&self) -> u32 {
         1012
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2393,6 +2459,16 @@ impl SkillBase for UnfairTrick {
     fn _is_physical(&self) -> bool {
         false
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for UnfairTrick {
 }
 // BS_GREED - Greed
 pub struct Greed {
@@ -2408,6 +2484,9 @@ impl SkillBase for Greed {
     }
     fn _id(&self) -> u32 {
         1013
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2468,6 +2547,16 @@ impl SkillBase for Greed {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for Greed {
 }
 // BS_ADRENALINE2 - Advanced Adrenaline Rush
 pub struct AdvancedAdrenalineRush {
@@ -2483,6 +2572,9 @@ impl SkillBase for AdvancedAdrenalineRush {
     }
     fn _id(&self) -> u32 {
         459
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level

@@ -37,6 +37,9 @@ impl SkillBase for ShurikenTraining {
     fn _id(&self) -> u32 {
         522
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -162,6 +165,9 @@ impl SkillBase for ThrowShuriken {
     fn _id(&self) -> u32 {
         523
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -266,6 +272,9 @@ impl SkillBase for ThrowKunai {
     }
     fn _id(&self) -> u32 {
         524
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -405,6 +414,9 @@ impl SkillBase for ThrowHuumaShuriken {
     }
     fn _id(&self) -> u32 {
         525
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -579,6 +591,9 @@ impl SkillBase for ThrowZeny {
     fn _id(&self) -> u32 {
         526
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -710,6 +725,9 @@ impl SkillBase for ImprovisedDefense {
     fn _id(&self) -> u32 {
         527
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -798,6 +816,9 @@ impl SkillBase for VanishingSlash {
     }
     fn _id(&self) -> u32 {
         528
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -990,6 +1011,9 @@ impl SkillBase for ShadowLeap {
     fn _id(&self) -> u32 {
         529
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1059,6 +1083,14 @@ impl SkillBase for ShadowLeap {
        1000
     }
     #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
     fn is_ground_skill(&self) -> bool {
         true
     }
@@ -1066,6 +1098,8 @@ impl SkillBase for ShadowLeap {
     fn as_ground_skill(&self) -> Option<&dyn GroundSkill> {
         Some(self)
     }
+}
+impl InteractiveSkillBase for ShadowLeap {
 }
 impl GroundSkillBase for ShadowLeap {
 }
@@ -1083,6 +1117,9 @@ impl SkillBase for ShadowSlash {
     }
     fn _id(&self) -> u32 {
         530
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1235,6 +1272,9 @@ impl SkillBase for CicadaSkinSheeding {
     fn _id(&self) -> u32 {
         531
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1324,6 +1364,20 @@ impl SkillBase for CicadaSkinSheeding {
     fn _base_after_cast_act_delay(&self) -> u32 {
        1000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
+}
+impl SupportiveSkillBase for CicadaSkinSheeding {
 }
 // NJ_BUNSINJYUTSU - Mirror Image
 pub struct MirrorImage {
@@ -1339,6 +1393,9 @@ impl SkillBase for MirrorImage {
     }
     fn _id(&self) -> u32 {
         532
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1539,6 +1596,9 @@ impl SkillBase for SpiritoftheBlade {
     fn _id(&self) -> u32 {
         533
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1632,6 +1692,20 @@ impl SkillBase for SpiritoftheBlade {
         }
         TemporaryStatusBonuses::default()
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        0
+    }
+}
+impl SupportiveSkillBase for SpiritoftheBlade {
 }
 // NJ_KOUENKA - Crimson Fire Petal
 pub struct CrimsonFirePetal {
@@ -1647,6 +1721,9 @@ impl SkillBase for CrimsonFirePetal {
     }
     fn _id(&self) -> u32 {
         534
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1899,6 +1976,9 @@ impl SkillBase for CrimsonFireFormation {
     fn _id(&self) -> u32 {
         535
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2041,6 +2121,9 @@ impl SkillBase for RagingFireDragon {
     }
     fn _id(&self) -> u32 {
         536
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2199,6 +2282,9 @@ impl SkillBase for SpearofIce {
     }
     fn _id(&self) -> u32 {
         537
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2451,6 +2537,9 @@ impl SkillBase for HiddenWater {
     fn _id(&self) -> u32 {
         538
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2684,6 +2773,9 @@ impl SkillBase for IceMeteor {
     fn _id(&self) -> u32 {
         539
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2883,6 +2975,9 @@ impl SkillBase for WindBlade {
     }
     fn _id(&self) -> u32 {
         540
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -3139,6 +3234,9 @@ impl SkillBase for LightningStrikeofDestruction {
     fn _id(&self) -> u32 {
         541
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -3292,6 +3390,9 @@ impl SkillBase for Kamaitachi {
     }
     fn _id(&self) -> u32 {
         542
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -3447,6 +3548,9 @@ impl SkillBase for Soul {
     fn _id(&self) -> u32 {
         543
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -3584,6 +3688,20 @@ impl SkillBase for Soul {
         }
         TemporaryStatusBonuses::default()
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
+}
+impl SupportiveSkillBase for Soul {
 }
 // NJ_ISSEN - Final Strike
 pub struct FinalStrike {
@@ -3599,6 +3717,9 @@ impl SkillBase for FinalStrike {
     }
     fn _id(&self) -> u32 {
         544
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

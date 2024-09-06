@@ -68,6 +68,8 @@ impl Skill for ShadowLeap {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for ShadowLeap {
+}
 impl GroundSkill for ShadowLeap {
 }
 impl Skill for ShadowSlash {
@@ -84,6 +86,8 @@ impl Skill for CicadaSkinSheeding {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl SupportiveSkill for CicadaSkinSheeding {
+}
 impl Skill for MirrorImage {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 10 { return None }
@@ -97,6 +101,8 @@ impl Skill for SpiritoftheBlade {
         if level > 10 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl SupportiveSkill for SpiritoftheBlade {
 }
 impl Skill for CrimsonFirePetal {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -177,6 +183,8 @@ impl Skill for Soul {
         if level > 5 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl SupportiveSkill for Soul {
 }
 impl Skill for FinalStrike {
     fn new(level: u8) -> Option<Self> where Self : Sized {

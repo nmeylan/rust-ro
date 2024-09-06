@@ -182,11 +182,15 @@ impl Skill for UnfairTrick {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for UnfairTrick {
+}
 impl Skill for Greed {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for Greed {
 }
 impl Skill for AdvancedAdrenalineRush {
     fn new(level: u8) -> Option<Self> where Self : Sized {

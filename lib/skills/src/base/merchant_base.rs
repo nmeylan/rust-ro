@@ -37,6 +37,9 @@ impl SkillBase for EnlargeWeightLimit {
     fn _id(&self) -> u32 {
         36
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -113,6 +116,9 @@ impl SkillBase for Discount {
     }
     fn _id(&self) -> u32 {
         37
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -191,6 +197,9 @@ impl SkillBase for Overcharge {
     fn _id(&self) -> u32 {
         38
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -267,6 +276,9 @@ impl SkillBase for Pushcart {
     }
     fn _id(&self) -> u32 {
         39
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -393,6 +405,9 @@ impl SkillBase for ItemAppraisal {
     fn _id(&self) -> u32 {
         40
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -473,6 +488,9 @@ impl SkillBase for Vending {
     }
     fn _id(&self) -> u32 {
         41
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -563,6 +581,9 @@ impl SkillBase for Mammonite {
     }
     fn _id(&self) -> u32 {
         42
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -725,6 +746,9 @@ impl SkillBase for CartRevolution {
     fn _id(&self) -> u32 {
         153
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -831,6 +855,9 @@ impl SkillBase for ChangeCart {
     fn _id(&self) -> u32 {
         154
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -920,6 +947,9 @@ impl SkillBase for CrazyUproar {
     }
     fn _id(&self) -> u32 {
         155
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level

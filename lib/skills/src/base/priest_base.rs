@@ -37,6 +37,9 @@ impl SkillBase for MaceMastery {
     fn _id(&self) -> u32 {
         65
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -161,6 +164,9 @@ impl SkillBase for ImpositioManus {
     }
     fn _id(&self) -> u32 {
         66
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -308,6 +314,9 @@ impl SkillBase for Suffragium {
     fn _id(&self) -> u32 {
         67
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -396,6 +405,9 @@ impl SkillBase for Aspersio {
     }
     fn _id(&self) -> u32 {
         68
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -524,6 +536,9 @@ impl SkillBase for BsSacramenti {
     fn _id(&self) -> u32 {
         69
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -618,6 +633,9 @@ impl SkillBase for Sanctuary {
     }
     fn _id(&self) -> u32 {
         70
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -786,6 +804,9 @@ impl SkillBase for SlowPoison {
     fn _id(&self) -> u32 {
         71
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -895,6 +916,9 @@ impl SkillBase for StatusRecovery {
     fn _id(&self) -> u32 {
         72
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -983,6 +1007,9 @@ impl SkillBase for KyrieEleison {
     }
     fn _id(&self) -> u32 {
         73
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1184,6 +1211,9 @@ impl SkillBase for Magnificat {
     fn _id(&self) -> u32 {
         74
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1276,6 +1306,9 @@ impl SkillBase for Gloria {
     }
     fn _id(&self) -> u32 {
         75
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1393,6 +1426,9 @@ impl SkillBase for LexDivina {
     }
     fn _id(&self) -> u32 {
         76
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -1599,6 +1635,9 @@ impl SkillBase for TurnUndead {
     fn _id(&self) -> u32 {
         77
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1700,6 +1739,9 @@ impl SkillBase for LexAeterna {
     fn _id(&self) -> u32 {
         78
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -1788,6 +1830,9 @@ impl SkillBase for MagnusExorcismus {
     }
     fn _id(&self) -> u32 {
         79
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -2032,6 +2077,9 @@ impl SkillBase for Redemptio {
     fn _id(&self) -> u32 {
         1014
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -2091,4 +2139,18 @@ impl SkillBase for Redemptio {
     fn _base_cast_time(&self) -> u32 {
        4000
     }
+    #[inline(always)]
+    fn is_supportive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_supportive_skill(&self) -> Option<&dyn SupportiveSkill> {
+        Some(self)
+    }
+    #[inline(always)]
+    fn _client_type(&self) -> usize {
+        4
+    }
+}
+impl SupportiveSkillBase for Redemptio {
 }

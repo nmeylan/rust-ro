@@ -156,11 +156,15 @@ impl Skill for CreateElementalConverter {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for CreateElementalConverter {
+}
 impl Skill for ElementalChangeWater {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for ElementalChangeWater {
 }
 impl Skill for ElementalChangeEarth {
     fn new(level: u8) -> Option<Self> where Self : Sized {
@@ -168,15 +172,21 @@ impl Skill for ElementalChangeEarth {
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for ElementalChangeEarth {
+}
 impl Skill for ElementalChangeFire {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
 }
+impl InteractiveSkill for ElementalChangeFire {
+}
 impl Skill for ElementalChangeWind {
     fn new(level: u8) -> Option<Self> where Self : Sized {
         if level > 1 { return None }
         Some(Self { level, cast_time: 0, after_cast_act_delay: 0, after_cast_walk_delay: 0 })
     }
+}
+impl InteractiveSkill for ElementalChangeWind {
 }

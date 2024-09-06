@@ -37,6 +37,9 @@ impl SkillBase for Indulge {
     fn _id(&self) -> u32 {
         373
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -186,6 +189,9 @@ impl SkillBase for SoulExhale {
     fn _id(&self) -> u32 {
         374
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -249,6 +255,16 @@ impl SkillBase for SoulExhale {
     fn _base_after_cast_act_delay(&self) -> u32 {
        5000
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for SoulExhale {
 }
 // PF_SOULBURN - Soul Siphon
 pub struct SoulSiphon {
@@ -264,6 +280,9 @@ impl SkillBase for SoulSiphon {
     }
     fn _id(&self) -> u32 {
         375
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -388,6 +407,9 @@ impl SkillBase for MindBreaker {
     fn _id(&self) -> u32 {
         402
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -511,6 +533,16 @@ impl SkillBase for MindBreaker {
         }
         0
     }
+    #[inline(always)]
+    fn is_interactive_skill(&self) -> bool {
+        true
+    }
+    #[inline(always)]
+    fn as_interactive_skill(&self) -> Option<&dyn InteractiveSkill> {
+        Some(self)
+    }
+}
+impl InteractiveSkillBase for MindBreaker {
 }
 // PF_MEMORIZE - Foresight
 pub struct Foresight {
@@ -526,6 +558,9 @@ impl SkillBase for Foresight {
     }
     fn _id(&self) -> u32 {
         403
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -615,6 +650,9 @@ impl SkillBase for BlindingMist {
     }
     fn _id(&self) -> u32 {
         404
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -739,6 +777,9 @@ impl SkillBase for FiberLock {
     fn _id(&self) -> u32 {
         405
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -843,6 +884,9 @@ impl SkillBase for DoubleCasting {
     }
     fn _id(&self) -> u32 {
         482
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level

@@ -37,6 +37,9 @@ impl SkillBase for OwlsEye {
     fn _id(&self) -> u32 {
         43
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -162,6 +165,9 @@ impl SkillBase for VulturesEye {
     fn _id(&self) -> u32 {
         44
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -238,6 +244,9 @@ impl SkillBase for ImproveConcentration {
     }
     fn _id(&self) -> u32 {
         45
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
@@ -442,6 +451,9 @@ impl SkillBase for DoubleStrafe {
     fn _id(&self) -> u32 {
         46
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -584,6 +596,9 @@ impl SkillBase for ArrowShower {
     }
     fn _id(&self) -> u32 {
         47
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -738,6 +753,9 @@ impl SkillBase for ArrowCrafting {
     fn _id(&self) -> u32 {
         147
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Interactive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -827,6 +845,9 @@ impl SkillBase for ArrowRepel {
     }
     fn _id(&self) -> u32 {
         148
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Offensive
     }
     fn _level(&self) -> u8 {
         self.level

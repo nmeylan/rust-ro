@@ -37,6 +37,9 @@ impl SkillBase for BasicSkill {
     fn _id(&self) -> u32 {
         1
     }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
+    }
     fn _level(&self) -> u8 {
         self.level
     }
@@ -113,6 +116,9 @@ impl SkillBase for FirstAid {
     }
     fn _id(&self) -> u32 {
         142
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Passive
     }
     fn _level(&self) -> u8 {
         self.level
@@ -194,6 +200,9 @@ impl SkillBase for PlayDead {
     }
     fn _id(&self) -> u32 {
         143
+    }
+    fn skill_type(&self) -> SkillType {
+        SkillType::Support
     }
     fn _level(&self) -> u8 {
         self.level
