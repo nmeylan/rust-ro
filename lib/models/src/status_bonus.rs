@@ -1,7 +1,7 @@
 use accessor::GettersAll;
 use enum_macro::{WithMaskValueU64, WithStringValue};
 use crate::enums::bonus::BonusType;
-use crate::enums::{EnumWithMaskValueU64, EnumWithStringValue};
+use crate::enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
 use crate::enums::skill_enums::SkillEnum;
 
 #[derive(Default, Debug, Clone)]
@@ -55,7 +55,7 @@ impl TemporaryStatusBonus {
             match source {
                 StatusBonusSource::Skill(skill_id) => {
                     let skill = SkillEnum::from_id(*skill_id as u32);
-                    // skill.client_icon()
+                    return skill.client_icon().map(|icon| icon.value() as u16).or(None)
                 }
                 StatusBonusSource::PassiveSkill(_) => {}
                 StatusBonusSource::Item(_) => {}

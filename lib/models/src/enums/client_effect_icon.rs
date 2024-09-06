@@ -1,7 +1,7 @@
-use enum_macro::WithNumberValue;
-use crate::enums::EnumWithNumberValue;
+use enum_macro::{WithNumberValue, WithStringValue};
+use crate::enums::{EnumWithNumberValue, EnumWithStringValue};
 
-#[derive(WithNumberValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
 pub enum ClientEffectIcon {
     #[value = 0]
     Provoke,

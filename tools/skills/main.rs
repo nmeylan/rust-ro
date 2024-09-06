@@ -915,6 +915,7 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     let file_path = output_path.join("skill_enums.rs");
     let mut file = File::create(file_path.clone()).unwrap();
     write_file_header_comments(&mut file);
+    file.write_all(b"use crate::enums::client_effect_icon::ClientEffectIcon;\n\n").unwrap();
     file.write_all("#[derive(Clone, Copy, PartialEq, Debug)]\n".to_string().as_bytes()).unwrap();
     file.write_all("pub enum SkillEnum {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
@@ -929,6 +930,7 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     }
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     file.write_all("impl SkillEnum {\n".to_string().as_bytes()).unwrap();
+    // Start id
     file.write_all("    pub fn id(&self) -> u32{\n".to_string().as_bytes()).unwrap();
     file.write_all("        match self {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
@@ -937,6 +939,9 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     }
     file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    // End id
+
+    // Start from_id
     file.write_all("    pub fn from_id(id: u32) -> Self {\n".to_string().as_bytes()).unwrap();
     file.write_all("        match id {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
@@ -946,7 +951,9 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     file.write_all("            _ => panic!(\"unknown skill with id {}\", id)\n".to_string().as_bytes()).unwrap();
     file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    // End from_id
 
+    // Start from_name
     file.write_all("    pub fn from_name(name: &str) -> Self {\n".to_string().as_bytes()).unwrap();
     file.write_all("        match name {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
@@ -956,7 +963,9 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     file.write_all("            _ => panic!(\"unknown skill with name {}\", name)\n".to_string().as_bytes()).unwrap();
     file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    // end to_name
 
+    // Start to_name
     file.write_all("    pub fn to_name(&self) -> &str {\n".to_string().as_bytes()).unwrap();
     file.write_all("        match self {\n".to_string().as_bytes()).unwrap();
     for skill in skills.iter() {
@@ -965,7 +974,9 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     }
     file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    // End to_name
 
+    // Start is_platinium
     file.write_all("    pub fn is_platinium(&self) -> bool {\n".to_string().as_bytes()).unwrap();
     file.write_all("        match self {\n".to_string().as_bytes()).unwrap();
     let default_flags = 0;
@@ -978,6 +989,22 @@ fn generate_skills_enum(output_path: &Path, skills: &Vec<SkillConfig>, skill_tre
     }
     file.write_all("        }\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    // End is_platinium
+
+    // Start client_icon
+    file.write_all("    pub fn client_icon(&self) -> Option<ClientEffectIcon> {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        match self {\n".to_string().as_bytes()).unwrap();
+    for skill in skills.iter() {
+        let enum_name = to_enum_name(skill);
+        if let Some(effect_icon) = skill.effect_client_icon() {
+            file.write_all(format!("            Self::{} => Some(ClientEffectIcon::{:?}),\n", enum_name, effect_icon).as_bytes()).unwrap();
+        } else {
+            file.write_all(format!("            Self::{} => None,\n", enum_name).as_bytes()).unwrap();
+        }
+    }
+    file.write_all("        }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    // End client_icon
 
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     println!("Skills enum generated at {}", file_path.to_str().unwrap());

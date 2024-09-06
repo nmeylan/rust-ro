@@ -1,5 +1,8 @@
 # 2024-09-06
 planned:
+- Apply skill bonuses to character status
+- Send according packets: ZCParChange or PacketZcMsgStateChange2 depending on status
+done:
 - Add client_icon() method to skill enum
 - use this client_icon method in status bonus to return the icon associated to a bonus
 
