@@ -634,53 +634,53 @@ impl OffensiveSkillBase for SightlessMind {
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 13 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 2 {
             if chance <= 16 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 3 {
             if chance <= 19 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 4 {
             if chance <= 22 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 5 {
             if chance <= 25 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 13 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 2 {
             if chance <= 16 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 3 {
             if chance <= 19 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 4 {
             if chance <= 22 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 5 {
             if chance <= 25 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         effects

@@ -3,6 +3,7 @@ mod helper;
 mod enum_with_string_value;
 mod enum_with_eq;
 mod enum_with_stackable;
+mod enum_with_hash;
 
 extern crate proc_macro;
 
@@ -60,6 +61,11 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
 #[proc_macro_derive(WithEq, attributes(value_comparison_offset))]
 pub fn with_eq(input: TokenStream) -> TokenStream {
     crate::enum_with_eq::with_eq(input)
+}
+
+#[proc_macro_derive(WithHash)]
+pub fn with_hash(input: TokenStream) -> TokenStream {
+    crate::enum_with_hash::with_hash(input)
 }
 
 

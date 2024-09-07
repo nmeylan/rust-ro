@@ -14,6 +14,7 @@ use models::enums::bonus::BonusType;
 use models::enums::element::Element;
 use models::enums::skill::{SkillTargetType, SkillFlags, SkillType, SkillDamageFlags};
 use models::enums::weapon::WeaponType;
+use models::status::KnownSkill;
 use models::status_bonus::StatusBonusFlag;
 
 lazy_static! {
@@ -1024,6 +1025,11 @@ fn generate_skills_enum_to_object(output_path: &Path, skills: &Vec<SkillConfig>,
     file.write_all("use models::enums::skill_enums::SkillEnum;\n\n".to_string().as_bytes()).unwrap();
     file.write_all("use crate::{Skill, OffensiveSkill};\n\n".to_string().as_bytes()).unwrap();
 
+    file.write_all("impl Into<Box<dyn Skill>> for models::status::KnownSkill {\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn into(self) -> Box<dyn Skill> {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        self::to_object(self.value, self.level).unwrap()\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("}\n\n".to_string().as_bytes()).unwrap();
 
     file.write_all("pub fn to_object(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn Skill>> {\n".to_string().as_bytes()).unwrap();
     file.write_all("    match skill_enum {\n".to_string().as_bytes()).unwrap();

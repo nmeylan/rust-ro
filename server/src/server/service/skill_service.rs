@@ -2,7 +2,7 @@ use std::mem;
 use std::sync::mpsc::SyncSender;
 use std::sync::Once;
 use models::enums::EnumWithNumberValue;
-use models::enums::skill::{UseSkillFailure, UseSkillFailureClientSideType};
+use models::enums::skill::{SkillType, UseSkillFailure, UseSkillFailureClientSideType};
 use models::item::NormalInventoryItem;
 use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseskillAck2};
 use skills::OffensiveSkill;
@@ -132,29 +132,38 @@ impl SkillService {
         let mut packets: Vec<u8> = vec![];
         let mut attack_motion: u128 = 0;
         let mut target_id = character.char_id;
-        if skill.is_offensive_skill() {
+        let mut bonuses = Default::default();
+        match skill.skill_type() {
+            SkillType::Offensive => {
+                let skill = skill.as_offensive_skill().unwrap();
+                damage = self.calculate_damage(source_status, target_status.as_ref().unwrap(), skill);
+                let mut packet_zc_notify_skill2 = PacketZcNotifySkill2::new(self.configuration_service.packetver());
+                packet_zc_notify_skill2.set_skid(skill.id() as u16);
+                target_id = target.as_ref().unwrap().map_item().id();
+                packet_zc_notify_skill2.set_target_id(target_id);
+                packet_zc_notify_skill2.set_damage(damage);
+                packet_zc_notify_skill2.set_start_time(0);
 
-            let skill = skill.as_offensive_skill().unwrap();
-            damage = self.calculate_damage(source_status, target_status.as_ref().unwrap(), skill);
-            let mut packet_zc_notify_skill2 = PacketZcNotifySkill2::new(self.configuration_service.packetver());
-            packet_zc_notify_skill2.set_skid(skill.id() as u16);
-            target_id = target.as_ref().unwrap().map_item().id();
-            packet_zc_notify_skill2.set_target_id(target_id);
-            packet_zc_notify_skill2.set_damage(damage);
-            packet_zc_notify_skill2.set_start_time(0);
+                attack_motion = self.status_service.attack_motion(source_status) as u128;
+                packet_zc_notify_skill2.set_attack_mt(attack_motion as i32);
+                packet_zc_notify_skill2.set_attacked_mt(attack_motion as i32);
+                packet_zc_notify_skill2.set_level(skill.level() as i16);
 
-            attack_motion = self.status_service.attack_motion(source_status) as u128;
-            packet_zc_notify_skill2.set_attack_mt(attack_motion as i32);
-            packet_zc_notify_skill2.set_attacked_mt(attack_motion as i32);
-            packet_zc_notify_skill2.set_level(skill.level() as i16);
+                packet_zc_notify_skill2.set_count(skill.hit_count().abs() as i16);
+                packet_zc_notify_skill2.set_aid(character.char_id);
+                packet_zc_notify_skill2.set_action(6); // TODO
+                packet_zc_notify_skill2.fill_raw();
+                packets = mem::take(packet_zc_notify_skill2.raw_mut());
 
-            packet_zc_notify_skill2.set_count(skill.hit_count().abs() as i16);
-            packet_zc_notify_skill2.set_aid(character.char_id);
-            packet_zc_notify_skill2.set_action(6); // TODO
-            packet_zc_notify_skill2.fill_raw();
-            packets = mem::take(packet_zc_notify_skill2.raw_mut());
-
-            character.update_skill_used_at_tick(tick);
+                character.update_skill_used_at_tick(tick);
+            }
+            SkillType::Interactive => {}
+            SkillType::Performance => {}
+            SkillType::Support => {
+                let skill = skill.as_supportive_skill().unwrap();
+                bonuses = skill.bonuses_to_target(tick);
+            }
+            SkillType::Passive => {}
         }
         if packets.len() > 0 {
             self.client_notification_sender.send(Notification::Area(
@@ -162,23 +171,18 @@ impl SkillService {
             )).unwrap();
         }
 
-        if damage > 0 {
-            Some(
-                SkillUsed {
-                    skill_type,
-                    source_id: character.char_id,
-                    target_id,
-                    damage_to_target: damage,
-                    damage_to_self: 0,
-                    effects: vec![],
-                    bonuses: Default::default(),
-                    attacked_at: tick + attack_motion,
-                }
-            )
-        } else {
-            // TODO handle heal if damage < 0
-            None
-        }
+        Some(
+            SkillUsed {
+                skill_type,
+                source_id: character.char_id,
+                target_id,
+                damage_to_target: damage,
+                damage_to_self: 0,
+                effects: vec![],
+                bonuses,
+                attacked_at: tick + attack_motion,
+            }
+        )
     }
 
     pub fn after_skill_used(&self, character: &mut Character, tick: u128) {
