@@ -74,3 +74,6 @@ pub trait EnumStackable<T: PartialEq> {
     }
     fn get_enum_value<'a>(single_enum: &T, enums: &'a Vec<&T>) -> Option<f32>;
 }
+
+
+

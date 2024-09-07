@@ -77,6 +77,12 @@ use models::enums::skill_enums::SkillEnum;
 
 use crate::{Skill, OffensiveSkill};
 
+impl Into<Box<dyn Skill>> for models::status::KnownSkill {
+    fn into(self) -> Box<dyn Skill> {
+        self::to_object(self.value, self.level).unwrap()
+    }
+}
+
 pub fn to_object(skill_enum: SkillEnum, level: u8) -> Option<Box<dyn Skill>> {
     match skill_enum {
         SkillEnum::NvBasic => BasicSkill::new(level).map(|s| Box::new(s) as Box<dyn Skill>),

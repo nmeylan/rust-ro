@@ -1,3 +1,4 @@
+use std::hash::{Hash, Hasher};
 use accessor::GettersAll;
 use enum_macro::{WithMaskValueU64, WithStringValue};
 use crate::enums::bonus::BonusType;
@@ -13,12 +14,18 @@ impl StatusBonuses {
     }
 }
 
-#[derive(GettersAll, Debug, Clone, Copy)]
+impl Into<Vec<StatusBonus>> for StatusBonuses {
+    fn into(self) -> Vec<StatusBonus> {
+        self.0
+    }
+}
+
+#[derive(GettersAll, Debug, Clone, Copy, Eq, PartialEq)]
 pub struct StatusBonus {
     bonus: BonusType,
 }
 
-#[derive(GettersAll, Debug, Clone, Copy)]
+#[derive(GettersAll, Debug, Clone, Copy, Eq, PartialEq)]
 pub struct TemporaryStatusBonus {
     bonus: BonusType,
     flags: u64,
@@ -79,7 +86,18 @@ impl TemporaryStatusBonuses {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+impl Into<Vec<TemporaryStatusBonus>> for TemporaryStatusBonuses {
+    fn into(self) -> Vec<TemporaryStatusBonus> {
+        self.0
+    }
+}
+impl Into<Vec<StatusBonus>> for TemporaryStatusBonuses {
+    fn into(self) -> Vec<StatusBonus> {
+        self.0.iter().map(|temporary_status_bonus: &TemporaryStatusBonus| StatusBonus { bonus: temporary_status_bonus.bonus }).collect()
+    }
+}
+
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum StatusBonusSource {
     Skill(u16),
     PassiveSkill(u16),
@@ -105,7 +123,7 @@ impl StatusBonus {
 
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum BonusExpiry {
     Never,
     Time(u128),
@@ -113,7 +131,7 @@ pub enum BonusExpiry {
 }
 
 /// Hold the state of status bonus
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum StatusBonusState {
     No,
     Counter(u64) // counter can be a number of hit (eg: Safety wall) or an amount of damage received (eg: kyrie eleison)

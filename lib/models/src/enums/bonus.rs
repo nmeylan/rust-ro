@@ -2,6 +2,7 @@ use std::fmt::{Debug, Formatter};
 use std::mem;
 use enum_macro::{WithEq, WithStackable};
 use crate::enums::EnumStackable;
+use crate::enums::EnumWithNumberValue;
 use crate::enums::element::Element;
 use crate::enums::mob::{MobClass, MobGroup, MobRace};
 use crate::enums::size::Size;
@@ -176,6 +177,7 @@ pub enum BonusType {
     DoubleCastSkillIdChancePercentage(u32, i8),
 }
 
+impl Eq for BonusType {}
 impl BonusType {
     pub fn add_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
         match self {

@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+use std::collections::HashSet;
 use std::fmt::Debug;
 use std::sync::Arc;
 use packets::packets::{Packet};
@@ -22,7 +23,7 @@ pub fn task_queue_contains_event_at_tick<T: PartialEq + Debug + Clone>(task_queu
     }
     assert!(false, "Task queue does not contains event {expected_event:?}");
 }
-pub fn task_queue_contains_event<T: PartialEq + Debug+ Clone>(task_queue: Arc<TasksQueue<T>>, expected_event: T) {
+pub fn task_queue_contains_event<T: PartialEq + Debug + Clone>(task_queue: Arc<TasksQueue<T>>, expected_event: T) {
     let mut events = vec![];
     let cloned_task_queue = task_queue.duplicate();
     loop {
@@ -40,7 +41,7 @@ pub fn task_queue_contains_event<T: PartialEq + Debug+ Clone>(task_queue: Arc<Ta
     }
     assert!(false, "Task queue does not contains event {expected_event:?}");
 }
-pub fn task_queue_not_contains_event<T: PartialEq + Debug+ Clone>(task_queue: Arc<TasksQueue<T>>, expected_event: T) {
+pub fn task_queue_not_contains_event<T: PartialEq + Debug + Clone>(task_queue: Arc<TasksQueue<T>>, expected_event: T) {
     let mut events = vec![];
     let cloned_task_queue = task_queue.duplicate();
     loop {
@@ -61,6 +62,37 @@ pub fn task_queue_not_contains_event<T: PartialEq + Debug+ Clone>(task_queue: Ar
 
 pub fn variance(expectation: u32, variance: usize) -> u32 {
     (variance as f32 / 100_f32).round() as u32 * expectation
+}
+
+pub fn assert_vecs_equal<T: std::fmt::Debug + std::cmp::PartialEq>(mut vec1: Vec<T>, mut vec2: Vec<T>) {
+    let mut missing_from_vec2 = Vec::new();
+    let mut extra_in_vec2 = Vec::new();
+
+    // Find elements in vec1 that are missing in vec2
+    for elem in &vec1 {
+        if !vec2.contains(elem) {
+            missing_from_vec2.push(elem);
+        } else {
+            // Remove the matched element from vec2 to prevent multiple matches
+            if let Some(pos) = vec2.iter().position(|x| x == elem) {
+                vec2.remove(pos);
+            }
+        }
+    }
+
+    // Remaining elements in vec2 are extra
+    extra_in_vec2.extend(vec2.iter());
+    // Print the results
+    if missing_from_vec2.is_empty() && extra_in_vec2.is_empty() {
+        assert!(true)
+    } else {
+        if !missing_from_vec2.is_empty() {
+            assert!(false, "Missing elements in vec2: {:?}", missing_from_vec2);
+        }
+        if !extra_in_vec2.is_empty() {
+            assert!(false, "Extra elements in vec2: {:?}", extra_in_vec2);
+        }
+    }
 }
 
 #[macro_export]
@@ -103,6 +135,13 @@ macro_rules! assert_task_queue_does_not_contains_event {
 macro_rules! assert_task_queue_is_empty {
     ($task_queue:expr) => {
         assert!($task_queue.is_empty(), "Expected task queue to be empty but was not, containing {}", $task_queue.content_as_str());
+    }
+}
+
+#[macro_export]
+macro_rules! assert_vec_equals {
+    ($actual:expr, $expected:expr) => {
+         assert_vecs_equal($actual, $expected);
     }
 }
 
