@@ -19,7 +19,7 @@ use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
 use std::sync::{Arc, Mutex, Once};
 use log::{LevelFilter};
-use rathena_script_lang_interpreter::lang::vm::Vm;
+use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
 use simple_logger::SimpleLogger;
 
 use crate::repository::model::item_model::{ItemModel, ItemModels};
@@ -176,10 +176,14 @@ pub fn before_all() {
 pub fn mocked_repository() -> Arc<MockedRepository> {
     Arc::new(MockedRepository)
 }
-//
+
+pub fn test_script_vm() -> Arc<Vm> {
+    Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()))
+}
+
 // pub struct ServerBuilder {
 //     pub configuration: &'static Config,
-//     pub repository: Arc<Repository>,
+//     pub repository: Arc<MockedRepository>,
 //     state: MyUnsafeCell<ServerState>,
 //     tasks_queue: Arc<TasksQueue<GameEvent>>,
 //     movement_tasks_queue: Arc<TasksQueue<GameEvent>>,
@@ -195,7 +199,7 @@ pub fn mocked_repository() -> Arc<MockedRepository> {
 //             state: (),
 //             tasks_queue: Arc::new(Default::default()),
 //             movement_tasks_queue: Arc::new(Default::default()),
-//             vm: Arc::new(()),
+//             vm: test_script_vm(),
 //             client_notification_sender: (),
 //         }
 //     }

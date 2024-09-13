@@ -72,7 +72,7 @@ impl ScriptSkillService {
                     packet_zc_notify_vanish.set_gid(character_ref.char_id);
                     packet_zc_notify_vanish.set_atype(VanishType::Teleport.value() as u8);
                     packet_zc_notify_vanish.fill_raw();
-                    server.client_notification_sender.send(Notification::Area(
+                    self.client_notification_sender.send(Notification::Area(
                         AreaNotification::new(character_ref.current_map_name().clone(), character_ref.current_map_instance(),
                                               AreaNotificationRangeType::Fov { x: character_ref.x, y: character_ref.y, exclude_id: Some(character_ref.char_id) },
                                               packet_zc_notify_vanish.raw))).expect("Fail to send client notification");

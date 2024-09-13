@@ -18,7 +18,7 @@ use crate::server::service::server_service::ServerService;
 use crate::server::service::skill_service::SkillService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
-use crate::tests::common::{create_mpsc, TestContext};
+use crate::tests::common::{create_mpsc, test_script_vm, TestContext};
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::CountDownLatch;
 
@@ -41,13 +41,13 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
     let server_task_queue = Arc::new(TasksQueue::new());
     let movement_task_queue = Arc::new(TasksQueue::new());
     let count_down_latch = CountDownLatch::new(latch_size);
-    StatusService::init(GlobalConfigService::instance(), "../native_functions_list.txt");
+    StatusService::init(GlobalConfigService::instance(), test_script_vm());
     ServerServiceTestContext {
         client_notification_sender: client_notification_sender.clone(),
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         server_task_queue: server_task_queue.clone(),
         movement_task_queue: movement_task_queue.clone(),
-        server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue, Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value())),
+        server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue, test_script_vm(),
                                            InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository), GlobalConfigService::instance(), server_task_queue.clone()),
                                            CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository), GlobalConfigService::instance(),
                                                                  SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::instance(), server_task_queue.clone()),
@@ -245,7 +245,7 @@ mod tests {
     #[test]
     fn character_use_support_skill_should_send_add_bonuses_packet() {
         // Given
-        // Server::new_without_service_init(GlobalConfigService::instance(), mocked_repository(), )
+        // Server::new_without_service_init(GlobalConfigService::instance().config(), mocked_repository(), )
         // When
         // Then
     }

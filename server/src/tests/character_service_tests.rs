@@ -11,7 +11,7 @@ use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
-use crate::tests::common::{create_mpsc, TestContext};
+use crate::tests::common::{create_mpsc, test_script_vm, TestContext};
 use crate::tests::common::sync_helper::CountDownLatch;
 
 struct CharacterServiceTestContext {
@@ -31,7 +31,7 @@ fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository + Sy
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     let count_down_latch = CountDownLatch::new(latch_size);
     let server_task_queue = Arc::new(TasksQueue::new());
-    StatusService::init(GlobalConfigService::instance(), "../native_functions_list.txt");
+    StatusService::init(GlobalConfigService::instance(), test_script_vm());
     CharacterServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         character_service: CharacterService::new(client_notification_sender.clone(), persistence_event_sender, character_repository, GlobalConfigService::instance(),

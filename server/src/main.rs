@@ -97,7 +97,7 @@ pub async fn main() {
 
 
     // Setup script virtual machine for NPC
-    let vm = Arc::new(Vm::new("native_functions_list.txt", DebugFlag::None.value()));
+    let vm = create_script_vm("native_functions_list.txt");
     let scripts = load_scripts(vm.clone());
 
     // Loading configs
@@ -124,7 +124,7 @@ pub async fn main() {
     let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(2048);
     let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(2048);
     // Create server
-    let server = Server::new(configs(), repository_arc.clone(), map_item_ids, vm, client_notification_sender, persistence_event_sender.clone());
+    let server = Server::new(configs(), repository_arc.clone(), map_item_ids, vm, client_notification_sender.clone(), persistence_event_sender.clone());
     let server_ref = Arc::new(server);
     PlayerScriptHandler::init(GlobalConfigService::instance(), server_ref.clone());
     let server_ref_clone = server_ref;
@@ -147,7 +147,7 @@ pub async fn main() {
         }
     }
     info!("Server started in {}ms", _start.elapsed().as_millis());
-    Server::start(server_ref_clone, single_client_notification_receiver, persistence_event_receiver, persistence_event_sender, true);
+    Server::start(server_ref_clone, client_notification_sender, single_client_notification_receiver, persistence_event_receiver, persistence_event_sender, true);
 
     for handle in handles {
         handle.join().expect("Failed await server and proxy threads");
@@ -223,4 +223,9 @@ pub fn load_scripts(vm: Arc<Vm>) -> HashMap<String, Vec<Script>> {
 
 pub fn configs() -> &'static Config {
     unsafe { CONFIGS.as_ref().unwrap() }
+}
+
+
+pub fn create_script_vm(native_function_file_path: &str) -> Arc<Vm> {
+    Arc::new(Vm::new(native_function_file_path, rathena_script_lang_interpreter::lang::vm::DebugFlag::None.value()))
 }
