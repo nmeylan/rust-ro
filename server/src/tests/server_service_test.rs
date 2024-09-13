@@ -6,6 +6,7 @@ use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::tasks_queue::TasksQueue;
+use crate::server::Server;
 use crate::server::service::battle_service::{BattleResultMode, BattleService};
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
@@ -69,10 +70,12 @@ mod tests {
     use crate::server::model::map_item::ToMapItem;
     use models::position::Position;
     use crate::server::model::tasks_queue::TasksQueue;
+    use crate::server::Server;
     use crate::server::service::global_config_service::GlobalConfigService;
     use crate::tests::common::assert_helper::task_queue_contains_event_at_tick;
     use crate::tests::common::character_helper::{create_character};
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
+    use crate::tests::common::mocked_repository;
     use crate::tests::common::server_helper::create_empty_server_state;
     use crate::tests::server_service_test::before_each;
     use crate::util::tick::get_tick;
@@ -237,6 +240,14 @@ mod tests {
         let item_from_inventory = character_state.get_item_from_inventory(0).unwrap();
         assert_eq!(item_from_inventory.item_id, 501);
         assert_eq!(item_from_inventory.amount, 2);
+    }
+
+    #[test]
+    fn character_use_support_skill_should_send_add_bonuses_packet() {
+        // Given
+        // Server::new_without_service_init(GlobalConfigService::instance(), mocked_repository(), )
+        // When
+        // Then
     }
 
 }

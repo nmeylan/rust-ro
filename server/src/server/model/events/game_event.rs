@@ -6,6 +6,7 @@ use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::movement::Movement;
 use models::position::Position;
+use crate::server::model::action::{AddBonuses, Damage};
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum GameEvent {
@@ -27,6 +28,8 @@ pub enum GameEvent {
     CharacterTakeoffEquipItem(CharacterTakeoffEquipItem),
     CharacterAttack(CharacterAttack),
     CharacterUseSkill(CharacterUseSkill),
+    CharacterDamage(Damage),
+    CharacterAddBonuses(AddBonuses),
     CharacterUpdateClientSideStats(u32),
     CharacterChangeLevel(CharacterChangeLevel),
     CharacterChangeJobLevel(CharacterChangeJobLevel),

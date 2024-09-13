@@ -10,7 +10,7 @@ use sqlx::Row;
 use packets::packets::{Packet, PacketAcAcceptLogin, PacketAcAcceptLogin2, PacketAcRefuseLogin, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketCaLogin, ServerAddr, ServerAddr2};
 use packets::packets_parser::parse;
 
-use crate::repository::Repository;
+use crate::repository::{PgRepository, Repository};
 use crate::server::model::request::Request;
 
 use crate::server::model::session::Session;
@@ -50,7 +50,7 @@ pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
     }
 }
 
-pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &Repository) -> Box<dyn Packet> {
+pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &PgRepository) -> Box<dyn Packet> {
     let mut rng = rand::thread_rng();
     let mut username = String::new();
     let mut password = String::new();

@@ -42,7 +42,7 @@ impl ItemService {
     pub fn instance() -> &'static ItemService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration_service: &'static GlobalConfigService) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn ItemRepository>, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
             SERVICE_INSTANCE = Some(ItemService { client_notification_sender, persistence_event_sender, repository, configuration_service, item_script_cache: Default::default() });
         });

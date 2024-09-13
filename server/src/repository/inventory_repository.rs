@@ -1,7 +1,7 @@
 use sqlx::{Error, Executor, Row};
 use sqlx::postgres::PgQueryResult;
 use crate::repository::model::item_model::{InventoryItemModel};
-use crate::repository::{InventoryRepository, Repository};
+use crate::repository::{InventoryRepository, PgRepository, Repository};
 use crate::repository::persistence_error::PersistenceError;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 
@@ -9,7 +9,7 @@ use async_trait::async_trait;
 use crate::server::model::events::game_event::CharacterRemoveItem;
 
 #[async_trait]
-impl InventoryRepository for Repository {
+impl InventoryRepository for PgRepository {
     async fn character_inventory_update_add(&self, inventory_update_items: &[InventoryItemUpdate], buy: bool) -> Result<(), Error> {
         if inventory_update_items.is_empty() {
             return Ok(());

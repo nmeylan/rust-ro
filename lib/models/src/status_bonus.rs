@@ -77,7 +77,7 @@ impl TemporaryStatusBonus {
     }
 }
 
-#[derive(Default, Debug, Clone)]
+#[derive(Default, Debug, Clone, PartialEq)]
 pub struct TemporaryStatusBonuses(pub Vec<TemporaryStatusBonus>);
 
 impl TemporaryStatusBonuses {
