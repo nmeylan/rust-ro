@@ -202,13 +202,13 @@ impl InventoryService {
         }
         if let Some((index, ammo)) = ammo {
             let item_info = self.configuration_service.get_item(ammo.item_id);
-            character.wear_equip_item(index, item_info.location, item_info);
+            character.wear_equip_item(index, ammo.equip as u64, item_info);
             packet_zc_equip_arrow.set_index(index as i16);
         }
         packet_zc_equip_arrow.fill_raw();
         for item in equipments.iter() {
             let item_info = self.configuration_service.get_item(item.itid as i32);
-            character.wear_equip_item(item.index as usize, item.location as u64, item_info);
+            character.wear_equip_item(item.index as usize, item.wear_state as u64, item_info);
         }
         packet_zc_equipment_itemlist3.set_packet_length((PacketZcEquipmentItemlist3::base_len(self.configuration_service.packetver()) + equipments.len() * EquipmentitemExtrainfo301::base_len(self.configuration_service.packetver())) as i16);
         packet_zc_equipment_itemlist3.set_item_info(equipments);
