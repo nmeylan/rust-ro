@@ -9,3 +9,4 @@ config.json
 tools/stat-calc/node_modules/
 dep.graph
 graph.png
+.vs

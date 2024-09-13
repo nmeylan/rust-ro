@@ -1,5 +1,6 @@
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
+use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 
 use crate::repository::{ItemRepository};
@@ -18,7 +19,8 @@ pub struct ScriptService {
     client_notification_sender: SyncSender<Notification>,
     configuration_service: &'static GlobalConfigService,
     repository: Arc<dyn ItemRepository>,
-    server_task_queue: Arc<TasksQueue<GameEvent>>
+    server_task_queue: Arc<TasksQueue<GameEvent>>,
+    pub vm: Arc<Vm>
 }
 
 impl ScriptService {
@@ -26,13 +28,13 @@ impl ScriptService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, repository: Arc<dyn ItemRepository>, server_task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
-        ScriptService { client_notification_sender, configuration_service, repository, server_task_queue }
+    pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, repository: Arc<dyn ItemRepository>, server_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>) -> Self {
+        ScriptService { client_notification_sender, configuration_service, repository, server_task_queue, vm }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, repository: Arc<dyn ItemRepository>, server_task_queue: Arc<TasksQueue<GameEvent>>) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, repository: Arc<dyn ItemRepository>, server_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(ScriptService::new(client_notification_sender, configuration_service, repository, server_task_queue));
+            SERVICE_INSTANCE = Some(ScriptService::new(client_notification_sender, configuration_service, repository, server_task_queue, vm));
         });
     }
 

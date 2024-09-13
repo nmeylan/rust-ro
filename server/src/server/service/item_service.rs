@@ -36,15 +36,16 @@ pub struct ItemService {
     repository: Arc<dyn ItemRepository>,
     configuration_service: &'static GlobalConfigService,
     item_script_cache: MyUnsafeCell<HashMap<u32, ClassFile>>,
+    item_script_vm: Arc<Vm>,
 }
 
 impl ItemService {
     pub fn instance() -> &'static ItemService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn ItemRepository>, configuration_service: &'static GlobalConfigService) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn ItemRepository>,  item_script_vm: Arc<Vm>, configuration_service: &'static GlobalConfigService) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(ItemService { client_notification_sender, persistence_event_sender, repository, configuration_service, item_script_cache: Default::default() });
+            SERVICE_INSTANCE = Some(ItemService { client_notification_sender, persistence_event_sender, repository, configuration_service, item_script_cache: Default::default(), item_script_vm });
         });
     }
 
@@ -80,7 +81,7 @@ impl ItemService {
                     let (tx, _rx) = mpsc::channel(1);
                     let session = server_ref.state().get_session(character.account_id);
                     session.set_script_handler_channel_sender(tx);
-                    let script_result = Vm::repl(server_ref.vm.clone(), script,
+                    let script_result = Vm::repl(self.item_script_vm.clone(), script,
                                                  Box::new(PlayerScriptHandler::instance()), vec![0, character.char_id, character.account_id]);
                     let mut packet_zc_use_item_ack = PacketZcUseItemAck2::new(self.configuration_service.packetver());
                     packet_zc_use_item_ack.set_aid(character_user_item.char_id);

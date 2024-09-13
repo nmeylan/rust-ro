@@ -1,7 +1,7 @@
 use async_trait::async_trait;
 use sqlx::{Error, PgPool};
 use sqlx::postgres::PgQueryResult;
-use crate::repository::{CharacterRepository, InventoryRepository, Repository};
+use crate::repository::{CharacterRepository, InventoryRepository, ItemRepository, LoginRepository, MobRepository, Repository, ScriptVariableRepository};
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::events::game_event::CharacterRemoveItem;
@@ -10,6 +10,17 @@ use crate::server::model::events::persistence_event::{DeleteItems, InventoryItem
 #[derive(Default)]
 pub struct MockedRepository;
 
+impl Repository for MockedRepository {
+
+}
+
+impl ItemRepository for MockedRepository {}
+
+impl MobRepository for MockedRepository {}
+
+impl ScriptVariableRepository for MockedRepository {}
+
+impl LoginRepository for MockedRepository {}
 
 
 #[async_trait]

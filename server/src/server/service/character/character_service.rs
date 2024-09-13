@@ -620,7 +620,7 @@ impl CharacterService {
         }
     }
 
-    pub fn reload_client_side_status(&self, server_ref: &Server, character: &Character) {
+    pub fn reload_client_side_status(&self, character: &Character) {
         let character_status = self.status_service.to_snapshot(&character.status);
         let mut packet_str = PacketZcStatusValues::new(self.configuration_service.packetver());
         packet_str.set_status_type(StatusTypes::Str.value() as u32);
@@ -768,7 +768,7 @@ impl CharacterService {
             &packet_exp_required_to_reach_next_base_level, &packet_exp_required_to_reach_next_job_level,
         ]);
         final_response_packet.extend(self.weight_update_packets(character));
-        server_ref.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, final_response_packet)))
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, final_response_packet)))
             .expect("Fail to send client notification");
     }
 

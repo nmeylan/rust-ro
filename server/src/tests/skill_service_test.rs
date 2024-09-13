@@ -8,7 +8,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::skill_service::SkillService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
-use crate::tests::common::{create_mpsc, TestContext};
+use crate::tests::common::{create_mpsc, test_script_vm, TestContext};
 use crate::tests::common::sync_helper::CountDownLatch;
 
 struct SkillServiceTestContext {
@@ -28,7 +28,7 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
     let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
     let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
     let count_down_latch = CountDownLatch::new(latch_size);
-    StatusService::init(GlobalConfigService::instance(), "../native_functions_list.txt");
+    StatusService::init(GlobalConfigService::instance(), test_script_vm());
     SkillServiceTestContext {
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         skill_service: SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal), StatusService::instance(), GlobalConfigService::instance()),

@@ -21,20 +21,20 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 #[allow(dead_code)]
 pub struct StatusService {
     configuration_service: &'static GlobalConfigService,
-    vm: Arc<Vm>,
+    item_script_vm: Arc<Vm>,
 }
 
 impl StatusService {
-    pub fn new(configuration_service: &'static GlobalConfigService, native_function_file_path: &str) -> StatusService {
-        StatusService { configuration_service, vm: Arc::new(Vm::new(native_function_file_path, rathena_script_lang_interpreter::lang::vm::DebugFlag::None.value())) }
+    pub fn new(configuration_service: &'static GlobalConfigService, item_script_vm: Arc<Vm>) -> StatusService {
+        StatusService { configuration_service, item_script_vm }
     }
     pub fn instance() -> &'static StatusService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn init(configuration_service: &'static GlobalConfigService, native_function_file_path: &str) {
+    pub fn init(configuration_service: &'static GlobalConfigService, item_script_vm: Arc<Vm>) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(StatusService::new(configuration_service, native_function_file_path));
+            SERVICE_INSTANCE = Some(StatusService::new(configuration_service, item_script_vm));
         });
     }
     //#[metrics::elapsed]
@@ -127,14 +127,14 @@ impl StatusService {
     #[inline]
     fn collect_dynamic_script(&self, status: &Status, bonuses: &mut &mut Vec<BonusType>, item_model: &&ItemModel) {
         let dynamic_item_script_handler = DynamicItemScriptHandler::new(self.configuration_service, status, item_model.id as u32);
-        if self.vm.contains_class(format!("itemscript{}", item_model.id).as_str()) {
-            Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
+        if self.item_script_vm.contains_class(format!("itemscript{}", item_model.id).as_str()) {
+            Vm::repl_on_registered_class(self.item_script_vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
                 .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e)).unwrap();
         } else if let Some(script_compilation) = &item_model.script_compilation {
             let script = general_purpose::STANDARD.decode(script_compilation).unwrap();
             let maybe_class = Compiler::from_binary(&script).unwrap().pop();
-            Vm::bootstrap_without_init(self.vm.clone(), vec![maybe_class.unwrap()]);
-            Vm::repl_on_registered_class(self.vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
+            Vm::bootstrap_without_init(self.item_script_vm.clone(), vec![maybe_class.unwrap()]);
+            Vm::repl_on_registered_class(self.item_script_vm.clone(), format!("itemscript{}", item_model.id).as_str(), Box::new(&dynamic_item_script_handler), vec![])
                 .map_err(|e| error!("Failed to execute item script for item {}, due to \n{}", item_model.id, e.message)).unwrap();
         }
         bonuses.extend(dynamic_item_script_handler.drain());
