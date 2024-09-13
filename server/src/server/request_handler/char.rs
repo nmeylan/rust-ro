@@ -197,13 +197,10 @@ pub fn handle_make_char(server: &Server, context: Request) {
 
     let created_char = context.runtime().block_on(async {
         let char_model = char_model.unwrap();
-        char_model.insert(&server.repository.pool, "char").await.unwrap();
+        let name = char_model.name.as_str();
+        server.repository.character_insert(&char_model).await.unwrap();
         // TODO add default stuff
-        let created_char: CharacterInfoNeoUnionWrapped = sqlx::query_as::<_, CharacterInfoNeoUnionWrapped>("SELECT * from char WHERE name = $1 AND account_id = $2")
-            .bind(char_model.name)
-            .bind(char_model.account_id)
-            .fetch_one(&server.repository.pool)
-            .await.unwrap();
+        let created_char: CharacterInfoNeoUnionWrapped =  server.repository.character_info(char_model.account_id, name).await.unwrap();
         created_char.data
     });
     let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakecharNeoUnion::new(GlobalConfigService::instance().packetver());
@@ -215,10 +212,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
 pub fn handle_delete_reserved_char(server: &Server, context: Request) {
     let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar4Reserved);
     context.runtime().block_on(async {
-        sqlx::query("UPDATE `char` SET delete_date = UNIX_TIMESTAMP(now() + INTERVAL 1 DAY) WHERE account_id = $1 AND char_id = $2")
-            .bind(context.session().account_id as i32)
-            .bind(packet_delete_reserved_char.gid as i32)
-            .execute(&server.repository.pool).await.unwrap();
+        server.repository.character_delete_reserved(context.session().account_id, packet_delete_reserved_char.gid).await.unwrap();
     });
     let mut packet_hc_delete_char4reserved = PacketHcDeleteChar4Reserved::new(GlobalConfigService::instance().packetver());
     packet_hc_delete_char4reserved.set_gid(packet_delete_reserved_char.gid);
@@ -392,9 +386,7 @@ pub fn handle_blocking_play_cancel(context: Request) {
 }
 
 async fn load_chars_info(account_id: u32, server: &Server) -> PacketHcAcceptEnterNeoUnion {
-    let row_results = sqlx::query_as::<Postgres, CharacterInfoNeoUnionWrapped>("SELECT * FROM char WHERE account_id = $1")
-        .bind(account_id as i32)
-        .fetch_all(&server.repository.pool).await.unwrap();
+    let row_results = server.repository.characters_info(account_id).await;
     let mut accept_enter_neo_union = PacketHcAcceptEnterNeoUnion::new(GlobalConfigService::instance().packetver());
     accept_enter_neo_union.set_packet_length((27 + row_results.len() * CharacterInfoNeoUnion::base_len(server.packetver())) as i16);
     accept_enter_neo_union.set_char_info(row_results.iter().map(|wrapped| {

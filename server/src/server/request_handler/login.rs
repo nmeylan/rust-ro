@@ -20,7 +20,7 @@ use crate::server::service::global_config_service::GlobalConfigService;
 pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
     let packet_ca_login = cast!(context.packet(), PacketCaLogin);
     let mut res = context.runtime().block_on(async {
-        authenticate(server.as_ref(), packet_ca_login, &server.repository).await
+        authenticate(server.as_ref(), packet_ca_login).await
     });
     info!("packetver {}", packet_ca_login.version);
     if res.as_any().downcast_ref::<PacketAcAcceptLogin2>().is_some() {
@@ -50,7 +50,7 @@ pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
     }
 }
 
-pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &PgRepository) -> Box<dyn Packet> {
+pub async fn authenticate(server: &Server, packet: &PacketCaLogin) -> Box<dyn Packet> {
     let mut rng = rand::thread_rng();
     let mut username = String::new();
     let mut password = String::new();
@@ -60,13 +60,9 @@ pub async fn authenticate(server: &Server, packet: &PacketCaLogin, repository: &
     for c in packet.passwd {
         if c == 0 as char { break; } else { password.push(c) }
     }
-    let row_result = sqlx::query("SELECT * FROM login WHERE userid = $1 AND user_pass = $2") // TODO add bcrypt on user_pass column, but not supported by hercules
-        .bind(username)
-        .bind(password)
-        .fetch_one(&repository.pool).await;
+    let row_result = server.repository.login(username, password).await;
     if row_result.is_ok() {
-        let row = row_result.unwrap();
-        let account_id= row.get::<i32, _>("account_id") as u32;
+        let account_id = row_result.unwrap();
         if server.packetver() < 20170315 {
             let mut ac_accept_login = PacketAcAcceptLogin::new(GlobalConfigService::instance().packetver());
             ac_accept_login.set_packet_length((PacketAcAcceptLogin::base_len(server.packetver()) + ServerAddr::base_len(server.packetver())) as i16);

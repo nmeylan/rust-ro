@@ -5,6 +5,7 @@ pub mod item_repository;
 pub mod inventory_repository;
 pub mod persistence_error;
 pub mod mob_repository;
+mod login_repository;
 
 use async_trait::async_trait;
 
@@ -14,7 +15,7 @@ use tokio::runtime::Runtime;
 use crate::repository::model::item_model::{GetItemModel, InventoryItemModel, ItemBuySellModel, ItemModel};
 use configuration::configuration::DatabaseConfig;
 use models::status::KnownSkill;
-use crate::repository::model::char_model::CharSelectModel;
+use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
 use crate::repository::model::mob_model::MobModel;
 use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
@@ -55,12 +56,28 @@ impl PgRepository {
     }
 }
 
-pub trait Repository: CharacterRepository + ItemRepository + InventoryRepository + MobRepository + ScriptVariableRepository + Sync + Send {}
+pub trait Repository: Sync + Send
++ CharacterRepository
++ ItemRepository
++ InventoryRepository
++ MobRepository
++ ScriptVariableRepository
++ LoginRepository  {}
 
 impl Repository for PgRepository {}
 
+
+#[async_trait]
+pub trait LoginRepository {
+    async fn login(&self, _username: String, _password: String) -> Result<u32, Error> { todo!() }
+}
+
 #[async_trait]
 pub trait CharacterRepository {
+    async fn character_insert(&self, _char_model: &CharInsertModel) -> Result<(), Error> { todo!() }
+    async fn character_info(&self, _account_id: i32, _char_name: &str) -> Result<CharacterInfoNeoUnionWrapped, Error>{ todo!() }
+    async fn characters_info(&self, _account_id: u32) -> Vec<CharacterInfoNeoUnionWrapped>{ todo!() }
+    async fn character_delete_reserved(&self, _account_id: u32, _char_id: u32) -> Result<(), Error>{ todo!() }
     async fn character_save_position(&self, _account_id: u32, _char_id: u32, _map_name: String, _x: u16, _y: u16) -> Result<(), Error> { todo!() }
     async fn character_update_status(&self, _char_id: u32, _db_column: String, _value: u32) -> Result<(), Error> { todo!() }
     async fn character_zeny_fetch(&self, _char_id: u32) -> Result<i32, Error> { todo!() }
