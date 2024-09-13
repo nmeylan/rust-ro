@@ -71,7 +71,7 @@ pub const MOB_FOV: u16 = 14;
 
 pub struct Server {
     pub configuration: &'static Config,
-    pub repository: Arc<PgRepository>,
+    pub repository: Arc<dyn Repository>,
     state: MyUnsafeCell<ServerState>,
     tasks_queue: Arc<TasksQueue<GameEvent>>,
     movement_tasks_queue: Arc<TasksQueue<GameEvent>>,
@@ -104,7 +104,7 @@ impl Server {
         self.configuration.server.packetver
     }
 
-    pub fn new(configuration: &'static Config, repository: Arc<PgRepository>, map_items: MapItems, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
+    pub fn new(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
         let tasks_queue = Arc::new(TasksQueue::new());
         let movement_tasks_queue = Arc::new(TasksQueue::new());
         StatusService::init(GlobalConfigService::instance(), "native_functions_list.txt");
@@ -137,7 +137,7 @@ impl Server {
         }
     }
 
-    pub fn new_without_service_init(configuration: &'static Config, repository: Arc<PgRepository>, map_items: MapItems, vm: Arc<Vm>, tasks_queue: Arc<TasksQueue<GameEvent>>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
+    pub fn new_without_service_init(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, vm: Arc<Vm>, tasks_queue: Arc<TasksQueue<GameEvent>>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
         Server {
             configuration,
             repository,
