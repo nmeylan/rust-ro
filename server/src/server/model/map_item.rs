@@ -137,6 +137,12 @@ pub struct MapItems {
     sequence_max: u32,
 }
 
+impl Default for MapItems {
+    fn default() -> Self {
+        Self::new(0, u32::MAX)
+    }
+}
+
 impl MapItems {
     pub fn new(sequence_start: u32, sequence_max: u32) -> Self {
         Self {

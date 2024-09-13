@@ -10,7 +10,7 @@ use tokio::runtime::Runtime;
 use configuration::configuration::{DatabaseConfig};
 use models::status::KnownSkill;
 use crate::MAP_DIR;
-use crate::repository::{CharacterRepository, Repository};
+use crate::repository::{CharacterRepository, PgRepository, Repository};
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use crate::server::boot::map_loader::MapLoader;
@@ -37,15 +37,16 @@ pub async fn before_all() -> Arc<Server> {
     INIT.call_once(|| unsafe {
         common::before_all();
         MAP_DIR = "../config/maps/pre-re";
-        // let logger = Logger::try_with_str("info").unwrap();
-        SimpleLogger::new().with_level(LevelFilter::Info).init().unwrap();
-        let vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
+
+        let npc_script_vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
+        let item_script_vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
 
         let database_config = {
 
             let docker_cli = Some(Cli::with_reuse());
             let image = RunnableImage::from(Postgres::default()).with_tag("15-alpine")
-                .with_volume((env::current_dir().unwrap().join("../db/pg.sql").to_str().unwrap(), "/pg.sql"))
+                .with_volume((env::current_dir().unwrap().join("../db/pg.sql").to_str().unwrap(), "/db/pg.sql"))
+                .with_volume((env::current_dir().unwrap().join("../db/alter_itemdb_add_script_compilation_result_column.sql").to_str().unwrap(), "/db/alter_itemdb_add_script_compilation_result_column.sql"))
                 .with_volume((env::current_dir().unwrap().join("../docker/volumes/create_role.sql").to_str().unwrap(), "/create_role.sql"))
                 .with_volume((env::current_dir().unwrap().join("../docker/volumes/init.sh").to_str().unwrap(), "/docker-entrypoint-initdb.d/init.sh"))
                 ;
@@ -58,9 +59,9 @@ pub async fn before_all() -> Arc<Server> {
                 password: Some("ragnarok".to_string()),
             }
         };
-        let repository: Repository = Repository::new_pg_lazy(&database_config, Runtime::new().unwrap());
+        let repository: PgRepository = PgRepository::new_pg_lazy(&database_config, Runtime::new().unwrap());
         let repository_arc = Arc::new(repository);
-        let mut map_item_ids = MapItems::new(0, u32::MAX);
+        let mut map_item_ids = MapItems::default();
 
         let mob_models = serde_json::from_str::<MobModels>(&fs::read_to_string("../config/mobs.json").unwrap());
         let mobs: Vec<MobModel> = mob_models.unwrap().into();
@@ -71,14 +72,14 @@ pub async fn before_all() -> Arc<Server> {
         unsafe {
             crate::GlobalConfigService::instance_mut().maps = maps;
         }
-        let (_not_use_sender, not_use_receiver) = create_mpsc::<Notification>();
+        let (not_use_sender, not_use_receiver) = create_mpsc::<Notification>();
         let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
         let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
-        let server = Server::new(CONFIGS.as_ref().unwrap(), repository_arc.clone(), map_item_ids, vm, client_notification_sender, persistence_event_sender.clone());
+        let server = Server::new(CONFIGS.as_ref().unwrap(), repository_arc.clone(), map_item_ids, npc_script_vm, item_script_vm, client_notification_sender.clone(), persistence_event_sender.clone());
         SERVER = Some(Arc::new(server));
         thread::spawn(move || {
             info!("Starting server");
-            Server::start(SERVER.clone().unwrap(), not_use_receiver, persistence_event_receiver, persistence_event_sender, false);
+            Server::start(SERVER.clone().unwrap(), client_notification_sender, not_use_receiver, persistence_event_receiver, persistence_event_sender, false);
         });
         thread::Builder::new().name("client_notification_thread".to_string()).spawn(move || {
             for _notification in client_notification_receiver.iter() {
