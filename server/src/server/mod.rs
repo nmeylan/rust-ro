@@ -103,10 +103,9 @@ impl Server {
         self.configuration.server.packetver
     }
 
-    pub fn new(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, npc_script_vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
+    pub fn new(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, npc_script_vm: Arc<Vm>, item_script_vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
         let tasks_queue = Arc::new(TasksQueue::new());
         let movement_tasks_queue = Arc::new(TasksQueue::new());
-        let item_script_vm = create_script_vm("native_functions_list.txt");
         StatusService::init(GlobalConfigService::instance(), item_script_vm.clone());
         CharacterService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(),
                                SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::instance(),

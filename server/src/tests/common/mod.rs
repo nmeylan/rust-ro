@@ -187,8 +187,6 @@ pub fn test_script_vm() -> Arc<Vm> {
 //     state: MyUnsafeCell<ServerState>,
 //     tasks_queue: Arc<TasksQueue<GameEvent>>,
 //     movement_tasks_queue: Arc<TasksQueue<GameEvent>>,
-//     pub vm: Arc<Vm>,
-//     client_notification_sender: SyncSender<Notification>,
 // }
 //
 // impl ServerBuilder {
@@ -199,8 +197,6 @@ pub fn test_script_vm() -> Arc<Vm> {
 //             state: (),
 //             tasks_queue: Arc::new(Default::default()),
 //             movement_tasks_queue: Arc::new(Default::default()),
-//             vm: test_script_vm(),
-//             client_notification_sender: (),
 //         }
 //     }
 // }

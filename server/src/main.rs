@@ -97,8 +97,8 @@ pub async fn main() {
 
 
     // Setup script virtual machine for NPC
-    let vm = create_script_vm("native_functions_list.txt");
-    let scripts = load_scripts(vm.clone());
+    let npc_script_vm = create_script_vm("native_functions_list.txt");
+    let scripts = load_scripts(npc_script_vm.clone());
 
     // Loading configs
     let skills_config = Config::load_skills_config(".").unwrap();
@@ -124,7 +124,8 @@ pub async fn main() {
     let (client_notification_sender, single_client_notification_receiver) = std::sync::mpsc::sync_channel::<Notification>(2048);
     let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(2048);
     // Create server
-    let server = Server::new(configs(), repository_arc.clone(), map_item_ids, vm, client_notification_sender.clone(), persistence_event_sender.clone());
+    let item_script_vm = create_script_vm("native_functions_list.txt");
+    let server = Server::new(configs(), repository_arc.clone(), map_item_ids, npc_script_vm, item_script_vm, client_notification_sender.clone(), persistence_event_sender.clone());
     let server_ref = Arc::new(server);
     PlayerScriptHandler::init(GlobalConfigService::instance(), server_ref.clone());
     let server_ref_clone = server_ref;
@@ -197,7 +198,7 @@ async fn compile_item_scripts(repository_arc: &Arc<PgRepository>, items: &mut Ve
     info!("Compiled {} item scripts compiled, skipped {} item scripts compilation (already compiled) in {}ms", item_script_compiled, item_script_skipped, start.elapsed().as_millis());
 }
 
-fn setup_logger() {
+pub fn setup_logger() {
     let level = match configs().server.log_level.as_ref().unwrap().to_lowercase().as_str() {
         "info" => LevelFilter::Info,
         "debug" => LevelFilter::Debug,
