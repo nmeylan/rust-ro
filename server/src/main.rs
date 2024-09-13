@@ -38,7 +38,7 @@ use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
 use std::sync::{Arc};
 
-use crate::repository::{ItemRepository, Repository};
+use crate::repository::{ItemRepository, MobRepository, PgRepository, Repository};
 use std::time::{Instant};
 use base64::Engine;
 use base64::engine::general_purpose;
@@ -84,7 +84,7 @@ pub async fn main() {
     }
 
     setup_logger();
-    let repository : Repository = Repository::new_pg(&configs().database, Runtime::new().unwrap()).await;
+    let repository : PgRepository = PgRepository::new_pg(&configs().database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
     // Load all items in memory, it takes only few mb
     let mut items =  repository_arc.get_all_items().await.unwrap();
@@ -174,7 +174,7 @@ fn update_item_and_mob_static_db(items: &mut Vec<ItemModel>, mobs: &Vec<MobModel
     }
 }
 
-async fn compile_item_scripts(repository_arc: &Arc<Repository>, items: &mut Vec<ItemModel>) {
+async fn compile_item_scripts(repository_arc: &Arc<PgRepository>, items: &mut Vec<ItemModel>) {
     let start = Instant::now();
     let mut script_compilation_to_update: Vec<(i32, Vec<u8>, u128)> = vec![];
     let mut item_script_compiled = 0;

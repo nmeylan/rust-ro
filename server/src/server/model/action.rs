@@ -19,6 +19,13 @@ pub struct Damage {
     pub attacked_at: u128,
 }
 
+#[derive(Debug, PartialEq, Clone)]
+pub struct AddBonuses {
+    pub target_id: u32,
+    pub effects: Vec<StatusEffect>,
+    pub bonuses: TemporaryStatusBonuses,
+}
+
 pub struct SkillInUse {
     pub target: Option<u32>,
     pub start_skill_tick: u128,
@@ -47,6 +54,16 @@ impl Into<Damage> for SkillUsed {
             attacker_id: self.source_id,
             damage: self.damage_to_target as u32,
             attacked_at: self.attacked_at,
+        }
+    }
+}
+
+impl Into<AddBonuses> for SkillUsed {
+    fn into(self) -> AddBonuses {
+        AddBonuses {
+            target_id: self.target_id,
+            effects: self.effects,
+            bonuses: self.bonuses,
         }
     }
 }

@@ -63,6 +63,7 @@ mod tests {
     use crate::{assert_sent_packet_in_current_packetver, assert_vec_equals, status_snapshot, status_snapshot_mob};
     use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
+    use crate::server::Server;
     use crate::tests::common;
     use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item_from_id, equip_item_from_name, takeoff_weapon};
     use crate::tests::common::mob_helper::create_mob;
@@ -353,11 +354,12 @@ mod tests {
             let target_status = status_snapshot!(context, character);
             character.set_skill_in_use(Some(target.map_item.id()), 0, scenarii.skill.into(), true);
             let skill_use_response = context.skill_service.do_use_skill(&mut character, Some(target.clone()), source_status, Some(&target_status), 1);
+            // Then
             assert!(skill_use_response.is_some());
             let skill_use_response = skill_use_response.unwrap();
             assert_vec_equals!(skill_use_response.bonuses.into(), scenarii.expected_bonuses.into());
         }
-        // Then
+        // Server::game_loop_iteration()
     }
     #[test]
     fn use_skill_should_send_par_change_packets() {

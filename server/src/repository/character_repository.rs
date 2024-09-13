@@ -3,11 +3,11 @@ use crate::Repository;
 use async_trait::async_trait;
 use models::enums::skill_enums::SkillEnum;
 use models::status::KnownSkill;
-use crate::repository::CharacterRepository;
+use crate::repository::{CharacterRepository, PgRepository};
 use crate::repository::model::char_model::CharSelectModel;
 
 #[async_trait]
-impl CharacterRepository for Repository {
+impl CharacterRepository for PgRepository {
     async fn character_save_position(&self, account_id: u32, char_id: u32, map_name: String, x: u16, y: u16) -> Result<(), Error> {
         sqlx::query("UPDATE char SET last_map = $1, last_x = $2, last_y = $3 WHERE account_id = $4 AND char_id = $5")
             .bind(map_name)

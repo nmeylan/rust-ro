@@ -1,7 +1,7 @@
 use async_trait::async_trait;
-use sqlx::Error;
+use sqlx::{Error, PgPool};
 use sqlx::postgres::PgQueryResult;
-use crate::repository::{CharacterRepository, InventoryRepository};
+use crate::repository::{CharacterRepository, InventoryRepository, Repository};
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::model::events::game_event::CharacterRemoveItem;

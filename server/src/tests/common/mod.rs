@@ -19,23 +19,23 @@ use std::sync::mpsc::SyncSender;
 use std::sync::mpsc::Receiver;
 use std::sync::{Arc, Mutex, Once};
 use log::{LevelFilter};
+use rathena_script_lang_interpreter::lang::vm::Vm;
 use simple_logger::SimpleLogger;
 
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use configuration::configuration::Config;
 use packets::packets::Packet;
-
+use crate::repository::Repository;
 use crate::server::model::events::client_notification::Notification;
+use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
+use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::item_service::ItemService;
-
-
-
+use crate::server::state::server::ServerState;
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
-
-
+use crate::util::cell::MyUnsafeCell;
 
 static mut CONFIGS: Option<Config> = None;
 static INIT: Once = Once::new();
@@ -176,7 +176,30 @@ pub fn before_all() {
 pub fn mocked_repository() -> Arc<MockedRepository> {
     Arc::new(MockedRepository)
 }
-
+//
+// pub struct ServerBuilder {
+//     pub configuration: &'static Config,
+//     pub repository: Arc<Repository>,
+//     state: MyUnsafeCell<ServerState>,
+//     tasks_queue: Arc<TasksQueue<GameEvent>>,
+//     movement_tasks_queue: Arc<TasksQueue<GameEvent>>,
+//     pub vm: Arc<Vm>,
+//     client_notification_sender: SyncSender<Notification>,
+// }
+//
+// impl ServerBuilder {
+//     pub fn new(configuration: &'static Config) -> Self {
+//         ServerBuilder {
+//             configuration,
+//             repository: mocked_repository(),
+//             state: (),
+//             tasks_queue: Arc::new(Default::default()),
+//             movement_tasks_queue: Arc::new(Default::default()),
+//             vm: Arc::new(()),
+//             client_notification_sender: (),
+//         }
+//     }
+// }
 
 #[macro_export]
 macro_rules! status_snapshot {

@@ -20,7 +20,7 @@ use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, CharacterUseSkill, GameEvent};
 use crate::server::map_instance_loop::MapInstanceLoop;
-use crate::server::model::action::{Damage, SkillUsed};
+use crate::server::model::action::{AddBonuses, Damage, SkillUsed};
 use crate::server::model::events::map_event::{MapEvent};
 
 use crate::server::model::movement::{Movable, Movement};
@@ -151,7 +151,7 @@ impl ServerService {
                     maybe_damage = self.battle_service.basic_attack(character, snapshot, &self.get_status_snapshot(&character.status, tick), &mob_status, tick);
                 }
                 if let Some(damage) = maybe_damage {
-                    Self::apply_damage(*map_item.object_type(), map_instance, damage);
+                    self.apply_damage(*map_item.object_type(), map_instance, damage);
                 }
             }
         } else {
@@ -159,9 +159,14 @@ impl ServerService {
         }
     }
 
-    fn apply_damage(map_item_type: MapItemType, map_instance: &Arc<MapInstance>, damage: Damage) {
+    fn apply_damage(&self, map_item_type: MapItemType, map_instance: &Arc<MapInstance>, damage: Damage) {
         if matches!(map_item_type, MapItemType::Mob) {
             map_instance.add_to_next_tick(MapEvent::MobDamage(damage));
+        }
+    }
+    fn apply_bonuses(&self, map_item_type: MapItemType, _map_instance: &Arc<MapInstance>, add_bonuses: AddBonuses) {
+        if matches!(map_item_type, MapItemType::Character) {
+            self.server_task_queue.add_to_first_index(GameEvent::CharacterAddBonuses(add_bonuses));
         }
     }
 
@@ -183,7 +188,7 @@ impl ServerService {
             if matches!(skill_use_response.skill_type, SkillType::Offensive) {
                 let maybe_map_instance = server_state.get_map_instance(character.current_map_name(), character.current_map_instance());
                 let map_instance = maybe_map_instance.as_ref().unwrap();
-                Self::apply_damage(*target.unwrap().map_item.object_type(), map_instance, skill_use_response.into());
+                self.apply_damage(*target.unwrap().map_item.object_type(), map_instance, skill_use_response.into());
             }
         }
     }
@@ -201,7 +206,7 @@ impl ServerService {
                 if matches!(skill_use_response.skill_type, SkillType::Offensive) {
                     let maybe_map_instance = server_state.get_map_instance(character.current_map_name(), character.current_map_instance());
                     let map_instance = maybe_map_instance.as_ref().unwrap();
-                    Self::apply_damage(*target.unwrap().map_item.object_type(), map_instance, skill_use_response.into());
+                    self.apply_damage(*target.unwrap().map_item.object_type(), map_instance, skill_use_response.into());
                 }
             }
         }

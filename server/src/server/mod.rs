@@ -8,7 +8,7 @@ use std::thread::Scope;
 use tokio::runtime::Runtime;
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
-use crate::repository::Repository;
+use crate::repository::{PgRepository, Repository};
 use configuration::configuration::Config;
 
 
@@ -71,7 +71,7 @@ pub const MOB_FOV: u16 = 14;
 
 pub struct Server {
     pub configuration: &'static Config,
-    pub repository: Arc<Repository>,
+    pub repository: Arc<PgRepository>,
     state: MyUnsafeCell<ServerState>,
     tasks_queue: Arc<TasksQueue<GameEvent>>,
     movement_tasks_queue: Arc<TasksQueue<GameEvent>>,
@@ -104,7 +104,7 @@ impl Server {
         self.configuration.server.packetver
     }
 
-    pub fn new(configuration: &'static Config, repository: Arc<Repository>, map_items: MapItems, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
+    pub fn new(configuration: &'static Config, repository: Arc<PgRepository>, map_items: MapItems, vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
         let tasks_queue = Arc::new(TasksQueue::new());
         let movement_tasks_queue = Arc::new(TasksQueue::new());
         StatusService::init(GlobalConfigService::instance(), "native_functions_list.txt");
@@ -132,6 +132,18 @@ impl Server {
             tasks_queue,
             state: MyUnsafeCell::new(ServerState::new(map_items)),
             movement_tasks_queue,
+            vm,
+            client_notification_sender,
+        }
+    }
+
+    pub fn new_without_service_init(configuration: &'static Config, repository: Arc<PgRepository>, map_items: MapItems, vm: Arc<Vm>, tasks_queue: Arc<TasksQueue<GameEvent>>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
+        Server {
+            configuration,
+            repository,
+            state: MyUnsafeCell::new(ServerState::new(map_items)),
+            tasks_queue,
+            movement_tasks_queue: Arc::new(Default::default()),
             vm,
             client_notification_sender,
         }

@@ -1,3 +1,8 @@
+# 2024-09-12
+planned:
+- Add test bonuses added after support skill: require next game loop tick
+- Make game loop iteration testable
+
 # 2024-09-06
 planned:
 - Apply skill bonuses to character status

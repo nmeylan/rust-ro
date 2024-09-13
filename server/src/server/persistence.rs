@@ -6,7 +6,7 @@ use crate::{Map, PersistenceEvent, Repository};
 use crate::server::Server;
 
 impl Server {
-    pub(crate) fn persistence_thread(persistence_event_receiver: Receiver<PersistenceEvent>, runtime: Runtime, repository: Arc<Repository>) {
+    pub(crate) fn persistence_thread(persistence_event_receiver: Receiver<PersistenceEvent>, runtime: Runtime, repository: Arc<dyn Repository>) {
         for event in persistence_event_receiver.iter() {
             runtime.block_on(async {
                 match event {

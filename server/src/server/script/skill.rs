@@ -4,7 +4,7 @@ use models::enums::skill_enums::SkillEnum;
 use models::enums::vanish::VanishType;
 use models::enums::EnumWithNumberValue;
 use packets::packets::PacketZcNotifyVanish;
-use crate::repository::Repository;
+use crate::repository::{Repository, ScriptVariableRepository};
 use configuration::configuration::{Config, SkillConfig};
 use crate::server::model::map::{Map, RANDOM_CELL};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
@@ -20,7 +20,7 @@ static SERVICE_INSTANCE_INIT: Once = Once::new();
 pub struct ScriptSkillService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
-    repository: Arc<Repository>,
+    repository: Arc<dyn ScriptVariableRepository>,
     configuration: &'static Config,
 }
 
@@ -29,7 +29,7 @@ impl ScriptSkillService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<Repository>, configuration: &'static Config) {
+    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn ScriptVariableRepository>, configuration: &'static Config) {
         SERVICE_INSTANCE_INIT.call_once(|| unsafe {
             SERVICE_INSTANCE = Some(ScriptSkillService { client_notification_sender, persistence_event_sender, repository, configuration });
         });
