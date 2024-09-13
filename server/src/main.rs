@@ -1,6 +1,3 @@
-#![feature(future_join)]
-#![feature(stmt_expr_attributes)]
-#![feature(proc_macro_hygiene)]
 #![feature(trait_upcasting)]
 
 #![feature(test)]
