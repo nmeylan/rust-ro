@@ -49,7 +49,7 @@ pub fn create_character() -> Character {
         char_id: 150000,
         account_id: 2000000,
         map_instance_key: MapInstanceKey::new("Prontera".to_string(), 0),
-        loaded_from_client_side: false,
+        loaded_from_client_side: true,
         x: 156,
         y: 179,
         dir: 0,

@@ -70,7 +70,7 @@ impl ItemService {
     }
 
     #[metrics::elapsed]
-    pub fn use_item(&self, server_ref: Arc<Server>, runtime: &Runtime, character_user_item: CharacterUseItem, character: &mut Character) {
+    pub fn use_item(&self, server_ref: &Server, runtime: &Runtime, character_user_item: CharacterUseItem, character: &mut Character) {
         if let Some(item) = character.get_item_from_inventory(character_user_item.index) {
             if item.item_type().is_consumable() {
                 // TODO check if char can use (class restriction, level restriction)

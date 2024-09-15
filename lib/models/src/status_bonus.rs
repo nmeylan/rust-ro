@@ -84,16 +84,25 @@ impl TemporaryStatusBonuses {
     pub fn empty() -> Self {
         Self { 0: vec![] }
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
+    }
+
+    pub fn merge(&mut self, other: TemporaryStatusBonuses) {
+        // TODO handle uniq
+        // TODO do not use extend in the future
+        self.0.extend(other.0);
+    }
+
+    pub fn to_vec(&self) ->  Vec<StatusBonus> {
+            self.0.iter().map(|temporary_status_bonus: &TemporaryStatusBonus| StatusBonus { bonus: temporary_status_bonus.bonus }).collect()
+    }
 }
 
 impl Into<Vec<TemporaryStatusBonus>> for TemporaryStatusBonuses {
     fn into(self) -> Vec<TemporaryStatusBonus> {
         self.0
-    }
-}
-impl Into<Vec<StatusBonus>> for TemporaryStatusBonuses {
-    fn into(self) -> Vec<StatusBonus> {
-        self.0.iter().map(|temporary_status_bonus: &TemporaryStatusBonus| StatusBonus { bonus: temporary_status_bonus.bonus }).collect()
     }
 }
 

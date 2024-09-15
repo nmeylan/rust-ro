@@ -347,7 +347,7 @@ mod tests {
             TestResult { skill: KnownSkill { value: SkillEnum::AlBlessing, level: 10 }, expected_bonuses: StatusBonuses::new(vec![StatusBonus::new(BonusType::Dex(110)), StatusBonus::new(BonusType::Str(10)), StatusBonus::new(BonusType::Int(10))]) },
             TestResult { skill: KnownSkill { value: SkillEnum::AlIncagi, level: 10 }, expected_bonuses: StatusBonuses::new(vec![StatusBonus::new(BonusType::Agi(12)), StatusBonus::new(BonusType::SpeedPercentage(25))]) },
         ];
-        let target = MapItemSnapshot { map_item: character.to_map_item(), position: Position { x: character.x + 1, y: character.y + 1, dir: 0 } };
+        let target = MapItemSnapshot { map_item: character.to_map_item(), position: Position { x: character.x, y: character.y, dir: 0 } };
         // When
         for scenarii in scenario {
             let source_status = status_snapshot!(context, character);
@@ -357,9 +357,8 @@ mod tests {
             // Then
             assert!(skill_use_response.is_some());
             let skill_use_response = skill_use_response.unwrap();
-            assert_vec_equals!(skill_use_response.bonuses.into(), scenarii.expected_bonuses.into());
+            assert_vec_equals!(skill_use_response.bonuses.to_vec(), scenarii.expected_bonuses.into());
         }
-        // Server::game_loop_iteration()
     }
     #[test]
     fn use_skill_should_send_par_change_packets() {

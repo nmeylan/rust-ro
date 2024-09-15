@@ -30,7 +30,9 @@ use crate::repository::Repository;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
+use crate::server::model::map_item::MapItems;
 use crate::server::model::tasks_queue::TasksQueue;
+use crate::server::Server;
 use crate::server::service::item_service::ItemService;
 use crate::server::state::server::ServerState;
 use crate::tests::common::mocked_repository::MockedRepository;
@@ -181,25 +183,38 @@ pub fn test_script_vm() -> Arc<Vm> {
     Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()))
 }
 
-// pub struct ServerBuilder {
-//     pub configuration: &'static Config,
-//     pub repository: Arc<MockedRepository>,
-//     state: MyUnsafeCell<ServerState>,
-//     tasks_queue: Arc<TasksQueue<GameEvent>>,
-//     movement_tasks_queue: Arc<TasksQueue<GameEvent>>,
-// }
-//
-// impl ServerBuilder {
-//     pub fn new(configuration: &'static Config) -> Self {
-//         ServerBuilder {
-//             configuration,
-//             repository: mocked_repository(),
-//             state: (),
-//             tasks_queue: Arc::new(Default::default()),
-//             movement_tasks_queue: Arc::new(Default::default()),
-//         }
-//     }
-// }
+pub struct ServerBuilder {
+    pub configuration: &'static Config,
+    pub repository: Arc<MockedRepository>,
+    map_items: MapItems,
+    tasks_queue: Arc<TasksQueue<GameEvent>>,
+}
+
+impl ServerBuilder {
+    pub fn new(configuration: &'static Config) -> Self {
+        ServerBuilder {
+            configuration,
+            repository: mocked_repository(),
+            map_items: MapItems::default(),
+            tasks_queue: Arc::new(Default::default()),
+        }
+    }
+    pub fn map_items(mut self, map_items: MapItems) -> Self {
+        self.map_items = map_items;
+        self
+    }
+    pub fn tasks_queue(mut self, tasks_queue: TasksQueue<GameEvent>) -> Self {
+        self.tasks_queue = Arc::new(tasks_queue);
+        self
+    }
+    pub fn repository(mut self, repository: MockedRepository) -> Self {
+        self.repository = Arc::new(repository);
+        self
+    }
+    pub fn build(self) -> Server {
+        Server::new_without_service_init(self.configuration, self.repository, self.map_items, test_script_vm(), self.tasks_queue)
+    }
+}
 
 #[macro_export]
 macro_rules! status_snapshot {

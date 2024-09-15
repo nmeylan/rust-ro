@@ -64,33 +64,33 @@ pub fn variance(expectation: u32, variance: usize) -> u32 {
     (variance as f32 / 100_f32).round() as u32 * expectation
 }
 
-pub fn assert_vecs_equal<T: std::fmt::Debug + std::cmp::PartialEq>(mut vec1: Vec<T>, mut vec2: Vec<T>) {
-    let mut missing_from_vec2 = Vec::new();
-    let mut extra_in_vec2 = Vec::new();
+pub fn assert_vecs_equal<T: std::fmt::Debug + std::cmp::PartialEq>(mut actual: Vec<T>, mut expected: Vec<T>) {
+    let mut not_expected = Vec::new();
+    let mut missing = Vec::new();
 
     // Find elements in vec1 that are missing in vec2
-    for elem in &vec1 {
-        if !vec2.contains(elem) {
-            missing_from_vec2.push(elem);
+    for elem in &actual {
+        if !expected.contains(elem) {
+            not_expected.push(elem);
         } else {
             // Remove the matched element from vec2 to prevent multiple matches
-            if let Some(pos) = vec2.iter().position(|x| x == elem) {
-                vec2.remove(pos);
+            if let Some(pos) = expected.iter().position(|x| x == elem) {
+                expected.remove(pos);
             }
         }
     }
 
     // Remaining elements in vec2 are extra
-    extra_in_vec2.extend(vec2.iter());
+    missing.extend(expected.iter());
     // Print the results
-    if missing_from_vec2.is_empty() && extra_in_vec2.is_empty() {
+    if not_expected.is_empty() && missing.is_empty() {
         assert!(true)
     } else {
-        if !missing_from_vec2.is_empty() {
-            assert!(false, "Missing elements in vec2: {:?}", missing_from_vec2);
+        if !not_expected.is_empty() {
+            assert!(false, "Should not contain following elements: {:?}", not_expected);
         }
-        if !extra_in_vec2.is_empty() {
-            assert!(false, "Extra elements in vec2: {:?}", extra_in_vec2);
+        if !missing.is_empty() {
+            assert!(false, "Missing expected elements: {:?}", missing);
         }
     }
 }

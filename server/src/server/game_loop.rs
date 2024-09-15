@@ -44,7 +44,7 @@ impl Server {
     pub(crate) fn game_loop(server_ref: Arc<Server>, runtime: Runtime) {
         loop {
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
-            Self::game_loop_iteration(server_ref.clone(), &runtime, tick);
+            Self::game_loop_iteration(server_ref.clone().as_ref(), &runtime, tick);
             let time_spent = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick;
             let sleep_duration = (GAME_TICK_RATE as i128 - time_spent as i128).max(0) as u64;
             if sleep_duration < 5 {
@@ -54,7 +54,7 @@ impl Server {
         }
     }
 
-    pub(crate) fn game_loop_iteration(server_ref: Arc<Server>, runtime: &Runtime, tick: u128) {
+    pub(crate) fn game_loop_iteration(server_ref: &Server, runtime: &Runtime, tick: u128) {
         let mut server_state_mut = server_ref.state_mut();
         if let Some(tasks) = server_ref.pop_task() {
             for task in tasks {
@@ -120,7 +120,7 @@ impl Server {
                     }
                     GameEvent::CharacterUseItem(character_user_item) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_user_item.char_id).unwrap();
-                        ItemService::instance().use_item(server_ref.clone(), &runtime, character_user_item, character);
+                        ItemService::instance().use_item(server_ref, &runtime, character_user_item, character);
                     }
                     GameEvent::CharacterAttack(character_attack) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_attack.char_id).unwrap();
@@ -212,6 +212,7 @@ impl Server {
                         println!("GameEvent::CharacterDamage: Not implemented yet!")
                     }
                     GameEvent::CharacterAddBonuses(add_bonuses) => {
+                        println!("GameEvent::CharacterAddBonuses: Not implemented yet!")
 
                     }
                 }
@@ -221,9 +222,9 @@ impl Server {
             let map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance());
             if let Some(map_instance) = map_instance {
                 CharacterService::instance().load_units_in_fov(server_ref.state(), character, map_instance.state().borrow().as_ref());
-                ServerService::instance().character_attack(server_ref.state(), tick, character);
-                ServerService::instance().character_use_skill(server_ref.state(), tick, character);
             }
+            ServerService::instance().character_attack(server_ref.state(), tick, character);
+            ServerService::instance().character_use_skill(server_ref.state(), tick, character);
         }
         for (_, map) in server_ref.state().map_instances().iter() {
             for instance in map.iter() {
