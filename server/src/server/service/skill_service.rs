@@ -29,15 +29,21 @@ pub struct SkillService {
     configuration_service: &'static GlobalConfigService,
     battle_service: BattleService,
     status_service: &'static StatusService,
+    force_no_delay: bool,
 }
 
 
 impl SkillService {
     pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService) -> SkillService {
-        SkillService { client_notification_sender, persistence_event_sender, configuration_service, battle_service, status_service }
+        SkillService { client_notification_sender, persistence_event_sender, configuration_service, battle_service, status_service, force_no_delay: false }
     }
     pub fn instance() -> &'static SkillService {
         unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
+    }
+
+    pub fn force_no_delay(mut self) -> Self {
+        self.force_no_delay = true;
+        self
     }
 
     pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService) {
@@ -107,7 +113,7 @@ impl SkillService {
         )).unwrap();
 
 
-        let no_delay = skill.cast_time() == 0;
+        let no_delay = self.force_no_delay || skill.cast_time() == 0;
         character.set_skill_in_use(target.map(|target| target.map_item().id()), tick, skill, no_delay);
         let mut skill_usage_response = None;
         if no_delay {
@@ -123,7 +129,7 @@ impl SkillService {
             return None;
         }
 
-        if tick < character.skill_in_use().start_skill_tick + character.skill_in_use().skill.cast_time() as u128 {
+        if !self.force_no_delay && tick < character.skill_in_use().start_skill_tick + character.skill_in_use().skill.cast_time() as u128 {
             return None;
         }
         let skill = &character.skill_in_use().skill;

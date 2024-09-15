@@ -184,13 +184,7 @@ impl ServerService {
         }
         let skill_use_response = self.skill_service.start_use_skill(character, target, &self.get_status_snapshot(&character.status, tick),
                                                                     self.get_target_status(server_state, character, Some(character_use_skill.target_id), tick).as_ref(), character_use_skill.skill_id, character_use_skill.skill_level, tick);
-        if let Some(skill_use_response) = skill_use_response {
-            if matches!(skill_use_response.skill_type, SkillType::Offensive) {
-                let maybe_map_instance = server_state.get_map_instance(character.current_map_name(), character.current_map_instance());
-                let map_instance = maybe_map_instance.as_ref().unwrap();
-                self.apply_damage(*target.unwrap().map_item.object_type(), map_instance, skill_use_response.into());
-            }
-        }
+        self.after_used_skill(server_state, character, target, skill_use_response);
     }
 
     pub fn character_use_skill(&self, server_state: &ServerState, tick: u128, character: &mut Character) {
@@ -202,12 +196,23 @@ impl ServerService {
         } else {
             let target = Self::get_target(server_state, character, character.skill_in_use().target);
             let skill_use_response = self.skill_service.do_use_skill(character, target, &self.get_status_snapshot(&character.status, tick), self.get_target_status(server_state, character, character.skill_in_use().target, tick).as_ref(), tick);
-            if let Some(skill_use_response) = skill_use_response {
-                if matches!(skill_use_response.skill_type, SkillType::Offensive) {
+            self.after_used_skill(server_state, character, target, skill_use_response);
+        }
+    }
+
+    fn after_used_skill(&self, server_state: &ServerState, character: &mut Character, target: Option<MapItemSnapshot>, skill_use_response: Option<SkillUsed>) {
+        if let Some(skill_use_response) = skill_use_response {
+            match skill_use_response.skill_type {
+                SkillType::Offensive => {
                     let maybe_map_instance = server_state.get_map_instance(character.current_map_name(), character.current_map_instance());
                     let map_instance = maybe_map_instance.as_ref().unwrap();
-                    self.apply_damage(*target.unwrap().map_item.object_type(), map_instance, skill_use_response.into());
+                    self.apply_damage(*target.unwrap().map_item.object_type(), map_instance, skill_use_response.to_damage());
                 }
+                _ => {}
+            }
+            if !skill_use_response.bonuses.is_empty() {
+                character.status.temporary_bonuses.merge(skill_use_response.bonuses)
+                // TODO send packet
             }
         }
     }

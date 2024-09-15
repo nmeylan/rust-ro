@@ -47,23 +47,13 @@ pub struct SkillUsed {
     pub attacked_at: u128,
 }
 
-impl Into<Damage> for SkillUsed {
-    fn into(self) -> Damage {
+impl SkillUsed {
+    pub fn to_damage(&self) -> Damage {
         Damage {
             target_id: self.target_id,
             attacker_id: self.source_id,
             damage: self.damage_to_target as u32,
             attacked_at: self.attacked_at,
-        }
-    }
-}
-
-impl Into<AddBonuses> for SkillUsed {
-    fn into(self) -> AddBonuses {
-        AddBonuses {
-            target_id: self.target_id,
-            effects: self.effects,
-            bonuses: self.bonuses,
         }
     }
 }

@@ -24,10 +24,11 @@ use crate::tests::common::sync_helper::CountDownLatch;
 
 struct ServerServiceTestContext {
     test_context: TestContext,
-    server_service: ServerService,
+    server_service: &'static ServerService,
     client_notification_sender: SyncSender<Notification>,
     server_task_queue: Arc<TasksQueue<GameEvent>>,
     movement_task_queue: Arc<TasksQueue<GameEvent>>,
+    status_service: &'static StatusService,
 }
 
 fn before_each() -> ServerServiceTestContext {
@@ -42,20 +43,22 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
     let movement_task_queue = Arc::new(TasksQueue::new());
     let count_down_latch = CountDownLatch::new(latch_size);
     StatusService::init(GlobalConfigService::instance(), test_script_vm());
+    ServerService::init(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue.clone(), test_script_vm(),
+                                     InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository), GlobalConfigService::instance(), server_task_queue.clone()),
+                                     CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository), GlobalConfigService::instance(),
+                                                           SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::instance(), server_task_queue.clone()),
+                                     MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue.clone()),
+                                     BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal),
+                                     SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal), StatusService::instance(), GlobalConfigService::instance()).force_no_delay(),
+                                     StatusService::instance(),
+    );
     ServerServiceTestContext {
         client_notification_sender: client_notification_sender.clone(),
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         server_task_queue: server_task_queue.clone(),
         movement_task_queue: movement_task_queue.clone(),
-        server_service: ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), server_task_queue.clone(), movement_task_queue, test_script_vm(),
-                                           InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository), GlobalConfigService::instance(), server_task_queue.clone()),
-                                           CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), Arc::new(MockedRepository), GlobalConfigService::instance(),
-                                                                 SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::instance(), server_task_queue.clone()),
-                                           MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), server_task_queue),
-                                           BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal),
-                                           SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal), StatusService::instance(),GlobalConfigService::instance()),
-                                           StatusService::instance(),
-        ),
+        status_service: StatusService::instance(),
+        server_service: ServerService::instance(),
     }
 }
 
@@ -63,20 +66,28 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
+    use std::mem;
     use std::sync::Arc;
     use tokio::runtime::Runtime;
+    use models::enums::bonus::BonusType;
+    use models::enums::skill_enums::SkillEnum;
     use crate::server::model::events::map_event::{MapEvent};
     use models::item::DroppedItem;
-    use crate::server::model::map_item::ToMapItem;
+    use crate::server::model::map_item::{MapItemSnapshot, ToMapItem};
     use models::position::Position;
+    use models::status::KnownSkill;
+    use models::status_bonus::{StatusBonus, StatusBonuses};
+    use crate::server::model::events::game_event::CharacterUseSkill;
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::Server;
     use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::{assert_vec_equals, status_snapshot};
     use crate::tests::common::assert_helper::task_queue_contains_event_at_tick;
     use crate::tests::common::character_helper::{create_character};
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
-    use crate::tests::common::mocked_repository;
+    use crate::tests::common::{mocked_repository, ServerBuilder};
     use crate::tests::common::server_helper::create_empty_server_state;
+    use crate::tests::common::assert_helper::assert_vecs_equal;
     use crate::tests::server_service_test::before_each;
     use crate::util::tick::get_tick;
 
@@ -243,11 +254,44 @@ mod tests {
     }
 
     #[test]
-    fn character_use_support_skill_should_send_add_bonuses_packet() {
+    fn character_use_support_skill_should_apply_bonuses_and_send_add_bonuses_packet() {
         // Given
-        // Server::new_without_service_init(GlobalConfigService::instance().config(), mocked_repository(), )
+        let context = before_each();
+        let runtime = Runtime::new().unwrap();
+        let server = ServerBuilder::new(GlobalConfigService::instance().config()).build();
+        let mut character = create_character();
+        let char_id = character.char_id;
+        server.state_mut().insert_character(character);
+        #[derive(Clone)]
+        struct TestResult {
+            skill: KnownSkill,
+            expected_bonuses: StatusBonuses
+        }
+        let scenario = vec![
+            TestResult { skill: KnownSkill { value: SkillEnum::AlBlessing, level: 10 }, expected_bonuses: StatusBonuses::new(vec![StatusBonus::new(BonusType::Dex(110)), StatusBonus::new(BonusType::Str(10)), StatusBonus::new(BonusType::Int(10))]) },
+            TestResult { skill: KnownSkill { value: SkillEnum::AlIncagi, level: 10 }, expected_bonuses: StatusBonuses::new(vec![StatusBonus::new(BonusType::Agi(12)), StatusBonus::new(BonusType::SpeedPercentage(25))]) },
+        ];
         // When
+
+        let mut server_state_mut = server.state_mut();
+        for scenarii in scenario {
+            let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+            character.status.hp = 1000;
+            character.status.sp = 1000;
+            let source_status = status_snapshot!(context, character);
+            let target_status = status_snapshot!(context, character);
+            context.server_service.character_start_use_skill(server.state(), character, CharacterUseSkill {
+                char_id,
+                target_id: char_id,
+                skill_id: scenarii.skill.value.id(),
+                skill_level: scenarii.skill.level,
+            }, 0);
+            Server::game_loop_iteration(&server, &runtime, 0);
+        }
         // Then
+        let character = mem::take(&mut server_state_mut.characters_mut().get_mut(&char_id)).unwrap();
+        assert!(!character.status.temporary_bonuses.is_empty());
+        assert_vec_equals!(character.status.temporary_bonuses.to_vec(), vec![StatusBonus::new(BonusType::Dex(110)), StatusBonus::new(BonusType::Str(10)), StatusBonus::new(BonusType::Int(10)), StatusBonus::new(BonusType::Agi(12)), StatusBonus::new(BonusType::SpeedPercentage(25))]);
     }
 
 }
