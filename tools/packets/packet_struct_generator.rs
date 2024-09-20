@@ -240,11 +240,15 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
             file.write_all("            },\n".to_string().as_bytes()).unwrap();
         } else if field.length > -1 {
             file.write_all(format!("            {}_raw: {{\n", field.name).as_bytes()).unwrap();
-            file.write_all(format!("                let mut dst: [u8; {}] = [0u8; {}];\n", field_length(field), field_length(field)).as_bytes()).unwrap();
+            let mut length = field.length;
+            if field.data_type.name == "Array" {
+                length = field.length * field.sub_type.expect(format!("Expected subtype for field {:?}", field).as_str()).length.unwrap();
+            }
+            file.write_all(format!("                let mut dst: [u8; {}] = [0u8; {}];\n", length, length).as_bytes()).unwrap();
             if field.condition.is_some() {
                 file.write_all(format!("                {}", packetver_if("packetver", field)).as_bytes()).unwrap();
-                file.write_all(format!("                    dst.clone_from_slice(&buffer[offset..offset + {}]);\n", field_length(field)).as_bytes()).unwrap();
-                file.write_all(format!("                    offset += {};\n", field.length).as_bytes()).unwrap();
+                file.write_all(format!("                    dst.clone_from_slice(&buffer[offset..offset + {}]);\n", length).as_bytes()).unwrap();
+                file.write_all(format!("                    offset += {};\n", length).as_bytes()).unwrap();
                 file.write_all("                }\n".to_string().as_bytes()).unwrap();
             } else {
                 file.write_all(format!("                dst.clone_from_slice(&buffer[offset..offset + {}]);\n", field_length(field)).as_bytes()).unwrap();
@@ -699,6 +703,8 @@ fn field_type(field: &StructField) -> String {
 fn field_type_raw(field: &StructField) -> String {
     if field.data_type.name == "Vec" {
         "Vec<Vec<u8>>".to_string()
+    } else if field.length > -1 && field.data_type.name == "Array" {
+        format!("[u8; {}]", field.length * field.sub_type.unwrap().length.unwrap())
     } else if field.length > -1 {
         format!("[u8; {}]", field.length)
     } else {
@@ -736,7 +742,7 @@ fn field_default_value(field: &StructField) -> String {
                     value = "0 as char";
                 }
                 res = format!("{}        {}: [{}; {}],\n", res, field.name, value, field.length);
-                res = format!("{}        {}_raw: [0; {}],\n", res, field.name, field.length);
+                res = format!("{}        {}_raw: [0; {}],\n", res, field.name, field.length * field.sub_type.unwrap().length.unwrap());
                 res
             } else {
                 res = format!("{}        {}: vec![],\n", res, field.name);

@@ -6056,7 +6056,7 @@ impl PacketZcNotifyMoveentry {
                 field
             },
             move_data_raw: {
-                let mut dst: [u8; 6] = [0u8; 6];
+                let mut dst: [u8; 12] = [0u8; 12];
                 dst.clone_from_slice(&buffer[offset..offset + 6]);
                 offset += 6;
                 dst
@@ -6358,7 +6358,7 @@ impl PacketZcNotifyMoveentry {
     pub fn set_move_data(&mut self, value: [u16; 6]) {
         self.move_data = value;
     }
-    pub fn set_move_data_raw(&mut self, value: [u8; 6]) {
+    pub fn set_move_data_raw(&mut self, value: [u8; 12]) {
         self.move_data_raw = value;
     }
     pub fn set_x_size(&mut self, value: u8) {
@@ -6431,7 +6431,7 @@ impl PacketZcNotifyMoveentry {
         sex: 0,
         sex_raw: [0; 1],
         move_data: [0; 6],
-        move_data_raw: [0; 6],
+        move_data_raw: [0; 12],
         x_size: 0,
         x_size_raw: [0; 1],
         y_size: 0,
@@ -53640,7 +53640,7 @@ impl PacketZcAutospelllist {
                 field
             },
             skid_raw: {
-                let mut dst: [u8; 7] = [0u8; 7];
+                let mut dst: [u8; 28] = [0u8; 28];
                 dst.clone_from_slice(&buffer[offset..offset + 7]);
                 offset += 7;
                 dst
@@ -53680,7 +53680,7 @@ impl PacketZcAutospelllist {
     pub fn set_skid(&mut self, value: [i32; 7]) {
         self.skid = value;
     }
-    pub fn set_skid_raw(&mut self, value: [u8; 7]) {
+    pub fn set_skid_raw(&mut self, value: [u8; 28]) {
         self.skid_raw = value;
     }
     pub fn new(packetver: u32) -> PacketZcAutospelllist {
@@ -53691,7 +53691,7 @@ impl PacketZcAutospelllist {
         packet_id,
         packet_id_raw,
         skid: [0; 7],
-        skid_raw: [0; 7],
+        skid_raw: [0; 28],
         }
     }
 }
@@ -53870,7 +53870,7 @@ impl PacketZcDevotionlist {
                 field
             },
             aid_raw: {
-                let mut dst: [u8; 5] = [0u8; 5];
+                let mut dst: [u8; 20] = [0u8; 20];
                 dst.clone_from_slice(&buffer[offset..offset + 5]);
                 offset += 5;
                 dst
@@ -53934,7 +53934,7 @@ impl PacketZcDevotionlist {
     pub fn set_aid(&mut self, value: [u32; 5]) {
         self.aid = value;
     }
-    pub fn set_aid_raw(&mut self, value: [u8; 5]) {
+    pub fn set_aid_raw(&mut self, value: [u8; 20]) {
         self.aid_raw = value;
     }
     pub fn set_range(&mut self, value: i16) {
@@ -53953,7 +53953,7 @@ impl PacketZcDevotionlist {
         my_aid: 0,
         my_aid_raw: [0; 4],
         aid: [0; 5],
-        aid_raw: [0; 5],
+        aid_raw: [0; 20],
         range: 0,
         range_raw: [0; 2],
         }
@@ -56607,7 +56607,7 @@ impl PacketZcNotifyMoveentry2 {
                 field
             },
             move_data_raw: {
-                let mut dst: [u8; 6] = [0u8; 6];
+                let mut dst: [u8; 12] = [0u8; 12];
                 dst.clone_from_slice(&buffer[offset..offset + 6]);
                 offset += 6;
                 dst
@@ -56899,7 +56899,7 @@ impl PacketZcNotifyMoveentry2 {
     pub fn set_move_data(&mut self, value: [u16; 6]) {
         self.move_data = value;
     }
-    pub fn set_move_data_raw(&mut self, value: [u8; 6]) {
+    pub fn set_move_data_raw(&mut self, value: [u8; 12]) {
         self.move_data_raw = value;
     }
     pub fn set_x_size(&mut self, value: u8) {
@@ -56970,7 +56970,7 @@ impl PacketZcNotifyMoveentry2 {
         sex: 0,
         sex_raw: [0; 1],
         move_data: [0; 6],
-        move_data_raw: [0; 6],
+        move_data_raw: [0; 12],
         x_size: 0,
         x_size_raw: [0; 1],
         y_size: 0,
@@ -66099,7 +66099,7 @@ impl PacketZcBlacksmithRank {
                 field
             },
             point_raw: {
-                let mut dst: [u8; 10] = [0u8; 10];
+                let mut dst: [u8; 40] = [0u8; 40];
                 dst.clone_from_slice(&buffer[offset..offset + 10]);
                 offset += 10;
                 dst
@@ -66151,7 +66151,7 @@ impl PacketZcBlacksmithRank {
     pub fn set_point(&mut self, value: [i32; 10]) {
         self.point = value;
     }
-    pub fn set_point_raw(&mut self, value: [u8; 10]) {
+    pub fn set_point_raw(&mut self, value: [u8; 40]) {
         self.point_raw = value;
     }
     pub fn new(packetver: u32) -> PacketZcBlacksmithRank {
@@ -66164,7 +66164,7 @@ impl PacketZcBlacksmithRank {
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
-        point_raw: [0; 10],
+        point_raw: [0; 40],
         }
     }
 }
@@ -66243,7 +66243,7 @@ impl PacketZcAlchemistRank {
                 field
             },
             point_raw: {
-                let mut dst: [u8; 10] = [0u8; 10];
+                let mut dst: [u8; 40] = [0u8; 40];
                 dst.clone_from_slice(&buffer[offset..offset + 10]);
                 offset += 10;
                 dst
@@ -66295,7 +66295,7 @@ impl PacketZcAlchemistRank {
     pub fn set_point(&mut self, value: [i32; 10]) {
         self.point = value;
     }
-    pub fn set_point_raw(&mut self, value: [u8; 10]) {
+    pub fn set_point_raw(&mut self, value: [u8; 40]) {
         self.point_raw = value;
     }
     pub fn new(packetver: u32) -> PacketZcAlchemistRank {
@@ -66308,7 +66308,7 @@ impl PacketZcAlchemistRank {
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
-        point_raw: [0; 10],
+        point_raw: [0; 40],
         }
     }
 }
@@ -67778,7 +67778,7 @@ impl PacketZcTaekwonRank {
                 field
             },
             point_raw: {
-                let mut dst: [u8; 10] = [0u8; 10];
+                let mut dst: [u8; 40] = [0u8; 40];
                 dst.clone_from_slice(&buffer[offset..offset + 10]);
                 offset += 10;
                 dst
@@ -67830,7 +67830,7 @@ impl PacketZcTaekwonRank {
     pub fn set_point(&mut self, value: [i32; 10]) {
         self.point = value;
     }
-    pub fn set_point_raw(&mut self, value: [u8; 10]) {
+    pub fn set_point_raw(&mut self, value: [u8; 40]) {
         self.point_raw = value;
     }
     pub fn new(packetver: u32) -> PacketZcTaekwonRank {
@@ -67843,7 +67843,7 @@ impl PacketZcTaekwonRank {
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
-        point_raw: [0; 10],
+        point_raw: [0; 40],
         }
     }
 }
@@ -67906,7 +67906,7 @@ impl PacketZcGameGuard {
                 field
             },
             auth_data_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
+                let mut dst: [u8; 16] = [0u8; 16];
                 dst.clone_from_slice(&buffer[offset..offset + 4]);
                 offset += 4;
                 dst
@@ -67946,7 +67946,7 @@ impl PacketZcGameGuard {
     pub fn set_auth_data(&mut self, value: [u32; 4]) {
         self.auth_data = value;
     }
-    pub fn set_auth_data_raw(&mut self, value: [u8; 4]) {
+    pub fn set_auth_data_raw(&mut self, value: [u8; 16]) {
         self.auth_data_raw = value;
     }
     pub fn new(packetver: u32) -> PacketZcGameGuard {
@@ -67957,7 +67957,7 @@ impl PacketZcGameGuard {
         packet_id,
         packet_id_raw,
         auth_data: [0; 4],
-        auth_data_raw: [0; 4],
+        auth_data_raw: [0; 16],
         }
     }
 }
@@ -68020,7 +68020,7 @@ impl PacketCzAckGameGuard {
                 field
             },
             auth_data_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
+                let mut dst: [u8; 16] = [0u8; 16];
                 dst.clone_from_slice(&buffer[offset..offset + 4]);
                 offset += 4;
                 dst
@@ -68060,7 +68060,7 @@ impl PacketCzAckGameGuard {
     pub fn set_auth_data(&mut self, value: [u32; 4]) {
         self.auth_data = value;
     }
-    pub fn set_auth_data_raw(&mut self, value: [u8; 4]) {
+    pub fn set_auth_data_raw(&mut self, value: [u8; 16]) {
         self.auth_data_raw = value;
     }
     pub fn new(packetver: u32) -> PacketCzAckGameGuard {
@@ -68071,7 +68071,7 @@ impl PacketCzAckGameGuard {
         packet_id,
         packet_id_raw,
         auth_data: [0; 4],
-        auth_data_raw: [0; 4],
+        auth_data_raw: [0; 16],
         }
     }
 }
@@ -69810,7 +69810,7 @@ impl PacketZcNotifyMoveentry3 {
                 field
             },
             move_data_raw: {
-                let mut dst: [u8; 6] = [0u8; 6];
+                let mut dst: [u8; 12] = [0u8; 12];
                 dst.clone_from_slice(&buffer[offset..offset + 6]);
                 offset += 6;
                 dst
@@ -70112,7 +70112,7 @@ impl PacketZcNotifyMoveentry3 {
     pub fn set_move_data(&mut self, value: [u16; 6]) {
         self.move_data = value;
     }
-    pub fn set_move_data_raw(&mut self, value: [u8; 6]) {
+    pub fn set_move_data_raw(&mut self, value: [u8; 12]) {
         self.move_data_raw = value;
     }
     pub fn set_x_size(&mut self, value: u8) {
@@ -70185,7 +70185,7 @@ impl PacketZcNotifyMoveentry3 {
         sex: 0,
         sex_raw: [0; 1],
         move_data: [0; 6],
-        move_data_raw: [0; 6],
+        move_data_raw: [0; 12],
         x_size: 0,
         x_size_raw: [0; 1],
         y_size: 0,
@@ -81539,7 +81539,7 @@ impl PacketZcGangsiRank {
                 field
             },
             point_raw: {
-                let mut dst: [u8; 10] = [0u8; 10];
+                let mut dst: [u8; 40] = [0u8; 40];
                 dst.clone_from_slice(&buffer[offset..offset + 10]);
                 offset += 10;
                 dst
@@ -81605,7 +81605,7 @@ impl PacketZcGangsiRank {
     pub fn set_point(&mut self, value: [i32; 10]) {
         self.point = value;
     }
-    pub fn set_point_raw(&mut self, value: [u8; 10]) {
+    pub fn set_point_raw(&mut self, value: [u8; 40]) {
         self.point_raw = value;
     }
     pub fn set_packet_switch(&mut self, value: i16) {
@@ -81624,7 +81624,7 @@ impl PacketZcGangsiRank {
         name: [0 as char; 10],
         name_raw: [0; 10],
         point: [0; 10],
-        point_raw: [0; 10],
+        point_raw: [0; 40],
         packet_switch: 0,
         packet_switch_raw: [0; 2],
         }
@@ -82789,7 +82789,7 @@ impl PacketChSelectCharGoingtobeused {
                 field
             },
             ardw_selected_gid_raw: {
-                let mut dst: [u8; 9] = [0u8; 9];
+                let mut dst: [u8; 36] = [0u8; 36];
                 dst.clone_from_slice(&buffer[offset..offset + 9]);
                 offset += 9;
                 dst
@@ -82849,7 +82849,7 @@ impl PacketChSelectCharGoingtobeused {
     pub fn set_ardw_selected_gid(&mut self, value: [u32; 9]) {
         self.ardw_selected_gid = value;
     }
-    pub fn set_ardw_selected_gid_raw(&mut self, value: [u8; 9]) {
+    pub fn set_ardw_selected_gid_raw(&mut self, value: [u8; 36]) {
         self.ardw_selected_gid_raw = value;
     }
     pub fn new(packetver: u32) -> PacketChSelectCharGoingtobeused {
@@ -82864,7 +82864,7 @@ impl PacketChSelectCharGoingtobeused {
         n_count_selected_char: 0,
         n_count_selected_char_raw: [0; 4],
         ardw_selected_gid: [0; 9],
-        ardw_selected_gid_raw: [0; 9],
+        ardw_selected_gid_raw: [0; 36],
         }
     }
 }
@@ -95841,7 +95841,7 @@ impl PacketZcNotifyMoveentry4 {
                 field
             },
             move_data_raw: {
-                let mut dst: [u8; 6] = [0u8; 6];
+                let mut dst: [u8; 12] = [0u8; 12];
                 dst.clone_from_slice(&buffer[offset..offset + 6]);
                 offset += 6;
                 dst
@@ -96157,7 +96157,7 @@ impl PacketZcNotifyMoveentry4 {
     pub fn set_move_data(&mut self, value: [u16; 6]) {
         self.move_data = value;
     }
-    pub fn set_move_data_raw(&mut self, value: [u8; 6]) {
+    pub fn set_move_data_raw(&mut self, value: [u8; 12]) {
         self.move_data_raw = value;
     }
     pub fn set_x_size(&mut self, value: u8) {
@@ -96236,7 +96236,7 @@ impl PacketZcNotifyMoveentry4 {
         sex: 0,
         sex_raw: [0; 1],
         move_data: [0; 6],
-        move_data_raw: [0; 6],
+        move_data_raw: [0; 12],
         x_size: 0,
         x_size_raw: [0; 1],
         y_size: 0,
@@ -98455,7 +98455,7 @@ impl PacketAhcGameGuard {
                 field
             },
             auth_data_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
+                let mut dst: [u8; 16] = [0u8; 16];
                 dst.clone_from_slice(&buffer[offset..offset + 4]);
                 offset += 4;
                 dst
@@ -98495,7 +98495,7 @@ impl PacketAhcGameGuard {
     pub fn set_auth_data(&mut self, value: [u32; 4]) {
         self.auth_data = value;
     }
-    pub fn set_auth_data_raw(&mut self, value: [u8; 4]) {
+    pub fn set_auth_data_raw(&mut self, value: [u8; 16]) {
         self.auth_data_raw = value;
     }
     pub fn new(packetver: u32) -> PacketAhcGameGuard {
@@ -98506,7 +98506,7 @@ impl PacketAhcGameGuard {
         packet_id,
         packet_id_raw,
         auth_data: [0; 4],
-        auth_data_raw: [0; 4],
+        auth_data_raw: [0; 16],
         }
     }
 }
@@ -98569,7 +98569,7 @@ impl PacketCahAckGameGuard {
                 field
             },
             auth_data_raw: {
-                let mut dst: [u8; 4] = [0u8; 4];
+                let mut dst: [u8; 16] = [0u8; 16];
                 dst.clone_from_slice(&buffer[offset..offset + 4]);
                 offset += 4;
                 dst
@@ -98609,7 +98609,7 @@ impl PacketCahAckGameGuard {
     pub fn set_auth_data(&mut self, value: [u32; 4]) {
         self.auth_data = value;
     }
-    pub fn set_auth_data_raw(&mut self, value: [u8; 4]) {
+    pub fn set_auth_data_raw(&mut self, value: [u8; 16]) {
         self.auth_data_raw = value;
     }
     pub fn new(packetver: u32) -> PacketCahAckGameGuard {
@@ -98620,7 +98620,7 @@ impl PacketCahAckGameGuard {
         packet_id,
         packet_id_raw,
         auth_data: [0; 4],
-        auth_data_raw: [0; 4],
+        auth_data_raw: [0; 16],
         }
     }
 }
@@ -99478,7 +99478,7 @@ impl PacketZcMsgStateChange2 {
                 field
             },
             val_raw: {
-                let mut dst: [u8; 3] = [0u8; 3];
+                let mut dst: [u8; 12] = [0u8; 12];
                 dst.clone_from_slice(&buffer[offset..offset + 3]);
                 offset += 3;
                 dst
@@ -99558,7 +99558,7 @@ impl PacketZcMsgStateChange2 {
     pub fn set_val(&mut self, value: [i32; 3]) {
         self.val = value;
     }
-    pub fn set_val_raw(&mut self, value: [u8; 3]) {
+    pub fn set_val_raw(&mut self, value: [u8; 12]) {
         self.val_raw = value;
     }
     pub fn new(packetver: u32) -> PacketZcMsgStateChange2 {
@@ -99577,7 +99577,7 @@ impl PacketZcMsgStateChange2 {
         remain_ms: 0,
         remain_ms_raw: [0; 4],
         val: [0; 3],
-        val_raw: [0; 3],
+        val_raw: [0; 12],
         }
     }
 }
@@ -106654,7 +106654,7 @@ impl PacketZcNotifyMoveentry7 {
                 field
             },
             move_data_raw: {
-                let mut dst: [u8; 6] = [0u8; 6];
+                let mut dst: [u8; 12] = [0u8; 12];
                 dst.clone_from_slice(&buffer[offset..offset + 6]);
                 offset += 6;
                 dst
@@ -107002,7 +107002,7 @@ impl PacketZcNotifyMoveentry7 {
     pub fn set_move_data(&mut self, value: [u16; 6]) {
         self.move_data = value;
     }
-    pub fn set_move_data_raw(&mut self, value: [u8; 6]) {
+    pub fn set_move_data_raw(&mut self, value: [u8; 12]) {
         self.move_data_raw = value;
     }
     pub fn set_x_size(&mut self, value: u8) {
@@ -107089,7 +107089,7 @@ impl PacketZcNotifyMoveentry7 {
         sex: 0,
         sex_raw: [0; 1],
         move_data: [0; 6],
-        move_data_raw: [0; 6],
+        move_data_raw: [0; 12],
         x_size: 0,
         x_size_raw: [0; 1],
         y_size: 0,
@@ -110521,7 +110521,7 @@ impl PacketCzPartyBookingReqUpdate {
                 field
             },
             job_raw: {
-                let mut dst: [u8; 6] = [0u8; 6];
+                let mut dst: [u8; 12] = [0u8; 12];
                 dst.clone_from_slice(&buffer[offset..offset + 6]);
                 offset += 6;
                 dst
@@ -110561,7 +110561,7 @@ impl PacketCzPartyBookingReqUpdate {
     pub fn set_job(&mut self, value: [i16; 6]) {
         self.job = value;
     }
-    pub fn set_job_raw(&mut self, value: [u8; 6]) {
+    pub fn set_job_raw(&mut self, value: [u8; 12]) {
         self.job_raw = value;
     }
     pub fn new(packetver: u32) -> PacketCzPartyBookingReqUpdate {
@@ -110572,7 +110572,7 @@ impl PacketCzPartyBookingReqUpdate {
         packet_id,
         packet_id_raw,
         job: [0; 6],
-        job_raw: [0; 6],
+        job_raw: [0; 12],
         }
     }
 }
@@ -117535,7 +117535,7 @@ impl PacketCzRequestMove2 {
                 field
             },
             dest_raw: {
-                let mut dst: [u8; 3] = [0u8; 3];
+                let mut dst: [u8; 6] = [0u8; 6];
                 dst.clone_from_slice(&buffer[offset..offset + 3]);
                 offset += 3;
                 dst
@@ -117575,7 +117575,7 @@ impl PacketCzRequestMove2 {
     pub fn set_dest(&mut self, value: [u16; 3]) {
         self.dest = value;
     }
-    pub fn set_dest_raw(&mut self, value: [u8; 3]) {
+    pub fn set_dest_raw(&mut self, value: [u8; 6]) {
         self.dest_raw = value;
     }
     pub fn new(packetver: u32) -> PacketCzRequestMove2 {
@@ -117586,7 +117586,7 @@ impl PacketCzRequestMove2 {
         packet_id,
         packet_id_raw,
         dest: [0; 3],
-        dest_raw: [0; 3],
+        dest_raw: [0; 6],
         }
     }
 }
@@ -128992,7 +128992,7 @@ impl MakableitemInfo {
                 field
             },
             material_id_raw: {
-                let mut dst: [u8; 3] = [0u8; 3];
+                let mut dst: [u8; 6] = [0u8; 6];
                 dst.clone_from_slice(&buffer[offset..offset + 3]);
                 offset += 3;
                 dst
@@ -129032,7 +129032,7 @@ impl MakableitemInfo {
     pub fn set_material_id(&mut self, value: [u16; 3]) {
         self.material_id = value;
     }
-    pub fn set_material_id_raw(&mut self, value: [u8; 3]) {
+    pub fn set_material_id_raw(&mut self, value: [u8; 6]) {
         self.material_id_raw = value;
     }
     pub fn new(packetver: u32) -> MakableitemInfo {
@@ -129041,7 +129041,7 @@ impl MakableitemInfo {
         itid: 0,
         itid_raw: [0; 2],
         material_id: [0; 3],
-        material_id_raw: [0; 3],
+        material_id_raw: [0; 6],
         }
     }
 }
@@ -131929,7 +131929,7 @@ impl PartyBookingDetail {
                 field
             },
             job_raw: {
-                let mut dst: [u8; 6] = [0u8; 6];
+                let mut dst: [u8; 12] = [0u8; 12];
                 dst.clone_from_slice(&buffer[offset..offset + 6]);
                 offset += 6;
                 dst
@@ -131979,7 +131979,7 @@ impl PartyBookingDetail {
     pub fn set_job(&mut self, value: [i16; 6]) {
         self.job = value;
     }
-    pub fn set_job_raw(&mut self, value: [u8; 6]) {
+    pub fn set_job_raw(&mut self, value: [u8; 12]) {
         self.job_raw = value;
     }
     pub fn new(packetver: u32) -> PartyBookingDetail {
@@ -131990,7 +131990,7 @@ impl PartyBookingDetail {
         map_id: 0,
         map_id_raw: [0; 2],
         job: [0; 6],
-        job_raw: [0; 6],
+        job_raw: [0; 12],
         }
     }
 }

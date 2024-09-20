@@ -211,10 +211,6 @@ impl Server {
                     GameEvent::CharacterDamage(damage) => {
                         println!("GameEvent::CharacterDamage: Not implemented yet!")
                     }
-                    GameEvent::CharacterAddBonuses(add_bonuses) => {
-                        println!("GameEvent::CharacterAddBonuses: Not implemented yet!")
-
-                    }
                 }
             }
         }

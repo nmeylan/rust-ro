@@ -4,7 +4,7 @@ use std::sync::Once;
 use models::enums::EnumWithNumberValue;
 use models::enums::skill::{SkillType, UseSkillFailure, UseSkillFailureClientSideType};
 use models::item::NormalInventoryItem;
-use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseskillAck2};
+use packets::packets::{PacketCzUseSkill, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseSkill, PacketZcUseskillAck2};
 use skills::OffensiveSkill;
 use models::enums::skill_enums::SkillEnum;
 use models::status::{StatusSnapshot};
@@ -166,6 +166,14 @@ impl SkillService {
             SkillType::Support => {
                 let skill = skill.as_supportive_skill().unwrap();
                 bonuses = skill.bonuses_to_target(tick);
+                let mut packet_zc_use_skill = PacketZcUseSkill::new(self.configuration_service.packetver());
+                packet_zc_use_skill.set_src_aid(character.char_id);
+                packet_zc_use_skill.set_target_aid(target_id);
+                packet_zc_use_skill.set_skid(skill.id() as u16);
+                packet_zc_use_skill.set_level(skill.level() as i16);
+                packet_zc_use_skill.set_result(true);
+                packet_zc_use_skill.fill_raw();
+                packets = mem::take(packet_zc_use_skill.raw_mut());
             }
             SkillType::Passive => {}
         }
