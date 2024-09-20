@@ -164,11 +164,6 @@ impl ServerService {
             map_instance.add_to_next_tick(MapEvent::MobDamage(damage));
         }
     }
-    fn apply_bonuses(&self, map_item_type: MapItemType, _map_instance: &Arc<MapInstance>, add_bonuses: AddBonuses) {
-        if matches!(map_item_type, MapItemType::Character) {
-            self.server_task_queue.add_to_first_index(GameEvent::CharacterAddBonuses(add_bonuses));
-        }
-    }
 
     pub fn get_status_snapshot(&self, status: &Status, _tick: u128) -> StatusSnapshot {
         self.status_service.to_snapshot(status)

@@ -29,7 +29,6 @@ pub enum GameEvent {
     CharacterAttack(CharacterAttack),
     CharacterUseSkill(CharacterUseSkill),
     CharacterDamage(Damage),
-    CharacterAddBonuses(AddBonuses),
     CharacterUpdateClientSideStats(u32),
     CharacterChangeLevel(CharacterChangeLevel),
     CharacterChangeJobLevel(CharacterChangeJobLevel),

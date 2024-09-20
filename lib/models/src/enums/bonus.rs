@@ -211,8 +211,10 @@ impl BonusType {
             }
             BonusType::ElementDefense(element) => { status_snapshot.set_element(element.clone()) }
             BonusType::SpeedPercentage(speed_percentage) => {
-                let speed = status_snapshot.base_speed() as f32 * (*speed_percentage as f32 / 100.0);
-                status_snapshot.set_speed(status_snapshot.speed() - speed.ceil() as u16)
+                let speed = (status_snapshot.base_speed() as f32 * (*speed_percentage as f32 / 100.0)).ceil() as u16;
+                if status_snapshot.speed() > speed {
+                    status_snapshot.set_speed(status_snapshot.speed() - speed)
+                }
             }
             _ => { /* TODO */}
         }

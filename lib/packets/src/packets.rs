@@ -564,7 +564,7 @@ pub struct PacketZcNotifyMoveentry {
     pub sex: u8,
     pub sex_raw: [u8; 1],
     pub move_data: [u16; 6],
-    pub move_data_raw: [u8; 6],
+    pub move_data_raw: [u8; 12],
     pub x_size: u8,
     pub x_size_raw: [u8; 1],
     pub y_size: u8,
@@ -4559,7 +4559,7 @@ pub struct PacketZcAutospelllist {
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
     pub skid: [i32; 7],
-    pub skid_raw: [u8; 7],
+    pub skid_raw: [u8; 28],
 }
 
 #[derive(Clone)]
@@ -4579,7 +4579,7 @@ pub struct PacketZcDevotionlist {
     pub my_aid: u32,
     pub my_aid_raw: [u8; 4],
     pub aid: [u32; 5],
-    pub aid_raw: [u8; 5],
+    pub aid_raw: [u8; 20],
     pub range: i16,
     pub range_raw: [u8; 2],
 }
@@ -4840,7 +4840,7 @@ pub struct PacketZcNotifyMoveentry2 {
     pub sex: u8,
     pub sex_raw: [u8; 1],
     pub move_data: [u16; 6],
-    pub move_data_raw: [u8; 6],
+    pub move_data_raw: [u8; 12],
     pub x_size: u8,
     pub x_size_raw: [u8; 1],
     pub y_size: u8,
@@ -5615,7 +5615,7 @@ pub struct PacketZcBlacksmithRank {
     pub name: [char; 10],
     pub name_raw: [u8; 10],
     pub point: [i32; 10],
-    pub point_raw: [u8; 10],
+    pub point_raw: [u8; 40],
 }
 
 #[derive(Clone)]
@@ -5626,7 +5626,7 @@ pub struct PacketZcAlchemistRank {
     pub name: [char; 10],
     pub name_raw: [u8; 10],
     pub point: [i32; 10],
-    pub point_raw: [u8; 10],
+    pub point_raw: [u8; 40],
 }
 
 #[derive(Clone)]
@@ -5754,7 +5754,7 @@ pub struct PacketZcTaekwonRank {
     pub name: [char; 10],
     pub name_raw: [u8; 10],
     pub point: [i32; 10],
-    pub point_raw: [u8; 10],
+    pub point_raw: [u8; 40],
 }
 
 #[derive(Clone)]
@@ -5763,7 +5763,7 @@ pub struct PacketZcGameGuard {
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
     pub auth_data: [u32; 4],
-    pub auth_data_raw: [u8; 4],
+    pub auth_data_raw: [u8; 16],
 }
 
 #[derive(Clone)]
@@ -5772,7 +5772,7 @@ pub struct PacketCzAckGameGuard {
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
     pub auth_data: [u32; 4],
-    pub auth_data_raw: [u8; 4],
+    pub auth_data_raw: [u8; 16],
 }
 
 #[derive(Clone)]
@@ -5954,7 +5954,7 @@ pub struct PacketZcNotifyMoveentry3 {
     pub sex: u8,
     pub sex_raw: [u8; 1],
     pub move_data: [u16; 6],
-    pub move_data_raw: [u8; 6],
+    pub move_data_raw: [u8; 12],
     pub x_size: u8,
     pub x_size_raw: [u8; 1],
     pub y_size: u8,
@@ -6918,7 +6918,7 @@ pub struct PacketZcGangsiRank {
     pub name: [char; 10],
     pub name_raw: [u8; 10],
     pub point: [i32; 10],
-    pub point_raw: [u8; 10],
+    pub point_raw: [u8; 40],
     pub packet_switch: i16,
     pub packet_switch_raw: [u8; 2],
 }
@@ -7025,7 +7025,7 @@ pub struct PacketChSelectCharGoingtobeused {
     pub n_count_selected_char: i32,
     pub n_count_selected_char_raw: [u8; 4],
     pub ardw_selected_gid: [u32; 9],
-    pub ardw_selected_gid_raw: [u8; 9],
+    pub ardw_selected_gid_raw: [u8; 36],
 }
 
 #[derive(Clone)]
@@ -8149,7 +8149,7 @@ pub struct PacketZcNotifyMoveentry4 {
     pub sex: u8,
     pub sex_raw: [u8; 1],
     pub move_data: [u16; 6],
-    pub move_data_raw: [u8; 6],
+    pub move_data_raw: [u8; 12],
     pub x_size: u8,
     pub x_size_raw: [u8; 1],
     pub y_size: u8,
@@ -8353,7 +8353,7 @@ pub struct PacketAhcGameGuard {
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
     pub auth_data: [u32; 4],
-    pub auth_data_raw: [u8; 4],
+    pub auth_data_raw: [u8; 16],
 }
 
 #[derive(Clone)]
@@ -8362,7 +8362,7 @@ pub struct PacketCahAckGameGuard {
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
     pub auth_data: [u32; 4],
-    pub auth_data_raw: [u8; 4],
+    pub auth_data_raw: [u8; 16],
 }
 
 #[derive(Clone)]
@@ -8442,7 +8442,7 @@ pub struct PacketZcMsgStateChange2 {
     pub remain_ms: u32,
     pub remain_ms_raw: [u8; 4],
     pub val: [i32; 3],
-    pub val_raw: [u8; 3],
+    pub val_raw: [u8; 12],
 }
 
 #[derive(Clone)]
@@ -9073,7 +9073,7 @@ pub struct PacketZcNotifyMoveentry7 {
     pub sex: u8,
     pub sex_raw: [u8; 1],
     pub move_data: [u16; 6],
-    pub move_data_raw: [u8; 6],
+    pub move_data_raw: [u8; 12],
     pub x_size: u8,
     pub x_size_raw: [u8; 1],
     pub y_size: u8,
@@ -9381,7 +9381,7 @@ pub struct PacketCzPartyBookingReqUpdate {
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
     pub job: [i16; 6],
-    pub job_raw: [u8; 6],
+    pub job_raw: [u8; 12],
 }
 
 #[derive(Clone)]
@@ -9972,7 +9972,7 @@ pub struct PacketCzRequestMove2 {
     pub packet_id: i16,
     pub packet_id_raw: [u8; 2],
     pub dest: [u16; 3],
-    pub dest_raw: [u8; 3],
+    pub dest_raw: [u8; 6],
 }
 
 #[derive(Clone)]
@@ -11018,7 +11018,7 @@ pub struct MakableitemInfo {
     pub itid: u16,
     pub itid_raw: [u8; 2],
     pub material_id: [u16; 3],
-    pub material_id_raw: [u8; 3],
+    pub material_id_raw: [u8; 6],
 }
 
 #[derive(Clone)]
@@ -11337,7 +11337,7 @@ pub struct PartyBookingDetail {
     pub map_id: i16,
     pub map_id_raw: [u8; 2],
     pub job: [i16; 6],
-    pub job_raw: [u8; 6],
+    pub job_raw: [u8; 12],
 }
 
 #[derive(Clone)]

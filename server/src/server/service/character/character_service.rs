@@ -15,7 +15,7 @@ use models::enums::EnumWithNumberValue;
 use models::enums::skill_enums::SkillEnum;
 
 
-use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, PacketZcNotifyMove};
+use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, PacketZcNotifyMove, PacketZcMsgStateChange2};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::{CharacterRepository};
 use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny, GameEvent};
@@ -44,7 +44,7 @@ use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::server::ServerState;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
-use crate::util::tick::get_tick_client;
+use crate::util::tick::{get_tick, get_tick_client};
 
 static mut SERVICE_INSTANCE: Option<CharacterService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
@@ -774,6 +774,26 @@ impl CharacterService {
             &packet_exp_required_to_reach_next_base_level, &packet_exp_required_to_reach_next_job_level,
         ]);
         final_response_packet.extend(self.weight_update_packets(character));
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, final_response_packet)))
+            .expect("Fail to send client notification");
+
+        // Sending another batch of packet for active bonuses
+        let mut final_response_packet: Vec<u8> = vec![];
+        let mut icons = HashSet::new();
+        for temporary_bonus in character.status.temporary_bonuses.iter().filter(|bonus| bonus.has_icon()) {
+            let icon = temporary_bonus.icon().unwrap();
+            if icons.contains(&icon) {
+                continue;
+            }
+            let mut packet_zc_msg_state_change = PacketZcMsgStateChange2::new(self.configuration_service.packetver());
+            packet_zc_msg_state_change.set_aid(character.char_id);
+            packet_zc_msg_state_change.set_index(icon as i16);
+            packet_zc_msg_state_change.set_remain_ms(temporary_bonus.remaining_ms(get_tick()));
+            packet_zc_msg_state_change.set_state(true);
+            packet_zc_msg_state_change.fill_raw();
+            final_response_packet.extend(packet_zc_msg_state_change.raw());
+            icons.insert(icon);
+        }
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, final_response_packet)))
             .expect("Fail to send client notification");
     }

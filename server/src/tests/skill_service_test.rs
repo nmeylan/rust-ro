@@ -57,7 +57,7 @@ mod tests {
     use models::enums::skill_enums::SkillEnum;
     use models::status::{KnownSkill, Status};
     use models::status_bonus::{StatusBonus, StatusBonuses};
-    use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseskillAck2};
+    use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseSkill, PacketZcUseskillAck2};
 
     use skills::{Skill, SkillBase};
     use crate::{assert_sent_packet_in_current_packetver, assert_vec_equals, status_snapshot, status_snapshot_mob};
@@ -336,7 +336,7 @@ mod tests {
     #[test]
     fn use_skill_should_apply_bonuses() {
         // Given
-        let context = before_each();
+        let mut context = before_each();
         let mut character = create_character();
         #[derive(Clone)]
         struct TestResult {
@@ -350,6 +350,8 @@ mod tests {
         let target = MapItemSnapshot { map_item: character.to_map_item(), position: Position { x: character.x, y: character.y, dir: 0 } };
         // When
         for scenarii in scenario {
+            context.test_context.reset_increment_latch();
+            context.test_context.clear_sent_packet();
             let source_status = status_snapshot!(context, character);
             let target_status = status_snapshot!(context, character);
             character.set_skill_in_use(Some(target.map_item.id()), 0, scenarii.skill.into());
@@ -357,14 +359,10 @@ mod tests {
             // Then
             assert!(skill_use_response.is_some());
             let skill_use_response = skill_use_response.unwrap();
+            context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
             assert_vec_equals!(skill_use_response.bonuses.to_vec(), scenarii.expected_bonuses.into());
+            assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_fov(character.x, character.y, vec![SentPacket::with_count(PacketZcUseSkill::packet_id(GlobalConfigService::instance().packetver()), 1)]));
         }
-    }
-    #[test]
-    fn use_skill_should_send_par_change_packets() {
-        // Given
-        // When
-        // Then
     }
 
     #[test]
