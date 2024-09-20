@@ -106,24 +106,24 @@ mod tests {
     }
 
     #[test]
-    fn test_mob_drop_item_when_mob_are_normal() {
+    fn test_mob_drop_item_when_mob_is_a_normal_monster() {
         // Given
         let context = before_each();
         let mut map_instance_state = create_empty_map_instance_state();
         let poring = GlobalConfigService::instance().get_mob_by_name("PORING");
         let mob_drop_items = MobDropItems { owner_id: 150000, mob_id: poring.id as i16, mob_x: 10, mob_y: 10 };
         let mut expected_dropped_item_amount: HashMap<u32, (String, u32)> = Default::default();
-        poring.drops.iter().for_each(|drop_rate| {
+        poring.drops.iter().for_each(|drop_config| {
             // Sometime mob like "PORING" drop an item twice (like "apple") with different drop rates
-            let entry = expected_dropped_item_amount.entry(GlobalConfigService::instance().get_item_id_from_name(drop_rate.item_name.as_str())).or_insert((drop_rate.item_name.clone(), 0));
-            entry.1 += drop_rate.rate as u32;
+            let item_drop_amount_expectation = expected_dropped_item_amount.entry(GlobalConfigService::instance().get_item_id_from_name(drop_config.item_name.as_str())).or_insert((drop_config.item_name.clone(), 0));
+            item_drop_amount_expectation.1 += drop_config.rate as u32; // we use drop rate from configuration as we will iterate 10000 times, drop rate == expected amount of item dropped after 10000 mob killed
         });
 
-        let iterations = 1100;
+        let iterations = 1100; // we need at least 1k iteration to have good statistics
         // When
         let mut drops_per_item: HashMap<u32, u32> = HashMap::new();
         for _ in 0..=iterations {
-            for _ in 0..10000 {
+            for _ in 0..10000 { // killing 10k poring
                 let drops = context.map_instance_service.mob_drop_items(&mut map_instance_state, mob_drop_items);
                 for drop in drops {
                     let item_drop_count = drops_per_item.entry(drop.item_id as u32).or_insert(0);
@@ -132,12 +132,10 @@ mod tests {
             }
         }
         // Then
-        let _average_drops_per_item: HashMap<u32, u32> = HashMap::new();
         for (item_id, (item_name, expected_drop_amount)) in expected_dropped_item_amount {
             let total_amount_dropped = drops_per_item.get(&item_id).unwrap();
             let average = (*total_amount_dropped as f32 / iterations as f32).round() as u32;
             assert_eq_with_variance!(2, average, expected_drop_amount, "Expected item {} to be dropped {} times but was dropped {} times", item_name, expected_drop_amount, average);
-            println!("Dropped: {item_name} {average} times");
         }
     }
 
