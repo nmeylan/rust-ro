@@ -33,6 +33,39 @@ pub struct SkillInUse {
     pub used_at_tick: Option<u128>, // when the skill was actually used
 }
 
+pub struct SkillCasted {
+    requirements_valid: bool,
+    no_delay: bool,
+}
+
+impl SkillCasted {
+    pub fn invalid() -> Self {
+        Self {
+            requirements_valid: false,
+            no_delay: false,
+        }
+    }
+    pub fn valid() -> Self {
+        Self {
+            requirements_valid: true,
+            no_delay: false,
+        }
+    }
+    pub fn no_delay() -> Self {
+        Self {
+            requirements_valid: true,
+            no_delay: true,
+        }
+    }
+
+    pub fn is_valid(&self) -> bool {
+        self.requirements_valid
+    }
+    pub fn has_no_delay(&self) -> bool {
+        self.no_delay
+    }
+}
+
 pub struct SkillUsed {
     pub skill_type: SkillType,
     pub source_id: u32,

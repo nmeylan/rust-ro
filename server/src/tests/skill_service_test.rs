@@ -352,7 +352,7 @@ mod tests {
         for scenarii in scenario {
             let source_status = status_snapshot!(context, character);
             let target_status = status_snapshot!(context, character);
-            character.set_skill_in_use(Some(target.map_item.id()), 0, scenarii.skill.into(), true);
+            character.set_skill_in_use(Some(target.map_item.id()), 0, scenarii.skill.into());
             let skill_use_response = context.skill_service.do_use_skill(&mut character, Some(target.clone()), source_status, Some(&target_status), 1);
             // Then
             assert!(skill_use_response.is_some());

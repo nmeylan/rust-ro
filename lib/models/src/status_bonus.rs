@@ -1,4 +1,5 @@
 use std::hash::{Hash, Hasher};
+use std::slice::Iter;
 use accessor::GettersAll;
 use enum_macro::{WithMaskValueU64, WithStringValue};
 use crate::enums::bonus::BonusType;
@@ -97,6 +98,14 @@ impl TemporaryStatusBonuses {
 
     pub fn to_vec(&self) ->  Vec<StatusBonus> {
             self.0.iter().map(|temporary_status_bonus: &TemporaryStatusBonus| StatusBonus { bonus: temporary_status_bonus.bonus }).collect()
+    }
+
+    pub fn iter<'a>(&'a self) -> Iter<'a, TemporaryStatusBonus> {
+        self.0.iter()
+    }
+
+    pub fn add(&mut self, temporary_bonus: TemporaryStatusBonus) {
+        self.0.push(temporary_bonus)
     }
 }
 

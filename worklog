@@ -1,3 +1,7 @@
+# 2024-09-20
+planned:
+- Send according packets: ZCParChange or PacketZcMsgStateChange2 depending on status
+
 # 2024-09-12
 planned:
 - Add test bonuses added after support skill: require next game loop tick
