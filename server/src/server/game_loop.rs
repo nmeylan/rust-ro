@@ -245,7 +245,8 @@ impl Server {
                         if character_movement.cancel_attack {
                             character.clear_attack();
                         }
-                        let speed = character.status.speed;
+                        let status_snapshot = ServerService::instance().get_status_snapshot(&character.status, tick);
+                        let speed = status_snapshot.speed();
                         if character_movement.path.last().is_none(){
                             continue;
                         }
@@ -289,7 +290,8 @@ impl Server {
             // teleport back -> server movement slower than client movement
             let mut character_finished_to_move = vec![];
             for (_, character) in server_state_mut.characters_mut().iter_mut().filter(|(_, character)| character.is_moving()) {
-                let speed = character.status.speed;
+                let status_snapshot = ServerService::instance().get_status_snapshot(&character.status, tick);
+                let speed = status_snapshot.speed();
                 if let Some(movement) = character.peek_movement() {
                     if tick >= movement.move_at() {
                         let movement = character.pop_movement().unwrap();

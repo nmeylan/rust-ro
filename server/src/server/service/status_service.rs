@@ -91,9 +91,16 @@ impl StatusService {
             self.collect_bonuses(status, &mut bonuses, item_model);
         }
 
+
         // TODO card and item combo
 
         bonuses = BonusType::merge_enums(&bonuses);
+
+        // Apply skills bonuses
+        for temporary_bonus in status.temporary_bonuses.iter() {
+            temporary_bonus.bonus().add_bonus_to_status(&mut snapshot);
+        }
+
         bonuses.iter().for_each(|bonus| bonus.add_bonus_to_status(&mut snapshot));
         // TODO [([base_hp*(1 + VIT/100)* trans_mod]+HPAdditions)*ItemHPMultipliers] https://irowiki.org/classic/Max_HP
         let hp_rebirth_modifier: f32 = if job.is_rebirth() { 1.25 } else { 1.0 };

@@ -26,7 +26,7 @@ pub fn create_character() -> Character {
             int: 1,
             dex: 1,
             luk: 1,
-            speed: 0,
+            speed: 150,
             look: Some(Look::default()),
             zeny: 0,
             base_level: 1,

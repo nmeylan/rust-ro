@@ -43,9 +43,11 @@ mod tests {
     use models::enums::element::Element;
     use models::enums::weapon::WeaponType;
     use models::status::{Status, StatusSnapshot};
-    use models::enums::EnumWithStringValue;
+    use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
     use models::enums::EnumWithNumberValue;
+    use models::enums::skill_enums::SkillEnum;
     use models::item::{WearGear, WearWeapon};
+    use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
     use crate::tests::common::fixtures::battle_fixture::Equipment;
     use crate::tests::common::fixtures::TestResult;
     #[macro_use]
@@ -234,6 +236,20 @@ mod tests {
             // Then
             assert_eq!(format!("{attack_motion:.2}"), **expectation, "Expected attack motion to be {expectation} with aspd {aspd} but was {attack_motion}");
         }
+    }
+
+    #[test]
+    fn test_temporary_bonuses_are_included() {
+        // Given
+        let context = before_each();
+        let mut character = create_character();
+        // When
+        character.status.temporary_bonuses.add(TemporaryStatusBonus::with_duration(BonusType::Agi(10), StatusBonusFlag::Default.as_flag(), 0, 10000, SkillEnum::AlIncagi.id() as u16));
+        character.status.temporary_bonuses.add(TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(25), StatusBonusFlag::Default.as_flag(), 0, 10000, SkillEnum::AlIncagi.id() as u16));
+        let status_snapshot = status_snapshot!(context, character);
+        // Then
+        assert_eq!(status_snapshot.bonus_agi(), 10);
+        assert_eq!(status_snapshot.speed(), 112);
     }
 
     #[test]
