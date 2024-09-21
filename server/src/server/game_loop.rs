@@ -12,7 +12,6 @@ use models::enums::skill_enums::SkillEnum;
 use packets::packets::{Packet, PacketZcNotifyPlayermove};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
-use crate::server::model::action::AddBonuses;
 use crate::server::model::movement::{Movable, Movement};
 
 
@@ -33,9 +32,6 @@ use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::server::service::server_service::ServerService;
-
-
-
 
 const MOVEMENT_TICK_RATE: u128 = 16;
 pub const GAME_TICK_RATE: u128 = 40;
@@ -102,15 +98,15 @@ impl Server {
                     }
                     GameEvent::CharacterUpdateZeny(zeny_update) => {
                         let character = server_state_mut.characters_mut().get_mut(&zeny_update.char_id).unwrap();
-                        CharacterService::instance().update_zeny(&runtime, zeny_update, character);
+                        CharacterService::instance().update_zeny(runtime, zeny_update, character);
                     }
                     GameEvent::CharacterAddItems(add_items) => {
                         let character = server_state_mut.characters_mut().get_mut(&add_items.char_id).unwrap();
-                        InventoryService::instance().add_items_in_inventory(&runtime, add_items, character);
+                        InventoryService::instance().add_items_in_inventory(runtime, add_items, character);
                     }
                     GameEvent::CharacterInitInventory(char_id) => {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
-                        InventoryService::instance().reload_inventory(&runtime, char_id, character);
+                        InventoryService::instance().reload_inventory(runtime, char_id, character);
                         InventoryService::instance().reload_equipped_item_sprites(character);
                         CharacterService::instance().reload_client_side_status(character);
                     }
@@ -120,7 +116,7 @@ impl Server {
                     }
                     GameEvent::CharacterUseItem(character_user_item) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_user_item.char_id).unwrap();
-                        ItemService::instance().use_item(server_ref, &runtime, character_user_item, character);
+                        ItemService::instance().use_item(server_ref, runtime, character_user_item, character);
                     }
                     GameEvent::CharacterAttack(character_attack) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_attack.char_id).unwrap();
@@ -173,7 +169,7 @@ impl Server {
                     GameEvent::CharacterPickUpItem(character_pickup_item) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_pickup_item.char_id).unwrap();
                         let map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance()).unwrap();
-                        ServerService::instance().character_pickup_item(server_ref.state_mut().as_mut(), character, character_pickup_item.map_item_id, map_instance.as_ref(), &runtime);
+                        ServerService::instance().character_pickup_item(server_ref.state_mut().as_mut(), character, character_pickup_item.map_item_id, map_instance.as_ref(), runtime);
                     }
                     GameEvent::MapNotifyItemRemoved(map_item_id) => {
                         server_state_mut.remove_locked_map_item(map_item_id);
@@ -190,11 +186,11 @@ impl Server {
                         let character = server_state_mut.characters_mut().get_mut(&character_drop_item.char_id).unwrap();
                         let map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance()).unwrap();
                         let character_remove_items = CharacterRemoveItems { char_id: character.char_id, sell: false, items: vec![character_drop_item] };
-                        InventoryService::instance().character_drop_items(&runtime, character, character_remove_items, map_instance.as_ref());
+                        InventoryService::instance().character_drop_items(runtime, character, character_remove_items, map_instance.as_ref());
                     }
                     GameEvent::CharacterSellItems(character_remove_items) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_remove_items.char_id).unwrap();
-                        InventoryService::instance().character_sell_items(&runtime, character, character_remove_items);
+                        InventoryService::instance().character_sell_items(runtime, character, character_remove_items);
                     }
                     GameEvent::CharacterResetSkills(char_id) => {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
@@ -208,7 +204,7 @@ impl Server {
                         let character = server_state_mut.characters_mut().get_mut(&character_use_skill.char_id).unwrap();
                         ServerService::instance().character_start_use_skill(server_ref.state(), character, character_use_skill, tick);
                     }
-                    GameEvent::CharacterDamage(damage) => {
+                    GameEvent::CharacterDamage(_damage) => {
                         println!("GameEvent::CharacterDamage: Not implemented yet!")
                     }
                 }
@@ -255,7 +251,7 @@ impl Server {
                             {
                                 if tick >= previous_movement.move_at() {
                                     info!("change path! was {} will {}, move at {}",previous_movement.position(), new_movement.position(), move_at );
-                                    debug_in_game_chat(client_notification_sender_clone.clone(), character, format!("change path! was {} will {}, move at {}", previous_movement.position(), new_movement.position(), move_at));
+                                    crate::util::debug::debug_in_game_chat(client_notification_sender_clone.clone(), character, format!("change path! was {} will {}, move at {}", previous_movement.position(), new_movement.position(), move_at));
                                 } else {
                                     server_ref.add_to_next_movement_tick(GameEvent::CharacterMove(character_movement));
                                     continue;
@@ -291,11 +287,11 @@ impl Server {
                 if let Some(movement) = character.peek_movement() {
                     if tick >= movement.move_at() {
                         let movement = character.pop_movement().unwrap();
-                        let _last_move_at = character.last_moved_at;
                         #[cfg(feature = "debug_movement")]
                         {
+                            let last_move_at = character.last_moved_at;
                             info!("move {} at {} after {}ms since last move", movement.position(), tick, tick - last_move_at);
-                            debug_in_game_chat(client_notification_sender_clone.clone(), character, format!("move {} at {} after {}ms since last move", movement.position(), tick, tick - last_move_at));
+                            crate::util::debug::debug_in_game_chat(client_notification_sender_clone.clone(), character, format!("move {} at {} after {}ms since last move", movement.position(), tick, tick - last_move_at));
                         }
                         character.set_last_moved_at(tick);
                         character.update_position(movement.position().x, movement.position().y);
@@ -314,8 +310,9 @@ impl Server {
                                 let next_move_at = tick + Movement::delay(speed, next_movement.is_diagonal());
                                 #[cfg(feature = "debug_movement")]
                                 {
+                                    let last_move_at = character.last_moved_at;
                                     info!("move {} at {} after {}ms since last move, next move will be {} at {}", movement.position(), tick, tick - last_move_at, next_movement.position(), next_move_at);
-                                    debug_in_game_chat(client_notification_sender_clone.clone(), character, format!("move {} at {} after {}ms since last move, next move will be {} at {}", movement.position(), tick, tick - last_move_at, next_movement.position(), next_move_at));
+                                    crate::util::debug::debug_in_game_chat(client_notification_sender_clone.clone(), character, format!("move {} at {} after {}ms since last move, next move will be {} at {}", movement.position(), tick, tick - last_move_at, next_movement.position(), next_move_at));
                                 }
                                 let next_movement = character.peek_mut_movement().unwrap();
                                 next_movement.set_move_at(next_move_at);

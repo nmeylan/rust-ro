@@ -90,7 +90,7 @@ impl Mob {
     pub fn update_position(&mut self, x: u16, y: u16) {
         #[cfg(feature = "debug_mob_movement")]
         {
-            if manhattan_distance(self.x, self.y, x, y) > 2 {
+            if  crate::server::model::path::manhattan_distance(self.x, self.y, x, y) > 2 {
                 error!("mob teleported old ({},{}) new ({},{})", self.x, self.y, x, y);
             }
         }

@@ -20,7 +20,7 @@ use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, CharacterUseSkill, GameEvent};
 use crate::server::map_instance_loop::MapInstanceLoop;
-use crate::server::model::action::{AddBonuses, Damage, SkillUsed};
+use crate::server::model::action::Damage;
 use crate::server::model::events::map_event::{MapEvent};
 
 use crate::server::model::movement::{Movable, Movement};
@@ -194,13 +194,10 @@ impl ServerService {
             let target = Self::get_target(server_state, character, character.skill_in_use().target);
             let skill_use_response = self.skill_service.do_use_skill(character, target, &self.get_status_snapshot(&character.status, tick), self.get_target_status(server_state, character, character.skill_in_use().target, tick).as_ref(), tick);
             if let Some(skill_use_response) = skill_use_response {
-                match skill_use_response.skill_type {
-                    SkillType::Offensive => {
-                        let maybe_map_instance = server_state.get_map_instance(character.current_map_name(), character.current_map_instance());
-                        let map_instance = maybe_map_instance.as_ref().unwrap();
-                        self.apply_damage(*target.unwrap().map_item.object_type(), map_instance, skill_use_response.to_damage());
-                    }
-                    _ => {}
+                if skill_use_response.skill_type == SkillType::Offensive {
+                    let maybe_map_instance = server_state.get_map_instance(character.current_map_name(), character.current_map_instance());
+                    let map_instance = maybe_map_instance.as_ref().unwrap();
+                    self.apply_damage(*target.unwrap().map_item.object_type(), map_instance, skill_use_response.to_damage());
                 }
                 if !skill_use_response.bonuses.is_empty() {
                     character.status.temporary_bonuses.merge(skill_use_response.bonuses);

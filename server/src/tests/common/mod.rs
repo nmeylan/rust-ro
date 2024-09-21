@@ -212,7 +212,7 @@ impl ServerBuilder {
         self
     }
     pub fn build(self) -> Server {
-        Server::new_without_service_init(self.configuration, self.repository, self.map_items, test_script_vm(), self.tasks_queue)
+        Server::new_without_service_init(self.configuration, self.repository, self.map_items, self.tasks_queue)
     }
 }
 

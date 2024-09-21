@@ -5,12 +5,10 @@ use std::sync::{Arc, RwLock};
 use std::thread::spawn;
 
 use rand::Rng;
-use sqlx::Row;
 
 use packets::packets::{Packet, PacketAcAcceptLogin, PacketAcAcceptLogin2, PacketAcRefuseLogin, PacketAcRefuseLoginR2, PacketAcRefuseLoginR3, PacketCaLogin, ServerAddr, ServerAddr2};
 use packets::packets_parser::parse;
 
-use crate::repository::{PgRepository, Repository};
 use crate::server::model::request::Request;
 
 use crate::server::model::session::Session;

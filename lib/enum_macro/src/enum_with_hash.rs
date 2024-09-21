@@ -2,8 +2,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::Data::Enum;
 use syn::{DeriveInput, parse_macro_input};
-use proc_macro2::{Ident, Span, TokenStream as TokenStream2};
-use crate::helper::get_number_value;
+use proc_macro2::{Ident, Span};
 
 pub fn with_hash(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);

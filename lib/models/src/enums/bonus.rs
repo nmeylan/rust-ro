@@ -1,8 +1,6 @@
-use std::fmt::{Debug, Formatter};
-use std::mem;
+use std::fmt::Debug;
 use enum_macro::{WithEq, WithStackable};
 use crate::enums::EnumStackable;
-use crate::enums::EnumWithNumberValue;
 use crate::enums::element::Element;
 use crate::enums::mob::{MobClass, MobGroup, MobRace};
 use crate::enums::size::Size;
@@ -195,21 +193,21 @@ impl BonusType {
                 status_snapshot.set_bonus_dex(status_snapshot.bonus_dex() + *all as i16);
                 status_snapshot.set_bonus_luk(status_snapshot.bonus_luk() + *all as i16);
             }
-            BonusType::Hit(hit) => { status_snapshot.set_hit(status_snapshot.hit() + *hit as i16) }
-            BonusType::Flee(flee) => { status_snapshot.set_flee(status_snapshot.flee() + *flee as i16) }
-            BonusType::Crit(crit) => { status_snapshot.set_crit(status_snapshot.crit() + *crit as f32) }
+            BonusType::Hit(hit) => { status_snapshot.set_hit(status_snapshot.hit() + { *hit }) }
+            BonusType::Flee(flee) => { status_snapshot.set_flee(status_snapshot.flee() + { *flee }) }
+            BonusType::Crit(crit) => { status_snapshot.set_crit(status_snapshot.crit() + { *crit }) }
             BonusType::Aspd(aspd) => { status_snapshot.set_aspd(status_snapshot.aspd() + *aspd as f32) }
             BonusType::Maxhp(hp) => { status_snapshot.set_hp(status_snapshot.hp() + *hp as u32) }
             BonusType::Maxsp(sp) => { status_snapshot.set_sp(status_snapshot.sp() + *sp as u32) }
             BonusType::MatkPercentage(matk_percentage) => { status_snapshot.set_matk_item_modifier(status_snapshot.matk_item_modifier() + (*matk_percentage as f32 / 100.0)) }
             BonusType::Atk(atk) => { status_snapshot.set_bonus_atk(status_snapshot.bonus_atk() + *atk as u16) }
-            BonusType::Def(def) => { status_snapshot.set_def(status_snapshot.def() + *def as i16) }
-            BonusType::Mdef(mdef) => { status_snapshot.set_mdef(status_snapshot.mdef() + *mdef as i16) }
+            BonusType::Def(def) => { status_snapshot.set_def(status_snapshot.def() + { *def }) }
+            BonusType::Mdef(mdef) => { status_snapshot.set_mdef(status_snapshot.mdef() + { *mdef }) }
             BonusType::Matk(matk) => {
                 status_snapshot.set_matk_min(status_snapshot.matk_min() + *matk as u16);
                 status_snapshot.set_matk_max(status_snapshot.matk_max() + *matk as u16);
             }
-            BonusType::ElementDefense(element) => { status_snapshot.set_element(element.clone()) }
+            BonusType::ElementDefense(element) => { status_snapshot.set_element(*element) }
             BonusType::SpeedPercentage(speed_percentage) => {
                 let speed = (status_snapshot.base_speed() as f32 * (*speed_percentage as f32 / 100.0)).ceil() as u16;
                 if status_snapshot.speed() > speed {
@@ -223,7 +221,7 @@ impl BonusType {
     pub fn add_percentage_bonus_to_status(&self, status_snapshot: &mut StatusSnapshot) {
         match self {
             BonusType::HitPercentage(value) => { status_snapshot.set_hit((status_snapshot.hit() as f32 * (1.0 + *value as f32 / 100.0)).floor() as i16); }
-            BonusType::AspdPercentage(value) => { status_snapshot.set_aspd(status_snapshot.aspd() + ((200.0 - status_snapshot.aspd()) * (*value as f32 / 100.0))); }
+            BonusType::AspdPercentage(value) => { status_snapshot.set_aspd(status_snapshot.aspd() + ((200.0 - status_snapshot.aspd()) * ({ *value } / 100.0))); }
             BonusType::MaxhpPercentage(value) => { status_snapshot.set_max_hp((status_snapshot.max_hp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32); }
             BonusType::MaxspPercentage(value) => { status_snapshot.set_max_sp((status_snapshot.max_sp() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u32); }
             BonusType::VitDefPercentage(_) => {}

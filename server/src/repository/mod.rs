@@ -115,9 +115,9 @@ pub trait MobRepository {
 
 pub trait ScriptVariableRepository {
     fn script_variable_char_num_save(&self, _char_id: u32, _key: String, _index: u32, _value: i32) { todo!() }
-    fn script_variable_char_str_save(&self, _char_id: u32, key: String, index: u32, _value: String) { todo!() }
-    fn script_variable_account_num_save(&self, _account_id: u32, _key: String, index: u32, _value: i32){ todo!() }
-    fn script_variable_account_str_save(&self, _account_id: u32, _key: String, index: u32, _value: String){ todo!() }
+    fn script_variable_char_str_save(&self, _char_id: u32, _key: String, _index: u32, _value: String) { todo!() }
+    fn script_variable_account_num_save(&self, _account_id: u32, _key: String, _index: u32, _value: i32){ todo!() }
+    fn script_variable_account_str_save(&self, _account_id: u32, _key: String, _index: u32, _value: String){ todo!() }
     fn script_variable_server_num_save(&self, _varname: String, _index: u32, _value: i32) { todo!() }
     fn script_variable_server_str_save(&self, _varname: String, _index: u32, _value: String){ todo!() }
     fn script_variable_char_str_fetch_one(&self, _char_id: u32, _variable_name: String, _index: u32) -> String  { todo!() }

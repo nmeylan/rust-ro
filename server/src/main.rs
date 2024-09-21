@@ -44,7 +44,7 @@ use log::{LevelFilter};
 use rathena_script_lang_interpreter::lang::compiler::Compiler;
 
 
-use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
+use rathena_script_lang_interpreter::lang::vm::Vm;
 use simple_logger::SimpleLogger;
 use tokio::runtime::Runtime;
 use server::Server;

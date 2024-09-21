@@ -13,7 +13,7 @@ use models::enums::bonus::BonusType;
 
 
 use packets::packets::PacketZcUseItemAck2;
-use crate::repository::{ItemRepository, Repository};
+use crate::repository::ItemRepository;
 use crate::repository::model::item_model::{ItemModel};
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
@@ -141,7 +141,7 @@ impl ItemService {
                     }
                 }
 
-                Vm::repl(vm.clone(), class_file, Box::new(&script_handler), vec![]);
+               let _ = Vm::repl(vm.clone(), class_file, Box::new(&script_handler), vec![]);
                 item.bonuses = script_handler.drain();
 
                 item.bonuses.iter().filter_map(|b| {

@@ -100,19 +100,16 @@ impl<'character> NativeMethodHandler for DynamicItemScriptHandler<'character> {
         } else if native.name.eq("getglobalvariable") {
             let variable_name = params[0].string_value().unwrap();
             let variable_scope = params[1].string_value().unwrap();
-            match variable_scope.as_str() {
-                "char_permanent" => {
-                    if let Some(value) = load_constant(variable_name) {
-                        execution_thread.push_constant_on_stack(value);
-                        return;
-                    }
-                    let _char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
-                    if let Some(value) = PlayerScriptHandler::load_special_char_variable(self.status, variable_name) {
-                        execution_thread.push_constant_on_stack(value);
-                        return;
-                    }
+            if variable_scope.as_str() == "char_permanent" {
+                if let Some(value) = load_constant(variable_name) {
+                    execution_thread.push_constant_on_stack(value);
+                    return;
                 }
-                _ => {}
+                let _char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
+                if let Some(value) = PlayerScriptHandler::load_special_char_variable(self.status, variable_name) {
+                    execution_thread.push_constant_on_stack(value);
+                    return;
+                }
             }
             panic!("Can't load global {} with name {}, failed to execute script for item {}", variable_scope, variable_name, self.item_id);
         } else if native.name.eq("loadconstant") || native.name.eq("getglobalvariable") {

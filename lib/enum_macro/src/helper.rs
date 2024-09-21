@@ -42,7 +42,7 @@ pub(crate) fn get_enum_string_value(variant: &Variant, ident: &str, force_lowerc
             }
             quote! { #val }
         }).collect::<Vec<TokenStream2>>();
-    if aliases.len() > 0 {
+    if !aliases.is_empty() {
         return aliases;
     } else {
         if force_lowercase {
@@ -88,7 +88,7 @@ pub(crate) fn is_numeric(field: &Field) -> bool {
                 "u8" | "i8" | "u16" | "i16" | "i32" | "u32" | "i64" | "u64" | "i128" | "u128" => true,
                 _ => false
             };
-            return is_numeric;
+            is_numeric
         }
         _ => false
     }

@@ -10,7 +10,7 @@ pub fn with_number_value(input: TokenStream) -> TokenStream {
 
     let res = if let Enum(enum_data) = &input.data {
         let mut j: usize = 1;
-        let from_value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
+        let from_value_match_arms = enum_data.variants.iter().map(|variant| {
             let variant_name = variant.ident.clone();
             let maybe_value = get_number_value::<usize>(variant, "value");
             if let Some(value) = maybe_value {
@@ -24,7 +24,7 @@ pub fn with_number_value(input: TokenStream) -> TokenStream {
         });
         let mut j: usize = 1;
         let try_from_value_match_arms =
-            enum_data.variants.iter().enumerate().map(|(_, variant)| {
+            enum_data.variants.iter().map(|variant| {
                 let variant_name = variant.ident.clone();
                 let maybe_value = get_number_value::<usize>(variant, "value");
                 if let Some(value) = maybe_value {
@@ -37,7 +37,7 @@ pub fn with_number_value(input: TokenStream) -> TokenStream {
                 res
             });
         let mut j: usize = 1;
-        let value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
+        let value_match_arms = enum_data.variants.iter().map(|variant| {
             let variant_name = variant.ident.clone();
             let maybe_value = get_number_value::<usize>(variant, "value");
             if let Some(value) = maybe_value {

@@ -4,7 +4,7 @@ use models::enums::skill_enums::SkillEnum;
 use models::enums::vanish::VanishType;
 use models::enums::EnumWithNumberValue;
 use packets::packets::PacketZcNotifyVanish;
-use crate::repository::{Repository, ScriptVariableRepository};
+use crate::repository::ScriptVariableRepository;
 use configuration::configuration::{Config, SkillConfig};
 use crate::server::model::map::{Map, RANDOM_CELL};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};

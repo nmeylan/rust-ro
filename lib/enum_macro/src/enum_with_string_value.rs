@@ -8,11 +8,12 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let enum_name = &input.ident;
     let res = if let Enum(enum_data) = &input.data {
-        let from_value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
+        let from_value_match_arms = enum_data.variants.iter().map(|variant| {
             let variant_name = variant.ident.clone();
             let string_value = get_enum_string_value(variant, "value_string", false);
 
-            let res = if string_value.len() > 1 {
+            
+            if string_value.len() > 1 {
                 quote! {
                     #(#string_value )|* => #enum_name::#variant_name,
                 }
@@ -20,15 +21,15 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
                 quote! {
                     #(#string_value)* => #enum_name::#variant_name,
                 }
-            };
-            res
+            }
         });
         let try_from_value_match_arms =
-            enum_data.variants.iter().enumerate().map(|(_, variant)| {
+            enum_data.variants.iter().map(|variant| {
                 let variant_name = variant.ident.clone();
                 let string_value = get_enum_string_value(variant, "value_string", false);
 
-                let res = if string_value.len() > 1 {
+                
+                if string_value.len() > 1 {
                     quote! {
                         #(#string_value )|* => Ok(#enum_name::#variant_name),
                     }
@@ -36,16 +37,17 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
                     quote! {
                         #(#string_value)* => Ok(#enum_name::#variant_name),
                     }
-                };
-                res
+                }
             });
 
         let try_from_value_ignore_case_match_arms =
-            enum_data.variants.iter().enumerate().map(|(_, variant)| {
+            enum_data.variants.iter().map(|variant| {
                 let variant_name = variant.ident.clone();
                 let string_value = get_enum_string_value(variant, "value_string", true);
 
-                let res = if string_value.len() > 1 {
+                
+
+                if string_value.len() > 1 {
                     quote! {
                         #(#string_value )|* => Ok(#enum_name::#variant_name),
                     }
@@ -53,16 +55,16 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
                     quote! {
                         #(#string_value)* => Ok(#enum_name::#variant_name),
                     }
-                };
-
-                res
+                }
             });
         let from_value_ignore_case_match_arms =
-            enum_data.variants.iter().enumerate().map(|(_, variant)| {
+            enum_data.variants.iter().map(|variant| {
                 let variant_name = variant.ident.clone();
                 let string_value = get_enum_string_value(variant, "value_string", true);
 
-                let res = if string_value.len() > 1 {
+                
+
+                if string_value.len() > 1 {
                     quote! {
                         #(#string_value )|* => #enum_name::#variant_name,
                     }
@@ -70,11 +72,9 @@ pub fn with_string_value(input: TokenStream) -> TokenStream {
                     quote! {
                         #(#string_value)* => #enum_name::#variant_name,
                     }
-                };
-
-                res
+                }
             });
-        let value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
+        let value_match_arms = enum_data.variants.iter().map(|variant| {
             let variant_name = variant.ident.clone();
             let string_value = get_enum_string_value(variant, "value_string", false);
             let res = if string_value.len() > 1 {

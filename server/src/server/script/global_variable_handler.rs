@@ -6,7 +6,6 @@ use models::enums::class::JobName;
 use crate::models::enums::EnumWithNumberValue;
 use crate::server::state::character::Character;
 use models::status::Status;
-use crate::repository::ScriptVariableRepository;
 use crate::server::model::events::game_event::CharacterZeny;
 use crate::server::model::events::game_event::GameEvent::CharacterUpdateZeny;
 use crate::server::script::{VM_THREAD_CONSTANT_INDEX_CHAR_ID, VM_THREAD_CONSTANT_INDEX_ACCOUNT_ID};

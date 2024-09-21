@@ -270,7 +270,7 @@ pub fn handle_rates(server: &Server) -> String {
     msg
 }
 
-pub fn handle_reload(server: &Server, _session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_reload(_server: &Server, _session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
     // TODO check if user privileges
     if args.is_empty() {
         return "@reload command accept 1 parameters but received none".to_string();

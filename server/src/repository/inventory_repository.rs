@@ -1,7 +1,7 @@
 use sqlx::{Error, Executor, Row};
 use sqlx::postgres::PgQueryResult;
 use crate::repository::model::item_model::{InventoryItemModel};
-use crate::repository::{InventoryRepository, PgRepository, Repository};
+use crate::repository::{InventoryRepository, PgRepository};
 use crate::repository::persistence_error::PersistenceError;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 

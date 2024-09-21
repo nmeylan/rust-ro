@@ -383,7 +383,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                 "UnbreakableShield" => BonusType::UnbreakableShield,
                 "UnbreakableShoes" => BonusType::UnbreakableShoes,
                 "UnbreakableWeapon" => BonusType::UnbreakableWeapon,
-                "BreakSelfWeaponPercentage" => BonusType::BreakSelfWeaponPercentage(value_f32.unwrap() as f32),
+                "BreakSelfWeaponPercentage" => BonusType::BreakSelfWeaponPercentage(value_f32.unwrap()),
                 "ResistancePhysicalAttackFromMobIdPercentage" => BonusType::ResistancePhysicalAttackFromMobIdPercentage(value.unwrap() as u32, value2.unwrap() as i8),
                 "DropChanceItemIdPercentage" => BonusType::DropChanceItemIdPercentage(value.unwrap() as u32, value2.unwrap() as i8),
                 "DropChanceJewelPercentage" => BonusType::DropChanceJewelPercentage(value.unwrap() as i8),
