@@ -4,18 +4,17 @@ use std::sync::Once;
 use models::enums::EnumWithNumberValue;
 use models::enums::skill::{SkillType, UseSkillFailure, UseSkillFailureClientSideType};
 use models::item::NormalInventoryItem;
-use packets::packets::{PacketCzUseSkill, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseSkill, PacketZcUseskillAck2};
+use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcNotifySkill2, PacketZcUseSkill, PacketZcUseskillAck2};
 use skills::OffensiveSkill;
 use models::enums::skill_enums::SkillEnum;
 use models::status::{StatusSnapshot};
-use models::status_bonus::StatusBonusSource::Skill;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map_item::MapItemSnapshot;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::packets::packets::Packet;
-use crate::server::model::action::{Damage, SkillCasted, SkillUsed};
+use crate::server::model::action::{SkillCasted, SkillUsed};
 use crate::server::service::battle_service::BattleService;
 use crate::server::service::status_service::StatusService;
 
@@ -178,7 +177,7 @@ impl SkillService {
             SkillType::Passive => {}
         }
         character.update_skill_used_at_tick(tick);
-        if packets.len() > 0 {
+        if !packets.is_empty() {
             self.client_notification_sender.send(Notification::Area(
                 AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, packets)
             )).unwrap();

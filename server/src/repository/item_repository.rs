@@ -1,7 +1,6 @@
 use async_trait::async_trait;
 use sqlx::{Error, Row};
 
-use crate::Repository;
 use crate::repository::model::item_model::{GetItemModel, ItemBuySellModel, ItemModel};
 use crate::server::script::Value;
 use crate::repository::{ItemRepository, PgRepository};

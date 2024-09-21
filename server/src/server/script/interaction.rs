@@ -4,7 +4,6 @@ use rathena_script_lang_interpreter::lang::value;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
 use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlayerchat, PacketZcNpcChat, PacketZcOpenEditdlg, PacketZcOpenEditdlgstr, PacketZcSayDialog, PacketZcShowImage2, PacketZcWaitDialog};
 use crate::packets::packets::Packet;
-use crate::repository::ItemRepository;
 use crate::server::model::events::game_event::{CharacterRemoveItem, CharacterRemoveItems, GameEvent};
 use crate::server::script::{PlayerInteractionScriptHandler, VM_THREAD_CONSTANT_INDEX_CHAR_ID, VM_THREAD_CONSTANT_INDEX_NPC_ID};
 use crate::server::service::character::character_service::CharacterService;

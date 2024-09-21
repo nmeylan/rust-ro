@@ -2,7 +2,7 @@ use async_trait::async_trait;
 use sqlx::Error;
 
 use crate::repository::model::mob_model::MobModel;
-use crate::repository::{MobRepository, PgRepository, Repository};
+use crate::repository::{MobRepository, PgRepository};
 
 #[async_trait]
 impl MobRepository for PgRepository {

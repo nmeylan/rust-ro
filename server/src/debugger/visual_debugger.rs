@@ -3,7 +3,7 @@ use std::sync::Arc;
 use std::thread;
 use eframe::{CreationContext, egui, HardwareAcceleration, Theme};
 use eframe::egui::ViewportCommand;
-use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Vec2, Visuals};
+use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Visuals};
 use crate::server::Server;
 use lazy_static::lazy_static;
 use crate::debugger::frame_history;

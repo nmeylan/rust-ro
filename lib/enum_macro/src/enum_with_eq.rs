@@ -14,9 +14,9 @@ pub fn with_eq(input: TokenStream) -> TokenStream {
             let variant_name = variant.ident.clone();
             match &variant.fields {
                 syn::Fields::Unnamed(fields) => {
-                    let variant_offset = if let Some(_) = variant.attrs.iter().find(|attr| {
+                    let variant_offset = if variant.attrs.iter().find(|attr| {
                         attr.path().is_ident("value_comparison_offset")
-                    }) {
+                    }).is_some() {
                         get_number_value(variant, "value_comparison_offset").unwrap_or(0)
                     } else {
                         0

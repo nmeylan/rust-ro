@@ -14,16 +14,14 @@ pub fn stackable_enum(input: TokenStream) -> TokenStream {
         let get_value_sum_arms = enum_data.variants.iter().filter(|variant| matches!(&variant.fields, syn::Fields::Unnamed(..))).map(|variant| {
             let variant_name = variant.ident.clone();
             if let syn::Fields::Unnamed(fields) = &variant.fields {
-                let value_offset = if let Some(_) = variant.attrs.iter().find(|attr| {
+                let value_offset = if variant.attrs.iter().find(|attr| {
                     attr.path().is_ident("value_offset")
-                }) {
+                }).is_some() {
                     get_number_value(variant, "value_offset").unwrap_or(1)
+                } else if fields.unnamed.len() == 1 {
+                    0
                 } else {
-                    if fields.unnamed.len() == 1 {
-                        0
-                    } else {
-                        1
-                    }
+                    1
                 };
                 if is_numeric(&fields.unnamed[value_offset]) {
                     let mut args1 = fields.unnamed.iter().map(|_| quote! {_}).collect::<Vec<TokenStream2>>();
@@ -39,16 +37,14 @@ pub fn stackable_enum(input: TokenStream) -> TokenStream {
         let get_value_sum_return_arms = enum_data.variants.iter().map(|variant| {
             let variant_name = variant.ident.clone();
             if let syn::Fields::Unnamed(fields) = &variant.fields {
-                let value_offset = if let Some(_) = variant.attrs.iter().find(|attr| {
+                let value_offset = if variant.attrs.iter().find(|attr| {
                     attr.path().is_ident("value_offset")
-                }) {
+                }).is_some() {
                     get_number_value(variant, "value_offset").unwrap_or(1)
+                } else if fields.unnamed.len() == 1 {
+                    0
                 } else {
-                    if fields.unnamed.len() == 1 {
-                        0
-                    } else {
-                        1
-                    }
+                    1
                 };
                 if is_numeric(&fields.unnamed[value_offset]) {
                     let mut args1 = fields.unnamed.iter().enumerate().map(|(i, _)| {
@@ -75,16 +71,14 @@ pub fn stackable_enum(input: TokenStream) -> TokenStream {
         let get_enum_value = enum_data.variants.iter().filter(|variant| matches!(&variant.fields, syn::Fields::Unnamed(..))).map(|variant| {
             let variant_name = variant.ident.clone();
             if let syn::Fields::Unnamed(fields) = &variant.fields {
-                let value_offset = if let Some(_) = variant.attrs.iter().find(|attr| {
+                let value_offset = if variant.attrs.iter().find(|attr| {
                     attr.path().is_ident("value_offset")
-                }) {
+                }).is_some() {
                     get_number_value(variant, "value_offset").unwrap_or(1)
+                } else if fields.unnamed.len() == 1 {
+                    0
                 } else {
-                    if fields.unnamed.len() == 1 {
-                        0
-                    } else {
-                        1
-                    }
+                    1
                 };
                 if is_numeric(&fields.unnamed[value_offset]) {
                     let mut args1 = fields.unnamed.iter().map(|_| {

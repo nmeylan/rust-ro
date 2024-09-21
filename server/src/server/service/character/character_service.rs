@@ -26,7 +26,7 @@ use crate::server::model::path::manhattan_distance;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::{IncreaseSkillLevel, PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
 use crate::server::model::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
-use crate::server::{PLAYER_FOV, Server};
+use crate::server::PLAYER_FOV;
 use crate::server::model::events::map_event::{MapEvent, MobDropItems};
 use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
 use models::position::Position;
@@ -372,7 +372,7 @@ impl CharacterService {
         }
     }
 
-    pub fn stat_mut<'a>(&'a self, status: &'a mut Status, status_type: &StatusTypes) -> &mut u16 {
+    pub fn stat_mut<'a>(&'a self, status: &'a mut Status, status_type: &StatusTypes) -> &'a mut u16 {
         match status_type {
             StatusTypes::Str => {
                 &mut status.str

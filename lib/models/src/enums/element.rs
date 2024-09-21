@@ -3,8 +3,10 @@
 use std::fmt::{Display, Formatter};
 use crate::enums::*;
 #[derive(WithNumberValue, WithStringValue, Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Default)]
 pub enum Element {
     #[value = 0]
+    #[default]
     Neutral,
     Water,
     Earth,
@@ -23,11 +25,6 @@ pub enum Element {
     Ammo,
 }
 
-impl Default for Element {
-    fn default() -> Self {
-        Element::Neutral
-    }
-}
 impl Display for Element {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{:?}", self)

@@ -1,5 +1,4 @@
 use sqlx::Error;
-use crate::Repository;
 use crate::repository::model::script_variable_registry_model::{AccountRegNum, AccountRegStr, CharRegNum, CharRegStr, ServerRegStr};
 use crate::repository::{PgRepository, ScriptVariableRepository};
 

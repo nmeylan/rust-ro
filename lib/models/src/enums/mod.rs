@@ -64,15 +64,15 @@ pub trait EnumStackable<T: PartialEq> {
             if merged_enums.contains(single_enum) {
                 continue
             }
-            merged_enums.push(Self::get_value_sum(single_enum, &enums));
+            merged_enums.push(Self::get_value_sum(single_enum, enums));
         }
         merged_enums
     }
     #[inline]
     fn get_enum<'a>(single_enum: &T, enums: &'a Vec<&T>) -> Option<&'a T> {
-        enums.iter().find(|b| **b == single_enum).map(|b| *b)
+        enums.iter().find(|b| **b == single_enum).copied()
     }
-    fn get_enum_value<'a>(single_enum: &T, enums: &'a Vec<&T>) -> Option<f32>;
+    fn get_enum_value(single_enum: &T, enums: &Vec<&T>) -> Option<f32>;
 }
 
 

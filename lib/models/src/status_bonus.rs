@@ -1,4 +1,4 @@
-use std::hash::{Hash, Hasher};
+use std::hash::Hasher;
 use std::slice::Iter;
 use accessor::GettersAll;
 use enum_macro::{WithMaskValueU64, WithStringValue};
@@ -15,9 +15,9 @@ impl StatusBonuses {
     }
 }
 
-impl Into<Vec<StatusBonus>> for StatusBonuses {
-    fn into(self) -> Vec<StatusBonus> {
-        self.0
+impl From<StatusBonuses> for Vec<StatusBonus> {
+    fn from(val: StatusBonuses) -> Self {
+        val.0
     }
 }
 
@@ -91,7 +91,7 @@ pub struct TemporaryStatusBonuses(pub Vec<TemporaryStatusBonus>);
 
 impl TemporaryStatusBonuses {
     pub fn empty() -> Self {
-        Self { 0: vec![] }
+        Self(vec![])
     }
 
     pub fn is_empty(&self) -> bool {
@@ -108,7 +108,7 @@ impl TemporaryStatusBonuses {
             self.0.iter().map(|temporary_status_bonus: &TemporaryStatusBonus| StatusBonus { bonus: temporary_status_bonus.bonus }).collect()
     }
 
-    pub fn iter<'a>(&'a self) -> Iter<'a, TemporaryStatusBonus> {
+    pub fn iter(&self) -> Iter<'_, TemporaryStatusBonus> {
         self.0.iter()
     }
 
@@ -117,9 +117,9 @@ impl TemporaryStatusBonuses {
     }
 }
 
-impl Into<Vec<TemporaryStatusBonus>> for TemporaryStatusBonuses {
-    fn into(self) -> Vec<TemporaryStatusBonus> {
-        self.0
+impl From<TemporaryStatusBonuses> for Vec<TemporaryStatusBonus> {
+    fn from(val: TemporaryStatusBonuses) -> Self {
+        val.0
     }
 }
 

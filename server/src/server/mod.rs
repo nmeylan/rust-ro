@@ -8,7 +8,7 @@ use std::thread::Scope;
 use tokio::runtime::Runtime;
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
-use crate::repository::{PgRepository, Repository};
+use crate::repository::Repository;
 use configuration::configuration::Config;
 
 
@@ -35,7 +35,6 @@ use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::item_service::ItemService;
 use script::skill::ScriptSkillService;
-use crate::create_script_vm;
 use crate::server::game_loop::GAME_TICK_RATE;
 
 
@@ -65,7 +64,7 @@ pub mod service;
 pub mod state;
 pub mod map_instance_loop;
 
-thread_local!(pub static PACKETVER: RefCell<u32> = RefCell::new(0));
+thread_local!(pub static PACKETVER: RefCell<u32> = const { RefCell::new(0) });
 // Todo make this configurable
 pub const PLAYER_FOV: u16 = 14;
 pub const MOB_FOV: u16 = 14;
@@ -134,7 +133,7 @@ impl Server {
         }
     }
 
-    pub fn new_without_service_init(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, vm: Arc<Vm>, tasks_queue: Arc<TasksQueue<GameEvent>>) -> Server {
+    pub fn new_without_service_init(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, tasks_queue: Arc<TasksQueue<GameEvent>>) -> Server {
         Server {
             configuration,
             repository,
