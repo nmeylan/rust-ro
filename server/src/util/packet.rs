@@ -101,6 +101,10 @@ fn print_packet(name: &Option<String>, outgoing: Option<&SocketAddr>, direction:
     }
 }
 
+/**
+ Packets are buffered by session and flushed to the TCP Socket after a short delay.
+ It allows to "send" packets from anywhere from the code, in the end packets will be send by batch and not one by one.
+*/
 pub struct PacketsBuffer {
     session_id: u32,
     max_capacity: usize,

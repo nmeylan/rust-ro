@@ -118,7 +118,6 @@ impl Server {
         ScriptService::init(client_notification_sender.clone(), GlobalConfigService::instance(), repository.clone(), tasks_queue.clone(), npc_script_vm.clone());
         ServerService::init(client_notification_sender.clone(), GlobalConfigService::instance(), tasks_queue.clone(), movement_tasks_queue.clone(), npc_script_vm,
                             InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone()),
-                            CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::instance(), tasks_queue.clone()),
                             MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone()),
                             BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal),
                             SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal), StatusService::instance(), GlobalConfigService::instance()),

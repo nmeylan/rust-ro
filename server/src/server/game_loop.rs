@@ -7,8 +7,7 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use tokio::runtime::Runtime;
 use models::enums::skill_enums::SkillEnum;
-
-
+use models::status_bonus::BonusExpiry;
 use packets::packets::{Packet, PacketZcNotifyPlayermove};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
@@ -52,6 +51,10 @@ impl Server {
 
     pub(crate) fn game_loop_iteration(server_ref: &Server, runtime: &Runtime, tick: u128) {
         let mut server_state_mut = server_ref.state_mut();
+
+        for (_, character) in server_state_mut.characters_mut().iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
+            ServerService::instance().character_remove_expired_bonuses(character, tick);
+        }
         if let Some(tasks) = server_ref.pop_task() {
             for task in tasks {
                 match task {

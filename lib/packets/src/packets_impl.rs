@@ -6057,8 +6057,8 @@ impl PacketZcNotifyMoveentry {
             },
             move_data_raw: {
                 let mut dst: [u8; 12] = [0u8; 12];
-                dst.clone_from_slice(&buffer[offset..offset + 6]);
-                offset += 6;
+                dst.clone_from_slice(&buffer[offset..offset + 12]);
+                offset += 12;
                 dst
             },
             x_size: {
@@ -53641,8 +53641,8 @@ impl PacketZcAutospelllist {
             },
             skid_raw: {
                 let mut dst: [u8; 28] = [0u8; 28];
-                dst.clone_from_slice(&buffer[offset..offset + 7]);
-                offset += 7;
+                dst.clone_from_slice(&buffer[offset..offset + 28]);
+                offset += 28;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -53871,8 +53871,8 @@ impl PacketZcDevotionlist {
             },
             aid_raw: {
                 let mut dst: [u8; 20] = [0u8; 20];
-                dst.clone_from_slice(&buffer[offset..offset + 5]);
-                offset += 5;
+                dst.clone_from_slice(&buffer[offset..offset + 20]);
+                offset += 20;
                 dst
             },
             range: {
@@ -56608,8 +56608,8 @@ impl PacketZcNotifyMoveentry2 {
             },
             move_data_raw: {
                 let mut dst: [u8; 12] = [0u8; 12];
-                dst.clone_from_slice(&buffer[offset..offset + 6]);
-                offset += 6;
+                dst.clone_from_slice(&buffer[offset..offset + 12]);
+                offset += 12;
                 dst
             },
             x_size: {
@@ -66100,8 +66100,8 @@ impl PacketZcBlacksmithRank {
             },
             point_raw: {
                 let mut dst: [u8; 40] = [0u8; 40];
-                dst.clone_from_slice(&buffer[offset..offset + 10]);
-                offset += 10;
+                dst.clone_from_slice(&buffer[offset..offset + 40]);
+                offset += 40;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -66244,8 +66244,8 @@ impl PacketZcAlchemistRank {
             },
             point_raw: {
                 let mut dst: [u8; 40] = [0u8; 40];
-                dst.clone_from_slice(&buffer[offset..offset + 10]);
-                offset += 10;
+                dst.clone_from_slice(&buffer[offset..offset + 40]);
+                offset += 40;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -67779,8 +67779,8 @@ impl PacketZcTaekwonRank {
             },
             point_raw: {
                 let mut dst: [u8; 40] = [0u8; 40];
-                dst.clone_from_slice(&buffer[offset..offset + 10]);
-                offset += 10;
+                dst.clone_from_slice(&buffer[offset..offset + 40]);
+                offset += 40;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -67907,8 +67907,8 @@ impl PacketZcGameGuard {
             },
             auth_data_raw: {
                 let mut dst: [u8; 16] = [0u8; 16];
-                dst.clone_from_slice(&buffer[offset..offset + 4]);
-                offset += 4;
+                dst.clone_from_slice(&buffer[offset..offset + 16]);
+                offset += 16;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -68021,8 +68021,8 @@ impl PacketCzAckGameGuard {
             },
             auth_data_raw: {
                 let mut dst: [u8; 16] = [0u8; 16];
-                dst.clone_from_slice(&buffer[offset..offset + 4]);
-                offset += 4;
+                dst.clone_from_slice(&buffer[offset..offset + 16]);
+                offset += 16;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -69811,8 +69811,8 @@ impl PacketZcNotifyMoveentry3 {
             },
             move_data_raw: {
                 let mut dst: [u8; 12] = [0u8; 12];
-                dst.clone_from_slice(&buffer[offset..offset + 6]);
-                offset += 6;
+                dst.clone_from_slice(&buffer[offset..offset + 12]);
+                offset += 12;
                 dst
             },
             x_size: {
@@ -81540,8 +81540,8 @@ impl PacketZcGangsiRank {
             },
             point_raw: {
                 let mut dst: [u8; 40] = [0u8; 40];
-                dst.clone_from_slice(&buffer[offset..offset + 10]);
-                offset += 10;
+                dst.clone_from_slice(&buffer[offset..offset + 40]);
+                offset += 40;
                 dst
             },
             packet_switch: {
@@ -82790,8 +82790,8 @@ impl PacketChSelectCharGoingtobeused {
             },
             ardw_selected_gid_raw: {
                 let mut dst: [u8; 36] = [0u8; 36];
-                dst.clone_from_slice(&buffer[offset..offset + 9]);
-                offset += 9;
+                dst.clone_from_slice(&buffer[offset..offset + 36]);
+                offset += 36;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -95842,8 +95842,8 @@ impl PacketZcNotifyMoveentry4 {
             },
             move_data_raw: {
                 let mut dst: [u8; 12] = [0u8; 12];
-                dst.clone_from_slice(&buffer[offset..offset + 6]);
-                offset += 6;
+                dst.clone_from_slice(&buffer[offset..offset + 12]);
+                offset += 12;
                 dst
             },
             x_size: {
@@ -98456,8 +98456,8 @@ impl PacketAhcGameGuard {
             },
             auth_data_raw: {
                 let mut dst: [u8; 16] = [0u8; 16];
-                dst.clone_from_slice(&buffer[offset..offset + 4]);
-                offset += 4;
+                dst.clone_from_slice(&buffer[offset..offset + 16]);
+                offset += 16;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -98570,8 +98570,8 @@ impl PacketCahAckGameGuard {
             },
             auth_data_raw: {
                 let mut dst: [u8; 16] = [0u8; 16];
-                dst.clone_from_slice(&buffer[offset..offset + 4]);
-                offset += 4;
+                dst.clone_from_slice(&buffer[offset..offset + 16]);
+                offset += 16;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -99479,8 +99479,8 @@ impl PacketZcMsgStateChange2 {
             },
             val_raw: {
                 let mut dst: [u8; 12] = [0u8; 12];
-                dst.clone_from_slice(&buffer[offset..offset + 3]);
-                offset += 3;
+                dst.clone_from_slice(&buffer[offset..offset + 12]);
+                offset += 12;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -106655,8 +106655,8 @@ impl PacketZcNotifyMoveentry7 {
             },
             move_data_raw: {
                 let mut dst: [u8; 12] = [0u8; 12];
-                dst.clone_from_slice(&buffer[offset..offset + 6]);
-                offset += 6;
+                dst.clone_from_slice(&buffer[offset..offset + 12]);
+                offset += 12;
                 dst
             },
             x_size: {
@@ -110522,8 +110522,8 @@ impl PacketCzPartyBookingReqUpdate {
             },
             job_raw: {
                 let mut dst: [u8; 12] = [0u8; 12];
-                dst.clone_from_slice(&buffer[offset..offset + 6]);
-                offset += 6;
+                dst.clone_from_slice(&buffer[offset..offset + 12]);
+                offset += 12;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -117536,8 +117536,8 @@ impl PacketCzRequestMove2 {
             },
             dest_raw: {
                 let mut dst: [u8; 6] = [0u8; 6];
-                dst.clone_from_slice(&buffer[offset..offset + 3]);
-                offset += 3;
+                dst.clone_from_slice(&buffer[offset..offset + 6]);
+                offset += 6;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -128993,8 +128993,8 @@ impl MakableitemInfo {
             },
             material_id_raw: {
                 let mut dst: [u8; 6] = [0u8; 6];
-                dst.clone_from_slice(&buffer[offset..offset + 3]);
-                offset += 3;
+                dst.clone_from_slice(&buffer[offset..offset + 6]);
+                offset += 6;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),
@@ -131930,8 +131930,8 @@ impl PartyBookingDetail {
             },
             job_raw: {
                 let mut dst: [u8; 12] = [0u8; 12];
-                dst.clone_from_slice(&buffer[offset..offset + 6]);
-                offset += 6;
+                dst.clone_from_slice(&buffer[offset..offset + 12]);
+                offset += 12;
                 dst
             },
             raw: (&buffer[..offset]).to_vec(),

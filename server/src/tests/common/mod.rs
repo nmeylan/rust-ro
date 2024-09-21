@@ -203,8 +203,8 @@ impl ServerBuilder {
         self.map_items = map_items;
         self
     }
-    pub fn tasks_queue(mut self, tasks_queue: TasksQueue<GameEvent>) -> Self {
-        self.tasks_queue = Arc::new(tasks_queue);
+    pub fn tasks_queue(mut self, tasks_queue: Arc<TasksQueue<GameEvent>>) -> Self {
+        self.tasks_queue = tasks_queue;
         self
     }
     pub fn repository(mut self, repository: MockedRepository) -> Self {
