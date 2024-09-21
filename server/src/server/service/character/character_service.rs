@@ -794,8 +794,10 @@ impl CharacterService {
             final_response_packet.extend(packet_zc_msg_state_change.raw());
             icons.insert(icon);
         }
-        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, final_response_packet)))
-            .expect("Fail to send client notification");
+        if !final_response_packet.is_empty() {
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, final_response_packet)))
+                .expect("Fail to send client notification");
+        }
     }
 
     pub fn load_units_in_fov(&self, server_state: &ServerState, character: &mut Character, map_instance_state: &MapInstanceState) {

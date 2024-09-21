@@ -1,5 +1,5 @@
 use std::hash::Hasher;
-use std::slice::Iter;
+use std::slice::{Iter, IterMut};
 use accessor::GettersAll;
 use enum_macro::{WithMaskValueU64, WithStringValue};
 use crate::enums::bonus::BonusType;
@@ -110,6 +110,12 @@ impl TemporaryStatusBonuses {
 
     pub fn iter(&self) -> Iter<'_, TemporaryStatusBonus> {
         self.0.iter()
+    }
+    pub fn iter_mut(&mut self) -> IterMut<'_, TemporaryStatusBonus> {
+        self.0.iter_mut()
+    }
+    pub fn retain(&mut self, f: impl Fn(&TemporaryStatusBonus) -> bool) {
+        self.0.retain(f)
     }
 
     pub fn add(&mut self, temporary_bonus: TemporaryStatusBonus) {
