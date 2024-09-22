@@ -18,9 +18,6 @@ use crate::server::model::action::{SkillCasted, SkillUsed};
 use crate::server::service::battle_service::BattleService;
 use crate::server::service::status_service::StatusService;
 
-static mut SERVICE_INSTANCE: Option<SkillService> = None;
-static SERVICE_INSTANCE_INIT: Once = Once::new();
-
 #[allow(dead_code)]
 pub struct SkillService {
     client_notification_sender: SyncSender<Notification>,
@@ -36,19 +33,10 @@ impl SkillService {
     pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService) -> SkillService {
         SkillService { client_notification_sender, persistence_event_sender, configuration_service, battle_service, status_service, force_no_delay: false }
     }
-    pub fn instance() -> &'static SkillService {
-        unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
-    }
 
     pub fn force_no_delay(mut self) -> Self {
         self.force_no_delay = true;
         self
-    }
-
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, battle_service: BattleService, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService) {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(SkillService::new(client_notification_sender, persistence_event_sender, battle_service, status_service, configuration_service));
-        });
     }
 
     pub fn start_use_skill(&self, character: &mut Character, target: Option<MapItemSnapshot>, source_status: &StatusSnapshot, target_status: Option<&StatusSnapshot>, skill_id: u32, skill_level: u8, tick: u128) -> SkillCasted {

@@ -11,9 +11,6 @@ use crate::server::model::events::game_event::{CharacterAddItems, GameEvent};
 use crate::server::script::Value;
 use crate::server::service::global_config_service::GlobalConfigService;
 
-static mut SERVICE_INSTANCE: Option<ScriptService> = None;
-static SERVICE_INSTANCE_INIT: Once = Once::new();
-
 #[allow(dead_code)]
 pub struct ScriptService {
     client_notification_sender: SyncSender<Notification>,
@@ -24,18 +21,9 @@ pub struct ScriptService {
 }
 
 impl ScriptService {
-    pub fn instance() -> &'static ScriptService {
-        unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
-    }
 
     pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, repository: Arc<dyn ItemRepository>, server_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>) -> Self {
         ScriptService { client_notification_sender, configuration_service, repository, server_task_queue, vm }
-    }
-
-    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, repository: Arc<dyn ItemRepository>, server_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>) {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(ScriptService::new(client_notification_sender, configuration_service, repository, server_task_queue, vm));
-        });
     }
 
     pub fn schedule_get_items(&self, char_id: u32, runtime: &Runtime, item_ids_amounts: Vec<(Value, i16)>, buy: bool) {

@@ -28,15 +28,11 @@ use std::cell::RefCell;
 use std::time::Duration;
 
 
-
-
-
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::item_service::ItemService;
 use script::skill::ScriptSkillService;
 use crate::server::game_loop::GAME_TICK_RATE;
-
 
 
 use crate::server::service::battle_service::{BattleResultMode, BattleService};
@@ -75,6 +71,7 @@ pub struct Server {
     state: MyUnsafeCell<ServerState>,
     tasks_queue: Arc<TasksQueue<GameEvent>>,
     movement_tasks_queue: Arc<TasksQueue<GameEvent>>,
+    server_service: ServerService,
 }
 
 unsafe impl Sync for Server {}
@@ -106,22 +103,28 @@ impl Server {
         let tasks_queue = Arc::new(TasksQueue::new());
         let movement_tasks_queue = Arc::new(TasksQueue::new());
         StatusService::init(GlobalConfigService::instance(), item_script_vm.clone());
-        CharacterService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(),
-                               SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::instance(),
-                               tasks_queue.clone());
-        InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone());
-        ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), item_script_vm, GlobalConfigService::instance());
-        ScriptSkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
-        SkillTreeService::init(client_notification_sender.clone(), GlobalConfigService::instance());
-        BattleService::init(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance());
-        MapInstanceService::init(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone());
-        ScriptService::init(client_notification_sender.clone(), GlobalConfigService::instance(), repository.clone(), tasks_queue.clone(), npc_script_vm.clone());
-        ServerService::init(client_notification_sender.clone(), GlobalConfigService::instance(), tasks_queue.clone(), movement_tasks_queue.clone(), npc_script_vm,
-                            InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone()),
-                            MapInstanceService::new(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone()),
-                            BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal),
-                            SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal), StatusService::instance(), GlobalConfigService::instance()),
-                            StatusService::instance(),
+        // CharacterService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(),
+        //                        SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::instance(),
+        //                        tasks_queue.clone());
+        // InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone());
+        // ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), item_script_vm, GlobalConfigService::instance());
+        // ScriptSkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
+        // SkillTreeService::init(client_notification_sender.clone(), GlobalConfigService::instance());
+        // BattleService::init(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance());
+        // MapInstanceService::init(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone());
+        // ScriptService::init(client_notification_sender.clone(), GlobalConfigService::instance(), repository.clone(), tasks_queue.clone(), npc_script_vm.clone());
+        let server_service = ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), tasks_queue.clone(), movement_tasks_queue.clone(), npc_script_vm.clone(),
+                                                InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone()),
+                                                BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal),
+                                                SkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal), StatusService::instance(), GlobalConfigService::instance()),
+                                                StatusService::instance(),
+                                                ScriptService::new(client_notification_sender.clone(), GlobalConfigService::instance(), repository.clone(), tasks_queue.clone(), npc_script_vm.clone()),
+                                                CharacterService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(),
+                                                                      SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::instance(),
+                                                                      tasks_queue.clone()),
+                                                SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()),
+                                                ItemService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), item_script_vm, GlobalConfigService::instance()),
+                                                ScriptSkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance())
         );
         Server {
             configuration,
@@ -129,17 +132,61 @@ impl Server {
             tasks_queue,
             state: MyUnsafeCell::new(ServerState::new(map_items)),
             movement_tasks_queue,
+            server_service,
         }
     }
 
-    pub fn new_without_service_init(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, tasks_queue: Arc<TasksQueue<GameEvent>>) -> Server {
+    pub fn new_without_service_init(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, tasks_queue: Arc<TasksQueue<GameEvent>>, server_service: ServerService) -> Server {
         Server {
             configuration,
             repository,
             state: MyUnsafeCell::new(ServerState::new(map_items)),
             tasks_queue,
             movement_tasks_queue: Arc::new(Default::default()),
+            server_service,
         }
+    }
+
+    #[inline]
+    pub fn skill_service(&self) -> &SkillService {
+        &self.server_service.skill_service()
+    }
+    #[inline]
+    pub fn server_service(&self) -> &ServerService {
+        &self.server_service
+    }
+    #[inline]
+    pub fn item_service(&self) -> &ItemService {
+        &self.server_service.item_service()
+    }
+
+    #[inline]
+    pub fn battle_service(&self) -> &BattleService {
+        &self.server_service.battle_service()
+    }
+
+    #[inline]
+    pub fn script_service(&self) -> &ScriptService {
+        &self.server_service.script_service()
+    }
+
+    #[inline]
+    pub fn inventory_service(&self) -> &InventoryService {
+        &self.server_service.inventory_service()
+    }
+    #[inline]
+    pub fn character_service(&self) -> &CharacterService {
+        &self.server_service.character_service()
+    }
+    #[inline]
+    pub fn skill_tree_service(&self) -> &SkillTreeService {
+        &self.server_service.skill_tree_service()
+    }
+
+    // TODO: This service should be removed and replace by skill implementation
+    #[inline]
+    pub fn script_skill_service(&self) -> &ScriptSkillService {
+        &self.server_service.script_skill_service()
     }
 
     pub fn add_to_next_tick(&self, event: GameEvent) {
@@ -282,7 +329,7 @@ impl Server {
                                     }
                                 }
                             }
-                            Err(mpsc::RecvTimeoutError::Timeout) => {                            }
+                            Err(mpsc::RecvTimeoutError::Timeout) => {}
                             _ => {}
                         }
                     }

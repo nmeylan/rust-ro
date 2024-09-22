@@ -286,7 +286,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             } else {
                 execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID)
             };
-            ServerService::instance().schedule_warp_to_walkable_cell(self.server.state_mut().as_mut(), map_name, x as u16, y as u16, char_id);
+            self.server.server_service.schedule_warp_to_walkable_cell(self.server.state_mut().as_mut(), map_name, x as u16, y as u16, char_id);
         } else if native.name.eq("sprintf") {
             let template = params[0].string_value().unwrap();
             let mut sprintf_args: Vec<&dyn Printf> = vec![];
@@ -315,7 +315,7 @@ impl NativeMethodHandler for PlayerScriptHandler {
             };
             let skill_level = params[1].number_value().unwrap();
             let check_requirements = params.get(2).unwrap_or(&value::Value::new_number(0)).number_value().unwrap_or(0) == 1;
-            ScriptSkillService::instance().handle_skill(self.server.clone().as_ref(), skill, skill_level as u32, check_requirements, execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID));
+            self.server.script_skill_service().handle_skill(self.server.clone().as_ref(), skill, skill_level as u32, check_requirements, execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID));
         } else if native.name.eq("jobname") {
             let job_number = params[0].number_value().expect("Expected jobname argument 0 to be a number");
             execution_thread.push_constant_on_stack(value::Value::new_string(JobName::from_value(job_number as usize).as_str().to_string()));

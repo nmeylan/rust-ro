@@ -334,7 +334,7 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_accept_enter.fill_raw();
 
     server.add_to_next_tick(CharacterJoinGame(char_id));
-    ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.char_id());
+    server.server_service.schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.char_id());
     socket_send!(context, packet_accept_enter);
 
 

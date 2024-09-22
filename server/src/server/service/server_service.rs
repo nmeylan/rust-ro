@@ -30,12 +30,16 @@ use crate::server::model::events::map_event::{MapEvent};
 
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::path::{manhattan_distance, path_search_client_side_algorithm};
-
+use crate::server::script::skill::ScriptSkillService;
 use crate::server::service::battle_service::BattleService;
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
+use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::service::item_service::ItemService;
 use crate::server::service::map_instance_service::MapInstanceService;
+use crate::server::service::mob_service::MobService;
+use crate::server::service::script_service::ScriptService;
 use crate::server::service::skill_service::SkillService;
 use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
@@ -55,28 +59,61 @@ pub struct ServerService {
     server_task_queue: Arc<TasksQueue<GameEvent>>,
     movement_task_queue: Arc<TasksQueue<GameEvent>>,
     vm: Arc<Vm>,
+    character_service: CharacterService,
     inventory_service: InventoryService,
-    map_instance_service: MapInstanceService,
+    item_service: ItemService,
     skill_service: SkillService,
     battle_service: BattleService,
     status_service: &'static StatusService,
+    script_service: ScriptService,
+    skill_tree_service: SkillTreeService,
+    script_skill_service: ScriptSkillService,
 }
 
 impl ServerService {
-    pub fn instance() -> &'static ServerService {
-        unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
-    }
-
     pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>, movement_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>,
-                      inventory_service: InventoryService, map_instance_service: MapInstanceService, battle_service: BattleService, skill_service: SkillService, status_service: &'static StatusService) -> Self {
-        ServerService { client_notification_sender, configuration_service, server_task_queue, movement_task_queue, vm, inventory_service, map_instance_service, battle_service, skill_service, status_service }
+                      inventory_service: InventoryService, battle_service: BattleService, skill_service: SkillService, status_service: &'static StatusService,
+                      script_service: ScriptService, character_service: CharacterService, skill_tree_service: SkillTreeService, item_service: ItemService,
+                      script_skill_service: ScriptSkillService) -> Self {
+        ServerService { client_notification_sender, configuration_service, server_task_queue, movement_task_queue, vm, inventory_service, battle_service, skill_service, status_service, script_service, character_service, skill_tree_service, item_service, script_skill_service }
     }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, server_task_queue: Arc<TasksQueue<GameEvent>>, movement_task_queue: Arc<TasksQueue<GameEvent>>, vm: Arc<Vm>,
-                inventory_service: InventoryService, map_instance_service: MapInstanceService, battle_service: BattleService, skill_service: SkillService, status_service: &'static StatusService) {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(ServerService::new(client_notification_sender, configuration_service, server_task_queue, movement_task_queue, vm, inventory_service, map_instance_service, battle_service, skill_service, status_service));
-        });
+    #[inline]
+    pub fn skill_service(&self) -> &SkillService {
+        &self.skill_service
+    }
+
+    #[inline]
+    pub fn battle_service(&self) -> &BattleService {
+        &self.battle_service
+    }
+
+    #[inline]
+    pub fn script_service(&self) -> &ScriptService {
+        &self.script_service
+    }
+
+    #[inline]
+    pub fn inventory_service(&self) -> &InventoryService {
+        &self.inventory_service
+    }
+    #[inline]
+    pub fn character_service(&self) -> &CharacterService {
+        &self.character_service
+    }
+    #[inline]
+    pub fn skill_tree_service(&self) -> &SkillTreeService {
+        &self.skill_tree_service
+    }
+
+    #[inline]
+    pub fn item_service(&self) -> &ItemService {
+        &self.item_service
+    }
+
+    #[inline]
+    pub fn script_skill_service(&self) -> &ScriptSkillService {
+        &self.script_skill_service
     }
 
     pub fn create_map_instance(&self, server_state: &mut ServerState, map: &'static Map, instance_id: u8) -> Arc<MapInstance> {
@@ -93,7 +130,8 @@ impl ServerService {
         let map_instance_ref = Arc::new(map_instance);
         let entry = server_state.map_instances_mut().entry(map.name().to_string()).or_default();
         entry.push(map_instance_ref.clone());
-        MapInstanceLoop::start_map_instance_thread(map_instance_ref.clone());
+        let map_instance_service = MapInstanceService::new(self.client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(self.client_notification_sender.clone(), GlobalConfigService::instance()), self.server_task_queue.clone());
+        MapInstanceLoop::start_map_instance_thread(map_instance_ref.clone(), map_instance_service);
         map_instance_ref
     }
 
@@ -105,7 +143,7 @@ impl ServerService {
         let map_name: String = Map::name_without_ext(destination_map);
         debug!("Char enter on map {}", map_name);
         let map_instance = server_state.get_map_instance(&map_name, 0)
-            .unwrap_or_else(|| ServerService::instance().create_map_instance(server_state, self.configuration_service.get_map(map_name.as_str()), 0));
+            .unwrap_or_else(|| self.create_map_instance(server_state, self.configuration_service.get_map(map_name.as_str()), 0));
         let (x, y) = if x == RANDOM_CELL.0 && y == RANDOM_CELL.1 {
             let walkable_cell = Map::find_random_walkable_cell(map_instance.state().cells(), map_instance.x_size());
             (walkable_cell.0, walkable_cell.1)

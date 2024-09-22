@@ -161,7 +161,7 @@ pub fn handle_go(server: &Server, session: Arc<Session>, _runtime: &Runtime, arg
         _ => ()
     }
 
-    ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(),&city.name, city.x, city.y, session.char_id());
+    server.server_service().schedule_warp_to_walkable_cell(server.state_mut().as_mut(),&city.name, city.x, city.y, session.char_id());
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
@@ -180,7 +180,7 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
                 y = parse_y_res;
             }
         }
-        ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &map_name, x, y, session.char_id());
+        server.server_service().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &map_name, x, y, session.char_id());
         let char_id = session.char_id();
         let character = server.state().get_character_unsafe(char_id);
         return format!("Warp to map {} at {},{}", map_name, character.x(), character.y());
@@ -188,11 +188,11 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
     format!("Map not found: {map_name}")
 }
 
-pub fn handle_item(_server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
     if args.is_empty() {
         return format!("@item command accept from 1 to 2 parameters but received {}", args.len());
     }
-    ScriptService::instance().schedule_get_items(session.char_id(), runtime, vec![
+    server.script_service().schedule_get_items(session.char_id(), runtime, vec![
         (args[0].parse::<i32>().map(Value::Number).unwrap_or(Value::String(args[0].to_string())),
          args.get(1).unwrap_or(&"1").parse::<i16>().unwrap_or(1))], false);
 
@@ -202,7 +202,7 @@ pub fn handle_item(_server: &Server, session: Arc<Session>, runtime: &Runtime, a
 pub fn handle_inspect(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
     let char_id = session.char_id();
     let character = server.state().get_character_unsafe(char_id);
-    CharacterService::instance().print(character);
+    server.character_service().print(character);
     String::new()
 }
 
@@ -270,7 +270,7 @@ pub fn handle_rates(server: &Server) -> String {
     msg
 }
 
-pub fn handle_reload(_server: &Server, _session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_reload(server: &Server, _session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
     // TODO check if user privileges
     if args.is_empty() {
         return "@reload command accept 1 parameters but received none".to_string();
@@ -278,7 +278,7 @@ pub fn handle_reload(_server: &Server, _session: Arc<Session>, _runtime: &Runtim
     match args[0] {
         "script" => {
             let start = Instant::now();
-            let scripts = load_scripts(ScriptService::instance().vm.clone());
+            let scripts = load_scripts(server.script_service().vm.clone());
             format!("{} scripts have been recompiled and reloaded in {} secs", scripts.len(), start.elapsed().as_millis() as f32 / 1000.0)
         }
         &_ => format!("@reload command accept a string value among: [script] but received {}", args[0])

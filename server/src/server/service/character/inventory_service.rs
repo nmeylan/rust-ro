@@ -27,9 +27,6 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::util::packet::{chain_packets, chain_packets_raws_by_value};
 
-static mut SERVICE_INSTANCE: Option<InventoryService> = None;
-static SERVICE_INSTANCE_INIT: Once = Once::new();
-
 pub struct InventoryService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
@@ -39,17 +36,9 @@ pub struct InventoryService {
 }
 
 impl InventoryService {
-    pub fn instance() -> &'static InventoryService {
-        unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
-    }
 
     pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn InventoryRepository + Sync>, configuration_service: &'static GlobalConfigService, task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
         Self { client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue: task_queue }
-    }
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn InventoryRepository + Sync>, configuration_service: &'static GlobalConfigService, task_queue: Arc<TasksQueue<GameEvent>>) {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(InventoryService { client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue: task_queue });
-        });
     }
 
     pub fn add_items_in_inventory(&self, runtime: &Runtime, add_items: CharacterAddItems, character: &mut Character) {

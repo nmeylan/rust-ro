@@ -10,29 +10,22 @@ use crate::server::model::map::{Map, RANDOM_CELL};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::Server;
+use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::server_service::ServerService;
 
-
-static mut SERVICE_INSTANCE: Option<ScriptSkillService> = None;
-static SERVICE_INSTANCE_INIT: Once = Once::new();
-
+// TODO, this should be removed
 #[allow(dead_code)]
 pub struct ScriptSkillService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
     repository: Arc<dyn ScriptVariableRepository>,
-    configuration: &'static Config,
+    configuration: &'static GlobalConfigService,
 }
 
 impl ScriptSkillService {
-    pub fn instance() -> &'static ScriptSkillService {
-        unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
-    }
 
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn ScriptVariableRepository>, configuration: &'static Config) {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(ScriptSkillService { client_notification_sender, persistence_event_sender, repository, configuration });
-        });
+    pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn ScriptVariableRepository>, configuration: &'static GlobalConfigService) -> Self{
+        Self { client_notification_sender, persistence_event_sender, repository, configuration }
     }
 
     pub fn handle_skill(&self, server: &Server, skill: &SkillConfig, level: u32, _check_requirement: bool, source_char_id: u32) {
@@ -67,7 +60,7 @@ impl ScriptSkillService {
             SkillEnum::AlPneuma => {}
             SkillEnum::AlTeleport => {
                 if level == 1 {
-                    ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id);
+                    server.server_service.schedule_warp_to_walkable_cell(server.state_mut().as_mut(), Map::name_without_ext(character_ref.current_map_name().as_str()).as_str(), RANDOM_CELL.0, RANDOM_CELL.1, source_char_id);
                     let mut packet_zc_notify_vanish = PacketZcNotifyVanish::new(self.configuration.packetver());
                     packet_zc_notify_vanish.set_gid(character_ref.char_id);
                     packet_zc_notify_vanish.set_atype(VanishType::Teleport.value() as u8);

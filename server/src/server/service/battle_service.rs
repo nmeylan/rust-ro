@@ -40,9 +40,6 @@ pub enum BattleResultMode {
 }
 
 impl BattleService {
-    pub fn instance() -> &'static BattleService {
-        unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
-    }
 
     pub(crate) fn new(client_notification_sender: SyncSender<Notification>, status_service: &'static StatusService, configuration_service: &'static GlobalConfigService, battle_result_mode: BattleResultMode) -> Self {
         BattleService { client_notification_sender, status_service, configuration_service, battle_result_mode }

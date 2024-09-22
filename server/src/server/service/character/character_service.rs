@@ -46,9 +46,6 @@ use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 use crate::util::tick::{get_tick, get_tick_client};
 
-static mut SERVICE_INSTANCE: Option<CharacterService> = None;
-static SERVICE_INSTANCE_INIT: Once = Once::new();
-
 pub struct CharacterService {
     client_notification_sender: SyncSender<Notification>,
     persistence_event_sender: SyncSender<PersistenceEvent>,
@@ -60,17 +57,9 @@ pub struct CharacterService {
 }
 
 impl CharacterService {
-    pub fn instance() -> &'static CharacterService {
-        unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
-    }
 
     pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, skill_tree_service: SkillTreeService, status_service: &'static StatusService, server_task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
         Self { client_notification_sender, persistence_event_sender, repository, configuration_service, skill_tree_service, server_task_queue, status_service }
-    }
-    pub fn init(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, skill_tree_service: SkillTreeService, status_service: &'static StatusService, server_task_queue: Arc<TasksQueue<GameEvent>>) {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(CharacterService { client_notification_sender, persistence_event_sender, repository, configuration_service, skill_tree_service, server_task_queue, status_service });
-        });
     }
 
     pub fn max_weight(&self, character: &Character) -> u32 {

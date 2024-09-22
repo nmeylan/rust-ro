@@ -13,28 +13,15 @@ use models::enums::skill_enums::SkillEnum;
 use models::status::KnownSkill;
 use crate::util::string::StringUtil;
 
-
-static mut SERVICE_INSTANCE: Option<SkillTreeService> = None;
-static SERVICE_INSTANCE_INIT: Once = Once::new();
-
 pub struct SkillTreeService {
     client_notification_sender: SyncSender<Notification>,
     configuration_service: &'static GlobalConfigService,
 }
 
 impl SkillTreeService {
-    pub fn instance() -> &'static SkillTreeService {
-        unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
-    }
 
     pub fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService) -> Self {
         Self { client_notification_sender, configuration_service }
-    }
-
-    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService) {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(SkillTreeService { client_notification_sender, configuration_service });
-        });
     }
 
     pub fn skill_tree(&self, character: &Character) -> Vec<KnownSkill> {
