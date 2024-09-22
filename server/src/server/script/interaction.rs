@@ -111,7 +111,7 @@ impl PlayerInteractionScriptHandler {
                 }
             });
 
-            ScriptService::instance().schedule_get_items(execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID), &self.runtime, items_ids_amount, true);
+            self.server.script_service().schedule_get_items(execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID), &self.runtime, items_ids_amount, true);
             return true;
         } else if native.name.eq("sellitems") {
             let char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
@@ -160,7 +160,7 @@ impl PlayerInteractionScriptHandler {
                     items_total_weight += weight * (items_ids_amount.iter().find(|(iid, _amount)| *iid == *id).unwrap_or(&(*id, 0_i16)).1 as i32)
                 });
                 let character_ref = self.server.state().get_character_unsafe(execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID));
-                execution_thread.push_constant_on_stack(value::Value::new_number(if CharacterService::instance().can_carry_weight(character_ref, items_total_weight as u32) { 1 } else { 0 }));
+                execution_thread.push_constant_on_stack(value::Value::new_number(if self.server.character_service().can_carry_weight(character_ref, items_total_weight as u32) { 1 } else { 0 }));
             });
             return true;
         } else if native.name.eq("select") {

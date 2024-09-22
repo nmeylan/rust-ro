@@ -34,6 +34,7 @@ use crate::server::model::map_item::MapItems;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::Server;
 use crate::server::service::item_service::ItemService;
+use crate::server::service::server_service::ServerService;
 use crate::server::state::server::ServerState;
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
@@ -188,15 +189,17 @@ pub struct ServerBuilder {
     pub repository: Arc<MockedRepository>,
     map_items: MapItems,
     tasks_queue: Arc<TasksQueue<GameEvent>>,
+    server_service: ServerService,
 }
 
 impl ServerBuilder {
-    pub fn new(configuration: &'static Config) -> Self {
+    pub fn new(configuration: &'static Config, server_service: ServerService) -> Self {
         ServerBuilder {
             configuration,
             repository: mocked_repository(),
             map_items: MapItems::default(),
             tasks_queue: Arc::new(Default::default()),
+            server_service
         }
     }
     pub fn map_items(mut self, map_items: MapItems) -> Self {
@@ -212,7 +215,7 @@ impl ServerBuilder {
         self
     }
     pub fn build(self) -> Server {
-        Server::new_without_service_init(self.configuration, self.repository, self.map_items, self.tasks_queue)
+        Server::new_without_service_init(self.configuration, self.repository, self.map_items, self.tasks_queue, self.server_service)
     }
 }
 

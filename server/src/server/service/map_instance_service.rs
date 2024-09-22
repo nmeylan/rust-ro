@@ -28,9 +28,6 @@ use crate::server::state::mob::{Mob, MobMovement};
 use crate::server::model::status::StatusFromDb;
 use crate::util::tick::{delayed_tick, get_tick, get_tick_client};
 
-static mut SERVICE_INSTANCE: Option<MapInstanceService> = None;
-static SERVICE_INSTANCE_INIT: Once = Once::new();
-
 pub struct MapInstanceService {
     client_notification_sender: SyncSender<Notification>,
     configuration_service: &'static GlobalConfigService,
@@ -39,18 +36,9 @@ pub struct MapInstanceService {
 }
 
 impl MapInstanceService {
-    pub fn instance() -> &'static MapInstanceService {
-        unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
-    }
 
     pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, mob_service: MobService, server_task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
         MapInstanceService { client_notification_sender, configuration_service, mob_service, server_task_queue }
-    }
-
-    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService, mob_service: MobService, server_task_queue: Arc<TasksQueue<GameEvent>>) {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(MapInstanceService::new(client_notification_sender, configuration_service, mob_service, server_task_queue));
-        });
     }
 
     pub fn spawn_mobs(&self, map: &Map, map_instance_state: &mut MapInstanceState) {

@@ -8,9 +8,6 @@ use crate::server::model::events::client_notification::Notification;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::mob::{Mob, MobMovement};
 
-static mut SERVICE_INSTANCE: Option<MobService> = None;
-static SERVICE_INSTANCE_INIT: Once = Once::new();
-
 #[allow(dead_code)]
 pub struct MobService {
     client_notification_sender: SyncSender<Notification>,
@@ -18,18 +15,9 @@ pub struct MobService {
 }
 
 impl MobService {
-    pub fn instance() -> &'static MobService {
-        unsafe { SERVICE_INSTANCE.as_ref().unwrap() }
-    }
 
     pub(crate) fn new(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService) -> Self {
         MobService { client_notification_sender, configuration_service }
-    }
-
-    pub fn init(client_notification_sender: SyncSender<Notification>, configuration_service: &'static GlobalConfigService) {
-        SERVICE_INSTANCE_INIT.call_once(|| unsafe {
-            SERVICE_INSTANCE = Some(MobService::new(client_notification_sender, configuration_service));
-        });
     }
 
     pub fn action_move(&self, mob: &mut Mob, cells: &[u16], x_size: u16, y_size: u16, start_at: u128) -> Option<MobMovement> {
