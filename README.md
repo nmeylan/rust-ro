@@ -2,6 +2,7 @@
 
 [Discord](https://discord.gg/AJkR8mhdFJ)
 
+[Rust ro 3 years journey blog post](https://nmeylan.ch/blog/rust-ro-3-years-after/)
 # Welcome to rust-ro!
 **rust-ro** is a Ragnarok MMO Server implementation written in Rust. 
 
