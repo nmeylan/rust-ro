@@ -94,12 +94,12 @@ impl StatusService {
 
         // TODO card and item combo
 
-        bonuses = BonusType::merge_enums(&bonuses);
-
         // Apply skills bonuses
         for temporary_bonus in status.temporary_bonuses.iter() {
-            temporary_bonus.bonus().add_bonus_to_status(&mut snapshot);
+            bonuses.push(temporary_bonus.bonus().clone());
         }
+
+        bonuses = BonusType::merge_enums(&bonuses);
 
         bonuses.iter().for_each(|bonus| bonus.add_bonus_to_status(&mut snapshot));
         // TODO [([base_hp*(1 + VIT/100)* trans_mod]+HPAdditions)*ItemHPMultipliers] https://irowiki.org/classic/Max_HP
@@ -286,5 +286,30 @@ impl StatusService {
     #[inline]
     pub fn character_vit_def(&self, status_snapshot: &StatusSnapshot) -> u16 {
         status_snapshot.vit() // TODO angelus multiplier
+    }
+}
+
+
+#[cfg(test)]
+mod tests {
+    use models::enums::bonus::BonusType;
+    use models::enums::skill_enums::SkillEnum;
+    use models::status::Status;
+    use models::status_bonus::{StatusBonus, TemporaryStatusBonus};
+    use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::server::service::status_service::StatusService;
+    use crate::tests::common;
+
+    #[test]
+    fn test_snapshot_bonuses_have_temporary_bonuses() {
+        // Given
+        common::before_all();
+        let service = StatusService::new(GlobalConfigService::instance(), common::test_script_vm());
+        let mut status = Status::default();
+        status.temporary_bonuses.add(TemporaryStatusBonus::with_duration(BonusType::Agi(10), 0, 0, 1000, SkillEnum::AlIncagi.id() as u16));
+        // When
+        let snapshot = service.to_snapshot(&status);
+        // Then
+        assert!(snapshot.bonuses().iter().find(|status_bonus| { matches!(status_bonus.bonus(), BonusType::Agi(10)) }).is_some(), "missing agi bonus");
     }
 }

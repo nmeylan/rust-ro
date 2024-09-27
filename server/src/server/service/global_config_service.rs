@@ -10,6 +10,8 @@ use crate::server::model::map::Map;
 static mut SERVICE_INSTANCE: Option<GlobalConfigService> = None;
 static SERVICE_INSTANCE_INIT: Once = Once::new();
 
+static mut CONFIGS: Option<Config> = None;
+
 pub struct GlobalConfigService {
     configuration: Config,
     items: HashMap<u32, ItemModel>,

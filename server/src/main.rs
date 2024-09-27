@@ -78,7 +78,7 @@ pub static mut MAP_DIR: &str = "./config/maps/pre-re";
 pub async fn main() {
     let _start = Instant::now();
     unsafe {
-        CONFIGS = Some(Config::load().unwrap());
+        CONFIGS = Some(Config::load("").unwrap());
     }
 
     setup_logger();

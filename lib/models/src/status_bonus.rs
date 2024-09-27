@@ -1,5 +1,7 @@
+use std::fmt::{Display, Formatter};
 use std::hash::Hasher;
 use std::slice::{Iter, IterMut};
+use std::time::{SystemTime, UNIX_EPOCH};
 use accessor::GettersAll;
 use enum_macro::{WithMaskValueU64, WithStringValue};
 use crate::enums::bonus::BonusType;
@@ -12,6 +14,13 @@ pub struct StatusBonuses(Vec<StatusBonus>);
 impl StatusBonuses {
     pub fn new(bonuses: Vec<StatusBonus>) -> Self {
         Self(bonuses)
+    }
+
+    pub fn iter(&self) -> Iter<'_, StatusBonus> {
+        self.0.iter()
+    }
+    pub fn iter_mut(&mut self) -> IterMut<'_, StatusBonus> {
+        self.0.iter_mut()
     }
 }
 
@@ -83,6 +92,47 @@ impl TemporaryStatusBonus {
             BonusExpiry::Time(until) => if until > tick { (until - tick) as u32 } else { 0 },
             BonusExpiry::Counter(_) => u32::max_value()
         }
+    }
+}
+
+
+impl Display for StatusBonus {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.bonus)
+    }
+}
+
+impl Display for TemporaryStatusBonus {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.bonus)?;
+        write!(f, ", Expire: ")?;
+        match self.expirency {
+            BonusExpiry::Never => write!(f, " Never "),
+            BonusExpiry::Time(until) => write!(f, " {}ms ", self.remaining_ms(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis())),
+            BonusExpiry::Counter(count) => write!(f, " {} hit ", count)
+        }?;
+        if let Some(ref source) = self.source {
+            match source {
+                StatusBonusSource::Skill(skill) | StatusBonusSource::PassiveSkill(skill) => {
+                    write!(f, ", Source: {:?}", SkillEnum::from_id(*skill as u32))?;
+                }
+                StatusBonusSource::Item(item) => {
+                    write!(f, ", Source: item {:?}", item)?;
+                }
+            }
+        }
+        write!(f, ", flags: [")?;
+        if self.flags & StatusBonusFlag::Icon.as_flag() > 0 {
+            write!(f, "HasIcon, ")?;
+        }
+        if self.flags & StatusBonusFlag::Persist.as_flag() > 0 {
+            write!(f, "ShouldPersist, ")?;
+        }
+        if self.flags & StatusBonusFlag::Unique.as_flag() > 0 {
+            write!(f, "Unique per source, ")?;
+        }
+        write!(f, "]")?;
+        write!(f, ".")
     }
 }
 

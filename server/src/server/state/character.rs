@@ -332,6 +332,9 @@ impl Character {
     }
 
     pub fn wear_equip_item(&mut self, index: usize, location: u64, item_to_equip_model: &ItemModel) -> Option<EquippedItem> {
+        if location == 0 {
+            return None
+        }
         let res = if let Some(item) = self.get_item_from_inventory_mut(index) {
             item.equip = location as i32;
             Some(EquippedItem { item_id: item.item_id, location, index })
