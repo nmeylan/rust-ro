@@ -2,7 +2,7 @@ use std::fmt::format;
 use std::sync::Arc;
 use std::thread;
 use eframe::{CreationContext, egui, HardwareAcceleration, Theme};
-use eframe::egui::{ScrollArea, ViewportCommand};
+use eframe::egui::{Grid, ScrollArea, ViewportCommand};
 use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Visuals};
 use crate::server::Server;
 use lazy_static::lazy_static;
@@ -114,7 +114,7 @@ impl VisualDebugger {
             "Map" => {
                 self.maps_combobox(ui);
                 self.map_instance_view(ui);
-            },
+            }
             "Character" => {
                 self.character_combobox(ui);
                 self.character_view(ui);
@@ -254,29 +254,65 @@ impl VisualDebugger {
     }
 
     fn character_view(&mut self, ui: &mut Ui) {
-        if let Some((char_id, _name) ) = &self.selected_char {
+        if let Some((char_id, _name)) = &self.selected_char {
             if let Some(character) = self.server.state().get_character(*char_id) {
                 let status = StatusService::instance().to_snapshot(&character.status);
                 ScrollArea::vertical().show(ui, |ui| {
                     ui.heading("Status");
-                    ui.label(format!("str: {}+{}", status.base_str(), status.bonus_str()));
-                    ui.label(format!("agi: {}+{}", status.base_agi(), status.bonus_agi()));
-                    ui.label(format!("dex: {}+{}", status.base_dex(), status.bonus_dex()));
-                    ui.label(format!("int: {}+{}", status.base_int(), status.bonus_int()));
-                    ui.label(format!("vit: {}+{}", status.base_vit(), status.bonus_vit()));
-                    ui.label(format!("luk: {}+{}", status.base_luk(), status.bonus_luk()));
+                    let grid = Grid::new("status grid").num_columns(2);
+                    ui.group(|ui| {
+                        ui.set_max_width(600.0);
+                        ui.set_width(600.0);
+                        ui.columns(3, |columns| {
+                            columns[0].vertical(|ui| {
+                                ui.label(format!("str: {}+{}", status.base_str(), status.bonus_str()));
+                                ui.label(format!("agi: {}+{}", status.base_agi(), status.bonus_agi()));
+                                ui.label(format!("vit: {}+{}", status.base_vit(), status.bonus_vit()));
+                                ui.label(format!("int: {}+{}", status.base_int(), status.bonus_int()));
+                                ui.label(format!("dex: {}+{}", status.base_dex(), status.bonus_dex()));
+                                ui.label(format!("luk: {}+{}", status.base_luk(), status.bonus_luk()));
+                            });
+                            columns[1].vertical(|ui| {
+                                ui.label(format!("atk: {}+{}", status.atk_left_side(), status.atk_right_side()));
+                                ui.label(format!("matk: {}+{}", status.matk_min(), status.matk_min()));
+                                ui.label(format!("hit: {}", status.hit()));
+                                ui.label(format!("crit: {}", status.crit()));
+                                ui.label(format!("def: {}+{}", status.def(), StatusService::instance().character_vit_def(&status)));
+                                ui.label(format!("mdef: {}", status.mdef()));
+                            });
+                            columns[2].vertical(|ui| {
+                                ui.label(format!("flee: {}+{}", status.flee(), status.flee()));
+                                ui.label(format!("aspd: {}", status.aspd()));
+                                ui.label(format!("movement speed: {}", status.speed()));
+                            });
+                        });
+                    });
+
+
                     ui.heading("Equipment");
-                    character.status.equipped_weapons().iter()
-                        .for_each(|item| {ui.label(format!("{}", WearWeaponForDisplay::new(&item, GlobalConfigService::instance())));});
-                    character.status.equipped_gears().iter()
-                        .for_each(|item| {ui.label(format!("{}", WearGearForDisplay::new(&item, GlobalConfigService::instance())));});
-                    character.status.equipped_ammo().map(|item| {ui.label(format!("{}", WearAmmoForDisplay::new(&item, GlobalConfigService::instance())));});
+                    ui.group(|ui| {
+                        ui.set_max_width(600.0);
+                        ui.set_width(600.0);
+                        character.status.equipped_weapons().iter()
+                            .for_each(|item| { ui.label(format!("{}", WearWeaponForDisplay::new(&item, GlobalConfigService::instance()))); });
+                        character.status.equipped_gears().iter()
+                            .for_each(|item| { ui.label(format!("{}", WearGearForDisplay::new(&item, GlobalConfigService::instance()))); });
+                        character.status.equipped_ammo().map(|item| { ui.label(format!("{}", WearAmmoForDisplay::new(&item, GlobalConfigService::instance()))); });
+                    });
                     ui.heading("Status bonuses");
-                    status.bonuses().iter()
-                        .for_each(|item| { ui.label(format!("{}", item)); });
+                    ui.group(|ui| {
+                        ui.set_max_width(600.0);
+                        ui.set_width(600.0);
+                        status.bonuses().iter()
+                            .for_each(|item| { ui.label(format!("{}", item)); });
+                    });
                     ui.heading("Temporary bonuses");
-                    character.status.temporary_bonuses().iter()
-                        .for_each(|item| { ui.label(format!("{}", item)); });
+                    ui.group(|ui| {
+                        ui.set_max_width(600.0);
+                        ui.set_width(600.0);
+                        character.status.temporary_bonuses().iter()
+                            .for_each(|item| { ui.label(format!("{}", item)); });
+                    });
                 });
             } else {
                 self.selected_char = None;

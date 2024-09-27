@@ -207,6 +207,7 @@ https://user-images.githubusercontent.com/1909074/178155321-d3eeb4b8-32ed-4901-b
 
 ### 7.2 Visual debugger
 ![visual-debugger](doc/img/visual_debugger.PNG)
+![visual-debugger](doc/img/stats_debugger.PNG)
 Debug server state with a UI
 
 ### 7.3 Warps
