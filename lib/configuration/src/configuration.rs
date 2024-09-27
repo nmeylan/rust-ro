@@ -1175,8 +1175,8 @@ pub struct JobSkillTree {
 }
 
 impl Config {
-    pub fn load() -> Result<Config, String> {
-        let path = Path::new("config.json");
+    pub fn load(root: &str) -> Result<Config, String> {
+        let path = Path::new(root).join(Path::new("config.json"));
         if !path.exists() {
             return Err(format!(
                 "config.json file does not exists at {}",

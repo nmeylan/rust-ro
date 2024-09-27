@@ -38,6 +38,9 @@ macro_rules! enum_with_mask_trait {
     ($trait_name:ident, $type:ty) => {
         pub trait $trait_name {
             fn from_flag(value: $type) -> Self;
+            fn try_from_flag(value: $type) -> Result<Self, String>
+                where
+                    Self: Sized;
             fn as_flag(&self) -> $type;
         }
     };

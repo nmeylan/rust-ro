@@ -42,6 +42,26 @@ macro_rules! with_mask {
                     res
                 });
                 let mut i: usize = 0;
+                let try_from_value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
+                    let variant_name = variant.ident.clone();
+                    let maybe_value = crate::helper::get_number_value::<$type>(variant, "mask_value");
+                    let is_all_value = crate::helper::is_all_value(variant, "mask_all");
+                    let j = if let Some(value) = maybe_value {
+                        i = count_number_of_1_bits(value);
+                        value
+                    } else if is_all_value {
+                        <$type>::MAX
+                    } else {
+                        1 << i
+                    };
+
+                    let res = quote! {
+                        #j => Ok(#enum_name::#variant_name),
+                    };
+                    i += 1;
+                    res
+                });
+                let mut i: usize = 0;
                 let value_match_arms = enum_data.variants.iter().enumerate().map(|(_, variant)| {
                     let variant_name = variant.ident.clone();
                     let maybe_value = crate::helper::get_number_value::<$type>(variant, "mask_value");
@@ -66,6 +86,12 @@ macro_rules! with_mask {
                             match value {
                                 #(#from_value_match_arms)*
                                 _ => panic!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value)
+                            }
+                        }
+                        fn try_from_flag(value: $type) -> Result<Self, String> {
+                            match value {
+                                #(#try_from_value_match_arms)*
+                                _ => Err(format!("Can't create enum_macro {} for value [{}]", stringify!(#enum_name), value))
                             }
                         }
 

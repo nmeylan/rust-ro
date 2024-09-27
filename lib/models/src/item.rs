@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+use std::fmt::{write, Display};
 use accessor::GettersAll;
 use crate::position::Position;
 use crate::enums::item::EquipmentLocation;
@@ -76,6 +78,7 @@ impl WearWeapon {
     }
 
 }
+
 
 #[derive(Clone, Copy, PartialEq, Debug, GettersAll)]
 pub struct WearWeaponSnapshot {

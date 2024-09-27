@@ -5,7 +5,7 @@ mod status_service_test;
 #[cfg(test)]
 mod battle_service_test;
 #[cfg(test)]
-mod common;
+pub mod common;
 #[cfg(test)]
 mod map_instance_service_test;
 #[cfg(test)]
