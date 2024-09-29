@@ -1127,13 +1127,13 @@ impl OffensiveSkillBase for StoneFling {
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 3 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 3 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         effects

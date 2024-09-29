@@ -3851,6 +3851,40 @@ impl OffensiveSkillBase for FinalStrike {
        1
     }
     #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(40.000)
+        }
+        if self.level == 2 {
+            return Some(80.000)
+        }
+        if self.level == 3 {
+            return Some(120.000)
+        }
+        if self.level == 4 {
+            return Some(160.000)
+        }
+        if self.level == 5 {
+            return Some(200.000)
+        }
+        if self.level == 6 {
+            return Some(240.000)
+        }
+        if self.level == 7 {
+            return Some(280.000)
+        }
+        if self.level == 8 {
+            return Some(320.000)
+        }
+        if self.level == 9 {
+            return Some(360.000)
+        }
+        if self.level == 10 {
+            return Some(400.000)
+        }
+        None
+    }
+    #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
     }

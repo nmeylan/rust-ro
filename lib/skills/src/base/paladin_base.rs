@@ -197,6 +197,25 @@ impl OffensiveSkillBase for GloriaDomini {
        1
     }
     #[inline(always)]
+    fn _dmg_atk(&self) -> Option<f32> {
+        if self.level == 1 {
+            return Some(800.000)
+        }
+        if self.level == 2 {
+            return Some(1100.000)
+        }
+        if self.level == 3 {
+            return Some(1400.000)
+        }
+        if self.level == 4 {
+            return Some(1700.000)
+        }
+        if self.level == 5 {
+            return Some(2000.000)
+        }
+        None
+    }
+    #[inline(always)]
     fn _element(&self) -> Element {
         Element::Neutral
     }
