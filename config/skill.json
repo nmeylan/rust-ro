@@ -7327,7 +7327,7 @@
         "spcost": 12
       },
       "dmgAtk": 1,
-      "dmgLvPerLevel": [
+      "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 15
@@ -23963,7 +23963,7 @@
           "whip": true
         }
       },
-      "dmgLvPerLevel": [
+      "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 400
@@ -30926,7 +30926,7 @@
           }
         ]
       },
-      "dmgLvPerLevel": [
+      "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 800
@@ -40550,7 +40550,7 @@
         }
       },
       "aoesize": "5x5 square",
-      "dmgLvPerLevel": [
+      "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 400
@@ -44147,7 +44147,7 @@
       "aoesize": "1x1 square",
       "aoesplash": 1,
       "dmgAtk": 1,
-      "dmgLvPerLevel": [
+      "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 50
@@ -44304,7 +44304,7 @@
         }
       },
       "dmgAtk": 1,
-      "dmgLvPerLevel": [
+      "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 4
@@ -47385,7 +47385,7 @@
           }
         ]
       },
-      "dmgLvPerLevel": [
+      "dmgAtkPerLevel": [
         {
           "level": 1,
           "value": 40
