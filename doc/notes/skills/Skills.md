@@ -68,6 +68,9 @@ WZ_QUAGMIRE:
 - Mitigate effect of some skills (improve concentration, one hand quicken, increase agi...) while in the zone
 - Max 3 active quagmire per wizard -> unit should have a limit
 
+MO_EXTREMITYFIST:
+- Guillotine Fist may be cast once within a short window after Raging Thrust or Chain Crush Combo. When cast this way, the Spirit Sphere catalyst is reduced by 2 and 4 respectively and the cast time is removed. The window base duration is 1.3 seconds, and is decreased by AGI and DEX.
+
 ## Skill bonus
 - negate penalty (music lesson negate speed penalty when using performance skill)
 ## Misc
