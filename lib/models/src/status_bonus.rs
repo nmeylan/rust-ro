@@ -44,6 +44,14 @@ pub struct TemporaryStatusBonus {
     source: Option<StatusBonusSource>,
 }
 
+#[derive(GettersAll, Debug, Clone, Copy, Eq, PartialEq)]
+pub struct TemporaryStatusBonusPersistedModel {
+    bonus: BonusType,
+    expirency: BonusExpiry,
+    state: StatusBonusState,
+    source: Option<StatusBonusSource>,
+}
+
 impl TemporaryStatusBonus {
     pub fn with_duration(bonus: BonusType, flags: u64, tick: u128, duration: u32, skill_id: u16) -> Self {
         Self {
@@ -63,6 +71,10 @@ impl TemporaryStatusBonus {
             state: StatusBonusState::No,
             source: Some(StatusBonusSource::PassiveSkill(skill_id))
         }
+    }
+
+    pub fn to_persisted_model(&self) {
+
     }
 
     pub fn has_icon(&self) -> bool {
