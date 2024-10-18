@@ -230,7 +230,7 @@ impl BonusType {
             BonusType::AtkPercentage(value) => { status_snapshot.set_bonus_atk((status_snapshot.bonus_atk() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u16); }
             BonusType::PerfectHitPercentage(_) => {}
             BonusType::CriticalDamagePercentage(value) => { status_snapshot.set_bonus_atk((status_snapshot.bonus_atk() as f32 * (1.0 + *value as f32 / 100.0)).floor() as u16); }
-            BonusType::CastTimePercentage(_) => {}
+            BonusType::CastTimePercentage(value) => {status_snapshot.set_cast_time(status_snapshot.cast_time() + *value as f32 / 100.0)}
             BonusType::CastTimeWhenUsingSkillIdPercentage(_, _) => {}
             BonusType::AfterCastDelayPercentage(_) => {}
             BonusType::NaturalHpRecoveryPercentage(_) => {}
