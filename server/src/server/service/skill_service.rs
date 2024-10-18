@@ -85,7 +85,7 @@ impl SkillService {
         }
 
         // TODO use char stats
-        skill.update_cast_time(skill.base_cast_time());
+        skill.update_cast_time((skill.base_cast_time() as f32 * self.status_service.cast_time_reduction(source_status)).ceil() as u32);
         skill.update_after_cast_act_delay(skill.base_after_cast_act_delay());
         skill.update_after_cast_walk_delay(skill.base_after_cast_walk_delay());
         let mut packet_zc_useskill_ack2 = PacketZcUseskillAck2::new(self.configuration_service.packetver());

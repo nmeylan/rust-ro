@@ -216,7 +216,7 @@ mod tests {
 
         for stat in stats {
             let mut character = create_character();
-            equip_item_with_cards_and_refinement(&mut character,  GlobalConfigService::instance().get_item_by_name(stat.weapon), vec![], stat.refine);
+            equip_item_with_cards_and_refinement(&mut character, GlobalConfigService::instance().get_item_by_name(stat.weapon), vec![], stat.refine);
             // When
             let status_snapshot = status_snapshot!(context, character);
             // Then
@@ -250,6 +250,35 @@ mod tests {
         // Then
         assert_eq!(status_snapshot.bonus_agi(), 10);
         assert_eq!(status_snapshot.speed(), 112);
+    }
+
+    #[test]
+    fn test_cast_time_reduction() {
+        // Given
+        let context = before_each();
+        struct Scenarii {
+            dex: u16,
+            bonuses: Vec<BonusType>,
+            base_cast_time: u16,
+            expected_cast_time: u16,
+        }
+        let scenario = vec![
+            Scenarii { dex: 1, bonuses: vec![], base_cast_time: 1000, expected_cast_time: 994, },
+            Scenarii { dex: 150, bonuses: vec![], base_cast_time: 1000, expected_cast_time: 0, },
+            Scenarii { dex: 99, bonuses: vec![], base_cast_time: 1000, expected_cast_time: 340, },
+            Scenarii { dex: 99, bonuses: vec![BonusType::CastTimePercentage(-15)], base_cast_time: 1000, expected_cast_time: 289, },
+        ];
+        // When
+        for scenarii in scenario {
+            let mut character = create_character();
+            character.status.dex = scenarii.dex;
+            for bonus in scenarii.bonuses {
+                character.status.temporary_bonuses.add(TemporaryStatusBonus::with_duration(bonus, StatusBonusFlag::Default.as_flag(), 0, 10000, SkillEnum::PrSuffragium.id() as u16));
+            }
+            let status_snapshot = status_snapshot!(context, character);
+            assert_eq!((context.status_service.cast_time_reduction(status_snapshot) * scenarii.base_cast_time as f32).ceil() as u16, scenarii.expected_cast_time)
+        }
+        // Then
     }
 
     #[test]
@@ -315,17 +344,18 @@ mod tests {
         struct Scenarii<'a> {
             card: &'a str,
             expected_element: Element,
-        };
+        }
+        ;
         let scenario = vec![
-          Scenarii { card: "Ghostring_Card", expected_element: Element::Ghost },
-          Scenarii { card: "Dokebi_Card", expected_element: Element::Wind },
-          Scenarii { card: "Sand_Man_Card", expected_element: Element::Earth },
-          Scenarii { card: "Angeling_Card", expected_element: Element::Holy },
-          Scenarii { card: "Sword_Fish_Card", expected_element: Element::Water },
-          Scenarii { card: "Pasana_Card", expected_element: Element::Fire },
-          Scenarii { card: "Argiope_Card", expected_element: Element::Poison },
-          Scenarii { card: "Bathory_Card", expected_element: Element::Dark },
-          Scenarii { card: "Evil_Druid_Card", expected_element: Element::Undead },
+            Scenarii { card: "Ghostring_Card", expected_element: Element::Ghost },
+            Scenarii { card: "Dokebi_Card", expected_element: Element::Wind },
+            Scenarii { card: "Sand_Man_Card", expected_element: Element::Earth },
+            Scenarii { card: "Angeling_Card", expected_element: Element::Holy },
+            Scenarii { card: "Sword_Fish_Card", expected_element: Element::Water },
+            Scenarii { card: "Pasana_Card", expected_element: Element::Fire },
+            Scenarii { card: "Argiope_Card", expected_element: Element::Poison },
+            Scenarii { card: "Bathory_Card", expected_element: Element::Dark },
+            Scenarii { card: "Evil_Druid_Card", expected_element: Element::Undead },
         ];
         // When
         for scenarii in scenario {
@@ -335,7 +365,6 @@ mod tests {
             // Then
             assert_eq!(*status_snapshot.element(), scenarii.expected_element);
         }
-
     }
 
     #[test]
@@ -611,6 +640,5 @@ mod tests {
             assert_eq!(markdown_rows_failed.len(), 0);
         }
     }
-
 }
 

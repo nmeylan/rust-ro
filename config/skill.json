@@ -8897,6 +8897,29 @@
       "requires": {
         "spcost": 8
       },
+      "bonusToTarget": [
+        {
+          "level": 1,
+          "value": {
+            "bonus": "CastTimePercentage",
+            "value": -15
+          }
+        },
+        {
+          "level": 2,
+          "value": {
+            "bonus": "CastTimePercentage",
+            "value": -30
+          }
+        },
+        {
+          "level": 3,
+          "value": {
+            "bonus": "CastTimePercentage",
+            "value": -45
+          }
+        }
+      ],
       "effectClientIcon": "Suffragium"
     },
 {

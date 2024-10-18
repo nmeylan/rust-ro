@@ -168,6 +168,10 @@ impl StatusService {
         ((200_f32 - aspd.min(199.0)) * 10.0).round() as i32
     }
 
+    pub fn cast_time_reduction(&self, status: &StatusSnapshot) -> f32 {
+        (1.0 - status.dex() as f32 /150.0) * (1.0 + status.cast_time())
+    }
+
     ///  PRE-RE formula: 200-(WD-([WD*AGI/25]+[WD*DEX/100])/10)*(1-SM)  https://irowiki.org/classic/ASPD
     /// [] - Square brackets hold the same priority as normal brackets, but indicate that the value of the contents should be rounded down to the nearest whole number (integer) once calculated.
     /// http://calc.free-ro.com/
