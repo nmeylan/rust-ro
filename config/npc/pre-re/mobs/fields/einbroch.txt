@@ -40,7 +40,7 @@ ein_fild04,0,0	monster	Holden	1628,5
 ein_fild04,200,295,125,65	monster	Geographer	1368,40,60000,30000
 ein_fild04,125,135,40,40	monster	Geographer	1368,5,60000,30000
 ein_fild04,260,70,20,30	monster	Geographer	1368,5,60000,30000
-ein_fild04,285,240,35,90	monster	Giearth	1121,10,3600000,3000000
+ein_fild04,0,0	monster	Giearth	1121,40
 ein_fild04,106,284,60,60	monster	Holden	1628,15
 ein_fild04,106,284,60,60	monster	Mineral	1614,5,3600000,3000000
 ein_fild04,0,0	monster	Red Plant	1078,10,60000,30000

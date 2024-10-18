@@ -1,6 +1,6 @@
 use std::fmt::Debug;
-use enum_macro::{WithEq, WithStackable};
-use crate::enums::EnumStackable;
+use enum_macro::{WithEq, WithNumberValue, WithStackable, WithStringValue};
+use crate::enums::{EnumStackable, EnumWithNumberValue, EnumWithStringValue};
 use crate::enums::element::Element;
 use crate::enums::mob::{MobClass, MobGroup, MobRace};
 use crate::enums::size::Size;
