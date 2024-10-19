@@ -6,6 +6,9 @@ prt_gld,153,141,0	warp	prtg-3_prtg-3	1,1,prtg_cas03,168,12
 prt_gld,107,240,0	warp	prtg-4_prtg-4	1,1,prtg_cas04,86,13
 prt_gld,212,240,0	warp	prtg-5_prtg-5	1,1,prtg_cas05,17,235
 
+prt_gld,159,29,0	warp	prtg01_southField1	1,1,prontera,155,355
+prontera,155,360,0	warp	prtg01_southField2	1,1,prt_gld,159,35
+
 //Inside Prontera Guild Castles
 prtg_cas01,103,32,0	warp	prtg-1-01_prtg-1	1,1,prt_gld,134,65
 prtg_cas01,57,19,0	warp	prtg-1-02_prtg-1-07	1,1,prtg_cas01,80,49

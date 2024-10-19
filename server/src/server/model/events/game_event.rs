@@ -41,6 +41,7 @@ pub enum GameEvent {
     CharacterDropItem(CharacterRemoveItem),
     CharacterResetSkills(u32),
     CharacterResetStats(u32),
+    CharacterUpdateSpeed(u32, u16),
 }
 
 #[derive(Debug, PartialEq, Clone)]

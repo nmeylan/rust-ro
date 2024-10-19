@@ -101,6 +101,10 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             let result = handle_reset_stats(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
+        "speed" => {
+            let result = handle_speed_change(server, context.session(), context.runtime(), args);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
         _ => {
             packet_zc_notify_playerchat.set_msg(format!("{symbol}{command} is an Unknown Command."));
         }
@@ -294,4 +298,19 @@ pub fn handle_reset_skills(server: &Server, session: Arc<Session>, _runtime: &Ru
 pub fn handle_reset_stats(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
     server.add_to_next_tick(GameEvent::CharacterResetStats(session.char_id()));
     "Stats have been reset.".to_string()
+}
+
+
+pub fn handle_speed_change(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+    if args.is_empty() {
+        return "@speed command accept 1 parameters but received none".to_string();
+    }
+    let mut speed = args[0].parse::<u16>().unwrap_or(150_u16);
+    if speed < 50 {
+        speed = 50;
+    } else if speed > 500 {
+        speed = 500;
+    }
+    server.add_to_next_tick(GameEvent::CharacterUpdateSpeed(session.char_id(), speed));
+    format!("Speed has been set at {}.", speed)
 }
