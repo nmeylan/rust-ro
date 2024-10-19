@@ -210,6 +210,11 @@ impl Server {
                     GameEvent::CharacterDamage(_damage) => {
                         println!("GameEvent::CharacterDamage: Not implemented yet!")
                     }
+                    GameEvent::CharacterUpdateSpeed(char_id, speed) => {
+                        let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+                        character.status.set_speed(speed);
+                        server_ref.character_service().reload_client_side_status(character);
+                    }
                 }
             }
         }
