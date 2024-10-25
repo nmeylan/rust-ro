@@ -59,7 +59,7 @@ impl Server {
             for task in tasks {
                 match task {
                     GameEvent::CharacterLeaveGame(char_id) => {
-                        server_state_mut.characters_mut().remove(&char_id);
+                        server_ref.disconnect_character(char_id);
                     }
                     GameEvent::CharacterJoinGame(char_id) => {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
@@ -112,6 +112,7 @@ impl Server {
                         server_ref.inventory_service().reload_inventory(runtime, char_id, character);
                         server_ref.inventory_service().reload_equipped_item_sprites(character);
                         server_ref.character_service().reload_client_side_status(character);
+                        server_ref.character_service().reload_client_side_hotkeys(character);
                     }
                     GameEvent::CharacterUpdateWeight(char_id) => {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
@@ -214,6 +215,15 @@ impl Server {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
                         character.status.set_speed(speed);
                         server_ref.character_service().reload_client_side_status(character);
+                    }
+                    GameEvent::CharacterHotkeyAdd(char_id,hotkey) => {
+                        let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+                        server_ref.character_service().hotkey_add(character, hotkey);
+                    }
+                    GameEvent::CharacterHotkeyRemove(char_id,hotkey_index) => {
+                        let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+                        server_ref.character_service().hotkey_remove(character, hotkey_index);
+
                     }
                 }
             }

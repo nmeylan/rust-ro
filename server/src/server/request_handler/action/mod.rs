@@ -3,3 +3,4 @@ pub mod npc;
 pub mod item;
 pub mod character;
 pub mod skill;
+pub mod hotkey;

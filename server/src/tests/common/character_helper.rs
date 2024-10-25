@@ -60,6 +60,7 @@ pub fn create_character() -> Character {
         map_view: Default::default(),
         script_variable_store: Mutex::new(Default::default()),
         last_moved_at: 0,
+        hotkeys: vec![],
     }
 }
 

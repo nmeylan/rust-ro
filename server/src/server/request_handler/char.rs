@@ -16,6 +16,7 @@ use crate::server::model::request::Request;
 
 use crate::server::model::events::game_event::{CharacterRemoveFromMap, GameEvent};
 use crate::server::model::events::game_event::GameEvent::{CharacterInitInventory, CharacterJoinGame};
+use crate::server::model::hotkey::Hotkey;
 use crate::server::model::status::StatusFromDb;
 use crate::server::script::ScriptGlobalVariableStore;
 use crate::server::Server;
@@ -229,6 +230,9 @@ pub fn handle_select_char(server: &Server, context: Request) {
     let skills: Vec<KnownSkill> = context.runtime().block_on(async {
         server.repository.character_skills(char_model.char_id as u32).await.unwrap()
     });
+    let hotkeys: Vec<Hotkey> = context.runtime().block_on(async {
+        server.repository.load_hotkeys(char_model.char_id as u32).await.unwrap()
+    });
     let mut sessions_guard = write_lock!(server.state().sessions());
     let _session = sessions_guard.get(&session_id).unwrap();
     let char_id: u32 = char_model.char_id as u32;
@@ -256,6 +260,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
         account_id: session_id,
         map_instance_key: MapInstanceKey::new(last_map, 0),
         last_moved_at: 0,
+        hotkeys
     };
     let char_id = character.char_id;
     let session = Arc::new(context.session().recreate_with_character(char_id));
@@ -341,7 +346,6 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     /*
     * Inventory
     */
-    server.add_to_next_tick(CharacterInitInventory(char_id));
     server.add_to_next_tick(CharacterInitInventory(char_id));
 }
 
