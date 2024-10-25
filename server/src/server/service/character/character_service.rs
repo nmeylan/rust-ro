@@ -15,7 +15,7 @@ use models::enums::EnumWithNumberValue;
 use models::enums::skill_enums::SkillEnum;
 
 
-use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, PacketZcNotifyMove, PacketZcMsgStateChange2};
+use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, PacketZcNotifyMove, PacketZcMsgStateChange2, PacketZcShortcutKeyListV2, ShortCutKey};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::{CharacterRepository};
 use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny, GameEvent};
@@ -31,6 +31,7 @@ use crate::server::model::events::map_event::{MapEvent, MobDropItems};
 use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
 use models::position::Position;
 use models::status::{KnownSkill, Status};
+use crate::server::model::hotkey::Hotkey;
 use crate::server::model::movement::Movable;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::character::skill_tree_service::SkillTreeService;
@@ -787,6 +788,38 @@ impl CharacterService {
             self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, final_response_packet)))
                 .expect("Fail to send client notification");
         }
+    }
+
+    pub fn reload_client_side_hotkeys(&self, character: &Character) {
+        let mut packet_zc_shortcut_key_list_v2 = PacketZcShortcutKeyListV2::new(self.configuration_service.packetver());
+        let mut shortcuts: Vec<ShortCutKey> = Vec::with_capacity(38);
+        for _ in 0..38 {
+            shortcuts.push(ShortCutKey::new(self.configuration_service.packetver()));
+        }
+        for hotkey in character.hotkeys.iter() {
+            let mut shortcut =  &mut shortcuts[hotkey.index as usize];
+            shortcut.set_count(hotkey.skill_lvl);
+            shortcut.set_is_skill(hotkey.is_skill as i8);
+            shortcut.set_id(hotkey.itemskill_id as u32);
+        }
+        packet_zc_shortcut_key_list_v2.set_short_cut_key(shortcuts);
+        packet_zc_shortcut_key_list_v2.fill_raw();
+
+        let mut final_response_packet: Vec<u8> = vec![];
+        final_response_packet.extend(packet_zc_shortcut_key_list_v2.raw());
+        if !final_response_packet.is_empty() {
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, final_response_packet)))
+                .expect("Fail to send client notification");
+        }
+    }
+
+    pub fn hotkey_remove(&self, character: &mut Character, index: usize) {
+        character.hotkeys.retain(|hotkey| hotkey.index as usize != index);
+    }
+
+    pub fn hotkey_add(&self, character: &mut Character, new_hotkey: Hotkey) {
+        character.hotkeys.retain(|hotkey| hotkey.index != new_hotkey.index);
+        character.hotkeys.push(new_hotkey);
     }
 
     pub fn load_units_in_fov(&self, server_state: &ServerState, character: &mut Character, map_instance_state: &MapInstanceState) {

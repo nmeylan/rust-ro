@@ -205,6 +205,19 @@ impl Server {
         self.movement_tasks_queue.add_to_first_index(event)
     }
 
+    pub fn disconnect_character(&self, char_id: u32) {
+        {
+            let character = self.state().get_character(char_id);
+            if let Some(character) = character {
+                let runtime = Runtime::new();
+                runtime.unwrap().block_on(async {
+                    self.repository.save_hotkeys(char_id, &character.hotkeys).await.unwrap();
+                });
+            }
+        }
+        self.state_mut().characters_mut().remove(&char_id);
+    }
+
     #[allow(unused_lifetimes)]
     pub fn start<'server>(server_ref: Arc<Server>,
                           client_notification_sender: SyncSender<Notification>,

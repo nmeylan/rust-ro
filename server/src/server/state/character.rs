@@ -16,6 +16,7 @@ use crate::server::model::map_instance::{MapInstanceKey};
 use models::position::Position;
 use models::status::Status;
 use skills::Skill;
+use crate::server::model::hotkey::Hotkey;
 use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::script::ScriptGlobalVariableStore;
 
@@ -60,6 +61,8 @@ pub struct Character {
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
 
     pub last_moved_at: u128,
+
+    pub hotkeys: Vec<Hotkey>
 }
 
 type InventoryIter<'a> = Box<dyn Iterator<Item=(usize, &'a InventoryItemModel)> + 'a>;

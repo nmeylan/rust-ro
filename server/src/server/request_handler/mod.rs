@@ -1,9 +1,10 @@
 use std::sync::Arc;
 use crate::packets::packets::Packet;
-use packets::packets::{PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzItemPickup, PacketCzItemThrow, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzReqWearEquip, PacketCzRestart, PacketCzStatusChange, PacketCzUpgradeSkilllevel, PacketCzUseItem, PacketCzUseSkill, PacketUnknown, PacketZcNotifyTime};
+use packets::packets::{PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzItemPickup, PacketCzItemThrow, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzReqWearEquip, PacketCzRestart, PacketCzStatusChange, PacketCzUpgradeSkilllevel, PacketCzUseItem, PacketCzUseSkill, PacketUnknown, PacketZcNotifyTime, PacketCzShortcutKeyChange};
 use crate::server::model::request::Request;
 use crate::server::request_handler::action::action::{handle_action, handle_pickup_item};
 use crate::server::request_handler::action::character::{handle_player_skill_allocation, handle_player_status_change};
+use crate::server::request_handler::action::hotkey::handle_shortcut_change;
 use crate::server::request_handler::action::item::{handle_player_drop_item, handle_player_equip_item, handle_player_takeoff_equip_item, handle_player_use_item};
 use crate::server::request_handler::action::npc::{handle_contact_npc, handle_player_choose_menu, handle_player_input_number, handle_player_input_string, handle_player_next, handle_player_purchase_items, handle_player_select_deal_type, handle_player_sell_items};
 use crate::server::request_handler::action::skill::handle_use_skill;
@@ -206,6 +207,13 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         return handle_use_skill(server.as_ref(), context);
     }
     // End Skills
+
+    // Shortcuts change
+    if context.packet().as_any().downcast_ref::<PacketCzShortcutKeyChange>().is_some() {
+        debug!("PacketCzShortcutKeyChange");
+        return handle_shortcut_change(server.as_ref(), context);
+    }
+
 
     if context.packet().as_any().downcast_ref::<PacketCzRequestTime>().is_some() {
         let mut packet_zc_notify_time = PacketZcNotifyTime::new(GlobalConfigService::instance().packetver());

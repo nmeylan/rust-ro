@@ -7,6 +7,7 @@ use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::movement::Movement;
 use models::position::Position;
 use crate::server::model::action::Damage;
+use crate::server::model::hotkey::Hotkey;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum GameEvent {
@@ -37,6 +38,8 @@ pub enum GameEvent {
     CharacterPickUpItem(CharacterPickUpItem),
     CharacterUpdateStat(CharacterUpdateStat),
     CharacterSkillUpgrade(CharacterSkillUpgrade),
+    CharacterHotkeyAdd(u32, Hotkey),
+    CharacterHotkeyRemove(u32, usize),
     MapNotifyItemRemoved(u32),
     CharacterDropItem(CharacterRemoveItem),
     CharacterResetSkills(u32),

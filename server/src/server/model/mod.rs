@@ -15,6 +15,7 @@ pub mod script;
 pub mod mob_spawn;
 pub mod item;
 pub mod status;
+pub mod hotkey;
 
 
 pub trait Npc {
