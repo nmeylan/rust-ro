@@ -163,6 +163,10 @@ impl StatusService {
         let aspd = status.aspd();
         (1000.0 / self.attack_per_seconds(aspd)).round() as u32
     }
+    #[inline]
+    pub fn attack_delay(&self, status: &StatusSnapshot) -> u32 {
+        self.attack_motion(status) / 2
+    }
 
     pub fn client_aspd(&self, aspd: f32) -> i32 {
         ((200_f32 - aspd.min(199.0)) * 10.0).round() as i32

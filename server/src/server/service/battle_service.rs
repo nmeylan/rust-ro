@@ -268,8 +268,8 @@ impl BattleService {
         packet_zc_notify_act3.set_target_gid(attack.target);
         packet_zc_notify_act3.set_action(ActionType::Attack.value() as u8);
         packet_zc_notify_act3.set_gid(character.char_id);
-        packet_zc_notify_act3.set_attack_mt(attack_motion as i32);
-        packet_zc_notify_act3.set_attacked_mt(attack_motion as i32);
+        packet_zc_notify_act3.set_attack_mt(attack_motion as i32 / 2);
+        packet_zc_notify_act3.set_attacked_mt(attack_motion as i32 / 2);
         let damage = if matches!(target.map_item.object_type(), MapItemType::Mob) {
             let mob = self.configuration_service.get_mob(target.map_item.client_item_class() as i32);
             packet_zc_notify_act3.set_attacked_mt(mob.damage_motion);

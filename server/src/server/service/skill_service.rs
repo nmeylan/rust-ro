@@ -10,7 +10,7 @@ use models::enums::skill_enums::SkillEnum;
 use models::status::{StatusSnapshot};
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::persistence_event::PersistenceEvent;
-use crate::server::model::map_item::MapItemSnapshot;
+use crate::server::model::map_item::{MapItemSnapshot, MapItemType};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use crate::packets::packets::Packet;
@@ -122,7 +122,7 @@ impl SkillService {
         let skill_type = skill.skill_type();
         let mut damage: i32 = 0;
         let mut packets: Vec<u8> = vec![];
-        let mut attack_motion: u128 = 0;
+        let mut attack_motion: i32 = 0;
         let mut target_id = character.char_id;
         let mut bonuses = Default::default();
         match skill.skill_type() {
@@ -131,14 +131,19 @@ impl SkillService {
                 damage = self.calculate_damage(source_status, target_status.as_ref().unwrap(), skill);
                 let mut packet_zc_notify_skill2 = PacketZcNotifySkill2::new(self.configuration_service.packetver());
                 packet_zc_notify_skill2.set_skid(skill.id() as u16);
-                target_id = target.as_ref().unwrap().map_item().id();
+                let target = target.as_ref().unwrap();
+                target_id = target.map_item().id();
                 packet_zc_notify_skill2.set_target_id(target_id);
                 packet_zc_notify_skill2.set_damage(damage);
                 packet_zc_notify_skill2.set_start_time(0);
 
-                attack_motion = self.status_service.attack_motion(source_status) as u128;
+                attack_motion = self.status_service.attack_delay(source_status) as i32;
                 packet_zc_notify_skill2.set_attack_mt(attack_motion as i32);
                 packet_zc_notify_skill2.set_attacked_mt(attack_motion as i32);
+                if matches!(target.map_item.object_type(), MapItemType::Mob) {
+                    let mob = self.configuration_service.get_mob(target.map_item.client_item_class() as i32);
+                    packet_zc_notify_skill2.set_attacked_mt(mob.damage_motion);
+                }
                 packet_zc_notify_skill2.set_level(skill.level() as i16);
 
                 packet_zc_notify_skill2.set_count(skill.hit_count().abs() as i16);
@@ -180,7 +185,7 @@ impl SkillService {
                 damage_to_self: 0,
                 effects: vec![],
                 bonuses,
-                attacked_at: tick + attack_motion,
+                attacked_at: tick + attack_motion as u128,
             }
         )
     }
