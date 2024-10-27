@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 use std::collections::HashMap;
 use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, Ordering};
 use crate::server::model::map::{Map, MAP_EXT};
 use crate::server::model::map_item::{MapItems, ToMapItem};
 use std::sync::mpsc::SyncSender;
@@ -67,6 +68,7 @@ pub struct MapInstance {
     map: &'static Map,
     scripts: Vec<Arc<Script>>,
     state: MyUnsafeCell<MapInstanceState>,
+    shutdown: AtomicBool,
 }
 unsafe impl Sync for MapInstance {}
 unsafe impl Send for MapInstance {}
@@ -91,8 +93,17 @@ impl MapInstance {
             map,
             scripts,
             state: MyUnsafeCell::new(MapInstanceState::new(key, map.x_size(), map.y_size(), cells, map_items,
-                                         map.mob_spawns().iter().map(|spawn| (spawn.id, MobSpawnTrack::default(spawn.id))).collect::<HashMap<u32, MobSpawnTrack>>()))
+                                         map.mob_spawns().iter().map(|spawn| (spawn.id, MobSpawnTrack::default(spawn.id))).collect::<HashMap<u32, MobSpawnTrack>>())),
+            shutdown: AtomicBool::new(false),
         }
+    }
+
+    pub fn shutdown(&self) {
+        self.shutdown.store(true, Ordering::Relaxed);
+    }
+
+    pub fn is_alive(&self) -> bool {
+        !self.shutdown.load(Ordering::Relaxed)
     }
 
     pub(crate) fn pop_task(&self) -> Option<Vec<MapEvent>> {

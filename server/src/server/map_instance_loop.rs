@@ -33,6 +33,9 @@ impl MapInstanceLoop {
                 let mut last_mobs_spawn = Instant::now();
                 let mut last_mobs_action = Instant::now();
                 loop {
+                    if !map_instance.is_alive() {
+                        break;
+                    }
                     let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
                     let now = Instant::now();
                     if !map_instance.state().mob_movement_paused() && last_mobs_action.elapsed().as_millis() >= (GlobalConfigService::instance().config().game.mob_action_refresh_frequency * 1000.0) as u128 {
@@ -92,10 +95,14 @@ impl MapInstanceLoop {
                     }
                     sleep(Duration::from_millis(sleep_duration));
                 }
+                info!("Shutdown map_instance_{}_loop_thread", map_instance.name());
             }).unwrap();
         thread::Builder::new().name(format!("map_instance_{}_mob_movement_thread", map_instance.name()))
             .spawn(move || {
                 loop {
+                    if !map_instance.is_alive() {
+                        break;
+                    }
                     let tick = get_tick();
                     let mut map_instance_state = map_instance.state_mut();
 
@@ -130,6 +137,7 @@ impl MapInstanceLoop {
                     }
                     sleep(Duration::from_millis(sleep_duration));
                 }
+                info!("Shutdown map_instance_{}_mob_movement_thread", map_instance.name());
             }).unwrap();
     }
 }

@@ -72,7 +72,7 @@ impl SkillTreeService {
         packet_zc_skillinfo_list.set_skill_list(skills_info);
         packet_zc_skillinfo_list.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_skillinfo_list.raw)))
-            .expect("Fail to send client notification");
+            .unwrap_or_else(|_| error!("Failed to send notification packet_zc_skillinfo_list to client"));
     }
 
     fn available_skills_in_tree(character: &Character, skilltree: &Vec<SkillInTree>, skills: &mut Vec<KnownSkill>) {

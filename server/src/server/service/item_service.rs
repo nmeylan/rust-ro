@@ -96,7 +96,8 @@ impl ItemService {
                         packet_zc_use_item_ack.set_result(false);
                     }
                     packet_zc_use_item_ack.fill_raw();
-                    self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_use_item_ack.raw))).expect("Fail to send client notification");
+                    self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_use_item_ack.raw)))
+                        .unwrap_or_else(|_| error!("Failed to send notification packet_zc_use_item_ack to client"));
                 }
             }
         }

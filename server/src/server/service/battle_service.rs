@@ -282,7 +282,8 @@ impl BattleService {
         packet_zc_notify_act3.fill_raw();
         self.client_notification_sender.send(
             Notification::Area(AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(),
-                                                     AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_act3.raw_mut())))).expect("Failed to send notification to client");
+                                                     AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_notify_act3.raw_mut()))))
+            .unwrap_or_else(|_| error!("Failed to send notification packet_zc_notify_act3 to client"));
         if damage >= 0 {
             Some(Damage {
                 target_id: attack.target,
