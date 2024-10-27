@@ -63,7 +63,8 @@ impl SkillService {
         if validate_ammo.is_err() {
             let mut packet_zc_action_failure = PacketZcActionFailure::new(self.configuration_service.packetver());
             packet_zc_action_failure.fill_raw();
-            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_action_failure.raw_mut())))).unwrap();
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_action_failure.raw_mut()))))
+                .unwrap_or_else(|_| error!("Failed to send notification packet_zc_action_failure to client"));
             return SkillCasted::invalid();
         }
 
@@ -97,7 +98,7 @@ impl SkillService {
         packet_zc_useskill_ack2.fill_raw();
         self.client_notification_sender.send(Notification::Area(
             AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, mem::take(packet_zc_useskill_ack2.raw_mut()))
-        )).unwrap();
+        )).unwrap_or_else(|_| error!("Failed to send notification packet_zc_useskill_ack2 to client"));
 
 
         let no_delay = self.force_no_delay || skill.cast_time() == 0;
@@ -173,7 +174,7 @@ impl SkillService {
         if !packets.is_empty() {
             self.client_notification_sender.send(Notification::Area(
                 AreaNotification::new(character.current_map_name().clone(), character.current_map_instance(), AreaNotificationRangeType::Fov { x: character.x, y: character.y, exclude_id: None }, packets)
-            )).unwrap();
+            )).unwrap_or_else(|_| error!("Failed to send notification packet_zc_use_skill to client"));
         }
 
         Some(
@@ -204,7 +205,8 @@ impl SkillService {
         packet_zc_ack_touseskill.set_num(UseSkillFailureClientSideType::SkillFailed.value() as u32);
         packet_zc_ack_touseskill.set_result(false);
         packet_zc_ack_touseskill.fill_raw();
-        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_ack_touseskill.raw_mut())))).unwrap();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_ack_touseskill.raw_mut()))))
+            .unwrap_or_else(|_| error!("Failed to send notification packet_zc_ack_touseskill to client"));
     }
 
     pub fn calculate_damage(&self, source_status: &StatusSnapshot, target_status: &StatusSnapshot, skill: &dyn OffensiveSkill) -> i32 {

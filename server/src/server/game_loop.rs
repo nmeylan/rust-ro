@@ -38,6 +38,9 @@ pub const GAME_TICK_RATE: u128 = 40;
 impl Server {
     pub(crate) fn game_loop(server_ref: Arc<Server>, runtime: Runtime) {
         loop {
+            if !server_ref.is_alive() {
+                break;
+            }
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
             Self::game_loop_iteration(server_ref.clone().as_ref(), &runtime, tick);
             let time_spent = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick;
@@ -246,6 +249,9 @@ impl Server {
 
     pub(crate) fn character_movement_loop(server_ref: Arc<Server>, client_notification_sender_clone: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) {
         loop {
+            if !server_ref.is_alive() {
+                break;
+            }
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
             let mut server_state_mut = server_ref.state_mut();
             if let Some(tasks) = server_ref.pop_movement_task() {

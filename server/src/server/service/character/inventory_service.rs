@@ -78,13 +78,15 @@ impl InventoryService {
                 self.server_task_queue.add_to_first_index(CharacterUpdateZeny(CharacterZeny { char_id: character.char_id, zeny: None }));
             }
             self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
-            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value))).expect("Fail to send client notification");
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
+                .unwrap_or_else(|_| error!("Failed to send notification packet_zc_pc_purchase_result to client"));
         } else {
             if add_items.buy {
                 let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(self.configuration_service.packetver());
                 packet_zc_pc_purchase_result.set_result(1);
                 packet_zc_pc_purchase_result.fill_raw();
-                self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
+                self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw)))
+                    .unwrap_or_else(|_| error!("Failed to send notification packet_zc_pc_purchase_result to client"));
             }
             error!("{:?}", result.err());
         }
@@ -138,13 +140,15 @@ impl InventoryService {
                 packets.push(packet_zc_pc_purchase_result.raw);
                 self.server_task_queue.add_to_first_index(CharacterUpdateZeny(CharacterZeny { char_id: character.char_id, zeny: None }));
             }
-            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets_raws_by_value(packets)))).expect("Fail to send client notification");
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets_raws_by_value(packets))))
+                .unwrap_or_else(|_| error!("Failed to send notification packet_zc_pc_purchase_result to client"));
             Ok(items)
         } else if remove_items.sell {
             let mut packet_zc_pc_purchase_result = PacketZcPcPurchaseResult::new(self.configuration_service.packetver());
             packet_zc_pc_purchase_result.set_result(1);
             packet_zc_pc_purchase_result.fill_raw();
-            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw))).expect("Fail to send client notification");
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_pc_purchase_result.raw)))
+                .unwrap_or_else(|_| error!("Failed to send notification packet_zc_pc_purchase_result to client"));
             Err("Cannot sell items".to_string())
         } else {
             Err("Cannot drop item".to_string())
@@ -228,7 +232,7 @@ impl InventoryService {
         self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
                                                                                       chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3, &packet_zc_equip_arrow, &packet_zc_attack_range]))))
-            .expect("Fail to send client notification");
+            .unwrap_or_else(|_| error!("Failed to send notification packet_zc_normal_itemlist3 to client"));
     }
 
     fn packet_attack_range(&self, character: &mut Character) -> PacketZcAttackRange {
@@ -255,7 +259,7 @@ impl InventoryService {
             map_instance_id: character.current_map_instance(),
             range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y(), exclude_id: None },
             packet: packets,
-        })).expect("Fail to send client notification");
+        })).unwrap_or_else(|_| error!("Failed to send notification reload equipment sprite to client"));
     }
 
     pub fn sprite_change_packet_for_item(&self, character: &Character, item: &dyn Wearable, is_takeoff: bool) -> Option<Vec<u8>> {
@@ -393,7 +397,7 @@ impl InventoryService {
             packets_raws_by_value.extend(packet_zc_req_wear_equip_ack.raw);
         }
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
-            .expect("Fail to send client notification");
+            .unwrap_or_else(|_| error!("Failed to send notification equip item to client"));
         self.persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
             .expect("Fail to send persistence event");
         self.server_task_queue.add_to_first_index(GameEvent::CharacterUpdateClientSideStats(character.char_id));
@@ -428,7 +432,7 @@ impl InventoryService {
         packet_zc_req_takeoff_equip_ack2.fill_raw();
         packets_raws_by_value.extend(packet_zc_req_takeoff_equip_ack2.raw);
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packets_raws_by_value)))
-            .expect("Fail to send client notification");
+            .unwrap_or_else(|_| error!("Failed to send notification takeoff item to client"));
         self.persistence_event_sender.send(PersistenceEvent::UpdateEquippedItems(character.inventory_wearable().iter().cloned().map(|(_m, item)| item.clone()).collect::<Vec<InventoryItemModel>>()))
             .expect("Fail to send persistence event");
         self.server_task_queue.add_to_first_index(GameEvent::CharacterUpdateClientSideStats(character.char_id));

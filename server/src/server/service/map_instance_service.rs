@@ -113,7 +113,7 @@ impl MapInstanceService {
             self.client_notification_sender.send(Notification::Area(
                 AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
                                       AreaNotificationRangeType::Fov { x: mob_movement.from.x, y: mob_movement.from.y, exclude_id: None },
-                                      packet_zc_notify_move.raw))).expect("Fail to send client notification");
+                                      packet_zc_notify_move.raw))).unwrap_or_else(|_| error!("Failed to send notification packet_zc_notify_move to client"));
         }
     }
 
@@ -194,7 +194,7 @@ impl MapInstanceService {
         self.client_notification_sender.send(Notification::Area(
             AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
                                   AreaNotificationRangeType::Fov { x: mob_location.x, y: mob_location.y, exclude_id: None },
-                                  packet_zc_notify_vanish.raw))).expect("Fail to send client notification");
+                                  packet_zc_notify_vanish.raw))).unwrap_or_else(|_| error!("Failed to send notification packet_zc_notify_vanish to client"));
     }
 
     pub fn mob_drop_items_and_send_packet(&self, map_instance_state: &mut MapInstanceState, mob_drop_items: MobDropItems) {
@@ -229,7 +229,7 @@ impl MapInstanceService {
         self.client_notification_sender.send(Notification::Area(
             AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
                                   AreaNotificationRangeType::Fov { x, y, exclude_id: None },
-                                  packets))).expect("Fail to send client notification");
+                                  packets))).unwrap_or_else(|_| error!("Failed to send notification packet_zc_item_fall_entry to client"));
     }
 
     pub fn mob_drop_items(&self, map_instance_state: &mut MapInstanceState, mob_drop_items: MobDropItems) -> Vec<DroppedItem> {
@@ -275,7 +275,7 @@ impl MapInstanceService {
             self.client_notification_sender.send(Notification::Area(
                 AreaNotification::new(map_instance_state.key().map_name().clone(), map_instance_state.key().map_instance(),
                                       AreaNotificationRangeType::Fov { x: dropped_item.x(), y: dropped_item.y(), exclude_id: None },
-                                      packet_zc_item_disappear.raw))).expect("Fail to send client notification");
+                                      packet_zc_item_disappear.raw))).unwrap_or_else(|_| error!("Failed to send notification packet_zc_item_disappear to client"));
         }
         self.server_task_queue.add_to_first_index(GameEvent::MapNotifyItemRemoved(dropped_item_id));
     }

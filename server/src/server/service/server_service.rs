@@ -222,7 +222,8 @@ impl ServerService {
                             packet_zc_msg_state_change.set_aid(character.char_id);
                             packet_zc_msg_state_change.set_index(temporary_bonus.icon().unwrap() as i16);
                             packet_zc_msg_state_change.fill_raw();
-                            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(&mut packet_zc_msg_state_change.raw_mut()))));
+                            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(&mut packet_zc_msg_state_change.raw_mut()))))
+                                .unwrap_or_else(|_| error!("Failed to send notification packet_zc_msg_state_change to client"));
                         }
                     }
                     !expired
@@ -345,7 +346,7 @@ impl ServerService {
                 self.client_notification_sender.send(Notification::Area(
                     AreaNotification::new(map_instance.key().map_name().clone(), map_instance.key().map_instance(),
                                           AreaNotificationRangeType::Fov { x: dropped_item.x(), y: dropped_item.y(), exclude_id: None },
-                                          packet_zc_notify_act.raw))).expect("Fail to send client notification");
+                                          packet_zc_notify_act.raw))).unwrap_or_else(|_| error!("Failed to send notification packet_zc_notify_act to client"));
                 map_instance.add_to_next_tick(MapEvent::RemoveDroppedItemFromMap(map_item_id));
             }
         } else {

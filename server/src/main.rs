@@ -35,7 +35,7 @@ use std::thread::{JoinHandle};
 use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
 use std::sync::{Arc};
-
+use std::thread;
 use crate::repository::{ItemRepository, MobRepository, PgRepository, Repository};
 use std::time::{Instant};
 use base64::Engine;
@@ -149,10 +149,6 @@ pub async fn main() {
     }
     info!("Server started in {}ms", _start.elapsed().as_millis());
     Server::start(server_ref_clone, client_notification_sender, single_client_notification_receiver, persistence_event_receiver, persistence_event_sender, true);
-
-    for handle in handles {
-        handle.join().expect("Failed await server and proxy threads");
-    }
 }
 
 fn update_item_and_mob_static_db(items: &mut Vec<ItemModel>, mobs: &Vec<MobModel>) {

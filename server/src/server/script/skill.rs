@@ -68,7 +68,7 @@ impl ScriptSkillService {
                     self.client_notification_sender.send(Notification::Area(
                         AreaNotification::new(character_ref.current_map_name().clone(), character_ref.current_map_instance(),
                                               AreaNotificationRangeType::Fov { x: character_ref.x, y: character_ref.y, exclude_id: Some(character_ref.char_id) },
-                                              packet_zc_notify_vanish.raw))).expect("Fail to send client notification");
+                                              packet_zc_notify_vanish.raw))).unwrap_or_else(|_| error!("Failed to send notification packet_zc_notify_vanish to client"));
                 }
             }
             SkillEnum::AlWarp => {}
