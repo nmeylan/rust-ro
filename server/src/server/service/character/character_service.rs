@@ -188,6 +188,15 @@ impl CharacterService {
             .unwrap_or_else(|_| error!("Failed to send notification packet_status_change(status update) to client"));
     }
 
+    pub async fn save_characters_state(&self, characters: Vec<&Character>) {
+        self.repository.characters_update(characters.iter().map(|c| &c.status).collect(),
+                                          characters.iter().map(|c| c.char_id as i32).collect(),
+                                          characters.iter().map(|c| c.x() as i16).collect(),
+                                          characters.iter().map(|c| c.y() as i16).collect(),
+                                          characters.iter().map(|c| c.map_instance_key.map_without_ext().chars().take(11).collect()).collect(),
+        ).await.unwrap()
+    }
+
     pub fn notify_weight(&self, character: &Character) {
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, self.weight_update_packets(character))))
             .unwrap_or_else(|_| error!("Failed to send notification notify_weight to client"));

@@ -150,9 +150,10 @@ impl Server {
         }
     }
 
-    pub fn shutdown(&self) {
+    pub async fn shutdown(&self) {
         self.shutdown.store(true, Ordering::Relaxed);
         self.state.borrow().map_instances().iter().for_each(|(_, instances)| instances.iter().for_each(|instance| instance.shutdown()));
+        self.character_service().save_characters_state(self.state.borrow().characters().values().collect()).await
     }
 
     pub fn is_alive(&self) -> bool {
@@ -409,7 +410,7 @@ impl Server {
                 let runtime = Runtime::new().unwrap();
                 runtime.block_on(async {
                     tokio::signal::ctrl_c().await.unwrap();
-                    server_ref_clone.shutdown();
+                    server_ref_clone.shutdown().await;
                     info!("Hello ctrl+c");
                 });
                 info!("Shutdown shutdown_thread");

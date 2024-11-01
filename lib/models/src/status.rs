@@ -15,6 +15,8 @@ pub struct Status {
     pub job: u32,
     pub hp: u32,
     pub sp: u32,
+    pub max_hp: u32,
+    pub max_sp: u32,
     pub str: u16,
     pub agi: u16,
     pub vit: u16,
@@ -317,9 +319,42 @@ pub struct KnownSkill {
 
 impl Status {
     pub fn right_hand_weapon(&self) -> Option<&WearWeapon> {
-        self.weapons
-            .iter()
-            .find(|w| w.location() & EquipmentLocation::HandRight.as_flag() > 0)
+        self.weapons.iter().find(|w| w.location() & EquipmentLocation::HandRight.as_flag() > 0)
+    }
+    pub fn head_low(&self) -> Option<&WearGear> {
+        self.equipments.iter().find(|w| w.location & EquipmentLocation::HeadLow.as_flag() > 0)
+    }
+
+    pub fn head_mid(&self) -> Option<&WearGear> {
+        self.equipments.iter().find(|w| w.location & EquipmentLocation::HeadMid.as_flag() > 0)
+    }
+
+    pub fn head_top(&self) -> Option<&WearGear> {
+        self.equipments.iter().find(|w| w.location & EquipmentLocation::HeadTop.as_flag() > 0)
+    }
+
+    pub fn shield(&self) -> Option<&WearGear> {
+        self.equipments.iter().find(|w| w.location & EquipmentLocation::HandLeft.as_flag() > 0)
+    }
+
+    pub fn armor(&self) -> Option<&WearGear> {
+        self.equipments.iter().find(|w| w.location & EquipmentLocation::Armor.as_flag() > 0)
+    }
+
+    pub fn shoes(&self) -> Option<&WearGear> {
+        self.equipments.iter().find(|w| w.location & EquipmentLocation::Shoes.as_flag() > 0)
+    }
+
+    pub fn garment(&self) -> Option<&WearGear> {
+        self.equipments.iter().find(|w| w.location & EquipmentLocation::Garment.as_flag() > 0)
+    }
+
+    pub fn accessory_left(&self) -> Option<&WearGear> {
+        self.equipments.iter().find(|w| w.location & EquipmentLocation::AccessoryLeft.as_flag() > 0)
+    }
+
+    pub fn accessory_right(&self) -> Option<&WearGear> {
+        self.equipments.iter().find(|w| w.location & EquipmentLocation::AccessoryRight.as_flag() > 0)
     }
 
     pub fn equipped_gears(&self) -> &Vec<WearGear> {
@@ -381,7 +416,7 @@ impl Status {
     }
 }
 
-#[derive(SettersAll, Debug, Clone, Copy, Default)]
+#[derive(SettersAll, GettersAll, Debug, Clone, Copy, Default)]
 pub struct Look {
     pub hair: u16,
     pub hair_color: u32,

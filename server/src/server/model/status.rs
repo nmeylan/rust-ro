@@ -15,6 +15,8 @@ impl StatusFromDb {
             job: char_model.class as u32,
             hp: char_model.hp as u32,
             sp: char_model.sp as u32,
+            max_hp: char_model.max_hp as u32,
+            max_sp: char_model.max_sp as u32,
             str: char_model.str as u16,
             agi: char_model.agi as u16,
             vit: char_model.vit as u16,
