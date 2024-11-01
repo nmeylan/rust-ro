@@ -20,6 +20,8 @@ pub fn create_character() -> Character {
             job: JobName::Novice.value() as u32,
             hp: 0,
             sp: 0,
+            max_hp: 0,
+            max_sp: 0,
             str: 1,
             agi: 1,
             vit: 1,
