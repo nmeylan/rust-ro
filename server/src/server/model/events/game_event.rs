@@ -45,6 +45,7 @@ pub enum GameEvent {
     CharacterResetSkills(u32),
     CharacterResetStats(u32),
     CharacterUpdateSpeed(u32, u16),
+    CharacterRestoreAllHpAndSP(u32),
 }
 
 #[derive(Debug, PartialEq, Clone)]

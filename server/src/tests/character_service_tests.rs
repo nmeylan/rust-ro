@@ -55,7 +55,7 @@ mod tests {
     use models::enums::class::JobName;
     use models::enums::look::LookType;
     use models::enums::status::StatusTypes;
-    use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange, PacketZcNotifyEffect, PacketZcStatusChangeAck, PacketZcSkillinfoList};
+    use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange, PacketZcNotifyEffect, PacketZcStatusChangeAck, PacketZcSkillinfoList, PacketZcStatusChange};
     use crate::tests::character_service_tests::GameEvent;
     use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
     use crate::tests::common::assert_helper::{has_sent_persistence_event, has_sent_notification, NotificationExpectation, SentPacket, task_queue_contains_event_at_tick, task_queue_contains_event};
@@ -242,6 +242,20 @@ mod tests {
         assert_eq!(character.status.zeny, 100);
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "zeny".to_string(), value: 100, }));
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_id(PacketZcLongparChange::packet_id(GlobalConfigService::instance().packetver()))]));
+    }
+    #[test]
+    fn test_update_hp_and_sp_should_update_and_notify_client() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        let runtime = Runtime::new().unwrap();
+        // When
+        context.character_service.update_hp_sp(&mut character, 150, 175);
+        // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
+        assert_eq!(character.status.hp, 150);
+        assert_eq!(character.status.sp, 175);
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcParChange::packet_id(GlobalConfigService::instance().packetver()), 2)]));
     }
 
     #[test]

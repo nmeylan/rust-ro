@@ -105,6 +105,10 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             let result = handle_speed_change(server, context.session(), context.runtime(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
+        "heal" => {
+            let result = handle_heal(server, context.session(), context.runtime(), args);
+            packet_zc_notify_playerchat.set_msg(result);
+        }
         _ => {
             packet_zc_notify_playerchat.set_msg(format!("{symbol}{command} is an Unknown Command."));
         }
@@ -313,4 +317,13 @@ pub fn handle_speed_change(server: &Server, session: Arc<Session>, _runtime: &Ru
     }
     server.add_to_next_tick(GameEvent::CharacterUpdateSpeed(session.char_id(), speed));
     format!("Speed has been set at {}.", speed)
+}
+
+
+pub fn handle_heal(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+    if args.is_empty() {
+        return "@speed command accept 1 parameters but received none".to_string();
+    }
+    server.add_to_next_tick(GameEvent::CharacterRestoreAllHpAndSP(session.char_id()));
+    "Restored all HP and SP".to_string()
 }

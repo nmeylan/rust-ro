@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter};
 use std::net::{SocketAddr};
-use std::panic;
+use std::{mem, panic};
 use packets::packets::Packet;
 use packets::packets_parser::parse;
 use crate::server::service::global_config_service::GlobalConfigService;
