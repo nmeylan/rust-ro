@@ -31,6 +31,7 @@ use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 
 use crate::server::service::server_service::ServerService;
+use crate::server::service::status_service::StatusService;
 
 const MOVEMENT_TICK_RATE: u128 = 16;
 pub const GAME_TICK_RATE: u128 = 40;
@@ -227,6 +228,11 @@ impl Server {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
                         server_ref.character_service().hotkey_remove(character, hotkey_index);
 
+                    }
+                    GameEvent::CharacterRestoreAllHpAndSP(char_id) => {
+                        let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+                        let status = StatusService::instance().to_snapshot(&character.status);
+                        server_ref.character_service().update_hp_sp(character, status.max_hp(), status.max_sp());
                     }
                 }
             }

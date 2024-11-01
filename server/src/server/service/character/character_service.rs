@@ -43,7 +43,7 @@ use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::server::ServerState;
-use crate::util::packet::chain_packets;
+use crate::util::packet::{chain_packets};
 use crate::util::string::StringUtil;
 use crate::util::tick::{get_tick, get_tick_client};
 
@@ -171,6 +171,21 @@ impl CharacterService {
         packet_zc_longpar_change.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_longpar_change.raw_mut()))))
             .unwrap_or_else(|_| error!("Failed to send notification packet_zc_longpar_change(update zeny) to client"));
+    }
+
+    pub fn update_hp_sp(&self, character: &mut Character, hp: u32, sp: u32) {
+        character.status.set_hp(hp);
+        character.status.set_sp(sp);
+        let mut packet_status_hp_change = PacketZcParChange::new(self.configuration_service.packetver());
+        packet_status_hp_change.set_var_id(StatusTypes::Hp.value() as u16);
+        packet_status_hp_change.set_count(hp as i32);
+        packet_status_hp_change.fill_raw();
+        let mut packet_status_sp_change = PacketZcParChange::new(self.configuration_service.packetver());
+        packet_status_sp_change.set_var_id(StatusTypes::Sp.value() as u16);
+        packet_status_sp_change.set_count(sp as i32);
+        packet_status_sp_change.fill_raw();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_status_hp_change, &packet_status_sp_change]))))
+            .unwrap_or_else(|_| error!("Failed to send notification packet_status_change(status update) to client"));
     }
 
     pub fn notify_weight(&self, character: &Character) {
