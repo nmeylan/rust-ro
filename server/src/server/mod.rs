@@ -224,6 +224,7 @@ impl Server {
             if let Some(character) = character {
                 let runtime = Runtime::new();
                 runtime.unwrap().block_on(async {
+                    self.character_service().save_characters_state(vec![character]).await;
                     self.repository.save_hotkeys(char_id, &character.hotkeys).await.unwrap();
                 });
             }
