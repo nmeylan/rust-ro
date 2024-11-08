@@ -7,7 +7,8 @@ use std::{panic, thread};
 use tokio::runtime::Runtime;
 use packets::packets_parser::parse;
 use std::io::{Read, Write};
-
+use std::sync::atomic::AtomicBool;
+use std::sync::atomic::Ordering::SeqCst;
 use crate::util::packet::{debug_packets, PacketDirection};
 
 pub mod map;
@@ -19,6 +20,7 @@ pub struct Proxy<T: PacketHandler + Clone + Send> {
     pub local_port: u16,
     pub target: SocketAddr,
     pub specific_proxy: T,
+    pub is_alive: Arc<AtomicBool>,
 }
 
 pub trait PacketHandler {
@@ -35,6 +37,9 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
         spawn(move || {
             info!("Start proxy for {} proxy, {}:{}", server_ref.name, server_ref.local_port, server_ref.target.port());
             for tcp_stream in listener.incoming() {
+                if !server_ref.is_alive() {
+                    break;
+                }
                 let server_ref = immutable_self_ref.clone(); // cloning the ref to use in thread below
                 // Receive new connection, starting new thread
                 spawn(move || {
@@ -43,7 +48,17 @@ impl<T: 'static + PacketHandler + Clone + Send + Sync> Proxy<T> {
                     server_ref.proxy_connection(tcp_stream.unwrap(), packetver);
                 });
             }
+            info!("shutdown proxy for {}", server_ref.name);
         })
+    }
+
+    pub fn shutdown(&self) {
+        self.is_alive.store(false, SeqCst);
+        TcpStream::connect(format!("127.0.0.1:{}", self.local_port)).map(|mut stream| stream.flush()).ok();
+    }
+
+    pub fn is_alive(&self) -> bool {
+        self.is_alive.load(SeqCst)
     }
 
     fn proxy_connection(&self, incoming_stream: TcpStream, packetver: u32) {

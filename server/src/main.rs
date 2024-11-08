@@ -149,6 +149,8 @@ pub async fn main() {
     }
     info!("Server started in {}ms", _start.elapsed().as_millis());
     Server::start(server_ref_clone, client_notification_sender, single_client_notification_receiver, persistence_event_receiver, persistence_event_sender, true);
+    map_proxy.shutdown();
+    char_proxy.shutdown();
 }
 
 fn update_item_and_mob_static_db(items: &mut Vec<ItemModel>, mobs: &Vec<MobModel>) {

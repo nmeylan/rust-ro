@@ -153,7 +153,8 @@ impl Server {
     pub async fn shutdown(&self) {
         self.shutdown.store(true, Ordering::Relaxed);
         self.state.borrow().map_instances().iter().for_each(|(_, instances)| instances.iter().for_each(|instance| instance.shutdown()));
-        self.character_service().save_characters_state(self.state.borrow().characters().values().collect()).await
+        self.character_service().save_characters_state(self.state.borrow().characters().values().collect()).await;
+        self.state_mut().sessions().write().unwrap().iter().for_each(|(_, session)| session.disconnect());
     }
 
     pub fn is_alive(&self) -> bool {
@@ -413,6 +414,7 @@ impl Server {
                     tokio::signal::ctrl_c().await.unwrap();
                     server_ref_clone.shutdown().await;
                     info!("Hello ctrl+c");
+                   TcpStream::connect(format!("127.0.0.1:{port}")).map(|mut stream| stream.flush()).ok();
                 });
                 info!("Shutdown shutdown_thread");
             }).unwrap();

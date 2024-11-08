@@ -2,6 +2,7 @@ use std::net::{SocketAddr, TcpStream};
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
+use std::sync::atomic::AtomicBool;
 use packets::packets::{Packet, PacketChSendMapInfo, PacketHcNotifyZonesvr, ZserverAddr};
 use crate::proxy::{PacketHandler, Proxy};
 use configuration::configuration::ProxyConfig;
@@ -17,7 +18,8 @@ impl CharProxy {
             name: "Char".to_string(),
             local_port: config.local_char_server_port,
             target: SocketAddr::new(IpAddr::from_str(&config.remote_char_server_ip).unwrap(), config.remote_char_server_port),
-            specific_proxy: CharProxy {}
+            specific_proxy: CharProxy {},
+            is_alive: Arc::new(AtomicBool::new(true)),
         }
     }
 }
