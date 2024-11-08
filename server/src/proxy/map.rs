@@ -2,7 +2,7 @@ use std::net::{SocketAddr, TcpStream};
 use std::net::IpAddr;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
-
+use std::sync::atomic::AtomicBool;
 use packets::packets::Packet;
 use crate::proxy::{PacketHandler, Proxy};
 
@@ -18,6 +18,7 @@ impl MapProxy {
             local_port: config.local_map_server_port,
             target: SocketAddr::new(IpAddr::from_str(&config.remote_map_server_ip).unwrap(), config.remote_map_server_port),
             specific_proxy: MapProxy {},
+            is_alive: Arc::new(AtomicBool::new(true)),
         }
     }
 }

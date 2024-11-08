@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::net::TcpStream;
+use std::net::{Shutdown, TcpStream};
 use std::sync::{Arc, Mutex, RwLock};
 
 use std::io::Write;
@@ -128,5 +128,16 @@ impl Session {
 
     pub fn char_id(&self) -> u32 {
         self.char_id.expect("Expect char_id to be set in the session, but was not")
+    }
+
+    pub fn disconnect(&self) {
+        if let Some(socket) = self.char_server_socket.as_ref() {
+            let write_guard = socket.write().unwrap();
+            write_guard.shutdown(Shutdown::Both).unwrap()
+        }
+        if let Some(socket) = self.map_server_socket.as_ref() {
+            let write_guard = socket.write().unwrap();
+            write_guard.shutdown(Shutdown::Both).unwrap()
+        }
     }
 }
