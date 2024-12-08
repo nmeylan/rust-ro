@@ -17,7 +17,6 @@ pub mod item;
 pub mod status;
 pub mod hotkey;
 
-
 pub trait Npc {
     fn get_map_name(&self) -> String;
 }

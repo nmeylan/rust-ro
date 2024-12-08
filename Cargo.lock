@@ -2108,6 +2108,7 @@ dependencies = [
  "accessor",
  "async-trait",
  "base64 0.21.7",
+ "bitcode",
  "byteorder",
  "configuration",
  "eframe",

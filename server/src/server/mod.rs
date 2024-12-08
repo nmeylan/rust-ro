@@ -16,7 +16,7 @@ use crate::server::model::map_item::{MapItems};
 use crate::server::model::path::manhattan_distance;
 use crate::server::model::request::Request;
 use crate::server::model::response::Response;
-use crate::server::model::session::SessionsIter;
+use crate::server::model::session::{SessionRecord, SessionsIter};
 use crate::server::model::tasks_queue::TasksQueue;
 use model::events::client_notification::{AreaNotificationRangeType, Notification};
 use model::events::game_event::GameEvent;
@@ -72,7 +72,8 @@ pub struct Server {
     tasks_queue: Arc<TasksQueue<GameEvent>>,
     movement_tasks_queue: Arc<TasksQueue<GameEvent>>,
     server_service: ServerService,
-    shutdown: AtomicBool
+    shutdown: AtomicBool,
+    recording_sessions: MyUnsafeCell<Vec<SessionRecord>>,
 }
 
 unsafe impl Sync for Server {}
@@ -104,16 +105,7 @@ impl Server {
         let tasks_queue = Arc::new(TasksQueue::new());
         let movement_tasks_queue = Arc::new(TasksQueue::new());
         StatusService::init(GlobalConfigService::instance(), item_script_vm.clone());
-        // CharacterService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(),
-        //                        SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()), StatusService::instance(),
-        //                        tasks_queue.clone());
-        // InventoryService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone());
-        // ItemService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), item_script_vm, GlobalConfigService::instance());
-        // ScriptSkillService::init(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), configuration);
-        // SkillTreeService::init(client_notification_sender.clone(), GlobalConfigService::instance());
-        // BattleService::init(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance());
-        // MapInstanceService::init(client_notification_sender.clone(), GlobalConfigService::instance(), MobService::new(client_notification_sender.clone(), GlobalConfigService::instance()), tasks_queue.clone());
-        // ScriptService::init(client_notification_sender.clone(), GlobalConfigService::instance(), repository.clone(), tasks_queue.clone(), npc_script_vm.clone());
+
         let server_service = ServerService::new(client_notification_sender.clone(), GlobalConfigService::instance(), tasks_queue.clone(), movement_tasks_queue.clone(), npc_script_vm.clone(),
                                                 InventoryService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance(), tasks_queue.clone()),
                                                 BattleService::new(client_notification_sender.clone(), StatusService::instance(), GlobalConfigService::instance(), BattleResultMode::Normal),
@@ -125,7 +117,7 @@ impl Server {
                                                                       tasks_queue.clone()),
                                                 SkillTreeService::new(client_notification_sender.clone(), GlobalConfigService::instance()),
                                                 ItemService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), item_script_vm, GlobalConfigService::instance()),
-                                                ScriptSkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance())
+                                                ScriptSkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance()),
         );
         Server {
             configuration,
@@ -135,6 +127,7 @@ impl Server {
             movement_tasks_queue,
             server_service,
             shutdown: AtomicBool::new(false),
+            recording_sessions: MyUnsafeCell::new(vec![]),
         }
     }
 
@@ -147,6 +140,7 @@ impl Server {
             movement_tasks_queue: Arc::new(Default::default()),
             server_service,
             shutdown: AtomicBool::new(false),
+            recording_sessions: MyUnsafeCell::new(vec![]),
         }
     }
 
@@ -217,6 +211,30 @@ impl Server {
 
     pub fn add_to_next_movement_tick(&self, event: GameEvent) {
         self.movement_tasks_queue.add_to_first_index(event)
+    }
+
+    pub fn start_recording_session(&self, char_id: u32) {
+        let session_id = self.state().characters().get(&char_id).unwrap().account_id;
+        if !self.is_recording_session(char_id) {
+            self.recording_sessions.borrow_mut().push(SessionRecord::new(session_id, char_id));
+        }
+    }
+
+    pub fn stop_recording_session(&self, char_id: u32) {
+        let session_id = self.state().characters().get(&char_id).unwrap().account_id;
+        if let Some(recording) = self.get_recording_session(session_id) {
+            recording.finish();
+        }
+        self.recording_sessions.borrow_mut().retain(|recording_session_id| recording_session_id.session_id != session_id);
+    }
+
+    pub fn is_recording_session(&self, char_id: u32) -> bool {
+        let session_id = self.state().characters().get(&char_id).unwrap().account_id;
+        self.recording_sessions.borrow().as_ref().iter().find(|recording_session_id| recording_session_id.session_id == session_id).is_some()
+    }
+
+    pub fn get_recording_session(&self, session_id: u32) -> Option<&SessionRecord> {
+        self.recording_sessions.borrow().as_ref().iter().find(|recording_session_id| recording_session_id.session_id == session_id)
     }
 
     pub fn disconnect_character(&self, char_id: u32) {
@@ -414,7 +432,7 @@ impl Server {
                     tokio::signal::ctrl_c().await.unwrap();
                     server_ref_clone.shutdown().await;
                     info!("Hello ctrl+c");
-                   TcpStream::connect(format!("127.0.0.1:{port}")).map(|mut stream| stream.flush()).ok();
+                    TcpStream::connect(format!("127.0.0.1:{port}")).map(|mut stream| stream.flush()).ok();
                 });
                 info!("Shutdown shutdown_thread");
             }).unwrap();

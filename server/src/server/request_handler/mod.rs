@@ -15,7 +15,7 @@ use crate::server::request_handler::map::{handle_char_loaded_client_side, handle
 use crate::server::request_handler::movement::handle_char_move;
 use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::util::tick::get_tick_client;
+use crate::util::tick::{get_tick, get_tick_client};
 
 /**
 * This module implement client requests handler.
@@ -59,6 +59,9 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
         return;
     }
     let session = server.state().get_session(session_id.unwrap());
+    if let Some(session_record) = server.get_recording_session(session_id.unwrap()) {
+        session_record.record(get_tick(), context.packet().raw().clone());
+    }
     context.set_session(session);
     // Char creation
     if context.packet().as_any().downcast_ref::<PacketChMakeChar>().is_some() {

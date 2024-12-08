@@ -1,8 +1,10 @@
 use std::collections::HashMap;
+use std::fs::File;
 use std::net::{Shutdown, TcpStream};
 use std::sync::{Arc, Mutex, RwLock};
 
 use std::io::Write;
+use serde::Serialize;
 use tokio::sync::mpsc::Sender;
 
 pub struct Session {
@@ -16,6 +18,41 @@ pub struct Session {
     pub char_id: Option<u32>,
     pub packetver: u32,
     pub script_handler_channel_sender: Mutex<Option<Sender<Vec<u8>>>> // TODO keep track on creation. Abort script thread after X minutes + abort on new script interaction
+}
+
+#[derive(Serialize)]
+pub struct SessionRecord {
+    pub session_id: u32,
+    pub char_id: Option<u32>,
+    pub entries: Mutex<Vec<SessionRecordEntry>>
+}
+
+impl SessionRecord {
+    pub fn new(session_id: u32, char_id: u32) -> Self {
+        Self {
+            session_id,
+            char_id: Some(char_id),
+            entries: Mutex::new(vec![]),
+        }
+    }
+
+    pub fn record(&self, tick: u128, data: Vec<u8>) {
+        self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, data })
+    }
+
+    pub fn finish(&self) {
+        if self.entries.lock().unwrap().is_empty() {
+            return
+        }
+        let mut file = File::create(format!("target/session_{}.record", self.session_id)).unwrap();
+        file.write_all(&bitcode::serialize(self).unwrap()).unwrap();
+    }
+}
+
+#[derive(Serialize)]
+struct SessionRecordEntry {
+    time: u128,
+    data: Vec<u8>
 }
 
 pub trait SessionsIter {
