@@ -62,7 +62,7 @@ pub struct Character {
 
     pub last_moved_at: u128,
 
-    pub hotkeys: Vec<Hotkey>
+    pub hotkeys: Vec<Hotkey>,
 }
 
 type InventoryIter<'a> = Box<dyn Iterator<Item=(usize, &'a InventoryItemModel)> + 'a>;

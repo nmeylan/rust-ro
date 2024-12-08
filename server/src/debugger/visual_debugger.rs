@@ -32,6 +32,13 @@ pub struct VisualDebugger {
     pub init: bool,
     frame_history: frame_history::FrameHistory,
     map_instance_view: MapInstanceView,
+    character_tab_state: CharacterTabState,
+
+}
+
+#[derive(Default)]
+struct CharacterTabState {
+    recording_packet: bool,
 }
 
 lazy_static! {
@@ -83,6 +90,7 @@ impl VisualDebugger {
                 zoom_draw_rect: Rect { min: Pos2 { x: 0.0, y: 0.0 }, max: Pos2 { x: 0.0, y: 0.0 } },
                 server: server.clone(),
             },
+            character_tab_state: Default::default(),
         };
 
         thread::spawn(|| {
@@ -116,7 +124,24 @@ impl VisualDebugger {
                 self.map_instance_view(ui);
             }
             "Character" => {
-                self.character_combobox(ui);
+                ui.horizontal_wrapped(|ui| {
+                    self.character_combobox(ui);
+                    if let Some((char_id, _)) = self.selected_char {
+                        if self.server.is_recording_session(char_id) || self.character_tab_state.recording_packet {
+                            if ui.button("Stop recording").clicked() {
+                                self.character_tab_state.recording_packet = false;
+                                self.server.stop_recording_session(char_id);
+                            }
+                        } else {
+                            if ui.button("Start recording").clicked() {
+                                self.character_tab_state.recording_packet = true;
+                                self.server.start_recording_session(char_id);
+                            }
+                        }
+                    }
+
+
+                });
                 self.character_view(ui);
             }
             _ => {}

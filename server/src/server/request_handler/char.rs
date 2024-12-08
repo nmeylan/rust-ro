@@ -260,7 +260,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
         account_id: session_id,
         map_instance_key: MapInstanceKey::new(last_map, 0),
         last_moved_at: 0,
-        hotkeys
+        hotkeys,
     };
     let char_id = character.char_id;
     let session = Arc::new(context.session().recreate_with_character(char_id));

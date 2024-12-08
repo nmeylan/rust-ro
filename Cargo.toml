@@ -24,6 +24,7 @@ opt-level = 0
 opt-level = 0
 
 [workspace.dependencies]
+bitcode = { version = "0.5.1", features = ["serde", "derive"] }
 byteorder = "1.5.0"
 lazy_static  = "1.4.0"
 hashbrown = "0.14"
