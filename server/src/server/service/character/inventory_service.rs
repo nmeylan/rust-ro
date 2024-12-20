@@ -8,7 +8,7 @@ use models::enums::item::{EquipmentLocation, ItemType};
 use models::enums::look::LookType;
 use models::item::{Wearable};
 use models::enums::EnumWithNumberValue;
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
+use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2, Packet};
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::repository::{InventoryRepository};
 
@@ -186,7 +186,6 @@ impl InventoryService {
             equipments.push(equipmentitem_extrainfo301);
         }
         let mut ammo: Option<(usize, &InventoryItemModel)> = None;
-        let mut packet_zc_equip_arrow = PacketZcEquipArrow::new(self.configuration_service.packetver());
         for (index, item) in character.inventory_wearable().iter() {
             if matches!(item.item_type(), ItemType::Ammo) {
                 ammo = Some((*index, item));
@@ -194,11 +193,13 @@ impl InventoryService {
             }
         }
         if let Some((index, ammo)) = ammo {
+            let mut packet_zc_equip_arrow = PacketZcEquipArrow::new(self.configuration_service.packetver());
             let item_info = self.configuration_service.get_item(ammo.item_id);
             character.wear_equip_item(index, ammo.equip as u64, item_info);
             packet_zc_equip_arrow.set_index(index as i16);
+            packet_zc_equip_arrow.fill_raw();
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_equip_arrow.raw)));
         }
-        packet_zc_equip_arrow.fill_raw();
         for item in equipments.iter() {
             let item_info = self.configuration_service.get_item(item.itid as i32);
             character.wear_equip_item(item.index as usize, item.wear_state as u64, item_info);
@@ -231,7 +232,7 @@ impl InventoryService {
         let packet_zc_attack_range = self.packet_attack_range(character);
         self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
-                                                                                      chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3, &packet_zc_equip_arrow, &packet_zc_attack_range]))))
+                                                                                      chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3, &packet_zc_attack_range]))))
             .unwrap_or_else(|_| error!("Failed to send notification packet_zc_normal_itemlist3 to client"));
     }
 
