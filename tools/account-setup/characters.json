@@ -1,0 +1,1380 @@
+[{
+  "_id": "bc0x2w",
+  "id": 160000,
+  "job": "Swordsman",
+  "name": "Swordsman",
+  "char_num": 0,
+  "hair": 21,
+  "hair_color": 21,
+  "clothes_color": 1,
+  "max_hp": 4958,
+  "max_sp": 249,
+  "agi": 80,
+  "dex": 34,
+  "str": 99,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2312,
+      "name": "Padded Armor"
+    },
+    "shield": {
+      "itemId": 2124,
+      "name": "Thorned Shield"
+    },
+    "shoulder": {
+      "itemId": 2505,
+      "name": "Manteau"
+    },
+    "shoes": {
+      "itemId": 2405,
+      "name": "Boots"
+    },
+    "upperHeadgear": {
+      "itemId": 2228,
+      "name": "Helm"
+    },
+    "weapon": {
+      "itemId": 1113,
+      "name": "Scimitar"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "skills": [
+      {
+        "name": "SM_SWORD",
+        "lvl": 10
+      },
+      {
+        "name": "SM_TWOHAND",
+        "lvl": 10
+      },
+      {
+        "name": "SM_RECOVERY",
+        "lvl": 4
+      },
+      {
+        "name": "SM_BASH",
+        "lvl": 10
+      },
+      {
+        "name": "SM_PROVOKE",
+        "lvl": 5
+      },
+      {
+        "name": "SM_ENDURE",
+        "lvl": 5
+      },
+      {
+        "name": "SM_MAGNUM",
+        "lvl": 5
+      }
+    ],
+  "save_y": 191,
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "save_map": "prontera",
+  "last_map": "prontera",
+  "skill_point": 0,
+  "status_point": 7
+},
+{
+  "_id": "fa9epg",
+  "job": "Thief",
+  "max_hp": 3695,
+  "max_sp": 251,
+  "agi": 80,
+  "dex": 34,
+  "str": 99,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1222,
+      "name": "Damascus"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "save_y": 191,
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "last_map": "prontera",
+  "save_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 1,
+  "name": "Thief",
+  "clothes_color": 1,
+  "status_point": 7,
+  "skill_point": 0,
+  "skills": [
+      {
+        "name": "TF_DOUBLE",
+        "lvl": 10
+      },
+      {
+        "name": "TF_MISS",
+        "lvl": 10
+      },
+      {
+        "name": "TF_STEAL",
+        "lvl": 8
+      },
+      {
+        "name": "TF_HIDING",
+        "lvl": 10
+      },
+      {
+        "name": "TF_POISON",
+        "lvl": 10
+      },
+      {
+        "name": "TF_DETOXIFY",
+        "lvl": 1
+      }
+    ],
+  "id": 160001
+},
+{
+  "_id": "hlqab9",
+  "job": "Acolyte",
+  "max_hp": 3012,
+  "max_sp": 1004,
+  "agi": 1,
+  "dex": 80,
+  "str": 10,
+  "int": 99,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1524,
+      "name": "Golden Mace"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "skills": [
+      {
+        "name": "AL_DP",
+        "lvl": 5
+      },
+      {
+        "name": "AL_DEMONBANE",
+        "lvl": 3
+      },
+      {
+        "name": "AL_RUWACH",
+        "lvl": 1
+      },
+      {
+        "name": "AL_HEAL",
+        "lvl": 10
+      },
+      {
+        "name": "AL_INCAGI",
+        "lvl": 10
+      },
+      {
+        "name": "AL_BLESSING",
+        "lvl": 10
+      },
+      {
+        "name": "AL_ANGELUS",
+        "lvl": 3
+      },
+      {
+        "name": "AL_TELEPORT",
+        "lvl": 4
+      }
+    ],
+  "save_y": 191,
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "last_map": "prontera",
+  "save_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 2,
+  "name": "Acolyte",
+  "clothes_color": 1,
+  "skill_point": 0,
+  "status_point": 7,
+  "id": 160002
+},
+{
+  "_id": "u5vu9z",
+  "job": "Archer",
+  "max_hp": 3439,
+  "max_sp": 242,
+  "agi": 82,
+  "dex": 99,
+  "str": 10,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 96,
+  "job_level": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1713,
+      "name": "Arbalest"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "skills": [
+      {
+        "name": "AC_OWL",
+        "lvl": 10
+      },
+      {
+        "name": "AC_VULTURE",
+        "lvl": 10
+      },
+      {
+        "name": "AC_CONCENTRATION",
+        "lvl": 10
+      },
+      {
+        "name": "AC_DOUBLE",
+        "lvl": 10
+      },
+      {
+        "name": "AC_SHOWER",
+        "lvl": 9
+      }
+    ],
+  "save_y": 191,
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "last_map": "prontera",
+  "save_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 3,
+  "name": "Archer",
+  "clothes_color": 1,
+  "skill_point": 0,
+  "status_point": 7,
+  "id": 160003
+},
+{
+  "_id": "ysw5n0",
+  "job": "Mage",
+  "max_hp": 2121,
+  "max_sp": 1201,
+  "agi": 1,
+  "dex": 99,
+  "str": 1,
+  "int": 99,
+  "vit": 5,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1603,
+      "name": "Rod"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "skills": [
+      {
+        "name": "MG_FIREBOLT",
+        "lvl": 10
+      },
+      {
+        "name": "MG_COLDBOLT",
+        "lvl": 10
+      },
+      {
+        "name": "MG_SIGHT",
+        "lvl": 1
+      },
+      {
+        "name": "MG_NAPALMBEAT",
+        "lvl": 7
+      },
+      {
+        "name": "MG_SAFETYWALL",
+        "lvl": 5
+      },
+      {
+        "name": "MG_SOULSTRIKE",
+        "lvl": 5
+      },
+      {
+        "name": "MG_FIREBALL",
+        "lvl": 5
+      },
+      {
+        "name": "MG_LIGHTNINGBOLT",
+        "lvl": 4
+      },
+      {
+        "name": "MG_THUNDERSTORM",
+        "lvl": 2
+      }
+    ],
+  "save_y": 191,
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "last_map": "prontera",
+  "save_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 4,
+  "name": "Mage",
+  "clothes_color": 1,
+  "skill_point": 0,
+  "status_point": 7,
+  "id": 160004
+},
+{
+  "_id": "59o5oo",
+  "job": "Merchant",
+  "max_hp": 3012,
+  "max_sp": 368,
+  "agi": 80,
+  "dex": 34,
+  "str": 99,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1351,
+      "name": "Battle Axe"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "skills": [
+      {
+        "name": "MC_INCCARRY",
+        "lvl": 10
+      },
+      {
+        "name": "MC_PUSHCART",
+        "lvl": 10
+      },
+      {
+        "name": "MC_OVERCHARGE",
+        "lvl": 10
+      },
+      {
+        "name": "MC_MAMMONITE",
+        "lvl": 10
+      },
+      {
+        "name": "MC_DISCOUNT",
+        "lvl": 7
+      },
+      {
+        "name": "MC_IDENTIFY",
+        "lvl": 1
+      },
+      {
+        "name": "MC_VENDING",
+        "lvl": 1
+      }
+    ],
+  "save_y": 191,
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "last_map": "prontera",
+  "save_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 5,
+  "name": "Merchant",
+  "clothes_color": 1,
+  "skill_point": 0,
+  "status_point": 7,
+  "id": 160005
+},
+{
+  "_id": "1g0qff",
+  "job": "Knight",
+  "max_hp": 9653,
+  "max_sp": 368,
+  "agi": 80,
+  "dex": 34,
+  "str": 99,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2353,
+      "name": "Odin's Blessing"
+    },
+    "shield": {
+      "itemId": 2114,
+      "name": "Stone Buckler"
+    },
+    "shoulder": {
+      "itemId": 2514,
+      "name": "Pauldron"
+    },
+    "shoes": {
+      "itemId": 2417,
+      "name": "Fricco's Shoes"
+    },
+    "upperHeadgear": {
+      "itemId": 5137,
+      "name": "Alice Doll"
+    },
+    "middleHeadgear": {
+      "itemId": 5014,
+      "name": "Fin Helm"
+    },
+    "weapon": {
+      "itemId": 1404,
+      "name": "Spear"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "save_map": "prontera",
+  "save_y": 191,
+  "last_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 6,
+  "name": "Knight",
+  "clothes_color": 1,
+  "skills": [
+      {
+        "name": "SM_SWORD",
+        "lvl": 10
+      },
+      {
+        "name": "SM_TWOHAND",
+        "lvl": 10
+      },
+      {
+        "name": "SM_RECOVERY",
+        "lvl": 4
+      },
+      {
+        "name": "SM_BASH",
+        "lvl": 10
+      },
+      {
+        "name": "SM_PROVOKE",
+        "lvl": 5
+      },
+      {
+        "name": "SM_ENDURE",
+        "lvl": 5
+      },
+      {
+        "name": "SM_MAGNUM",
+        "lvl": 5
+      }
+    ],
+  "skill_point": 49,
+  "status_point": 7,
+  "id": 160006
+},
+{
+  "_id": "ikqvol",
+  "job": "Crusader",
+  "max_hp": 8147,
+  "max_sp": 621,
+  "agi": 80,
+  "dex": 34,
+  "str": 99,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2316,
+      "name": "Full Plate"
+    },
+    "shoulder": {
+      "itemId": 2520,
+      "name": "Goibne's Spaulders"
+    },
+    "shoes": {
+      "itemId": 2418,
+      "name": "Vidar's Boots"
+    },
+    "upperHeadgear": {
+      "itemId": 5246,
+      "name": "Angel Helm"
+    },
+    "middleHeadgear": {
+      "itemId": 5074,
+      "name": "Angel Wing Ears"
+    },
+    "weapon": {
+      "itemId": 1163,
+      "name": "Claymore"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "last_map": "prontera",
+  "last_x": 156,
+  "last_y": 191,
+  "save_map": "prontera",
+  "save_x": 156,
+  "save_y": 191,
+  "skills": [
+      {
+        "name": "SM_SWORD",
+        "lvl": 10
+      },
+      {
+        "name": "SM_TWOHAND",
+        "lvl": 10
+      },
+      {
+        "name": "SM_RECOVERY",
+        "lvl": 4
+      },
+      {
+        "name": "SM_BASH",
+        "lvl": 10
+      },
+      {
+        "name": "SM_PROVOKE",
+        "lvl": 5
+      },
+      {
+        "name": "SM_ENDURE",
+        "lvl": 5
+      },
+      {
+        "name": "SM_MAGNUM",
+        "lvl": 5
+      }
+    ],
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 7,
+  "name": "Crusader",
+  "clothes_color": 1,
+  "skill_point": 49,
+  "status_point": 7,
+  "id": 160007
+},
+{
+  "_id": "jnu8w2",
+  "job": "Assassin",
+  "max_hp": 7174,
+  "max_sp": 487,
+  "agi": 80,
+  "dex": 34,
+  "str": 99,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2312,
+      "name": "Padded Armor"
+    },
+    "shoulder": {
+      "itemId": 2503,
+      "name": "Muffler"
+    },
+    "shoes": {
+      "itemId": 2405,
+      "name": "Boots"
+    },
+    "upperHeadgear": {
+      "itemId": 5137,
+      "name": "Alice Doll"
+    },
+    "middleHeadgear": {
+      "itemId": 5068,
+      "name": "Evil Wing Ears"
+    },
+    "weapon": {
+      "itemId": 1254,
+      "name": "Jamadhar"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "save_y": 191,
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "save_map": "prontera",
+  "last_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 8,
+  "name": "Assassin",
+  "clothes_color": 1,
+  "skills": [
+      {
+        "name": "TF_DOUBLE",
+        "lvl": 10
+      },
+      {
+        "name": "TF_MISS",
+        "lvl": 10
+      },
+      {
+        "name": "TF_STEAL",
+        "lvl": 8
+      },
+      {
+        "name": "TF_HIDING",
+        "lvl": 10
+      },
+      {
+        "name": "TF_POISON",
+        "lvl": 10
+      },
+      {
+        "name": "TF_DETOXIFY",
+        "lvl": 1
+      }
+    ],
+  "skill_point": 49,
+  "status_point": 7,
+  "id": 160008
+},
+{
+  "_id": "ar74tb",
+  "job": "Priest",
+  "max_hp": 5104,
+  "max_sp": 1664,
+  "agi": 1,
+  "dex": 80,
+  "str": 10,
+  "int": 99,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2327,
+      "name": "Holy Robe"
+    },
+    "shield": {
+      "itemId": 2123,
+      "name": "Orlean's Server"
+    },
+    "shoulder": {
+      "itemId": 2503,
+      "name": "Muffler"
+    },
+    "shoes": {
+      "itemId": 2403,
+      "name": "Shoes"
+    },
+    "upperHeadgear": {
+      "itemId": 5124,
+      "name": "Fricca's Circlet"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    },
+    "middleHeadgear": {
+      "itemId": 2295,
+      "name": "Blinker"
+    },
+    "weapon": {
+      "itemId": 1625,
+      "name": "Staff of Recovery"
+    }
+  },
+  "save_y": 191,
+  "last_y": 191,
+  "last_x": 156,
+  "save_map": "prontera",
+  "last_map": "prontera",
+  "save_x": 156,
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 9,
+  "name": "Priest",
+  "clothes_color": 1,
+  "skills": [
+      {
+        "name": "AL_DP",
+        "lvl": 5
+      },
+      {
+        "name": "AL_DEMONBANE",
+        "lvl": 3
+      },
+      {
+        "name": "AL_RUWACH",
+        "lvl": 1
+      },
+      {
+        "name": "AL_HEAL",
+        "lvl": 10
+      },
+      {
+        "name": "AL_INCAGI",
+        "lvl": 10
+      },
+      {
+        "name": "AL_BLESSING",
+        "lvl": 10
+      },
+      {
+        "name": "AL_ANGELUS",
+        "lvl": 3
+      },
+      {
+        "name": "AL_TELEPORT",
+        "lvl": 4
+      }
+    ],
+  "status_point": 7,
+  "skill_point": 49,
+  "id": 160009
+},
+{
+  "_id": "meg4ci",
+  "job": "Monk",
+  "max_hp": 6718,
+  "max_sp": 828,
+  "agi": 80,
+  "dex": 21,
+  "str": 84,
+  "int": 60,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2311,
+      "name": "Mink Coat"
+    },
+    "shield": {
+      "itemId": 2124,
+      "name": "Thorned Shield"
+    },
+    "shoulder": {
+      "itemId": 2503,
+      "name": "Muffler"
+    },
+    "shoes": {
+      "itemId": 2418,
+      "name": "Vidar's Boots"
+    },
+    "upperHeadgear": {
+      "itemId": 2275,
+      "name": "Red Bandana"
+    },
+    "middleHeadgear": {
+      "itemId": 2295,
+      "name": "Blinker"
+    },
+    "weapon": {
+      "itemId": 1519,
+      "name": "Chain"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "save_map": "prontera",
+  "save_y": 191,
+  "last_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 10,
+  "name": "Monk",
+  "clothes_color": 1,
+  "skills": [
+      {
+        "name": "AL_DP",
+        "lvl": 5
+      },
+      {
+        "name": "AL_DEMONBANE",
+        "lvl": 3
+      },
+      {
+        "name": "AL_RUWACH",
+        "lvl": 1
+      },
+      {
+        "name": "AL_HEAL",
+        "lvl": 10
+      },
+      {
+        "name": "AL_INCAGI",
+        "lvl": 10
+      },
+      {
+        "name": "AL_BLESSING",
+        "lvl": 10
+      },
+      {
+        "name": "AL_ANGELUS",
+        "lvl": 3
+      },
+      {
+        "name": "AL_TELEPORT",
+        "lvl": 4
+      }
+    ],
+  "skill_point": 49,
+  "status_point": 7,
+  "id": 160010
+},
+{
+  "_id": "nbswpm",
+  "job": "Hunter",
+  "max_hp": 5686,
+  "max_sp": 487,
+  "agi": 80,
+  "dex": 99,
+  "str": 10,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2330,
+      "name": "Tights"
+    },
+    "shoulder": {
+      "itemId": 2503,
+      "name": "Muffler"
+    },
+    "shoes": {
+      "itemId": 2405,
+      "name": "Boots"
+    },
+    "upperHeadgear": {
+      "itemId": 2285,
+      "name": "Apple of Archer"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    },
+    "middleHeadgear": {
+      "itemId": 5074,
+      "name": "Angel Wing Ears"
+    },
+    "weapon": {
+      "itemId": 1726,
+      "name": "Hunter Bow"
+    }
+  },
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "save_map": "prontera",
+  "save_y": 191,
+  "last_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 11,
+  "name": "Hunter",
+  "clothes_color": 1,
+  "skills": [
+      {
+        "name": "AC_OWL",
+        "lvl": 10
+      },
+      {
+        "name": "AC_VULTURE",
+        "lvl": 10
+      },
+      {
+        "name": "AC_CONCENTRATION",
+        "lvl": 10
+      },
+      {
+        "name": "AC_DOUBLE",
+        "lvl": 10
+      },
+      {
+        "name": "AC_SHOWER",
+        "lvl": 9
+      }
+    ],
+  "status_point": 7,
+  "skill_point": 49,
+  "id": 160011
+},
+{
+  "_id": "q1y4qx",
+  "job": "Bard",
+  "max_hp": 4867,
+  "max_sp": 724,
+  "agi": 80,
+  "dex": 99,
+  "str": 10,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1714,
+      "name": "Gakkung Bow "
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "save_y": 191,
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "last_map": "prontera",
+  "save_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 12,
+  "name": "Bard",
+  "clothes_color": 1,
+  "skills": [
+      {
+        "name": "AC_OWL",
+        "lvl": 10
+      },
+      {
+        "name": "AC_VULTURE",
+        "lvl": 10
+      },
+      {
+        "name": "AC_CONCENTRATION",
+        "lvl": 10
+      },
+      {
+        "name": "AC_DOUBLE",
+        "lvl": 10
+      },
+      {
+        "name": "AC_SHOWER",
+        "lvl": 9
+      }
+    ],
+  "skill_point": 49,
+  "status_point": 7,
+  "id": 160012
+},
+{
+  "_id": "rw71sq",
+  "job": "Wizard",
+  "max_hp": 4052,
+  "max_sp": 1812,
+  "agi": 1,
+  "dex": 99,
+  "str": 1,
+  "int": 99,
+  "vit": 5,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2334,
+      "name": "Mage Coat"
+    },
+    "shield": {
+      "itemId": 2123,
+      "name": "Orlean's Server"
+    },
+    "shoulder": {
+      "itemId": 2509,
+      "name": "Survivor's Manteau"
+    },
+    "shoes": {
+      "itemId": 2407,
+      "name": "Crystal Pumps"
+    },
+    "upperHeadgear": {
+      "itemId": 5123,
+      "name": "Ulle's Cap"
+    },
+    "lowerHeadgear": {
+      "itemId": 2269,
+      "name": "Romantic Flower"
+    },
+    "middleHeadgear": {
+      "itemId": 2295,
+      "name": "Blinker"
+    },
+    "weapon": {
+      "itemId": 1617,
+      "name": "Survivor's Rod [0] (dex)"
+    }
+  },
+  "save_y": 191,
+  "last_y": 191,
+  "last_x": 156,
+  "save_map": "prontera",
+  "last_map": "prontera",
+  "save_x": 156,
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 13,
+  "name": "Wizard",
+  "clothes_color": 1,
+  "skills": [
+      {
+        "name": "MG_FIREBOLT",
+        "lvl": 10
+      },
+      {
+        "name": "MG_COLDBOLT",
+        "lvl": 10
+      },
+      {
+        "name": "MG_SIGHT",
+        "lvl": 1
+      },
+      {
+        "name": "MG_NAPALMBEAT",
+        "lvl": 7
+      },
+      {
+        "name": "MG_SAFETYWALL",
+        "lvl": 5
+      },
+      {
+        "name": "MG_SOULSTRIKE",
+        "lvl": 5
+      },
+      {
+        "name": "MG_FIREBALL",
+        "lvl": 5
+      },
+      {
+        "name": "MG_LIGHTNINGBOLT",
+        "lvl": 4
+      },
+      {
+        "name": "MG_THUNDERSTORM",
+        "lvl": 2
+      }
+    ],
+  "status_point": 7,
+  "skill_point": 49,
+  "id": 160013
+},
+{
+  "_id": "mlp8i0",
+  "job": "Sage",
+  "max_hp": 4466,
+  "max_sp": 1446,
+  "agi": 1,
+  "dex": 99,
+  "str": 1,
+  "int": 99,
+  "vit": 5,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "upperHeadgear": {
+      "itemId": 2235,
+      "name": "Crown"
+    },
+    "weapon": {
+      "itemId": 1580,
+      "name": "Giant Encyclopedia"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    }
+  },
+  "save_y": 191,
+  "last_y": 191,
+  "last_x": 156,
+  "save_map": "prontera",
+  "last_map": "prontera",
+  "save_x": 156,
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 14,
+  "name": "Sage",
+  "clothes_color": 1,
+  "skills": [
+      {
+        "name": "MG_FIREBOLT",
+        "lvl": 10
+      },
+      {
+        "name": "MG_COLDBOLT",
+        "lvl": 10
+      },
+      {
+        "name": "MG_SIGHT",
+        "lvl": 1
+      },
+      {
+        "name": "MG_NAPALMBEAT",
+        "lvl": 7
+      },
+      {
+        "name": "MG_SAFETYWALL",
+        "lvl": 5
+      },
+      {
+        "name": "MG_SOULSTRIKE",
+        "lvl": 5
+      },
+      {
+        "name": "MG_FIREBALL",
+        "lvl": 5
+      },
+      {
+        "name": "MG_LIGHTNINGBOLT",
+        "lvl": 4
+      },
+      {
+        "name": "MG_THUNDERSTORM",
+        "lvl": 2
+      }
+    ],
+  "skill_point": 49,
+  "status_point": 7,
+  "id": 160014
+},
+{
+  "_id": "ji64p5",
+  "job": "Blacksmith",
+  "max_hp": 6338,
+  "max_sp": 516,
+  "agi": 80,
+  "dex": 34,
+  "str": 99,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2318,
+      "name": "Lord's Clothes"
+    },
+    "shoulder": {
+      "itemId": 2520,
+      "name": "Goibne's Spaulders"
+    },
+    "shoes": {
+      "itemId": 2419,
+      "name": "Goibne's Greaves"
+    },
+    "upperHeadgear": {
+      "itemId": 5137,
+      "name": "Alice Doll"
+    },
+    "lowerHeadgear": {
+      "itemId": 2268,
+      "name": "Pipe"
+    },
+    "middleHeadgear": {
+      "itemId": 5074,
+      "name": "Angel Wing Ears"
+    },
+    "weapon": {
+      "itemId": 1360,
+      "name": "Two-Handed Axe"
+    }
+  },
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "save_map": "prontera",
+  "save_y": 191,
+  "last_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 15,
+  "name": "Blacksmith",
+  "clothes_color": 1,
+  "skills": [
+      {
+        "name": "MC_INCCARRY",
+        "lvl": 10
+      },
+      {
+        "name": "MC_PUSHCART",
+        "lvl": 10
+      },
+      {
+        "name": "MC_OVERCHARGE",
+        "lvl": 10
+      },
+      {
+        "name": "MC_MAMMONITE",
+        "lvl": 10
+      },
+      {
+        "name": "MC_DISCOUNT",
+        "lvl": 7
+      },
+      {
+        "name": "MC_IDENTIFY",
+        "lvl": 1
+      },
+      {
+        "name": "MC_VENDING",
+        "lvl": 1
+      }
+    ],
+  "status_point": 7,
+  "skill_point": 49,
+  "id": 160015
+},
+{
+  "_id": "ao1jmb",
+  "job": "Alchemist",
+  "max_hp": 5986,
+  "max_sp": 491,
+  "agi": 80,
+  "dex": 34,
+  "str": 99,
+  "int": 20,
+  "vit": 20,
+  "luk": 1,
+  "base_level": 99,
+  "job_level": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1360,
+      "name": "Two-Handed Axe"
+    },
+    "lowerHeadgear": {
+      "itemId": 2268,
+      "name": "Pipe"
+    },
+    "middleHeadgear": {
+      "name": "Angel Wing Ears",
+      "itemId": 5074
+    },
+    "shoes": {
+      "name": "Goibne's Greaves",
+      "itemId": 2419
+    },
+    "shoulder": {
+      "name": "Goibne's Spaulders",
+      "itemId": 2520
+    },
+    "body": {
+      "name": "Lord's Clothes",
+      "itemId": 2318
+    },
+    "upperHeadgear": {
+      "itemId": 5137,
+      "name": "Alice Doll"
+    }
+  },
+  "last_y": 191,
+  "save_x": 156,
+  "last_x": 156,
+  "save_map": "prontera",
+  "save_y": 191,
+  "last_map": "prontera",
+  "hair_color": 21,
+  "hair": 21,
+  "char_num": 16,
+  "name": "Alchemist",
+  "clothes_color": 1,
+  "skills": [
+      {
+        "name": "MC_INCCARRY",
+        "lvl": 10
+      },
+      {
+        "name": "MC_PUSHCART",
+        "lvl": 10
+      },
+      {
+        "name": "MC_OVERCHARGE",
+        "lvl": 10
+      },
+      {
+        "name": "MC_MAMMONITE",
+        "lvl": 10
+      },
+      {
+        "name": "MC_DISCOUNT",
+        "lvl": 7
+      },
+      {
+        "name": "MC_IDENTIFY",
+        "lvl": 1
+      },
+      {
+        "name": "MC_VENDING",
+        "lvl": 1
+      }
+    ],
+  "status_point": 7,
+  "skill_point": 49,
+  "id": 160016
+}]

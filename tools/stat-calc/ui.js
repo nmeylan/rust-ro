@@ -720,7 +720,7 @@ function refreshTestCases() {
             row.insertCell(-1).appendChild(document.createTextNode(testcase.baseDex));
             row.insertCell(-1).appendChild(document.createTextNode(testcase.baseLuk));
             row.insertCell(-1).appendChild(document.createTextNode(testcase.targetId));
-            row.insertCell(-1).appendChild(document.createTextNode(testcase.skillToUse.name));
+            row.insertCell(-1).appendChild(document.createTextNode(testcase.skillToUse ? testcase.skillToUse.name : 'Basic attack'));
         }
         for (const tr of tableBody.getElementsByTagName("tr")) {
             tr.style.backgroundColor = "";
