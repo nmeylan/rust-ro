@@ -980,6 +980,91 @@ function bindSaveTestCases() {
     });
 }
 
+function bindSaveCharacters() {
+    document.getElementById('btn-save-characters').addEventListener('click', function() {
+        let characters = [];
+        const fieldsToKeep = [
+            '_id',
+            'job',
+            'hp', 'maxHp',
+            'sp', 'maxSp',
+            'baseAgi',
+            'baseDex',
+            'baseStr',
+            'baseInt',
+            'baseVit',
+            'baseLuk',
+            'baseLevel',
+            'jobLevel',
+            'equipments.body.itemId',
+            'equipments.body.name',
+            'equipments.shield.itemId',
+            'equipments.shield.name',
+            'equipments.shoulder.itemId',
+            'equipments.shoulder.name',
+            'equipments.shoes.itemId',
+            'equipments.shoes.name',
+            'equipments.upperHeadgear.itemId',
+            'equipments.upperHeadgear.name',
+            'equipments.lowerHeadgear.itemId',
+            'equipments.lowerHeadgear.name',
+            'equipments.middleHeadgear.itemId',
+            'equipments.middleHeadgear.name',
+            'equipments.weapon.itemId',
+            'equipments.weapon.name',
+        ];
+
+        for (const testcase of testcases) {
+            characters.push(pickFields(testcase, fieldsToKeep));
+        }
+        var jsonData = JSON.stringify(characters, null, 2);
+        var blob = new Blob([jsonData], {type: 'application/json'});
+
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'characters.json'; // You can specify any file name
+
+        document.body.appendChild(a); // Append the anchor to body
+        a.click(); // Programmatically click the anchor to trigger the download
+
+        document.body.removeChild(a); // Remove the anchor from the body
+        URL.revokeObjectURL(url); // Free up memory by revoking the Blob URL
+    });
+}
+function pickFields(obj, fields) {
+    return fields.reduce((acc, field) => {
+        // Handle nested fields (those with dots)
+        if (field.includes('.')) {
+            const parts = field.split('.');
+            let value = obj;
+
+            // Navigate through the nested structure
+            for (const part of parts) {
+                value = value?.[part];
+                if (value === undefined) break;
+            }
+
+            // Only set if we found a value
+            if (value !== undefined) {
+                // Create nested structure
+                let current = acc;
+                parts.slice(0, -1).forEach((part, index) => {
+                    current[part] = current[part] || {};
+                    current = current[part];
+                });
+                current[parts[parts.length - 1]] = value;
+            }
+        } else {
+            // Handle non-nested fields
+            if (obj[field] !== undefined) {
+                acc[field] = obj[field];
+            }
+        }
+        return acc;
+    }, {});
+}
+
 function bindOnChangeExtendedInfo() {
     document.getElementById("extended-info-select").addEventListener("change", (e) => {
         ExtendedInfo()
@@ -1036,7 +1121,7 @@ function bindUploadTestCases() {
             const reader = new FileReader();
             reader.addEventListener('load', (event) => {
                 testcases = JSON.parse(reader.result);
-                localStorage.setItem("testcases", testcases);
+                localStorage.setItem("testcases", reader.result);
                 refreshTestCases();
             });
             reader.readAsText(file);
@@ -1839,6 +1924,7 @@ bindGenerateTestCase();
 bindAddTestCase();
 bindUnloadTestCase();
 bindSaveTestCases();
+bindSaveCharacters();
 bindOnChangeEnemy();
 bindOnChangeJob();
 bindOnClickCalculate();

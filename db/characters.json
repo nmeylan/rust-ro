@@ -1,0 +1,580 @@
+[{
+    "_id": "bc0x2w",
+    "job": "Swordsman",
+    "maxHp": 4958,
+    "maxSp": 249,
+    "baseAgi": 80,
+    "baseDex": 34,
+    "baseStr": 99,
+    "baseInt": 20,
+    "baseVit": 20,
+    "baseLuk": 1,
+    "baseLevel": 99,
+    "jobLevel": 50,
+    "equipments": {
+      "body": {
+        "itemId": 2312,
+        "name": "Padded Armor"
+      },
+      "shield": {
+        "itemId": 2124,
+        "name": "Thorned Shield"
+      },
+      "shoulder": {
+        "itemId": 2505,
+        "name": "Manteau"
+      },
+      "shoes": {
+        "itemId": 2405,
+        "name": "Boots"
+      },
+      "upperHeadgear": {
+        "itemId": 2228,
+        "name": "Helm"
+      },
+      "weapon": {
+        "itemId": 1113,
+        "name": "Scimitar"
+      }
+    }
+  },
+{
+    "_id": "fa9epg",
+    "job": "Thief",
+    "maxHp": 3695,
+    "maxSp": 251,
+    "baseAgi": 80,
+    "baseDex": 34,
+    "baseStr": 99,
+    "baseInt": 20,
+    "baseVit": 20,
+    "baseLuk": 1,
+    "baseLevel": 99,
+    "jobLevel": 50,
+    "equipments": {
+      "weapon": {
+        "itemId": 1222,
+        "name": "Damascus"
+      }
+    }
+  },
+{
+  "_id": "hlqab9",
+  "job": "Acolyte",
+  "maxHp": 3012,
+  "maxSp": 1004,
+  "baseAgi": 1,
+  "baseDex": 80,
+  "baseStr": 10,
+  "baseInt": 99,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": -1,
+      "name": "(Unarmed)"
+    }
+  }
+},
+{
+  "_id": "u5vu9z",
+  "job": "Archer",
+  "maxHp": 3439,
+  "maxSp": 242,
+  "baseAgi": 82,
+  "baseDex": 99,
+  "baseStr": 10,
+  "baseInt": 20,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 96,
+  "jobLevel": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1713,
+      "name": "Arbalest"
+    }
+  }
+},
+{
+  "_id": "ysw5n0",
+  "job": "Mage",
+  "maxHp": 2121,
+  "maxSp": 1201,
+  "baseAgi": 1,
+  "baseDex": 99,
+  "baseStr": 1,
+  "baseInt": 99,
+  "baseVit": 5,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1603,
+      "name": "Rod"
+    }
+  }
+},
+{
+  "_id": "59o5oo",
+  "job": "Merchant",
+  "maxHp": 3012,
+  "maxSp": 368,
+  "baseAgi": 80,
+  "baseDex": 34,
+  "baseStr": 99,
+  "baseInt": 20,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": -1,
+      "name": "(Unarmed)"
+    }
+  }
+},
+{
+  "_id": "1g0qff",
+  "job": "Knight",
+  "maxHp": 9653,
+  "maxSp": 368,
+  "baseAgi": 80,
+  "baseDex": 34,
+  "baseStr": 99,
+  "baseInt": 20,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2353,
+      "name": "Odin's Blessing"
+    },
+    "shield": {
+      "itemId": 2114,
+      "name": "Stone Buckler"
+    },
+    "shoulder": {
+      "itemId": 2514,
+      "name": "Pauldron"
+    },
+    "shoes": {
+      "itemId": 2417,
+      "name": "Fricco's Shoes"
+    },
+    "upperHeadgear": {
+      "itemId": 5137,
+      "name": "Alice Doll"
+    },
+    "middleHeadgear": {
+      "itemId": 5014,
+      "name": "Fin Helm"
+    },
+    "weapon": {
+      "itemId": 1404,
+      "name": "Spear"
+    }
+  }
+},
+{
+  "_id": "ikqvol",
+  "job": "Crusader",
+  "maxHp": 8147,
+  "maxSp": 621,
+  "baseAgi": 80,
+  "baseDex": 34,
+  "baseStr": 99,
+  "baseInt": 20,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2316,
+      "name": "Full Plate"
+    },
+    "shoulder": {
+      "itemId": 2520,
+      "name": "Goibne's Spaulders"
+    },
+    "shoes": {
+      "itemId": 2418,
+      "name": "Vidar's Boots"
+    },
+    "upperHeadgear": {
+      "itemId": 5246,
+      "name": "Angel Helm"
+    },
+    "middleHeadgear": {
+      "itemId": 5074,
+      "name": "Angel Wing Ears"
+    },
+    "weapon": {
+      "itemId": 1163,
+      "name": "Claymore"
+    }
+  }
+},
+{
+  "_id": "jnu8w2",
+  "job": "Assassin",
+  "maxHp": 7174,
+  "maxSp": 487,
+  "baseAgi": 80,
+  "baseDex": 34,
+  "baseStr": 99,
+  "baseInt": 20,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2312,
+      "name": "Padded Armor"
+    },
+    "shoulder": {
+      "itemId": 2503,
+      "name": "Muffler"
+    },
+    "shoes": {
+      "itemId": 2405,
+      "name": "Boots"
+    },
+    "upperHeadgear": {
+      "itemId": 5137,
+      "name": "Alice Doll"
+    },
+    "middleHeadgear": {
+      "itemId": 5068,
+      "name": "Evil Wing Ears"
+    },
+    "weapon": {
+      "itemId": 1254,
+      "name": "Jamadhar"
+    }
+  }
+},
+{
+  "_id": "ar74tb",
+  "job": "Priest",
+  "maxHp": 5104,
+  "maxSp": 1664,
+  "baseAgi": 1,
+  "baseDex": 80,
+  "baseStr": 10,
+  "baseInt": 99,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2327,
+      "name": "Holy Robe"
+    },
+    "shield": {
+      "itemId": 2123,
+      "name": "Orlean's Server"
+    },
+    "shoulder": {
+      "itemId": 2503,
+      "name": "Muffler"
+    },
+    "shoes": {
+      "itemId": 2403,
+      "name": "Shoes"
+    },
+    "upperHeadgear": {
+      "itemId": 5124,
+      "name": "Fricca's Circlet"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    },
+    "middleHeadgear": {
+      "itemId": 2295,
+      "name": "Blinker"
+    },
+    "weapon": {
+      "itemId": 1625,
+      "name": "Staff of Recovery"
+    }
+  }
+},
+{
+  "_id": "meg4ci",
+  "job": "Monk",
+  "maxHp": 6718,
+  "maxSp": 828,
+  "baseAgi": 80,
+  "baseDex": 21,
+  "baseStr": 84,
+  "baseInt": 60,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2311,
+      "name": "Mink Coat"
+    },
+    "shield": {
+      "itemId": 2124,
+      "name": "Thorned Shield"
+    },
+    "shoulder": {
+      "itemId": 2503,
+      "name": "Muffler"
+    },
+    "shoes": {
+      "itemId": 2418,
+      "name": "Vidar's Boots"
+    },
+    "upperHeadgear": {
+      "itemId": 2275,
+      "name": "Red Bandana"
+    },
+    "middleHeadgear": {
+      "itemId": 2295,
+      "name": "Blinker"
+    },
+    "weapon": {
+      "itemId": 1519,
+      "name": "Chain"
+    }
+  }
+},
+{
+  "_id": "nbswpm",
+  "job": "Hunter",
+  "maxHp": 5686,
+  "maxSp": 487,
+  "baseAgi": 80,
+  "baseDex": 99,
+  "baseStr": 10,
+  "baseInt": 20,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2330,
+      "name": "Tights"
+    },
+    "shoulder": {
+      "itemId": 2503,
+      "name": "Muffler"
+    },
+    "shoes": {
+      "itemId": 2405,
+      "name": "Boots"
+    },
+    "upperHeadgear": {
+      "itemId": 2285,
+      "name": "Apple of Archer"
+    },
+    "lowerHeadgear": {
+      "itemId": 5107,
+      "name": "Crunch Toast"
+    },
+    "middleHeadgear": {
+      "itemId": 5074,
+      "name": "Angel Wing Ears"
+    },
+    "weapon": {
+      "itemId": 1726,
+      "name": "Hunter Bow"
+    }
+  }
+},
+{
+  "_id": "q1y4qx",
+  "job": "Bard",
+  "maxHp": 4867,
+  "maxSp": 724,
+  "baseAgi": 80,
+  "baseDex": 99,
+  "baseStr": 10,
+  "baseInt": 20,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1714,
+      "name": "Gakkung Bow "
+    }
+  }
+},
+{
+  "_id": "rw71sq",
+  "job": "Wizard",
+  "maxHp": 4052,
+  "maxSp": 1812,
+  "baseAgi": 1,
+  "baseDex": 99,
+  "baseStr": 1,
+  "baseInt": 99,
+  "baseVit": 5,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2334,
+      "name": "Mage Coat"
+    },
+    "shield": {
+      "itemId": 2123,
+      "name": "Orlean's Server"
+    },
+    "shoulder": {
+      "itemId": 2509,
+      "name": "Survivor's Manteau"
+    },
+    "shoes": {
+      "itemId": 2407,
+      "name": "Crystal Pumps"
+    },
+    "upperHeadgear": {
+      "itemId": 5123,
+      "name": "Ulle's Cap"
+    },
+    "lowerHeadgear": {
+      "itemId": 2269,
+      "name": "Romantic Flower"
+    },
+    "middleHeadgear": {
+      "itemId": 2295,
+      "name": "Blinker"
+    },
+    "weapon": {
+      "itemId": 1617,
+      "name": "Survivor's Rod [0] (dex)"
+    }
+  }
+},
+{
+  "_id": "mlp8i0",
+  "job": "Sage",
+  "maxHp": 4466,
+  "maxSp": 1446,
+  "baseAgi": 1,
+  "baseDex": 99,
+  "baseStr": 1,
+  "baseInt": 99,
+  "baseVit": 5,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "upperHeadgear": {
+      "itemId": 2235,
+      "name": "Crown"
+    },
+    "weapon": {
+      "itemId": 1580,
+      "name": "Giant Encyclopedia"
+    }
+  }
+},
+{
+  "_id": "ji64p5",
+  "job": "Blacksmith",
+  "maxHp": 6338,
+  "maxSp": 516,
+  "baseAgi": 80,
+  "baseDex": 34,
+  "baseStr": 99,
+  "baseInt": 20,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "body": {
+      "itemId": 2318,
+      "name": "Lord's Clothes"
+    },
+    "shoulder": {
+      "itemId": 2520,
+      "name": "Goibne's Spaulders"
+    },
+    "shoes": {
+      "itemId": 2419,
+      "name": "Goibne's Greaves"
+    },
+    "upperHeadgear": {
+      "itemId": 5137,
+      "name": "Alice Doll"
+    },
+    "lowerHeadgear": {
+      "itemId": 2268,
+      "name": "Pipe"
+    },
+    "middleHeadgear": {
+      "itemId": 5074,
+      "name": "Angel Wing Ears"
+    },
+    "weapon": {
+      "itemId": 1360,
+      "name": "Two-Handed Axe"
+    }
+  }
+},
+{
+  "_id": "ao1jmb",
+  "job": "Alchemist",
+  "maxHp": 5986,
+  "maxSp": 491,
+  "baseAgi": 80,
+  "baseDex": 34,
+  "baseStr": 99,
+  "baseInt": 20,
+  "baseVit": 20,
+  "baseLuk": 1,
+  "baseLevel": 99,
+  "jobLevel": 50,
+  "equipments": {
+    "weapon": {
+      "itemId": 1360,
+      "name": "Two-Handed Axe"
+    },
+    "lowerHeadgear": {
+      "itemId": 2268,
+      "name": "Pipe"
+    },
+    "middleHeadgear": {
+      "name": "Angel Wing Ears",
+      "itemId": 5074
+    },
+    "shoes": {
+      "name": "Goibne's Greaves",
+      "itemId": 2419
+    },
+    "shoulder": {
+      "name": "Goibne's Spaulders",
+      "itemId": 2520
+    },
+    "body": {
+      "name": "Lord's Clothes",
+      "itemId": 2318
+    },
+    "upperHeadgear": {
+      "itemId": 5137,
+      "name": "Alice Doll"
+    }
+  }
+}]
