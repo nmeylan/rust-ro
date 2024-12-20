@@ -17,6 +17,7 @@ flate2 = "1.0"
 md5 = "0.7.0"
 log = "0.4"
 simple_logger = { version = "4.3.3", features = [], default-features = false }
+postgres = { version = "0.19.9", default-features = false, features = [] }
 
 configuration = { path = "../lib/configuration" }
 models = { path = "../lib/models" }
@@ -34,6 +35,9 @@ path = "job-config/main.rs"
 [[bin]]
 name = "skills-struct-generator"
 path = "skills/main.rs"
+[[bin]]
+name = "account-setup"
+path = "account-setup/main.rs"
 
 
 [features]
