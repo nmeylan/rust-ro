@@ -42,12 +42,12 @@ struct Character {
 struct Equipment {
     name: String,
     #[serde(rename = "itemId")]
-    item_id: i32,
+    item_id: i16,
 }
 
 
 fn main() {
-    let mut replace_existing_char = false;
+    let mut replace_existing_char = true;
     let mut account_id = 2000001;
     let mut char_num_start = 0;
     let mut sex = "M".to_string();
@@ -85,11 +85,16 @@ fn main() {
     }
     let mut characters = result.unwrap();
 
-    let mut query = "INSERT INTO \"char\" (account_id, char_id, class, max_hp, max_sp, agi, dex, str, int, vit, luk, base_level, job_level, save_y, last_y, save_x, last_x, last_map, save_map, hair_color, hair, char_num, name, clothes_color, skill_point, status_point, sex, zeny, hp, sp) VALUES ".to_string();
-    const FIELD_COUNT: usize = 30;
+    let mut query = "INSERT INTO \"char\" (account_id, char_id, class, max_hp, max_sp, agi, dex, str, int, vit, luk, base_level, job_level, save_y, last_y, save_x, last_x, last_map, save_map, hair_color, hair, char_num, name, clothes_color, skill_point, status_point, sex, zeny, hp, sp, body, weapon, shield, head_top, head_mid, head_bottom) VALUES ".to_string();
+    let mut delete_query = "DELETE FROM \"char\" WHERE account_id = $1 RETURNING char_id;".to_string();
+    const FIELD_COUNT: usize = 36;
     let mut params: Vec<&(dyn postgres::types::ToSql + Sync)> = Vec::with_capacity(FIELD_COUNT * characters.len());
+    let equipment_locations = ["weapon", "body", "shield", "head_top", "head_low", "head_mid"];
     for character in characters.iter_mut() {
         character.class = Some(JobName::from_string(&character.job).value() as i16);
+        for equipment_location in equipment_locations.iter() {
+            character.equipments.entry(equipment_location.to_string()).or_insert( Equipment { name: "None".to_string(), item_id: 0 });
+        }
     }
 
     for (i, character) in characters.iter().enumerate() {
@@ -135,9 +140,19 @@ fn main() {
             &zeny,
             &character.max_hp,
             &character.max_sp,
+            &character.equipments["body"].item_id,
+            &character.equipments["weapon"].item_id,
+            &character.equipments["shield"].item_id,
+            &character.equipments["head_top"].item_id,
+            &character.equipments["head_mid"].item_id,
+            &character.equipments["head_low"].item_id,
         ]);
     }
     // println!("{}, params: {}", query, params.iter().map(|p| format!("{:?}", p)).collect::<Vec<String>>().join(","));
-
-    client.execute(&query, &params).unwrap();
+    let mut transaction = client.transaction().unwrap();
+    if replace_existing_char {
+        transaction.execute(delete_query.as_str(), &[&account_id]).unwrap();
+    }
+    transaction.execute(&query, &params).unwrap();
+    transaction.commit().unwrap();
 }
