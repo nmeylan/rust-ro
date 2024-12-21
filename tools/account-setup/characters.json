@@ -34,7 +34,7 @@
       "itemId": 2405,
       "name": "Boots"
     },
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 2228,
       "name": "Helm"
     },
@@ -42,7 +42,7 @@
       "itemId": 1113,
       "name": "Scimitar"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -104,7 +104,7 @@
       "itemId": 1222,
       "name": "Damascus"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -168,7 +168,7 @@
       "itemId": 1524,
       "name": "Golden Mace"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -240,7 +240,7 @@
       "itemId": 1713,
       "name": "Arbalest"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -300,7 +300,7 @@
       "itemId": 1603,
       "name": "Rod"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -376,7 +376,7 @@
       "itemId": 1351,
       "name": "Battle Axe"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -456,11 +456,11 @@
       "itemId": 2417,
       "name": "Fricco's Shoes"
     },
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 5137,
       "name": "Alice Doll"
     },
-    "middleHeadgear": {
+    "head_mid": {
       "itemId": 5014,
       "name": "Fin Helm"
     },
@@ -468,7 +468,7 @@
       "itemId": 1404,
       "name": "Spear"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -544,11 +544,11 @@
       "itemId": 2418,
       "name": "Vidar's Boots"
     },
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 5246,
       "name": "Angel Helm"
     },
-    "middleHeadgear": {
+    "head_mid": {
       "itemId": 5074,
       "name": "Angel Wing Ears"
     },
@@ -556,7 +556,7 @@
       "itemId": 1163,
       "name": "Claymore"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -632,11 +632,11 @@
       "itemId": 2405,
       "name": "Boots"
     },
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 5137,
       "name": "Alice Doll"
     },
-    "middleHeadgear": {
+    "head_mid": {
       "itemId": 5068,
       "name": "Evil Wing Ears"
     },
@@ -644,7 +644,7 @@
       "itemId": 1254,
       "name": "Jamadhar"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -720,15 +720,15 @@
       "itemId": 2403,
       "name": "Shoes"
     },
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 5124,
       "name": "Fricca's Circlet"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     },
-    "middleHeadgear": {
+    "head_mid": {
       "itemId": 2295,
       "name": "Blinker"
     },
@@ -816,11 +816,11 @@
       "itemId": 2418,
       "name": "Vidar's Boots"
     },
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 2275,
       "name": "Red Bandana"
     },
-    "middleHeadgear": {
+    "head_mid": {
       "itemId": 2295,
       "name": "Blinker"
     },
@@ -828,7 +828,7 @@
       "itemId": 1519,
       "name": "Chain"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -908,15 +908,15 @@
       "itemId": 2405,
       "name": "Boots"
     },
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 2285,
       "name": "Apple of Archer"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     },
-    "middleHeadgear": {
+    "head_mid": {
       "itemId": 5074,
       "name": "Angel Wing Ears"
     },
@@ -980,7 +980,7 @@
       "itemId": 1714,
       "name": "Gakkung Bow "
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -1052,15 +1052,15 @@
       "itemId": 2407,
       "name": "Crystal Pumps"
     },
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 5123,
       "name": "Ulle's Cap"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 2269,
       "name": "Romantic Flower"
     },
-    "middleHeadgear": {
+    "head_mid": {
       "itemId": 2295,
       "name": "Blinker"
     },
@@ -1136,7 +1136,7 @@
   "base_level": 99,
   "job_level": 50,
   "equipments": {
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 2235,
       "name": "Crown"
     },
@@ -1144,7 +1144,7 @@
       "itemId": 1580,
       "name": "Giant Encyclopedia"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
     }
@@ -1228,15 +1228,15 @@
       "itemId": 2419,
       "name": "Goibne's Greaves"
     },
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 5137,
       "name": "Alice Doll"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 2268,
       "name": "Pipe"
     },
-    "middleHeadgear": {
+    "head_mid": {
       "itemId": 5074,
       "name": "Angel Wing Ears"
     },
@@ -1308,11 +1308,11 @@
       "itemId": 1360,
       "name": "Two-Handed Axe"
     },
-    "lowerHeadgear": {
+    "head_low": {
       "itemId": 2268,
       "name": "Pipe"
     },
-    "middleHeadgear": {
+    "head_mid": {
       "name": "Angel Wing Ears",
       "itemId": 5074
     },
@@ -1328,7 +1328,7 @@
       "name": "Lord's Clothes",
       "itemId": 2318
     },
-    "upperHeadgear": {
+    "head_top": {
       "itemId": 5137,
       "name": "Alice Doll"
     }
