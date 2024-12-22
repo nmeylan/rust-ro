@@ -107,6 +107,10 @@
     "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
+    },
+    "head_top": {
+      "itemId": 5057,
+      "name": "Ear_Of_Black_Cat"
     }
   },
   "save_y": 191,
@@ -171,6 +175,10 @@
     "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
+    },
+    "head_top": {
+      "itemId": 2254,
+      "name": "Angelic_Chain"
     }
   },
   "skills": [
@@ -243,6 +251,10 @@
     "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
+    },
+    "head_top": {
+      "itemId": 2285,
+      "name": "Apple of Archer"
     }
   },
   "skills": [
@@ -303,6 +315,10 @@
     "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
+    },
+    "head_top": {
+      "name": "Apple of Archer",
+      "itemId": 2285
     }
   },
   "skills": [
@@ -379,6 +395,10 @@
     "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
+    },
+    "head_top": {
+      "itemId": 2254,
+      "name": "Angelic_Chain"
     }
   },
   "skills": [
@@ -545,7 +565,7 @@
       "name": "Vidar's Boots"
     },
     "head_top": {
-      "itemId": 5246,
+      "itemId": 5025,
       "name": "Angel Helm"
     },
     "head_mid": {
@@ -983,6 +1003,10 @@
     "head_low": {
       "itemId": 5107,
       "name": "Crunch Toast"
+    },
+    "head_top": {
+      "itemId": 2285,
+      "name": "Apple of Archer"
     }
   },
   "save_y": 191,
