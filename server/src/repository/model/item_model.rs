@@ -428,6 +428,7 @@ pub struct InventoryItemModel {
     // Come from itemdb table
     #[sqlx(default)]
     pub name_english: String,
+    #[sqlx(default)]
     pub weight: i32,
 }
 
