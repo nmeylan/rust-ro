@@ -48,35 +48,39 @@
     }
   },
   "skills": [
-      {
-        "name": "SM_SWORD",
-        "lvl": 10
-      },
-      {
-        "name": "SM_TWOHAND",
-        "lvl": 10
-      },
-      {
-        "name": "SM_RECOVERY",
-        "lvl": 4
-      },
-      {
-        "name": "SM_BASH",
-        "lvl": 10
-      },
-      {
-        "name": "SM_PROVOKE",
-        "lvl": 5
-      },
-      {
-        "name": "SM_ENDURE",
-        "lvl": 5
-      },
-      {
-        "name": "SM_MAGNUM",
-        "lvl": 5
-      }
-    ],
+  {
+    "name": "SM_SWORD",
+    "lvl": 10
+  },
+  {
+    "name": "SM_TWOHAND",
+    "lvl": 10
+  },
+  {
+    "name": "SM_RECOVERY",
+    "lvl": 4
+  },
+  {
+    "name": "SM_BASH",
+    "lvl": 10
+  },
+  {
+    "name": "SM_PROVOKE",
+    "lvl": 5
+  },
+  {
+    "name": "SM_ENDURE",
+    "lvl": 5
+  },
+  {
+    "name": "SM_MAGNUM",
+    "lvl": 5
+  },
+  {
+    "name": "NV_BASIC",
+    "lvl": 9
+  }
+],
   "save_y": 191,
   "last_y": 191,
   "save_x": 156,
@@ -150,7 +154,11 @@
       {
         "name": "TF_DETOXIFY",
         "lvl": 1
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "id": 160001
 },
@@ -213,7 +221,11 @@
       {
         "name": "AL_TELEPORT",
         "lvl": 4
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "save_y": 191,
   "last_y": 191,
@@ -277,7 +289,11 @@
       {
         "name": "AC_SHOWER",
         "lvl": 9
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "save_y": 191,
   "last_y": 191,
@@ -357,7 +373,11 @@
       {
         "name": "MG_THUNDERSTORM",
         "lvl": 2
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "save_y": 191,
   "last_y": 191,
@@ -429,7 +449,11 @@
       {
         "name": "MC_VENDING",
         "lvl": 1
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "save_y": 191,
   "last_y": 191,
@@ -532,7 +556,11 @@
       {
         "name": "SM_MAGNUM",
         "lvl": 5
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "skill_point": 49,
   "status_point": 7,
@@ -615,7 +643,11 @@
       {
         "name": "SM_MAGNUM",
         "lvl": 5
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "hair_color": 21,
   "hair": 21,
@@ -704,7 +736,11 @@
       {
         "name": "TF_DETOXIFY",
         "lvl": 1
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "skill_point": 49,
   "status_point": 7,
@@ -800,7 +836,11 @@
       {
         "name": "AL_TELEPORT",
         "lvl": 4
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "status_point": 7,
   "skill_point": 49,
@@ -896,7 +936,11 @@
       {
         "name": "AL_TELEPORT",
         "lvl": 4
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "skill_point": 49,
   "status_point": 7,
@@ -976,7 +1020,11 @@
       {
         "name": "AC_SHOWER",
         "lvl": 9
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "status_point": 7,
   "skill_point": 49,
@@ -1040,7 +1088,11 @@
       {
         "name": "AC_SHOWER",
         "lvl": 9
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "skill_point": 49,
   "status_point": 7,
@@ -1140,7 +1192,11 @@
       {
         "name": "MG_THUNDERSTORM",
         "lvl": 2
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "status_point": 7,
   "skill_point": 49,
@@ -1220,7 +1276,11 @@
       {
         "name": "MG_THUNDERSTORM",
         "lvl": 2
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "skill_point": 49,
   "status_point": 7,
@@ -1308,7 +1368,11 @@
       {
         "name": "MC_VENDING",
         "lvl": 1
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "status_point": 7,
   "skill_point": 49,
@@ -1396,7 +1460,11 @@
       {
         "name": "MC_VENDING",
         "lvl": 1
-      }
+      },
+    {
+      "name": "NV_BASIC",
+      "lvl": 9
+    }
     ],
   "status_point": 7,
   "skill_point": 49,

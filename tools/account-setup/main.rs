@@ -10,6 +10,7 @@ use serde_json::Value;
 use models::enums::class::JobName;
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use models::enums::item::EquipmentLocation;
+use models::enums::skill_enums::SkillEnum;
 
 #[derive(Debug, Deserialize)]
 struct Character {
@@ -40,6 +41,7 @@ struct Character {
     last_map: String,
     status_point: i16,
     skill_point: i16,
+    skills: Vec<Skill>
 }
 #[derive(Debug, Deserialize)]
 struct Equipment {
@@ -50,6 +52,13 @@ struct Equipment {
     item_id_32: i32,
     location: Option<i32>,
     unique_id: Option<i64>,
+}
+#[derive(Debug, Deserialize)]
+struct Skill {
+    name: String,
+    #[serde(skip_deserializing)]
+    id: i32,
+    lvl: i16
 }
 
 
@@ -105,10 +114,13 @@ fn main() {
 
     let mut query_insert_char = "INSERT INTO \"char\" (account_id, char_id, class, max_hp, max_sp, agi, dex, str, int, vit, luk, base_level, job_level, save_y, last_y, save_x, last_x, last_map, save_map, hair_color, hair, char_num, name, clothes_color, skill_point, status_point, sex, zeny, hp, sp, body, weapon, shield, head_top, head_mid, head_bottom) VALUES ".to_string();
     let mut query_insert_inventory = "INSERT INTO \"inventory\" (char_id, nameid, amount, equip, identified, unique_id) VALUES ".to_string();
+    let mut query_insert_skill = "INSERT INTO \"skill\" (char_id, id, lv) VALUES ".to_string();
     let mut query_delete_char = "DELETE FROM \"char\" WHERE char_id = ANY($1);".to_string();
     let mut query_delete_inventory = "DELETE FROM \"inventory\" WHERE char_id = ANY($1);".to_string();
+    let mut query_delete_skill = "DELETE FROM \"skill\" WHERE char_id = ANY($1);".to_string();
     const CHAR_FIELD_COUNT: usize = 36;
     const INVENTORY_FIELD_COUNT: usize = 6;
+    const SKILL_FIELD_COUNT: usize = 3;
 
     let mut inventory_count = 0;
     for character in characters.iter_mut() {
@@ -120,22 +132,27 @@ fn main() {
             item.item_id_32 = item.item_id as i32;
             item.unique_id = Some((SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap().as_nanos() << 9) as i64 + item.item_id as i64);
         }
+        for skill in character.skills.iter_mut() {
+            skill.id = SkillEnum::from_name(skill.name.as_str()).id() as i32;
+        }
         inventory_count += character.equipments.len();
     }
 
     let mut char_params: Vec<&(dyn postgres::types::ToSql + Sync)> = Vec::with_capacity(CHAR_FIELD_COUNT * characters.len());
     let mut inventory_params: Vec<&(dyn postgres::types::ToSql + Sync)> = Vec::with_capacity(INVENTORY_FIELD_COUNT * inventory_count);
-    let mut j = 0;
+    let mut skill_params: Vec<&(dyn postgres::types::ToSql + Sync)> = Vec::with_capacity(SKILL_FIELD_COUNT * inventory_count);
+    let mut inventory_placeholder_count = 0;
+    let mut skill_placeholder_count = 0;
     for (i, character) in characters.iter().enumerate() {
         if i > 0 {
             query_insert_char.push_str(", ");
         }
 
-        for (_, (location, equipment)) in character.equipments.iter().enumerate() {
-            if j > 0 {
+        for ((location, equipment)) in character.equipments.iter() {
+            if inventory_placeholder_count > 0 {
                 query_insert_inventory.push_str(", ");
             }
-            query_insert_inventory.push_str(&format!("({})", generate_placeholder(j, INVENTORY_FIELD_COUNT).join(", ")));
+            query_insert_inventory.push_str(&format!("({})", generate_placeholder(inventory_placeholder_count, INVENTORY_FIELD_COUNT).join(", ")));
 
             inventory_params.extend_from_slice(&[
                 &character.id,
@@ -145,7 +162,21 @@ fn main() {
                 &true,
                 equipment.unique_id.as_ref().unwrap(),
             ]);
-            j += 1;
+            inventory_placeholder_count += 1;
+        }
+
+        for (skill) in character.skills.iter() {
+            if skill_placeholder_count > 0 {
+                query_insert_skill.push_str(", ");
+            }
+            query_insert_skill.push_str(&format!("({})", generate_placeholder(skill_placeholder_count, SKILL_FIELD_COUNT).join(", ")));
+
+            skill_params.extend_from_slice(&[
+                &character.id,
+                &skill.id,
+                &skill.lvl,
+            ]);
+            skill_placeholder_count += 1;
         }
 
         query_insert_char.push_str(&format!("({})", generate_placeholder(i, CHAR_FIELD_COUNT).join(", ")));
@@ -198,10 +229,12 @@ fn main() {
             .collect::<Vec<i32>>();
         transaction.execute(query_delete_char.as_str(), &[&vec]).unwrap();
         transaction.execute(query_delete_inventory.as_str(), &[&vec]).unwrap();
+        transaction.execute(query_delete_skill.as_str(), &[&vec]).unwrap();
     }
     transaction.execute(&query_insert_char, &char_params).unwrap();
     // println!("{}, params: {}", query_insert_inventory, inventory_params.iter().map(|p| format!("{:?}", p)).collect::<Vec<String>>().join(","));
     transaction.execute(&query_insert_inventory, &inventory_params).unwrap();
+    transaction.execute(&query_insert_skill, &skill_params).unwrap();
     transaction.commit().unwrap();
 }
 
