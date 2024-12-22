@@ -392,7 +392,17 @@ async fn load_chars_info(account_id: u32, server: &Server) -> PacketHcAcceptEnte
     let mut accept_enter_neo_union = PacketHcAcceptEnterNeoUnion::new(GlobalConfigService::instance().packetver());
     accept_enter_neo_union.set_packet_length((27 + row_results.len() * CharacterInfoNeoUnion::base_len(server.packetver())) as i16);
     accept_enter_neo_union.set_char_info(row_results.iter().map(|wrapped| {
-        wrapped.data.clone()
+        let mut character_info = wrapped.data.clone();
+        if character_info.head_bottom > 0 {
+            character_info.head_bottom = GlobalConfigService::instance().get_item(character_info.head_bottom as i32).view.unwrap_or(0) as u16;
+        }
+        if character_info.head_top > 0 {
+            character_info.head_top = GlobalConfigService::instance().get_item(character_info.head_top as i32).view.unwrap_or(0) as u16;
+        }
+        if character_info.head_mid > 0 {
+            character_info.head_mid = GlobalConfigService::instance().get_item(character_info.head_mid as i32).view.unwrap_or(0) as u16;
+        }
+        character_info
     }).collect::<Vec<CharacterInfoNeoUnion>>());
     accept_enter_neo_union.set_premium_start_slot(12);
     accept_enter_neo_union.set_premium_end_slot(12);
