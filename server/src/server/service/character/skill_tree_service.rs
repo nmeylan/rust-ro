@@ -46,26 +46,30 @@ impl SkillTreeService {
 
     pub fn send_skill_tree(&self, character: &Character) {
         let skills = self.skill_tree(character);
-        let skills_info: Vec<SKILLINFO> = skills.iter().map(|skill| {
+        let skills_info: Vec<SKILLINFO> = skills.iter().filter_map(|skill| {
             let skill_enum = skill.value;
             let know_level = skill.level;
-            let skill = skills::skill_enums::to_object(skill_enum, know_level).unwrap();
-            let mut skill_info = SKILLINFO::new(self.configuration_service.packetver());
-            skill_info.set_skid(skill.id() as i16);
-            skill_info.set_atype(skill.client_type() as i32);
-            skill_info.set_level(skill.level() as i16);
+            if let Some(skill) = skills::skill_enums::to_object(skill_enum, know_level) {
+                let mut skill_info = SKILLINFO::new(self.configuration_service.packetver());
+                skill_info.set_skid(skill.id() as i16);
+                skill_info.set_atype(skill.client_type() as i32);
+                skill_info.set_level(skill.level() as i16);
 
-            skill_info.set_spcost(skill.sp_cost() as i16);
-            skill_info.set_attack_range(skill.range().abs() as i16);
-            let mut skill_name: [char; 24] = [0 as char; 24];
-            skill_enum.to_name().fill_char_array(&mut skill_name);
-            skill_info.set_skill_name(skill_name);
-            let mut is_upgradable = 0_i8;
-            if !skill_enum.is_platinium() {
-                is_upgradable = if skill.level() < skill.max_level() { 1 } else { 0 };
+                skill_info.set_spcost(skill.sp_cost() as i16);
+                skill_info.set_attack_range(skill.range().abs() as i16);
+                let mut skill_name: [char; 24] = [0 as char; 24];
+                skill_enum.to_name().fill_char_array(&mut skill_name);
+                skill_info.set_skill_name(skill_name);
+                let mut is_upgradable = 0_i8;
+                if !skill_enum.is_platinium() {
+                    is_upgradable = if skill.level() < skill.max_level() { 1 } else { 0 };
+                }
+                skill_info.set_upgradable(is_upgradable);
+                return Some(skill_info);
+            } else {
+                error!("No skill defined for enum {}", skill_enum.to_name());
             }
-            skill_info.set_upgradable(is_upgradable);
-            skill_info
+            None
         }).collect::<Vec<SKILLINFO>>();
         let mut packet_zc_skillinfo_list = PacketZcSkillinfoList::new(self.configuration_service.packetver());
         packet_zc_skillinfo_list.set_packet_length((PacketZcSkillinfoList::base_len(self.configuration_service.packetver()) + (skills_info.len() * SKILLINFO::base_len(self.configuration_service.packetver()))) as i16);
