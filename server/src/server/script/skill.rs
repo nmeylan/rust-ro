@@ -803,6 +803,7 @@ impl ScriptSkillService {
             SkillEnum::GdEmergencycall => {}
             SkillEnum::GdDevelopment => {}
             SkillEnum::GdItememergencycall => {}
+            SkillEnum::AllBuyingStore => {}
         }
     }
 }

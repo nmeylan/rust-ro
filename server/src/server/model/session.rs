@@ -170,11 +170,15 @@ impl Session {
     pub fn disconnect(&self) {
         if let Some(socket) = self.char_server_socket.as_ref() {
             let write_guard = socket.write().unwrap();
-            write_guard.shutdown(Shutdown::Both).unwrap()
+            if let Ok(_) = write_guard.shutdown(Shutdown::Both) {
+                debug!("Disconnected from char server");
+            }
         }
         if let Some(socket) = self.map_server_socket.as_ref() {
             let write_guard = socket.write().unwrap();
-            write_guard.shutdown(Shutdown::Both).unwrap()
+            if let Ok(_) = write_guard.shutdown(Shutdown::Both) {
+                debug!("Disconnected from map server");
+            }
         }
     }
 }

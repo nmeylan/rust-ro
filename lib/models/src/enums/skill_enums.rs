@@ -957,6 +957,7 @@ pub enum SkillEnum {
     AllReverseorcish,
     // Christmas Carol
     AllWewish,
+    AllBuyingStore,
     // Knight: Charge Attack
     KnChargeatk,
     // Crusader: Shrink
@@ -1916,6 +1917,7 @@ impl SkillEnum {
             Self::GdEmergencycall => 10013,
             Self::GdDevelopment => 10014,
             Self::GdItememergencycall => 10015,
+            Self::AllBuyingStore => 2535
         }
     }
     pub fn from_id(id: u32) -> Self {
@@ -3195,6 +3197,7 @@ impl SkillEnum {
             "GD_EMERGENCYCALL" => Self::GdEmergencycall,
             "GD_DEVELOPMENT" => Self::GdDevelopment,
             "GD_ITEMEMERGENCYCALL" => Self::GdItememergencycall,
+            "ALL_BUYING_STORE" => Self::AllBuyingStore,
             _ => panic!("unknown skill with name {}", name)
         }
     }
@@ -3835,6 +3838,7 @@ impl SkillEnum {
             Self::GdEmergencycall => "GD_EMERGENCYCALL",
             Self::GdDevelopment => "GD_DEVELOPMENT",
             Self::GdItememergencycall => "GD_ITEMEMERGENCYCALL",
+            Self::AllBuyingStore => "ALL_BUYING_STORE",
         }
     }
     pub fn is_platinium(&self) -> bool {
@@ -4474,6 +4478,7 @@ impl SkillEnum {
             Self::GdEmergencycall => false,
             Self::GdDevelopment => false,
             Self::GdItememergencycall => false,
+            Self::AllBuyingStore => false
         }
     }
     pub fn client_icon(&self) -> Option<ClientEffectIcon> {
@@ -5113,6 +5118,7 @@ impl SkillEnum {
             Self::GdEmergencycall => None,
             Self::GdDevelopment => None,
             Self::GdItememergencycall => None,
+            Self::AllBuyingStore => None,
         }
     }
 }

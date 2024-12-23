@@ -459,15 +459,15 @@ impl Server {
     }
 
     pub fn ensure_session_exists(&self, tcp_stream: &Arc<RwLock<TcpStream>>) -> Option<u32> {
-        let session_guard = read_lock!(self.state().sessions());
-        let stream_guard = read_lock!(tcp_stream);
-        let session_option = session_guard.find_by_stream(&stream_guard);
-        if session_option.is_none() {
-            // TODO uncomment below. keep it comment while we need to proxy data to hercules, so until forever
-            // stream_guard.shutdown(Both);
-            debug!("Session does not exist! for socket {:?}", stream_guard);
-            return None;
+        if let Ok(session_guard) = self.state().sessions().read() {
+            let stream_guard = read_lock!(tcp_stream);
+            let session_option = session_guard.find_by_stream(&stream_guard);
+            if session_option.is_none() {
+                debug!("Session does not exist! for socket {:?}", stream_guard);
+                return None;
+            }
+            return Some(session_option.unwrap())
         }
-        Some(session_option.unwrap())
+        None
     }
 }
