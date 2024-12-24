@@ -319,10 +319,14 @@ pub fn handle_enter_game(server: &Server, context: Request) {
         server.state().remove_session(aid);
         return;
     }
-    let session = Arc::new(session.recreate_with_map_socket(context.socket()));
-    sessions_guard.insert(aid, session.clone());
+    let is_not_simulated = !session.is_simulated;
+    let char_id = session.char_id();
+    if is_not_simulated {
+        let session = Arc::new(session.recreate_with_map_socket(context.socket()));
+        sessions_guard.insert(aid, session.clone());
+    }
     let mut packet_map_connection = PacketMapConnection::new(GlobalConfigService::instance().packetver());
-    packet_map_connection.set_aid(session.account_id);
+    packet_map_connection.set_aid(aid);
 
     socket_send!(context, packet_map_connection);
 
@@ -333,7 +337,6 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_inventory_expansion_info.fill_raw();
     let mut packet_overweight_percent = PacketZcOverweightPercent::new(GlobalConfigService::instance().packetver());
     packet_overweight_percent.fill_raw();
-    let char_id = session.char_id();
     let character = server.state().get_character_unsafe(char_id);
     let mut packet_accept_enter = PacketZcAcceptEnter2::new(GlobalConfigService::instance().packetver());
     packet_accept_enter.set_start_time(get_tick_client());
@@ -344,7 +347,9 @@ pub fn handle_enter_game(server: &Server, context: Request) {
     packet_accept_enter.fill_raw();
 
     server.add_to_next_tick(CharacterJoinGame(char_id));
-    server.server_service.schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &Map::name_without_ext(character.current_map_name()), character.x(), character.y(), session.char_id());
+    server.server_service.schedule_warp_to_walkable_cell(server.state_mut().as_mut(),
+                                                         &Map::name_without_ext(character.current_map_name()), character.x(), character.y(),
+                                                         char_id);
     socket_send!(context, packet_accept_enter);
 
 
