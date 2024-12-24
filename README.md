@@ -230,6 +230,9 @@ Some list of features that was developed so far:
 - packet structure generator from [packet db](https://github.com/nmeylan/rust-ro/blob/master/tools/packets/packets_db)
 - packet parser generator
 - map cache generator
+- character generator
+- stat simulator and test case generator
+- skills structure generator
 ### 8.2 Server
 - proxy login, char and map request to hercules/rathena login, char and map servers
 - packet debug
@@ -244,6 +247,11 @@ Some list of features that was developed so far:
 - visual debugger
 - map instances (map are lazily loaded, an instance is created when a player join an non initialized map)
 - mob spawn
+- base/job exp reward
+- base/job level up
+- skill tree
+- skill point allocation
+- status point allocation
 - atcommand: @go, @warp
 - mob move
 - NPC scripts (partially: see https://github.com/nmeylan/rust-ro/issues/3) via [rathena script lang interpreter](https://github.com/nmeylan/rathena-script-lang-interpreter)
