@@ -199,7 +199,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
         let name = char_model.name.as_str();
         server.repository.character_insert(&char_model).await.unwrap();
         // TODO add default stuff
-        let created_char: CharacterInfoNeoUnionWrapped =  server.repository.character_info(char_model.account_id, name).await.unwrap();
+        let created_char: CharacterInfoNeoUnionWrapped = server.repository.character_info(char_model.account_id, name).await.unwrap();
         created_char.data
     });
     let mut packet_hc_accept_makechar_neo_union = PacketHcAcceptMakecharNeoUnion::new(GlobalConfigService::instance().packetver());
@@ -264,6 +264,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
         map_instance_key: MapInstanceKey::new(last_map, 0),
         last_moved_at: 0,
         hotkeys,
+        sex: if char_model.sex == "M" { 1 } else { 0 },
     };
     let char_id = character.char_id;
     let mut map_name = [0 as char; 16];
@@ -367,7 +368,7 @@ pub fn handle_restart(server: &Server, context: Request) {
     let char_id = session.char_id();
     let character_ref = server.state().get_character_from_context_unsafe(&context);
     server.add_to_tick(GameEvent::CharacterRemoveFromMap(CharacterRemoveFromMap { char_id, map_name: character_ref.current_map_name().clone(), instance_id: character_ref.current_map_instance() }), 1);
-    server.add_to_tick(GameEvent::CharacterLeaveGame(char_id),2);
+    server.add_to_tick(GameEvent::CharacterLeaveGame(char_id), 2);
     let session = sessions_guard.get(&session_id).unwrap();
     let session = Arc::new(session.recreate_without_character());
     sessions_guard.insert(session_id, session);

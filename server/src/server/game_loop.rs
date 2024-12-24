@@ -1,34 +1,34 @@
 use std::borrow::Borrow;
 
-use std::sync::{Arc};
 use std::sync::mpsc::SyncSender;
-use std::thread::{sleep};
+use std::sync::Arc;
+use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
-use tokio::runtime::Runtime;
+use crate::server::model::movement::{Movable, Movement};
+use crate::PersistenceEvent;
+use crate::PersistenceEvent::SaveCharacterPosition;
 use models::enums::skill_enums::SkillEnum;
 use models::status_bonus::BonusExpiry;
 use packets::packets::{Packet, PacketZcNotifyPlayermove};
-use crate::PersistenceEvent;
-use crate::PersistenceEvent::SaveCharacterPosition;
-use crate::server::model::movement::{Movable, Movement};
+use tokio::runtime::Runtime;
 
 
 use crate::server::model::events::game_event::{CharacterRemoveItems, GameEvent};
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
-use crate::server::model::events::map_event::{MapEvent};
-use crate::server::model::events::persistence_event::{SavePositionUpdate};
+use crate::server::model::events::map_event::MapEvent;
+use crate::server::model::events::persistence_event::SavePositionUpdate;
 
-use crate::server::model::map_item::{ToMapItemSnapshot, ToMapItem};
+use crate::server::model::map_item::{ToMapItem, ToMapItemSnapshot};
 
 use crate::server::Server;
 
-use crate::server::service::character::character_service::{CharacterService};
+use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
-use crate::server::service::item_service::{ItemService};
 use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::service::item_service::ItemService;
 
 use crate::server::service::server_service::ServerService;
 use crate::server::service::status_service::StatusService;
