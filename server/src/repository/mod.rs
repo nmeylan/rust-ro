@@ -10,19 +10,18 @@ mod hotkey_repository;
 
 use async_trait::async_trait;
 
-use sqlx::{Error, PgPool};
-use sqlx::postgres::{PgPoolOptions, PgQueryResult};
-use tokio::runtime::Runtime;
-use crate::repository::model::item_model::{GetItemModel, InventoryItemModel, ItemBuySellModel, ItemModel};
-use configuration::configuration::DatabaseConfig;
-use models::status::{KnownSkill, Status};
 use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
+use crate::repository::model::item_model::{GetItemModel, InventoryItemModel, ItemBuySellModel, ItemModel};
 use crate::repository::model::mob_model::MobModel;
 use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 use crate::server::model::hotkey::Hotkey;
 use crate::server::script::Value;
-use crate::server::state::character::Character;
+use configuration::configuration::DatabaseConfig;
+use models::status::{KnownSkill, Status};
+use sqlx::postgres::{PgPoolOptions, PgQueryResult};
+use sqlx::{Error, PgPool};
+use tokio::runtime::Runtime;
 
 pub struct PgRepository {
     pub pool: PgPool,
@@ -79,16 +78,18 @@ pub trait LoginRepository {
 
 #[async_trait]
 pub trait CharacterRepository {
+    async fn characters_list_for_simulator(&self) -> Result<Vec<CharSelectModel>, Error> { todo!() }
     async fn character_insert(&self, _char_model: &CharInsertModel) -> Result<(), Error> { todo!() }
     async fn character_info(&self, _account_id: i32, _char_name: &str) -> Result<CharacterInfoNeoUnionWrapped, Error>{ todo!() }
     async fn characters_info(&self, _account_id: u32) -> Vec<CharacterInfoNeoUnionWrapped>{ todo!() }
     async fn character_delete_reserved(&self, _account_id: u32, _char_id: u32) -> Result<(), Error>{ todo!() }
-    async fn character_save_position(&self, _account_id: u32, _char_id: u32, _map_name: String, _x: u16, _y: u16) -> Result<(), Error> { todo!() }
+    async fn character_save_position(&self, _char_id: u32, _map_name: String, _x: u16, _y: u16) -> Result<(), Error> { todo!() }
     async fn character_update_status(&self, _char_id: u32, _db_column: String, _value: u32) -> Result<(), Error> { todo!() }
     async fn character_zeny_fetch(&self, _char_id: u32) -> Result<i32, Error> { todo!() }
     async fn character_allocated_skill_points(&self, _char_id: u32) -> Result<i32, Error> { todo!() }
     async fn character_skills(&self, _char_id: u32) -> Result<Vec<KnownSkill>, Error> { todo!() }
     async fn character_fetch(&self, _account_id: u32, _char_num: u8) -> Result<CharSelectModel, Error> { todo!() }
+    async fn character_with_id_fetch(&self, _char_id: u32) -> Result<CharSelectModel, Error> { todo!() }
     async fn character_reset_skills(&self, _char_id: i32, _skills: Vec<i32>) -> Result<(), Error> { todo!() }
     async fn character_allocate_skill_point(&self, _char_id: i32,  _skill_id: i32, _increment: u8) -> Result<(), Error> { todo!() }
     async fn characters_update(&self, _statuses: Vec<&Status>, _char_ids: Vec<i32>, _x: Vec<i16>, _y: Vec<i16>, _maps: Vec<String>) -> Result<(), Error> { todo!() }

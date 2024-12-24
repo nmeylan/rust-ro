@@ -1,16 +1,14 @@
 #![feature(trait_upcasting)]
 
 #![feature(test)]
-extern crate test;
-
-#[macro_use]
-extern crate log;
 #[macro_use]
 extern crate accessor;
-
+extern crate core;
+#[macro_use]
+extern crate log;
 extern crate models;
 extern crate packets;
-extern crate core;
+extern crate test;
 
 mod proxy;
 #[macro_use]
@@ -31,31 +29,31 @@ use std::io::Write;
 use std::path::Path;
 
 
-use std::thread::{JoinHandle};
-use proxy::map::MapProxy;
 use crate::proxy::char::CharProxy;
-use std::sync::{Arc};
-use std::thread;
 use crate::repository::{ItemRepository, MobRepository, PgRepository, Repository};
-use std::time::{Instant};
-use base64::Engine;
 use base64::engine::general_purpose;
-use log::{LevelFilter};
+use base64::Engine;
+use log::LevelFilter;
+use proxy::map::MapProxy;
 use rathena_script_lang_interpreter::lang::compiler::Compiler;
+use std::sync::Arc;
+use std::thread;
+use std::thread::JoinHandle;
+use std::time::Instant;
 
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
+use server::Server;
 use simple_logger::SimpleLogger;
 use tokio::runtime::Runtime;
-use server::Server;
 
 
-use configuration::configuration::{Config};
+use self::server::model::events::client_notification::Notification;
+use self::server::model::events::persistence_event::PersistenceEvent;
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use crate::server::model::map::Map;
-use self::server::model::events::client_notification::Notification;
-use self::server::model::events::persistence_event::PersistenceEvent;
+use configuration::configuration::Config;
 
 
 use crate::server::boot::map_loader::MapLoader;
@@ -140,7 +138,7 @@ pub async fn main() {
     if configs().server.enable_visual_debugger {
         #[cfg(feature = "visual_debugger")]
         {
-            crate::debugger::visual_debugger::VisualDebugger::run(server_ref_clone.clone());
+            crate::debugger::visual_debugger::VisualDebugger::run(server_ref_clone.clone()).await;
         }
         #[cfg(not(feature = "visual_debugger"))]
         {

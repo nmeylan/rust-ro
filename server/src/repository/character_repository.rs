@@ -1,10 +1,10 @@
-use sqlx::{Error, Postgres, Row};
+use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
+use crate::repository::{CharacterRepository, PgRepository};
+use crate::server::state::character::Character;
 use async_trait::async_trait;
 use models::enums::skill_enums::SkillEnum;
 use models::status::{KnownSkill, Status};
-use crate::repository::{CharacterRepository, PgRepository};
-use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
-use crate::server::state::character::Character;
+use sqlx::{Error, Postgres, Row};
 
 #[async_trait]
 impl CharacterRepository for PgRepository {
@@ -42,12 +42,11 @@ impl CharacterRepository for PgRepository {
             .map(|_| ())
     }
 
-    async fn character_save_position(&self, account_id: u32, char_id: u32, map_name: String, x: u16, y: u16) -> Result<(), Error> {
-        sqlx::query("UPDATE char SET last_map = $1, last_x = $2, last_y = $3 WHERE account_id = $4 AND char_id = $5")
+    async fn character_save_position(&self, char_id: u32, map_name: String, x: u16, y: u16) -> Result<(), Error> {
+        sqlx::query("UPDATE char SET last_map = $1, last_x = $2, last_y = $3 WHERE char_id = $4")
             .bind(map_name)
             .bind(x as i16)
             .bind(y as i16)
-            .bind(account_id as i32)
             .bind(char_id as i32)
             .execute(&self.pool)
             .await
@@ -89,6 +88,12 @@ impl CharacterRepository for PgRepository {
         sqlx::query_as::<_, CharSelectModel>("SELECT * FROM char WHERE account_id = $1 AND char_num = $2")
             .bind(account_id as i32)
             .bind(char_num as i16)
+            .fetch_one(&self.pool).await
+    }
+
+    async fn character_with_id_fetch(&self, char_id: u32) -> Result<CharSelectModel, Error> {
+        sqlx::query_as::<_, CharSelectModel>("SELECT * FROM char WHERE char_id = $1")
+            .bind(char_id as i32)
             .fetch_one(&self.pool).await
     }
 
@@ -255,5 +260,11 @@ impl CharacterRepository for PgRepository {
                 error!("DB error: {}", e.as_database_error().unwrap());
             })
             .map(|_| ())
+    }
+
+    async fn characters_list_for_simulator(&self) -> Result<Vec<CharSelectModel>, Error> {
+        sqlx::query_as::<_, CharSelectModel>("SELECT * from char limit 100")
+            .fetch_all(&self.pool)
+            .await
     }
 }

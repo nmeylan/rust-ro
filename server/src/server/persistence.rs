@@ -11,7 +11,7 @@ impl Server {
                 runtime.block_on(async {
                     match event {
                         PersistenceEvent::SaveCharacterPosition(save_character_position) => {
-                            repository.character_save_position(save_character_position.account_id, save_character_position.char_id,
+                            repository.character_save_position(save_character_position.char_id,
                                                                Map::name_without_ext(&save_character_position.map_name),
                                                                save_character_position.x, save_character_position.y).await.unwrap();
                         }

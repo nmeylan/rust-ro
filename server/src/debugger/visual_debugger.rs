@@ -1,26 +1,32 @@
+use crate::debugger::frame_history;
+use crate::debugger::map_instance_view::MapInstanceView;
+use crate::debugger::multi_player_simulator::MultiPlayerSimulator;
+use crate::repository::model::char_model::{CharSelectModel, CharacterInfoNeoUnionWrapped};
+use crate::server::model::events::map_event::MapEvent;
+use crate::server::model::map_item::MapItem;
+use crate::server::model::map_item::MapItemType;
+use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::service::status_service::StatusService;
+use crate::server::state::character::Character;
+use crate::server::Server;
+use crate::util::debug::{WearAmmoForDisplay, WearGearForDisplay, WearWeaponForDisplay};
+use eframe::egui::{Grid, ScrollArea, ViewportCommand};
+use eframe::{egui, CreationContext, HardwareAcceleration, Theme};
+use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Visuals};
+use lazy_static::lazy_static;
+use models::enums::class::JobName;
+use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+use packets::packets::CharacterInfoNeoUnion;
+use std::collections::HashMap;
 use std::fmt::format;
 use std::sync::Arc;
 use std::thread;
-use eframe::{CreationContext, egui, HardwareAcceleration, Theme};
-use eframe::egui::{Grid, ScrollArea, ViewportCommand};
-use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Visuals};
-use crate::server::Server;
-use lazy_static::lazy_static;
-use crate::debugger::frame_history;
-use crate::debugger::map_instance_view::MapInstanceView;
-use crate::server::model::events::map_event::MapEvent;
-use crate::server::state::character::Character;
-use crate::server::model::map_item::MapItem;
-use crate::server::model::map_item::MapItemType;
-
-#[cfg(target_os = "linux")]
-use winit::platform::x11::EventLoopBuilderExtX11;
+use tokio::runtime::Runtime;
 #[cfg(target_os = "windows")]
 use winit::platform::windows::EventLoopBuilderExtWindows;
+#[cfg(target_os = "linux")]
+use winit::platform::x11::EventLoopBuilderExtX11;
 use winit::raw_window_handle::HasWindowHandle;
-use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::service::status_service::StatusService;
-use crate::util::debug::{WearAmmoForDisplay, WearGearForDisplay, WearWeaponForDisplay};
 
 pub struct VisualDebugger {
     pub name: String,
@@ -33,7 +39,10 @@ pub struct VisualDebugger {
     frame_history: frame_history::FrameHistory,
     map_instance_view: MapInstanceView,
     character_tab_state: CharacterTabState,
-
+    // Simulator
+    simulator: MultiPlayerSimulator,
+    simulator_char_list: HashMap<u32, CharSelectModel>,
+    simulator_selected_char: u32,
 }
 
 #[derive(Default)]
@@ -42,7 +51,7 @@ struct CharacterTabState {
 }
 
 lazy_static! {
-    pub static ref TABS: Vec<&'static str> = vec!["Map", "Character"];
+    pub static ref TABS: Vec<&'static str> = vec!["Map", "Character", "Simulator"];
 }
 
 impl eframe::App for VisualDebugger {
@@ -72,7 +81,12 @@ impl eframe::App for VisualDebugger {
 }
 
 impl VisualDebugger {
-    pub fn run(server: Arc<Server>) {
+    pub async fn run(server: Arc<Server>) {
+        let server_clone = server.clone();
+        let simulator_char_list = server_clone.repository.characters_list_for_simulator().await.unwrap().into_iter()
+            .map(|item| (item.char_id as u32, item))
+            .collect();
+
         let app = VisualDebugger {
             name: "Debugger".to_string(),
             server: server.clone(),
@@ -91,6 +105,9 @@ impl VisualDebugger {
                 server: server.clone(),
             },
             character_tab_state: Default::default(),
+            simulator: MultiPlayerSimulator::new(server.clone()),
+            simulator_char_list,
+            simulator_selected_char: 0,
         };
 
         thread::spawn(|| {
@@ -139,10 +156,11 @@ impl VisualDebugger {
                             }
                         }
                     }
-
-
                 });
                 self.character_view(ui);
+            }
+            "Simulator" => {
+                self.simulator_char_select(ui);
             }
             _ => {}
         }
@@ -341,6 +359,55 @@ impl VisualDebugger {
                 });
             } else {
                 self.selected_char = None;
+            }
+        }
+    }
+
+    fn simulator_char_select(&mut self, ui: &mut Ui) {
+        let mut selected_text = "Select a character".to_string();
+        let mut selected_char = None;
+        if self.simulator_selected_char > 0 {
+            let char = self.simulator_char_list.get(&self.simulator_selected_char).unwrap();
+            selected_char = Some(char);
+            selected_text = char.name.clone();
+        }
+        ComboBox::from_id_source("simulator_char_select")
+            .selected_text(selected_text).show_ui(ui, |ui| {
+            self.simulator_char_list.iter()
+                .for_each(|(char_id, char)| {
+                    let name = char.name.clone();
+                    ui.selectable_value(&mut self.simulator_selected_char, *char_id, format!("{} ({} {}/{})", char.name,
+                                                                                             JobName::from_value(char.class as usize).as_str(), char.base_level, char.job_level));
+                })
+        });
+        if let Some(selected_char) = selected_char {
+            ScrollArea::vertical().show(ui, |ui| {
+                ui.heading("Status");
+                ui.group(|ui| {
+                    ui.set_max_width(600.0);
+                    ui.set_width(600.0);
+                    ui.columns(2, |columns| {
+                        columns[1].vertical(|ui| {
+                            ui.label(format!("str: {}", selected_char.str));
+                            ui.label(format!("agi: {}", selected_char.agi));
+                            ui.label(format!("vit: {}", selected_char.vit));
+                            ui.label(format!("int: {}", selected_char.int));
+                            ui.label(format!("dex: {}", selected_char.dex));
+                            ui.label(format!("luk: {}", selected_char.luk));
+                        });
+                        columns[0].vertical(|ui| {
+                            ui.label(format!("class: {}", JobName::from_value(selected_char.class as usize).as_str()));
+                            ui.label(format!("level: {}/{}", selected_char.base_level as usize, selected_char.job_level as usize).as_str());
+                            ui.label(format!("hp: {}", selected_char.hp));
+                            ui.label(format!("sp: {}", selected_char.sp));
+                            ui.label(format!("map: {}", selected_char.last_map));
+                            ui.label(format!("location: {},{}", selected_char.last_x, selected_char.last_y));
+                        })
+                    });
+                });
+            });
+            if ui.button("Run simulation").clicked() {
+                self.simulator.simulate(self.simulator_selected_char);
             }
         }
     }
