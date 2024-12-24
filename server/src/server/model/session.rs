@@ -3,10 +3,10 @@ use std::fs::File;
 use std::net::{Shutdown, TcpStream};
 use std::sync::{Arc, Mutex, RwLock};
 
-use std::io::Write;
-use serde::Serialize;
-use tokio::sync::mpsc::Sender;
 use crate::server::service::global_config_service::GlobalConfigService;
+use serde::Serialize;
+use std::io::Write;
+use tokio::sync::mpsc::Sender;
 
 pub struct Session {
     pub char_server_socket: Option<Arc<RwLock<TcpStream>>>,
@@ -66,7 +66,11 @@ impl SessionsIter for HashMap<u32, Arc<Session>> {
         let map_entry_option = self.iter().find(|(_, session)| {
             if session.map_server_socket.is_some() {
                 let map_server_socket = read_lock!(session.map_server_socket.as_ref().unwrap());
-                let is_map_stream = map_server_socket.peer_addr().is_ok() && map_server_socket.peer_addr().unwrap() == tcp_stream.peer_addr().unwrap();
+                let is_map_stream = if session.is_simulated {
+                    map_server_socket.peer_addr().is_ok() && map_server_socket.local_addr().unwrap() == tcp_stream.peer_addr().unwrap()
+                } else {
+                    map_server_socket.peer_addr().is_ok() && map_server_socket.peer_addr().unwrap() == tcp_stream.peer_addr().unwrap()
+                };
                 if is_map_stream {
                     return true;
                 }
