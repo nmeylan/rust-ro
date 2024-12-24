@@ -1,16 +1,16 @@
-use std::sync::Mutex;
-use rand::RngCore;
 use models::enums::class::JobName;
+use models::enums::item::EquipmentLocation;
 use models::enums::EnumWithMaskValueU64;
-use models::enums::item::{EquipmentLocation};
+use rand::RngCore;
+use std::sync::Mutex;
 
 
-use models::status::{Look, Status};
 use crate::repository::model::item_model::{DBItemType, InventoryItemModel, ItemModel};
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use models::enums::EnumWithNumberValue;
+use models::status::{Look, Status};
 use models::status_bonus::{StatusBonuses, TemporaryStatusBonuses};
 
 pub fn create_character() -> Character {
@@ -63,6 +63,7 @@ pub fn create_character() -> Character {
         script_variable_store: Mutex::new(Default::default()),
         last_moved_at: 0,
         hotkeys: vec![],
+        sex: 1,
     }
 }
 

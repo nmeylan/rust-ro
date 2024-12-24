@@ -1,40 +1,40 @@
 use std::collections::HashSet;
-use std::{io};
+use std::io;
 use std::io::Write;
 use std::sync::mpsc::SyncSender;
 use std::sync::{Arc, Once};
 use tokio::runtime::Runtime;
 
-use models::enums::class::{JOB_BASE_MASK, JobName};
+use models::enums::class::{JobName, JOB_BASE_MASK};
 use models::enums::effect::Effect;
 
 use models::enums::look::LookType;
 use models::enums::status::StatusTypes;
 
-use models::enums::EnumWithNumberValue;
 use models::enums::skill_enums::SkillEnum;
+use models::enums::EnumWithNumberValue;
 
 
-use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcNotifyEffect, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, PacketZcNotifyMove, PacketZcMsgStateChange2, PacketZcShortcutKeyListV2, ShortCutKey};
 use crate::repository::model::item_model::InventoryItemModel;
-use crate::repository::{CharacterRepository};
+use crate::repository::CharacterRepository;
 use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny, GameEvent};
+use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcMsgStateChange2, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyNewentry2, PacketZcNotifyNewentry3, PacketZcNotifyStandentry5, PacketZcNotifyStandentry6, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcShortcutKeyListV2, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, ShortCutKey};
 
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::path::manhattan_distance;
 
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::model::events::persistence_event::{IncreaseSkillLevel, PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
-use crate::server::model::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
-use crate::server::PLAYER_FOV;
 use crate::server::model::events::map_event::{MapEvent, MobDropItems};
-use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
-use models::position::Position;
-use models::status::{KnownSkill, Status};
+use crate::server::model::events::persistence_event::PersistenceEvent::SaveCharacterPosition;
+use crate::server::model::events::persistence_event::{IncreaseSkillLevel, PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
 use crate::server::model::hotkey::Hotkey;
+use crate::server::model::map_instance::{MapInstance, MapInstanceKey};
 use crate::server::model::movement::Movable;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::character::skill_tree_service::SkillTreeService;
+use crate::server::PLAYER_FOV;
+use models::position::Position;
+use models::status::{KnownSkill, Status};
 
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
@@ -43,7 +43,7 @@ use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
 use crate::server::state::map_instance::MapInstanceState;
 use crate::server::state::server::ServerState;
-use crate::util::packet::{chain_packets};
+use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 use crate::util::tick::{get_tick, get_tick_client};
 
@@ -124,6 +124,8 @@ impl CharacterService {
         character.loaded_from_client_side = false;
         self.persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: new_map_instance_key.map_name().clone(), x: character.x(), y: character.y() }))
             .expect("Fail to send persistence notification");
+
+        self.character_join_map_effect(&character);
     }
 
     pub fn change_look(&self, character_look: CharacterLook, character: &mut Character) {
@@ -911,6 +913,46 @@ impl CharacterService {
                             packets.extend(packet_zc_notify_move.raw);
                         }
                     }
+                } else if matches!(map_item.object_type(), MapItemType::Character) {
+                    if let Some(other_character) = server_state.get_character(map_item.id()) {
+                        let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new(self.configuration_service.packetver());
+                        packet_zc_notify_standentry.set_job(map_item.client_item_class());
+                        packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(self.configuration_service.packetver()) as i16);
+                        packet_zc_notify_standentry.set_pos_dir(position.to_pos());
+                        packet_zc_notify_standentry.set_objecttype(0 as u8);
+                        packet_zc_notify_standentry.set_aid(map_item.id());
+                        packet_zc_notify_standentry.set_gid(map_item.id());
+                        packet_zc_notify_standentry.set_clevel(other_character.status.base_level() as i16);
+                        packet_zc_notify_standentry.set_speed(other_character.status.speed() as i16);
+                        // If in group
+                        // packet_zc_notify_standentry.set_hp(other_character.status.hp());
+                        // packet_zc_notify_standentry.set_max_hp(other_character.status.max_hp());
+                        packet_zc_notify_standentry.set_body(other_character.status.look().unwrap().body as i16);
+                        packet_zc_notify_standentry.set_bodypalette(other_character.status.look().unwrap().clothes_color as u16);
+                        packet_zc_notify_standentry.set_head(other_character.status.look().unwrap().hair as i16);
+                        packet_zc_notify_standentry.set_headpalette(other_character.status.look().unwrap().hair_color as u16);
+                        other_character.status.head_low().map(|i| packet_zc_notify_standentry.set_accessory(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as u16));
+                        other_character.status.head_mid().map(|i| packet_zc_notify_standentry.set_accessory3(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as u16));
+                        other_character.status.head_top().map(|i| packet_zc_notify_standentry.set_accessory2(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as u16));
+                        packet_zc_notify_standentry.set_x_size(5);
+                        packet_zc_notify_standentry.set_y_size(5);
+                        packet_zc_notify_standentry.set_sex(other_character.sex);
+                        packet_zc_notify_standentry.fill_raw_with_packetver(Some(self.configuration_service.packetver()));
+                        packets.extend(packet_zc_notify_standentry.raw);
+                        // if other_character.is_moving() {
+                        //     let mut packet_zc_notify_move = PacketZcNotifyMove::new(self.configuration_service.packetver());
+                        //     packet_zc_notify_move.set_gid(other_character.id);
+                        //     packet_zc_notify_move.move_data = other_character.position().to_move_data(other_character.movements.first().unwrap().position());
+                        //     // packet_zc_notify_move.move_data = mob_movement.from.to_move_data(&mob_movement.to);
+                        //     packet_zc_notify_move.set_move_start_time(get_tick_client());
+                        //     packet_zc_notify_move.fill_raw();
+                        //     #[cfg(feature = "debug_mob_movement")]
+                        //     {
+                        //         info!("A moving mob appeared! {} moving from {} to {}.", other_character.id, other_character.position(), other_character.movements.first().unwrap().position());
+                        //     }
+                        //     packets.extend(packet_zc_notify_move.raw);
+                        // }
+                    }
                 } else {
                     let mut packet_zc_notify_standentry = PacketZcNotifyStandentry7::new(self.configuration_service.packetver());
                     packet_zc_notify_standentry.set_job(map_item.client_item_class());
@@ -985,5 +1027,29 @@ impl CharacterService {
         if autoloot {} else {
             map_instance.add_to_delayed_tick(MapEvent::MobDropItems(MobDropItems { owner_id: character_kill_monster.char_id, mob_id: character_kill_monster.mob_id, mob_x: character_kill_monster.mob_x, mob_y: character_kill_monster.mob_y }), 400);
         }
+    }
+
+    pub fn character_join_map_effect(&self, character: &Character) {
+        let mut packet_zc_notify_newentry3 = PacketZcNotifyStandentry5::new(GlobalConfigService::instance().packetver());
+        packet_zc_notify_newentry3.set_packet_length(PacketZcNotifyStandentry5::base_len(GlobalConfigService::instance().packetver()) as i16);
+        packet_zc_notify_newentry3.set_job(character.status.job as i16);
+        packet_zc_notify_newentry3.set_sex(character.sex);
+        packet_zc_notify_newentry3.set_pos_dir(Position {x: character.x, y: character.y, dir: character.dir}.to_pos());
+        packet_zc_notify_newentry3.set_gid(character.char_id);
+        packet_zc_notify_newentry3.set_clevel(character.status.base_level() as i16);
+        packet_zc_notify_newentry3.set_speed(character.status.speed() as i16);
+        // If in group
+        // packet_zc_notify_standentry.set_hp(other_character.status.hp());
+        // packet_zc_notify_standentry.set_max_hp(other_character.status.max_hp());
+        packet_zc_notify_newentry3.set_bodypalette(character.status.look().unwrap().clothes_color as i16);
+        packet_zc_notify_newentry3.set_head(character.status.look().unwrap().hair as i16);
+        packet_zc_notify_newentry3.set_headpalette(character.status.look().unwrap().hair_color as i16);
+        character.status.head_low().map(|i| packet_zc_notify_newentry3.set_accessory(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as i16));
+        character.status.head_mid().map(|i| packet_zc_notify_newentry3.set_accessory3(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as i16));
+        character.status.head_top().map(|i| packet_zc_notify_newentry3.set_accessory2(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as i16));
+        packet_zc_notify_newentry3.set_x_size(5);
+        packet_zc_notify_newentry3.set_y_size(5);
+        packet_zc_notify_newentry3.fill_raw_with_packetver(Some(self.configuration_service.packetver()));
+        self.client_notification_sender.send(Notification::Area(AreaNotification::from_character(character, packet_zc_notify_newentry3.raw)));
     }
 }

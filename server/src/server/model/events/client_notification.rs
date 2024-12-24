@@ -1,6 +1,7 @@
 use std::fmt::{Debug, Formatter};
 use packets::packets::Packet;
 use packets::packets_parser;
+use crate::server::state::character::Character;
 
 #[derive(Clone)]
 pub enum Notification {
@@ -86,6 +87,15 @@ impl AreaNotification {
             map_instance_id,
             packet,
             range_type,
+        }
+    }
+
+    pub fn from_character(character: &Character, packets: Vec<u8>) -> Self {
+        Self {
+            map_name: character.current_map_name().clone(),
+            map_instance_id: character.current_map_instance(),
+            range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y(), exclude_id: None },
+            packet: packets,
         }
     }
     pub fn serialized_packet(&self) -> &Vec<u8> {
