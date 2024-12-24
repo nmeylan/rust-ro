@@ -6,6 +6,7 @@ use std::sync::{Arc, Mutex, RwLock};
 use std::io::Write;
 use serde::Serialize;
 use tokio::sync::mpsc::Sender;
+use crate::server::service::global_config_service::GlobalConfigService;
 
 pub struct Session {
     pub char_server_socket: Option<Arc<RwLock<TcpStream>>>,
@@ -17,6 +18,7 @@ pub struct Session {
     pub user_level: u32,
     pub char_id: Option<u32>,
     pub packetver: u32,
+    pub is_simulated: bool,
     pub script_handler_channel_sender: Mutex<Option<Sender<Vec<u8>>>> // TODO keep track on creation. Abort script thread after X minutes + abort on new script interaction
 }
 
@@ -95,6 +97,7 @@ impl Session {
             user_level,
             char_id: None,
             packetver,
+            is_simulated: false,
             script_handler_channel_sender: Mutex::new(None)
         }
     }
@@ -108,6 +111,7 @@ impl Session {
             user_level: self.user_level,
             char_id: self.char_id,
             packetver: self.packetver,
+            is_simulated: self.is_simulated,
             script_handler_channel_sender: Mutex::new(None)
         }
     }
@@ -121,6 +125,21 @@ impl Session {
             user_level: self.user_level,
             char_id: self.char_id,
             packetver: self.packetver,
+            is_simulated: false,
+            script_handler_channel_sender: Mutex::new(None)
+        }
+    }
+
+    pub fn create_with_map_socket_and_char_id(account_id: u32, char_id: u32, packetver: u32, map_socket: Arc<RwLock<TcpStream>>) -> Session {
+        Session {
+            char_server_socket: None,
+            map_server_socket: Some(map_socket),
+            account_id,
+            auth_code: 0,
+            user_level: 99,
+            char_id: Some(char_id),
+            packetver,
+            is_simulated: true,
             script_handler_channel_sender: Mutex::new(None)
         }
     }
@@ -134,6 +153,7 @@ impl Session {
             user_level: self.user_level,
             char_id: Some(char_id),
             packetver: self.packetver,
+            is_simulated: self.is_simulated,
             script_handler_channel_sender: Mutex::new(None)
         }
     }
@@ -147,16 +167,9 @@ impl Session {
             user_level: self.user_level,
             char_id: None,
             packetver: self.packetver,
+            is_simulated: self.is_simulated,
             script_handler_channel_sender: Mutex::new(None)
         }
-    }
-
-    pub fn send_to_map_socket(&self, data: &[u8]) {
-        if self.map_server_socket.is_none() {
-            return;
-        }
-        let map_socket = self.map_server_socket.as_ref().unwrap();
-        socket_send_deprecated!(map_socket, data);
     }
 
     pub fn set_script_handler_channel_sender(&self, script_handler_channel_sender: Sender<Vec<u8>>) {

@@ -1,16 +1,15 @@
+use configuration::configuration::Config;
+use models::enums::class::JobName;
+use models::enums::skill_enums::SkillEnum;
+use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+use postgres::{Client, NoTls};
+use rand::{thread_rng, Rng};
+use serde::Deserialize;
+use serde_json::Value;
 use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
 use std::time::SystemTime;
-use configuration::configuration::{Config, SkillsConfig};
-use postgres::{Client, NoTls};
-use postgres::types::{ToSql, Type};
-use serde::Deserialize;
-use serde_json::Value;
-use models::enums::class::JobName;
-use models::enums::{EnumWithNumberValue, EnumWithStringValue};
-use models::enums::item::EquipmentLocation;
-use models::enums::skill_enums::SkillEnum;
 
 #[derive(Debug, Deserialize)]
 struct Character {
@@ -64,7 +63,8 @@ struct Skill {
 
 fn main() {
     let mut replace_existing_char = true;
-    let mut account_id = 2000001;
+    let mut account_id = 2000002;
+    let mut char_id_start = 160100;
     let mut char_num_start = 0;
     let mut sex = "M".to_string();
     let mut zeny = 11127525_i32;
@@ -124,6 +124,8 @@ fn main() {
 
     let mut inventory_count = 0;
     for character in characters.iter_mut() {
+        character.id = char_id_start;
+        character.name = generate_player_name();
         character.class = Some(JobName::from_string(&character.job).value() as i16);
         for (location, item) in character.equipments.iter_mut() {
             let it = items.iter().find(|it| it.get("id").unwrap().as_u64().unwrap() == item.item_id as u64).unwrap().as_object().unwrap();
@@ -136,6 +138,7 @@ fn main() {
             skill.id = SkillEnum::from_name(skill.name.as_str()).id() as i32;
         }
         inventory_count += character.equipments.len();
+        char_id_start += 1;
     }
 
     let mut char_params: Vec<&(dyn postgres::types::ToSql + Sync)> = Vec::with_capacity(CHAR_FIELD_COUNT * characters.len());
@@ -243,3 +246,30 @@ fn generate_placeholder(i: usize, field_count: usize) -> Vec<String> {
         .map(|j| format!("${}", i * field_count + j + 1))
         .collect()
 }
+
+fn generate_player_name() -> String {
+    let mut rng = thread_rng();
+
+    // Define syllables to create more realistic names
+    let syllables = [
+        "ar", "el", "ka", "an", "ra", "na", "to", "li", "ma", "in",
+        "er", "la", "do", "sa", "vi", "no", "mi", "al", "es", "ro",
+    ];
+
+    let syllable_count = rng.gen_range(2..=4);
+
+    // Combine random syllables
+    let mut name = String::new();
+    for _ in 0..syllable_count {
+        let syllable = syllables[rng.gen_range(0..syllables.len())];
+        name.push_str(syllable);
+    }
+
+    // Ensure the name length is between 5 and 10 characters
+    if name.len() > 10 {
+        name.truncate(10);
+    }
+
+    name
+}
+

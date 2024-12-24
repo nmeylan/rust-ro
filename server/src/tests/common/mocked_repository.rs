@@ -1,11 +1,11 @@
-use async_trait::async_trait;
-use sqlx::{Error, PgPool};
-use sqlx::postgres::PgQueryResult;
-use crate::repository::{CharacterRepository, HotKeyRepository, InventoryRepository, ItemRepository, LoginRepository, MobRepository, Repository, ScriptVariableRepository};
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::item_model::InventoryItemModel;
+use crate::repository::{CharacterRepository, HotKeyRepository, InventoryRepository, ItemRepository, LoginRepository, MobRepository, Repository, ScriptVariableRepository};
 use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
+use async_trait::async_trait;
+use sqlx::postgres::PgQueryResult;
+use sqlx::Error;
 
 #[derive(Default)]
 pub struct MockedRepository;
@@ -52,7 +52,7 @@ impl InventoryRepository for MockedRepository {
 
 #[async_trait]
 impl CharacterRepository for MockedRepository {
-    async fn character_save_position(&self, _account_id: u32, _char_id: u32, _map_name: String, _x: u16, _y: u16) -> Result<(), Error> {
+    async fn character_save_position(&self, _char_id: u32, _map_name: String, _x: u16, _y: u16) -> Result<(), Error> {
         Ok(())
     }
 

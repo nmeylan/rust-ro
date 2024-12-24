@@ -12,8 +12,8 @@ use packets::packets_parser::parse;
 use crate::server::model::request::Request;
 
 use crate::server::model::session::Session;
-use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::Server;
 
 pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
     let packet_ca_login = cast!(context.packet(), PacketCaLogin);
@@ -40,8 +40,7 @@ pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
             return;
         }
         let new_user_session = Session::create_empty(packet_response.aid, packet_response.auth_code, packet_response.user_level, packet_ca_login.version); // TODO: packetver find solution to allow client to set packetver
-        let mut sessions_guard = write_lock!(server.state().sessions());
-        sessions_guard.insert(packet_response.aid, Arc::new(new_user_session));
+        server.state().add_session(packet_response.aid, Arc::new(new_user_session));
         socket_send!(context, res);
     } else {
         socket_send!(context, res);

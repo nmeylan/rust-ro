@@ -1,17 +1,17 @@
 use std::collections::{HashMap, HashSet};
 use std::net::TcpStream;
-use std::sync::{Arc, RwLock};
 use std::sync::atomic::AtomicI8;
+use std::sync::{Arc, RwLock};
 
 use crate::server::model::map::MAP_EXT;
 
 use crate::server::model::map_instance::MapInstance;
-use crate::server::model::map_item::{MapItem, MapItems, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
-use models::position::Position;
-use models::status::{StatusSnapshot};
+use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, MapItems, ToMapItem, ToMapItemSnapshot};
 use crate::server::model::request::Request;
 use crate::server::model::script::Script;
 use crate::server::model::session::Session;
+use models::position::Position;
+use models::status::StatusSnapshot;
 
 use crate::server::state::character::Character;
 use crate::util::hasher::NoopHasherU32;
@@ -44,6 +44,10 @@ impl ServerState {
     pub fn remove_session(&self, session_id: u32) {
         let mut sessions = self.sessions.write().unwrap();
         sessions.remove(&session_id);
+    }
+    pub fn add_session(&self, session_id: u32, session: Arc<Session>) {
+        let mut sessions = self.sessions.write().unwrap();
+        sessions.insert(session_id, session);
     }
     pub fn get_session(&self, session_id: u32) -> Arc<Session> {
         let sessions = self.sessions.read().unwrap();

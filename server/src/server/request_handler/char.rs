@@ -9,21 +9,21 @@ use models::status::KnownSkill;
 
 use packets::packets::{CharacterInfoNeoUnion, Packet, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketChSendMapInfo, PacketCzEnter2, PacketCzRestart, PacketHcAcceptEnterNeoUnion, PacketHcAcceptEnterNeoUnionHeader, PacketHcAcceptMakecharNeoUnion, PacketHcBlockCharacter, PacketHcDeleteChar4Reserved, PacketHcNotifyZonesvr, PacketHcRefuseEnter, PacketMapConnection, PacketPincodeLoginstate, PacketZcAcceptEnter2, PacketZcInventoryExpansionInfo, PacketZcLoadConfirm, PacketZcOverweightPercent, PacketZcReqDisconnectAck2, PacketZcRestartAck, ZserverAddr};
 
-use crate::repository::model::char_model::{CharacterInfoNeoUnionWrapped, CharInsertModel, CharSelectModel};
+use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
 use crate::server::model::map::Map;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::request::Request;
 
-use crate::server::model::events::game_event::{CharacterRemoveFromMap, GameEvent};
 use crate::server::model::events::game_event::GameEvent::{CharacterInitInventory, CharacterJoinGame};
+use crate::server::model::events::game_event::{CharacterRemoveFromMap, GameEvent};
 use crate::server::model::hotkey::Hotkey;
 use crate::server::model::status::StatusFromDb;
 use crate::server::script::ScriptGlobalVariableStore;
-use crate::server::Server;
 use crate::server::service::server_service::ServerService;
+use crate::server::Server;
 
-use crate::server::state::character::Character;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::state::character::Character;
 use crate::util::packet::chain_packets;
 use crate::util::string::StringUtil;
 use crate::util::tick::get_tick_client;
@@ -225,7 +225,11 @@ pub fn handle_select_char(server: &Server, context: Request) {
     let packet_select_char = cast!(context.packet(), PacketChSelectChar);
     let session_id = context.session().account_id;
     let char_model: CharSelectModel = context.runtime().block_on(async {
-        server.repository.character_fetch(session_id, packet_select_char.char_num).await.unwrap()
+        if let Some(char_id) = context.session().char_id {
+            server.repository.character_with_id_fetch(char_id).await.unwrap()
+        } else {
+            server.repository.character_fetch(session_id, packet_select_char.char_num).await.unwrap()
+        }
     });
     let skills: Vec<KnownSkill> = context.runtime().block_on(async {
         server.repository.character_skills(char_model.char_id as u32).await.unwrap()
@@ -233,8 +237,7 @@ pub fn handle_select_char(server: &Server, context: Request) {
     let hotkeys: Vec<Hotkey> = context.runtime().block_on(async {
         server.repository.load_hotkeys(char_model.char_id as u32).await.unwrap()
     });
-    let mut sessions_guard = write_lock!(server.state().sessions());
-    let _session = sessions_guard.get(&session_id).unwrap();
+
     let char_id: u32 = char_model.char_id as u32;
     let last_x: u16 = char_model.last_x as u16;
     let last_y: u16 = char_model.last_y as u16;
@@ -263,11 +266,13 @@ pub fn handle_select_char(server: &Server, context: Request) {
         hotkeys,
     };
     let char_id = character.char_id;
-    let session = Arc::new(context.session().recreate_with_character(char_id));
     let mut map_name = [0 as char; 16];
     character.current_map_name().fill_char_array(map_name.as_mut());
     server.state_mut().insert_character(character);
-    sessions_guard.insert(session_id, session);
+    if context.session().char_id.is_none() {
+        let session = Arc::new(context.session().recreate_with_character(char_id));
+        server.state().add_session(session_id, session);
+    }
     if server.packetver() < 20170329 {
         let mut packet_ch_send_map_info = PacketHcNotifyZonesvr::new(GlobalConfigService::instance().packetver());
         packet_ch_send_map_info.set_gid(char_id);
