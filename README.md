@@ -247,6 +247,8 @@ Some list of features that was developed so far:
 - visual debugger
 - map instances (map are lazily loaded, an instance is created when a player join an non initialized map)
 - mob spawn
+- mob death
+- item drop from mob
 - base/job exp reward
 - base/job level up
 - skill tree
