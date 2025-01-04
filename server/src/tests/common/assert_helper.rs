@@ -1,8 +1,6 @@
 #![allow(dead_code)]
 
-use std::collections::HashSet;
 use std::fmt::Debug;
-use std::ops::Deref;
 use std::panic;
 use std::sync::Arc;
 use packets::packets::{Packet};
@@ -66,7 +64,7 @@ pub fn variance(expectation: u32, variance: usize) -> u32 {
     (variance as f32 / 100_f32).round() as u32 * expectation
 }
 
-pub fn assert_vecs_equal<T: std::fmt::Debug + std::cmp::PartialEq>(mut actual: Vec<T>, mut expected: Vec<T>) {
+pub fn assert_vecs_equal<T: std::fmt::Debug + std::cmp::PartialEq>(actual: Vec<T>, mut expected: Vec<T>) {
     let mut not_expected = Vec::new();
     let mut missing = Vec::new();
 
@@ -311,7 +309,7 @@ fn parse_packet(bytes: &[u8], packetver: u32) -> Vec<Box<dyn Packet>> {
         }
         buffer[i] = *byte;
     }
-    let mut bytes_read = bytes.len();
+    let bytes_read = bytes.len();
     let packet = parse(&buffer[..bytes.len()], packetver);
     let mut parsed_packets = vec![];
     if packet.raw().len() < bytes_read {

@@ -1,7 +1,7 @@
 use crate::debugger::frame_history;
 use crate::debugger::map_instance_view::MapInstanceView;
 use crate::debugger::multi_player_simulator::MultiPlayerSimulator;
-use crate::repository::model::char_model::{CharSelectModel, CharacterInfoNeoUnionWrapped};
+use crate::repository::model::char_model::{CharSelectModel};
 use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::map_item::MapItem;
 use crate::server::model::map_item::MapItemType;
@@ -18,10 +18,8 @@ use models::enums::class::JobName;
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use packets::packets::CharacterInfoNeoUnion;
 use std::collections::HashMap;
-use std::fmt::format;
 use std::sync::Arc;
 use std::thread;
-use tokio::runtime::Runtime;
 #[cfg(target_os = "windows")]
 use winit::platform::windows::EventLoopBuilderExtWindows;
 #[cfg(target_os = "linux")]
@@ -185,15 +183,15 @@ impl VisualDebugger {
 
     fn character_combobox(&mut self, ui: &mut Ui) {
         let mut selected_text = "Select a character";
-        if let Some((selected_char)) = &self.selected_char {
-            selected_text = selected_char.1.as_str();
+        if let Some((_, selected_char)) = &self.selected_char {
+            selected_text = selected_char.as_str();
         }
         ComboBox::from_id_source("Select char")
             .selected_text(selected_text)
             .show_ui(ui, |ui| {
                 self.server.state().characters()
                     .iter()
-                    .map(|(id, char)| char)
+                    .map(|(_id, char)| char)
                     .for_each(|char| {
                         ui.selectable_value(&mut self.selected_char, Some((char.char_id, char.name.clone())), char.name.clone());
                     })
@@ -302,7 +300,6 @@ impl VisualDebugger {
                 let status = StatusService::instance().to_snapshot(&character.status);
                 ScrollArea::vertical().show(ui, |ui| {
                     ui.heading("Status");
-                    let grid = Grid::new("status grid").num_columns(2);
                     ui.group(|ui| {
                         ui.set_max_width(600.0);
                         ui.set_width(600.0);
@@ -375,7 +372,6 @@ impl VisualDebugger {
             .selected_text(selected_text).show_ui(ui, |ui| {
             self.simulator_char_list.iter()
                 .for_each(|(char_id, char)| {
-                    let name = char.name.clone();
                     ui.selectable_value(&mut self.simulator_selected_char, *char_id, format!("{} ({} {}/{})", char.name,
                                                                                              JobName::from_value(char.class as usize).as_str(), char.base_level, char.job_level));
                 })

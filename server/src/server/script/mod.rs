@@ -29,7 +29,6 @@ use crate::server::script::constant::{get_battle_flag, load_constant};
 use crate::server::Server;
 
 
-use skill::ScriptSkillService;
 
 use crate::server::request_handler::atcommand::handle_set_job;
 
@@ -37,7 +36,6 @@ use crate::server::request_handler::atcommand::handle_set_job;
 
 use crate::server::service::global_config_service::GlobalConfigService;
 
-use crate::server::service::server_service::ServerService;
 
 
 

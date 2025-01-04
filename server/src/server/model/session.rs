@@ -3,7 +3,6 @@ use std::fs::File;
 use std::net::{Shutdown, TcpStream};
 use std::sync::{Arc, Mutex, RwLock};
 
-use crate::server::service::global_config_service::GlobalConfigService;
 use serde::Serialize;
 use std::io::Write;
 use tokio::sync::mpsc::Sender;

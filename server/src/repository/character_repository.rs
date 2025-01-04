@@ -1,6 +1,5 @@
 use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
 use crate::repository::{CharacterRepository, PgRepository};
-use crate::server::state::character::Character;
 use async_trait::async_trait;
 use models::enums::skill_enums::SkillEnum;
 use models::status::{KnownSkill, Status};

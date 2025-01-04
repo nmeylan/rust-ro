@@ -26,7 +26,6 @@ use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use configuration::configuration::Config;
 use packets::packets::Packet;
-use crate::repository::Repository;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
@@ -35,10 +34,8 @@ use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::Server;
 use crate::server::service::item_service::ItemService;
 use crate::server::service::server_service::ServerService;
-use crate::server::state::server::ServerState;
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
-use crate::util::cell::MyUnsafeCell;
 
 static mut CONFIGS: Option<Config> = None;
 static INIT: Once = Once::new();

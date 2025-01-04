@@ -46,7 +46,7 @@ impl MapInstanceKey {
     }
 
     pub fn map_without_ext(&self) -> String {
-        let mut map_name_without_ext: String = self.map_name_string.clone();
+        let map_name_without_ext: String = self.map_name_string.clone();
         if map_name_without_ext.ends_with(MAP_EXT) {
             return map_name_without_ext[0..map_name_without_ext.len()-4].to_string();
         }

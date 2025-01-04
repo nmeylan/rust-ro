@@ -1,6 +1,6 @@
 use std::ops::Deref;
 use std::sync::mpsc::SyncSender;
-use std::sync::{Arc, Once};
+use std::sync::Arc;
 
 use models::enums::vanish::VanishType;
 use models::enums::EnumWithNumberValue;

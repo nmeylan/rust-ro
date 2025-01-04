@@ -7,14 +7,6 @@ use serde::de::{MapAccess, SeqAccess, Visitor};
 use configuration::bonus_type_wrapper::BonusTypeWrapper;
 use models::enums::element::Element;
 use configuration::serde_helper::deserialize_number_enum;
-use crate::models::enums::EnumWithNumberValue;
-
-
-
-
-
-
-
 
 #[derive(Deserialize, GettersAll, Debug, Clone, Default)]
 pub struct BattleFixture {

@@ -96,7 +96,7 @@ impl StatusService {
 
         // Apply skills bonuses
         for temporary_bonus in status.temporary_bonuses.iter() {
-            bonuses.push(temporary_bonus.bonus().clone());
+            bonuses.push(*temporary_bonus.bonus());
         }
 
         bonuses = BonusType::merge_enums(&bonuses);
@@ -303,7 +303,7 @@ mod tests {
     use models::enums::bonus::BonusType;
     use models::enums::skill_enums::SkillEnum;
     use models::status::Status;
-    use models::status_bonus::{StatusBonus, TemporaryStatusBonus};
+    use models::status_bonus::TemporaryStatusBonus;
     use crate::server::service::global_config_service::GlobalConfigService;
     use crate::server::service::status_service::StatusService;
     use crate::tests::common;
@@ -318,6 +318,6 @@ mod tests {
         // When
         let snapshot = service.to_snapshot(&status);
         // Then
-        assert!(snapshot.bonuses().iter().find(|status_bonus| { matches!(status_bonus.bonus(), BonusType::Agi(10)) }).is_some(), "missing agi bonus");
+        assert!(snapshot.bonuses().iter().any(|status_bonus| { matches!(status_bonus.bonus(), BonusType::Agi(10)) }), "missing agi bonus");
     }
 }

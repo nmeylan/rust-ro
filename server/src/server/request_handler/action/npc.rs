@@ -11,7 +11,6 @@ use crate::server::model::request::Request;
 use crate::server::script::PlayerInteractionScriptHandler;
 use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::service::script_service::ScriptService;
 
 pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     let packet_cz_contact_npc = cast!(context.packet(), PacketCzContactnpc);

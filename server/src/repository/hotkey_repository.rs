@@ -1,7 +1,7 @@
 use async_trait::async_trait;
 use crate::repository::{HotKeyRepository, PgRepository};
 use crate::server::model::hotkey::Hotkey;
-use sqlx::{Error, Executor, PgPool, Postgres};
+use sqlx::{Error, Executor};
 
 #[async_trait]
 impl HotKeyRepository for PgRepository {

@@ -1,5 +1,5 @@
-use std::slice::Iter;
 use std::fmt::Debug;
+use std::slice::Iter;
 
 pub trait PrettyOutput {
     fn pretty_output(&self) -> String;
@@ -60,9 +60,9 @@ impl PrettyOutput for Vec<u8> {
 }
 
 fn pretty_output_primitive_array<T : Debug>(iter: Iter<T>) -> String {
-    let result = String::new();
+    let mut result = String::new();
     iter.for_each(|c|  {
-        format!("{}, {:?}", result, c);
+        result.push_str(format!("{:?}", c).as_str());
     });
     format!("[{}]", result)
 }

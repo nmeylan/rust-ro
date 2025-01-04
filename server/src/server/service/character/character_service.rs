@@ -2,7 +2,7 @@ use std::collections::HashSet;
 use std::io;
 use std::io::Write;
 use std::sync::mpsc::SyncSender;
-use std::sync::{Arc, Once};
+use std::sync::Arc;
 use tokio::runtime::Runtime;
 
 use models::enums::class::{JobName, JOB_BASE_MASK};
@@ -18,7 +18,7 @@ use models::enums::EnumWithNumberValue;
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::CharacterRepository;
 use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny, GameEvent};
-use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcMsgStateChange2, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyNewentry2, PacketZcNotifyNewentry3, PacketZcNotifyStandentry5, PacketZcNotifyStandentry6, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcShortcutKeyListV2, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, ShortCutKey};
+use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcMsgStateChange2, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyStandentry5, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcShortcutKeyListV2, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, ShortCutKey};
 
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::path::manhattan_distance;
@@ -125,7 +125,7 @@ impl CharacterService {
         self.persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: new_map_instance_key.map_name().clone(), x: character.x(), y: character.y() }))
             .expect("Fail to send persistence notification");
 
-        self.character_join_map_effect(&character);
+        self.character_join_map_effect(character);
     }
 
     pub fn change_look(&self, character_look: CharacterLook, character: &mut Character) {
@@ -825,7 +825,7 @@ impl CharacterService {
             shortcuts.push(ShortCutKey::new(self.configuration_service.packetver()));
         }
         for hotkey in character.hotkeys.iter() {
-            let mut shortcut =  &mut shortcuts[hotkey.index as usize];
+            let shortcut =  &mut shortcuts[hotkey.index as usize];
             shortcut.set_count(hotkey.skill_lvl);
             shortcut.set_is_skill(hotkey.is_skill as i8);
             shortcut.set_id(hotkey.itemskill_id as u32);
@@ -919,7 +919,7 @@ impl CharacterService {
                         packet_zc_notify_standentry.set_job(map_item.client_item_class());
                         packet_zc_notify_standentry.set_packet_length(PacketZcNotifyStandentry7::base_len(self.configuration_service.packetver()) as i16);
                         packet_zc_notify_standentry.set_pos_dir(position.to_pos());
-                        packet_zc_notify_standentry.set_objecttype(0 as u8);
+                        packet_zc_notify_standentry.set_objecttype(0_u8);
                         packet_zc_notify_standentry.set_aid(map_item.id());
                         packet_zc_notify_standentry.set_gid(map_item.id());
                         packet_zc_notify_standentry.set_clevel(other_character.status.base_level() as i16);
@@ -931,9 +931,9 @@ impl CharacterService {
                         packet_zc_notify_standentry.set_bodypalette(other_character.status.look().unwrap().clothes_color as u16);
                         packet_zc_notify_standentry.set_head(other_character.status.look().unwrap().hair as i16);
                         packet_zc_notify_standentry.set_headpalette(other_character.status.look().unwrap().hair_color as u16);
-                        other_character.status.head_low().map(|i| packet_zc_notify_standentry.set_accessory(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as u16));
-                        other_character.status.head_mid().map(|i| packet_zc_notify_standentry.set_accessory3(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as u16));
-                        other_character.status.head_top().map(|i| packet_zc_notify_standentry.set_accessory2(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as u16));
+                        if let Some(i) = other_character.status.head_low() { packet_zc_notify_standentry.set_accessory(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as u16) }
+                        if let Some(i) = other_character.status.head_mid() { packet_zc_notify_standentry.set_accessory3(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as u16) }
+                        if let Some(i) = other_character.status.head_top() { packet_zc_notify_standentry.set_accessory2(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as u16) }
                         packet_zc_notify_standentry.set_x_size(5);
                         packet_zc_notify_standentry.set_y_size(5);
                         packet_zc_notify_standentry.set_sex(other_character.sex);
@@ -1044,9 +1044,9 @@ impl CharacterService {
         packet_zc_notify_newentry3.set_bodypalette(character.status.look().unwrap().clothes_color as i16);
         packet_zc_notify_newentry3.set_head(character.status.look().unwrap().hair as i16);
         packet_zc_notify_newentry3.set_headpalette(character.status.look().unwrap().hair_color as i16);
-        character.status.head_low().map(|i| packet_zc_notify_newentry3.set_accessory(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as i16));
-        character.status.head_mid().map(|i| packet_zc_notify_newentry3.set_accessory3(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as i16));
-        character.status.head_top().map(|i| packet_zc_notify_newentry3.set_accessory2(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as i16));
+        if let Some(i) = character.status.head_low() { packet_zc_notify_newentry3.set_accessory(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as i16) }
+        if let Some(i) = character.status.head_mid() { packet_zc_notify_newentry3.set_accessory3(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as i16) }
+        if let Some(i) = character.status.head_top() { packet_zc_notify_newentry3.set_accessory2(GlobalConfigService::instance().get_item(i.item_id).view.unwrap() as i16) }
         packet_zc_notify_newentry3.set_x_size(5);
         packet_zc_notify_newentry3.set_y_size(5);
         packet_zc_notify_newentry3.fill_raw_with_packetver(Some(self.configuration_service.packetver()));

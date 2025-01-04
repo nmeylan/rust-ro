@@ -37,7 +37,6 @@ use log::LevelFilter;
 use proxy::map::MapProxy;
 use rathena_script_lang_interpreter::lang::compiler::Compiler;
 use std::sync::Arc;
-use std::thread;
 use std::thread::JoinHandle;
 use std::time::Instant;
 

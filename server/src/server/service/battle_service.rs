@@ -164,10 +164,10 @@ impl BattleService {
         };
 
         let work_dex = (source_status.dex() as f32 * (0.8 + 0.2 * weapon_level as f32)).round() as u32;
-        let mut weapon_max_attack: u32 = 0;
+        let mut weapon_max_attack: u32;
         let weapon_over_upgrade_max: u32 = 0;
         let weapon_over_upgrade_min: u32 = 0;
-        let mut weapon_min_attack: u32 = 0;
+        let mut weapon_min_attack: u32;
         let size_modifier = Self::size_modifier(source_status, target_status);
         if work_dex >= weapon_attack { // todo || maximize power skill
             weapon_max_attack = weapon_over_upgrade_max + ((weapon_attack + imposito_magnus) as f32 * size_modifier).floor() as u32;

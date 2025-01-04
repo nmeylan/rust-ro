@@ -251,7 +251,7 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
             file.write_all(format!("            {}_raw: {{\n", field.name).as_bytes()).unwrap();
             let mut length = field.length;
             if field.data_type.name == "Array" {
-                length = field.length * field.sub_type.expect(format!("Expected subtype for field {:?}", field).as_str()).length.unwrap();
+                length = field.length * field.sub_type.unwrap_or_else(|| panic!("Expected subtype for field {:?}", field)).length.unwrap();
             }
             file.write_all(format!("                let mut dst: [u8; {}] = [0u8; {}];\n", length, length).as_bytes()).unwrap();
             if field.condition.is_some() {

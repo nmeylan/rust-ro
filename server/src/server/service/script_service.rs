@@ -1,5 +1,5 @@
 use std::sync::mpsc::SyncSender;
-use std::sync::{Arc, Once};
+use std::sync::Arc;
 use rathena_script_lang_interpreter::lang::vm::Vm;
 use tokio::runtime::Runtime;
 
