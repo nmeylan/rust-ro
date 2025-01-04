@@ -1,7 +1,6 @@
 use std::cell::RefCell;
 use std::collections::HashSet;
 use std::mem;
-use std::ops::Deref;
 use std::sync::{Arc, Once};
 use std::sync::atomic::Ordering::Relaxed;
 use std::sync::mpsc::SyncSender;
@@ -202,9 +201,9 @@ impl ServerService {
     }
 
     pub fn character_remove_expired_bonuses(&self, character: &mut Character, tick: u128) {
-        let mut should_reload_client_side_status = RefCell::new(false);
+        let should_reload_client_side_status = RefCell::new(false);
         if !character.status.temporary_bonuses.is_empty() {
-            let mut icons = RefCell::new(HashSet::new());
+            let icons = RefCell::new(HashSet::new());
             character.status.temporary_bonuses.retain(|temporary_bonus| match temporary_bonus.expirency() {
                 BonusExpiry::Never => true,
                 BonusExpiry::Time(until) => {
@@ -222,7 +221,7 @@ impl ServerService {
                             packet_zc_msg_state_change.set_aid(character.char_id);
                             packet_zc_msg_state_change.set_index(temporary_bonus.icon().unwrap() as i16);
                             packet_zc_msg_state_change.fill_raw();
-                            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(&mut packet_zc_msg_state_change.raw_mut()))))
+                            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, mem::take(packet_zc_msg_state_change.raw_mut()))))
                                 .unwrap_or_else(|_| error!("Failed to send notification packet_zc_msg_state_change to client"));
                         }
                     }

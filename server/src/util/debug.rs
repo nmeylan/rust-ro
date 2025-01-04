@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::fmt::Display;
 use std::sync::mpsc::SyncSender;
 use models::enums::EnumWithMaskValueU64;
@@ -95,7 +94,7 @@ impl<'a> Display for WearGearForDisplay<'a> {
         let item_name = self.config_service.get_item(self.wear_gear.item_id).name_english.clone();
         write!(f, "+{} {}({:?}), def: {}, lvl: {}", self.wear_gear.refine(),
                &item_name,
-               EquipmentLocation::try_from_flag(self.wear_gear.location()).expect(format!("Unable to get equipment location with value {}, for item {}", self.wear_gear.location(), item_name).as_str()), self.wear_gear.def(), self.wear_gear.level(),
+               EquipmentLocation::try_from_flag(self.wear_gear.location()).unwrap_or_else(|_| panic!("Unable to get equipment location with value {}, for item {}", self.wear_gear.location(), item_name)), self.wear_gear.def(), self.wear_gear.level(),
         )?;
         if self.wear_gear.card0 > 0 {
             write!(f, ", cards [{}]", self.config_service.get_item(self.wear_gear.card0 as i32).name_english.clone())?;

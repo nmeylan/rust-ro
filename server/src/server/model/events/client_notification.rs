@@ -13,7 +13,7 @@ impl Debug for Notification {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Notification::Char(n) => {
-                let packet = if n.packet.len() > 0 { format!("0x{:02X?}{:02X?}", n.packet[0], n.packet[1]) } else { "empty".to_string() };
+                let packet = if !n.packet.is_empty() { format!("0x{:02X?}{:02X?}", n.packet[0], n.packet[1]) } else { "empty".to_string() };
                 f.debug_struct("CharNotification")
                     .field("char_id", &n.char_id)
                     .field("packet", &packet)

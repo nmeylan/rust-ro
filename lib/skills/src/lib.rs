@@ -1,5 +1,4 @@
 use std::any::Any;
-use models::enums::bonus::BonusType;
 use models::enums::element::Element;
 use models::enums::EnumWithNumberValue;
 use models::enums::skill::{SkillTargetType, SkillType, UseSkillFailure};
@@ -19,7 +18,6 @@ pub trait SkillBase {
     fn _level(&self) -> u8;
     fn _id(&self) -> u32;
 
-    #[inline(always)]
     fn skill_type(&self) -> SkillType;
 
     fn as_any(&self) -> &dyn Any;

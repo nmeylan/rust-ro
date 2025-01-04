@@ -1,4 +1,3 @@
-use std::sync::{Once};
 use std::sync::mpsc::SyncSender;
 use models::enums::class::JobName;
 

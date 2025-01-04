@@ -6,9 +6,7 @@ use packets::packets::{PacketZcCloseDialog, PacketZcMenuList, PacketZcNotifyPlay
 use crate::packets::packets::Packet;
 use crate::server::model::events::game_event::{CharacterRemoveItem, CharacterRemoveItems, GameEvent};
 use crate::server::script::{PlayerInteractionScriptHandler, VM_THREAD_CONSTANT_INDEX_CHAR_ID, VM_THREAD_CONSTANT_INDEX_NPC_ID};
-use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::service::script_service::ScriptService;
 use crate::util::string::StringUtil;
 
 impl PlayerInteractionScriptHandler {

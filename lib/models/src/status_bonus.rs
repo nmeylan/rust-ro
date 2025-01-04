@@ -1,5 +1,4 @@
 use std::fmt::{Display, Formatter};
-use std::hash::Hasher;
 use std::slice::{Iter, IterMut};
 use std::time::{SystemTime, UNIX_EPOCH};
 use accessor::GettersAll;
@@ -120,7 +119,7 @@ impl Display for TemporaryStatusBonus {
         write!(f, ", Expire: ")?;
         match self.expirency {
             BonusExpiry::Never => write!(f, " Never "),
-            BonusExpiry::Time(until) => write!(f, " {}ms ", self.remaining_ms(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis())),
+            BonusExpiry::Time(_until) => write!(f, " {}ms ", self.remaining_ms(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis())),
             BonusExpiry::Counter(count) => write!(f, " {} hit ", count)
         }?;
         if let Some(ref source) = self.source {

@@ -49,7 +49,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
         let mut value_f32: Option<f32> = None;
         let mut value2_f32: Option<f32> = None;
         let mut value_str: Option<String> = None;
-        let mut value2_str: Option<String> = None;
+        let mut _value2_str: Option<String> = None;
         while let Some(key) = map.next_key::<String>()? {
             if key.as_str() == "bonus" {
                 bonus = Some(map.next_value::<String>()?);
@@ -76,7 +76,7 @@ impl <'de>Visitor<'de> for BonusTypeWrapperVisitor {
                             value2 = Some(val.as_i64().unwrap() as i32);
                         }
                     },
-                    Value::String(val) => value2_str = Some(val),
+                    Value::String(val) => _value2_str = Some(val),
                     _ => {}
                 }
             }

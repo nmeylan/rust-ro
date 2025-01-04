@@ -1,6 +1,5 @@
 use std::mem;
 use std::sync::mpsc::SyncSender;
-use std::sync::Once;
 use models::enums::EnumWithNumberValue;
 use models::enums::skill::{SkillType, UseSkillFailure, UseSkillFailureClientSideType};
 use models::item::NormalInventoryItem;
@@ -139,8 +138,8 @@ impl SkillService {
                 packet_zc_notify_skill2.set_start_time(0);
 
                 attack_motion = self.status_service.attack_delay(source_status) as i32;
-                packet_zc_notify_skill2.set_attack_mt(attack_motion as i32);
-                packet_zc_notify_skill2.set_attacked_mt(attack_motion as i32);
+                packet_zc_notify_skill2.set_attack_mt(attack_motion);
+                packet_zc_notify_skill2.set_attacked_mt(attack_motion);
                 if matches!(target.map_item.object_type(), MapItemType::Mob) {
                     let mob = self.configuration_service.get_mob(target.map_item.client_item_class() as i32);
                     packet_zc_notify_skill2.set_attacked_mt(mob.damage_motion);

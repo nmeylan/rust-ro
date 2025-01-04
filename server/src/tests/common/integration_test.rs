@@ -1,18 +1,6 @@
-use std::collections::{HashSet};
-use std::{env, fs, thread};
-use std::sync::{Arc, Mutex, Once};
-use log::LevelFilter;
-use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
-use simple_logger::SimpleLogger;
-use testcontainers::{RunnableImage};
-use testcontainers_modules::{postgres::Postgres, testcontainers::clients::Cli};
-use tokio::runtime::Runtime;
-use configuration::configuration::{DatabaseConfig};
-use models::status::KnownSkill;
-use crate::MAP_DIR;
-use crate::repository::{CharacterRepository, PgRepository, Repository};
 use crate::repository::model::char_model::CharSelectModel;
 use crate::repository::model::mob_model::{MobModel, MobModels};
+use crate::repository::{CharacterRepository, PgRepository};
 use crate::server::boot::map_loader::MapLoader;
 use crate::server::boot::mob_spawn_loader::MobSpawnLoader;
 use crate::server::model::events::client_notification::Notification;
@@ -20,14 +8,23 @@ use crate::server::model::events::game_event::GameEvent::CharacterJoinGame;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map::Map;
 use crate::server::model::map_instance::MapInstanceKey;
-use crate::server::model::map_item::{MapItems};
+use crate::server::model::map_item::MapItems;
 use crate::server::model::status::StatusFromDb;
 use crate::server::script::ScriptGlobalVariableStore;
-use crate::server::Server;
-use crate::server::service::server_service::ServerService;
 use crate::server::state::character::Character;
+use crate::server::Server;
 use crate::tests::common;
-use crate::tests::common::{CONFIGS, create_mpsc};
+use crate::tests::common::{create_mpsc, CONFIGS};
+use crate::MAP_DIR;
+use configuration::configuration::DatabaseConfig;
+use models::status::KnownSkill;
+use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
+use std::collections::HashSet;
+use std::sync::{Arc, Mutex, Once};
+use std::{env, fs, thread};
+use testcontainers::RunnableImage;
+use testcontainers_modules::{postgres::Postgres, testcontainers::clients::Cli};
+use tokio::runtime::Runtime;
 
 static INIT: Once = Once::new();
 pub static mut SERVER: Option<Arc<Server>> = None;
@@ -116,10 +113,12 @@ pub async fn character_join_game() -> u32 {
         account_id: char_model.account_id as u32,
         map_instance_key: MapInstanceKey::new("prt_fild09".to_string(), 0),
         last_moved_at: 0,
+        hotkeys: vec![],
+        sex: 1
     };
     server.state_mut().insert_character(character);
     let character = server.state().get_character_unsafe(char_id);
     server.add_to_next_tick(CharacterJoinGame(character.char_id));
-    ServerService::instance().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &Map::name_without_ext(character.current_map_name()), character.x(), character.y(), char_id);
+    server.server_service().schedule_warp_to_walkable_cell(server.state_mut().as_mut(), &Map::name_without_ext(character.current_map_name()), character.x(), character.y(), char_id);
     char_id
 }

@@ -1,7 +1,7 @@
 use crate::server::model::session::Session;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::Server;
-use packets::packets::{Packet, PacketChEnter, PacketChSelectChar, PacketCzEnter2};
+use packets::packets::{Packet, PacketChSelectChar, PacketCzEnter2};
 use rand::{thread_rng, RngCore};
 use std::io::Write;
 use std::net::TcpStream;

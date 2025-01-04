@@ -19,7 +19,6 @@ use crate::server::model::events::game_event::{CharacterRemoveFromMap, GameEvent
 use crate::server::model::hotkey::Hotkey;
 use crate::server::model::status::StatusFromDb;
 use crate::server::script::ScriptGlobalVariableStore;
-use crate::server::service::server_service::ServerService;
 use crate::server::Server;
 
 use crate::server::service::global_config_service::GlobalConfigService;

@@ -27,7 +27,6 @@ use crate::util::cell::{MyRefMut, MyUnsafeCell};
 use std::cell::RefCell;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
-use tokio::io::AsyncWriteExt;
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::item_service::ItemService;
@@ -38,8 +37,6 @@ use crate::server::game_loop::GAME_TICK_RATE;
 use crate::server::service::battle_service::{BattleResultMode, BattleService};
 use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
-use crate::server::service::map_instance_service::MapInstanceService;
-use crate::server::service::mob_service::MobService;
 use crate::server::service::script_service::ScriptService;
 use crate::server::service::server_service::ServerService;
 use crate::server::service::skill_service::SkillService;
@@ -157,7 +154,7 @@ impl Server {
 
     #[inline]
     pub fn skill_service(&self) -> &SkillService {
-        &self.server_service.skill_service()
+        self.server_service.skill_service()
     }
     #[inline]
     pub fn server_service(&self) -> &ServerService {
@@ -165,36 +162,36 @@ impl Server {
     }
     #[inline]
     pub fn item_service(&self) -> &ItemService {
-        &self.server_service.item_service()
+        self.server_service.item_service()
     }
 
     #[inline]
     pub fn battle_service(&self) -> &BattleService {
-        &self.server_service.battle_service()
+        self.server_service.battle_service()
     }
 
     #[inline]
     pub fn script_service(&self) -> &ScriptService {
-        &self.server_service.script_service()
+        self.server_service.script_service()
     }
 
     #[inline]
     pub fn inventory_service(&self) -> &InventoryService {
-        &self.server_service.inventory_service()
+        self.server_service.inventory_service()
     }
     #[inline]
     pub fn character_service(&self) -> &CharacterService {
-        &self.server_service.character_service()
+        self.server_service.character_service()
     }
     #[inline]
     pub fn skill_tree_service(&self) -> &SkillTreeService {
-        &self.server_service.skill_tree_service()
+        self.server_service.skill_tree_service()
     }
 
     // TODO: This service should be removed and replace by skill implementation
     #[inline]
     pub fn script_skill_service(&self) -> &ScriptSkillService {
-        &self.server_service.script_skill_service()
+        self.server_service.script_skill_service()
     }
 
     pub fn add_to_next_tick(&self, event: GameEvent) {
@@ -230,7 +227,7 @@ impl Server {
 
     pub fn is_recording_session(&self, char_id: u32) -> bool {
         let session_id = self.state().characters().get(&char_id).unwrap().account_id;
-        self.recording_sessions.borrow().as_ref().iter().find(|recording_session_id| recording_session_id.session_id == session_id).is_some()
+        self.recording_sessions.borrow().as_ref().iter().any(|recording_session_id| recording_session_id.session_id == session_id)
     }
 
     pub fn get_recording_session(&self, session_id: u32) -> Option<&SessionRecord> {
@@ -262,7 +259,7 @@ impl Server {
         let (response_sender, single_response_receiver) = std::sync::mpsc::sync_channel::<Response>(0);
         let client_notification_sender_clone = client_notification_sender.clone();
         thread::scope(|server_thread_scope: &Scope| {
-            let mut listener = TcpListener::bind(format!("0.0.0.0:{port}")).unwrap();
+            let listener = TcpListener::bind(format!("0.0.0.0:{port}")).unwrap();
             // listener.set_nonblocking(true);
             let server_shared_ref = server_ref.clone();
             if enable_client_interfaces {

@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::sync::{Arc, Once};
+use std::sync::Arc;
 use std::sync::mpsc::SyncSender;
 use base64::Engine;
 use base64::engine::general_purpose;
