@@ -1,7 +1,7 @@
-use std::fmt::{Debug, Formatter};
+use crate::server::state::character::Character;
 use packets::packets::Packet;
 use packets::packets_parser;
-use crate::server::state::character::Character;
+use std::fmt::{Debug, Formatter};
 
 #[derive(Clone)]
 pub enum Notification {
@@ -71,7 +71,7 @@ pub struct AreaNotification {
     pub(crate) map_name: String,
     pub(crate) map_instance_id: u8,
     pub(crate) range_type: AreaNotificationRangeType,
-    pub(crate) packet: Vec<u8>,
+    pub(crate) packet: Vec<u8>
 }
 #[derive(PartialEq, Debug, Clone)]
 pub enum AreaNotificationRangeType {
@@ -95,6 +95,15 @@ impl AreaNotification {
             map_name: character.current_map_name().clone(),
             map_instance_id: character.current_map_instance(),
             range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y(), exclude_id: None },
+            packet: packets,
+        }
+    }
+
+    pub fn from_character_exclude_self(character: &Character, packets: Vec<u8>) -> Self {
+        Self {
+            map_name: character.current_map_name().clone(),
+            map_instance_id: character.current_map_instance(),
+            range_type: AreaNotificationRangeType::Fov { x: character.x(), y: character.y(), exclude_id: Some(character.char_id) },
             packet: packets,
         }
     }

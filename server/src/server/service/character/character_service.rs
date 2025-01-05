@@ -124,7 +124,6 @@ impl CharacterService {
         character.loaded_from_client_side = false;
         self.persistence_event_sender.send(SaveCharacterPosition(SavePositionUpdate { account_id: character.account_id, char_id: character.char_id, map_name: new_map_instance_key.map_name().clone(), x: character.x(), y: character.y() }))
             .expect("Fail to send persistence notification");
-
         self.character_join_map_effect(character);
     }
 
@@ -1050,6 +1049,6 @@ impl CharacterService {
         packet_zc_notify_newentry3.set_x_size(5);
         packet_zc_notify_newentry3.set_y_size(5);
         packet_zc_notify_newentry3.fill_raw_with_packetver(Some(self.configuration_service.packetver()));
-        self.client_notification_sender.send(Notification::Area(AreaNotification::from_character(character, packet_zc_notify_newentry3.raw)));
+        self.client_notification_sender.send(Notification::Area(AreaNotification::from_character_exclude_self(character, packet_zc_notify_newentry3.raw)));
     }
 }
