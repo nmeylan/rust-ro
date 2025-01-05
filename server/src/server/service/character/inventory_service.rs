@@ -1,25 +1,25 @@
-use std::sync::Arc;
-use std::sync::mpsc::SyncSender;
-use rand::RngCore;
-use tokio::runtime::Runtime;
+use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
+use crate::repository::InventoryRepository;
 use models::enums::class::{EquipClassFlag, JobName};
-use models::enums::EnumWithMaskValueU64;
 use models::enums::item::{EquipmentLocation, ItemType};
 use models::enums::look::LookType;
-use models::item::{Wearable};
+use models::enums::EnumWithMaskValueU64;
 use models::enums::EnumWithNumberValue;
-use packets::packets::{EquipmentitemExtrainfo301, EQUIPSLOTINFO, NormalitemExtrainfo3, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2};
-use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
-use crate::repository::{InventoryRepository};
+use models::item::Wearable;
+use packets::packets::{EquipmentitemExtrainfo301, NormalitemExtrainfo3, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2, EQUIPSLOTINFO};
+use rand::RngCore;
+use std::sync::mpsc::SyncSender;
+use std::sync::Arc;
+use tokio::runtime::Runtime;
 
-use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterRemoveItem, CharacterRemoveItems, CharacterZeny, GameEvent};
 use crate::server::model::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterRemoveItem, CharacterRemoveItems, CharacterZeny, GameEvent};
 use crate::server::model::events::map_event::{CharacterDropItems, MapEvent};
 use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
-use models::item::EquippedItem;
 use crate::server::model::map_instance::MapInstance;
+use crate::server::model::tasks_queue::TasksQueue;
+use models::item::EquippedItem;
 
 use crate::server::service::global_config_service::GlobalConfigService;
 
@@ -192,13 +192,14 @@ impl InventoryService {
                 break;
             }
         }
+        let mut maybe_packet_zc_equip_arrow = None;
         if let Some((index, ammo)) = ammo {
             let mut packet_zc_equip_arrow = PacketZcEquipArrow::new(self.configuration_service.packetver());
             let item_info = self.configuration_service.get_item(ammo.item_id);
             character.wear_equip_item(index, ammo.equip as u64, item_info);
             packet_zc_equip_arrow.set_index(index as i16);
             packet_zc_equip_arrow.fill_raw();
-            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_equip_arrow.raw)));
+            maybe_packet_zc_equip_arrow = Some(packet_zc_equip_arrow.raw);
         }
         for item in equipments.iter() {
             let item_info = self.configuration_service.get_item(item.itid as i32);
@@ -234,6 +235,9 @@ impl InventoryService {
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id,
                                                                                       chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3, &packet_zc_attack_range]))))
             .unwrap_or_else(|_| error!("Failed to send notification packet_zc_normal_itemlist3 to client"));
+        if let Some(packet) = maybe_packet_zc_equip_arrow {
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet)));
+        }
     }
 
     fn packet_attack_range(&self, character: &mut Character) -> PacketZcAttackRange {
