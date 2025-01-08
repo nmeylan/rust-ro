@@ -17,7 +17,8 @@ flate2 = "1.0"
 md5 = "0.7.0"
 log = "0.4"
 rand = {workspace = true}
-simple_logger = { version = "4.3.3", features = [], default-features = false }
+tracing = {workspace = true}
+tracing-subscriber = {workspace = true}
 postgres = { version = "0.19.9", default-features = false, features = ["array-impls"] }
 
 configuration = { path = "../lib/configuration" }

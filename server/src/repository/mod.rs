@@ -8,8 +8,6 @@ pub mod mob_repository;
 mod login_repository;
 mod hotkey_repository;
 
-use async_trait::async_trait;
-
 use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
 use crate::repository::model::item_model::{GetItemModel, InventoryItemModel, ItemBuySellModel, ItemModel};
 use crate::repository::model::mob_model::MobModel;
@@ -17,10 +15,12 @@ use crate::server::model::events::game_event::CharacterRemoveItem;
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
 use crate::server::model::hotkey::Hotkey;
 use crate::server::script::Value;
+use async_trait::async_trait;
 use configuration::configuration::DatabaseConfig;
 use models::status::{KnownSkill, Status};
 use sqlx::postgres::{PgPoolOptions, PgQueryResult};
 use sqlx::{Error, PgPool};
+use std::time::Duration;
 use tokio::runtime::Runtime;
 
 pub struct PgRepository {
@@ -29,14 +29,20 @@ pub struct PgRepository {
 }
 
 impl PgRepository {
+    fn pool_options() -> PgPoolOptions {
+        PgPoolOptions::new()
+            .min_connections(1)
+            .max_connections(1)
+            .idle_timeout(Some(Duration::from_secs(60 * 60)))
+            .max_lifetime(Some(Duration::from_secs(120 * 60)))
+            .acquire_timeout(Duration::from_secs(5))
+    }
     pub async fn new_pg(configuration: &DatabaseConfig, runtime: Runtime) -> PgRepository {
-        let connection_url = format!("postgresql://{}:{}@{}:{}/{}",
+        let connection_url = format!("postgresql://{}:{}@{}:{}/{}?keepalives=1&keepalives_idle=7200",
                                      configuration.username, configuration.password.as_ref().unwrap(),
                                      configuration.host, configuration.port,
                                      configuration.db);
-        let pool = PgPoolOptions::new()
-            .min_connections(5)
-            .max_connections(5)
+        let pool = Self::pool_options()
             .connect(&connection_url).await.unwrap();
         PgRepository {
             runtime,
@@ -48,8 +54,7 @@ impl PgRepository {
                                      configuration.username, configuration.password.as_ref().unwrap(),
                                      configuration.host, configuration.port,
                                      configuration.db);
-        let pool = PgPoolOptions::new()
-            .max_connections(20)
+        let pool = Self::pool_options()
             .connect_lazy(&connection_url).unwrap();
         PgRepository {
             runtime,

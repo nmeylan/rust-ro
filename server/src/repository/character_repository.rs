@@ -50,7 +50,7 @@ impl CharacterRepository for PgRepository {
             .execute(&self.pool)
             .await
             .inspect_err(|e| {
-                error!("DB error: {}", e.as_database_error().unwrap());
+                error!("DB error: {:?}", e);
             })
             .map(|_| ())
     }
@@ -59,7 +59,7 @@ impl CharacterRepository for PgRepository {
         let sql = format!("UPDATE char SET {db_column} = $1 WHERE char_id = $2"); // TODO sanitize db_column
         sqlx::query(&sql).bind(value as i32).bind(char_id as i32).execute(&self.pool).await
             .inspect_err(|e| {
-                error!("DB error: {}", e.as_database_error().unwrap());
+                error!("DB error: {:?}", e);
             })
             .map(|_| ())
     }
@@ -256,7 +256,7 @@ impl CharacterRepository for PgRepository {
             .execute(&self.pool)
             .await
             .inspect_err(|e| {
-                error!("DB error: {}", e.as_database_error().unwrap());
+                error!("DB error: {:?}", e);
             })
             .map(|_| ())
     }

@@ -14,28 +14,27 @@ pub mod fixtures;
 pub mod integration_test;
 
 
-use std::{fs, thread};
-use std::sync::mpsc::SyncSender;
-use std::sync::mpsc::Receiver;
-use std::sync::{Arc, Mutex, Once};
-use log::{LevelFilter};
 use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
-use simple_logger::SimpleLogger;
+use std::sync::mpsc::Receiver;
+use std::sync::mpsc::SyncSender;
+use std::sync::{Arc, Mutex, Once};
+use std::{fs, thread};
 
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
-use configuration::configuration::Config;
-use packets::packets::Packet;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::map_item::MapItems;
 use crate::server::model::tasks_queue::TasksQueue;
-use crate::server::Server;
 use crate::server::service::item_service::ItemService;
 use crate::server::service::server_service::ServerService;
+use crate::server::Server;
+use crate::setup_logger;
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
+use configuration::configuration::Config;
+use packets::packets::Packet;
 
 static mut CONFIGS: Option<Config> = None;
 static INIT: Once = Once::new();
@@ -135,7 +134,6 @@ pub fn create_mpsc<T>() -> (SyncSender<T>, Receiver<T>) {
 
 pub fn before_all() {
     INIT.call_once(|| {
-        SimpleLogger::new().with_level(LevelFilter::Info).init().unwrap();
 
         unsafe {
             let mut config: Config = serde_json::from_str(&fs::read_to_string("../config.template.json").unwrap()).unwrap();
@@ -149,6 +147,7 @@ pub fn before_all() {
             config.game.mob_spawn_refresh_frequency = 0.2;
             config.game.mob_action_refresh_frequency = 0.2;
             CONFIGS = Some(config);
+            setup_logger(CONFIGS.as_ref().unwrap());
         }
         let skills_config = Config::load_skills_config("..").unwrap();
 

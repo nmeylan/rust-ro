@@ -44,8 +44,10 @@ pub async fn before_all() -> Arc<Server> {
             let image = RunnableImage::from(Postgres::default()).with_tag("15-alpine")
                 .with_volume((env::current_dir().unwrap().join("../db/pg.sql").to_str().unwrap(), "/db/pg.sql"))
                 .with_volume((env::current_dir().unwrap().join("../db/alter_itemdb_add_script_compilation_result_column.sql").to_str().unwrap(), "/db/alter_itemdb_add_script_compilation_result_column.sql"))
+                .with_volume((env::current_dir().unwrap().join("../db/test_account.sql").to_str().unwrap(), "/db/test_account.sql"))
                 .with_volume((env::current_dir().unwrap().join("../docker/volumes/create_role.sql").to_str().unwrap(), "/create_role.sql"))
                 .with_volume((env::current_dir().unwrap().join("../docker/volumes/init.sh").to_str().unwrap(), "/docker-entrypoint-initdb.d/init.sh"))
+
                 ;
             let node = docker_cli.as_ref().unwrap().run(image);
             DatabaseConfig {

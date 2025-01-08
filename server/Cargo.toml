@@ -15,12 +15,12 @@ tokio = {workspace = true}
 futures = {workspace = true}
 sqlx = {workspace = true}
 sqlx-macros-core = {workspace = true}
+tracing = {workspace = true}
+tracing-subscriber = {workspace = true}
 rand = {workspace = true}
 fastrand = {workspace = true}
 flate2 = {workspace = true}
 md5 = {workspace = true}
-log = {workspace = true}
-simple_logger = {workspace = true}
 serde = {workspace = true}
 serde_json  = {workspace = true}
 eframe = { version = "0.28.1", default-features = false, features = ["glow", "default_fonts"], optional = true }

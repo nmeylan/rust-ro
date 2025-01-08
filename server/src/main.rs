@@ -4,11 +4,11 @@
 #[macro_use]
 extern crate accessor;
 extern crate core;
-#[macro_use]
-extern crate log;
 extern crate models;
 extern crate packets;
 extern crate test;
+#[macro_use]
+extern crate tracing;
 
 mod proxy;
 #[macro_use]
@@ -33,18 +33,13 @@ use crate::proxy::char::CharProxy;
 use crate::repository::{ItemRepository, MobRepository, PgRepository, Repository};
 use base64::engine::general_purpose;
 use base64::Engine;
-use log::LevelFilter;
 use proxy::map::MapProxy;
 use rathena_script_lang_interpreter::lang::compiler::Compiler;
 use std::sync::Arc;
 use std::thread::JoinHandle;
 use std::time::Instant;
-
-
-use rathena_script_lang_interpreter::lang::vm::Vm;
-use server::Server;
-use simple_logger::SimpleLogger;
-use tokio::runtime::Runtime;
+use tracing_subscriber::filter::LevelFilter;
+use tracing_subscriber::fmt::{self, time::ChronoLocal};
 
 
 use self::server::model::events::client_notification::Notification;
@@ -53,6 +48,9 @@ use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use crate::server::model::map::Map;
 use configuration::configuration::Config;
+use rathena_script_lang_interpreter::lang::vm::Vm;
+use server::Server;
+use tokio::runtime::Runtime;
 
 
 use crate::server::boot::map_loader::MapLoader;
@@ -78,7 +76,7 @@ pub async fn main() {
         CONFIGS = Some(Config::load("").unwrap());
     }
 
-    setup_logger();
+    setup_logger(configs());
     let repository : PgRepository = PgRepository::new_pg(&configs().database, Runtime::new().unwrap()).await;
     let repository_arc = Arc::new(repository);
     // Load all items in memory, it takes only few mb
@@ -193,13 +191,20 @@ async fn compile_item_scripts(repository_arc: &Arc<PgRepository>, items: &mut Ve
     info!("Compiled {} item scripts compiled, skipped {} item scripts compilation (already compiled) in {}ms", item_script_compiled, item_script_skipped, start.elapsed().as_millis());
 }
 
-pub fn setup_logger() {
-    let level = match configs().server.log_level.as_ref().unwrap().to_lowercase().as_str() {
-        "info" => LevelFilter::Info,
-        "debug" => LevelFilter::Debug,
-        _ => LevelFilter::Error
+pub fn setup_logger(config: &'static Config) {
+    let level = match config.server.log_level.as_ref().unwrap().to_lowercase().as_str() {
+        "info" => LevelFilter::INFO,
+        "debug" => LevelFilter::DEBUG,
+        "warn" => LevelFilter::WARN,
+        _ => LevelFilter::ERROR
     };
-    SimpleLogger::new().with_level(level).init().unwrap();
+    tracing_subscriber::fmt()
+        .with_writer(std::io::stdout)
+        .with_max_level(level)
+        .with_timer(ChronoLocal::new("%Y-%m-%d %H:%M:%S%.3f".to_string()))
+        .fmt_fields(fmt::format::DefaultFields::new())
+        .event_format(fmt::format().compact().with_target(false).with_thread_names(true))
+        .init();
 }
 
 pub fn load_scripts(vm: Arc<Vm>) -> HashMap<String, Vec<Script>> {

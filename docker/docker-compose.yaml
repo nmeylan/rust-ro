@@ -12,6 +12,7 @@ services:
       - ./volumes/init.sh:/docker-entrypoint-initdb.d/init.sh
       - ./volumes/pgdata:/data/postgres
       - ./volumes/create_role.sql:/create_role.sql
+      - ./volumes/postgresql.conf:/data/postgres/postgresql.conf
       - ../db:/db
     ports:
       - "5433:5432"
