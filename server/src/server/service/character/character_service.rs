@@ -18,7 +18,7 @@ use models::enums::EnumWithNumberValue;
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::CharacterRepository;
 use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny, GameEvent};
-use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcMsgStateChange2, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyStandentry5, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcShortcutKeyListV2, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, ShortCutKey};
+use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcMsgStateChange2, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyStandentry5, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcRestartAck, PacketZcShortcutKeyListV2, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, ShortCutKey};
 
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::path::manhattan_distance;
@@ -342,7 +342,6 @@ impl CharacterService {
     fn stat_raising_cost_for_next_level(&self, level: u16, stat_name: &str) -> u32 {
         self.configuration_service.config().game.status_point_raising_cost.iter().find(|status_point_raising_cost| status_point_raising_cost.level_min <= level && level <= status_point_raising_cost.level_max)
             .map(|status_point_raising_cost| {
-                debug!("{} in range {}..{} cost {}", level, status_point_raising_cost.level_min, status_point_raising_cost.level_max, status_point_raising_cost.raising_cost);
                 status_point_raising_cost.raising_cost as u32
             }).unwrap_or_else(|| {
             warn!("No status point cost defined for {} level {}", level, stat_name);
@@ -545,7 +544,6 @@ impl CharacterService {
         for i in start..end {
             status_point_count += self.configuration_service.config().game.status_point_rewards.iter().find(|status_point_reward| status_point_reward.level_min as u32 <= i && i <= status_point_reward.level_max as u32)
                 .map(|status_point_reward| {
-                    debug!("{} in range {}..{} give reward {}", i, status_point_reward.level_min, status_point_reward.level_max, status_point_reward.reward);
                     status_point_reward.reward as i32
                 }).unwrap_or_else(|| {
                 warn!("No status point reward defined for level {}", i);

@@ -9,7 +9,7 @@ use crate::server::model::movement::{Movable, Movement};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 use models::enums::skill_enums::SkillEnum;
-use packets::packets::{Packet, PacketZcNotifyPlayermove};
+use packets::packets::{Packet, PacketZcNotifyPlayermove, PacketZcRestartAck};
 use tokio::runtime::Runtime;
 
 
@@ -56,7 +56,7 @@ impl Server {
         if let Some(tasks) = server_ref.pop_task() {
             for task in tasks {
                 match task {
-                    GameEvent::CharacterLeaveGame(char_id) => {
+                    GameEvent::CharacterLeaveGame((char_id, atype)) => {
                         server_ref.disconnect_character(char_id);
                     }
                     GameEvent::CharacterJoinGame(char_id) => {

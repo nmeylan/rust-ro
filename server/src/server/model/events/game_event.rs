@@ -11,7 +11,7 @@ use crate::server::model::hotkey::Hotkey;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum GameEvent {
-    CharacterLeaveGame(u32),
+    CharacterLeaveGame((u32, u8)),
     CharacterLoadedFromClientSide(u32),
     CharacterRemoveFromMap(CharacterRemoveFromMap),
     CharacterClearFov(u32),

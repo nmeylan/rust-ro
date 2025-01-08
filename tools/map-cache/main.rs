@@ -1,22 +1,23 @@
-use std::path::{Path};
+#[macro_use]
+extern crate tracing;
 use std::fs::File;
-use std::io::{BufReader, Read, Cursor, Write};
+use std::io::{BufReader, Cursor, Read, Write};
+use std::path::Path;
 
-use byteorder::{ReadBytesExt, LittleEndian, WriteBytesExt};
-use flate2::{Compression};
-use std::fs;
-use log::{error, info, warn};
-use std::str;
-use std::process::exit;
+use byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
 use flate2::write::ZlibEncoder;
+use flate2::Compression;
+use std::fs;
 use std::num::ParseIntError;
+use std::process::exit;
+use std::str;
 
 use futures::future::join_all;
 use std::sync::{Arc, Mutex};
-use tokio::sync::Semaphore;
 use std::time::Instant;
-
-use simple_logger::SimpleLogger;
+use tokio::sync::Semaphore;
+use tracing_subscriber::filter::LevelFilter;
+use tracing_subscriber::fmt;
 
 /*
 TODO make a cli from this.
@@ -46,8 +47,13 @@ impl Counter {
 async fn main() {
     let start = Instant::now();
 
-    let logger = SimpleLogger::new();
-    let _max_level = logger.max_level();
+    tracing_subscriber::fmt()
+        .with_writer(std::io::stdout)
+        .with_max_level(LevelFilter::INFO)
+        .with_timer(tracing_subscriber::fmt::time::ChronoLocal::new("%Y-%m-%d %H:%M:%S%.3f".to_string()))
+        .fmt_fields(fmt::format::DefaultFields::new())
+        .event_format(fmt::format().compact().with_target(false).with_thread_names(true))
+        .init();
     let grf_data_path = Path::new(GRF_DATA_PATH);
     let paths = fs::read_dir(grf_data_path).unwrap();
     let mut file_paths = Vec::<String>::new();

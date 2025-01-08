@@ -1,12 +1,12 @@
-use sqlx::{Error, Executor, Row};
-use sqlx::postgres::PgQueryResult;
-use crate::repository::model::item_model::{InventoryItemModel};
-use crate::repository::{InventoryRepository, PgRepository};
+use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::persistence_error::PersistenceError;
+use crate::repository::{InventoryRepository, PgRepository};
 use crate::server::model::events::persistence_event::{DeleteItems, InventoryItemUpdate};
+use sqlx::postgres::PgQueryResult;
+use sqlx::{Error, Executor, Row};
 
-use async_trait::async_trait;
 use crate::server::model::events::game_event::CharacterRemoveItem;
+use async_trait::async_trait;
 
 #[async_trait]
 impl InventoryRepository for PgRepository {
