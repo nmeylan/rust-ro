@@ -23,7 +23,6 @@ pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     }
     let map_item = maybe_map_item.unwrap();
     let server_clone = server.clone();
-    let runtime = Runtime::new().unwrap();
     let (tx, rx) = mpsc::channel(1);
     let session = context.session();
     session.set_script_handler_channel_sender(tx);
@@ -34,7 +33,7 @@ pub fn handle_contact_npc(server: Arc<Server>, context: Request) {
     thread::Builder::new().name(format!("script-player-{}-thread", session.account_id)).spawn(move || {
         let script = server_clone.state().map_item_script(&map_item, &map_name, map_instance).expect("Expect to retrieve script from map instance");
         Vm::run_main_function(server.script_service().vm.clone(), script.class_reference, script.instance_reference,
-                              Box::new(&PlayerInteractionScriptHandler::new(client_notification_channel, server_clone.clone(), RwLock::new(rx), runtime, GlobalConfigService::instance())),
+                              Box::new(&PlayerInteractionScriptHandler::new(client_notification_channel, server_clone.clone(), RwLock::new(rx), server.runtime.clone(), GlobalConfigService::instance())),
                               vec![npc_id, session.char_id.unwrap(), session.account_id]
         )
             .unwrap()

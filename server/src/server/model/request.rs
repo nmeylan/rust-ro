@@ -13,7 +13,6 @@ use crate::server::model::response::Response;
 use crate::server::model::session::Session;
 
 pub struct Request<'server: 'request, 'request> {
-    runtime: &'server Runtime,
     session_id: Option<u32>,
     packet_ver: u32,
     configuration: &'server Config,
@@ -25,9 +24,8 @@ pub struct Request<'server: 'request, 'request> {
 }
 
 impl<'server: 'request, 'request> Request<'server, 'request> {
-    pub fn new(runtime: &'server Runtime, configuration: &'server Config, session_id: Option<u32>, packet_ver: u32, socket: Arc<RwLock<TcpStream>>, packet: &'request dyn Packet, response_sender: SyncSender<Response>, client_notification_channel: SyncSender<Notification>) -> Self {
+    pub fn new(configuration: &'server Config, session_id: Option<u32>, packet_ver: u32, socket: Arc<RwLock<TcpStream>>, packet: &'request dyn Packet, response_sender: SyncSender<Response>, client_notification_channel: SyncSender<Notification>) -> Self {
         Self {
-            runtime,
             session_id,
             packet_ver,
             configuration,
@@ -45,10 +43,6 @@ impl<'server: 'request, 'request> Request<'server, 'request> {
 
     pub fn set_session(&mut self, session: Arc<Session>) {
         self.session = Some(session);
-    }
-
-    pub fn runtime(&self) -> &'server Runtime {
-        self.runtime
     }
 
     pub fn packet_ver(&self) -> u32 {

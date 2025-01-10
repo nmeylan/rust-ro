@@ -14,12 +14,6 @@ pub mod fixtures;
 pub mod integration_test;
 
 
-use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
-use std::sync::mpsc::Receiver;
-use std::sync::mpsc::SyncSender;
-use std::sync::{Arc, Mutex, Once};
-use std::{fs, thread};
-
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
 use crate::server::model::events::client_notification::Notification;
@@ -35,6 +29,12 @@ use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::{CountDownLatch, IncrementLatch};
 use configuration::configuration::Config;
 use packets::packets::Packet;
+use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
+use std::sync::mpsc::Receiver;
+use std::sync::mpsc::SyncSender;
+use std::sync::{Arc, Mutex, Once};
+use std::{fs, thread};
+use tokio::runtime::Runtime;
 
 static mut CONFIGS: Option<Config> = None;
 static INIT: Once = Once::new();
@@ -186,16 +186,18 @@ pub struct ServerBuilder {
     map_items: MapItems,
     tasks_queue: Arc<TasksQueue<GameEvent>>,
     server_service: ServerService,
+    runtime: Arc<Runtime>
 }
 
 impl ServerBuilder {
-    pub fn new(configuration: &'static Config, server_service: ServerService) -> Self {
+    pub fn new(configuration: &'static Config, server_service: ServerService, runtime: Arc<Runtime>) -> Self {
         ServerBuilder {
             configuration,
             repository: mocked_repository(),
             map_items: MapItems::default(),
             tasks_queue: Arc::new(Default::default()),
-            server_service
+            server_service,
+            runtime
         }
     }
     pub fn map_items(mut self, map_items: MapItems) -> Self {
@@ -211,7 +213,7 @@ impl ServerBuilder {
         self
     }
     pub fn build(self) -> Server {
-        Server::new_without_service_init(self.configuration, self.repository, self.map_items, self.tasks_queue, self.server_service)
+        Server::new_without_service_init(self.configuration, self.repository, self.map_items, self.tasks_queue, self.server_service, self.runtime)
     }
 }
 

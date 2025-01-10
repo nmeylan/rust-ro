@@ -20,24 +20,25 @@ use configuration::configuration::DatabaseConfig;
 use models::status::{KnownSkill, Status};
 use sqlx::postgres::{PgPoolOptions, PgQueryResult};
 use sqlx::{Error, PgPool};
+use std::sync::Arc;
 use std::time::Duration;
 use tokio::runtime::Runtime;
 
 pub struct PgRepository {
     pub pool: PgPool,
-    pub runtime: Runtime,
+    pub runtime: Arc<Runtime>,
 }
 
 impl PgRepository {
     fn pool_options() -> PgPoolOptions {
         PgPoolOptions::new()
-            .min_connections(1)
-            .max_connections(1)
+            .min_connections(10)
+            .max_connections(10)
             .idle_timeout(Some(Duration::from_secs(60 * 60)))
             .max_lifetime(Some(Duration::from_secs(120 * 60)))
             .acquire_timeout(Duration::from_secs(5))
     }
-    pub async fn new_pg(configuration: &DatabaseConfig, runtime: Runtime) -> PgRepository {
+    pub async fn new_pg(configuration: &DatabaseConfig, runtime: Arc<Runtime>) -> PgRepository {
         let connection_url = format!("postgresql://{}:{}@{}:{}/{}?keepalives=1&keepalives_idle=7200",
                                      configuration.username, configuration.password.as_ref().unwrap(),
                                      configuration.host, configuration.port,
@@ -49,7 +50,7 @@ impl PgRepository {
             pool,
         }
     }
-    pub fn new_pg_lazy(configuration: &DatabaseConfig, runtime: Runtime) -> PgRepository {
+    pub fn new_pg_lazy(configuration: &DatabaseConfig, runtime: Arc<Runtime>) -> PgRepository {
         let connection_url = format!("postgresql://{}:{}@{}:{}/{}",
                                      configuration.username, configuration.password.as_ref().unwrap(),
                                      configuration.host, configuration.port,

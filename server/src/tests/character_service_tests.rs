@@ -1,6 +1,5 @@
 #![allow(dead_code)]
 
-use std::sync::Arc;
 use crate::repository::CharacterRepository;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
@@ -11,13 +10,22 @@ use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
-use crate::tests::common::{create_mpsc, test_script_vm, TestContext};
 use crate::tests::common::sync_helper::CountDownLatch;
+use crate::tests::common::{create_mpsc, test_script_vm, TestContext};
+use std::sync::Arc;
+use tokio::runtime::Runtime;
 
 struct CharacterServiceTestContext {
     test_context: TestContext,
     character_service: CharacterService,
     server_task_queue: Arc<TasksQueue<GameEvent>>,
+    runtime: Arc<Runtime>
+}
+
+impl CharacterServiceTestContext {
+    pub fn runtime(&self) -> &Runtime {
+        self.runtime.as_ref()
+    }
 }
 
 fn before_each(character_repository: Arc<dyn CharacterRepository + Sync>) -> CharacterServiceTestContext {
@@ -39,42 +47,42 @@ fn before_each_with_latch(character_repository: Arc<dyn CharacterRepository + Sy
                                                  StatusService::instance(),
                                                  server_task_queue.clone()),
         server_task_queue,
+        runtime: Arc::new(Runtime::new().unwrap()),
     }
 }
 
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
-    use std::sync::Arc;
-    use std::sync::atomic::AtomicBool;
-    use std::sync::atomic::Ordering::Relaxed;
-    use std::time::Duration;
-    use async_trait::async_trait;
-    use sqlx::Error;
-    use tokio::runtime::Runtime;
-    use models::enums::class::JobName;
-    use models::enums::look::LookType;
-    use models::enums::status::StatusTypes;
-    use packets::packets::{PacketZcSpriteChange2, PacketZcLongparChange, PacketZcParChange, PacketZcNotifyEffect, PacketZcStatusChangeAck, PacketZcSkillinfoList, PacketZcStatusChange};
-    use crate::tests::character_service_tests::GameEvent;
-    use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
-    use crate::tests::common::assert_helper::{has_sent_persistence_event, has_sent_notification, NotificationExpectation, SentPacket, task_queue_contains_event_at_tick, task_queue_contains_event};
-    use crate::tests::character_service_tests::before_each;
-    use crate::tests::common::character_helper::{add_items_in_inventory, create_character};
-    use crate::tests::common::mocked_repository;
-    use models::enums::EnumWithStringValue;
-    use models::enums::EnumWithNumberValue;
-    use models::enums::skill_enums::SkillEnum;
     use crate::repository::CharacterRepository;
-    use crate::server::model::events::map_event::MapEvent;
     use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny};
-    use crate::server::model::events::map_event::{MobDropItems};
+    use crate::server::model::events::map_event::MapEvent;
+    use crate::server::model::events::map_event::MobDropItems;
     use crate::server::model::events::persistence_event::{IncreaseSkillLevel, PersistenceEvent, ResetSkills, SavePositionUpdate, StatusUpdate};
     use crate::server::model::map_instance::MapInstanceKey;
     use crate::server::model::movement::Movement;
+    use crate::server::model::tasks_queue::TasksQueue;
+    use crate::tests::character_service_tests::before_each;
+    use crate::tests::character_service_tests::GameEvent;
+    use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, task_queue_contains_event, task_queue_contains_event_at_tick, NotificationExpectation, SentPacket};
+    use crate::tests::common::character_helper::{add_items_in_inventory, create_character};
+    use crate::tests::common::mocked_repository;
+    use crate::{assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick};
+    use async_trait::async_trait;
+    use models::enums::class::JobName;
+    use models::enums::look::LookType;
+    use models::enums::skill_enums::SkillEnum;
+    use models::enums::status::StatusTypes;
+    use models::enums::EnumWithNumberValue;
+    use models::enums::EnumWithStringValue;
     use models::position::Position;
     use models::status::KnownSkill;
-    use crate::server::model::tasks_queue::TasksQueue;
+    use packets::packets::{PacketZcLongparChange, PacketZcNotifyEffect, PacketZcParChange, PacketZcSkillinfoList, PacketZcSpriteChange2, PacketZcStatusChangeAck};
+    use sqlx::Error;
+    use std::sync::atomic::AtomicBool;
+    use std::sync::atomic::Ordering::Relaxed;
+    use std::sync::Arc;
+    use std::time::Duration;
 
 
     use crate::server::service::global_config_service::GlobalConfigService;
@@ -233,10 +241,9 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        let runtime = Runtime::new().unwrap();
         let character_zeny = CharacterZeny { char_id: character.char_id, zeny: Some(100) };
         // When
-        context.character_service.update_zeny(&runtime, character_zeny, &mut character);
+        context.character_service.update_zeny(context.runtime(), character_zeny, &mut character);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(2, Duration::from_millis(200));
         assert_eq!(character.status.zeny, 100);
@@ -248,7 +255,6 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        let runtime = Runtime::new().unwrap();
         // When
         context.character_service.update_hp_sp(&mut character, 150, 175);
         // Then
@@ -274,10 +280,9 @@ mod tests {
         let mocked_character_repository = Arc::new(MockedCharacterRepository { called_fetch_zeny: AtomicBool::new(false) });
         let context = before_each(mocked_character_repository.clone());
         let mut character = create_character();
-        let runtime = Runtime::new().unwrap();
         let character_zeny = CharacterZeny { char_id: character.char_id, zeny: None };
         // When
-        context.character_service.update_zeny(&runtime, character_zeny, &mut character);
+        context.character_service.update_zeny(context.runtime(), character_zeny, &mut character);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_eq!(character.status.zeny, 50);

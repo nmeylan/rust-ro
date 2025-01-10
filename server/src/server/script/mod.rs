@@ -115,13 +115,13 @@ pub struct PlayerInteractionScriptHandler {
     pub client_notification_channel: SyncSender<Notification>,
     pub server: Arc<Server>,
     pub player_action_receiver: RwLock<Receiver<Vec<u8>>>,
-    pub runtime: Runtime,
+    pub runtime: Arc<Runtime>,
     pub configuration_service: &'static GlobalConfigService,
     player_script_handler: &'static PlayerScriptHandler,
 }
 
 impl PlayerInteractionScriptHandler {
-    pub fn new(client_notification_channel: SyncSender<Notification>, server: Arc<Server>, player_action_receiver: RwLock<Receiver<Vec<u8>>>, runtime: Runtime, configuration_service: &'static GlobalConfigService) -> Self {
+    pub fn new(client_notification_channel: SyncSender<Notification>, server: Arc<Server>, player_action_receiver: RwLock<Receiver<Vec<u8>>>, runtime: Arc<Runtime>, configuration_service: &'static GlobalConfigService) -> Self {
         Self {
             client_notification_channel,
             server,

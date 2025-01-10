@@ -1,12 +1,9 @@
 #![allow(dead_code)]
-use std::sync::Arc;
-use std::sync::mpsc::SyncSender;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
 use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::script::skill::ScriptSkillService;
-use crate::server::Server;
 use crate::server::service::battle_service::{BattleResultMode, BattleService};
 use crate::server::service::character::character_service::CharacterService;
 use crate::server::service::character::inventory_service::InventoryService;
@@ -17,10 +14,14 @@ use crate::server::service::script_service::ScriptService;
 use crate::server::service::server_service::ServerService;
 use crate::server::service::skill_service::SkillService;
 use crate::server::service::status_service::StatusService;
+use crate::server::Server;
 use crate::tests::common;
-use crate::tests::common::{create_mpsc, test_script_vm, ServerBuilder, TestContext};
 use crate::tests::common::mocked_repository::MockedRepository;
 use crate::tests::common::sync_helper::CountDownLatch;
+use crate::tests::common::{create_mpsc, test_script_vm, ServerBuilder, TestContext};
+use std::sync::mpsc::SyncSender;
+use std::sync::Arc;
+use tokio::runtime::Runtime;
 
 struct ServerServiceTestContext {
     test_context: TestContext,
@@ -29,6 +30,13 @@ struct ServerServiceTestContext {
     movement_task_queue: Arc<TasksQueue<GameEvent>>,
     status_service: &'static StatusService,
     server: Server,
+    runtime: Arc<Runtime>,
+}
+
+impl ServerServiceTestContext {
+    pub fn runtime(&self) -> &Runtime {
+        self.runtime.as_ref()
+    }
 }
 
 fn before_each() -> ServerServiceTestContext {
@@ -57,13 +65,15 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
                                             ScriptSkillService::new(client_notification_sender.clone(), persistence_event_sender.clone(), repository.clone(), GlobalConfigService::instance())
     );
 
-    let server = ServerBuilder::new(GlobalConfigService::instance().config(), server_service).tasks_queue(server_task_queue.clone()).build();
+    let runtime = Arc::new(Runtime::new().unwrap());
+    let server = ServerBuilder::new(GlobalConfigService::instance().config(), server_service, runtime.clone()).tasks_queue(server_task_queue.clone()).build();
     ServerServiceTestContext {
         client_notification_sender: client_notification_sender.clone(),
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         server_task_queue: server_task_queue.clone(),
         movement_task_queue: movement_task_queue.clone(),
         status_service: StatusService::instance(),
+        runtime,
         server
     }
 }
@@ -72,38 +82,35 @@ fn before_each_with_latch(latch_size: usize) -> ServerServiceTestContext {
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
-    use std::mem;
-    use std::sync::Arc;
-    use std::time::Duration;
-    use tokio::runtime::Runtime;
+    use crate::server::model::events::game_event::CharacterUseSkill;
+    use crate::server::model::events::map_event::MapEvent;
+    use crate::server::model::map_item::ToMapItem;
+    use crate::server::model::tasks_queue::TasksQueue;
+    use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::server::Server;
+    use crate::tests::common::assert_helper::assert_vecs_equal;
+    use crate::tests::common::assert_helper::{has_sent_notification, task_queue_contains_event_at_tick, NotificationExpectation, SentPacket};
+    use crate::tests::common::character_helper::create_character;
+    use crate::tests::common::map_instance_helper::create_empty_map_instance;
+    use crate::tests::common::server_helper::create_empty_server_state;
+    use crate::tests::server_service_test::before_each;
+    use crate::util::tick::get_tick;
+    use crate::{assert_sent_packet_in_current_packetver, assert_vec_equals, status_snapshot};
     use models::enums::bonus::BonusType;
     use models::enums::skill_enums::SkillEnum;
-    use crate::server::model::events::map_event::{MapEvent};
     use models::item::DroppedItem;
-    use crate::server::model::map_item::{MapItemSnapshot, ToMapItem};
     use models::position::Position;
     use models::status::KnownSkill;
     use models::status_bonus::{StatusBonus, StatusBonuses};
     use packets::packets::{PacketZcMsgStateChange, PacketZcMsgStateChange2};
-    use crate::server::model::events::game_event::CharacterUseSkill;
-    use crate::server::model::tasks_queue::TasksQueue;
-    use crate::server::Server;
-    use crate::server::service::global_config_service::GlobalConfigService;
-    use crate::{assert_sent_packet_in_current_packetver, assert_vec_equals, status_snapshot};
-    use crate::tests::common::assert_helper::{task_queue_contains_event_at_tick, has_sent_notification, NotificationExpectation, SentPacket};
-    use crate::tests::common::character_helper::{create_character};
-    use crate::tests::common::map_instance_helper::create_empty_map_instance;
-    use crate::tests::common::{mocked_repository, ServerBuilder};
-    use crate::tests::common::server_helper::create_empty_server_state;
-    use crate::tests::common::assert_helper::assert_vecs_equal;
-    use crate::tests::server_service_test::before_each;
-    use crate::util::tick::get_tick;
+    use std::mem;
+    use std::sync::Arc;
+    use std::time::Duration;
 
     #[test]
     fn character_pickup_item_should_add_item_to_character_inventory_when_item_in_fov() {
         // Given
         let context = before_each();
-        let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
         let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
@@ -113,7 +120,7 @@ mod tests {
         character_state.map_view.insert(item.to_map_item());
         map_instance.state_mut().insert_dropped_item(item);
         // When
-        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);
+        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, context.runtime());
         // Then
         let item_from_inventory = character_state.get_item_from_inventory(0).unwrap();
         assert_eq!(item_from_inventory.item_id, 501);
@@ -124,7 +131,6 @@ mod tests {
     fn character_pickup_item_should_add_item_to_character_inventory_and_keep_is_identified_status_from_item_drop() {
         // Given
         let context = before_each();
-        let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
         let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
@@ -142,9 +148,9 @@ mod tests {
         character_state.map_view.insert(knife.to_map_item());
         map_instance.state_mut().insert_dropped_item(knife);
         // When
-        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, red_potion_map_item_id, &map_instance, &runtime);
-        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, clover_map_item_id, &map_instance, &runtime);
-        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, knife_map_item_id, &map_instance, &runtime);
+        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, red_potion_map_item_id, &map_instance, context.runtime());
+        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, clover_map_item_id, &map_instance, context.runtime());
+        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, knife_map_item_id, &map_instance, context.runtime());
         // Then
         let item_from_inventory = character_state.get_item_from_inventory(0).unwrap();
         assert_eq!(item_from_inventory.item_id, GlobalConfigService::instance().get_item_id_from_name("Red_Potion") as i32);
@@ -161,14 +167,13 @@ mod tests {
     fn character_pickup_item_should_prevent_pickup_when_item_not_in_fov() {
         // Given
         let context = before_each();
-        let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
         let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
         let map_item_id = 1000;
         map_instance.state_mut().insert_dropped_item(DroppedItem { map_item_id, item_id: 501, location: Position { x: 50, y: 50, dir: 0 }, sub_location: Position { x: 3, y: 3, dir: 0 }, owner_id: None, dropped_at: 0, amount: 2, is_identified: true });
         // When
-        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);
+        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, context.runtime());
         // Then
         let item_from_inventory = character_state.get_item_from_inventory(0);
         assert!(item_from_inventory.is_none());
@@ -179,7 +184,6 @@ mod tests {
     fn character_pickup_item_should_prevent_pickup_when_item_is_still_locked_by_another_player() {
         // Given
         let context = before_each();
-        let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
         let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
@@ -189,7 +193,7 @@ mod tests {
         character_state.map_view.insert(item.to_map_item());
         map_instance.state_mut().insert_dropped_item(item);
         // When
-        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);
+        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, context.runtime());
         // Then
         let item_from_inventory = character_state.get_item_from_inventory(0);
         assert!(item_from_inventory.is_none());
@@ -199,7 +203,6 @@ mod tests {
     fn character_pickup_item_should_pickup_when_item_is_no_longer_locked_by_another_player() {
         // Given
         let context = before_each();
-        let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
         let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
@@ -209,7 +212,7 @@ mod tests {
         character_state.map_view.insert(item.to_map_item());
         map_instance.state_mut().insert_dropped_item(item);
         // When
-        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);
+        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, context.runtime());
         // Then
         let item_from_inventory = character_state.get_item_from_inventory(0);
         assert!(item_from_inventory.is_some());
@@ -219,7 +222,6 @@ mod tests {
     fn character_pickup_item_should_remove_map_item_from_map_instance() {
         // Given
         let context = before_each();
-        let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
         let task_queue = Arc::new(TasksQueue::new());
@@ -232,7 +234,7 @@ mod tests {
         assert!(map_instance.state().get_map_item(map_item_id).is_some());
         assert!(map_instance.state().get_dropped_item(map_item_id).is_some());
         // When
-        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);
+        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, context.runtime());
         // Then
         let item_from_inventory = character_state.get_item_from_inventory(0);
         assert!(item_from_inventory.is_some());
@@ -243,7 +245,6 @@ mod tests {
     fn character_pickup_item_should_be_at_most_called_once() {
         // Given
         let context = before_each();
-        let runtime = Runtime::new().unwrap();
         let mut server_state = create_empty_server_state();
         let mut character_state = create_character();
         let map_instance = create_empty_map_instance(context.client_notification_sender.clone(), Arc::new(TasksQueue::new()));
@@ -253,8 +254,8 @@ mod tests {
         character_state.map_view.insert(item.to_map_item());
         map_instance.state_mut().insert_dropped_item(item);
         // When
-        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);
-        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, &runtime);
+        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, context.runtime());
+        context.server.server_service().character_pickup_item(&mut server_state, &mut character_state, map_item_id, &map_instance, context.runtime());
         // Then
         let item_from_inventory = character_state.get_item_from_inventory(0).unwrap();
         assert_eq!(item_from_inventory.item_id, 501);
@@ -265,7 +266,6 @@ mod tests {
     fn character_use_support_skill_should_apply_bonuses_and_send_add_bonuses_packet() {
         // Given
         let mut context = before_each();
-        let runtime = Runtime::new().unwrap();
         let mut character = create_character();
         let char_id = character.char_id;
         context.server.state_mut().insert_character(character);
@@ -297,7 +297,7 @@ mod tests {
                 skill_level: scenarii.skill.level,
             }, tick);
             tick += 100;
-            Server::game_loop_iteration(&context.server, &runtime, tick);
+            Server::game_loop_iteration(&context.server, tick);
             context.test_context.increment_latch().wait_expected_count_with_timeout(4, Duration::from_millis(400));
             assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcMsgStateChange2::packet_id(GlobalConfigService::instance().packetver()), 1)]));
         }
@@ -309,7 +309,7 @@ mod tests {
         // Then after skills duration, temporary bonuses have expired, a packet is sent to client
         context.test_context.reset_increment_latch();
         context.test_context.clear_sent_packet();
-        Server::game_loop_iteration(&context.server, &runtime, tick + 240 * 1000); // 240s is duration of inc agi and blessing
+        Server::game_loop_iteration(&context.server, tick + 240 * 1000); // 240s is duration of inc agi and blessing
 
         assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcMsgStateChange::packet_id(GlobalConfigService::instance().packetver()), 1)]));
     }

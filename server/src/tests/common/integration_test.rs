@@ -34,6 +34,7 @@ pub async fn before_all() -> Arc<Server> {
     INIT.call_once(|| unsafe {
         common::before_all();
         MAP_DIR = "../config/maps/pre-re";
+        let runtime = Arc::new(Runtime::new().unwrap());
 
         let npc_script_vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
         let item_script_vm = Arc::new(Vm::new("../native_functions_list.txt", DebugFlag::None.value()));
@@ -58,7 +59,7 @@ pub async fn before_all() -> Arc<Server> {
                 password: Some("ragnarok".to_string()),
             }
         };
-        let repository: PgRepository = PgRepository::new_pg_lazy(&database_config, Runtime::new().unwrap());
+        let repository: PgRepository = PgRepository::new_pg_lazy(&database_config, runtime.clone());
         let repository_arc = Arc::new(repository);
         let mut map_item_ids = MapItems::default();
 
@@ -66,7 +67,7 @@ pub async fn before_all() -> Arc<Server> {
         let mobs: Vec<MobModel> = mob_models.unwrap().into();
 
         let mobs_map = mobs.clone().into_iter().map(|mob| (mob.id as u32, mob)).collect();
-        let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map, "../config/npc").join().unwrap() };
+        let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map, "../config/npc", runtime.clone()).join().unwrap() };
         let maps = MapLoader::load_maps(Default::default(), mob_spawns, Default::default(), &mut map_item_ids, "../config/maps/pre-re");
         unsafe {
             crate::GlobalConfigService::instance_mut().maps = maps;
@@ -74,7 +75,7 @@ pub async fn before_all() -> Arc<Server> {
         let (not_use_sender, not_use_receiver) = create_mpsc::<Notification>();
         let (client_notification_sender, client_notification_receiver) = create_mpsc::<Notification>();
         let (persistence_event_sender, persistence_event_receiver) = create_mpsc::<PersistenceEvent>();
-        let server = Server::new(CONFIGS.as_ref().unwrap(), repository_arc.clone(), map_item_ids, npc_script_vm, item_script_vm, client_notification_sender.clone(), persistence_event_sender.clone());
+        let server = Server::new(CONFIGS.as_ref().unwrap(), repository_arc.clone(), map_item_ids, npc_script_vm, item_script_vm, client_notification_sender.clone(), persistence_event_sender.clone(), runtime);
         SERVER = Some(Arc::new(server));
         thread::spawn(move || {
             info!("Starting server");
