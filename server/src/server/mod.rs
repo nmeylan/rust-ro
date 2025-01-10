@@ -70,6 +70,7 @@ pub struct Server {
     movement_tasks_queue: Arc<TasksQueue<GameEvent>>,
     server_service: ServerService,
     shutdown: AtomicBool,
+    runtime: Arc<Runtime>,
     recording_sessions: MyUnsafeCell<Vec<SessionRecord>>,
 }
 
@@ -98,7 +99,8 @@ impl Server {
         self.configuration.server.packetver
     }
 
-    pub fn new(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, npc_script_vm: Arc<Vm>, item_script_vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>) -> Server {
+    pub fn new(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, npc_script_vm: Arc<Vm>, item_script_vm: Arc<Vm>, client_notification_sender: SyncSender<Notification>,
+               persistence_event_sender: SyncSender<PersistenceEvent>, runtime: Arc<Runtime>) -> Server {
         let tasks_queue = Arc::new(TasksQueue::new());
         let movement_tasks_queue = Arc::new(TasksQueue::new());
         StatusService::init(GlobalConfigService::instance(), item_script_vm.clone());
@@ -125,10 +127,11 @@ impl Server {
             server_service,
             shutdown: AtomicBool::new(false),
             recording_sessions: MyUnsafeCell::new(vec![]),
+            runtime
         }
     }
 
-    pub fn new_without_service_init(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, tasks_queue: Arc<TasksQueue<GameEvent>>, server_service: ServerService) -> Server {
+    pub fn new_without_service_init(configuration: &'static Config, repository: Arc<dyn Repository>, map_items: MapItems, tasks_queue: Arc<TasksQueue<GameEvent>>, server_service: ServerService, runtime: Arc<Runtime>) -> Server {
         Server {
             configuration,
             repository,
@@ -138,6 +141,7 @@ impl Server {
             server_service,
             shutdown: AtomicBool::new(false),
             recording_sessions: MyUnsafeCell::new(vec![]),
+            runtime
         }
     }
 
@@ -150,6 +154,10 @@ impl Server {
 
     pub fn is_alive(&self) -> bool {
         !self.shutdown.load(Ordering::Relaxed)
+    }
+
+    pub fn runtime(&self) -> &Runtime {
+        self.runtime.as_ref()
     }
 
     #[inline]
@@ -238,8 +246,7 @@ impl Server {
         {
             let character = self.state().get_character(char_id);
             if let Some(character) = character {
-                let runtime = Runtime::new();
-                runtime.unwrap().block_on(async {
+                self.runtime.block_on(async {
                     self.character_service().save_characters_state(vec![character]).await;
                     self.repository.save_hotkeys(char_id, &character.hotkeys).await.unwrap();
                 });
@@ -277,7 +284,6 @@ impl Server {
                         let mut tcp_stream = tcp_stream.unwrap();
                         thread::Builder::new().name(format!("client_{}_thread", tcp_stream.peer_addr().unwrap())).spawn_scoped(server_thread_scope, move || {
                             PACKETVER.with(|ver| *ver.borrow_mut() = server_shared_ref.packetver());
-                            let runtime = Runtime::new().unwrap();
 
                             let tcp_stream_arc = Arc::new(RwLock::new(tcp_stream.try_clone().unwrap())); // todo remove this clone
                             let mut buffer = [0; 2048];
@@ -293,7 +299,7 @@ impl Server {
                                             break;
                                         }
                                         let packet = parse(&buffer[..bytes_read], server_shared_ref.packetver());
-                                        let context = Request::new(&runtime, server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
+                                        let context = Request::new(server_shared_ref.configuration, None, server_shared_ref.packetver(), tcp_stream_arc.clone(), packet.as_ref(), response_sender_clone.clone(), client_notification_sender_clone.clone());
                                         request_handler::handle(server_shared_ref.clone(), context);
                                     }
                                     Err(err) => {
@@ -405,8 +411,7 @@ impl Server {
             }
             let server_ref_clone = server_ref.clone();
             thread::Builder::new().name("game_loop_thread".to_string()).spawn_scoped(server_thread_scope, move || {
-                let runtime = Runtime::new().unwrap();
-                Self::game_loop(server_ref_clone, runtime);
+                Self::game_loop(server_ref_clone);
                 info!("Shutdown game_loop_thread");
             }).unwrap();
             let server_ref_clone = server_ref.clone();
@@ -418,14 +423,12 @@ impl Server {
             }).unwrap();
             let server_ref_clone = server_ref.clone();
             thread::Builder::new().name("persistence_thread".to_string()).spawn_scoped(server_thread_scope, move || {
-                let runtime = Runtime::new().unwrap();
-                Self::persistence_thread(server_ref_clone.clone(), persistence_event_receiver, runtime, server_ref_clone.repository.clone());
+                Self::persistence_thread(server_ref_clone.clone(), persistence_event_receiver, server_ref_clone.repository.clone());
                 info!("Shutdown persistence_thread");
             }).unwrap();
             let server_ref_clone = server_ref.clone();
             thread::Builder::new().name("shutdown_thread".to_string()).spawn_scoped(server_thread_scope, move || {
-                let runtime = Runtime::new().unwrap();
-                runtime.block_on(async {
+                server_ref_clone.runtime.block_on(async {
                     tokio::signal::ctrl_c().await.unwrap();
                     server_ref_clone.shutdown().await;
                     info!("Hello ctrl+c");

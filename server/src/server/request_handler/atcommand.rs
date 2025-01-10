@@ -1,24 +1,24 @@
-use std::sync::Arc;
-use lazy_static::lazy_static;
-use tokio::runtime::Runtime;
-use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat};
 use crate::server::model::session::Session;
+use lazy_static::lazy_static;
 use models::enums::class::JobName;
-use models::enums::EnumWithStringValue;
 use models::enums::EnumWithNumberValue;
-use std::fmt::Write;
-use std::time::Instant;
+use models::enums::EnumWithStringValue;
+use packets::packets::{PacketCzPlayerChat, PacketZcNotifyPlayerchat};
 use regex_lite::Regex;
+use std::fmt::Write;
+use std::sync::Arc;
+use std::time::Instant;
+use tokio::runtime::Runtime;
 
-use packets::packets::Packet;
 use crate::load_scripts;
-use configuration::configuration::CityConfig;
+use crate::server::model::events::game_event::{CharacterChangeJob, CharacterChangeJobLevel, CharacterChangeLevel, GameEvent};
 use crate::server::model::map::RANDOM_CELL;
 use crate::server::model::request::Request;
-use crate::server::model::events::game_event::{CharacterChangeJob, CharacterChangeJobLevel, CharacterChangeLevel, GameEvent};
 use crate::server::script::Value;
-use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::Server;
+use configuration::configuration::CityConfig;
+use packets::packets::Packet;
 
 
 
@@ -47,35 +47,35 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
     match command {
         "go" => {
             debug!("{:?}", args);
-            let result = handle_go(server, context.session(), context.runtime(), args);
+            let result = handle_go(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "warp" | "rura" | "warpto" => {
-            let result = handle_warp(server, context.session(), context.runtime(), args);
+            let result = handle_warp(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "item" => {
-            let result = handle_item(server, context.session(), context.runtime(), args);
+            let result = handle_item(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "inspect" | "i" => {
-            let result = handle_inspect(server, context.session(), context.runtime(), args);
+            let result = handle_inspect(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "blvl" | "lvup" | "blevel" | "baselvl" | "baselvup" | "baselevel" | "baselvlup" => {
-            let result = handle_base_level(server, context.session(), context.runtime(), args);
+            let result = handle_base_level(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "setblvl" | "setblevel" | "setbaselvl" | "setbaselevel" => {
-            let result = handle_set_base_level(server, context.session(), context.runtime(), args);
+            let result = handle_set_base_level(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "jlvl" | "jlvup" | "jlevel" | "joblvl" | "joblvup" | "joblevel" | "joblvlup" => {
-            let result = handle_job_level(server, context.session(), context.runtime(), args);
+            let result = handle_job_level(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "setjlvl" | "setjlevel" | "setjoblvl" | "setjoblevel" => {
-            let result = handle_set_job_level(server, context.session(), context.runtime(), args);
+            let result = handle_set_job_level(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "job" | "jobchange" => {
@@ -87,23 +87,23 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             packet_zc_notify_playerchat.set_msg(result);
         }
         "reload" => {
-            let result = handle_reload(server, context.session(), context.runtime(), args);
+            let result = handle_reload(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "resetskills" => {
-            let result = handle_reset_skills(server, context.session(), context.runtime(), args);
+            let result = handle_reset_skills(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "resetstats" => {
-            let result = handle_reset_stats(server, context.session(), context.runtime(), args);
+            let result = handle_reset_stats(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "speed" => {
-            let result = handle_speed_change(server, context.session(), context.runtime(), args);
+            let result = handle_speed_change(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         "heal" => {
-            let result = handle_heal(server, context.session(), context.runtime(), args);
+            let result = handle_heal(server, context.session(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
         _ => {
@@ -115,7 +115,7 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
     socket_send!(context, packet_zc_notify_playerchat);
 }
 
-pub fn handle_go(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_go(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
     let cities_len = server.configuration.maps.cities.len();
     let cleaned_arg = args[0].trim();
     let mut maybe_city: Option<&CityConfig> = None;
@@ -170,7 +170,7 @@ pub fn handle_go(server: &Server, session: Arc<Session>, _runtime: &Runtime, arg
     format!("Warping at {} {},{}", city.name.clone(), city.x, city.y)
 }
 
-pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_warp(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
     let map_name = args[0].to_string();
     if GlobalConfigService::instance().maps().contains_key(&map_name) {
         let mut x = RANDOM_CELL.0;
@@ -193,25 +193,25 @@ pub fn handle_warp(server: &Server, session: Arc<Session>, _runtime: &Runtime, a
     format!("Map not found: {map_name}")
 }
 
-pub fn handle_item(server: &Server, session: Arc<Session>, runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_item(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
     if args.is_empty() {
         return format!("@item command accept from 1 to 2 parameters but received {}", args.len());
     }
-    server.script_service().schedule_get_items(session.char_id(), runtime, vec![
+    server.script_service().schedule_get_items(session.char_id(), server.runtime(), vec![
         (args[0].parse::<i32>().map(Value::Number).unwrap_or(Value::String(args[0].to_string())),
          args.get(1).unwrap_or(&"1").parse::<i16>().unwrap_or(1))], false);
 
     String::new()
 }
 
-pub fn handle_inspect(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
+pub fn handle_inspect(server: &Server, session: Arc<Session>, _args: Vec::<&str>) -> String {
     let char_id = session.char_id();
     let character = server.state().get_character_unsafe(char_id);
     server.character_service().print(character);
     String::new()
 }
 
-pub fn handle_base_level(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_base_level(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
     if args.is_empty() {
         return "@baselevel command accept 1 parameters but received none".to_string();
     }
@@ -219,7 +219,7 @@ pub fn handle_base_level(server: &Server, session: Arc<Session>, _runtime: &Runt
     String::new()
 }
 
-pub fn handle_set_base_level(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_set_base_level(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
     if args.is_empty() {
         return "@set_baselevel command accept 1 parameters but received none".to_string();
     }
@@ -231,7 +231,7 @@ pub fn handle_set_base_level(server: &Server, session: Arc<Session>, _runtime: &
     String::new()
 }
 
-pub fn handle_job_level(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_job_level(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
     if args.is_empty() {
         return "@joblevel command accept 1 parameters but received none".to_string();
     }
@@ -239,7 +239,7 @@ pub fn handle_job_level(server: &Server, session: Arc<Session>, _runtime: &Runti
     String::new()
 }
 
-pub fn handle_set_job_level(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_set_job_level(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
     if args.is_empty() {
         return "@set_joblevel command accept 1 parameters but received none".to_string();
     }
@@ -275,7 +275,7 @@ pub fn handle_rates(server: &Server) -> String {
     msg
 }
 
-pub fn handle_reload(server: &Server, _session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_reload(server: &Server, _session: Arc<Session>, args: Vec::<&str>) -> String {
     // TODO check if user privileges
     if args.is_empty() {
         return "@reload command accept 1 parameters but received none".to_string();
@@ -290,19 +290,19 @@ pub fn handle_reload(server: &Server, _session: Arc<Session>, _runtime: &Runtime
     }
 }
 
-pub fn handle_reset_skills(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
+pub fn handle_reset_skills(server: &Server, session: Arc<Session>, _args: Vec::<&str>) -> String {
     server.add_to_next_tick(GameEvent::CharacterResetSkills(session.char_id()));
     "Skills have been reset.".to_string()
 }
 
 
-pub fn handle_reset_stats(server: &Server, session: Arc<Session>, _runtime: &Runtime, _args: Vec::<&str>) -> String {
+pub fn handle_reset_stats(server: &Server, session: Arc<Session>, _args: Vec::<&str>) -> String {
     server.add_to_next_tick(GameEvent::CharacterResetStats(session.char_id()));
     "Stats have been reset.".to_string()
 }
 
 
-pub fn handle_speed_change(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_speed_change(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
     if args.is_empty() {
         return "@speed command accept 1 parameters but received none".to_string();
     }
@@ -317,7 +317,7 @@ pub fn handle_speed_change(server: &Server, session: Arc<Session>, _runtime: &Ru
 }
 
 
-pub fn handle_heal(server: &Server, session: Arc<Session>, _runtime: &Runtime, args: Vec::<&str>) -> String {
+pub fn handle_heal(server: &Server, session: Arc<Session>, args: Vec::<&str>) -> String {
     if args.is_empty() {
         return "@speed command accept 1 parameters but received none".to_string();
     }

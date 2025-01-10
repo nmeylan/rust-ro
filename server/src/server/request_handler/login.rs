@@ -17,7 +17,7 @@ use crate::server::Server;
 
 pub(crate) fn handle_login(server: Arc<Server>, context: Request) {
     let packet_ca_login = cast!(context.packet(), PacketCaLogin);
-    let mut res = context.runtime().block_on(async {
+    let mut res = server.runtime().block_on(async {
         authenticate(server.as_ref(), packet_ca_login).await
     });
     info!("packetver {}", packet_ca_login.version);

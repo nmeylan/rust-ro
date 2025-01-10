@@ -77,7 +77,8 @@ pub async fn main() {
     }
 
     setup_logger(configs());
-    let repository : PgRepository = PgRepository::new_pg(&configs().database, Runtime::new().unwrap()).await;
+    let runtime = Arc::new(Runtime::new().unwrap());
+    let repository : PgRepository = PgRepository::new_pg(&configs().database, runtime.clone()).await;
     let repository_arc = Arc::new(repository);
     // Load all items in memory, it takes only few mb
     let mut items =  repository_arc.get_all_items().await.unwrap();
@@ -103,7 +104,7 @@ pub async fn main() {
     let start = Instant::now();
     let warps = unsafe { WarpLoader::load_warps(CONFIGS.as_ref().unwrap()).await };
     let mobs_map = mobs.clone().into_iter().map(|mob| (mob.id as u32, mob)).collect();
-    let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map, MOB_ROOT_PATH).join().unwrap() };
+    let mob_spawns = unsafe { MobSpawnLoader::load_mob_spawns(CONFIGS.as_ref().unwrap(), mobs_map, MOB_ROOT_PATH, runtime.clone()).join().unwrap() };
     let maps = MapLoader::load_maps(warps, mob_spawns, scripts, &mut map_item_ids, unsafe { MAP_DIR });
     info!("Loaded {} map-cache in {}ms", maps.len(), start.elapsed().as_millis());
     // Executing items' script and cache result when possible (e.g: script like `bonus bStr, 3;` result will be cached and item will have a bonus +3 str associated)
@@ -120,7 +121,7 @@ pub async fn main() {
     let (persistence_event_sender, persistence_event_receiver) = std::sync::mpsc::sync_channel::<PersistenceEvent>(2048);
     // Create server
     let item_script_vm = create_script_vm("native_functions_list.txt");
-    let server = Server::new(configs(), repository_arc.clone(), map_item_ids, npc_script_vm, item_script_vm, client_notification_sender.clone(), persistence_event_sender.clone());
+    let server = Server::new(configs(), repository_arc.clone(), map_item_ids, npc_script_vm, item_script_vm, client_notification_sender.clone(), persistence_event_sender.clone(), runtime);
     let server_ref = Arc::new(server);
     PlayerScriptHandler::init(GlobalConfigService::instance(), server_ref.clone());
     let server_ref_clone = server_ref;

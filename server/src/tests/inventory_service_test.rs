@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 use std::sync::Arc;
+use tokio::runtime::Runtime;
 use crate::repository::InventoryRepository;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
@@ -18,6 +19,13 @@ struct InventoryServiceTestContext {
     test_context: TestContext,
     inventory_service: InventoryService,
     server_task_queue: Arc<TasksQueue<GameEvent>>,
+    runtime: Arc<Runtime>,
+}
+
+impl InventoryServiceTestContext {
+    pub fn runtime(&self) -> &Runtime {
+        self.runtime.as_ref()
+    }
 }
 
 fn before_each(inventory_repository: Arc<dyn InventoryRepository + Sync>) -> InventoryServiceTestContext {
@@ -34,6 +42,7 @@ fn before_each_with_latch(inventory_repository: Arc<dyn InventoryRepository + Sy
         test_context: TestContext::new(client_notification_sender.clone(), client_notification_receiver, persistence_event_sender.clone(), persistence_event_receiver, count_down_latch),
         inventory_service: InventoryService::new(client_notification_sender, persistence_event_sender, inventory_repository, GlobalConfigService::instance(), server_task_queue.clone()),
         server_task_queue,
+        runtime: Arc::new(Runtime::new().unwrap()),
     }
 }
 
@@ -41,16 +50,15 @@ fn before_each_with_latch(inventory_repository: Arc<dyn InventoryRepository + Sy
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
-    
     use std::sync::{Arc, Mutex};
     use std::sync::atomic::{AtomicBool, Ordering};
     use std::time::Duration;
     use async_trait::async_trait;
     use crate::{assert_not_sent_packet_in_current_packetver, assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick, assert_task_queue_is_empty};
     use crate::tests::common::assert_helper::task_queue_contains_event;
-    
+
     use sqlx::Error;
-    
+
     use tokio::runtime::Runtime;
     use models::enums::class::JobName;
     use models::enums::item::EquipmentLocation;
@@ -71,14 +79,14 @@ mod tests {
     use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
-    
+
     use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, NotificationExpectation, task_queue_contains_event_at_tick, SentPacket};
     use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character, equip_item, equip_item_from_name};
     use crate::tests::common::item_helper::create_inventory_item;
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
     use crate::tests::common::mocked_repository;
-    
-    
+
+
     use crate::tests::inventory_service_test::{before_each, before_each_with_latch};
 
     #[test]
@@ -99,7 +107,6 @@ mod tests {
         let inventory_repository = Arc::new(MockedInventoryRepository { inventory_update_items: Mutex::new(vec![]) });
         let context = before_each(inventory_repository.clone());
         let mut character = create_character();
-        let runtime = Runtime::new().unwrap();
         let character_add_items = CharacterAddItems {
             char_id: character.char_id,
             should_perform_check: false,
@@ -107,7 +114,7 @@ mod tests {
             items: vec![create_inventory_item("Blade", 1), create_inventory_item("Red_Potion", 10), create_inventory_item("Red_Potion", 10), create_inventory_item("Banana", 15)],
         };
         // When
-        context.inventory_service.add_items_in_inventory(&runtime, character_add_items, &mut character);
+        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
         // Then
         let items_to_store_in_inventory_db = inventory_repository.inventory_update_items.lock().unwrap();
         assert_eq!(items_to_store_in_inventory_db.len(), 4);
@@ -129,7 +136,6 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        let runtime = Runtime::new().unwrap();
         let character_add_items = CharacterAddItems {
             char_id: character.char_id,
             should_perform_check: false,
@@ -137,7 +143,7 @@ mod tests {
             items: vec![create_inventory_item("Red_Potion", 10)],
         };
         // When
-        context.inventory_service.add_items_in_inventory(&runtime, character_add_items, &mut character);
+        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
         // Then
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateZeny(CharacterZeny { char_id: character.char_id, zeny: None }), 0);
     }
@@ -147,7 +153,6 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        let runtime = Runtime::new().unwrap();
         let character_add_items = CharacterAddItems {
             char_id: character.char_id,
             should_perform_check: false,
@@ -155,7 +160,7 @@ mod tests {
             items: vec![create_inventory_item("Red_Potion", 10)],
         };
         // When
-        context.inventory_service.add_items_in_inventory(&runtime, character_add_items, &mut character);
+        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
         // Then
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateWeight(character.char_id), 0);
     }
@@ -184,18 +189,17 @@ mod tests {
                 Ok(vec![bow, arrow, beret])
             }
         }
-        let runtime = Runtime::new().unwrap();
         let inventory_repository = Arc::new(MockedInventoryRepository { has_fetched_items: Default::default() });
         let context = before_each(inventory_repository.clone());
         let mut character = create_character();
         let character_add_items = CharacterAddItems { char_id: character.char_id, should_perform_check: false, buy: false, items: vec![create_inventory_item("Red_Potion", 10)] };
-        context.inventory_service.add_items_in_inventory(&runtime, character_add_items, &mut character);
+        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
         equip_item_from_name(&mut character, "Knife");
         equip_item_from_name(&mut character, "Hat");
         assert_eq!(character.status.equipped_weapons()[0].item_id(), create_inventory_item("Knife", 1).item_id);
         assert_eq!(character.status.equipped_gears()[0].item_id(), create_inventory_item("Hat", 1).item_id);
         // When
-        context.inventory_service.reload_inventory(&runtime, character.char_id, &mut character);
+        context.inventory_service.reload_inventory(context.runtime(), character.char_id, &mut character);
         // Then
         assert_eq!(character.inventory.len(), 3); // potion is not in inventory anymore
         assert_eq!(character.status.equipped_gears().len(), 1);
@@ -211,9 +215,8 @@ mod tests {
         // Given
         let context = before_each_with_latch(mocked_repository(), 1);
         let mut character = create_character();
-        let runtime = Runtime::new().unwrap();
         // When
-        context.inventory_service.reload_inventory(&runtime, character.char_id, &mut character);
+        context.inventory_service.reload_inventory(context.runtime(), character.char_id, &mut character);
         // Then
         assert_task_queue_contains_event_at_tick!(context.server_task_queue, GameEvent::CharacterUpdateWeight(character.char_id), 0);
         context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
@@ -289,15 +292,19 @@ mod tests {
     #[test]
     fn test_check_job_requirement() {
         // Given
-        struct JobWeapon<'a> {job: &'a str, weapon: &'a str, expected_can_equip: bool}
+        struct JobWeapon<'a> {
+            job: &'a str,
+            weapon: &'a str,
+            expected_can_equip: bool,
+        }
         let jobs_weapons = vec![
-            JobWeapon{ job: "Archer", weapon: "Bow", expected_can_equip: true},
-            JobWeapon{ job: "Archer", weapon: "Sword", expected_can_equip: false},
-            JobWeapon{ job: "Bard", weapon: "Whip", expected_can_equip: false},
-            JobWeapon{ job: "Bard", weapon: "Guitar", expected_can_equip: true},
-            JobWeapon{ job: "Clown", weapon: "Guitar", expected_can_equip: true},
-            JobWeapon{ job: "Dancer", weapon: "Whip", expected_can_equip: true},
-            JobWeapon{ job: "Dancer", weapon: "Guitar", expected_can_equip: false},
+            JobWeapon { job: "Archer", weapon: "Bow", expected_can_equip: true },
+            JobWeapon { job: "Archer", weapon: "Sword", expected_can_equip: false },
+            JobWeapon { job: "Bard", weapon: "Whip", expected_can_equip: false },
+            JobWeapon { job: "Bard", weapon: "Guitar", expected_can_equip: true },
+            JobWeapon { job: "Clown", weapon: "Guitar", expected_can_equip: true },
+            JobWeapon { job: "Dancer", weapon: "Whip", expected_can_equip: true },
+            JobWeapon { job: "Dancer", weapon: "Guitar", expected_can_equip: false },
         ];
         let context = before_each_with_latch(mocked_repository(), 2);
         let mut character = create_character();
@@ -308,7 +315,7 @@ mod tests {
             // When
             let res = context.inventory_service.check_job_requirement(&character, item);
             // Then
-            assert_eq!(res, job_weapon.expected_can_equip, "Expected {} to be {} by {} but was not", item.name_aegis, if job_weapon.expected_can_equip { "wearable"} else { "not wearable"}, job_weapon.job);
+            assert_eq!(res, job_weapon.expected_can_equip, "Expected {} to be {} by {} but was not", item.name_aegis, if job_weapon.expected_can_equip { "wearable" } else { "not wearable" }, job_weapon.job);
         }
     }
 
@@ -569,15 +576,14 @@ mod tests {
         }
         let inventory_repository = Arc::new(MockedInventoryRepository { inventory_update_items: Mutex::new(vec![]) });
         let context = before_each(inventory_repository.clone());
-        let runtime = Runtime::new().unwrap();
         let mut character = create_character();
         add_items_in_inventory(&mut character, "Jellopy", 10);
         add_items_in_inventory(&mut character, "Knife", 1);
         // When
-        context.inventory_service.remove_item_from_inventory(&runtime, CharacterRemoveItems{
+        context.inventory_service.remove_item_from_inventory(context.runtime(), CharacterRemoveItems {
             char_id: character.char_id,
             sell: false,
-            items: vec![CharacterRemoveItem{ char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem{ char_id: character.char_id, index: 1, amount: 1, price: 0 },]
+            items: vec![CharacterRemoveItem { char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id: character.char_id, index: 1, amount: 1, price: 0 }, ],
         }, &mut character);
         // Then
         assert_eq!(character.inventory.len(), 2);
@@ -599,14 +605,13 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        let runtime = Runtime::new().unwrap();
         add_items_in_inventory(&mut character, "Jellopy", 10);
         add_items_in_inventory(&mut character, "Knife", 1);
         // When
-        context.inventory_service.remove_item_from_inventory(&runtime, CharacterRemoveItems{
+        context.inventory_service.remove_item_from_inventory(context.runtime(), CharacterRemoveItems {
             char_id: character.char_id,
             sell: false,
-            items: vec![CharacterRemoveItem{ char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem{ char_id: character.char_id, index: 1, amount: 1, price: 0 },]
+            items: vec![CharacterRemoveItem { char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id: character.char_id, index: 1, amount: 1, price: 0 }, ],
         }, &mut character);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
@@ -619,14 +624,13 @@ mod tests {
         // Given
         let context = before_each(mocked_repository());
         let mut character = create_character();
-        let runtime = Runtime::new().unwrap();
         add_items_in_inventory(&mut character, "Jellopy", 10);
         add_items_in_inventory(&mut character, "Knife", 1);
         // When
-        let inventory_items = context.inventory_service.remove_item_from_inventory(&runtime, CharacterRemoveItems {
+        let inventory_items = context.inventory_service.remove_item_from_inventory(context.runtime(), CharacterRemoveItems {
             char_id: character.char_id,
             sell: false,
-            items: vec![CharacterRemoveItem { char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id: character.char_id, index: 1, amount: 1, price: 0 }, ]
+            items: vec![CharacterRemoveItem { char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id: character.char_id, index: 1, amount: 1, price: 0 }, ],
         }, &mut character).unwrap();
         // Then
         let inventory_item_model = &inventory_items[0].0;
@@ -645,7 +649,6 @@ mod tests {
     fn test_character_drop_items_should_trigger_map_instance_character_drop_item_event() {
         // Given
         let context = before_each(mocked_repository());
-        let runtime = Runtime::new().unwrap();
         let mut character = create_character();
         let task_queue = Arc::new(TasksQueue::new());
         let map_instance = create_empty_map_instance(context.test_context.client_notification_sender(), task_queue.clone());
@@ -655,7 +658,7 @@ mod tests {
         let mut knife_item_model = character.get_item_from_inventory(index).unwrap().clone();
         let char_id = character.char_id;
         // When
-        context.inventory_service.character_drop_items(&runtime, &mut character, CharacterRemoveItems {
+        context.inventory_service.character_drop_items(context.runtime(), &mut character, CharacterRemoveItems {
             char_id,
             sell: false,
             items: vec![CharacterRemoveItem { char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id, index: 1, amount: 1, price: 0 }],
@@ -668,7 +671,7 @@ mod tests {
             owner_id: char_id,
             char_x: character.x,
             char_y: character.y,
-            item_removal_info: vec![(jellopy_item_model, CharacterRemoveItem { char_id, index: 0, amount: 7, price: 0 }), (knife_item_model, CharacterRemoveItem { char_id, index: 1, amount: 1, price: 0 })]
+            item_removal_info: vec![(jellopy_item_model, CharacterRemoveItem { char_id, index: 0, amount: 7, price: 0 }), (knife_item_model, CharacterRemoveItem { char_id, index: 1, amount: 1, price: 0 })],
         };
         assert_task_queue_contains_event!(task_queue, MapEvent::CharDropItems(drop_items));
     }
@@ -683,8 +686,7 @@ mod tests {
                 Err(Error::Database(Box::new(PersistenceError::new("mocked error".to_string()))))
             }
         }
-        let context = before_each(Arc::new(MockedInventoryRepository{}));
-        let runtime = Runtime::new().unwrap();
+        let context = before_each(Arc::new(MockedInventoryRepository {}));
         let mut character = create_character();
         let task_queue = Arc::new(TasksQueue::new());
         let map_instance = create_empty_map_instance(context.test_context.client_notification_sender(), task_queue.clone());
@@ -694,7 +696,7 @@ mod tests {
         let _knife_item_model = character.get_item_from_inventory(index).unwrap().clone();
         let char_id = character.char_id;
         // When
-        context.inventory_service.character_drop_items(&runtime, &mut character, CharacterRemoveItems {
+        context.inventory_service.character_drop_items(context.runtime(), &mut character, CharacterRemoveItems {
             char_id,
             sell: false,
             items: vec![CharacterRemoveItem { char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id, index: 1, amount: 1, price: 0 }],

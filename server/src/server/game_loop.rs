@@ -31,13 +31,13 @@ const MOVEMENT_TICK_RATE: u128 = 16;
 pub const GAME_TICK_RATE: u128 = 40;
 
 impl Server {
-    pub(crate) fn game_loop(server_ref: Arc<Server>, runtime: Runtime) {
+    pub(crate) fn game_loop(server_ref: Arc<Server>) {
         loop {
             if !server_ref.is_alive() {
                 break;
             }
             let tick = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
-            Self::game_loop_iteration(server_ref.clone().as_ref(), &runtime, tick);
+            Self::game_loop_iteration(server_ref.clone().as_ref(), tick);
             let time_spent = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis() - tick;
             let sleep_duration = (GAME_TICK_RATE as i128 - time_spent as i128).max(0) as u64;
             if sleep_duration < 5 {
@@ -47,7 +47,7 @@ impl Server {
         }
     }
 
-    pub(crate) fn game_loop_iteration(server_ref: &Server, runtime: &Runtime, tick: u128) {
+    pub(crate) fn game_loop_iteration(server_ref: &Server, tick: u128) {
         let mut server_state_mut = server_ref.state_mut();
 
         for (_, character) in server_state_mut.characters_mut().iter_mut().filter(|(_, character)| character.loaded_from_client_side) {
@@ -99,15 +99,15 @@ impl Server {
                     }
                     GameEvent::CharacterUpdateZeny(zeny_update) => {
                         let character = server_state_mut.characters_mut().get_mut(&zeny_update.char_id).unwrap();
-                        server_ref.character_service().update_zeny(runtime, zeny_update, character);
+                        server_ref.character_service().update_zeny(server_ref.runtime.as_ref(), zeny_update, character);
                     }
                     GameEvent::CharacterAddItems(add_items) => {
                         let character = server_state_mut.characters_mut().get_mut(&add_items.char_id).unwrap();
-                        server_ref.inventory_service().add_items_in_inventory(runtime, add_items, character);
+                        server_ref.inventory_service().add_items_in_inventory(server_ref.runtime.as_ref(), add_items, character);
                     }
                     GameEvent::CharacterInitInventory(char_id) => {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
-                        server_ref.inventory_service().reload_inventory(runtime, char_id, character);
+                        server_ref.inventory_service().reload_inventory(server_ref.runtime.as_ref(), char_id, character);
                         server_ref.inventory_service().reload_equipped_item_sprites(character);
                         server_ref.character_service().reload_client_side_status(character);
                         server_ref.character_service().reload_client_side_hotkeys(character);
@@ -118,7 +118,7 @@ impl Server {
                     }
                     GameEvent::CharacterUseItem(character_user_item) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_user_item.char_id).unwrap();
-                        server_ref.item_service().use_item(server_ref, runtime, character_user_item, character);
+                        server_ref.item_service().use_item(server_ref, server_ref.runtime.as_ref(), character_user_item, character);
                     }
                     GameEvent::CharacterAttack(character_attack) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_attack.char_id).unwrap();
@@ -171,7 +171,7 @@ impl Server {
                     GameEvent::CharacterPickUpItem(character_pickup_item) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_pickup_item.char_id).unwrap();
                         let map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance()).unwrap();
-                        server_ref.server_service.character_pickup_item(server_ref.state_mut().as_mut(), character, character_pickup_item.map_item_id, map_instance.as_ref(), runtime);
+                        server_ref.server_service.character_pickup_item(server_ref.state_mut().as_mut(), character, character_pickup_item.map_item_id, map_instance.as_ref(), server_ref.runtime.as_ref());
                     }
                     GameEvent::MapNotifyItemRemoved(map_item_id) => {
                         server_state_mut.remove_locked_map_item(map_item_id);
@@ -188,11 +188,11 @@ impl Server {
                         let character = server_state_mut.characters_mut().get_mut(&character_drop_item.char_id).unwrap();
                         let map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance()).unwrap();
                         let character_remove_items = CharacterRemoveItems { char_id: character.char_id, sell: false, items: vec![character_drop_item] };
-                        server_ref.inventory_service().character_drop_items(runtime, character, character_remove_items, map_instance.as_ref());
+                        server_ref.inventory_service().character_drop_items(server_ref.runtime.as_ref(), character, character_remove_items, map_instance.as_ref());
                     }
                     GameEvent::CharacterSellItems(character_remove_items) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_remove_items.char_id).unwrap();
-                        server_ref.inventory_service().character_sell_items(runtime, character, character_remove_items);
+                        server_ref.inventory_service().character_sell_items(server_ref.runtime.as_ref(), character, character_remove_items);
                     }
                     GameEvent::CharacterResetSkills(char_id) => {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();

@@ -2,16 +2,16 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
-
+use std::sync::Arc;
 use std::thread;
 use std::thread::JoinHandle;
 use std::time::Instant;
 use tokio::runtime::Runtime;
 
 use crate::repository::model::mob_model::MobModel;
-use configuration::configuration::Config;
 use crate::server::boot::{NpcLoader, NpcLoaderTrait};
 use crate::server::model::mob_spawn::{MobSpawn, MobType};
+use configuration::configuration::Config;
 
 
 static PARALLEL_EXECUTIONS: usize = 1;
@@ -84,9 +84,8 @@ impl NpcLoaderTrait<MobSpawn> for MobSpawnLoader {
 }
 
 impl MobSpawnLoader {
-    pub fn load_mob_spawns(config: &'static Config, mobs: HashMap<u32, MobModel>, config_root_path: &'static str) -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
+    pub fn load_mob_spawns(config: &'static Config, mobs: HashMap<u32, MobModel>, config_root_path: &'static str, runtime: Arc<Runtime>) -> JoinHandle<HashMap<String, Vec<MobSpawn>>> {
         thread::spawn(move ||{
-            let runtime = Runtime::new().unwrap();
             let start = Instant::now();
             let npc_loader = NpcLoader {
                 conf_file: File::open(Path::new(config_root_path).join(MOB_CONF_FILE)).unwrap(),

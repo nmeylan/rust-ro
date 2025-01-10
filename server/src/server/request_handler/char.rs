@@ -37,7 +37,7 @@ pub fn handle_char_enter(server: &Server, context: Request) {
         let session = Arc::new(session.recreate_with_char_socket(context.socket()));
         sessions_guard.insert(packet_char_enter.aid, session.clone());
         if session.auth_code == packet_char_enter.auth_code && session.user_level == packet_char_enter.user_level {
-            let packet_hc_accept_enter_neo_union: Box<dyn Packet> = context.runtime().block_on(async {
+            let packet_hc_accept_enter_neo_union: Box<dyn Packet> = server.runtime().block_on(async {
                 let mut hc_accept_enter_neo_union = load_chars_info(session.account_id, server).await;
                 if GlobalConfigService::instance().packetver() >= 20130000 {
                     let mut accept_enter_neo_union_header = PacketHcAcceptEnterNeoUnionHeader::new(GlobalConfigService::instance().packetver());
@@ -193,7 +193,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
         return;
     }
 
-    let created_char = context.runtime().block_on(async {
+    let created_char = server.runtime().block_on(async {
         let char_model = char_model.unwrap();
         let name = char_model.name.as_str();
         server.repository.character_insert(&char_model).await.unwrap();
@@ -209,7 +209,7 @@ pub fn handle_make_char(server: &Server, context: Request) {
 
 pub fn handle_delete_reserved_char(server: &Server, context: Request) {
     let packet_delete_reserved_char = cast!(context.packet(), PacketChDeleteChar4Reserved);
-    context.runtime().block_on(async {
+    server.runtime().block_on(async {
         server.repository.character_delete_reserved(context.session().account_id, packet_delete_reserved_char.gid).await.unwrap();
     });
     let mut packet_hc_delete_char4reserved = PacketHcDeleteChar4Reserved::new(GlobalConfigService::instance().packetver());
@@ -223,17 +223,17 @@ pub fn handle_delete_reserved_char(server: &Server, context: Request) {
 pub fn handle_select_char(server: &Server, context: Request) {
     let packet_select_char = cast!(context.packet(), PacketChSelectChar);
     let session_id = context.session().account_id;
-    let char_model: CharSelectModel = context.runtime().block_on(async {
+    let char_model: CharSelectModel = server.runtime().block_on(async {
         if let Some(char_id) = context.session().char_id {
             server.repository.character_with_id_fetch(char_id).await.unwrap()
         } else {
             server.repository.character_fetch(session_id, packet_select_char.char_num).await.unwrap()
         }
     });
-    let skills: Vec<KnownSkill> = context.runtime().block_on(async {
+    let skills: Vec<KnownSkill> = server.runtime().block_on(async {
         server.repository.character_skills(char_model.char_id as u32).await.unwrap()
     });
-    let hotkeys: Vec<Hotkey> = context.runtime().block_on(async {
+    let hotkeys: Vec<Hotkey> = server.runtime().block_on(async {
         server.repository.load_hotkeys(char_model.char_id as u32).await.unwrap()
     });
 

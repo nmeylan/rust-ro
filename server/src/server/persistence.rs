@@ -5,10 +5,10 @@ use crate::{Map, PersistenceEvent, Repository};
 use crate::server::Server;
 
 impl Server {
-    pub(crate) fn persistence_thread(server_ref: Arc<Server>, persistence_event_receiver: Receiver<PersistenceEvent>, runtime: Runtime, repository: Arc<dyn Repository>) {
+    pub(crate) fn persistence_thread(server_ref: Arc<Server>, persistence_event_receiver: Receiver<PersistenceEvent>, repository: Arc<dyn Repository>) {
         loop {
             if let Ok(event) = persistence_event_receiver.try_recv() {
-                runtime.block_on(async {
+                server_ref.runtime.block_on(async {
                     match event {
                         PersistenceEvent::SaveCharacterPosition(save_character_position) => {
                             repository.character_save_position(save_character_position.char_id,
