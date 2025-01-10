@@ -236,7 +236,8 @@ impl InventoryService {
                                                                                       chain_packets(vec![&packet_zc_equipment_itemlist3, &packet_zc_normal_itemlist3, &packet_zc_attack_range]))))
             .unwrap_or_else(|_| error!("Failed to send notification packet_zc_normal_itemlist3 to client"));
         if let Some(packet) = maybe_packet_zc_equip_arrow {
-            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet)));
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet)))
+                .unwrap_or_else(|_| error!("Failed to send notification equip arrow to client"));
         }
     }
 

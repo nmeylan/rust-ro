@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 use std::collections::HashSet;
 use std::mem;
-use std::sync::{Arc, Once};
+use std::sync::{Arc};
 use std::sync::atomic::Ordering::Relaxed;
 use std::sync::mpsc::SyncSender;
 use rathena_script_lang_interpreter::lang::vm::Vm;
@@ -47,9 +47,6 @@ use crate::server::state::character::Character;
 use crate::server::state::server::ServerState;
 
 use crate::util::tick::get_tick;
-
-static mut SERVICE_INSTANCE: Option<ServerService> = None;
-static SERVICE_INSTANCE_INIT: Once = Once::new();
 
 #[allow(dead_code)]
 pub struct ServerService {
@@ -118,8 +115,7 @@ impl ServerService {
     pub fn create_map_instance(&self, server_state: &mut ServerState, map: &'static Map, instance_id: u8) -> Arc<MapInstance> {
         info!("create map instance: {} x_size: {}, y_size {}, length: {}", map.name(), map.x_size(), map.y_size(), map.length());
         let start_sequence = CHARACTER_MAX_MAP_ITEM_ID + server_state.map_instances().len() as u32 * MAP_INSTANCE_MAX_MAP_ITEM_ID;
-        let end_sequence = start_sequence + MAP_INSTANCE_MAX_MAP_ITEM_ID - 1;
-        let mut map_items = MapItems::new(start_sequence, end_sequence);
+        let mut map_items = MapItems::new(start_sequence);
 
         let mut cells = MapLoader::generate_cells(map.name(), map.length() as usize, unsafe { MAP_DIR });
         map.set_warp_cells(&mut cells, &mut map_items);

@@ -37,6 +37,7 @@ pub struct WearAmmoForDisplay<'a> {
 }
 
 impl<'a> WearWeaponForDisplay<'a> {
+    #[allow(dead_code)]
     pub fn new(weapon: &'a WearWeapon, config_service: &'static GlobalConfigService) -> Self {
         Self {
             wear_weapon: weapon,
@@ -45,6 +46,7 @@ impl<'a> WearWeaponForDisplay<'a> {
     }
 }
 impl<'a> WearGearForDisplay<'a> {
+    #[allow(dead_code)]
     pub fn new(gear: &'a WearGear, config_service: &'static GlobalConfigService) -> Self {
         Self {
             wear_gear: gear,
@@ -53,6 +55,7 @@ impl<'a> WearGearForDisplay<'a> {
     }
 }
 impl<'a> WearAmmoForDisplay<'a> {
+    #[allow(dead_code)]
     pub fn new(ammo: &'a WearAmmo, config_service: &'static GlobalConfigService) -> Self {
         Self {
             wear_ammo: ammo,

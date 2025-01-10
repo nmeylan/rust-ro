@@ -4,8 +4,6 @@ use std::net::TcpStream;
 use std::sync::{Arc, RwLock};
 use std::sync::mpsc::{SyncSender};
 
-use tokio::runtime::Runtime;
-
 use packets::packets::Packet;
 use configuration::configuration::Config;
 use crate::server::model::events::client_notification::Notification;

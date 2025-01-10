@@ -6,8 +6,8 @@ use crate::server::service::battle_service::{BattleResultMode, BattleService};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
-use crate::tests::common::{create_mpsc, test_script_vm, TestContext};
 use crate::tests::common::sync_helper::CountDownLatch;
+use crate::tests::common::{create_mpsc, test_script_vm, TestContext};
 
 struct BattleServiceTestContext {
     test_context: TestContext,
@@ -39,30 +39,29 @@ fn before_each_with_latch(latch_size: usize) -> BattleServiceTestContext {
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
+    use crate::server::model::map_item::ToMapItemSnapshot;
+    use crate::server::service::battle_service::BattleService;
+    use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::server::service::status_service::StatusService;
+    use crate::tests::battle_service_test::before_each;
+    use crate::tests::common::character_helper::{create_character, equip_item_from_id, equip_item_from_id_with_cards, equip_item_from_name};
+    use crate::tests::common::fixtures::battle_fixture::BattleFixture;
+    use crate::tests::common::fixtures::{CombatTestResult, TestResult};
+    use crate::tests::common::mob_helper::{create_mob, create_mob_by_id};
+    use crate::util::tick::get_tick;
+    use crate::{assert_eq_with_variance, format_result, status_snapshot};
+    use models::enums::class::JobName;
+    use models::enums::element::Element;
+    use models::enums::size::Size;
+    use models::enums::skill_enums::SkillEnum;
+    use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+    use models::item::{WearGear, WearWeapon};
+    use models::status::Status;
+    use skills::OffensiveSkill;
     use std::fs::File;
     use std::io::{Seek, SeekFrom, Write};
     use std::mem;
     use std::path::Path;
-    use models::enums::class::JobName;
-    use models::enums::element::Element;
-    use models::enums::{EnumWithStringValue, EnumWithNumberValue};
-    use models::enums::size::Size;
-    use models::enums::skill_enums::SkillEnum;
-    use models::item::{WearGear, WearWeapon};
-    use models::status::Status;
-    use skills::base::bard_base::MelodyStrike;
-    use skills::{OffensiveSkill, Skill};
-    use crate::{assert_eq_with_variance, format_result, status_snapshot, status_snapshot_mob};
-    use crate::server::model::map_item::{ToMapItemSnapshot};
-    use crate::server::service::battle_service::BattleService;
-    use crate::server::service::global_config_service::GlobalConfigService;
-    use crate::server::service::status_service::StatusService;
-    use crate::tests::battle_service_test::{BattleServiceTestContext, before_each};
-    use crate::tests::common::character_helper::{create_character, equip_item_from_id_with_cards, equip_item_from_name, equip_item_from_id};
-    use crate::tests::common::fixtures::{CombatTestResult, TestResult};
-    use crate::tests::common::fixtures::battle_fixture::BattleFixture;
-    use crate::tests::common::mob_helper::{create_mob, create_mob_by_id};
-    use crate::util::tick::get_tick;
 
     #[test]
     fn test_damage_character_attack_mob_melee() {

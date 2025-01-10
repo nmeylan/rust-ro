@@ -1,10 +1,10 @@
+use crate::util::hasher::NoopHasherU32;
+use hashbrown::HashMap;
+use models::position::Position;
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
 use std::sync::atomic::AtomicU32;
 use std::sync::atomic::Ordering::SeqCst;
-use models::position::Position;
-use crate::util::hasher::NoopHasherU32;
-use hashbrown::HashMap;
 
 pub const UNKNOWN_MAP_ITEM: MapItem = MapItem::unknown();
 pub const CHARACTER_MAX_MAP_ITEM_ID: u32 = 300000;
@@ -134,21 +134,19 @@ pub trait ToMapItemSnapshot {
 pub struct MapItems {
     items: HashMap<u32, MapItem, NoopHasherU32>,
     sequence: AtomicU32,
-    sequence_max: u32,
 }
 
 impl Default for MapItems {
     fn default() -> Self {
-        Self::new(0, u32::MAX)
+        Self::new(0)
     }
 }
 
 impl MapItems {
-    pub fn new(sequence_start: u32, sequence_max: u32) -> Self {
+    pub fn new(sequence_start: u32) -> Self {
         Self {
             items: HashMap::<u32, MapItem, NoopHasherU32>::with_hasher(NoopHasherU32::default()),
             sequence: AtomicU32::new(sequence_start),
-            sequence_max,
         }
     }
 
