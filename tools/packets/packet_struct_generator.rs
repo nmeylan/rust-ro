@@ -217,6 +217,7 @@ fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, pack
     write_struct_base_len_method(file, struct_definition);
     write_struct_setter_methods(file, struct_definition);
     write_struct_new_method(file, struct_definition, &packet_id);
+    write_struct_from_json(file, struct_definition);
     file.write_all("}\n\n".to_string().as_bytes()).unwrap();
 }
 
@@ -489,14 +490,12 @@ fn write_struct_to_json(file: &mut File, struct_definition: &StructDefinition) {
     file.write_all("    fn to_json(&self) -> String {\n".as_bytes()).unwrap();
     file.write_all("        let mut json = String::from(\"{\\n\");\n".as_bytes()).unwrap();
     for field in &struct_definition.fields {
-        if field.name.eq("packet_id") {
-            continue;
-        }
         let mut json_value = String::new();
         match field.data_type.name.as_str() {
             "Array" => {
                 if field.sub_type.is_some() {
                     let sub_type_name = &field.sub_type.unwrap().name;
+                    // Special case for pos and dest so it is easier to read/edit json
                     if field.name.eq("pos_dir") || field.name.eq("dest") {
                         file.write_all(format!("        let x = ((self.{}_raw[0] as u16) << 2) | (self.{}_raw[1] >> 6) as u16;\n", field.name, field.name).as_bytes()).unwrap();
                         file.write_all(format!("        let y = (((self.{}_raw[1] & 0x3f) as u16) << 4) | (self.{}_raw[2] >> 4) as u16;\n", field.name, field.name).as_bytes()).unwrap();
@@ -528,6 +527,41 @@ fn write_struct_to_json(file: &mut File, struct_definition: &StructDefinition) {
     file.write_all("        json.push_str(\"\\n}\");\n".as_bytes()).unwrap();
     file.write_all("        json\n".as_bytes()).unwrap();
     file.write_all("    }\n".as_bytes()).unwrap();
+}
+
+
+fn write_struct_from_json(file: &mut File, struct_definition: &StructDefinition) {
+    file.write_all("    #[allow(unused_mut)]\n".as_bytes()).unwrap();
+    file.write_all("    pub fn from_json(json: &str, packetver: u32) -> Result<Self, String> {\n".as_bytes()).unwrap();
+    file.write_all("        let entries = json_flat_parser::JSONParser::parse(json, json_flat_parser::ParseOptions::default().keep_object_raw_data(false))?.json;\n".as_bytes()).unwrap();
+
+    file.write_all(format!("        let mut packet = {}::new(packetver);\n", struct_definition.name).as_bytes()).unwrap();
+
+    for field in &struct_definition.fields {
+        if field.name.eq("packet_id") {
+            continue;
+        }
+        file.write_all(format!("        if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq(\"/{}\")) {{\n", field.name).as_bytes()).unwrap();
+        file.write_all("            if let Some(value) = entry.value {\n".as_bytes()).unwrap();
+        match field.data_type.name.as_str() {
+            "Array" => {
+
+            }
+            "String" => {
+                file.write_all(format!("                packet.set_{}(value.to_string());\n", field.name).as_bytes()).unwrap();
+            }
+            "u8" | "i8" | "u16" | "i16" | "u32" | "i32" | "u64" | "i64" | "bool" => {
+                file.write_all(format!("                packet.set_{}(value.parse().map_err(|_| format!(\"Invalid value {{}} for {}\", value))?);\n", field.name, field.name).as_bytes()).unwrap();
+            }
+            "Vec" | "Struct" => {}
+            _ => {}
+        }
+        file.write_all("            }\n".as_bytes()).unwrap();
+        file.write_all("        }\n".as_bytes()).unwrap();
+    }
+    file.write_all("        Ok(packet)\n".as_bytes()).unwrap();
+    file.write_all("    }\n".as_bytes()).unwrap();
+
 }
 
 fn struct_impl_field_value(field: &StructField) -> String {
