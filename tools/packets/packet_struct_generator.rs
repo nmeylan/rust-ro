@@ -91,6 +91,7 @@ fn write_packet_parser(file: &mut File, packets: &[PacketStructDefinition]) {
 fn write_packet_trait(file: &mut File) {
     file.write_all("pub trait Packet {\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn id(&self, packetver: u32) -> &str;\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn name(&self) -> &str;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn base_len(&self, packetver: u32) -> usize;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn display(&self);\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn debug(&self);\n".to_string().as_bytes()).unwrap();
@@ -106,6 +107,9 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write_all(format!("impl Packet for {} {{\n", packet.struct_def.name).as_bytes()).unwrap();
     file.write_all("    fn id(&self, packetver: u32) -> &str {\n".to_string().as_bytes()).unwrap();
     file.write_all(format!("       {}::packet_id(packetver)\n", packet.struct_def.name).as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn name(&self) -> &str {\n".to_string().as_bytes()).unwrap();
+    file.write_all(format!("       \"{}\"\n", packet.struct_def.name).as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn debug(&self) {\n".to_string().as_bytes()).unwrap();
     file.write_all("            println!(\"{:?}\", self)\n".to_string().as_bytes()).unwrap();
@@ -433,6 +437,9 @@ fn write_unknown_packet(file: &mut File) {
     file.write_all("impl Packet for PacketUnknown {\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn id(&self, _packetver: u32) -> &str {\n".to_string().as_bytes()).unwrap();
     file.write_all("        self.packet_id.as_str()\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn name(&self) -> &str {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        \"Unknown\"\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn debug(&self) {\n".to_string().as_bytes()).unwrap();
     file.write_all("            println!(\"{:?}\", self)\n".to_string().as_bytes()).unwrap();
