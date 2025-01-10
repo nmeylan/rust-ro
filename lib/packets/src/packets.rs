@@ -16,6 +16,7 @@ pub trait Packet {
     fn raw_mut(&mut self) -> &mut Vec<u8>;
     fn as_any(&self) -> &dyn Any;
     fn as_any_mut(&mut self) -> &mut dyn Any;
+    fn to_json(&self) -> String;
 }
 
 #[derive(Clone)]
@@ -11453,6 +11454,9 @@ impl Packet for PacketUnknown {
     }
     fn base_len(&self, _packetver: u32) -> usize {
         0
+    }
+    fn to_json(&self) -> String {
+        String::new()
     }
 }
 impl PacketUnknown {
