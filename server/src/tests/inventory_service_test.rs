@@ -1,7 +1,5 @@
 #![allow(dead_code)]
 
-use std::sync::Arc;
-use tokio::runtime::Runtime;
 use crate::repository::InventoryRepository;
 use crate::server::model::events::client_notification::Notification;
 use crate::server::model::events::game_event::GameEvent;
@@ -9,6 +7,8 @@ use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::character::inventory_service::InventoryService;
 use crate::server::service::global_config_service::GlobalConfigService;
+use std::sync::Arc;
+use tokio::runtime::Runtime;
 
 use crate::tests::common;
 use crate::tests::common::{create_mpsc, TestContext};
@@ -50,38 +50,37 @@ fn before_each_with_latch(inventory_repository: Arc<dyn InventoryRepository + Sy
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
-    use std::sync::{Arc, Mutex};
-    use std::sync::atomic::{AtomicBool, Ordering};
-    use std::time::Duration;
-    use async_trait::async_trait;
-    use crate::{assert_not_sent_packet_in_current_packetver, assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick, assert_task_queue_is_empty};
     use crate::tests::common::assert_helper::task_queue_contains_event;
+    use crate::{assert_not_sent_packet_in_current_packetver, assert_sent_packet_in_current_packetver, assert_sent_persistence_event, assert_task_queue_contains_event, assert_task_queue_contains_event_at_tick, assert_task_queue_is_empty};
+    use async_trait::async_trait;
+    use std::sync::atomic::{AtomicBool, Ordering};
+    use std::sync::{Arc, Mutex};
+    use std::time::Duration;
 
     use sqlx::Error;
 
-    use tokio::runtime::Runtime;
-    use models::enums::class::JobName;
-    use models::enums::item::EquipmentLocation;
-    use packets::packets::{PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2, PacketZcItemThrowAck, PacketZcEquipArrow, PacketZcAttackRange};
-    use packets::packets::PacketZcReqWearEquipAck2;
-    use models::enums::EnumWithNumberValue;
-    use models::enums::EnumWithMaskValueU64;
-    use models::enums::EnumWithStringValue;
-    use crate::server::model::events::game_event::{CharacterRemoveItem, CharacterRemoveItems, CharacterZeny};
-    use crate::repository::InventoryRepository;
     use crate::repository::model::item_model::InventoryItemModel;
     use crate::repository::persistence_error::PersistenceError;
-    use crate::server::model::events::map_event::MapEvent;
+    use crate::repository::InventoryRepository;
     use crate::server::model::events::game_event::CharacterAddItems;
     use crate::server::model::events::game_event::CharacterEquipItem;
+    use crate::server::model::events::game_event::{CharacterRemoveItem, CharacterRemoveItems, CharacterZeny};
     use crate::server::model::events::map_event::CharacterDropItems;
-    use crate::tests::inventory_service_test::GameEvent;
+    use crate::server::model::events::map_event::MapEvent;
     use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
     use crate::server::model::tasks_queue::TasksQueue;
     use crate::server::service::global_config_service::GlobalConfigService;
+    use crate::tests::inventory_service_test::GameEvent;
+    use models::enums::class::JobName;
+    use models::enums::item::EquipmentLocation;
+    use models::enums::EnumWithMaskValueU64;
+    use models::enums::EnumWithNumberValue;
+    use models::enums::EnumWithStringValue;
+    use packets::packets::PacketZcReqWearEquipAck2;
+    use packets::packets::{PacketZcAttackRange, PacketZcEquipArrow, PacketZcItemThrowAck, PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2};
 
-    use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, NotificationExpectation, task_queue_contains_event_at_tick, SentPacket};
-    use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character, equip_item, equip_item_from_name};
+    use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, task_queue_contains_event_at_tick, NotificationExpectation, SentPacket};
+    use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character, equip_item_from_name};
     use crate::tests::common::item_helper::create_inventory_item;
     use crate::tests::common::map_instance_helper::create_empty_map_instance;
     use crate::tests::common::mocked_repository;

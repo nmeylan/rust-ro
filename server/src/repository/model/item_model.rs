@@ -1,20 +1,20 @@
-use base64::Engine;
 use base64::engine::general_purpose;
+use base64::Engine;
+use configuration::serde_helper::*;
 use serde::{Deserialize, Serialize};
-use sqlx::{Database, Decode, Error, FromRow, Postgres, Row};
 use sqlx::error::BoxDynError;
 use sqlx::TypeInfo;
-use configuration::serde_helper::{*};
+use sqlx::{Database, Decode, Error, FromRow, Postgres, Row};
 
 
 use sqlx::postgres::PgRow;
 
-use models::enums::class::EquipClassFlag;
-use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use models::enums::bonus::BonusType;
+use models::enums::class::EquipClassFlag;
 use models::enums::element::Element;
 use models::enums::item::{EquipmentLocation, ItemClass, ItemFlag, ItemTradeFlag, ItemType};
 use models::enums::weapon::{AmmoType, WeaponType};
+use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
 use models::item::{NormalInventoryItem, WearAmmo, WearGear, WearWeapon};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -388,6 +388,7 @@ pub struct GetItemModel {
     pub name_aegis: String,
 }
 
+#[allow(dead_code)]
 struct DBWeaponType {
     weapon_type: WeaponType
 }
@@ -398,6 +399,8 @@ pub struct DBItemType {
 }
 
 impl DBItemType {
+    // used by tests
+    #[allow(dead_code)]
     pub(crate) fn from_type(item_type: ItemType) -> Self {
         Self {
             item_type,

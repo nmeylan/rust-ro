@@ -8,8 +8,8 @@ use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::skill_service::SkillService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
-use crate::tests::common::{create_mpsc, test_script_vm, TestContext};
 use crate::tests::common::sync_helper::CountDownLatch;
+use crate::tests::common::{create_mpsc, test_script_vm, TestContext};
 
 struct SkillServiceTestContext {
     test_context: TestContext,
@@ -42,32 +42,30 @@ fn before_each_with_latch(latch_size: usize) -> SkillServiceTestContext {
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
-    use std::collections::{BTreeMap, HashMap};
+    use models::enums::class::JobName;
+    use std::collections::BTreeMap;
     use std::fs::File;
     use std::io::Write;
     use std::path::Path;
     use std::time::Duration;
-    use models::enums::class::JobName;
 
-    use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+    use crate::tests::common::assert_helper::*;
     use models::enums::bonus::BonusType;
     use models::enums::skill::UseSkillFailure;
-    use crate::tests::common::assert_helper::*;
-    use models::position::Position;
     use models::enums::skill_enums::SkillEnum;
+    use models::enums::{EnumWithNumberValue, EnumWithStringValue};
+    use models::position::Position;
     use models::status::{KnownSkill, Status};
     use models::status_bonus::{StatusBonus, StatusBonuses};
-    use packets::packets::{Packet, PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseSkill, PacketZcUseskillAck2};
+    use packets::packets::{PacketZcAckTouseskill, PacketZcActionFailure, PacketZcUseSkill, PacketZcUseskillAck2};
 
-    use skills::{Skill, SkillBase};
-    use crate::{assert_sent_packet_in_current_packetver, assert_vec_equals, status_snapshot, status_snapshot_mob};
-    use crate::GlobalConfigService;
     use crate::server::model::map_item::{MapItemSnapshot, ToMapItem, ToMapItemSnapshot};
-    use crate::server::Server;
     use crate::tests::common;
     use crate::tests::common::character_helper::{add_item_in_inventory, create_character, equip_item_from_id, equip_item_from_name, takeoff_weapon};
     use crate::tests::common::mob_helper::create_mob;
     use crate::tests::skill_service_test::before_each;
+    use crate::GlobalConfigService;
+    use crate::{assert_sent_packet_in_current_packetver, assert_vec_equals, status_snapshot};
 
     #[test]
     fn start_use_skill_should_validate_sp_requirement() {
@@ -410,7 +408,7 @@ mod tests {
             character_status.sp = scenarii.max_sp() as u32;
             character.status = character_status;
             let item_id = scenarii.equipments().weapon().as_ref().unwrap().item_id();
-            if (item_id >= 0) {
+            if item_id >= 0 {
                 equip_item_from_id(&mut character, item_id as u32);
             } else {
                 takeoff_weapon(&mut character);
@@ -537,7 +535,7 @@ mod tests {
             character_status.sp = scenarii.max_sp() as u32;
             character.status = character_status;
             let item_id = scenarii.equipments().weapon().as_ref().unwrap().item_id();
-            if (item_id >= 0) {
+            if item_id >= 0 {
                 equip_item_from_id(&mut character, item_id as u32);
             } else {
                 takeoff_weapon(&mut character);

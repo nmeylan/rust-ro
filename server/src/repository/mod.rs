@@ -50,6 +50,7 @@ impl PgRepository {
             pool,
         }
     }
+    #[allow(dead_code)]
     pub fn new_pg_lazy(configuration: &DatabaseConfig, runtime: Arc<Runtime>) -> PgRepository {
         let connection_url = format!("postgresql://{}:{}@{}:{}/{}",
                                      configuration.username, configuration.password.as_ref().unwrap(),

@@ -1,19 +1,19 @@
-use std::sync::{RwLock};
+use std::sync::RwLock;
 
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
-use rathena_script_lang_interpreter::lang::compiler::{CompilationDetail};
+use rathena_script_lang_interpreter::lang::compiler::CompilationDetail;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
-use rathena_script_lang_interpreter::lang::vm::{NativeMethodHandler};
+use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
 
 use models::enums::bonus::BonusType;
 use models::enums::element::Element;
-use models::enums::EnumWithNumberValue;
 use models::enums::item::ItemGroup;
 use models::enums::mob::{MobClass, MobGroup, MobRace};
 use models::enums::size::Size;
 use models::enums::skill_enums::SkillEnum;
 use models::enums::status::StatusEffect;
+use models::enums::EnumWithNumberValue;
 
 use crate::server::script::constant::load_constant;
 
@@ -67,6 +67,7 @@ impl BonusScriptHandler {
         let mut write_guard = self.bonuses.write().unwrap();
         write_guard.drain(0..).collect()
     }
+    #[allow(dead_code)]
     pub fn clear(&self) {
         let mut write_guard = self.bonuses.write().unwrap();
         write_guard.clear();
@@ -496,12 +497,12 @@ impl BonusScriptHandler {
 
 #[cfg(test)]
 mod tests {
-    use std::sync::{Arc, RwLock};
-    use rathena_script_lang_interpreter::lang::compiler::Compiler;
-    use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
+    use crate::server::script::bonus::BonusScriptHandler;
     use models::enums::bonus::BonusType;
     use models::enums::element::Element;
-    use crate::server::script::bonus::BonusScriptHandler;
+    use rathena_script_lang_interpreter::lang::compiler::Compiler;
+    use rathena_script_lang_interpreter::lang::vm::{DebugFlag, Vm};
+    use std::sync::{Arc, RwLock};
 
     #[test]
     fn test_simple_bonus() {

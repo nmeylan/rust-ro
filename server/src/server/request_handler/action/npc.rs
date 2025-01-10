@@ -2,7 +2,6 @@ use std::sync::{Arc, RwLock};
 use std::thread;
 
 use rathena_script_lang_interpreter::lang::vm::Vm;
-use tokio::runtime::Runtime;
 use tokio::sync::mpsc;
 
 use packets::packets::{PacketCzAckSelectDealtype, PacketCzChooseMenu, PacketCzContactnpc, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist};

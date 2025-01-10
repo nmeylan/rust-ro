@@ -8,7 +8,6 @@ use regex_lite::Regex;
 use std::fmt::Write;
 use std::sync::Arc;
 use std::time::Instant;
-use tokio::runtime::Runtime;
 
 use crate::load_scripts;
 use crate::server::model::events::game_event::{CharacterChangeJob, CharacterChangeJobLevel, CharacterChangeLevel, GameEvent};

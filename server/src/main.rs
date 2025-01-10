@@ -87,7 +87,7 @@ pub async fn main() {
     // Load all mobs in memory, it takes only few mb
     let mobs =  repository_arc.get_all_mobs().await.unwrap();
     // Initializing global id pool
-    let mut map_item_ids = MapItems::new(300000, u32::MAX);
+    let mut map_item_ids = MapItems::new(300000);
     // Unit Tests needs items and mob db,to avoid starting an actual db, we dump items and mob db into json files
     update_item_and_mob_static_db(&mut items, &mobs);
 
@@ -177,12 +177,12 @@ async fn compile_item_scripts(repository_arc: &Arc<PgRepository>, items: &mut Ve
             let script_hash = fastmurmur3::hash(script.as_bytes());
             if item.script_compilation_hash.is_none() || script_hash != item.script_compilation_hash.unwrap() {
                 let compilation_result = Compiler::compile_script_into_binary(format!("itemscript{}", item.id), script.as_str(), "./native_functions_list.txt", rathena_script_lang_interpreter::lang::compiler::DebugFlag::None.value());
-                compilation_result.map(|res| {
+                if let Ok(res) = compilation_result {
                     item_script_compiled += 1;
                     item.script_compilation_hash = Some(script_hash);
                     item.script_compilation = Some(general_purpose::STANDARD.encode(res.clone()));
                     script_compilation_to_update.push((item.id, res, script_hash));
-                });
+                }
             } else {
                 item_script_skipped += 1;
             }

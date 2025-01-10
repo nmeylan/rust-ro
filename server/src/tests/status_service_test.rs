@@ -6,8 +6,8 @@ use crate::server::model::events::persistence_event::PersistenceEvent;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
 use crate::tests::common;
-use crate::tests::common::{create_mpsc, TestContext};
 use crate::tests::common::sync_helper::CountDownLatch;
+use crate::tests::common::{create_mpsc, TestContext};
 
 pub struct StatusServiceTestContext {
     test_context: TestContext,
@@ -32,31 +32,29 @@ fn before_each_with_latch(latch_size: usize) -> StatusServiceTestContext {
 #[cfg(test)]
 #[cfg(not(feature = "integration_tests"))]
 mod tests {
-    use std::fmt::format;
+    #[macro_use]
+    use crate::format_result;
+    use crate::tests::common::fixtures::battle_fixture::Equipment;
+    use crate::tests::common::fixtures::TestResult;
+    use crate::{eq_with_variance, status_snapshot};
+    use models::enums::bonus::BonusType;
+    use models::enums::class::JobName;
+    use models::enums::element::Element;
+    use models::enums::skill_enums::SkillEnum;
+    use models::enums::weapon::WeaponType;
+    use models::enums::EnumWithNumberValue;
+    use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
+    use models::item::{WearGear, WearWeapon};
+    use models::status::StatusSnapshot;
+    use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
     use std::fs::File;
     use std::io::{Seek, SeekFrom, Write};
     use std::mem;
     use std::path::Path;
-    use std::ptr::eq;
-    use models::enums::bonus::BonusType;
-    use models::enums::class::JobName;
-    use models::enums::element::Element;
-    use models::enums::weapon::WeaponType;
-    use models::status::{Status, StatusSnapshot};
-    use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
-    use models::enums::EnumWithNumberValue;
-    use models::enums::skill_enums::SkillEnum;
-    use models::item::{WearGear, WearWeapon};
-    use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonus};
-    use crate::tests::common::fixtures::battle_fixture::Equipment;
-    use crate::tests::common::fixtures::TestResult;
-    #[macro_use]
-    use crate::format_result;
-    use crate::{eq_with_variance, status_snapshot};
 
-    use crate::tests::common::character_helper::{create_character, equip_item_from_name_with_cards, equip_item_from_id_with_cards, equip_item_from_name, equip_item_with_cards_and_refinement};
-    use crate::tests::common::fixtures::battle_fixture::BattleFixture;
     use super::*;
+    use crate::tests::common::character_helper::{create_character, equip_item_from_id_with_cards, equip_item_from_name, equip_item_from_name_with_cards, equip_item_with_cards_and_refinement};
+    use crate::tests::common::fixtures::battle_fixture::BattleFixture;
 
     #[test]
     fn test_right_hand_weapon_type_is_returning_the_right_hand_weapon_when_character_has_one() {
@@ -290,7 +288,6 @@ mod tests {
 
     #[test]
     fn test_all_stats_when_equip_items() {
-        let context = before_each();
         let fixture_file = "src/tests/common/fixtures/data/stats-for-items.json";
         let result_file_path = "../doc/progress/stats-for-each-items_progress.md";
         stats_tests(fixture_file, result_file_path, "Stats for each items", None, false);
@@ -298,7 +295,6 @@ mod tests {
 
     #[test]
     fn test_each_stats() {
-        let context = before_each();
         let fixture_file = "src/tests/common/fixtures/data/stats-for-each-stats.json";
         let result_file_path = "../doc/progress/each-bonus_progress.md";
         stats_tests(fixture_file, result_file_path, "Each item bonus", None, false);
@@ -306,7 +302,6 @@ mod tests {
 
     #[test]
     fn test_all_stats_when_card() {
-        let context = before_each();
         let fixture_file = "src/tests/common/fixtures/data/stats-for-cards.json";
         let result_file_path = "../doc/progress/stats-for-each-card_progress.md";
         stats_tests(fixture_file, result_file_path, "Stats for each cards", None, false);

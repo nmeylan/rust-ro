@@ -12,6 +12,7 @@ use crate::server::script::constant::load_constant;
 use crate::server::script::{PlayerScriptHandler, VM_THREAD_CONSTANT_INDEX_CHAR_ID};
 use crate::server::service::global_config_service::GlobalConfigService;
 
+#[allow(dead_code)]
 pub struct DynamicItemScriptHandler<'character> {
     status: &'character Status,
     item_id: u32,

@@ -309,7 +309,7 @@ impl Server {
                                     }
                                 }
                             }
-                        });
+                        }).unwrap();
                     }
                     info!("Shutdown client_connection_thread");
                 }).unwrap();
