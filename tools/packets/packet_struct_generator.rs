@@ -62,14 +62,18 @@ fn write_file_header(file: &mut File) {
 fn write_packet_parser(file: &mut File, packets: &[PacketStructDefinition]) {
     file.write_all("pub fn parse(buffer: &[u8], packetver: u32) -> Box<dyn Packet> {\n".to_string().as_bytes()).unwrap();
     #[derive(Clone)]
-    struct PacketAndVersion {id: String, version: Option<u32>, struct_name: String}
+    struct PacketAndVersion {
+        id: String,
+        version: Option<u32>,
+        struct_name: String,
+    }
     let mut packets_with_version = vec![];
     packets.iter().for_each(|struct_def| struct_def.ids.iter().for_each(|packet_id| {
-        packets_with_version.push(PacketAndVersion {id: packet_id.id.clone(), version: packet_id.packetver, struct_name: struct_def.struct_def.name.clone()})
+        packets_with_version.push(PacketAndVersion { id: packet_id.id.clone(), version: packet_id.packetver, struct_name: struct_def.struct_def.name.clone() })
     }));
     let mut ids_with_version = packets_with_version.iter().filter(|packet| packet.version.is_some()).cloned().collect::<Vec<PacketAndVersion>>();
     let ids_without_version = packets_with_version.iter().filter(|packet| packet.version.is_none()).cloned().collect::<Vec<PacketAndVersion>>();
-    ids_with_version.sort_by(|a, b| (b.version.unwrap()).cmp(&a.version.unwrap()) );
+    ids_with_version.sort_by(|a, b| (b.version.unwrap()).cmp(&a.version.unwrap()));
     for packet in ids_with_version.iter() {
         let packet_id = packet_id(&packet.id.clone()).replace("0x", "");
         let (first_byte, second_byte) = packet_id.split_at(2);
@@ -100,6 +104,7 @@ fn write_packet_trait(file: &mut File) {
     file.write_all("    fn raw_mut(&mut self) -> &mut Vec<u8>;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn as_any(&self) -> &dyn Any;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn as_any_mut(&mut self) -> &mut dyn Any;\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn to_json(&self) -> String;\n".to_string().as_bytes()).unwrap();
     file.write_all("}\n\n".to_string().as_bytes()).unwrap();
 }
 
@@ -135,6 +140,7 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write_all("    fn base_len(&self, packetver: u32) -> usize {\n".to_string().as_bytes()).unwrap();
     file.write_all("        Self::base_len(packetver)\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    write_struct_to_json(file, &packet.struct_def);
     file.write_all("}\n\n".to_string().as_bytes()).unwrap();
 }
 
@@ -161,7 +167,7 @@ fn write_display_trait(file: &mut File, struct_definition: &StructDefinition, _i
     file.write_all("        let mut fields = Vec::new();\n".to_string().as_bytes()).unwrap();
     for field in &struct_definition.fields {
         let value_to_print;
-        if  field.name.eq("packet_id") {
+        if field.name.eq("packet_id") {
             file.write_all(format!("        fields.push(format!(\"{}{}[{}, {}]: 0X{{:02X?}}{{:02X?}}\", {}));\n",
                                    field.name,
                                    display_type(field),
@@ -174,7 +180,7 @@ fn write_display_trait(file: &mut File, struct_definition: &StructDefinition, _i
             value_to_print = format!("&self.{}.pretty_output()", field.name);
         } else if field.data_type.name == "Vec" {
             value_to_print = format!("&self.{}.iter().map(|item| format!(\"\n  >{{}}\", item)).collect::<String>()", field.name);
-        }  else {
+        } else {
             value_to_print = format!("&self.{}", field.name);
         }
         file.write_all(format!("        fields.push(format!(\"{}{}[{}, {}]: {{}}\", {}));\n",
@@ -349,7 +355,7 @@ fn write_struct_packet_id_method(file: &mut File, ids: &Option<Vec<PacketId>>) {
         if ids_without_version.len() > 1 {
             panic!("Cannot generate packet_id method when there is multiple id, and more than one(here {ids_without_version:?}) id has no version");
         }
-        ids_with_version.sort_by(|a, b| (b.packetver.unwrap()).cmp(&a.packetver.unwrap()) );
+        ids_with_version.sort_by(|a, b| (b.packetver.unwrap()).cmp(&a.packetver.unwrap()));
         for (index, id) in ids_with_version.iter().enumerate() {
             if index == 0 {
                 file.write_all(format!("        if packetver >= {} {{\n", id.packetver.unwrap()).as_bytes()).unwrap();
@@ -381,7 +387,7 @@ fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition
             if ids_without_version.len() > 1 {
                 panic!("Cannot generate new method when there is multiple id, and more than one(here {ids_without_version:?}) id has no version");
             }
-            ids_with_version.sort_by(|a, b| (b.packetver.unwrap()).cmp(&a.packetver.unwrap()) );
+            ids_with_version.sort_by(|a, b| (b.packetver.unwrap()).cmp(&a.packetver.unwrap()));
             for (index, id) in ids_with_version.iter().enumerate() {
                 let packetid = packet_id(&id.id).replace("0x", "");
                 let (first_byte, second_byte) = packetid.split_at(2);
@@ -404,7 +410,6 @@ fn write_struct_new_method(file: &mut File, struct_definition: &StructDefinition
     file.write_all("        raw: vec![],\n".to_string().as_bytes()).unwrap();
     for field in &struct_definition.fields {
         if field.name == "packet_id" {
-
             file.write_all("        packet_id,\n".to_string().as_bytes()).unwrap();
             file.write_all("        packet_id_raw,\n".to_string().as_bytes()).unwrap();
         } else {
@@ -465,6 +470,9 @@ fn write_unknown_packet(file: &mut File) {
     file.write_all("    fn base_len(&self, _packetver: u32) -> usize {\n".to_string().as_bytes()).unwrap();
     file.write_all("        0\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn to_json(&self) -> String {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        String::new()\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     file.write_all("impl PacketUnknown {\n".to_string().as_bytes()).unwrap();
     file.write_all("    pub fn from(buffer: &[u8]) -> PacketUnknown {\n".to_string().as_bytes()).unwrap();
@@ -477,6 +485,50 @@ fn write_unknown_packet(file: &mut File) {
     file.write_all("}\n".to_string().as_bytes()).unwrap();
 }
 
+fn write_struct_to_json(file: &mut File, struct_definition: &StructDefinition) {
+    file.write_all("    fn to_json(&self) -> String {\n".as_bytes()).unwrap();
+    file.write_all("        let mut json = String::from(\"{\\n\");\n".as_bytes()).unwrap();
+    for field in &struct_definition.fields {
+        if field.name.eq("packet_id") {
+            continue;
+        }
+        let mut json_value = String::new();
+        match field.data_type.name.as_str() {
+            "Array" => {
+                if field.sub_type.is_some() {
+                    let sub_type_name = &field.sub_type.unwrap().name;
+                    if field.name.eq("pos_dir") || field.name.eq("dest") {
+                        file.write_all(format!("        let x = ((self.{}_raw[0] as u16) << 2) | (self.{}_raw[1] >> 6) as u16;\n", field.name, field.name).as_bytes()).unwrap();
+                        file.write_all(format!("        let y = (((self.{}_raw[1] & 0x3f) as u16) << 4) | (self.{}_raw[2] >> 4) as u16;\n", field.name, field.name).as_bytes()).unwrap();
+                        file.write_all(format!("        let dir: u16 = (self.{}_raw[2] & 0x0f) as u16;\n", field.name).as_bytes()).unwrap();
+                        json_value = format!("format!(\"{{{{\\\"x\\\": {{}}, \\\"y\\\": {{}}, \\\"dir\\\": {{}}}}}}\", x, y, dir)");
+                    } else if sub_type_name == "char" {
+                        json_value = format!("format!(\"\\\"{{}}\\\"\", {})", format!("self.{}.iter().collect::<String>()", field.name));
+                    } else {
+                        json_value = format!("format!(\"[{{}}]\", {})", format!("self.{}.iter().map(|byte| byte.to_string()).collect::<Vec<String>>().join(\",\")", field.name));
+                    }
+                }
+            }
+            "String" | "char" => {
+                json_value = format!("format!(\"\\\"{{}}\\\"\", {})", format!("self.{}", field.name));
+            }
+            "u8" | "i8" | "u16" | "i16" | "u32" | "i32" | "u64" | "i64" | "bool" => {
+                json_value = format!("self.{}.to_string()", field.name);
+            }
+            "Vec" | "Struct" => {}
+            _ => {}
+        }
+        if !json_value.is_empty() {
+            file.write_all(format!("        json.push_str(\
+            format!(\"\\\"{}\\\": {{}},\\n\",{}).as_str());\n", field.name, json_value).as_bytes()).unwrap();
+        }
+    }
+    file.write_all("        json.pop();\n".as_bytes()).unwrap();
+    file.write_all("        json.pop();\n".as_bytes()).unwrap();
+    file.write_all("        json.push_str(\"\\n}\");\n".as_bytes()).unwrap();
+    file.write_all("        json\n".as_bytes()).unwrap();
+    file.write_all("    }\n".as_bytes()).unwrap();
+}
 
 fn struct_impl_field_value(field: &StructField) -> String {
     match field.data_type.name.as_str() {
