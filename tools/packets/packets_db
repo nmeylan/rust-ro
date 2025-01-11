@@ -3704,7 +3704,7 @@ struct PACKET_CZ_RENAME_MER {
 struct PACKET_CZ_REQUEST_MOVENPC {
   short PacketId
   unsigned long GID
-  unsigned char dest[3]
+  unsigned byte dest[3]
  }
 0x233
 struct PACKET_CZ_REQUEST_ACTNPC {

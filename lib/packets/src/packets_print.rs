@@ -10254,7 +10254,7 @@ impl Display for PacketCzRequestMovenpc {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
         fields.push(format!("gid(unsigned long as u32)[2, 6]: {}", &self.gid));
-        fields.push(format!("dest(char[] as char[])[6, 9]: {}", &self.dest.pretty_output()));
+        fields.push(format!("dest(unsigned char[] as u8[])[6, 9]: {}", &self.dest.pretty_output()));
         write!(f, "PacketCzRequestMovenpc\n {}", fields.join(",\n "))
     }
 }
