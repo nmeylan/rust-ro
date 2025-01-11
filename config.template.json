@@ -4,7 +4,7 @@
       2000000
     ],
     "enable_visual_debugger": false,
-    "log_exclude_pattern": "",
+    "log_level_module_override": [],
     "log_level": "info",
     "trace_packet": false,
     "packetver": 20120229,

@@ -3,6 +3,8 @@ use std::fs::File;
 use std::net::{Shutdown, TcpStream};
 use std::sync::{Arc, Mutex, RwLock};
 
+use crate::server::state::character::Character;
+use packets::packets::Packet;
 use serde::Serialize;
 use std::io::Write;
 use tokio::sync::mpsc::Sender;
@@ -25,20 +27,36 @@ pub struct Session {
 pub struct SessionRecord {
     pub session_id: u32,
     pub char_id: Option<u32>,
+    position: Position,
     pub entries: Mutex<Vec<SessionRecordEntry>>
 }
+#[derive(Serialize)]
+struct Position {
+    x: u16,
+    y: u16,
+    dir: u16,
+}
 
+const PACKET_TO_RECORDS: &'static [&'static str; 1] = &[
+    "PacketCzRequestMove"
+];
 impl SessionRecord {
-    pub fn new(session_id: u32, char_id: u32) -> Self {
+    pub fn new(character: &Character) -> Self {
         Self {
-            session_id,
-            char_id: Some(char_id),
+            session_id: character.account_id,
+            char_id: Some(character.char_id),
+            position: Position {x: character.x, y: 0, dir: 0 },
             entries: Mutex::new(vec![]),
         }
     }
 
-    pub fn record(&self, tick: u128, data: Vec<u8>) {
-        self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, data })
+    pub fn record(&self, tick: u128, packet_id: String, packet_name: String, packet: &dyn Packet) {
+        if PACKET_TO_RECORDS.contains(&packet_name.as_str()) {
+            debug!("{}", packet.to_json());
+            self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, packet_id, packet_name, data: packet.raw().clone() });
+        } else {
+            debug!("Will not record packet with name {}", packet_name);
+        }
     }
 
     pub fn finish(&self) {
@@ -46,13 +64,15 @@ impl SessionRecord {
             return
         }
         let mut file = File::create(format!("target/session_{}.record", self.session_id)).unwrap();
-        file.write_all(&bitcode::serialize(self).unwrap()).unwrap();
+        file.write_all(&serde_json::to_string_pretty(self).unwrap().as_bytes()).unwrap();
     }
 }
 
 #[derive(Serialize)]
 struct SessionRecordEntry {
     time: u128,
+    packet_id: String,
+    packet_name: String,
     data: Vec<u8>
 }
 
