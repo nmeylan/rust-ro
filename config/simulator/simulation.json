@@ -1,0 +1,30 @@
+{
+  "session_id": 2000000,
+  "char_id": 150000,
+  "entries": [
+    {
+      "time": 1736515330179,
+      "packet_id": "0x0437",
+      "packet_name": "PacketCzRequestMove",
+      "data": [
+        55,
+        4,
+        40,
+        11,
+        160
+      ]
+    },
+    {
+      "time": 1736515335576,
+      "packet_id": "0x0437",
+      "packet_name": "PacketCzRequestMove",
+      "data": [
+        55,
+        4,
+        39,
+        11,
+        128
+      ]
+    }
+  ]
+}

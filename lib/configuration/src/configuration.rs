@@ -1,6 +1,8 @@
+use crate::bonus_type_wrapper::BonusTypeWrapper;
 use crate::serde_helper::*;
 use accessor::{GettersAll, Setters, SettersAll};
 use models::enums::class::JobName;
+use models::enums::client_effect_icon::ClientEffectIcon;
 use models::enums::element::Element;
 use models::enums::skill::{
     SkillCastTimeDelayType, SkillCopyType, SkillDamageFlags, SkillDamageType, SkillFlags,
@@ -10,13 +12,11 @@ use models::enums::unit::UnitTargetType;
 use models::enums::weapon::{AmmoType, WeaponType};
 use models::enums::EnumWithNumberValue;
 use models::enums::{EnumWithMaskValueU64, EnumWithStringValue};
+use models::status_bonus::StatusBonusFlag;
 use serde::{Deserialize, Deserializer, Serialize};
 use std::collections::{BTreeMap, HashMap};
 use std::path::Path;
 use std::{env, fs};
-use models::enums::client_effect_icon::ClientEffectIcon;
-use models::status_bonus::StatusBonusFlag;
-use crate::bonus_type_wrapper::BonusTypeWrapper;
 
 const DEFAULT_LOG_LEVEL: &str = "info";
 const LOG_LEVELS: [&str; 4] = ["debug", "info", "warn", "error"];
@@ -37,7 +37,7 @@ pub struct ServerConfig {
     #[set]
     pub trace_packet: bool,
     #[set]
-    pub log_exclude_pattern: Option<String>,
+    pub log_level_module_override: Vec<String>,
     pub accounts: Vec<u32>,
     pub port: u16,
     pub enable_visual_debugger: bool,
@@ -1204,11 +1204,7 @@ impl Config {
                 .server
                 .set_log_level(Some(DEFAULT_LOG_LEVEL.to_string()));
         }
-        if config.server.log_exclude_pattern.is_none() {
-            config
-                .server
-                .set_log_exclude_pattern(Some("none".to_string()));
-        }
+        config.server.log_level_module_override.insert(0, config.server.log_level.clone().unwrap());
         let file_path = "./config/status_point_reward.json";
         Self::set_config_status_point_rewards(&mut config, file_path).unwrap();
         let file_path = "./config/status_point_raising_cost.json";
@@ -1525,8 +1521,8 @@ impl Config {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
     use crate::configuration::SkillsConfig;
+    use std::fs;
 
     #[test]
     fn test_deserialize_skill_config() {

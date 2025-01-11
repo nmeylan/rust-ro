@@ -1,6 +1,4 @@
-use std::sync::Arc;
 use crate::packets::packets::Packet;
-use packets::packets::{PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzItemPickup, PacketCzItemThrow, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqname, PacketCzReqnameall2, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzReqWearEquip, PacketCzRestart, PacketCzStatusChange, PacketCzUpgradeSkilllevel, PacketCzUseItem, PacketCzUseSkill, PacketUnknown, PacketZcNotifyTime, PacketCzShortcutKeyChange};
 use crate::server::model::request::Request;
 use crate::server::request_handler::action::action::{handle_action, handle_pickup_item};
 use crate::server::request_handler::action::character::{handle_player_skill_allocation, handle_player_status_change};
@@ -13,9 +11,11 @@ use crate::server::request_handler::chat::handle_chat;
 use crate::server::request_handler::login::handle_login;
 use crate::server::request_handler::map::{handle_char_loaded_client_side, handle_map_item_name};
 use crate::server::request_handler::movement::handle_char_move;
-use crate::server::Server;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::Server;
 use crate::util::tick::{get_tick, get_tick_client};
+use packets::packets::{PacketCaLogin, PacketChDeleteChar4Reserved, PacketChEnter, PacketChMakeChar, PacketChMakeChar2, PacketChMakeChar3, PacketChSelectChar, PacketCzAckSelectDealtype, PacketCzBlockingPlayCancel, PacketCzChooseMenu, PacketCzContactnpc, PacketCzEnter2, PacketCzInputEditdlg, PacketCzInputEditdlgstr, PacketCzItemPickup, PacketCzItemThrow, PacketCzNotifyActorinit, PacketCzPcPurchaseItemlist, PacketCzPcSellItemlist, PacketCzPlayerChat, PacketCzReqDisconnect2, PacketCzReqNextScript, PacketCzReqTakeoffEquip, PacketCzReqWearEquip, PacketCzReqname, PacketCzReqnameall2, PacketCzRequestAct, PacketCzRequestMove, PacketCzRequestMove2, PacketCzRequestTime, PacketCzRestart, PacketCzShortcutKeyChange, PacketCzStatusChange, PacketCzUpgradeSkilllevel, PacketCzUseItem, PacketCzUseSkill, PacketUnknown, PacketZcNotifyTime};
+use std::sync::Arc;
 
 /**
 * This module implement client requests handler.
@@ -60,7 +60,7 @@ pub fn handle(server: Arc<Server>, mut context: Request) {
     }
     let session = server.state().get_session(session_id.unwrap());
     if let Some(session_record) = server.get_recording_session(session_id.unwrap()) {
-        session_record.record(get_tick(), context.packet().raw().clone());
+        session_record.record(get_tick(), context.packet().id(server.configuration.packetver()).to_owned(), context.packet().name().to_owned(), context.packet());
     }
     context.set_session(session);
     // Char creation

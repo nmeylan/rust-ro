@@ -46,19 +46,18 @@ use self::server::model::events::client_notification::Notification;
 use self::server::model::events::persistence_event::PersistenceEvent;
 use crate::repository::model::item_model::{ItemModel, ItemModels};
 use crate::repository::model::mob_model::{MobModel, MobModels};
-use crate::server::model::map::Map;
-use configuration::configuration::Config;
-use rathena_script_lang_interpreter::lang::vm::Vm;
-use server::Server;
-use tokio::runtime::Runtime;
-
-
 use crate::server::boot::map_loader::MapLoader;
 use crate::server::boot::mob_spawn_loader::MobSpawnLoader;
 use crate::server::boot::script_loader::ScriptLoader;
 use crate::server::boot::warps_loader::WarpLoader;
+use crate::server::model::map::Map;
 use crate::server::model::map_item::MapItems;
 use crate::server::model::script::Script;
+use configuration::configuration::Config;
+use rathena_script_lang_interpreter::lang::vm::Vm;
+use server::Server;
+use tokio::runtime::Runtime;
+use tracing_subscriber::EnvFilter;
 
 use self::server::script::MapScriptHandler;
 use crate::server::script::PlayerScriptHandler;
@@ -188,23 +187,25 @@ async fn compile_item_scripts(repository_arc: &Arc<PgRepository>, items: &mut Ve
             }
         }
     }
+    debug!("test log");
     repository_arc.update_script_compilation(script_compilation_to_update).await.unwrap();
     info!("Compiled {} item scripts compiled, skipped {} item scripts compilation (already compiled) in {}ms", item_script_compiled, item_script_skipped, start.elapsed().as_millis());
 }
 
 pub fn setup_logger(config: &'static Config) {
-    let level = match config.server.log_level.as_ref().unwrap().to_lowercase().as_str() {
-        "info" => LevelFilter::INFO,
-        "debug" => LevelFilter::DEBUG,
-        "warn" => LevelFilter::WARN,
-        _ => LevelFilter::ERROR
-    };
+    let filter = EnvFilter::builder()
+        .with_default_directive(config.server.log_level.as_ref().unwrap().to_lowercase().parse().unwrap())
+        .parse_lossy(config.server.log_level_module_override.join(",").trim());
     tracing_subscriber::fmt()
+        .with_env_filter(filter)
         .with_writer(std::io::stdout)
-        .with_max_level(level)
+        .compact()
+        .with_line_number(true)
+        .with_thread_ids(false)
+        .with_file(false)
+        .with_thread_names(true)
+        .with_target(true)
         .with_timer(ChronoLocal::new("%Y-%m-%d %H:%M:%S%.3f".to_string()))
-        .fmt_fields(fmt::format::DefaultFields::new())
-        .event_format(fmt::format().compact().with_target(false).with_thread_names(true))
         .init();
 }
 
