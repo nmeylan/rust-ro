@@ -221,7 +221,7 @@ impl Server {
     pub fn start_recording_session(&self, char_id: u32) {
         let character = self.state().characters().get(&char_id).unwrap();
         if !self.is_recording_session(char_id) {
-            self.recording_sessions.borrow_mut().push(SessionRecord::new(character));
+            self.recording_sessions.borrow_mut().push(SessionRecord::new(character, self.packetver()));
         }
     }
 

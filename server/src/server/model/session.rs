@@ -28,6 +28,7 @@ pub struct SessionRecord {
     pub session_id: u32,
     pub char_id: Option<u32>,
     position: Position,
+    packetver: u32,
     pub entries: Mutex<Vec<SessionRecordEntry>>
 }
 #[derive(Serialize)]
@@ -41,19 +42,19 @@ const PACKET_TO_RECORDS: &'static [&'static str; 1] = &[
     "PacketCzRequestMove"
 ];
 impl SessionRecord {
-    pub fn new(character: &Character) -> Self {
+    pub fn new(character: &Character, packetver: u32) -> Self {
         Self {
             session_id: character.account_id,
             char_id: Some(character.char_id),
             position: Position {x: character.x, y: 0, dir: 0 },
             entries: Mutex::new(vec![]),
+            packetver,
         }
     }
 
     pub fn record(&self, tick: u128, packet_id: String, packet_name: String, packet: &dyn Packet) {
         if PACKET_TO_RECORDS.contains(&packet_name.as_str()) {
-            debug!("{}", packet.to_json());
-            self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, packet_id, packet_name, data: packet.raw().clone() });
+            self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, packet_id, packet_name, data: packet.to_json(self.packetver) });
         } else {
             debug!("Will not record packet with name {}", packet_name);
         }
@@ -73,7 +74,7 @@ struct SessionRecordEntry {
     time: u128,
     packet_id: String,
     packet_name: String,
-    data: Vec<u8>
+    data: String
 }
 
 pub trait SessionsIter {

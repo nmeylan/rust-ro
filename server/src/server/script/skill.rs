@@ -1,16 +1,16 @@
-use std::sync::mpsc::SyncSender;
-use std::sync::Arc;
+use crate::repository::ScriptVariableRepository;
+use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
+use crate::server::model::events::persistence_event::PersistenceEvent;
+use crate::server::model::map::{Map, RANDOM_CELL};
+use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::Server;
+use configuration::configuration::SkillConfig;
 use models::enums::skill_enums::SkillEnum;
 use models::enums::vanish::VanishType;
 use models::enums::EnumWithNumberValue;
 use packets::packets::PacketZcNotifyVanish;
-use crate::repository::ScriptVariableRepository;
-use configuration::configuration::SkillConfig;
-use crate::server::model::map::{Map, RANDOM_CELL};
-use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, Notification};
-use crate::server::model::events::persistence_event::PersistenceEvent;
-use crate::server::Server;
-use crate::server::service::global_config_service::GlobalConfigService;
+use std::sync::mpsc::SyncSender;
+use std::sync::Arc;
 
 // TODO, this should be removed
 #[allow(dead_code)]
@@ -802,7 +802,6 @@ impl ScriptSkillService {
             SkillEnum::GdEmergencycall => {}
             SkillEnum::GdDevelopment => {}
             SkillEnum::GdItememergencycall => {}
-            SkillEnum::AllBuyingStore => {}
         }
     }
 }
