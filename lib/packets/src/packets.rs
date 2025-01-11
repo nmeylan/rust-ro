@@ -6058,7 +6058,7 @@ pub struct PacketCzRequestMovenpc {
     pub packet_id_raw: [u8; 2],
     pub gid: u32,
     pub gid_raw: [u8; 4],
-    pub dest: [char; 3],
+    pub dest: [u8; 3],
     pub dest_raw: [u8; 3],
 }
 

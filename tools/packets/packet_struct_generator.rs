@@ -497,9 +497,9 @@ fn write_struct_to_json(file: &mut File, struct_definition: &StructDefinition) {
                     let sub_type_name = &field.sub_type.unwrap().name;
                     // Special case for pos and dest so it is easier to read/edit json
                     if field.name.eq("pos_dir") || field.name.eq("dest") {
-                        file.write_all(format!("        let x = ((self.{}_raw[0] as u16) << 2) | (self.{}_raw[1] >> 6) as u16;\n", field.name, field.name).as_bytes()).unwrap();
-                        file.write_all(format!("        let y = (((self.{}_raw[1] & 0x3f) as u16) << 4) | (self.{}_raw[2] >> 4) as u16;\n", field.name, field.name).as_bytes()).unwrap();
-                        file.write_all(format!("        let dir: u16 = (self.{}_raw[2] & 0x0f) as u16;\n", field.name).as_bytes()).unwrap();
+                        file.write_all(format!("        let x = ((self.{}[0] as u16) << 2) | (self.{}[1] >> 6) as u16;\n", field.name, field.name).as_bytes()).unwrap();
+                        file.write_all(format!("        let y = (((self.{}[1] & 0x3f) as u16) << 4) | (self.{}[2] >> 4) as u16;\n", field.name, field.name).as_bytes()).unwrap();
+                        file.write_all(format!("        let dir: u16 = (self.{}[2] & 0x0f) as u16;\n", field.name).as_bytes()).unwrap();
                         json_value = format!("format!(\"{{{{\\\"x\\\": {{}}, \\\"y\\\": {{}}, \\\"dir\\\": {{}}}}}}\", x, y, dir)");
                     } else if sub_type_name == "char" {
                         json_value = format!("format!(\"\\\"{{}}\\\"\", {})", format!("self.{}.iter().collect::<String>()", field.name));
@@ -541,11 +541,42 @@ fn write_struct_from_json(file: &mut File, struct_definition: &StructDefinition)
         if field.name.eq("packet_id") {
             continue;
         }
+        match field.data_type.name.as_str() {
+            "Array" => {
+                if let Some(sub_type) = field.sub_type {
+                    if field.name.eq("pos_dir") || field.name.eq("dest") {
+                        file.write_all(format!("                let x: u16 = entries.iter().find(|entry| entry.pointer.pointer.eq(\"/{}/x\")).unwrap().value.unwrap().parse().map_err(|_| \"Invalid value x for {}\".to_string())?;\n", field.name, field.name).as_bytes()).unwrap();
+                        file.write_all(format!("                let y: u16 = entries.iter().find(|entry| entry.pointer.pointer.eq(\"/{}/y\")).unwrap().value.unwrap().parse().map_err(|_| \"Invalid value y for {}\".to_string())?;\n", field.name, field.name).as_bytes()).unwrap();
+                        file.write_all(format!("                let dir: u16 = entries.iter().find(|entry| entry.pointer.pointer.eq(\"/{}/dir\")).unwrap().value.unwrap().parse().map_err(|_| \"Invalid value dir for {}\".to_string())?;\n", field.name, field.name).as_bytes()).unwrap();
+                        file.write_all(format!("                let mut move_data: [{}; 3] = [0; 3];\n", sub_type.name).as_bytes()).unwrap();
+                        file.write_all(format!("                move_data[0] = (x >> 2) as {};\n", sub_type.name).as_bytes()).unwrap();
+                        file.write_all(format!("                move_data[1] = ((x << 6) | ((y >> 4) & 0x3f)) as {};\n", sub_type.name).as_bytes()).unwrap();
+                        file.write_all(format!("                move_data[2] = ((y << 4) | (dir & 0xf)) as {};\n", sub_type.name).as_bytes()).unwrap();
+                        file.write_all(format!("                packet.set_{}(move_data);\n", field.name).as_bytes()).unwrap();
+                    }
+                }
+            }
+            _ => {}
+        }
         file.write_all(format!("        if let Some(entry) = entries.iter().find(|entry| entry.pointer.pointer.eq(\"/{}\")) {{\n", field.name).as_bytes()).unwrap();
         file.write_all("            if let Some(value) = entry.value {\n".as_bytes()).unwrap();
         match field.data_type.name.as_str() {
             "Array" => {
+                if let Some(sub_type) = field.sub_type {
+                    let sub_type_name = &sub_type.name;
+                    if field.name.eq("pos_dir") || field.name.eq("dest") {
 
+                    } else if sub_type_name == "char" {
+                        file.write_all(format!("                let mut char_value: [char; {}] = [0 as char; {}];\n", field.length, field.length).as_bytes()).unwrap();
+                        file.write_all("                for (i, c) in value.chars().enumerate() {\n".as_bytes()).unwrap();
+                        file.write_all("                    if i >= char_value.len() {\n".as_bytes()).unwrap();
+                        file.write_all("                        break;\n".as_bytes()).unwrap();
+                        file.write_all("                    }\n".as_bytes()).unwrap();
+                        file.write_all("                    char_value[i] = c;\n".as_bytes()).unwrap();
+                        file.write_all("                }\n".as_bytes()).unwrap();
+                        file.write_all(format!("                packet.set_{}(char_value);\n", field.name).as_bytes()).unwrap();
+                    } else {}
+                }
             }
             "String" => {
                 file.write_all(format!("                packet.set_{}(value.to_string());\n", field.name).as_bytes()).unwrap();
@@ -561,7 +592,6 @@ fn write_struct_from_json(file: &mut File, struct_definition: &StructDefinition)
     }
     file.write_all("        Ok(packet)\n".as_bytes()).unwrap();
     file.write_all("    }\n".as_bytes()).unwrap();
-
 }
 
 fn struct_impl_field_value(field: &StructField) -> String {
