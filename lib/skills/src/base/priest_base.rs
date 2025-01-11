@@ -377,6 +377,25 @@ impl SkillBase for Suffragium {
        2000
     }
     #[inline(always)]
+    fn _has_bonuses_to_target(&self) -> bool {
+        true
+    }
+    fn _bonuses_to_target(&self, tick: u128) -> TemporaryStatusBonuses {
+        if self.level == 1 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::CastTimePercentage(-15), 0, tick, 30000, 67),]);
+        }
+        if self.level == 2 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::CastTimePercentage(-30), 0, tick, 20000, 67),]);
+        }
+        if self.level == 3 {
+            return TemporaryStatusBonuses(vec![
+                TemporaryStatusBonus::with_duration(BonusType::CastTimePercentage(-45), 0, tick, 10000, 67),]);
+        }
+        TemporaryStatusBonuses::default()
+    }
+    #[inline(always)]
     fn is_supportive_skill(&self) -> bool {
         true
     }
