@@ -11,6 +11,7 @@ mod print;
 #[cfg(test)]
 mod tests {
     use crate::packets::{Packet, PacketCzRenameMer, PacketCzRequestMove};
+    use crate::packets_parser::parse_json;
 
     #[test]
     fn json_serde_when_packet_contains_position() {
@@ -25,8 +26,9 @@ mod tests {
         move_data[2] = ((y << 4) | (dir & 0xf)) as u8;
         request_move.set_dest(move_data);
         // When
-        let json = request_move.to_json();
-        let request_move_from_json = PacketCzRequestMove::from_json(json.as_str(), 0).unwrap();
+        let json = request_move.to_json(0);
+        let packet = parse_json(json.as_str(), 0).unwrap();
+        let request_move_from_json = packet.as_any().downcast_ref::<PacketCzRequestMove>().unwrap();
         // Then
         assert_eq!(request_move_from_json.dest, request_move.dest);
     }
@@ -41,8 +43,9 @@ mod tests {
         name[3] = 'H';
         rename_mer.set_name(name);
         // When
-        let json = rename_mer.to_json();
-        let rename_mer_from_json = PacketCzRenameMer::from_json(json.as_str(), 0).unwrap();
+        let json = rename_mer.to_json(0);
+        let packet = parse_json(json.as_str(), 0).unwrap();
+        let rename_mer_from_json = packet.as_any().downcast_ref::<PacketCzRenameMer>().unwrap();
         // Then
         assert_eq!(rename_mer_from_json.name, rename_mer.name);
     }

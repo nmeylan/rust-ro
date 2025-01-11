@@ -16,7 +16,7 @@ pub trait Packet {
     fn raw_mut(&mut self) -> &mut Vec<u8>;
     fn as_any(&self) -> &dyn Any;
     fn as_any_mut(&mut self) -> &mut dyn Any;
-    fn to_json(&self) -> String;
+    fn to_json(&self, packetver: u32) -> String;
 }
 
 #[derive(Clone)]
@@ -11455,7 +11455,7 @@ impl Packet for PacketUnknown {
     fn base_len(&self, _packetver: u32) -> usize {
         0
     }
-    fn to_json(&self) -> String {
+    fn to_json(&self, _packetver: u32) -> String {
         String::new()
     }
 }
@@ -11466,5 +11466,8 @@ impl PacketUnknown {
         } else { 
           PacketUnknown { raw: buffer.to_vec(), packet_id: "0x??".to_string()}
         }
+    }
+    pub fn from_json(_entries: Vec<json_flat_parser::FlatJsonValue<&str>>, _packetver: u32) -> Result<Self, String> {
+          Ok(PacketUnknown { raw: vec![], packet_id: "0x??".to_string()})
     }
 }
