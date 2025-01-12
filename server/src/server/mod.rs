@@ -16,7 +16,7 @@ use crate::server::model::map_item::MapItems;
 use crate::server::model::path::manhattan_distance;
 use crate::server::model::request::Request;
 use crate::server::model::response::Response;
-use crate::server::model::session::{SessionRecord, SessionsIter};
+use crate::server::model::session::{Session, SessionRecord, SessionsIter};
 use crate::server::model::tasks_queue::TasksQueue;
 use model::events::client_notification::{AreaNotificationRangeType, Notification};
 use model::events::game_event::GameEvent;

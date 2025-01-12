@@ -9,22 +9,13 @@
   "packetver": 20120307,
   "entries": [
     {
-      "time": 1736606600027,
+      "time": 1736686837463,
       "packet_id": "0x0437",
       "packet_name": "PacketCzRequestMove",
-      "data": "{\n\"packet_id\": \"0x0437\",\n\"dest\": {\"x\": 164, \"y\": 189, \"dir\": 0}\n}"
-    },
-    {
-      "time": 1736606601317,
-      "packet_id": "0x0437",
-      "packet_name": "PacketCzRequestMove",
-      "data": "{\n\"packet_id\": \"0x0437\",\n\"dest\": {\"x\": 162, \"y\": 184, \"dir\": 0}\n}"
-    },
-    {
-      "time": 1736606602376,
-      "packet_id": "0x0437",
-      "packet_name": "PacketCzRequestMove",
-      "data": "{\n\"packet_id\": \"0x0437\",\n\"dest\": {\"x\": 156, \"y\": 185, \"dir\": 0}\n}"
+      "data": {
+        "packet_id": "0x0437",
+        "dest": {"x": 161, "y": 186, "dir": 0}
+      }
     }
   ]
 }
