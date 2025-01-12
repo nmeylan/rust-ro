@@ -13,6 +13,12 @@ pub struct MultiPlayerSimulator {
     sessions: Vec<Arc<Session>>,
     server: Arc<Server>,
 }
+
+pub struct SimulatedSession {
+    session: Arc<Session>,
+    char_name: String,
+    char_class: String,
+}
 impl MultiPlayerSimulator {
     pub fn new(server: Arc<Server>) -> Self {
         Self { sessions: vec![], server }
@@ -36,5 +42,9 @@ impl MultiPlayerSimulator {
         packet.auth_code = session.auth_code;
         packet.fill_raw();
         session.map_server_socket.as_ref().unwrap().write().unwrap().write_all(packet.raw().as_slice());
+    }
+
+    pub fn sessions(&self) -> &Vec<Arc<Session>> {
+        &self.sessions
     }
 }

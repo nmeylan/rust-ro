@@ -1,7 +1,7 @@
 use crate::debugger::frame_history;
 use crate::debugger::map_instance_view::MapInstanceView;
 use crate::debugger::multi_player_simulator::MultiPlayerSimulator;
-use crate::repository::model::char_model::{CharSelectModel};
+use crate::repository::model::char_model::CharSelectModel;
 use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::map_item::MapItem;
 use crate::server::model::map_item::MapItemType;
@@ -10,18 +10,19 @@ use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
 use crate::server::Server;
 use crate::util::debug::{WearAmmoForDisplay, WearGearForDisplay, WearWeaponForDisplay};
-use eframe::egui::{Grid, ScrollArea, ViewportCommand};
-use eframe::{egui, CreationContext, HardwareAcceleration, Theme};
+use eframe::egui::{ScrollArea, ViewportCommand};
+use eframe::{egui, CreationContext, HardwareAcceleration};
 use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Visuals};
+use egui_extras::{Column, TableBuilder};
 use lazy_static::lazy_static;
 use models::enums::class::JobName;
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
-use packets::packets::CharacterInfoNeoUnion;
 use std::collections::HashMap;
 use std::sync::Arc;
 use std::thread;
 #[cfg(target_os = "windows")]
 use winit::platform::windows::EventLoopBuilderExtWindows;
+
 #[cfg(target_os = "linux")]
 use winit::platform::x11::EventLoopBuilderExtX11;
 use winit::raw_window_handle::HasWindowHandle;
@@ -117,8 +118,6 @@ impl VisualDebugger {
                 stencil_buffer: 0,
                 hardware_acceleration: HardwareAcceleration::Preferred,
                 renderer: Default::default(),
-                follow_system_theme: cfg!(target_os = "macos") || cfg!(target_os = "windows"),
-                default_theme: Theme::Dark,
                 run_and_return: true,
                 event_loop_builder: Some(Box::new(move |builder| {
                     builder.with_any_thread(true);
@@ -128,6 +127,7 @@ impl VisualDebugger {
                 centered: false,
                 persist_window: false,
                 persistence_path: None,
+                dithering: false,
             };
             eframe::run_native("Debugger", native_options, Box::new(|_cc: &CreationContext| Ok(Box::new(app)))).unwrap();
         });
@@ -405,6 +405,34 @@ impl VisualDebugger {
             if ui.button("Run simulation").clicked() {
                 self.simulator.simulate(self.simulator_selected_char);
             }
+            ui.separator();
+            ui.heading("Running simulation");
+            TableBuilder::new(ui)
+                .column(Column::exact(180.0))
+                .column(Column::exact(120.0))
+                .column(Column::exact(40.0))
+                .column(Column::exact(120.0))
+                .column(Column::exact(120.0))
+                .header(14.0, |mut ui| {
+                ui.col(|ui| { ui.strong("Name"); });
+                ui.col(|ui| { ui.strong("Job"); });
+                ui.col(|ui| { ui.strong("Level"); });
+                ui.col(|ui| { ui.strong("City"); });
+                ui.col(|ui| { ui.strong("Location"); });
+            }).body(|ui| {
+                let simulated_sessions = self.simulator.sessions();
+                ui.rows(14.0, simulated_sessions.len(), |mut row| unsafe {
+                    let row_index = row.index();
+                    let session = simulated_sessions.get_unchecked(row_index);
+                    if let Some(character) = self.server.state().get_character(session.char_id.unwrap()) {
+                        row.col(|ui| { ui.label(character.name.as_str()); });
+                        row.col(|ui| { ui.label(JobName::from_value(character.get_job() as usize).as_str()); });
+                        row.col(|ui| { ui.label(format!("{}/{}", character.get_base_level(), character.get_job_level() )); });
+                        row.col(|ui| { ui.label(character.current_map_name()); });
+                        row.col(|ui| { ui.label(format!("{},{}", character.x, character.y )); });
+                    }
+                });
+            });
         }
     }
 }

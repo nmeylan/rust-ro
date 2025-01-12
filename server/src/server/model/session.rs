@@ -6,6 +6,7 @@ use std::sync::{Arc, Mutex, RwLock};
 use crate::server::state::character::Character;
 use packets::packets::Packet;
 use serde::Serialize;
+use serde_json::value::RawValue;
 use std::io::Write;
 use tokio::sync::mpsc::Sender;
 
@@ -54,7 +55,7 @@ impl SessionRecord {
 
     pub fn record(&self, tick: u128, packet_id: String, packet_name: String, packet: &dyn Packet) {
         if PACKET_TO_RECORDS.contains(&packet_name.as_str()) {
-            self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, packet_id, packet_name, data: packet.to_json(self.packetver) });
+            self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, packet_id, packet_name, data: RawValue::from_string(packet.to_json(self.packetver)).unwrap() });
         } else {
             debug!("Will not record packet with name {}", packet_name);
         }
@@ -64,7 +65,7 @@ impl SessionRecord {
         if self.entries.lock().unwrap().is_empty() {
             return
         }
-        let mut file = File::create(format!("target/session_{}.record", self.session_id)).unwrap();
+        let mut file = File::create(format!("target/session_{}.json", self.session_id)).unwrap();
         file.write_all(&serde_json::to_string_pretty(self).unwrap().as_bytes()).unwrap();
     }
 }
@@ -74,7 +75,7 @@ struct SessionRecordEntry {
     time: u128,
     packet_id: String,
     packet_name: String,
-    data: String
+    data: Box<RawValue>
 }
 
 pub trait SessionsIter {
@@ -193,6 +194,20 @@ impl Session {
             packetver: self.packetver,
             is_simulated: self.is_simulated,
             script_handler_channel_sender: Mutex::new(None)
+        }
+    }
+
+    pub fn snapshot(&self) -> Session {
+        Session {
+            char_server_socket: None,
+            map_server_socket: None,
+            account_id: self.account_id,
+            auth_code: self.auth_code,
+            user_level: self.user_level,
+            char_id: self.char_id,
+            packetver: self.packetver,
+            is_simulated: self.is_simulated,
+            script_handler_channel_sender: Mutex::new(None),
         }
     }
 
