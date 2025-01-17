@@ -5,7 +5,7 @@ use std::sync::{Arc, Mutex, RwLock};
 
 use crate::server::state::character::Character;
 use packets::packets::Packet;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use serde_json::value::RawValue;
 use std::io::Write;
 use tokio::sync::mpsc::Sender;
@@ -24,18 +24,21 @@ pub struct Session {
     pub script_handler_channel_sender: Mutex<Option<Sender<Vec<u8>>>> // TODO keep track on creation. Abort script thread after X minutes + abort on new script interaction
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct SessionRecord {
     pub session_id: u32,
     pub char_id: Option<u32>,
-    position: Position,
+    pub map_name: String,
+    pub position: Position,
     packetver: u32,
-    pub entries: Mutex<Vec<SessionRecordEntry>>
+    pub entries: Mutex<Vec<SessionRecordEntry>>,
+    #[serde(skip)]
+    pub entries_formatted: String
 }
-#[derive(Serialize)]
-struct Position {
-    x: u16,
-    y: u16,
+#[derive(Serialize, Deserialize, Clone)]
+pub struct Position {
+    pub x: u16,
+    pub y: u16,
     dir: u16,
 }
 
@@ -47,9 +50,11 @@ impl SessionRecord {
         Self {
             session_id: character.account_id,
             char_id: Some(character.char_id),
-            position: Position {x: character.x, y: 0, dir: 0 },
+            map_name: character.map_instance_key.map_name().clone(),
+            position: Position {x: character.x, y: character.y, dir: character.dir },
             entries: Mutex::new(vec![]),
             packetver,
+            entries_formatted: String::new()
         }
     }
 
@@ -68,15 +73,67 @@ impl SessionRecord {
         let mut file = File::create(format!("target/session_{}.json", self.session_id)).unwrap();
         file.write_all(&serde_json::to_string_pretty(self).unwrap().as_bytes()).unwrap();
     }
+    pub fn format_entries(&mut self) -> &String {
+        if !self.entries_formatted.is_empty() {
+            return &self.entries_formatted;
+        }
+        let mut result = Vec::new();
+        let mut count_map = HashMap::new();
+        let mut last_name = String::new();
+        let entries_guard = self.entries.lock().unwrap();
+
+        for entry in entries_guard.iter() {
+            let name = &entry.packet_name;
+            if name.eq(&last_name) {
+                *count_map.entry(name.clone()).or_insert(1) += 1;
+            } else {
+                if let Some(count) = count_map.remove(&last_name) {
+                    if count > 1 {
+                        result.push(format!("{}({})", last_name, count));
+                    } else if !last_name.is_empty() {
+                        result.push(last_name.clone());
+                    }
+                }
+                last_name = name.clone();
+                count_map.insert(name.clone(), 1);
+            }
+        }
+
+        if let Some(count) = count_map.remove(&last_name) {
+            if count > 1 {
+                result.push(format!("{}({})", last_name, count));
+            } else if !last_name.is_empty() {
+                result.push(last_name.clone());
+            }
+        }
+
+        self.entries_formatted = result.join(", ");
+        &self.entries_formatted
+    }
 }
 
-#[derive(Serialize)]
-struct SessionRecordEntry {
-    time: u128,
-    packet_id: String,
-    packet_name: String,
-    data: Box<RawValue>
+impl Clone for SessionRecord {
+    fn clone(&self) -> Self {
+        Self {
+            session_id: self.session_id,
+            char_id: self.char_id.clone(),
+            map_name: self.map_name.clone(),
+            position: self.position.clone(),
+            packetver: self.packetver,
+            entries: Mutex::new(self.entries.lock().unwrap().clone()),
+            entries_formatted: self.entries_formatted.clone(),
+        }
+    }
 }
+
+#[derive(Serialize, Deserialize, Clone)]
+pub struct SessionRecordEntry {
+    pub time: u128,
+    pub packet_id: String,
+    pub packet_name: String,
+    pub data: Box<RawValue>
+}
+
 
 pub trait SessionsIter {
     fn find_by_stream(&self, tcp_stream: &TcpStream) -> Option<u32>;

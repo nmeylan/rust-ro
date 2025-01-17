@@ -441,16 +441,6 @@
         {
           "name": "MC_LOUD",
           "maxLevel": 1
-        },
-        {
-          "name": "ALL_BUYING_STORE",
-          "maxLevel": 1,
-          "requires": [
-            {
-              "name": "MC_VENDING",
-              "level": 1
-            }
-          ]
         }
       ]
     },
@@ -3282,16 +3272,6 @@
           ]
         },
         {
-          "name": "ALL_BUYING_STORE",
-          "maxLevel": 1,
-          "requires": [
-            {
-              "name": "MC_VENDING",
-              "level": 1
-            }
-          ]
-        },
-        {
           "name": "MC_CARTDECORATE",
           "maxLevel": 1
         }
@@ -5501,20 +5481,6 @@
               "level": 3
             }
           ]
-        },
-        {
-          "name": "ALL_BUYING_STORE",
-          "maxLevel": 1,
-          "requires": [
-            {
-              "name": "MC_VENDING",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "name": "MC_CARTDECORATE",
-          "maxLevel": 1
         }
       ]
     },

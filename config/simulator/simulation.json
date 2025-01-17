@@ -1,20 +1,66 @@
 {
   "session_id": 2000000,
   "char_id": 150000,
+  "map_name": "prontera.gat",
   "position": {
-    "x": 156,
-    "y": 0,
+    "x": 159,
+    "y": 186,
     "dir": 0
   },
   "packetver": 20120307,
   "entries": [
     {
-      "time": 1736686837463,
+      "time": 1737106482442,
       "packet_id": "0x0437",
       "packet_name": "PacketCzRequestMove",
       "data": {
         "packet_id": "0x0437",
-        "dest": {"x": 161, "y": 186, "dir": 0}
+        "dest": {"x": 162, "y": 187, "dir": 0}
+      }
+    },
+    {
+      "time": 1737106483325,
+      "packet_id": "0x0437",
+      "packet_name": "PacketCzRequestMove",
+      "data": {
+        "packet_id": "0x0437",
+        "dest": {"x": 166, "y": 191, "dir": 0}
+      }
+    },
+    {
+      "time": 1737106484627,
+      "packet_id": "0x0437",
+      "packet_name": "PacketCzRequestMove",
+      "data": {
+        "packet_id": "0x0437",
+        "dest": {"x": 170, "y": 196, "dir": 0}
+      }
+    },
+    {
+      "time": 1737106485977,
+      "packet_id": "0x0437",
+      "packet_name": "PacketCzRequestMove",
+      "data": {
+        "packet_id": "0x0437",
+        "dest": {"x": 170, "y": 192, "dir": 0}
+      }
+    },
+    {
+      "time": 1737106486945,
+      "packet_id": "0x0437",
+      "packet_name": "PacketCzRequestMove",
+      "data": {
+        "packet_id": "0x0437",
+        "dest": {"x": 165, "y": 190, "dir": 0}
+      }
+    },
+    {
+      "time": 1737106488081,
+      "packet_id": "0x0437",
+      "packet_name": "PacketCzRequestMove",
+      "data": {
+        "packet_id": "0x0437",
+        "dest": {"x": 160, "y": 188, "dir": 0}
       }
     }
   ]
