@@ -5,14 +5,14 @@ use std::sync::Arc;
 use std::thread::sleep;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
+use crate::server::model::events::game_event::{CharacterRemoveItems, GameEvent};
 use crate::server::model::movement::{Movable, Movement};
 use crate::PersistenceEvent;
 use crate::PersistenceEvent::SaveCharacterPosition;
 use models::enums::skill_enums::SkillEnum;
-use packets::packets::{Packet, PacketZcNotifyPlayermove};
-use crate::server::model::events::game_event::{CharacterRemoveItems, GameEvent};
+use packets::packets::{Packet, PacketZcNotifyMove, PacketZcNotifyPlayermove};
 
-use crate::server::model::events::client_notification::{CharNotification, Notification};
+use crate::server::model::events::client_notification::{AreaNotification, CharNotification, Notification};
 use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::events::persistence_event::SavePositionUpdate;
 
@@ -289,10 +289,19 @@ impl Server {
                         character.set_movement(character_movement.path);
                         let movement = character.peek_mut_movement().unwrap();
                         movement.set_move_at(move_at);
-                        packet_zc_notify_playermove.set_move_start_time(movement.move_at() as u32); // todo: time conversion check on client side ???
-                        packet_zc_notify_playermove.set_move_data(character_movement.current_position.to_move_data(&character_movement.destination));
+                        let moved_at = movement.move_at() as u32;
+                        packet_zc_notify_playermove.set_move_start_time(moved_at); // todo: time conversion check on client side ???
+                        let movement = character_movement.current_position.to_move_data(&character_movement.destination);
+                        packet_zc_notify_playermove.set_move_data(movement.clone());
                         packet_zc_notify_playermove.fill_raw();
                         client_notification_sender_clone.send(Notification::Char(CharNotification::new(character.char_id, std::mem::take(packet_zc_notify_playermove.raw_mut()))))
+                            .expect("Failed to send notification event with PacketZcNotifyPlayermove");
+                        let mut packet_zc_notify_move = PacketZcNotifyMove::new(GlobalConfigService::instance().packetver());
+                        packet_zc_notify_move.set_move_data(movement);
+                        packet_zc_notify_move.set_gid(character.char_id);
+                        packet_zc_notify_move.set_move_start_time(moved_at as u32);
+                        packet_zc_notify_move.fill_raw();
+                        client_notification_sender_clone.send(Notification::Area(AreaNotification::from_character_exclude_self(character, std::mem::take(packet_zc_notify_move.raw_mut()))))
                             .expect("Failed to send notification event with PacketZcNotifyPlayermove");
                     }
                 }

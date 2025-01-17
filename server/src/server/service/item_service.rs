@@ -12,7 +12,7 @@ use tokio::sync::mpsc;
 use models::enums::bonus::BonusType;
 
 
-use packets::packets::PacketZcUseItemAck2;
+use packets::packets::{Packet, PacketZcUseItemAck2};
 use crate::repository::ItemRepository;
 use crate::repository::model::item_model::{ItemModel};
 

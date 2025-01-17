@@ -2,7 +2,7 @@ use std::sync::mpsc::SyncSender;
 use models::enums::class::JobName;
 
 
-use packets::packets::{PacketZcSkillinfoList, SKILLINFO};
+use packets::packets::{Packet, PacketZcSkillinfoList, SKILLINFO};
 use crate::server::model::events::client_notification::{CharNotification, Notification};
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;

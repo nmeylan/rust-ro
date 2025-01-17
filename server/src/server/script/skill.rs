@@ -8,7 +8,7 @@ use configuration::configuration::SkillConfig;
 use models::enums::skill_enums::SkillEnum;
 use models::enums::vanish::VanishType;
 use models::enums::EnumWithNumberValue;
-use packets::packets::PacketZcNotifyVanish;
+use packets::packets::{Packet, PacketZcNotifyVanish};
 use std::sync::mpsc::SyncSender;
 use std::sync::Arc;
 

@@ -6,7 +6,7 @@ use models::enums::look::LookType;
 use models::enums::EnumWithMaskValueU64;
 use models::enums::EnumWithNumberValue;
 use models::item::Wearable;
-use packets::packets::{EquipmentitemExtrainfo301, NormalitemExtrainfo3, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2, EQUIPSLOTINFO};
+use packets::packets::{EquipmentitemExtrainfo301, NormalitemExtrainfo3, Packet, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2, EQUIPSLOTINFO};
 use rand::RngCore;
 use std::sync::mpsc::SyncSender;
 use std::sync::Arc;

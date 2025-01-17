@@ -11,6 +11,7 @@
   "entries": [
     {
       "time": 1737106482442,
+      "packetver": 20120307,
       "packet_id": "0x0437",
       "packet_name": "PacketCzRequestMove",
       "data": {
@@ -20,6 +21,7 @@
     },
     {
       "time": 1737106483325,
+      "packetver": 20120307,
       "packet_id": "0x0437",
       "packet_name": "PacketCzRequestMove",
       "data": {
@@ -29,6 +31,7 @@
     },
     {
       "time": 1737106484627,
+      "packetver": 20120307,
       "packet_id": "0x0437",
       "packet_name": "PacketCzRequestMove",
       "data": {
@@ -38,6 +41,7 @@
     },
     {
       "time": 1737106485977,
+      "packetver": 20120307,
       "packet_id": "0x0437",
       "packet_name": "PacketCzRequestMove",
       "data": {
@@ -47,6 +51,7 @@
     },
     {
       "time": 1737106486945,
+      "packetver": 20120307,
       "packet_id": "0x0437",
       "packet_name": "PacketCzRequestMove",
       "data": {
@@ -56,6 +61,7 @@
     },
     {
       "time": 1737106488081,
+      "packetver": 20120307,
       "packet_id": "0x0437",
       "packet_name": "PacketCzRequestMove",
       "data": {
