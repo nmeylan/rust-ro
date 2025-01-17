@@ -179,7 +179,7 @@ impl VisualDebugger {
         if self.selected_map.is_some() {
             selected_text = self.selected_map.as_ref().unwrap();
         }
-        ComboBox::from_id_source("Select map")
+        ComboBox::from_id_salt("Select map")
             .selected_text(selected_text)
             .show_ui(ui, |ui| {
                 self.server.state().map_instances()
@@ -196,7 +196,7 @@ impl VisualDebugger {
         if let Some((_, selected_char)) = &self.selected_char {
             selected_text = selected_char.as_str();
         }
-        ComboBox::from_id_source("Select char")
+        ComboBox::from_id_salt("Select char")
             .selected_text(selected_text)
             .show_ui(ui, |ui| {
                 self.server.state().characters()
@@ -472,8 +472,7 @@ impl VisualDebugger {
         let response = replay_selection_window.show(ctx, &mut is_open);
         if let Some(response) = response {
             if let Some(session_record) = response.session_record_selected {
-                println!("Will apply session record {} on char {}", session_record.entries_formatted,
-                         self.simulator_selected_rows_for_actions.iter().map(|i| format!("{}", i)).collect::<Vec<String>>().join(", "));
+                self.simulator.replay_packet(session_record, self.simulator_selected_rows_for_actions.clone());
             }
         }
         Self::set_open(open_windows, replay_selection_window.name(), is_open);

@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 use models::enums::vanish::VanishType;
 use models::enums::EnumWithNumberValue;
-use packets::packets::{PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyMove, PacketZcNotifyVanish};
+use packets::packets::{Packet, PacketZcItemDisappear, PacketZcItemFallEntry, PacketZcNotifyMove, PacketZcNotifyVanish};
 use crate::server::model::map::Map;
 
 use crate::server::model::map_item::{MapItemSnapshot};

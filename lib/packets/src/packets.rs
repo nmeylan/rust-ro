@@ -12,6 +12,8 @@ pub trait Packet {
     fn display(&self);
     fn debug(&self);
     fn pretty_debug(&self);
+    fn fill_raw(&mut self);
+    fn fill_raw_with_packetver(&mut self, packetver: Option<u32>);
     fn raw(&self) -> &Vec<u8>;
     fn raw_mut(&mut self) -> &mut Vec<u8>;
     fn as_any(&self) -> &dyn Any;
@@ -11457,6 +11459,12 @@ impl Packet for PacketUnknown {
     }
     fn to_json(&self, _packetver: u32) -> String {
         String::new()
+    }
+    fn fill_raw(&mut self) {
+        
+    }
+    fn fill_raw_with_packetver(&mut self, _packetver: Option<u32>) {
+        
     }
 }
 impl PacketUnknown {

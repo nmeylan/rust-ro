@@ -1,7 +1,7 @@
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value::{Native, Value};
-use packets::packets::{CzPurchaseItem, CzSellItem, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcPcSellItemlist, PacketZcSelectDealtype, PurchaseItem, SellItem};
+use packets::packets::{CzPurchaseItem, CzSellItem, Packet, PacketZcPcPurchaseItemlist, PacketZcPcPurchaseResult, PacketZcPcSellItemlist, PacketZcSelectDealtype, PurchaseItem, SellItem};
 use crate::server::script::{PlayerInteractionScriptHandler, VM_THREAD_CONSTANT_INDEX_NPC_ID, VM_THREAD_CONSTANT_INDEX_CHAR_ID};
 use models::enums::item::ItemType;
 use models::enums::EnumWithNumberValue;

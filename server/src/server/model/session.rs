@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 use std::fs::File;
+use std::hash::Hash;
 use std::net::{Shutdown, TcpStream};
 use std::sync::{Arc, Mutex, RwLock};
 
 use crate::server::state::character::Character;
-use packets::packets::Packet;
+use packets::packets::{Packet, PacketUnknown};
 use serde::{Deserialize, Serialize};
 use serde_json::value::RawValue;
 use std::io::Write;
@@ -22,6 +23,18 @@ pub struct Session {
     pub packetver: u32,
     pub is_simulated: bool,
     pub script_handler_channel_sender: Mutex<Option<Sender<Vec<u8>>>> // TODO keep track on creation. Abort script thread after X minutes + abort on new script interaction
+}
+
+impl PartialEq for Session {
+    fn eq(&self, other: &Self) -> bool {
+        self.account_id == other.account_id
+    }
+}
+impl Eq for Session {}
+impl Hash for Session {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.account_id.hash(state);
+    }
 }
 
 #[derive(Serialize, Deserialize)]
@@ -60,7 +73,7 @@ impl SessionRecord {
 
     pub fn record(&self, tick: u128, packet_id: String, packet_name: String, packet: &dyn Packet) {
         if PACKET_TO_RECORDS.contains(&packet_name.as_str()) {
-            self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, packet_id, packet_name, data: RawValue::from_string(packet.to_json(self.packetver)).unwrap() });
+            self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, packet_id, packetver: self.packetver, packet_name, data: RawValue::from_string(packet.to_json(self.packetver)).unwrap(), packet: None });
         } else {
             debug!("Will not record packet with name {}", packet_name);
         }
@@ -126,14 +139,49 @@ impl Clone for SessionRecord {
     }
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize)]
 pub struct SessionRecordEntry {
     pub time: u128,
     pub packet_id: String,
+    pub packetver: u32,
     pub packet_name: String,
-    pub data: Box<RawValue>
+    pub data: Box<RawValue>,
+    #[serde(skip)]
+    packet: Option<Box<dyn Packet>>,
 }
 
+unsafe impl Send for SessionRecordEntry{}
+unsafe impl Sync for SessionRecordEntry{}
+
+impl Clone for SessionRecordEntry {
+    fn clone(&self) -> Self {
+        Self {
+            time: self.time,
+            packet_id: self.packet_id.clone(),
+            packetver: self.packetver,
+            packet_name: self.packet_name.to_string(),
+            data: self.data.clone(),
+            packet: None,
+        }
+    }
+}
+
+impl SessionRecordEntry {
+    pub fn packet(&mut self) -> &Box<dyn Packet> {
+        if let Some(ref packet) = self.packet{
+            return packet;
+        }
+        let result = packets::packets_parser::parse_json(self.data.get(), self.packetver);
+        if let Ok(mut packet) = result {
+            packet.fill_raw();
+            self.packet = Some(packet);
+        } else {
+            error!("can't parse packet from session record due to {}", result.err().unwrap());
+            self.packet = Some(Box::new(PacketUnknown{ raw: vec![], packet_id: "".to_string() }));
+        }
+        self.packet.as_ref().unwrap()
+    }
+}
 
 pub trait SessionsIter {
     fn find_by_stream(&self, tcp_stream: &TcpStream) -> Option<u32>;
@@ -160,7 +208,6 @@ impl SessionsIter for HashMap<u32, Arc<Session>> {
             if char_server_socket.peer_addr().is_err() {
                 return false;
             }
-            debug!("char_server_socket.peer_addr {:?}", char_server_socket.peer_addr());
             char_server_socket.peer_addr().unwrap() == tcp_stream.peer_addr().unwrap()
         });
         map_entry_option?;

@@ -96,13 +96,13 @@ fn write_packet_parser(file: &mut File, packets: &[PacketStructDefinition]) {
     file.write_all("    let entries: Vec<json_flat_parser::FlatJsonValue<&str>> = json_flat_parser::JSONParser::parse(json, json_flat_parser::ParseOptions::default().keep_object_raw_data(false))?.json;\n".as_bytes()).unwrap();
     file.write_all("    if let Some(packet_id) = entries.iter().find(|entry| entry.pointer.pointer.eq(\"/packet_id\")){\n".as_bytes()).unwrap();
     for packet in ids_with_version.iter() {
-        let packet_id = packet_id(&packet.id.clone());
+        let packet_id = &packet.id;
         file.write_all(format!("    if packetver >= {} && packet_id.value.unwrap().eq(\"{}\") {{\n", packet.version.unwrap(), packet_id).as_bytes()).unwrap();
         file.write_all(format!("        return  {}::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);\n", packet.struct_name).as_bytes()).unwrap();
         file.write_all("    }\n".to_string().as_bytes()).unwrap();
     }
     for packet in ids_without_version.iter() {
-        let packet_id = packet_id(&packet.id.clone());
+        let packet_id = &packet.id;
         file.write_all(format!("    if packet_id.value.unwrap().eq(\"{}\") {{\n", packet_id).as_bytes()).unwrap();
         file.write_all(format!("        return {}::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);\n", packet.struct_name).as_bytes()).unwrap();
         file.write_all("    }\n".to_string().as_bytes()).unwrap();
@@ -120,6 +120,8 @@ fn write_packet_trait(file: &mut File) {
     file.write_all("    fn display(&self);\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn debug(&self);\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn pretty_debug(&self);\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn fill_raw(&mut self);\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn fill_raw_with_packetver(&mut self, packetver: Option<u32>);\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn raw(&self) -> &Vec<u8>;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn raw_mut(&mut self) -> &mut Vec<u8>;\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn as_any(&self) -> &dyn Any;\n".to_string().as_bytes()).unwrap();
@@ -161,6 +163,8 @@ fn write_packet_trait_impl(file: &mut File, packet: &PacketStructDefinition) {
     file.write_all("        Self::base_len(packetver)\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     write_struct_to_json(file, &packet.struct_def);
+    write_struct_fill_raw_method(file, false);
+    write_struct_fill_raw_with_packetver_method(file, &packet.struct_def, false);
     file.write_all("}\n\n".to_string().as_bytes()).unwrap();
 }
 
@@ -232,12 +236,14 @@ fn write_struct_impl(file: &mut File, struct_definition: &StructDefinition, pack
         write_struct_packet_id_method(file, &packet_id);
     }
     write_struct_from_method(file, struct_definition);
-    write_struct_fill_raw_method(file);
-    write_struct_fill_raw_with_packetver_method(file, struct_definition);
     write_struct_base_len_method(file, struct_definition);
     write_struct_setter_methods(file, struct_definition);
     write_struct_new_method(file, struct_definition, &packet_id);
     write_struct_from_json(file, struct_definition);
+    if packet_id.is_none() {
+        write_struct_fill_raw_method(file, true);
+        write_struct_fill_raw_with_packetver_method(file, struct_definition, true);
+    }
     file.write_all("}\n\n".to_string().as_bytes()).unwrap();
 }
 
@@ -309,14 +315,14 @@ fn write_struct_from_method(file: &mut File, struct_definition: &StructDefinitio
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
 }
 
-fn write_struct_fill_raw_method(file: &mut File) {
-    file.write_all("    pub fn fill_raw(&mut self) {\n".to_string().as_bytes()).unwrap();
+fn write_struct_fill_raw_method(file: &mut File, is_pub: bool) {
+    file.write_all(format!("    {}fn fill_raw(&mut self) {{\n", if is_pub { "pub "} else {""} ).as_bytes()).unwrap();
     file.write_all("      self.fill_raw_with_packetver(None)\n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
 }
 
-fn write_struct_fill_raw_with_packetver_method(file: &mut File, struct_definition: &StructDefinition) {
-    file.write_all("    pub fn fill_raw_with_packetver(&mut self, packetver: Option<u32>) {\n".to_string().as_bytes()).unwrap();
+fn write_struct_fill_raw_with_packetver_method(file: &mut File, struct_definition: &StructDefinition, is_pub: bool) {
+    file.write_all(format!("    {}fn fill_raw_with_packetver(&mut self, packetver: Option<u32>) {{\n", if is_pub { "pub "} else {""} ).as_bytes()).unwrap();
     file.write_all("    let mut wtr;\n".to_string().as_bytes()).unwrap();
     for field in &struct_definition.fields {
         file.write_all(field_serialization(field).as_bytes()).unwrap();
@@ -493,6 +499,12 @@ fn write_unknown_packet(file: &mut File) {
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("    fn to_json(&self, _packetver: u32) -> String {\n".to_string().as_bytes()).unwrap();
     file.write_all("        String::new()\n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn fill_raw(&mut self) {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        \n".to_string().as_bytes()).unwrap();
+    file.write_all("    }\n".to_string().as_bytes()).unwrap();
+    file.write_all("    fn fill_raw_with_packetver(&mut self, _packetver: Option<u32>) {\n".to_string().as_bytes()).unwrap();
+    file.write_all("        \n".to_string().as_bytes()).unwrap();
     file.write_all("    }\n".to_string().as_bytes()).unwrap();
     file.write_all("}\n".to_string().as_bytes()).unwrap();
     file.write_all("impl PacketUnknown {\n".to_string().as_bytes()).unwrap();
