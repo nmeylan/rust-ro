@@ -1,6 +1,6 @@
-use crate::debugger::frame_history;
 use crate::debugger::map_instance_view::MapInstanceView;
 use crate::debugger::multi_player_simulator::MultiPlayerSimulator;
+use crate::debugger::{frame_history, View, Window};
 use crate::repository::model::char_model::CharSelectModel;
 use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::map_item::MapItem;
@@ -10,22 +10,25 @@ use crate::server::service::status_service::StatusService;
 use crate::server::state::character::Character;
 use crate::server::Server;
 use crate::util::debug::{WearAmmoForDisplay, WearGearForDisplay, WearWeaponForDisplay};
-use eframe::egui::{ScrollArea, ViewportCommand};
+use eframe::egui::{Context, ScrollArea, ViewportCommand};
 use eframe::{egui, CreationContext, HardwareAcceleration};
 use egui::{Align, ComboBox, Layout, Pos2, Rect, Ui, Visuals};
 use egui_extras::{Column, TableBuilder};
 use lazy_static::lazy_static;
 use models::enums::class::JobName;
 use models::enums::{EnumWithNumberValue, EnumWithStringValue};
-use std::collections::HashMap;
+use std::collections::{BTreeSet, HashMap};
+use std::path::Path;
 use std::sync::Arc;
-use std::thread;
+use std::{fs, thread};
 #[cfg(target_os = "windows")]
 use winit::platform::windows::EventLoopBuilderExtWindows;
 
+use crate::server::model::session::{SessionRecord, SessionRecordEntry};
 #[cfg(target_os = "linux")]
 use winit::platform::x11::EventLoopBuilderExtX11;
 use winit::raw_window_handle::HasWindowHandle;
+
 
 pub struct VisualDebugger {
     pub name: String,
@@ -38,10 +41,13 @@ pub struct VisualDebugger {
     frame_history: frame_history::FrameHistory,
     map_instance_view: MapInstanceView,
     character_tab_state: CharacterTabState,
+    replay_selection_window: ReplaySessionPanel,
+    open_windows: BTreeSet<String>,
     // Simulator
     simulator: MultiPlayerSimulator,
     simulator_char_list: HashMap<u32, CharSelectModel>,
     simulator_selected_char: u32,
+    simulator_selected_rows_for_actions: Vec<usize>,
 }
 
 #[derive(Default)]
@@ -76,6 +82,7 @@ impl eframe::App for VisualDebugger {
             })
         });
         egui::CentralPanel::default().show(ctx, |ui| self.ui(ui));
+        self.windows(ctx);
     }
 }
 
@@ -104,9 +111,12 @@ impl VisualDebugger {
                 server: server.clone(),
             },
             character_tab_state: Default::default(),
+            replay_selection_window: ReplaySessionPanel::new(),
+            open_windows: Default::default(),
             simulator: MultiPlayerSimulator::new(server.clone()),
             simulator_char_list,
             simulator_selected_char: 0,
+            simulator_selected_rows_for_actions: vec![],
         };
 
         thread::spawn(|| {
@@ -368,13 +378,19 @@ impl VisualDebugger {
             selected_char = Some(char);
             selected_text = char.name.clone();
         }
-        ComboBox::from_id_source("simulator_char_select")
-            .selected_text(selected_text).show_ui(ui, |ui| {
-            self.simulator_char_list.iter()
-                .for_each(|(char_id, char)| {
-                    ui.selectable_value(&mut self.simulator_selected_char, *char_id, format!("{} ({} {}/{})", char.name,
-                                                                                             JobName::from_value(char.class as usize).as_str(), char.base_level, char.job_level));
-                })
+        ui.horizontal_wrapped(|ui| {
+            ComboBox::from_id_salt("simulator_char_select")
+                .selected_text(selected_text).show_ui(ui, |ui| {
+                self.simulator_char_list.iter()
+                    .for_each(|(char_id, char)| {
+                        ui.selectable_value(&mut self.simulator_selected_char, *char_id, format!("{} ({} {}/{})", char.name,
+                                                                                                 JobName::from_value(char.class as usize).as_str(), char.base_level, char.job_level));
+                    })
+            });
+
+            if ui.button("Join game").clicked() {
+                self.simulator.simulate(self.simulator_selected_char);
+            }
         });
         if let Some(selected_char) = selected_char {
             ScrollArea::vertical().show(ui, |ui| {
@@ -402,37 +418,168 @@ impl VisualDebugger {
                     });
                 });
             });
-            if ui.button("Run simulation").clicked() {
-                self.simulator.simulate(self.simulator_selected_char);
-            }
             ui.separator();
             ui.heading("Running simulation");
             TableBuilder::new(ui)
+                .column(Column::exact(20.0))
                 .column(Column::exact(180.0))
                 .column(Column::exact(120.0))
                 .column(Column::exact(40.0))
                 .column(Column::exact(120.0))
                 .column(Column::exact(120.0))
                 .header(14.0, |mut ui| {
-                ui.col(|ui| { ui.strong("Name"); });
-                ui.col(|ui| { ui.strong("Job"); });
-                ui.col(|ui| { ui.strong("Level"); });
-                ui.col(|ui| { ui.strong("City"); });
-                ui.col(|ui| { ui.strong("Location"); });
-            }).body(|ui| {
+                    ui.col(|ui| { ui.strong(""); });
+                    ui.col(|ui| { ui.strong("Name"); });
+                    ui.col(|ui| { ui.strong("Job"); });
+                    ui.col(|ui| { ui.strong("Level"); });
+                    ui.col(|ui| { ui.strong("City"); });
+                    ui.col(|ui| { ui.strong("Location"); });
+                }).body(|ui| {
                 let simulated_sessions = self.simulator.sessions();
-                ui.rows(14.0, simulated_sessions.len(), |mut row| unsafe {
+                ui.rows(20.0, simulated_sessions.len(), |mut row| {
                     let row_index = row.index();
-                    let session = simulated_sessions.get_unchecked(row_index);
+                    let session = unsafe { simulated_sessions.get_unchecked(row_index) };
                     if let Some(character) = self.server.state().get_character(session.char_id.unwrap()) {
+                        row.col(|ui| {
+                            let index = self.simulator_selected_rows_for_actions.iter().position(|i| *i == row_index);
+                            let mut is_open = index.is_some();
+                            if ui.checkbox(&mut is_open, "").changed() {
+                                if let Some(index) = index {
+                                    self.simulator_selected_rows_for_actions.remove(index);
+                                } else {
+                                    self.simulator_selected_rows_for_actions.push(row_index);
+                                }
+                            }
+                        });
                         row.col(|ui| { ui.label(character.name.as_str()); });
                         row.col(|ui| { ui.label(JobName::from_value(character.get_job() as usize).as_str()); });
-                        row.col(|ui| { ui.label(format!("{}/{}", character.get_base_level(), character.get_job_level() )); });
+                        row.col(|ui| { ui.label(format!("{}/{}", character.get_base_level(), character.get_job_level())); });
                         row.col(|ui| { ui.label(character.current_map_name()); });
-                        row.col(|ui| { ui.label(format!("{},{}", character.x, character.y )); });
+                        row.col(|ui| { ui.label(format!("{},{}", character.x, character.y)); });
                     }
                 });
             });
+            ui.add_space(10.0);
+            if ui.button("Replay actions").clicked() {
+                Self::set_open(&mut self.open_windows, "Replay Session", true);
+            }
         }
+    }
+    fn windows(&mut self, ctx: &Context) {
+        let Self { replay_selection_window, open_windows, .. } = self;
+
+        let mut is_open = open_windows.contains(replay_selection_window.name());
+        let response = replay_selection_window.show(ctx, &mut is_open);
+        if let Some(response) = response {
+            if let Some(session_record) = response.session_record_selected {
+                println!("Will apply session record {} on char {}", session_record.entries_formatted,
+                         self.simulator_selected_rows_for_actions.iter().map(|i| format!("{}", i)).collect::<Vec<String>>().join(", "));
+            }
+        }
+        Self::set_open(open_windows, replay_selection_window.name(), is_open);
+    }
+    fn set_open(open: &mut BTreeSet<String>, key: &'static str, is_open: bool) {
+        if is_open {
+            if !open.contains(key) {
+                open.insert(key.to_owned());
+            }
+        } else {
+            open.remove(key);
+        }
+    }
+}
+
+struct ReplaySessionPanel {
+    session_records: Vec<SessionRecord>,
+}
+
+#[derive(Default)]
+struct ReplaySelectionResponse {
+    session_record_selected: Option<SessionRecord>,
+}
+
+impl ReplaySessionPanel {
+    fn new() -> Self {
+        let mut session_records = Vec::new();
+        Self::load_session_records_files(&mut session_records);
+
+        Self {
+            session_records
+        }
+    }
+
+    fn load_session_records_files(session_records: &mut Vec<SessionRecord>) {
+        let path = Path::new("").join(Path::new("config/simulator"));
+        let paths = std::fs::read_dir(path).unwrap();
+        for path in paths {
+            if let Ok(dir_entry) = path {
+                let result = serde_json::from_str(&fs::read_to_string(dir_entry.path()).unwrap());
+                if let Ok(parsed_session_record) = result {
+                    session_records.push(parsed_session_record);
+                } else {
+                    error!("Failed to parse session record {}", dir_entry.path().display());
+                }
+            }
+        }
+    }
+}
+
+impl Window<ReplaySelectionResponse> for ReplaySessionPanel {
+    fn name(&self) -> &'static str {
+        "Replay Session"
+    }
+
+    fn show(&mut self, ctx: &Context, open: &mut bool) -> Option<ReplaySelectionResponse> {
+        let response = egui::Window::new(self.name())
+            .default_width(620.0)
+            .default_height(480.0)
+            .open(open)
+            .resizable([true, true])
+            .show(ctx, |ui| {
+                self.ui(ui)
+            });
+        if let Some(response) = response {
+            response.inner
+        } else {
+            None
+        }
+    }
+}
+
+impl View<ReplaySelectionResponse> for ReplaySessionPanel {
+    fn ui(&mut self, ui: &mut Ui) -> ReplaySelectionResponse {
+        let mut response = ReplaySelectionResponse::default();
+        ui.label("Replay Session");
+        if ui.button("Reload simulation files").clicked() {
+            self.session_records.clear();
+            Self::load_session_records_files(&mut self.session_records);
+        }
+        TableBuilder::new(ui)
+            .column(Column::exact(80.0))
+            .column(Column::exact(120.0))
+            .column(Column::exact(120.0))
+            .column(Column::remainder())
+            .header(14.0, |mut ui| {
+                ui.col(|ui| { ui.strong(""); });
+                ui.col(|ui| { ui.strong("City"); });
+                ui.col(|ui| { ui.strong("Location"); });
+                ui.col(|ui| { ui.strong("Actions"); });
+            }).body(|ui| {
+            ui.rows(20.0, self.session_records.len(), |mut row| {
+                let row_index = row.index();
+                let session_record = unsafe { self.session_records.get_unchecked_mut(row_index) };
+                row.col(|ui| {
+                    if ui.button("Apply on selected characters").clicked() {
+                        response.session_record_selected = Some(session_record.clone());
+                    }
+                });
+                row.col(|ui| { ui.label(&session_record.map_name); });
+                row.col(|ui| { ui.label(format!("{}/{}", &session_record.position.x, &session_record.position.y)); });
+                row.col(|ui| {
+                    ui.label(session_record.format_entries());
+                });
+            });
+        });
+        response
     }
 }
