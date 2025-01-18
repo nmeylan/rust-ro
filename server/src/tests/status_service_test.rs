@@ -340,7 +340,7 @@ mod tests {
             card: &'a str,
             expected_element: Element,
         }
-        ;
+
         let scenario = vec![
             Scenarii { card: "Ghostring_Card", expected_element: Element::Ghost },
             Scenarii { card: "Dokebi_Card", expected_element: Element::Wind },

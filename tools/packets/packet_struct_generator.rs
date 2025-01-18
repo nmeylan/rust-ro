@@ -96,13 +96,13 @@ fn write_packet_parser(file: &mut File, packets: &[PacketStructDefinition]) {
     file.write_all("    let entries: Vec<json_flat_parser::FlatJsonValue<&str>> = json_flat_parser::JSONParser::parse(json, json_flat_parser::ParseOptions::default().keep_object_raw_data(false))?.json;\n".as_bytes()).unwrap();
     file.write_all("    if let Some(packet_id) = entries.iter().find(|entry| entry.pointer.pointer.eq(\"/packet_id\")){\n".as_bytes()).unwrap();
     for packet in ids_with_version.iter() {
-        let packet_id = &packet.id;
+        let packet_id = packet_id(&packet.id.clone());
         file.write_all(format!("    if packetver >= {} && packet_id.value.unwrap().eq(\"{}\") {{\n", packet.version.unwrap(), packet_id).as_bytes()).unwrap();
         file.write_all(format!("        return  {}::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);\n", packet.struct_name).as_bytes()).unwrap();
         file.write_all("    }\n".to_string().as_bytes()).unwrap();
     }
     for packet in ids_without_version.iter() {
-        let packet_id = &packet.id;
+        let packet_id = packet_id(&packet.id.clone());
         file.write_all(format!("    if packet_id.value.unwrap().eq(\"{}\") {{\n", packet_id).as_bytes()).unwrap();
         file.write_all(format!("        return {}::from_json(entries, packetver).map(|p| Box::new(p) as Box<dyn Packet>);\n", packet.struct_name).as_bytes()).unwrap();
         file.write_all("    }\n".to_string().as_bytes()).unwrap();
@@ -389,7 +389,7 @@ fn write_struct_packet_id_method(file: &mut File, ids: &Option<Vec<PacketId>>) {
             } else {
                 file.write_all(format!("        }} else if packetver >= {} {{\n", id.packetver.unwrap()).as_bytes()).unwrap();
             }
-            file.write_all(format!("            \"{}\"\n", id.id).as_bytes()).unwrap();
+            file.write_all(format!("            \"{}\"\n",  packet_id(&id.id)).as_bytes()).unwrap();
         }
         file.write_all("        } else {\n".to_string().as_bytes()).unwrap();
         file.write_all(format!("            \"{}\"\n", packet_id(&ids_without_version[0].id)).as_bytes()).unwrap();

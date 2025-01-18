@@ -13,7 +13,7 @@ mod tests {
     use crate::packets::{Packet, PacketCzRenameMer, PacketCzRequestMove};
     use crate::packets_parser::parse_json;
 
-    // #[test]
+    #[test]
     fn json_serde_when_packet_contains_position() {
         // Given
         let mut request_move = PacketCzRequestMove::new(20120307);
@@ -32,7 +32,7 @@ mod tests {
         // Then
         assert_eq!(request_move_from_json.dest, request_move.dest);
     }
-    // #[test]
+    #[test]
     fn json_serde_when_packet_contains_string() {
         // Given
         let mut rename_mer = PacketCzRenameMer::new(20120307);
