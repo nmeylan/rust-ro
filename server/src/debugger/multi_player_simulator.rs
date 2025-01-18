@@ -16,6 +16,7 @@ pub struct MultiPlayerSimulator {
     sessions: Vec<Arc<Session>>,
     server: Arc<Server>,
     pub sender: SyncSender<SimlatorEvent>,
+    pub session_replaying: Vec<u32>
 }
 
 pub struct SimulatedSession {
@@ -26,6 +27,7 @@ pub struct SimulatedSession {
 enum SimlatorEvent {
     AddSession(Arc<Session>),
     SessionReplay(Arc<Session>, SessionRecord),
+    SessionReplayStop(Arc<Session>),
 }
 
 struct ReplaySession {
@@ -49,7 +51,7 @@ impl MultiPlayerSimulator {
     pub fn new(server: Arc<Server>) -> Self {
         let (sender, receiver) = std::sync::mpsc::sync_channel::<SimlatorEvent>(0);
         Self::simulation_loop(receiver);
-        Self { sessions: vec![], server, sender }
+        Self { sessions: vec![], server, sender, session_replaying: vec![] }
     }
     pub fn simulate(&mut self, char_id: u32) {
         let client_socket = TcpStream::connect(format!("127.0.0.1:{}", GlobalConfigService::instance().config().server.port)).unwrap();
@@ -67,12 +69,25 @@ impl MultiPlayerSimulator {
     pub fn replay_packet(&mut self, session_record: SessionRecord, sessions_index: Vec<usize>) {
         for session_index in sessions_index {
             info!("Will replay session {} for session index {}", &session_record.entries_formatted, session_index);
-            self.sender.send(SimlatorEvent::SessionReplay(self.sessions[session_index].clone(), session_record.clone()));
+            let session = self.sessions[session_index].clone();
+            self.session_replaying.push(session.account_id);
+            self.sender.send(SimlatorEvent::SessionReplay(session, session_record.clone()));
         }
+    }
+
+    pub fn stop_session_replay(&mut self, session_id: u32) {
+        self.sessions.iter().filter(|session| session.account_id == session_id).for_each(|session| {
+            self.sender.send(SimlatorEvent::SessionReplayStop(session.clone()));
+        });
+        self.session_replaying.retain(|replaying_session_id| *replaying_session_id != session_id);
     }
 
     pub fn sessions(&self) -> &Vec<Arc<Session>> {
         &self.sessions
+    }
+
+    pub fn character_simulated(&self, char_id: u32) -> bool {
+        self.sessions.iter().any(|s| s.char_id.unwrap().eq(&char_id))
     }
 
     pub fn simulation_loop(receiver: Receiver<SimlatorEvent>) {
@@ -96,6 +111,9 @@ impl MultiPlayerSimulator {
                         }
                         SimlatorEvent::SessionReplay(session, session_record) => {
                             sessions_with_replay.insert(session, ReplaySession::new(session_record));
+                        }
+                        SimlatorEvent::SessionReplayStop(session) => {
+                            sessions_with_replay.remove(&session);
                         }
                     }
                 }
