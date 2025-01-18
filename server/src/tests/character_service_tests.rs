@@ -679,6 +679,7 @@ mod tests {
         // When
         context.character_service.change_job(&mut character, JobName::Assassin, false);
         // Then
+        context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
         assert_sent_persistence_event!(context, PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "class".to_string(), value: JobName::Assassin.value() as u32, }));
     }
 
