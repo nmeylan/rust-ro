@@ -20,11 +20,11 @@ use models::enums::{EnumWithNumberValue, EnumWithStringValue};
 use std::collections::{BTreeSet, HashMap};
 use std::path::Path;
 use std::sync::Arc;
-use std::{fs, thread};
+use std::{fs, mem, thread};
 #[cfg(target_os = "windows")]
 use winit::platform::windows::EventLoopBuilderExtWindows;
 
-use crate::server::model::session::{SessionRecord, SessionRecordEntry};
+use crate::server::model::session::{Session, SessionRecord, SessionRecordEntry};
 #[cfg(target_os = "linux")]
 use winit::platform::x11::EventLoopBuilderExtX11;
 use winit::raw_window_handle::HasWindowHandle;
@@ -48,6 +48,7 @@ pub struct VisualDebugger {
     simulator_char_list: HashMap<u32, CharSelectModel>,
     simulator_selected_char: u32,
     simulator_selected_rows_for_actions: Vec<usize>,
+    replay_selected_session: Option<SessionRecord>,
 }
 
 #[derive(Default)]
@@ -117,6 +118,7 @@ impl VisualDebugger {
             simulator_char_list,
             simulator_selected_char: 0,
             simulator_selected_rows_for_actions: vec![],
+            replay_selected_session: None,
         };
 
         thread::spawn(|| {
@@ -382,14 +384,16 @@ impl VisualDebugger {
             ComboBox::from_id_salt("simulator_char_select")
                 .selected_text(selected_text).show_ui(ui, |ui| {
                 self.simulator_char_list.iter()
+                    .filter(|(char_id, _)| !self.simulator.character_simulated(**char_id))
                     .for_each(|(char_id, char)| {
                         ui.selectable_value(&mut self.simulator_selected_char, *char_id, format!("{} ({} {}/{})", char.name,
                                                                                                  JobName::from_value(char.class as usize).as_str(), char.base_level, char.job_level));
                     })
             });
 
-            if ui.button("Join game").clicked() {
+            if self.simulator_selected_char > 0 && ui.button("Join game").clicked() {
                 self.simulator.simulate(self.simulator_selected_char);
+                self.simulator_selected_char = 0;
             }
         });
         if let Some(selected_char) = selected_char {
@@ -418,52 +422,77 @@ impl VisualDebugger {
                     });
                 });
             });
-            ui.separator();
-            ui.heading("Running simulation");
-            TableBuilder::new(ui)
-                .column(Column::exact(20.0))
-                .column(Column::exact(180.0))
-                .column(Column::exact(120.0))
-                .column(Column::exact(40.0))
-                .column(Column::exact(120.0))
-                .column(Column::exact(120.0))
-                .header(14.0, |mut ui| {
-                    ui.col(|ui| { ui.strong(""); });
-                    ui.col(|ui| { ui.strong("Name"); });
-                    ui.col(|ui| { ui.strong("Job"); });
-                    ui.col(|ui| { ui.strong("Level"); });
-                    ui.col(|ui| { ui.strong("City"); });
-                    ui.col(|ui| { ui.strong("Location"); });
-                }).body(|ui| {
-                let simulated_sessions = self.simulator.sessions();
-                ui.rows(20.0, simulated_sessions.len(), |mut row| {
-                    let row_index = row.index();
-                    let session = unsafe { simulated_sessions.get_unchecked(row_index) };
-                    if let Some(character) = self.server.state().get_character(session.char_id.unwrap()) {
-                        row.col(|ui| {
-                            let index = self.simulator_selected_rows_for_actions.iter().position(|i| *i == row_index);
-                            let mut is_open = index.is_some();
-                            if ui.checkbox(&mut is_open, "").changed() {
-                                if let Some(index) = index {
-                                    self.simulator_selected_rows_for_actions.remove(index);
-                                } else {
-                                    self.simulator_selected_rows_for_actions.push(row_index);
-                                }
-                            }
-                        });
-                        row.col(|ui| { ui.label(character.name.as_str()); });
-                        row.col(|ui| { ui.label(JobName::from_value(character.get_job() as usize).as_str()); });
-                        row.col(|ui| { ui.label(format!("{}/{}", character.get_base_level(), character.get_job_level())); });
-                        row.col(|ui| { ui.label(character.current_map_name()); });
-                        row.col(|ui| { ui.label(format!("{},{}", character.x, character.y)); });
-                    }
-                });
-            });
-            ui.add_space(10.0);
-            if ui.button("Replay actions").clicked() {
-                Self::set_open(&mut self.open_windows, "Replay Session", true);
-            }
+
         }
+        ui.separator();
+        ui.heading("Running simulation");
+        TableBuilder::new(ui)
+            .column(Column::exact(20.0))
+            .column(Column::exact(180.0))
+            .column(Column::exact(120.0))
+            .column(Column::exact(40.0))
+            .column(Column::exact(120.0))
+            .column(Column::exact(120.0))
+            .column(Column::exact(120.0))
+            .column(Column::remainder())
+            .header(14.0, |mut ui| {
+                ui.col(|ui| { ui.strong(""); });
+                ui.col(|ui| { ui.strong("Name"); });
+                ui.col(|ui| { ui.strong("Job"); });
+                ui.col(|ui| { ui.strong("Level"); });
+                ui.col(|ui| { ui.strong("City"); });
+                ui.col(|ui| { ui.strong("Location"); });
+                ui.col(|ui| { ui.strong("Replaying"); });
+                ui.col(|ui| { ui.strong("Actions"); });
+            }).body(|ui| {
+            let simulated_sessions = self.simulator.sessions();
+            let mut stop_play_session_id = 0;
+            ui.rows(20.0, simulated_sessions.len(), |mut row| {
+                let row_index = row.index();
+                let session = unsafe { simulated_sessions.get_unchecked(row_index) };
+                if let Some(character) = self.server.state().get_character(session.char_id.unwrap()) {
+                    row.col(|ui| {
+                        let index = self.simulator_selected_rows_for_actions.iter().position(|i| *i == row_index);
+                        let mut is_open = index.is_some();
+                        if ui.checkbox(&mut is_open, "").changed() {
+                            if let Some(index) = index {
+                                self.simulator_selected_rows_for_actions.remove(index);
+                            } else {
+                                self.simulator_selected_rows_for_actions.push(row_index);
+                            }
+                        }
+                    });
+                    row.col(|ui| { ui.label(character.name.as_str()); });
+                    row.col(|ui| { ui.label(JobName::from_value(character.get_job() as usize).as_str()); });
+                    row.col(|ui| { ui.label(format!("{}/{}", character.get_base_level(), character.get_job_level())); });
+                    row.col(|ui| { ui.label(character.current_map_name()); });
+                    row.col(|ui| { ui.label(format!("{},{}", character.x, character.y)); });
+                    row.col(|ui| { ui.label(format!("{}", if self.simulator.session_replaying.contains(&session.account_id) { "Yes"} else { "No"} )); });
+                    row.col(|ui| {
+                        if self.simulator.session_replaying.contains(&session.account_id) {
+                            if ui.button("Stop replay session").clicked() {
+                                stop_play_session_id = session.account_id;
+                            }
+                        }
+                    });
+                }
+            });
+            if stop_play_session_id > 0 {
+                self.simulator.stop_session_replay(stop_play_session_id);
+            }
+        });
+        ui.add_space(10.0);
+        if ui.button("Choose session to replay").clicked() {
+            Self::set_open(&mut self.open_windows, "Choose session to replay", true);
+        }
+        ui.horizontal_wrapped(|ui| {
+            if let Some(ref mut session_record) = self.replay_selected_session {
+                if ui.button("Replay session").clicked() {
+                    self.simulator.replay_packet(session_record.clone(), self.simulator_selected_rows_for_actions.clone());
+                }
+                ui.label(session_record.format_entries());
+            }
+        });
     }
     fn windows(&mut self, ctx: &Context) {
         let Self { replay_selection_window, open_windows, .. } = self;
@@ -472,7 +501,8 @@ impl VisualDebugger {
         let response = replay_selection_window.show(ctx, &mut is_open);
         if let Some(response) = response {
             if let Some(session_record) = response.session_record_selected {
-                self.simulator.replay_packet(session_record, self.simulator_selected_rows_for_actions.clone());
+                self.replay_selected_session = Some(session_record);
+                is_open = false;
             }
         }
         Self::set_open(open_windows, replay_selection_window.name(), is_open);
@@ -525,7 +555,7 @@ impl ReplaySessionPanel {
 
 impl Window<ReplaySelectionResponse> for ReplaySessionPanel {
     fn name(&self) -> &'static str {
-        "Replay Session"
+        "Choose session to replay"
     }
 
     fn show(&mut self, ctx: &Context, open: &mut bool) -> Option<ReplaySelectionResponse> {
@@ -548,7 +578,6 @@ impl Window<ReplaySelectionResponse> for ReplaySessionPanel {
 impl View<ReplaySelectionResponse> for ReplaySessionPanel {
     fn ui(&mut self, ui: &mut Ui) -> ReplaySelectionResponse {
         let mut response = ReplaySelectionResponse::default();
-        ui.label("Replay Session");
         if ui.button("Reload simulation files").clicked() {
             self.session_records.clear();
             Self::load_session_records_files(&mut self.session_records);
@@ -568,7 +597,7 @@ impl View<ReplaySelectionResponse> for ReplaySessionPanel {
                 let row_index = row.index();
                 let session_record = unsafe { self.session_records.get_unchecked_mut(row_index) };
                 row.col(|ui| {
-                    if ui.button("Apply on selected characters").clicked() {
+                    if ui.button("Select").clicked() {
                         response.session_record_selected = Some(session_record.clone());
                     }
                 });
