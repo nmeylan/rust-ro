@@ -161,9 +161,10 @@ impl Server {
                         // TODO ensure equip required class
                     }
                     GameEvent::CharacterKillMonster(character_kill_monster) => {
-                        let character = server_state_mut.characters_mut().get_mut(&character_kill_monster.char_id).unwrap();
-                        let map_instance = server_ref.state().get_map_instance(character_kill_monster.map_instance_key.map_name(), character_kill_monster.map_instance_key.map_instance()).unwrap();
-                        server_ref.character_service().character_kill_monster(character, character_kill_monster, map_instance.as_ref());
+                        if let Some(character) = server_state_mut.characters_mut().get_mut(&character_kill_monster.char_id) {
+                            let map_instance = server_ref.state().get_map_instance(character_kill_monster.map_instance_key.map_name(), character_kill_monster.map_instance_key.map_instance()).unwrap();
+                            server_ref.character_service().character_kill_monster(character, character_kill_monster, map_instance.as_ref());
+                        }
                     }
                     GameEvent::CharacterPickUpItem(character_pickup_item) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_pickup_item.char_id).unwrap();
