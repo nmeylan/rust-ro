@@ -41,6 +41,7 @@ packets = { path = "../lib/packets" }
 sql = { path = "../lib/sql" }
 skills = { path = "../lib/skills" }
 models = { path = "../lib/models" }
+log = "0.4.19"
 
 
 [[bin]]
