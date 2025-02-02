@@ -2433,6 +2433,7 @@ dependencies = [
  "futures",
  "hashbrown 0.14.5",
  "lazy_static",
+ "log",
  "md5",
  "metrics",
  "models",

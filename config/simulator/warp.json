@@ -1,0 +1,90 @@
+{
+  "session_id": 2000000,
+  "char_id": 150000,
+  "map_name": "prontera.gat",
+  "position": {
+    "x": 157,
+    "y": 187,
+    "dir": 0
+  },
+  "packetver": 20120307,
+  "entries": [
+    {
+      "time": 1737207603267,
+      "packet_id": "0xf300",
+      "packetver": 20120307,
+      "packet_name": "PacketCzPlayerChat",
+      "data": {
+        "packet_id": "0xf300",
+        "packet_length": 5,
+        "msg": "player : Hello "
+      }
+    },
+    {
+      "time": 1737207604267,
+      "packet_id": "0xf300",
+      "packetver": 20120307,
+      "packet_name": "PacketCzPlayerChat",
+      "data": {
+        "packet_id": "0xf300",
+        "packet_length": 21,
+        "msg": "player : @warp prt_fild06 "
+      }
+    },
+    {
+      "time": 1737207605267,
+      "packet_id": "0xf300",
+      "packetver": 20120307,
+      "packet_name": "PacketCzPlayerChat",
+      "data": {
+        "packet_id": "0xf300",
+        "packet_length": 21,
+        "msg": "player : @warp prt_fild06 "
+      }
+    },
+    {
+      "time": 1737207606267,
+      "packet_id": "0xf300",
+      "packetver": 20120307,
+      "packet_name": "PacketCzPlayerChat",
+      "data": {
+        "packet_id": "0xf300",
+        "packet_length": 21,
+        "msg": "player : @warp prt_fild05 "
+      }
+    },
+    {
+      "time": 1737207607267,
+      "packet_id": "0xf300",
+      "packetver": 20120307,
+      "packet_name": "PacketCzPlayerChat",
+      "data": {
+        "packet_id": "0xf300",
+        "packet_length": 21,
+        "msg": "player : @warp prt_fild05 "
+      }
+    },
+    {
+      "time": 1737207608267,
+      "packet_id": "0xf300",
+      "packetver": 20120307,
+      "packet_name": "PacketCzPlayerChat",
+      "data": {
+        "packet_id": "0xf300",
+        "packet_length": 21,
+        "msg": "player : @warp prt_fild04 "
+      }
+    },
+    {
+      "time": 1737207609267,
+      "packet_id": "0xf300",
+      "packetver": 20120307,
+      "packet_name": "PacketCzPlayerChat",
+      "data": {
+        "packet_id": "0xf300",
+        "packet_length": 21,
+        "msg": "player : @warp prt_fild03\u0000"
+      }
+    }
+  ]
+}

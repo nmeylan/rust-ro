@@ -27,6 +27,7 @@ lazy_static! {
 pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlayerChat) {
     let index_of_colon = packet.msg.find(':').unwrap();
     let command_txt = &packet.msg[index_of_colon + 1..packet.msg.len()].trim();
+    debug!("Received atcommand: {}", command_txt);
     let maybe_captures = COMMAND_REGEX.captures(command_txt);
     if maybe_captures.is_none() {
         return;

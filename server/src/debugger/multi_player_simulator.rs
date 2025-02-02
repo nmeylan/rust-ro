@@ -1,7 +1,8 @@
 use crate::server::model::session::{Session, SessionRecord};
+use crate::server::request_handler::chat::handle_chat;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::Server;
-use packets::packets::{Packet, PacketChSelectChar, PacketCzEnter2};
+use packets::packets::{Packet, PacketChSelectChar, PacketCzEnter2, PacketCzPlayerChat};
 use rand::{thread_rng, RngCore};
 use std::collections::HashMap;
 use std::io::Write;
@@ -16,7 +17,7 @@ pub struct MultiPlayerSimulator {
     sessions: Vec<Arc<Session>>,
     server: Arc<Server>,
     pub sender: SyncSender<SimlatorEvent>,
-    pub session_replaying: Vec<u32>
+    pub session_replaying: Vec<u32>,
 }
 
 pub struct SimulatedSession {
@@ -26,20 +27,22 @@ pub struct SimulatedSession {
 }
 enum SimlatorEvent {
     AddSession(Arc<Session>),
-    SessionReplay(Arc<Session>, SessionRecord),
+    SessionReplay(Arc<Session>, SessionRecord, String),
     SessionReplayStop(Arc<Session>),
 }
 
 struct ReplaySession {
     session_record: SessionRecord,
+    char_name: String,
     current_entry: usize,
     next_entry_at: u128,
 }
 
 impl ReplaySession {
-    pub fn new(session_record: SessionRecord) -> Self {
+    pub fn new(session_record: SessionRecord, char_name: String) -> Self {
         Self {
             session_record,
+            char_name,
             current_entry: 0,
             next_entry_at: 0,
         }
@@ -71,7 +74,8 @@ impl MultiPlayerSimulator {
             info!("Will replay session {} for session index {}", &session_record.entries_formatted, session_index);
             let session = self.sessions[session_index].clone();
             self.session_replaying.push(session.account_id);
-            self.sender.send(SimlatorEvent::SessionReplay(session, session_record.clone()));
+            let char_i = session.char_id.unwrap();
+            self.sender.send(SimlatorEvent::SessionReplay(session, session_record.clone(), self.server.state().characters().get(&char_i).as_ref().unwrap().name.clone()));
         }
     }
 
@@ -109,8 +113,8 @@ impl MultiPlayerSimulator {
                             packet.fill_raw();
                             session.map_server_socket.as_ref().unwrap().write().unwrap().write_all(packet.raw().as_slice());
                         }
-                        SimlatorEvent::SessionReplay(session, session_record) => {
-                            sessions_with_replay.insert(session, ReplaySession::new(session_record));
+                        SimlatorEvent::SessionReplay(session, session_record, char_name) => {
+                            sessions_with_replay.insert(session, ReplaySession::new(session_record, char_name));
                         }
                         SimlatorEvent::SessionReplayStop(session) => {
                             sessions_with_replay.remove(&session);
@@ -123,8 +127,19 @@ impl MultiPlayerSimulator {
                         let mut entries_guard = replay.session_record.entries.lock().unwrap();
                         if let Some(entry) = entries_guard.get_mut(replay.current_entry) {
                             let mut packet = entry.packet();
-                            debug!("Simulator - Sending packet {} - {}", packet.name(), replay.current_entry);
-                            session.map_server_socket.as_ref().unwrap().write().unwrap().write_all(packet.raw().as_slice());
+                            if packet.as_any().downcast_ref::<PacketCzPlayerChat>().is_some() {
+                                let orig_packet_player_chat = cast!(packet, PacketCzPlayerChat);
+                                let mut packet_player_chat = PacketCzPlayerChat::new(0);
+                                let msg = orig_packet_player_chat.msg.replace("player :", format!("{} :", replay.char_name).as_str());
+                                packet_player_chat.set_packet_length((PacketCzPlayerChat::base_len(0) + msg.len()) as i16);
+                                packet_player_chat.set_msg(msg);
+                                packet_player_chat.fill_raw();
+                                debug!("Simulator - Sending packet {} - {}", packet_player_chat.name(), replay.current_entry);
+                                session.map_server_socket.as_ref().unwrap().write().unwrap().write_all(packet_player_chat.raw().as_slice());
+                            } else {
+                                debug!("Simulator - Sending packet {} - {}", packet.name(), replay.current_entry);
+                                session.map_server_socket.as_ref().unwrap().write().unwrap().write_all(packet.raw().as_slice());
+                            }
                         }
                         if let Some(entry) = entries_guard.get(replay.current_entry) {
                             let mut next_entry = replay.current_entry + 1;
