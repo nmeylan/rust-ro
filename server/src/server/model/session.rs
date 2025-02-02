@@ -55,8 +55,9 @@ pub struct Position {
     dir: u16,
 }
 
-const PACKET_TO_RECORDS: &'static [&'static str; 1] = &[
-    "PacketCzRequestMove"
+const PACKET_TO_RECORDS: &'static [&'static str; 2] = &[
+    "PacketCzRequestMove",
+    "PacketCzPlayerChat"
 ];
 impl SessionRecord {
     pub fn new(character: &Character, packetver: u32) -> Self {
@@ -73,7 +74,9 @@ impl SessionRecord {
 
     pub fn record(&self, tick: u128, packet_id: String, packet_name: String, packet: &dyn Packet) {
         if PACKET_TO_RECORDS.contains(&packet_name.as_str()) {
-            self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, packet_id, packetver: self.packetver, packet_name, data: RawValue::from_string(packet.to_json(self.packetver)).unwrap(), packet: None });
+            let packet_to_json = packet.to_json(self.packetver);
+            debug!("Recording {}", packet_to_json);
+            self.entries.lock().unwrap().push(SessionRecordEntry { time: tick, packet_id, packetver: self.packetver, packet_name, data: RawValue::from_string(packet_to_json).unwrap(), packet: None });
         } else {
             debug!("Will not record packet with name {}", packet_name);
         }

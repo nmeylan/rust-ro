@@ -666,7 +666,7 @@ fn struct_impl_field_value(field: &StructField) -> String {
             String::from("buffer[offset] == 1")
         }
         "String" => {
-            "String::from_utf8_lossy(&buffer[offset..buffer.len()]).to_string()".to_string()
+            "String::from_utf8_lossy(&buffer[offset..(buffer.len() - 1)]).to_string()".to_string()
         }
         "Array" => {
             let mut array_block = " {\n".to_string();
