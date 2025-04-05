@@ -230,7 +230,7 @@ impl CharacterService {
         } else {
             6000
         };
-        if tick - character.last_moved_at >= delay && tick - character.last_regen_hp_at >= delay {
+        if tick - character.last_moved_at >= delay && tick - character.last_regen_hp_at >= delay && character_status.hp() < character_status.max_hp() {
             // var HPR = Math.max( 1, Math.floor(MAX_HP / 200) );
             // HPR += Math.floor( VIT / 5 );
             // HPR = Math.floor( HPR * (1 + HPR_MOD * 0.01) );
@@ -244,7 +244,39 @@ impl CharacterService {
             packet_status_hp_change.set_count(hp as i32);
             packet_status_hp_change.fill_raw();
             self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_status_hp_change]))))
-                .unwrap_or_else(|_| error!("Failed to send notification packet_status_change(status update) to client"));
+                .unwrap_or_else(|_| error!("Failed to send notification packet_status_change(hp regen) to client"));
+        }
+    }
+
+    pub fn regen_sp(&self, character: &mut Character, tick: u128) {
+        let character_status = self.status_service.to_snapshot_cached(&character.status, tick);
+        let delay = if character.sit {
+            4000
+        } else {
+            8000
+        };
+        if tick - character.last_moved_at >= delay && tick - character.last_regen_sp_at >= delay && character_status.sp() < character_status.max_sp() {
+            // var SPR = 1;
+            // SPR += Math.floor( MAX_SP / 100 );
+            // SPR += Math.floor( INT / 6 );
+            // if (INT >= 120) {
+            //  SPR += Math.floor(INT / 2 - 56);
+            // }
+            // SPR = Math.floor( SPR * (1 + SPR_MOD * 0.01) );
+            let mut sp_regen = 1 + (character_status.max_sp() as f32 / 100.0).floor() as u32 + (character_status.int() as f32 / 6.0).floor() as u32;
+            if (character_status.int() > 120) {
+                sp_regen += ((character_status.int() as f32 / 2.0) - 56.0).floor() as u32;
+            }
+            // TODO sp_regen bonus
+            let sp = character_status.sp() + sp_regen;
+            character.status.set_sp(sp);
+            character.last_regen_sp_at = tick;
+            let mut packet_status_sp_change = PacketZcParChange::new(self.configuration_service.packetver());
+            packet_status_sp_change.set_var_id(StatusTypes::Sp.value() as u16);
+            packet_status_sp_change.set_count(sp as i32);
+            packet_status_sp_change.fill_raw();
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_status_sp_change]))))
+                .unwrap_or_else(|_| error!("Failed to send notification packet_status_change(sp regen) to client"));
         }
     }
 
