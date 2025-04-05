@@ -236,6 +236,7 @@ impl Server {
             }
             server_ref.server_service.character_attack(server_ref.state(), tick, character);
             server_ref.server_service.character_use_skill(server_ref.state(), tick, character);
+            server_ref.character_service().regen_hp(character, tick);
         }
         for (_, map) in server_ref.state().map_instances().iter() {
             for instance in map.iter() {

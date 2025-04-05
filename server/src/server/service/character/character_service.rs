@@ -189,6 +189,31 @@ impl CharacterService {
             .unwrap_or_else(|_| error!("Failed to send notification packet_status_change(status update) to client"));
     }
 
+    pub fn regen_hp(&self, character: &mut Character, tick: u128) {
+        let character_status = self.status_service.to_snapshot_cached(&character.status, tick);
+        let delay = if character.sit {
+            3000
+        } else {
+            6000
+        };
+        if tick - character.last_moved_at >= delay && tick - character.last_regen_hp_at >= delay {
+            // var HPR = Math.max( 1, Math.floor(MAX_HP / 200) );
+            // HPR += Math.floor( VIT / 5 );
+            // HPR = Math.floor( HPR * (1 + HPR_MOD * 0.01) );
+            let hp_regen = 1.0_f32.max((character_status.max_hp() as f32 / 200.0).floor())  as u32 + (character_status.vit() as f32 / 5.0).floor() as u32;
+            // TODO hp_regen bonus
+            let hp = character_status.hp() + hp_regen;
+            character.status.set_hp(hp);
+            character.last_regen_hp_at = tick;
+            let mut packet_status_hp_change = PacketZcParChange::new(self.configuration_service.packetver());
+            packet_status_hp_change.set_var_id(StatusTypes::Hp.value() as u16);
+            packet_status_hp_change.set_count(hp as i32);
+            packet_status_hp_change.fill_raw();
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_status_hp_change]))))
+                .unwrap_or_else(|_| error!("Failed to send notification packet_status_change(status update) to client"));
+        }
+    }
+
     pub async fn save_characters_state(&self, characters: Vec<&Character>) {
         self.repository.characters_update(characters.iter().map(|c| &c.status).collect(),
                                           characters.iter().map(|c| c.char_id as i32).collect(),

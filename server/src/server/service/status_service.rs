@@ -37,6 +37,11 @@ impl StatusService {
             SERVICE_INSTANCE = Some(StatusService::new(configuration_service, item_script_vm));
         });
     }
+
+    #[inline(always)]
+    pub fn to_snapshot_cached(&self, status: &Status, tick: u128) -> StatusSnapshot {
+        self.to_snapshot(status)
+    }
     //#[metrics::elapsed]
     pub fn to_snapshot(&self, status: &Status) -> StatusSnapshot {
         let mut snapshot = StatusSnapshot::_from(status);

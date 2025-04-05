@@ -1,24 +1,24 @@
 use std::collections::HashSet;
 
 
-use std::sync::{Mutex};
+use std::sync::Mutex;
 
 use accessor::Setters;
 
-use models::enums::item::{ItemType};
+use models::enums::item::ItemType;
 use models::enums::look::LookType;
 use models::item::EquippedItem;
 
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::server::model::action::{Attack, SkillInUse};
+use crate::server::model::hotkey::Hotkey;
+use crate::server::model::map_instance::MapInstanceKey;
+use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
 use crate::server::model::movement::{Movable, Movement};
-use crate::server::model::map_instance::{MapInstanceKey};
+use crate::server::script::ScriptGlobalVariableStore;
 use models::position::Position;
 use models::status::Status;
 use skills::Skill;
-use crate::server::model::hotkey::Hotkey;
-use crate::server::model::map_item::{MapItem, MapItemSnapshot, MapItemType, ToMapItem, ToMapItemSnapshot};
-use crate::server::script::ScriptGlobalVariableStore;
 
 
 /// Character state
@@ -61,6 +61,9 @@ pub struct Character {
     pub script_variable_store: Mutex<ScriptGlobalVariableStore>,
 
     pub last_moved_at: u128,
+    pub last_regen_hp_at: u128,
+    pub last_regen_sp_at: u128,
+    pub sit: bool,
 
     pub hotkeys: Vec<Hotkey>,
     // 1 male, 0 female
@@ -82,6 +85,31 @@ impl Movable for Character {
 }
 
 impl Character {
+    pub fn new(name: String, char_id: u32, account_id: u32, status: Status, x: u16, y: u16, dir: u16, last_map: String, sex: u8) -> Self {
+        Self {
+            name,
+            char_id,
+            account_id,
+            status,
+            map_instance_key: MapInstanceKey::new(last_map, 0),
+            loaded_from_client_side: false,
+            x,
+            y,
+            dir,
+            movements: vec![],
+            attack: None,
+            skill_in_use: None,
+            inventory: vec![],
+            map_view: Default::default(),
+            script_variable_store: Default::default(),
+            last_moved_at: 0,
+            last_regen_hp_at: 0,
+            last_regen_sp_at: 0,
+            sit: false,
+            hotkeys: vec![],
+            sex,
+        }
+    }
     pub fn x(&self) -> u16 {
         self.x
     }

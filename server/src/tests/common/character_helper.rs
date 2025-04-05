@@ -2,11 +2,9 @@ use models::enums::class::JobName;
 use models::enums::item::EquipmentLocation;
 use models::enums::EnumWithMaskValueU64;
 use rand::RngCore;
-use std::sync::Mutex;
 
 
 use crate::repository::model::item_model::{DBItemType, InventoryItemModel, ItemModel};
-use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::state::character::Character;
 use models::enums::EnumWithNumberValue;
@@ -14,57 +12,44 @@ use models::status::{Look, Status};
 use models::status_bonus::{StatusBonuses, TemporaryStatusBonuses};
 
 pub fn create_character() -> Character {
-    Character {
-        name: "Walkiry".to_string(),
-        status: Status {
-            job: JobName::Novice.value() as u32,
-            hp: 0,
-            sp: 0,
-            max_hp: 0,
-            max_sp: 0,
-            str: 1,
-            agi: 1,
-            vit: 1,
-            int: 1,
-            dex: 1,
-            luk: 1,
-            speed: 150,
-            look: Some(Look::default()),
-            zeny: 0,
-            base_level: 1,
-            job_level: 1,
-            status_point: 48,
-            skill_point: 0,
-            base_exp: 0,
-            job_exp: 0,
-            state: 0,
-            size: Default::default(),
-            is_male: true,
-            weapons: vec![],
-            equipments: vec![],
-            ammo: None,
-            known_skills: vec![],
-            effects: vec![],
-            equipment_bonuses: StatusBonuses::default(),
-            temporary_bonuses: TemporaryStatusBonuses::default(),
-        },
-        char_id: 150000,
-        account_id: 2000000,
-        map_instance_key: MapInstanceKey::new("Prontera".to_string(), 0),
-        loaded_from_client_side: true,
-        x: 156,
-        y: 179,
-        dir: 0,
-        movements: vec![],
-        attack: None,
-        skill_in_use: None,
-        inventory: vec![],
-        map_view: Default::default(),
-        script_variable_store: Mutex::new(Default::default()),
-        last_moved_at: 0,
-        hotkeys: vec![],
-        sex: 1,
-    }
+    let status = Status {
+        job: JobName::Novice.value() as u32,
+        hp: 0,
+        sp: 0,
+        max_hp: 0,
+        max_sp: 0,
+        str: 1,
+        agi: 1,
+        vit: 1,
+        int: 1,
+        dex: 1,
+        luk: 1,
+        speed: 150,
+        look: Some(Look::default()),
+        zeny: 0,
+        base_level: 1,
+        job_level: 1,
+        status_point: 48,
+        skill_point: 0,
+        base_exp: 0,
+        job_exp: 0,
+        state: 0,
+        size: Default::default(),
+        is_male: true,
+        weapons: vec![],
+        equipments: vec![],
+        ammo: None,
+        known_skills: vec![],
+        effects: vec![],
+        equipment_bonuses: StatusBonuses::default(),
+        temporary_bonuses: TemporaryStatusBonuses::default(),
+    };
+     Character::new(
+         "Walkiry".to_string(), 150000, 2000000,
+        status,
+         156, 179, 0,
+         "Prontera".to_string(),1
+    )
 }
 
 
