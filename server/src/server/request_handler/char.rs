@@ -245,26 +245,12 @@ pub fn handle_select_char(server: &Server, context: Request) {
         last_map = "prontera".to_string();
     }
 
-    let character = Character {
-        name: char_model.name.clone(),
-        char_id,
-        status: StatusFromDb::from_char_model(&char_model, &server.configuration.game, skills),
-        loaded_from_client_side: false,
-        x: last_x,
-        y: last_y,
-        dir: 0,
-        movements: vec![],
-        attack: None,
-        skill_in_use: None,
-        inventory: vec![], // todo load from db
-        map_view: HashSet::new(),
-        script_variable_store: Mutex::new(ScriptGlobalVariableStore::default()),
-        account_id: session_id,
-        map_instance_key: MapInstanceKey::new(last_map, 0),
-        last_moved_at: 0,
-        hotkeys,
-        sex: if char_model.sex == "M" { 1 } else { 0 },
-    };
+    let character = Character::new(
+        char_model.name.clone(), char_id, session_id,
+        StatusFromDb::from_char_model(&char_model, &server.configuration.game, skills),
+        last_x, last_y, 0,
+        last_map,if char_model.sex == "M" { 1 } else { 0 }
+    );
     let char_id = character.char_id;
     let mut map_name = [0 as char; 16];
     character.current_map_name().fill_char_array(map_name.as_mut());
