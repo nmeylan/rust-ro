@@ -16,10 +16,9 @@ use crate::server::model::request::Request;
 use crate::server::script::Value;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::Server;
+use crate::util::packet::chain_packets;
 use configuration::configuration::CityConfig;
 use packets::packets::Packet;
-
-
 
 lazy_static! {
     static ref COMMAND_REGEX: Regex = Regex::new(r"^([@#!])([^\s]*)\s?(.*)?").unwrap();
@@ -82,7 +81,7 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             let result = handle_set_job(server, context.session().char_id(), args);
             packet_zc_notify_playerchat.set_msg(result);
         }
-        "rates" => {
+        "rate" | "rates" => {
             let result = handle_rates(server);
             packet_zc_notify_playerchat.set_msg(result);
         }
@@ -269,7 +268,7 @@ pub fn handle_set_job(server: &Server, char_id: u32, args: Vec::<&str>) -> Strin
 
 pub fn handle_rates(server: &Server) -> String {
     let mut msg = String::new();
-    writeln!(msg, "Experience rates: Base {:.2}x / Job {:.2}", server.configuration.game.base_exp_rate,server.configuration.game.job_exp_rate).unwrap();
+    writeln!(msg, "Experience rates: Base {:.2}x / Job {:.2}x", server.configuration.game.base_exp_rate,server.configuration.game.job_exp_rate).unwrap();
     writeln!(msg, "Normal Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate, server.configuration.game.drop_rate_card).unwrap();
     writeln!(msg, "Boss  Drop Rates: Common {:.2}x / Healing {:.2}x / Usable {:.2}x Equipment {:.2}x / Card {:.2}x", server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_mvp, server.configuration.game.drop_rate_card ).unwrap();
     msg
