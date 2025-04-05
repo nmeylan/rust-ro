@@ -44,12 +44,14 @@ pub fn create_character() -> Character {
         equipment_bonuses: StatusBonuses::default(),
         temporary_bonuses: TemporaryStatusBonuses::default(),
     };
-     Character::new(
+     let mut character = Character::new(
          "Walkiry".to_string(), 150000, 2000000,
         status,
          156, 179, 0,
          "Prontera".to_string(),1
-    )
+    );
+    character.loaded_from_client_side = true;
+    character
 }
 
 

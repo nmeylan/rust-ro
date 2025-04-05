@@ -1494,4 +1494,94 @@ mod tests {
         assert_eq!(character_state.status.base_exp, 110);
         assert_eq!(character_state.status.job_exp, 65);
     }
+
+    #[test]
+    fn character_hp_regen() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character_state = create_character();
+        character_state.status.max_hp = 100;
+        character_state.status.hp = 1;
+        character_state.sit = false;
+        // When, Stand, last moved is before 6sec, should not regen
+        character_state.last_moved_at = 8000;
+        character_state.last_regen_hp_at = 1000;
+        context.character_service.regen_hp(&mut character_state, 9000);
+        assert_eq!(character_state.status.hp, 1);
+        // When, Stand, last hp regen is before 6sec, should not regen
+        character_state.last_moved_at = 1000;
+        character_state.last_regen_hp_at = 8000;
+        context.character_service.regen_hp(&mut character_state, 2000);
+        assert_eq!(character_state.status.hp, 1);
+        // When, Stand, last hp regen and last move is greater than 6sec, should regen
+        character_state.last_moved_at = 8000;
+        character_state.last_regen_hp_at = 8000;
+        context.character_service.regen_hp(&mut character_state, 14200);
+        assert_eq!(character_state.status.hp, 2);
+        // When, Stand, last hp regen and last move is greater than 3sec, should not regen
+        character_state.status.hp = 1;
+        character_state.last_moved_at = 8000;
+        character_state.last_regen_hp_at = 8000;
+        context.character_service.regen_hp(&mut character_state, 11200);
+        assert_eq!(character_state.status.hp, 1);
+        // When, Sit, last hp regen and last move is greater than 3sec, should regen
+        character_state.status.hp = 1;
+        character_state.sit = true;
+        character_state.last_moved_at = 8000;
+        character_state.last_regen_hp_at = 8000;
+        context.character_service.regen_hp(&mut character_state, 11200);
+        assert_eq!(character_state.status.hp, 2);
+        // When, hp is already at max
+        character_state.status.hp = 100;
+        character_state.sit = true;
+        character_state.last_moved_at = 8000;
+        character_state.last_regen_hp_at = 8000;
+        context.character_service.regen_hp(&mut character_state, 11200);
+        assert_eq!(character_state.status.hp, 100);
+    }
+
+    #[test]
+    fn character_sp_regen() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character_state = create_character();
+        character_state.status.max_sp = 100;
+        character_state.status.sp = 1;
+        character_state.sit = false;
+        // When, Stand, last moved is before 8sec, should not regen
+        character_state.last_moved_at = 8000;
+        character_state.last_regen_sp_at = 1000;
+        context.character_service.regen_sp(&mut character_state, 9000);
+        assert_eq!(character_state.status.sp, 1);
+        // When, Stand, last sp regen is before 8sec, should not regen
+        character_state.last_moved_at = 1000;
+        character_state.last_regen_sp_at = 8000;
+        context.character_service.regen_sp(&mut character_state, 2000);
+        assert_eq!(character_state.status.sp, 1);
+        // When, Stand, last sp regen and last move is greater than 8sec, should regen
+        character_state.last_moved_at = 8000;
+        character_state.last_regen_sp_at = 8000;
+        context.character_service.regen_sp(&mut character_state, 16200);
+        assert_eq!(character_state.status.sp, 2);
+        // When, Stand, last sp regen and last move is greater than 4sec, should not regen
+        character_state.status.sp = 1;
+        character_state.last_moved_at = 8000;
+        character_state.last_regen_sp_at = 8000;
+        context.character_service.regen_sp(&mut character_state, 12200);
+        assert_eq!(character_state.status.sp, 1);
+        // When, Sit, last sp regen and last move is greater than 4sec, should regen
+        character_state.status.sp = 1;
+        character_state.sit = true;
+        character_state.last_moved_at = 8000;
+        character_state.last_regen_sp_at = 8000;
+        context.character_service.regen_sp(&mut character_state, 12200);
+        assert_eq!(character_state.status.sp, 2);
+        // When, sp is already at max
+        character_state.status.sp = 100;
+        character_state.sit = true;
+        character_state.last_moved_at = 8000;
+        character_state.last_regen_sp_at = 8000;
+        context.character_service.regen_sp(&mut character_state, 12200);
+        assert_eq!(character_state.status.sp, 100);
+    }
 }
