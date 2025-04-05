@@ -1,12 +1,13 @@
+use models::enums::action::ActionType;
+use models::enums::class::{JobName, JOB_BASE_MASK};
+use models::enums::client_effect_icon::ClientEffectIcon;
+use models::enums::effect::Effect;
 use std::collections::HashSet;
 use std::io;
 use std::io::Write;
 use std::sync::mpsc::SyncSender;
 use std::sync::Arc;
 use tokio::runtime::Runtime;
-
-use models::enums::class::{JobName, JOB_BASE_MASK};
-use models::enums::effect::Effect;
 
 use models::enums::look::LookType;
 use models::enums::status::StatusTypes;
@@ -18,7 +19,7 @@ use models::enums::EnumWithNumberValue;
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::CharacterRepository;
 use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny, GameEvent};
-use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcMsgStateChange2, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyStandentry5, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcShortcutKeyListV2, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, ShortCutKey};
+use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcMsgStateChange, PacketZcMsgStateChange2, PacketZcNotifyAct, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyStandentry5, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcShortcutKeyListV2, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, ShortCutKey};
 
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::path::manhattan_distance;
@@ -187,6 +188,39 @@ impl CharacterService {
         packet_status_sp_change.fill_raw();
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_status_hp_change, &packet_status_sp_change]))))
             .unwrap_or_else(|_| error!("Failed to send notification packet_status_change(status update) to client"));
+    }
+
+    pub fn sit(&self, character: &mut Character) {
+        character.sit = true;
+        let mut packet_zc_msg_state_change = PacketZcMsgStateChange2::new(self.configuration_service.packetver());
+        packet_zc_msg_state_change.set_aid(character.char_id);
+        packet_zc_msg_state_change.set_index(ClientEffectIcon::Sit as i16);
+        packet_zc_msg_state_change.set_remain_ms(9999);
+        packet_zc_msg_state_change.set_state(true);
+        packet_zc_msg_state_change.fill_raw();
+        let mut packet_zc_notify_act3 = PacketZcNotifyAct::new(self.configuration_service.packetver());
+        packet_zc_notify_act3.set_target_gid(character.char_id);
+        packet_zc_notify_act3.set_action(ActionType::Sit.value() as u8);
+        packet_zc_notify_act3.set_gid(character.char_id);
+        packet_zc_notify_act3.fill_raw();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_zc_msg_state_change, &packet_zc_notify_act3]))))
+            .unwrap_or_else(|_| error!("Failed to send notification PacketZcMsgStateChange2(sit) to client"));
+    }
+
+    pub fn stand(&self, character: &mut Character) {
+        character.sit = false;
+        let mut packet_zc_msg_state_change = PacketZcMsgStateChange::new(self.configuration_service.packetver());
+        packet_zc_msg_state_change.set_aid(character.char_id);
+        packet_zc_msg_state_change.set_index(ClientEffectIcon::Sit as i16);
+        packet_zc_msg_state_change.set_state(false);
+        packet_zc_msg_state_change.fill_raw();
+        let mut packet_zc_notify_act3 = PacketZcNotifyAct::new(self.configuration_service.packetver());
+        packet_zc_notify_act3.set_target_gid(character.char_id);
+        packet_zc_notify_act3.set_action(ActionType::Stand.value() as u8);
+        packet_zc_notify_act3.set_gid(character.char_id);
+        packet_zc_notify_act3.fill_raw();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, chain_packets(vec![&packet_zc_msg_state_change, &packet_zc_notify_act3]))))
+            .unwrap_or_else(|_| error!("Failed to send notification PacketZcMsgStateChange(stand) to client"));
     }
 
     pub fn regen_hp(&self, character: &mut Character, tick: u128) {
