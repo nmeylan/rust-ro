@@ -26,8 +26,12 @@ pub fn handle_action(server: &Server, context: Request) {
     match action_type {
         ActionType::Attack => {}
         ActionType::Itempickup => {}
-        ActionType::Sit => {}
-        ActionType::Stand => {}
+        ActionType::Sit => {
+            server.add_to_next_tick(GameEvent::CharacterSit(char_id))
+        }
+        ActionType::Stand => {
+            server.add_to_next_tick(GameEvent::CharacterStand(char_id))
+        }
         ActionType::AttackNomotion => {}
         ActionType::Splash => {}
         ActionType::Skill => {}

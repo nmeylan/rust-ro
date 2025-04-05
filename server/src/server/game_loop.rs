@@ -226,6 +226,14 @@ impl Server {
                         let status = StatusService::instance().to_snapshot(&character.status);
                         server_ref.character_service().update_hp_sp(character, status.max_hp(), status.max_sp());
                     }
+                    GameEvent::CharacterSit(char_id) => {
+                        let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+                        server_ref.character_service().sit(character);
+                    }
+                    GameEvent::CharacterStand(char_id) => {
+                        let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+                        server_ref.character_service().stand(character);
+                    }
                 }
             }
         }

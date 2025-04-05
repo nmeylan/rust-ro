@@ -901,6 +901,8 @@ pub enum ClientEffectIcon {
     MtfCridamage,
     #[value = 629]
     ReuseLimitMtf,
+    #[value = 622]
+    Sit,
     #[value = 638]
     SetNumDef,
     #[value = 639]

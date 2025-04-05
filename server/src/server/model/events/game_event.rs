@@ -28,6 +28,8 @@ pub enum GameEvent {
     CharacterEquipItem(CharacterEquipItem),
     CharacterTakeoffEquipItem(CharacterTakeoffEquipItem),
     CharacterAttack(CharacterAttack),
+    CharacterSit(u32),
+    CharacterStand(u32),
     CharacterUseSkill(CharacterUseSkill),
     CharacterDamage(Damage),
     CharacterUpdateClientSideStats(u32),
