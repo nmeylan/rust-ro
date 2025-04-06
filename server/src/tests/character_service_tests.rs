@@ -633,6 +633,22 @@ mod tests {
     }
 
     #[test]
+    fn test_change_job_should_set_job_level_to_1_when_not_reset_skills() {
+        // Given
+        let context = before_each(mocked_repository());
+        let mut character = create_character();
+        character.status.job_level = 49;
+        character.status.skill_point = 10;
+        // When
+        context.character_service.change_job(&mut character, JobName::Assassin, false);
+        // Then
+        assert_eq!(character.status.job_level, 1);
+        assert_eq!(character.status.skill_point, 10);
+        context.test_context.increment_latch().wait_expected_count_with_timeout(5, Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcSkillinfoList::packet_id(GlobalConfigService::instance().packetver()), 1)]));
+    }
+
+    #[test]
     fn test_change_job_should_reset_skills_and_reset_skill_level_when_should_reset_is_true() {
         // Given
         let mut context = before_each(mocked_repository());

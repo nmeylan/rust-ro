@@ -1,6 +1,6 @@
 use std::mem;
-use std::sync::{Arc, Once, RwLock};
 use std::sync::mpsc::SyncSender;
+use std::sync::{Arc, Once, RwLock};
 
 use rathena_script_lang_interpreter::lang::call_frame::CallFrame;
 use rathena_script_lang_interpreter::lang::compiler::CompilationDetail;
@@ -8,7 +8,7 @@ use rathena_script_lang_interpreter::lang::thread::Thread;
 use rathena_script_lang_interpreter::lang::value;
 use rathena_script_lang_interpreter::lang::value::Native;
 use rathena_script_lang_interpreter::lang::vm::NativeMethodHandler;
-use sprintf::{Printf, vsprintf};
+use sprintf::{vsprintf, Printf};
 use tokio::runtime::Runtime;
 use tokio::sync::mpsc::Receiver;
 
@@ -19,24 +19,20 @@ use models::enums::EnumWithNumberValue;
 use models::enums::EnumWithStringValue;
 
 
-use packets::packets::{Packet};
+use packets::packets::Packet;
 
 
 use crate::server::model::events::client_notification::{CharNotification, Notification};
-use crate::server::model::events::game_event::{CharacterLook};
 use crate::server::model::events::game_event::GameEvent::CharacterUpdateLook;
+use crate::server::model::events::game_event::{CharacterChangeJob, CharacterLook, GameEvent};
 use crate::server::script::constant::{get_battle_flag, load_constant};
 use crate::server::Server;
-
 
 
 use crate::server::request_handler::atcommand::handle_set_job;
 
 
-
 use crate::server::service::global_config_service::GlobalConfigService;
-
-
 
 
 mod global_variable_handler;
@@ -353,7 +349,12 @@ impl NativeMethodHandler for PlayerScriptHandler {
             execution_thread.push_constant_on_stack(value::Value::new_number(0));
         } else if native.name.eq("jobchange") {
             let job = params[0].number_value().expect("Expected jobchange argument 0 to be a number");
-            handle_set_job(self.server.clone().as_ref(), execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID), vec![job.to_string().as_ref()]);
+            let char_id = execution_thread.get_constant(VM_THREAD_CONSTANT_INDEX_CHAR_ID);
+            if let Ok(job) = JobName::try_from_value(job as usize) {
+                self.server.add_to_next_tick(GameEvent::CharacterChangeJob(CharacterChangeJob { char_id, job, should_reset_skills: false }));
+            } else {
+                error!("Cannot find job with id {}", job);
+            }
         } else {
             error!("Native function \"{}\" not handled yet!", native.name);
         }
