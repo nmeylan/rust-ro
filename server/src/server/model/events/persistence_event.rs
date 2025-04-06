@@ -10,6 +10,7 @@ pub enum PersistenceEvent {
     UpdateEquippedItems(Vec<InventoryItemModel>),
     ResetSkills(ResetSkills),
     IncreaseSkillLevel(IncreaseSkillLevel),
+    Shutdown,
 }
 #[derive(Debug, PartialEq)]
 pub struct SavePositionUpdate {
