@@ -94,7 +94,7 @@ hu_fild06,0,0	monster	Holden	1628,50
 hu_fild06,0,0	monster	Caramel	1103,20
 hu_fild06,0,0	monster	Poring	1002,10
 hu_fild06,0,0	monster	Poporing	1031,10
-hu_fild06,0,0	monster	Metaling	1613,10
+hu_fild06,0,0	monster	Metaling	1613,40
 hu_fild06,234,251,14,120	monster	Green Plant	1080,10,600000
 hu_fild06,234,251,14,120	monster	Yellow Plant	1081,10,600000
 

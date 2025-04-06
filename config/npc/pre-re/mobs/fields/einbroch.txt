@@ -35,7 +35,7 @@ ein_fild03,0,0	monster	Green Plant	1080,15,60000,30000
 // ein_fild04 - Einbroch Field
 //==================================================
 ein_fild04,0,0	monster	Metaling	1613,50
-ein_fild04,0,0	monster	Geographer	1368,30,60000,30000
+ein_fild04,0,0	monster	Geographer	1368,30,30000,15000
 ein_fild04,0,0	monster	Holden	1628,5
 ein_fild04,200,295,125,65	monster	Geographer	1368,40,60000,30000
 ein_fild04,125,135,40,40	monster	Geographer	1368,5,60000,30000
