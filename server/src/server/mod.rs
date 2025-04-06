@@ -127,7 +127,7 @@ impl Server {
             server_service,
             shutdown: AtomicBool::new(false),
             recording_sessions: MyUnsafeCell::new(vec![]),
-            runtime
+            runtime,
         }
     }
 
@@ -141,7 +141,7 @@ impl Server {
             server_service,
             shutdown: AtomicBool::new(false),
             recording_sessions: MyUnsafeCell::new(vec![]),
-            runtime
+            runtime,
         }
     }
 
@@ -295,6 +295,7 @@ impl Server {
                                 match tcp_stream.read(&mut buffer) {
                                     Ok(bytes_read) => {
                                         if bytes_read == 0 {
+                                            info!("shutdown thread client");
                                             tcp_stream.shutdown(Shutdown::Both).expect("Unable to shutdown incoming socket. Shutdown was done because remote socket seems closed.");
                                             break;
                                         }
@@ -317,21 +318,17 @@ impl Server {
 
                 let server_ref_clone = server_ref.clone();
                 thread::Builder::new().name("client_response_thread".to_string()).spawn_scoped(server_thread_scope, move || {
-                    loop {
-                        if let Ok(response) = single_response_receiver.try_recv() {
-                            let tcp_stream = &response.socket();
-                            let data = response.serialized_packet();
-                            let mut tcp_stream_guard = tcp_stream.write().unwrap();
-                            debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
-                            if GlobalConfigService::instance().config().server.trace_packet {
-                                debug_packets_from_vec(Some(tcp_stream_guard.peer_addr().as_ref().unwrap()), PacketDirection::Backward,
-                                                       GlobalConfigService::instance().packetver(), data, &Option::None);
-                            }
-                            tcp_stream_guard.write_all(data).unwrap();
-                            tcp_stream_guard.flush().unwrap();
-                        } else if !server_ref_clone.is_alive() {
-                            break;
+                    while let Ok(response) = single_response_receiver.recv() {
+                        let tcp_stream = &response.socket();
+                        let data = response.serialized_packet();
+                        let mut tcp_stream_guard = tcp_stream.write().unwrap();
+                        debug!("Respond to {:?} with: {:02X?}", tcp_stream_guard.peer_addr(), data);
+                        if GlobalConfigService::instance().config().server.trace_packet {
+                            debug_packets_from_vec(Some(tcp_stream_guard.peer_addr().as_ref().unwrap()), PacketDirection::Backward,
+                                                   GlobalConfigService::instance().packetver(), data, &Option::None);
                         }
+                        tcp_stream_guard.write_all(data).unwrap();
+                        tcp_stream_guard.flush().unwrap();
                     }
                     info!("Shutdown client_response_thread");
                 }).unwrap();
@@ -430,6 +427,7 @@ impl Server {
             thread::Builder::new().name("shutdown_thread".to_string()).spawn_scoped(server_thread_scope, move || {
                 server_ref_clone.runtime.block_on(async {
                     tokio::signal::ctrl_c().await.unwrap();
+                    persistence_event_sender.send(PersistenceEvent::Shutdown).unwrap();
                     server_ref_clone.shutdown().await;
                     info!("Hello ctrl+c");
                     TcpStream::connect(format!("127.0.0.1:{port}")).map(|mut stream| stream.flush()).ok();
@@ -466,7 +464,7 @@ impl Server {
                 debug!("Session does not exist! for socket {:?}", stream_guard);
                 return None;
             }
-            return Some(session_option.unwrap())
+            return Some(session_option.unwrap());
         }
         None
     }

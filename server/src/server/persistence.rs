@@ -1,12 +1,11 @@
-use std::sync::Arc;
-use std::sync::mpsc::Receiver;
-use crate::{Map, PersistenceEvent, Repository};
 use crate::server::Server;
+use crate::{Map, PersistenceEvent, Repository};
+use std::sync::mpsc::Receiver;
+use std::sync::Arc;
 
 impl Server {
     pub(crate) fn persistence_thread(server_ref: Arc<Server>, persistence_event_receiver: Receiver<PersistenceEvent>, repository: Arc<dyn Repository>) {
-        loop {
-            if let Ok(event) = persistence_event_receiver.try_recv() {
+        while let Ok(event) = persistence_event_receiver.recv() {
                 server_ref.runtime.block_on(async {
                     match event {
                         PersistenceEvent::SaveCharacterPosition(save_character_position) => {
@@ -29,9 +28,12 @@ impl Server {
                         PersistenceEvent::IncreaseSkillLevel(increase_skill_level) => {
                             repository.character_allocate_skill_point(increase_skill_level.char_id, increase_skill_level.skill.id() as i32, increase_skill_level.increment).await.unwrap();
                         }
+                        PersistenceEvent::Shutdown => {
+                            return;
+                        }
                     }
                 });
-            } else if !server_ref.is_alive() {
+            if !server_ref.is_alive() {
                 break;
             }
         }
