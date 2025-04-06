@@ -378,6 +378,10 @@ impl CharacterService {
             }
             self.reset_skills(character, false);
             self.update_skill_point(character, skill_point, true);
+        } else {
+            character.status.job_level = 1;
+            self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, character.status.job_level);
+            self.skill_tree_service.send_skill_tree(character);
         }
     }
 
