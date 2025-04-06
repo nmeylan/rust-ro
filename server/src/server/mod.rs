@@ -45,7 +45,7 @@ use crate::server::service::status_service::StatusService;
 use crate::server::state::server::ServerState;
 
 use crate::util::packet::{debug_packets_from_vec, PacketDirection, PacketsBuffer};
-use crate::util::tick::delayed_tick;
+use crate::util::tick::{delayed_tick, get_tick};
 
 pub mod boot;
 pub mod request_handler;
@@ -148,7 +148,7 @@ impl Server {
     pub async fn shutdown(&self) {
         self.shutdown.store(true, Ordering::Relaxed);
         self.state.borrow().map_instances().iter().for_each(|(_, instances)| instances.iter().for_each(|instance| instance.shutdown()));
-        self.character_service().save_characters_state(self.state.borrow().characters().values().collect()).await;
+        self.character_service().save_characters_state(self.state.borrow().characters().values().collect(), get_tick()).await;
         self.state_mut().sessions().write().unwrap().iter().for_each(|(_, session)| session.disconnect());
     }
 
@@ -247,7 +247,7 @@ impl Server {
             let character = self.state().get_character(char_id);
             if let Some(character) = character {
                 self.runtime.block_on(async {
-                    self.character_service().save_characters_state(vec![character]).await;
+                    self.character_service().save_characters_state(vec![character], get_tick()).await;
                     self.repository.save_hotkeys(char_id, &character.hotkeys).await.unwrap();
                 });
             }

@@ -1,3 +1,4 @@
+use futures::task::Spawn;
 use models::enums::action::ActionType;
 use models::enums::class::{JobName, JOB_BASE_MASK};
 use models::enums::client_effect_icon::ClientEffectIcon;
@@ -35,7 +36,7 @@ use crate::server::model::tasks_queue::TasksQueue;
 use crate::server::service::character::skill_tree_service::SkillTreeService;
 use crate::server::PLAYER_FOV;
 use models::position::Position;
-use models::status::{KnownSkill, Status};
+use models::status::{KnownSkill, Status, StatusSnapshot};
 
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::service::status_service::StatusService;
@@ -59,7 +60,6 @@ pub struct CharacterService {
 }
 
 impl CharacterService {
-
     pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn CharacterRepository + Sync>, configuration_service: &'static GlobalConfigService, skill_tree_service: SkillTreeService, status_service: &'static StatusService, server_task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
         Self { client_notification_sender, persistence_event_sender, repository, configuration_service, skill_tree_service, server_task_queue, status_service }
     }
@@ -234,7 +234,7 @@ impl CharacterService {
             // var HPR = Math.max( 1, Math.floor(MAX_HP / 200) );
             // HPR += Math.floor( VIT / 5 );
             // HPR = Math.floor( HPR * (1 + HPR_MOD * 0.01) );
-            let hp_regen = 1.0_f32.max((character_status.max_hp() as f32 / 200.0).floor())  as u32 + (character_status.vit() as f32 / 5.0).floor() as u32;
+            let hp_regen = 1.0_f32.max((character_status.max_hp() as f32 / 200.0).floor()) as u32 + (character_status.vit() as f32 / 5.0).floor() as u32;
             // TODO hp_regen bonus
             let hp = character_status.hp() + hp_regen;
             character.status.set_hp(hp);
@@ -280,12 +280,15 @@ impl CharacterService {
         }
     }
 
-    pub async fn save_characters_state(&self, characters: Vec<&Character>) {
-        self.repository.characters_update(characters.iter().map(|c| &c.status).collect(),
-                                          characters.iter().map(|c| c.char_id as i32).collect(),
-                                          characters.iter().map(|c| c.x() as i16).collect(),
-                                          characters.iter().map(|c| c.y() as i16).collect(),
-                                          characters.iter().map(|c| c.map_instance_key.map_without_ext().chars().take(11).collect()).collect(),
+    pub async fn save_characters_state(&self, characters: Vec<&Character>, tick: u128) {
+        let character_statuses = characters.iter().map(|c| self.status_service.to_snapshot_cached(&c.status, tick)).collect::<Vec<StatusSnapshot>>();
+        self.repository.characters_update(
+            characters.iter().map(|c| &c.status).collect(),
+            character_statuses,
+            characters.iter().map(|c| c.char_id as i32).collect(),
+            characters.iter().map(|c| c.x() as i16).collect(),
+            characters.iter().map(|c| c.y() as i16).collect(),
+            characters.iter().map(|c| c.map_instance_key.map_without_ext().chars().take(11).collect()).collect(),
         ).await.unwrap()
     }
 
@@ -536,11 +539,11 @@ impl CharacterService {
     pub fn allocate_skill_point(&self, character: &mut Character, skill: SkillEnum) -> bool {
         let skill_point = character.status.skill_point;
         if skill_point < 1 {
-            return false
+            return false;
         }
         // Skill to allocate point to is not available in skill tree
         if !self.skill_tree_service.skill_tree(character).iter().any(|s| s.value == skill) {
-            return false
+            return false;
         }
         character.status.skill_point -= 1;
         let increased_skill;
@@ -552,7 +555,7 @@ impl CharacterService {
             character.status.known_skills.push(increased_skill)
         }
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Skillpoint, character.status.skill_point);
-        self.persistence_event_sender.send(PersistenceEvent::IncreaseSkillLevel(IncreaseSkillLevel { char_id: character.char_id as i32, skill: increased_skill.value, increment: 1, })).expect("Fail to send persistence notification");
+        self.persistence_event_sender.send(PersistenceEvent::IncreaseSkillLevel(IncreaseSkillLevel { char_id: character.char_id as i32, skill: increased_skill.value, increment: 1 })).expect("Fail to send persistence notification");
         self.skill_tree_service.send_skill_tree(character);
         true
     }
@@ -913,7 +916,7 @@ impl CharacterService {
             shortcuts.push(ShortCutKey::new(self.configuration_service.packetver()));
         }
         for hotkey in character.hotkeys.iter() {
-            let shortcut =  &mut shortcuts[hotkey.index as usize];
+            let shortcut = &mut shortcuts[hotkey.index as usize];
             shortcut.set_count(hotkey.skill_lvl);
             shortcut.set_is_skill(hotkey.is_skill as i8);
             shortcut.set_id(hotkey.itemskill_id as u32);
@@ -1122,7 +1125,7 @@ impl CharacterService {
         packet_zc_notify_newentry3.set_packet_length(PacketZcNotifyStandentry5::base_len(GlobalConfigService::instance().packetver()) as i16);
         packet_zc_notify_newentry3.set_job(character.status.job as i16);
         packet_zc_notify_newentry3.set_sex(character.sex);
-        packet_zc_notify_newentry3.set_pos_dir(Position {x: character.x, y: character.y, dir: character.dir}.to_pos());
+        packet_zc_notify_newentry3.set_pos_dir(Position { x: character.x, y: character.y, dir: character.dir }.to_pos());
         packet_zc_notify_newentry3.set_gid(character.char_id);
         packet_zc_notify_newentry3.set_clevel(character.status.base_level() as i16);
         packet_zc_notify_newentry3.set_speed(character.status.speed() as i16);
