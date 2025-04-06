@@ -2,7 +2,7 @@ use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, Cha
 use crate::repository::{CharacterRepository, PgRepository};
 use async_trait::async_trait;
 use models::enums::skill_enums::SkillEnum;
-use models::status::{KnownSkill, Status};
+use models::status::{KnownSkill, Status, StatusSnapshot};
 use sqlx::{Error, Postgres, Row};
 
 #[async_trait]
@@ -114,31 +114,31 @@ impl CharacterRepository for PgRepository {
             .map(|_| ())
     }
 
-    async fn characters_update(&self, statuses: Vec<&Status>, char_ids: Vec<i32>, x: Vec<i16>, y: Vec<i16>, maps: Vec<String>) -> Result<(), Error> {
-        let classes: Vec<i16> = statuses.iter().map(|s| s.job() as i16).collect();
+    async fn characters_update(&self, statuses: Vec<&Status>, statuses_snaphot: Vec<StatusSnapshot>, char_ids: Vec<i32>, x: Vec<i16>, y: Vec<i16>, maps: Vec<String>) -> Result<(), Error> {
+        let classes: Vec<i16> = statuses_snaphot.iter().map(|s| s.job() as i16).collect();
         let base_levels: Vec<i32> = statuses.iter().map(|s| s.base_level() as i32).collect();
         let job_levels: Vec<i32> = statuses.iter().map(|s| s.job_level() as i32).collect();
         let base_exps: Vec<i32> = statuses.iter().map(|s| s.job_exp() as i32).collect();
         let job_exps: Vec<i32> = statuses.iter().map(|s| s.job_exp() as i32).collect();
         let zenys: Vec<i32> = statuses.iter().map(|s| s.zeny() as i32).collect();
-        let strs: Vec<i16> = statuses.iter().map(|s| s.str() as i16).collect();
-        let agis: Vec<i16> = statuses.iter().map(|s| s.agi() as i16).collect();
-        let vits: Vec<i16> = statuses.iter().map(|s| s.vit() as i16).collect();
-        let ints: Vec<i16> = statuses.iter().map(|s| s.int() as i16).collect();
-        let dexs: Vec<i16> = statuses.iter().map(|s| s.dex() as i16).collect();
-        let luks: Vec<i16> = statuses.iter().map(|s| s.luk() as i16).collect();
-        let max_hps: Vec<i32> = statuses.iter().map(|s| s.max_hp() as i32).collect();
-        let hps: Vec<i32> = statuses.iter().map(|s| s.hp() as i32).collect();
-        let max_sps: Vec<i32> = statuses.iter().map(|s| s.max_sp() as i32).collect();
-        let sps: Vec<i32> = statuses.iter().map(|s| s.sp() as i32).collect();
+        let strs: Vec<i16> = statuses_snaphot.iter().map(|s| s.base_str() as i16).collect();
+        let agis: Vec<i16> = statuses_snaphot.iter().map(|s| s.base_agi() as i16).collect();
+        let vits: Vec<i16> = statuses_snaphot.iter().map(|s| s.base_vit() as i16).collect();
+        let ints: Vec<i16> = statuses_snaphot.iter().map(|s| s.base_int() as i16).collect();
+        let dexs: Vec<i16> = statuses_snaphot.iter().map(|s| s.base_dex() as i16).collect();
+        let luks: Vec<i16> = statuses_snaphot.iter().map(|s| s.base_luk() as i16).collect();
+        let max_hps: Vec<i32> = statuses_snaphot.iter().map(|s| s.max_hp() as i32).collect();
+        let hps: Vec<i32> = statuses_snaphot.iter().map(|s| s.hp() as i32).collect();
+        let max_sps: Vec<i32> = statuses_snaphot.iter().map(|s| s.max_sp() as i32).collect();
+        let sps: Vec<i32> = statuses_snaphot.iter().map(|s| s.sp() as i32).collect();
         let status_points: Vec<i16> = statuses.iter().map(|s| s.status_point() as i16).collect();
         let skill_points: Vec<i16> = statuses.iter().map(|s| s.skill_point() as i16).collect();
         let hairs: Vec<i16> = statuses.iter().map(|s| s.look().map(|l| l.hair() as i16).unwrap_or(0_i16)).collect();
         let hair_colors: Vec<i16> = statuses.iter().map(|s| s.look().map(|l| l.hair_color() as i16).unwrap_or(0_i16)).collect();
         let clothes_colors: Vec<i16> = statuses.iter().map(|s| s.look().map(|l| l.clothes_color() as i16).unwrap_or(0_i16)).collect();
         let bodies: Vec<i16> = statuses.iter().map(|s| s.armor().map(|e| e.item_id as i16).unwrap_or(0_i16)).collect();
-        let weapons: Vec<i16> = statuses.iter().map(|s| s.right_hand_weapon().map(|w| w.item_id as i16).unwrap_or(0_i16)).collect();
-        let shields: Vec<i16> = statuses.iter().map(|s| s.shield().map(|e| e.item_id as i16).unwrap_or(0_i16)).collect();
+        let weapons: Vec<i16> = statuses.iter().map(|s| s.right_hand_weapon().map(|w| w.item_id() as i16).unwrap_or(0_i16)).collect();
+        let shields: Vec<i16> = statuses.iter().map(|s| s.shield().map(|e| e.item_id() as i16).unwrap_or(0_i16)).collect();
         let head_tops: Vec<i16> = statuses.iter().map(|s| s.head_top().map(|e| e.item_id as i16).unwrap_or(0_i16)).collect();
         let head_mids: Vec<i16> = statuses.iter().map(|s| s.head_mid().map(|e| e.item_id as i16).unwrap_or(0_i16)).collect();
         let head_bottoms: Vec<i16> = statuses.iter().map(|s| s.head_low().map(|e| e.item_id as i16).unwrap_or(0_i16)).collect();
