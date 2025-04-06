@@ -230,7 +230,7 @@ impl CharacterService {
         } else {
             6000
         };
-        if tick - character.last_moved_at >= delay && tick - character.last_regen_hp_at >= delay && character_status.hp() < character_status.max_hp() {
+        if  tick > character.last_moved_at && tick - character.last_moved_at >= delay &&  tick > character.last_regen_hp_at && tick - character.last_regen_hp_at >= delay && character_status.hp() < character_status.max_hp() {
             let hp_regen = self.status_service.character_regen_hp(&character_status);
             let hp = character_status.hp() + hp_regen;
             character.status.set_hp(hp);
@@ -251,7 +251,7 @@ impl CharacterService {
         } else {
             8000
         };
-        if tick - character.last_moved_at >= delay && tick - character.last_regen_sp_at >= delay && character_status.sp() < character_status.max_sp() {
+        if tick > character.last_moved_at && tick - character.last_moved_at >= delay && tick > character.last_regen_sp_at && tick - character.last_regen_sp_at >= delay && character_status.sp() < character_status.max_sp() {
             let sp_regen = self.status_service.character_regen_sp(&character_status);
             let sp = character_status.sp() + sp_regen;
             character.status.set_sp(sp);
@@ -334,10 +334,14 @@ impl CharacterService {
         if new_job_level > old_job_level {
             self.update_skill_point(character, character.status.skill_point + new_job_level - old_job_level, true);
         } else if old_job_level > new_job_level {
+            let skill_points =
             if self.should_reset_skills(character) {
                 self.reset_skills(character, false);
-            }
-            self.update_skill_point(character, (character.status.skill_point as i32 - (old_job_level as i32 - new_job_level as i32)).max(0) as u32, true);
+                Self::skill_point(character)
+            } else {
+                (character.status.skill_point as i32 - (old_job_level as i32 - new_job_level as i32)) as u32
+            };
+            self.update_skill_point(character, skill_points, true);
         }
         self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, new_job_level);
         let mut packet_zc_notify_effect = PacketZcNotifyEffect::new(self.configuration_service.packetver());
@@ -353,20 +357,24 @@ impl CharacterService {
         self.persistence_event_sender.send(PersistenceEvent::UpdateCharacterStatusU32(StatusUpdate { char_id: character.char_id, db_column: "class".to_string(), value: character.status.job })).expect("Fail to send persistence notification");
         self.change_sprite(character, LookType::Job, character.status.job as u16, 0);
         if should_reset_skills {
-            let skill_point;
-            if job.is_first_class() {
-                skill_point = 9 + character.status.job_level - 1;
-            } else if job.is_second_class() || job.is_rebirth() {
-                skill_point = 9 + 49 + character.status.job_level - 1;
-            } else {
-                skill_point = character.status.job_level - 1;
-            }
+            let skill_point = Self::skill_point(character);
             self.reset_skills(character, false);
             self.update_skill_point(character, skill_point, true);
         } else {
             character.status.job_level = 1;
             self.send_status_update_and_defer_db_update(character.char_id, StatusTypes::Joblevel, character.status.job_level);
             self.skill_tree_service.send_skill_tree(character);
+        }
+    }
+
+    fn skill_point(character: &mut Character) -> u32 {
+        let job = JobName::from_value(character.status.job as usize);
+        if job.is_first_class() {
+            9 + character.status.job_level - 1
+        } else if job.is_second_class() || job.is_rebirth() {
+            9 + 49 + character.status.job_level - 1
+        } else {
+            character.status.job_level - 1
         }
     }
 
