@@ -231,11 +231,7 @@ impl CharacterService {
             6000
         };
         if tick - character.last_moved_at >= delay && tick - character.last_regen_hp_at >= delay && character_status.hp() < character_status.max_hp() {
-            // var HPR = Math.max( 1, Math.floor(MAX_HP / 200) );
-            // HPR += Math.floor( VIT / 5 );
-            // HPR = Math.floor( HPR * (1 + HPR_MOD * 0.01) );
-            let hp_regen = 1.0_f32.max((character_status.max_hp() as f32 / 200.0).floor()) as u32 + (character_status.vit() as f32 / 5.0).floor() as u32;
-            // TODO hp_regen bonus
+            let hp_regen = self.status_service.character_regen_hp(&character_status);
             let hp = character_status.hp() + hp_regen;
             character.status.set_hp(hp);
             character.last_regen_hp_at = tick;
@@ -256,18 +252,7 @@ impl CharacterService {
             8000
         };
         if tick - character.last_moved_at >= delay && tick - character.last_regen_sp_at >= delay && character_status.sp() < character_status.max_sp() {
-            // var SPR = 1;
-            // SPR += Math.floor( MAX_SP / 100 );
-            // SPR += Math.floor( INT / 6 );
-            // if (INT >= 120) {
-            //  SPR += Math.floor(INT / 2 - 56);
-            // }
-            // SPR = Math.floor( SPR * (1 + SPR_MOD * 0.01) );
-            let mut sp_regen = 1 + (character_status.max_sp() as f32 / 100.0).floor() as u32 + (character_status.int() as f32 / 6.0).floor() as u32;
-            if (character_status.int() > 120) {
-                sp_regen += ((character_status.int() as f32 / 2.0) - 56.0).floor() as u32;
-            }
-            // TODO sp_regen bonus
+            let sp_regen = self.status_service.character_regen_sp(&character_status);
             let sp = character_status.sp() + sp_regen;
             character.status.set_sp(sp);
             character.last_regen_sp_at = tick;

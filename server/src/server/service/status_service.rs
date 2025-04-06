@@ -300,6 +300,31 @@ impl StatusService {
     pub fn character_vit_def(&self, status_snapshot: &StatusSnapshot) -> u16 {
         status_snapshot.vit() // TODO angelus multiplier
     }
+
+    pub fn character_regen_hp(&self, status_snapshot: &StatusSnapshot) -> u32 {
+        // var HPR = Math.max( 1, Math.floor(MAX_HP / 200) );
+        // HPR += Math.floor( VIT / 5 );
+        // HPR = Math.floor( HPR * (1 + HPR_MOD * 0.01) );
+        let hp_regen = 1.0_f32.max((status_snapshot.max_hp() as f32 / 200.0).floor()) as u32 + (status_snapshot.vit() as f32 / 5.0).floor() as u32;
+        // TODO hp_regen bonus
+        hp_regen
+    }
+
+    pub fn character_regen_sp(&self, status_snapshot: &StatusSnapshot) -> u32 {
+        // var SPR = 1;
+        // SPR += Math.floor( MAX_SP / 100 );
+        // SPR += Math.floor( INT / 6 );
+        // if (INT >= 120) {
+        //  SPR += Math.floor(INT / 2 - 56);
+        // }
+        // SPR = Math.floor( SPR * (1 + SPR_MOD * 0.01) );
+        let mut sp_regen = 1 + (status_snapshot.max_sp() as f32 / 100.0).floor() as u32 + (status_snapshot.int() as f32 / 6.0).floor() as u32;
+        if (status_snapshot.int() > 120) {
+            sp_regen += ((status_snapshot.int() as f32 / 2.0) - 56.0).floor() as u32;
+        }
+        // TODO sp_regen bonus
+        sp_regen
+    }
 }
 
 
