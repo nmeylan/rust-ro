@@ -12,6 +12,7 @@ odin_tem01,0,0	monster	Skogul	1752,5
 odin_tem01,0,0	monster	Green Plant	1080,5,60000,30000
 odin_tem01,0,0	monster	Yellow Plant	1081,5,60000,30000
 odin_tem01,0,0	monster	Blue Plant	1079,5,600000,300000
+odin_tem01,0,0	monster	Skeggiold	1754,30,1800000
 
 //==================================================
 // odin_tem02 - Odin Temple F2
