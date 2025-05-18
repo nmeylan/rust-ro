@@ -337,7 +337,7 @@ D26: setarray @c[2],189,48,165,30,32,135;
 	 Disp("Moscovia Dungeon",1,3); Pick("mosk_dun");
 D27: setarray @c[2],61,239,60,271;
 	 Disp("Nidhogg's Dungeon",1,2); Pick("nyd_dun");
-D28: setarray @c[2],298,167,224,149,266,280;
+D28: setarray @c[2],96,145,224,149,266,280;
 	 Disp("Odin Temple",1,3); Pick("odin_tem");
 D29: setarray @c[2],32,170,21,185;
 	 Disp("Orc Dungeon",1,2); Pick("orcsdun");
