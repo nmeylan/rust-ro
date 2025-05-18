@@ -234,6 +234,10 @@ impl Server {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
                         server_ref.character_service().stand(character);
                     }
+                    GameEvent::CharacterCancelMove(char_id) => {
+                        let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
+                        server_ref.character_service().cancel_movement(character, tick);
+                    }
                 }
             }
         }

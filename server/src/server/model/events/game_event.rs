@@ -1,13 +1,13 @@
+use crate::repository::model::item_model::InventoryItemModel;
 use models::enums::class::JobName;
 use models::enums::look::LookType;
-use crate::repository::model::item_model::InventoryItemModel;
 
 
+use crate::server::model::action::Damage;
+use crate::server::model::hotkey::Hotkey;
 use crate::server::model::map_instance::MapInstanceKey;
 use crate::server::model::movement::Movement;
 use models::position::Position;
-use crate::server::model::action::Damage;
-use crate::server::model::hotkey::Hotkey;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum GameEvent {
@@ -17,6 +17,7 @@ pub enum GameEvent {
     CharacterClearFov(u32),
     CharacterJoinGame(u32),
     CharacterMove(CharacterMovement),
+    CharacterCancelMove(u32),
     CharacterChangeMap(CharacterChangeMap),
     CharacterUpdateLook(CharacterLook),
     CharacterUpdateZeny(CharacterZeny),
