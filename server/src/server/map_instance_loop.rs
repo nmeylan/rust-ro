@@ -1,5 +1,3 @@
-
-
 use std::sync::Arc;
 use std::thread;
 use std::thread::sleep;
@@ -9,11 +7,11 @@ use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use crate::server::model::map_instance::MapInstance;
 use crate::server::model::movement::{Movable, Movement};
 
-use crate::server::model::events::map_event::{MapEvent};
+use crate::server::model::events::map_event::MapEvent;
 use crate::server::service::global_config_service::GlobalConfigService;
 
-use crate::util::tick::get_tick;
 use crate::server::service::map_instance_service::MapInstanceService;
+use crate::util::tick::get_tick;
 
 
 pub struct MapInstanceLoop;
@@ -113,7 +111,10 @@ impl MapInstanceLoop {
                         if let Some(movement) = mob.peek_movement() {
                             if tick >= movement.move_at() {
                                 if tick < mob.last_attacked_at + (mob.damage_motion as u128) {
-                                    info!("Mob delayed movement because he is attacked");
+                                    #[cfg(feature = "debug_mob_movement")]
+                                    {
+                                        info!("Mob delayed movement because he is attacked");
+                                    }
                                     continue;
                                 }
                                 let movement = mob.pop_movement().unwrap();
