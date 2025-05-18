@@ -249,7 +249,8 @@ pub fn handle_select_char(server: &Server, context: Request) {
         char_model.name.clone(), char_id, session_id,
         StatusFromDb::from_char_model(&char_model, &server.configuration.game, skills),
         last_x, last_y, 0,
-        last_map,if char_model.sex == "M" { 1 } else { 0 }
+        last_map,if char_model.sex == "M" { 1 } else { 0 },
+        hotkeys
     );
     let char_id = character.char_id;
     let mut map_name = [0 as char; 16];

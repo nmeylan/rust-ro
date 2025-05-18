@@ -85,7 +85,7 @@ impl Movable for Character {
 }
 
 impl Character {
-    pub fn new(name: String, char_id: u32, account_id: u32, status: Status, x: u16, y: u16, dir: u16, last_map: String, sex: u8) -> Self {
+    pub fn new(name: String, char_id: u32, account_id: u32, status: Status, x: u16, y: u16, dir: u16, last_map: String, sex: u8, hotkeys: Vec<Hotkey>) -> Self {
         Self {
             name,
             char_id,
@@ -106,7 +106,7 @@ impl Character {
             last_regen_hp_at: 0,
             last_regen_sp_at: 0,
             sit: false,
-            hotkeys: vec![],
+            hotkeys,
             sex,
         }
     }
