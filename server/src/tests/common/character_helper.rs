@@ -48,7 +48,8 @@ pub fn create_character() -> Character {
          "Walkiry".to_string(), 150000, 2000000,
         status,
          156, 179, 0,
-         "Prontera".to_string(),1
+         "Prontera".to_string(),1,
+         vec![]
     );
     character.loaded_from_client_side = true;
     character
