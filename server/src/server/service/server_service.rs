@@ -181,9 +181,8 @@ impl ServerService {
                 }));
             } else if is_in_range {
                 if character.is_moving() {
-                    self.movement_task_queue.add_to_first_index(GameEvent::CharacterCancelMove(character.char_id));
+                    self.character_service.cancel_movement(character, tick);
                 }
-                character.clear_movement();
                 let snapshot = server_state.map_item_snapshot(map_item.id(), character.current_map_name(), character.current_map_instance()).unwrap();
                 let mut maybe_damage = None;
                 if matches!(*map_item.object_type(), MapItemType::Mob) {
@@ -248,6 +247,9 @@ impl ServerService {
     pub fn character_start_use_skill(&self, server_state: &ServerState, character: &mut Character, character_use_skill: CharacterUseSkill, tick: u128) {
         if character.is_using_skill() {
             return;
+        }
+        if character.is_moving() {
+            self.character_service.cancel_movement(character, tick);
         }
         let target = Self::get_target(server_state, character, Some(character_use_skill.target_id));
         if target.is_none() {

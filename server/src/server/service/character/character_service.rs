@@ -1142,11 +1142,10 @@ impl CharacterService {
             .unwrap_or_else(|_| error!("Failed to send area notification for character notify new entry to client"));
     }
 
-    pub fn cancel_movement(&self, character: &Character, tick: u128) {
+    pub fn cancel_movement(&self, character: &mut Character, tick: u128) {
         let mut packet_zc_stop_move = PacketZcStopmove::new(GlobalConfigService::instance().packetver());
-        let current_position = Position { x: character.x, y: character.y, dir: 0 };
-        let target_position = Position { x: character.x, y: character.y, dir: 0 };
-        let movement = current_position.to_move_data(&target_position);
+        info!("Cancel movement");
+        character.clear_movement();
         packet_zc_stop_move.set_x_pos(character.x as i16);
         packet_zc_stop_move.set_y_pos(character.y as i16);
         packet_zc_stop_move.set_aid(character.char_id);
