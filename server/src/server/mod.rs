@@ -59,7 +59,7 @@ pub mod map_instance_loop;
 
 thread_local!(pub static PACKETVER: RefCell<u32> = const { RefCell::new(0) });
 // Todo make this configurable
-pub const PLAYER_FOV: u16 = 14;
+pub const PLAYER_FOV: u16 = 20;
 pub const MOB_FOV: u16 = 14;
 
 pub struct Server {
