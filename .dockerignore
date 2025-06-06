@@ -1,0 +1,7 @@
+pgdata
+db
+target
+docker
+.git
+*.rs.bk
+*.log

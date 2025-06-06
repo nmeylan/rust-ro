@@ -1,0 +1,36 @@
+services:
+  # This allows using as testing/development
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    command:
+      - "sleep 360h"
+    ports:
+      - "6900:6900"
+      - "5121:5121"
+      - "6121:6121"
+      - "6901:6901"
+      - "6123:6123"
+      - "6124:6124"
+    volumes:
+      - ./:/usr/src/app
+
+# You can test the release image with the built binary.
+#  server:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      target: release
+#    ports:
+#      - "6900:6900"
+#      - "5121:5121"
+#      - "6121:6121"
+#      - "6901:6901"
+#      - "6123:6123"
+#      - "6124:6124"
+#    volumes:
+#      - ./config:/config:ro
+#      - ./config.json:/config.json:ro
+#      - ./native_functions_list.txt:/native_functions_list.txt:ro
