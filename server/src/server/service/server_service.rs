@@ -1,31 +1,31 @@
+use models::enums::action::ActionType;
+use rathena_script_lang_interpreter::lang::vm::Vm;
 use std::cell::RefCell;
 use std::collections::HashSet;
 use std::mem;
-use std::sync::{Arc};
 use std::sync::atomic::Ordering::Relaxed;
 use std::sync::mpsc::SyncSender;
-use rathena_script_lang_interpreter::lang::vm::Vm;
+use std::sync::Arc;
 use tokio::runtime::Runtime;
-use models::enums::action::ActionType;
 
-use models::enums::EnumWithNumberValue;
-use models::enums::skill::SkillType;
-use packets::packets::{Packet, PacketZcMsgStateChange, PacketZcNotifyAct};
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::server::boot::map_loader::MapLoader;
+use crate::server::map_instance_loop::MapInstanceLoop;
+use crate::server::model::action::Damage;
+use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, CharacterUseSkill, GameEvent};
+use crate::server::model::events::map_event::MapEvent;
 use crate::server::model::map::{Map, RANDOM_CELL};
-use crate::server::model::map_instance::{MapInstance};
-use crate::server::model::map_item::{CHARACTER_MAX_MAP_ITEM_ID, MAP_INSTANCE_MAX_MAP_ITEM_ID, MapItems, MapItemSnapshot, MapItemType};
+use crate::server::model::map_instance::MapInstance;
+use crate::server::model::map_item::{MapItemSnapshot, MapItemType, MapItems, CHARACTER_MAX_MAP_ITEM_ID, MAP_INSTANCE_MAX_MAP_ITEM_ID};
+use crate::server::model::tasks_queue::TasksQueue;
+use crate::MAP_DIR;
+use models::enums::skill::SkillType;
+use models::enums::EnumWithNumberValue;
 use models::position::Position;
 use models::status::{Status, StatusSnapshot};
 use models::status_bonus::BonusExpiry;
-use crate::MAP_DIR;
-use crate::server::model::tasks_queue::TasksQueue;
-use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
-use crate::server::model::events::game_event::{CharacterAddItems, CharacterChangeMap, CharacterMovement, CharacterRemoveFromMap, CharacterUseSkill, GameEvent};
-use crate::server::map_instance_loop::MapInstanceLoop;
-use crate::server::model::action::Damage;
-use crate::server::model::events::map_event::{MapEvent};
+use packets::packets::{Packet, PacketZcMsgStateChange, PacketZcNotifyAct};
 
 use crate::server::model::movement::{Movable, Movement};
 use crate::server::model::path::{manhattan_distance, path_search_client_side_algorithm};
@@ -180,7 +180,9 @@ impl ServerService {
                     cancel_attack: false,
                 }));
             } else if is_in_range {
-                character.clear_movement();
+                if character.is_moving() {
+                    self.character_service.cancel_movement(character, tick);
+                }
                 let snapshot = server_state.map_item_snapshot(map_item.id(), character.current_map_name(), character.current_map_instance()).unwrap();
                 let mut maybe_damage = None;
                 if matches!(*map_item.object_type(), MapItemType::Mob) {
@@ -245,6 +247,9 @@ impl ServerService {
     pub fn character_start_use_skill(&self, server_state: &ServerState, character: &mut Character, character_use_skill: CharacterUseSkill, tick: u128) {
         if character.is_using_skill() {
             return;
+        }
+        if character.is_moving() {
+            self.character_service.cancel_movement(character, tick);
         }
         let target = Self::get_target(server_state, character, Some(character_use_skill.target_id));
         if target.is_none() {

@@ -20,7 +20,7 @@ use models::enums::EnumWithNumberValue;
 use crate::repository::model::item_model::InventoryItemModel;
 use crate::repository::CharacterRepository;
 use crate::server::model::events::game_event::{CharacterKillMonster, CharacterLook, CharacterUpdateStat, CharacterZeny, GameEvent};
-use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcMsgStateChange, PacketZcMsgStateChange2, PacketZcNotifyAct, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyStandentry5, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcShortcutKeyListV2, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, ShortCutKey};
+use packets::packets::{Packet, PacketZcAttackRange, PacketZcItemDisappear, PacketZcItemEntry, PacketZcLongparChange, PacketZcMsgStateChange, PacketZcMsgStateChange2, PacketZcNotifyAct, PacketZcNotifyEffect, PacketZcNotifyMove, PacketZcNotifyPlayermove, PacketZcNotifyStandentry5, PacketZcNotifyStandentry7, PacketZcNotifyVanish, PacketZcNpcackMapmove, PacketZcParChange, PacketZcShortcutKeyListV2, PacketZcSpriteChange2, PacketZcStatusChangeAck, PacketZcStatusValues, PacketZcStopmove, ShortCutKey};
 
 use crate::server::model::map_item::{MapItem, MapItemType};
 use crate::server::model::path::manhattan_distance;
@@ -1140,5 +1140,17 @@ impl CharacterService {
         packet_zc_notify_newentry3.fill_raw_with_packetver(Some(self.configuration_service.packetver()));
         self.client_notification_sender.send(Notification::Area(AreaNotification::from_character_exclude_self(character, packet_zc_notify_newentry3.raw)))
             .unwrap_or_else(|_| error!("Failed to send area notification for character notify new entry to client"));
+    }
+
+    pub fn cancel_movement(&self, character: &mut Character, tick: u128) {
+        let mut packet_zc_stop_move = PacketZcStopmove::new(GlobalConfigService::instance().packetver());
+        info!("Cancel movement");
+        character.clear_movement();
+        packet_zc_stop_move.set_x_pos(character.x as i16);
+        packet_zc_stop_move.set_y_pos(character.y as i16);
+        packet_zc_stop_move.set_aid(character.char_id);
+        packet_zc_stop_move.fill_raw();
+        self.client_notification_sender.send(Notification::Area(AreaNotification::from_character(character, std::mem::take(packet_zc_stop_move.raw_mut()))))
+            .expect("Failed to send notification event with PacketZcNotifyPlayermove");
     }
 }
