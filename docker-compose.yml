@@ -17,12 +17,14 @@ services:
     volumes:
       - ./:/usr/src/app
 
-# You can test the release image with the built binary.
+#  You can test the release image with the built binary.
 #  server:
 #    build:
 #      context: .
 #      dockerfile: Dockerfile
 #      target: release
+#    environment:
+#      - DATABASE_PASSWORD=ragnarok
 #    ports:
 #      - "6900:6900"
 #      - "5121:5121"
