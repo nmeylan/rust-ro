@@ -1144,7 +1144,6 @@ impl CharacterService {
 
     pub fn cancel_movement(&self, character: &mut Character, tick: u128) {
         let mut packet_zc_stop_move = PacketZcStopmove::new(GlobalConfigService::instance().packetver());
-        info!("Cancel movement");
         character.clear_movement();
         packet_zc_stop_move.set_x_pos(character.x as i16);
         packet_zc_stop_move.set_y_pos(character.y as i16);
