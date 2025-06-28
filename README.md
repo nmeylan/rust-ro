@@ -269,3 +269,51 @@ This project is currently _half-open*_ to contribution. The reason is that all b
 However if you are motivated and want to contribute you can take a look to the [contribution guide](https://github.com/nmeylan/rust-ro/blob/master/Contributing.md)
 
 _* contribution can be made under certain condition_
+
+
+### Running the server in a container environment
+
+> [!TIP]
+> This is a work in progress.
+
+You can set up this environment with a container image configuration for isolated environments. Please refer to the [Dockerfile](./Dockerfile) for more details.
+
+There is two image stages that can be used: the **builder** and the **release**.
+
+In the **builder** stage you can have a development environment accessible through the container via a shell. The **release** stage only has the static built 
+binary and the necessary files to run it.
+
+#### Using the builder stage
+
+Bring up the services using the docker compose (easier way):
+```bash
+docker compose up -d
+```
+
+And then, interact with the container environment using a shell:
+
+```
+docker compose exec -it builder /bin/bash
+```
+
+#### Using the release stage:
+
+Build the container image:
+
+```bash
+docker buildx build -t rust-ro:v0.0.0 --target release . --load
+
+# Or using the old docker build
+
+docker build -t rust-ro:v0.0.0 --target release .
+```
+
+Run the container specifying the configuration files you want to use with the server:
+
+```bash
+docker run -it -p "6900:6900" -p "5121:5121" -p "6121:6121" -p "6901:6901" -p "6123:6123" -p "6124:6124" \
+ -e DATABASE_PASSWORD=ragnarok \
+ -v ./config:/config:ro -v ./config.json:/config.json -v ./native_functions_list.txt:/native_functions_list.txt:ro \
+ rust-ro:v0.0.0
+```
+
