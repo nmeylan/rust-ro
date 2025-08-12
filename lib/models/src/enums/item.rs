@@ -187,6 +187,11 @@ impl ItemType {
             ItemType::Armor | ItemType::Weapon | ItemType::Ammo | ItemType::ShadowGear
         )
     }
+
+    #[inline]
+    pub fn is_card(&self) -> bool {
+        matches!(self, ItemType::Card)
+    }
     pub fn is_etc(&self) -> bool {
         matches!(
             self,

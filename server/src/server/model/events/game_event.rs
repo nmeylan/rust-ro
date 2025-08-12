@@ -49,7 +49,7 @@ pub enum GameEvent {
     CharacterResetStats(u32),
     CharacterUpdateSpeed(u32, u16),
     CharacterRestoreAllHpAndSP(u32),
-    CharacterSlotCard(CharacterEquipItem)
+    CharacterRequestCardCompositionList(CharacterEquipItem)
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -191,4 +191,10 @@ pub struct CharacterUpdateStat {
 pub struct CharacterSkillUpgrade {
     pub char_id: u32,
     pub skill_id: u16,
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub struct CharacterRequestCardCompositionList {
+    pub char_id: u32,
+    pub card_index: usize,
 }

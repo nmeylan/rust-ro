@@ -6,7 +6,7 @@ use models::enums::look::LookType;
 use models::enums::EnumWithMaskValueU64;
 use models::enums::EnumWithNumberValue;
 use models::item::Wearable;
-use packets::packets::{EquipmentitemExtrainfo301, NormalitemExtrainfo3, Packet, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSpriteChange2, EQUIPSLOTINFO};
+use packets::packets::{EquipmentitemExtrainfo301, NormalitemExtrainfo3, Packet, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcItemcompositionList, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSkillinfoList, PacketZcSpriteChange2, EQUIPSLOTINFO, SKILLINFO};
 use rand::RngCore;
 use std::sync::mpsc::SyncSender;
 use std::sync::Arc;
@@ -14,7 +14,7 @@ use tokio::runtime::Runtime;
 
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
-use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterRemoveItem, CharacterRemoveItems, CharacterZeny, GameEvent};
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterRemoveItem, CharacterRemoveItems, CharacterRequestCardCompositionList, CharacterZeny, GameEvent};
 use crate::server::model::events::map_event::{CharacterDropItems, MapEvent};
 use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
 use crate::server::model::map_instance::MapInstance;
@@ -443,5 +443,35 @@ impl InventoryService {
             .expect("Fail to send persistence event");
         self.server_task_queue.add_to_first_index(GameEvent::CharacterUpdateClientSideStats(character.char_id));
         takeoff_equipement
+    }
+
+    pub fn send_card_composition_list(&self, character: &mut Character, char_equip_item: CharacterEquipItem) {
+        let mut packet_zc_item_composition_list = PacketZcItemcompositionList::new(self.configuration_service.packetver());
+
+        let mut slotable_items: Vec<u16> = vec![];
+        
+        if let Some(card_item) = character.get_item_from_inventory(char_equip_item.index) {
+            let card_info = self.configuration_service.get_item(card_item.item_id);
+
+            if card_info.item_type.is_card() {
+                for (index, inventory_item) in character.inventory.iter().enumerate() {
+                    if let Some(item) = inventory_item {
+                        let item_info = self.configuration_service.get_item(item.item_id);
+
+                        if item_info.item_type.is_equipment() && card_info.location & item_info.location != 0 {
+                            info!("Index {index}, {}", item_info.name_aegis);
+                            slotable_items.push(index as u16);
+                        }
+                    }
+                }
+            }
+        }
+
+        packet_zc_item_composition_list.set_packet_length((PacketZcItemcompositionList::base_len(self.configuration_service.packetver()) + (slotable_items.len() * 2)) as i16);
+        packet_zc_item_composition_list.set_itidlist(slotable_items);
+        packet_zc_item_composition_list.fill_raw();
+        
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_item_composition_list.raw)))
+            .unwrap_or_else(|_| error!("Failed to send PacketZcItemcompositionList to client"));
     }
 }

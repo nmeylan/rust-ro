@@ -238,8 +238,9 @@ impl Server {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
                         server_ref.character_service().cancel_movement(character, tick);
                     }
-                    GameEvent::CharacterSlotCard(char_equip_card) => {
-                        
+                    GameEvent::CharacterRequestCardCompositionList(character_request_card_composition_list) => {
+                        let character = server_state_mut.characters_mut().get_mut(&character_request_card_composition_list.char_id).unwrap();
+                        server_ref.inventory_service().send_card_composition_list(character, character_request_card_composition_list);
                     }
                 }
             }

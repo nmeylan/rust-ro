@@ -76,8 +76,8 @@ mod tests {
     use models::enums::EnumWithMaskValueU64;
     use models::enums::EnumWithNumberValue;
     use models::enums::EnumWithStringValue;
-    use packets::packets::PacketZcReqWearEquipAck2;
-    use packets::packets::{PacketZcAttackRange, PacketZcEquipArrow, PacketZcItemThrowAck, PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2};
+    use packets::packets::{Packet, PacketZcReqWearEquipAck2};
+    use packets::packets::{PacketZcAttackRange, PacketZcEquipArrow, PacketZcItemThrowAck, PacketZcItemcompositionList, PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2};
 
     use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, task_queue_contains_event_at_tick, NotificationExpectation, SentPacket};
     use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character, equip_item_from_name};
@@ -703,4 +703,38 @@ mod tests {
         // Then
         assert_task_queue_is_empty!(task_queue);
     }
+
+    #[test]
+    fn test_send_card_composition_list_should_send_list_of_slotable_items() {
+        // Given
+        let context = before_each_with_latch(mocked_repository(), 1);
+        let packetver = GlobalConfigService::instance().packetver();
+        let mut character = create_character();
+        let character_add_items = CharacterAddItems { char_id: character.char_id, should_perform_check: false, buy: false, items: vec![create_inventory_item("Wilow_Card", 1)] };
+        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
+        let character_add_items = CharacterAddItems { char_id: character.char_id, should_perform_check: false, buy: false, items: vec![create_inventory_item("Sunglasses_", 1)] };
+        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
+        let character_add_items = CharacterAddItems { char_id: character.char_id, should_perform_check: false, buy: false, items: vec![create_inventory_item("Golden_Mace", 1)] };
+        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
+        let character_add_items = CharacterAddItems { char_id: character.char_id, should_perform_check: false, buy: false, items: vec![create_inventory_item("Marionette_Doll", 1)] };
+        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
+        
+        let request = CharacterEquipItem {
+            char_id: character.char_id,
+            index: 0,
+        };
+        
+        // When
+        context.inventory_service.send_card_composition_list(&mut character, request);
+        
+        // Then
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcItemcompositionList::packet_id(packetver), 1)]));
+        let packets = context.test_context.get_sent_packet(vec![PacketZcItemcompositionList::packet_id(packetver)], packetver);
+        let packet = cast!(packets[0], PacketZcItemcompositionList);
+
+        assert!(packet.itidlist.contains(&1));
+        assert!(packet.itidlist.contains(&3));
+    }
+
 }
