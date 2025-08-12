@@ -459,7 +459,6 @@ impl InventoryService {
                         let item_info = self.configuration_service.get_item(item.item_id);
 
                         if item_info.item_type.is_equipment() && card_info.location & item_info.location != 0 {
-                            info!("Index {index}, {}", item_info.name_aegis);
                             slotable_items.push(index as u16);
                         }
                     }
