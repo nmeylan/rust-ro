@@ -1,9 +1,9 @@
-use crate::server::model::request::Request;
-use packets::packets::{PacketCzUseItem, PacketZcUseItemAck2, PacketCzReqWearEquip, PacketCzReqTakeoffEquip, PacketCzItemThrow};
 use crate::packets::packets::Packet;
 use crate::server::model::events::game_event::{CharacterEquipItem, CharacterRemoveItem, CharacterTakeoffEquipItem, CharacterUseItem, GameEvent};
-use crate::server::Server;
+use crate::server::model::request::Request;
 use crate::server::service::global_config_service::GlobalConfigService;
+use crate::server::Server;
+use packets::packets::{PacketCzItemThrow, PacketCzReqItemcompositionList, PacketCzReqTakeoffEquip, PacketCzReqWearEquip, PacketCzUseItem, PacketZcUseItemAck2};
 
 pub fn handle_player_use_item(server: &Server, context: Request) {
     let packet_cz_use_item = cast!(context.packet(), PacketCzUseItem);
@@ -48,4 +48,9 @@ pub fn handle_player_drop_item(server: &Server, context: Request) {
         amount: packet_cz_item_throw.count,
         price: 0
     }));
+}
+
+pub fn handle_player_card_slot_card(server: &Server, context: Request) {
+    let packet_cz_req_item_composition_list = cast!(context.packet(), PacketCzReqItemcompositionList);
+
 }

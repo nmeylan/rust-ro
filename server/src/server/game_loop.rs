@@ -238,6 +238,9 @@ impl Server {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
                         server_ref.character_service().cancel_movement(character, tick);
                     }
+                    GameEvent::CharacterSlotCard(char_equip_card) => {
+                        
+                    }
                 }
             }
         }

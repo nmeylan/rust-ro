@@ -49,6 +49,7 @@ pub enum GameEvent {
     CharacterResetStats(u32),
     CharacterUpdateSpeed(u32, u16),
     CharacterRestoreAllHpAndSP(u32),
+    CharacterSlotCard(CharacterEquipItem)
 }
 
 #[derive(Debug, PartialEq, Clone)]

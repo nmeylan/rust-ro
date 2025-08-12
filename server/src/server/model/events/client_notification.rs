@@ -5,7 +5,9 @@ use std::fmt::{Debug, Formatter};
 
 #[derive(Clone)]
 pub enum Notification {
+    /// To send packet to a specific character only
     Char(CharNotification),
+    /// To send packet to character present around a given area
     Area(AreaNotification),
 }
 
