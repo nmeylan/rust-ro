@@ -3561,7 +3561,7 @@ pub struct PacketZcItemidentifyList {
     pub packet_id_raw: [u8; 2],
     pub packet_length: i16,
     pub packet_length_raw: [u8; 2],
-    pub itidlist: Vec<u8>,
+    pub itidlist: Vec<u16>,
     pub itidlist_raw: Vec<u8>,
 }
 
@@ -3601,7 +3601,7 @@ pub struct PacketZcItemcompositionList {
     pub packet_id_raw: [u8; 2],
     pub packet_length: i16,
     pub packet_length_raw: [u8; 2],
-    pub itidlist: Vec<u8>,
+    pub itidlist: Vec<u16>,
     pub itidlist_raw: Vec<u8>,
 }
 
@@ -6457,7 +6457,7 @@ pub struct PacketZcMakingitemList {
     pub packet_id_raw: [u8; 2],
     pub packet_length: i16,
     pub packet_length_raw: [u8; 2],
-    pub id_list: Vec<u8>,
+    pub id_list: Vec<u16>,
     pub id_list_raw: Vec<u8>,
 }
 
@@ -8049,7 +8049,7 @@ pub struct PacketZcMapproperty {
     pub packet_length_raw: [u8; 2],
     pub atype: i16,
     pub atype_raw: [u8; 2],
-    pub map_info_table: Vec<u8>,
+    pub map_info_table: Vec<i32>,
     pub map_info_table_raw: Vec<u8>,
 }
 
@@ -8480,7 +8480,7 @@ pub struct PacketZcSkillSelectRequest {
     pub packet_length_raw: [u8; 2],
     pub why: i32,
     pub why_raw: [u8; 4],
-    pub skidlist: Vec<u8>,
+    pub skidlist: Vec<u16>,
     pub skidlist_raw: Vec<u8>,
 }
 
@@ -10204,7 +10204,7 @@ pub struct PacketZcHatEffect {
     pub aid_raw: [u8; 4],
     pub status: u8,
     pub status_raw: [u8; 1],
-    pub effect: Vec<u8>,
+    pub effect: Vec<u16>,
     pub effect_raw: Vec<u8>,
 }
 

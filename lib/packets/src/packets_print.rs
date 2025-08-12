@@ -6080,7 +6080,7 @@ impl Display for PacketZcItemidentifyList {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("itidlist([] as Array)[4, ?]: {}", &self.itidlist.pretty_output()));
+        fields.push(format!("itidlist(unsigned short[] as u16[])[4, ?]: {}", &self.itidlist.pretty_output()));
         write!(f, "PacketZcItemidentifyList\n {}", fields.join(",\n "))
     }
 }
@@ -6156,7 +6156,7 @@ impl Display for PacketZcItemcompositionList {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("itidlist([] as Array)[4, ?]: {}", &self.itidlist.pretty_output()));
+        fields.push(format!("itidlist(unsigned short[] as u16[])[4, ?]: {}", &self.itidlist.pretty_output()));
         write!(f, "PacketZcItemcompositionList\n {}", fields.join(",\n "))
     }
 }
@@ -10968,7 +10968,7 @@ impl Display for PacketZcMakingitemList {
         let mut fields = Vec::new();
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
-        fields.push(format!("id_list([] as Array)[4, ?]: {}", &self.id_list.pretty_output()));
+        fields.push(format!("id_list(unsigned short[] as u16[])[4, ?]: {}", &self.id_list.pretty_output()));
         write!(f, "PacketZcMakingitemList\n {}", fields.join(",\n "))
     }
 }
@@ -13709,7 +13709,7 @@ impl Display for PacketZcMapproperty {
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("atype(short as i16)[4, 6]: {}", &self.atype));
-        fields.push(format!("map_info_table([] as Array)[6, ?]: {}", &self.map_info_table.pretty_output()));
+        fields.push(format!("map_info_table(int[] as i32[])[6, ?]: {}", &self.map_info_table.pretty_output()));
         write!(f, "PacketZcMapproperty\n {}", fields.join(",\n "))
     }
 }
@@ -14370,7 +14370,7 @@ impl Display for PacketZcSkillSelectRequest {
         fields.push(format!("packet_id(short as i16)[0, 2]: 0X{:02X?}{:02X?}", &self.packet_id_raw[0], &self.packet_id_raw[1]));
         fields.push(format!("packet_length(short as i16)[2, 4]: {}", &self.packet_length));
         fields.push(format!("why(long as i32)[4, 8]: {}", &self.why));
-        fields.push(format!("skidlist([] as Array)[8, ?]: {}", &self.skidlist.pretty_output()));
+        fields.push(format!("skidlist(unsigned short[] as u16[])[8, ?]: {}", &self.skidlist.pretty_output()));
         write!(f, "PacketZcSkillSelectRequest\n {}", fields.join(",\n "))
     }
 }
@@ -17294,7 +17294,7 @@ impl Display for PacketZcHatEffect {
         fields.push(format!("len(short as i16)[2, 4]: {}", &self.len));
         fields.push(format!("aid(unsigned long as u32)[4, 8]: {}", &self.aid));
         fields.push(format!("status(unsigned char as u8)[8, 9]: {}", &self.status));
-        fields.push(format!("effect([] as Array)[9, ?]: {}", &self.effect.pretty_output()));
+        fields.push(format!("effect(unsigned short[] as u16[])[9, ?]: {}", &self.effect.pretty_output()));
         write!(f, "PacketZcHatEffect\n {}", fields.join(",\n "))
     }
 }

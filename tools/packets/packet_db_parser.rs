@@ -1,13 +1,13 @@
+use lazy_static::lazy_static;
+use std::cell::{RefCell, RefMut};
+use std::collections::HashMap;
 use std::fs::File;
 use std::io;
-use std::io::{BufRead};
-use std::collections::HashMap;
-use std::cell::{RefCell, RefMut};
-use lazy_static::lazy_static;
+use std::io::BufRead;
 
 use crate::{Condition, PacketId, PacketStructDefinition, StructDefinition, StructField, Type};
-use std::path::Path;
 use regex_lite::{Captures, Regex};
+use std::path::Path;
 
 lazy_static! {
     pub static ref   TYPES_MAP: HashMap<&'static str, Type> = HashMap::from([
@@ -171,6 +171,8 @@ fn get_field<'a>(field_line: String, position: i16) -> StructField<'a> {
             length = options.get(2).unwrap().as_str().parse::<i16>().unwrap();
         } else if field_line.contains("char") { // match char xxx[...]
             field_type =   TYPES_MAP.get("string").unwrap();
+        } else {
+            sub_type = Some(get_type(&field_line, true));
         }
     }
 

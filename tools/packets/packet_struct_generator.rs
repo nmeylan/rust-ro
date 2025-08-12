@@ -361,7 +361,7 @@ fn write_struct_setter_methods(file: &mut File, struct_definition: &StructDefini
 fn write_struct_base_len_method(file: &mut File, struct_definition: &StructDefinition) {
     file.write_all("    pub fn base_len(packetver: u32) -> usize {\n".to_string().as_bytes()).unwrap();
     let base_len_is_mut = struct_definition.fields.iter().filter(|f| f.condition.is_some()).count() > 0;
-    file.write_all(format!("        let {} base_len: usize = {};\n", if base_len_is_mut { "mut" } else { "" }, struct_definition.fields.iter().filter(|f| f.condition.is_none() && f.data_type.name != "Vec").map(|f| f.length).sum::<i16>()).as_bytes()).unwrap();
+    file.write_all(format!("        let {} base_len: usize = {};\n", if base_len_is_mut { "mut" } else { "" }, struct_definition.fields.iter().filter(|f| f.condition.is_none() && f.data_type.name != "Vec" && f.length > -1).map(|f| f.length).sum::<i16>()).as_bytes()).unwrap();
     for f in struct_definition.fields.iter().filter(|f| f.condition.is_some()) {
         file.write_all(format!("        {}", packetver_if("packetver", f)).as_bytes()).unwrap();
         file.write_all(format!("            base_len += {};\n", f.length).as_bytes()).unwrap();
@@ -671,7 +671,7 @@ fn struct_impl_field_value(field: &StructField) -> String {
         "Array" => {
             let mut array_block = " {\n".to_string();
             let length = &field.length;
-            if field.sub_type.is_some() {
+            if field.sub_type.is_some() &&  field.length > -1 {
                 let sub_type_name = &field.sub_type.unwrap().name;
                 if sub_type_name == "char" {
                     array_block = format!("{array_block}                let mut dst: [{sub_type_name}; {length}] = [0 as {sub_type_name}; {length}];\n");
@@ -685,6 +685,43 @@ fn struct_impl_field_value(field: &StructField) -> String {
             } else if field.length > -1 {
                 array_block = format!("{array_block}                let mut dst: [u8; {length}] = [0; {length}];\n");
                 array_block = format!("{}                dst.clone_from_slice(&buffer[offset..offset + {}]);\n", array_block, field.length);
+            } else if field.sub_type.is_some() {
+                let sub_type_name = &field.sub_type.unwrap().name;
+                array_block = format!("{array_block}                let mut dst: Vec<{sub_type_name}> = vec![];\n");
+                let (read_array_entry, len) = match sub_type_name.as_str() {
+                    "u8" => {
+                        (String::from("u8::from_le_bytes([buffer[offset]])"), 1)
+                    }
+                    "i8" => {
+                        (String::from("i8::from_le_bytes([buffer[offset]])"), 1)
+                    }
+                    "u16" => {
+                        (String::from("u16::from_le_bytes([buffer[offset], buffer[offset + 1]])"), 2)
+                    }
+                    "i16" => {
+                        (String::from("i16::from_le_bytes([buffer[offset], buffer[offset + 1]])"), 2)
+                    }
+                    "u32" => {
+                        (String::from("u32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]])"), 4)
+                    }
+                    "i32" => {
+                        (String::from("i32::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3]])"), 4)
+                    }
+                    "u64" => {
+                        (String::from("u64::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3], buffer[offset + 4], buffer[offset + 5], buffer[offset + 6], buffer[offset + 7]])"), 8)
+                    }
+                    "i64" => {
+                        (String::from("i64::from_le_bytes([buffer[offset], buffer[offset + 1], buffer[offset + 2], buffer[offset + 3], buffer[offset + 4], buffer[offset + 5], buffer[offset + 6], buffer[offset + 7]])"), 8)
+                    }
+                    _ => { panic!("Dont know of to read Vec<{}>", sub_type_name.as_str())}
+                };
+
+                array_block = format!("{array_block}                let offset_orig = offset;\n");
+                array_block = format!("{array_block}                while (offset + {len} <= buffer.len()) {{\n");
+                array_block = format!("{array_block}                    dst.push({read_array_entry});\n");
+                array_block = format!("{array_block}                    offset += {len};\n");
+                array_block = format!("{array_block}                }}\n");
+                array_block = format!("{array_block}                offset = offset_orig;\n");
             } else {
                 array_block = format!("{array_block}                let dst: Vec<u8> = buffer[offset..buffer.len()].to_vec();\n");
             }
@@ -791,16 +828,19 @@ fn field_serialization(field: &StructField) -> String {
                     res = format!("{}        for item in self.{} {{\n", res, field.name);
                     res = format!("{}            wtr.write_{}(item).unwrap();\n", res, sub_type.name);
                     res = format!("{res}        }}\n");
+                    res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
                 } else if sub_type.name == "char" {
                     res = format!("{}        for item in self.{} {{\n", res, field.name);
                     res = format!("{res}            wtr.write_u8(item as u8 ).unwrap();\n");
                     res = format!("{res}        }}\n");
-                } else {
+                    res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
+                } else if field.length > -1 {
                     res = format!("{}        for item in self.{} {{\n", res, field.name);
                     res = format!("{}            wtr.write_{}::<LittleEndian>(item).unwrap();\n", res, sub_type.name);
                     res = format!("{res}        }}\n");
+                } else {
+                    res = format!("{}        self.{}_raw = self.{}.iter().flat_map(|&x| x.to_le_bytes()).collect::<Vec<u8>>();\n", res, field.name, field.name);
                 }
-                res = format!("{}        self.{}_raw = wtr.try_into().unwrap();", res, field.name);
                 res
             } else {
                 res
@@ -861,8 +901,10 @@ fn field_type(field: &StructField) -> String {
     } else if field.data_type.name == "Struct" {
         field.complex_type.as_ref().unwrap().to_string()
     } else if field.data_type.name == "Array" {
-        if field.sub_type.is_some() {
+        if field.sub_type.is_some() && field.length > -1 {
             format!("[{}; {}]", &field.sub_type.unwrap().name, field.length)
+        } else if field.sub_type.is_some(){
+            format!("Vec<{}>", &field.sub_type.unwrap().name)
         } else {
             "Vec<u8>".to_string()
         }
