@@ -57,3 +57,4 @@ pub struct IncreaseSkillLevel {
     pub skill: SkillEnum,
     pub increment: u8,
 }
+

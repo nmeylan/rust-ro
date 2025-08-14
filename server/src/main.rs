@@ -1,5 +1,3 @@
-#![feature(trait_upcasting)]
-
 #![feature(test)]
 #[macro_use]
 extern crate accessor;

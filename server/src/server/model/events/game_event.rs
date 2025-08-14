@@ -49,7 +49,8 @@ pub enum GameEvent {
     CharacterResetStats(u32),
     CharacterUpdateSpeed(u32, u16),
     CharacterRestoreAllHpAndSP(u32),
-    CharacterRequestCardCompositionList(CharacterEquipItem)
+    CharacterRequestCardCompositionList(CharacterEquipItem),
+    CharacterSlotCard(CharacterSlotCard)
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -101,7 +102,8 @@ pub struct CharacterAddItems {
 pub struct CharacterRemoveItems {
     pub char_id: u32,
     pub sell: bool, // indicate zeny should be given to character after item sell (zeny will be updated)
-    pub items: Vec<CharacterRemoveItem>
+    pub items: Vec<CharacterRemoveItem>,
+    pub notify_client: bool,
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -197,4 +199,11 @@ pub struct CharacterSkillUpgrade {
 pub struct CharacterRequestCardCompositionList {
     pub char_id: u32,
     pub card_index: usize,
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub struct CharacterSlotCard {
+    pub char_id: u32,
+    pub card_index: usize,
+    pub equip_index: usize,
 }

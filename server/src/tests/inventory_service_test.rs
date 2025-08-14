@@ -62,8 +62,8 @@ mod tests {
     use crate::repository::model::item_model::InventoryItemModel;
     use crate::repository::persistence_error::PersistenceError;
     use crate::repository::InventoryRepository;
-    use crate::server::model::events::game_event::CharacterAddItems;
     use crate::server::model::events::game_event::CharacterEquipItem;
+    use crate::server::model::events::game_event::{CharacterAddItems, CharacterSlotCard};
     use crate::server::model::events::game_event::{CharacterRemoveItem, CharacterRemoveItems, CharacterZeny};
     use crate::server::model::events::map_event::CharacterDropItems;
     use crate::server::model::events::map_event::MapEvent;
@@ -77,7 +77,7 @@ mod tests {
     use models::enums::EnumWithNumberValue;
     use models::enums::EnumWithStringValue;
     use packets::packets::{Packet, PacketZcReqWearEquipAck2};
-    use packets::packets::{PacketZcAttackRange, PacketZcEquipArrow, PacketZcItemThrowAck, PacketZcItemcompositionList, PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2};
+    use packets::packets::{PacketZcAckItemcomposition, PacketZcAttackRange, PacketZcEquipArrow, PacketZcItemThrowAck, PacketZcItemcompositionList, PacketZcReqTakeoffEquipAck2, PacketZcSpriteChange2};
 
     use crate::tests::common::assert_helper::{has_sent_notification, has_sent_persistence_event, task_queue_contains_event_at_tick, NotificationExpectation, SentPacket};
     use crate::tests::common::character_helper::{add_item_in_inventory, add_items_in_inventory, create_character, equip_item_from_name};
@@ -583,6 +583,7 @@ mod tests {
             char_id: character.char_id,
             sell: false,
             items: vec![CharacterRemoveItem { char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id: character.char_id, index: 1, amount: 1, price: 0 }, ],
+            notify_client: true,
         }, &mut character);
         // Then
         assert_eq!(character.inventory.len(), 2);
@@ -611,6 +612,7 @@ mod tests {
             char_id: character.char_id,
             sell: false,
             items: vec![CharacterRemoveItem { char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id: character.char_id, index: 1, amount: 1, price: 0 }, ],
+            notify_client: true,
         }, &mut character);
         // Then
         context.test_context.increment_latch().wait_expected_count_with_timeout(1, Duration::from_millis(200));
@@ -630,6 +632,7 @@ mod tests {
             char_id: character.char_id,
             sell: false,
             items: vec![CharacterRemoveItem { char_id: character.char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id: character.char_id, index: 1, amount: 1, price: 0 }, ],
+            notify_client: true,
         }, &mut character).unwrap();
         // Then
         let inventory_item_model = &inventory_items[0].0;
@@ -661,6 +664,7 @@ mod tests {
             char_id,
             sell: false,
             items: vec![CharacterRemoveItem { char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id, index: 1, amount: 1, price: 0 }],
+            notify_client: true,
         }, &map_instance);
         // Then
         // We should update amount from cloned inventory item for the comparison below
@@ -699,6 +703,7 @@ mod tests {
             char_id,
             sell: false,
             items: vec![CharacterRemoveItem { char_id, index: 0, amount: 7, price: 0 }, CharacterRemoveItem { char_id, index: 1, amount: 1, price: 0 }],
+            notify_client: true,
         }, &map_instance);
         // Then
         assert_task_queue_is_empty!(task_queue);
@@ -707,23 +712,18 @@ mod tests {
     #[test]
     fn test_send_card_composition_list_should_send_list_of_slotable_items() {
         // Given
-        let context = before_each_with_latch(mocked_repository(), 1);
+        let mut context = before_each_with_latch(mocked_repository(), 1);
         let packetver = GlobalConfigService::instance().packetver();
         let mut character = create_character();
-        let character_add_items = CharacterAddItems { char_id: character.char_id, should_perform_check: false, buy: false, items: vec![create_inventory_item("Wilow_Card", 1)] };
-        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
-        let character_add_items = CharacterAddItems { char_id: character.char_id, should_perform_check: false, buy: false, items: vec![create_inventory_item("Sunglasses_", 1)] };
-        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
-        let character_add_items = CharacterAddItems { char_id: character.char_id, should_perform_check: false, buy: false, items: vec![create_inventory_item("Golden_Mace", 1)] };
-        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
-        let character_add_items = CharacterAddItems { char_id: character.char_id, should_perform_check: false, buy: false, items: vec![create_inventory_item("Marionette_Doll", 1)] };
-        context.inventory_service.add_items_in_inventory(context.runtime(), character_add_items, &mut character);
+        add_items_in_inventory(&mut character, "Wilow_Card", 1);
+        add_items_in_inventory(&mut character, "Sunglasses_", 1);
+        add_items_in_inventory(&mut character, "Golden_Mace", 1);
+        add_items_in_inventory(&mut character, "Marionette_Doll", 1);
         
         let request = CharacterEquipItem {
             char_id: character.char_id,
             index: 0,
         };
-        
         // When
         context.inventory_service.send_card_composition_list(&mut character, request);
         
@@ -735,6 +735,141 @@ mod tests {
 
         assert!(packet.itidlist.contains(&1));
         assert!(packet.itidlist.contains(&3));
+    }
+
+    #[test]
+    fn test_slot_card_success_should_remove_card_from_inventory_and_send_success_response() {
+        // Given
+        struct MockedInventoryRepository {
+            inventory_update_items: Mutex<Vec<InventoryItemModel>>,
+        }
+
+        #[async_trait]
+        impl InventoryRepository for MockedInventoryRepository {
+            async fn character_slot_card(&self, char_id: i32, card_inventory_item: &InventoryItemModel, equipment_inventory_item: &InventoryItemModel) -> Result<i32, Error> {
+                assert_eq!(char_id, 123);
+                assert_eq!(card_inventory_item.item_id, GlobalConfigService::instance().get_item_id_from_name("Wilow_Card") as i32);
+                assert_eq!(equipment_inventory_item.item_id, GlobalConfigService::instance().get_item_id_from_name("Sunglasses_") as i32);
+                Ok(0) // Simulate success - card slotted in slot 0
+            }
+
+            async fn character_inventory_update_remove(&self, inventory_update_items: &Vec<(InventoryItemModel, CharacterRemoveItem)>, _buy: bool) -> Result<(), Error> {
+                let mut guard = self.inventory_update_items.lock().unwrap();
+                guard.extend(inventory_update_items.iter().map(|(item, _)| (*item).clone()).collect::<Vec<InventoryItemModel>>());
+                Ok(())
+            }
+        }
+
+        let inventory_repository = Arc::new(MockedInventoryRepository { inventory_update_items: Mutex::new(vec![]) });
+        let context = before_each_with_latch(inventory_repository.clone(), 3); // Increased for remove_single_item_from_inventory
+        let mut character = create_character();
+        character.char_id = 123;
+        
+        // Add card and equipment items to character inventory using helper
+        add_items_in_inventory(&mut character, "Wilow_Card", 1); // Card at index 0
+        add_items_in_inventory(&mut character, "Sunglasses_", 1); // Equipment at index 1
+        
+        let slot_card_args = CharacterSlotCard {
+            char_id: 123,
+            card_index: 0, // Card is at index 0
+            equip_index: 1, // Equipment is at index 1
+        };
+
+        // When
+        context.inventory_service.slot_card(context.runtime(), &mut character, slot_card_args);
+
+        // Then
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        
+        // Verify card was removed from inventory
+        assert!(character.inventory.get(0).is_none() || character.inventory.get(0).unwrap().is_none());
+        let inventory_database = inventory_repository.inventory_update_items.lock().unwrap();
+        assert!(inventory_database.len() == 1);
+
+        // Verify success response packet was sent
+        let packetver = GlobalConfigService::instance().packetver();
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcAckItemcomposition::packet_id(packetver), 1)]));
+    }
+
+    #[test]
+    fn test_slot_card_repository_failure_should_send_failure_response() {
+        // Given
+        struct MockedInventoryRepository;
+
+        #[async_trait]
+        impl InventoryRepository for MockedInventoryRepository {
+            async fn character_slot_card(&self, char_id: i32, card_inventory_item: &InventoryItemModel, equipment_inventory_item: &InventoryItemModel) -> Result<i32, Error> {
+                assert_eq!(char_id, 123);
+                assert_eq!(card_inventory_item.item_id, GlobalConfigService::instance().get_item_id_from_name("Wilow_Card") as i32);
+                assert_eq!(equipment_inventory_item.item_id, GlobalConfigService::instance().get_item_id_from_name("Sunglasses_") as i32);
+                Err(Error::RowNotFound) // Simulate all card slots occupied
+            }
+        }
+
+        let inventory_repository = Arc::new(MockedInventoryRepository);
+        let context = before_each_with_latch(inventory_repository, 2);
+        let mut character = create_character();
+        character.char_id = 123;
+        
+        // Add card and equipment items to character inventory using helper
+        add_items_in_inventory(&mut character, "Wilow_Card", 1); // Card at index 0
+        add_items_in_inventory(&mut character, "Sunglasses_", 1); // Equipment at index 1
+        
+        let slot_card_args = CharacterSlotCard {
+            char_id: 123,
+            card_index: 0, // Card is at index 0
+            equip_index: 1, // Equipment is at index 1
+        };
+
+        // When
+        context.inventory_service.slot_card(context.runtime(), &mut character, slot_card_args);
+
+        // Then
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        
+        // Verify card was NOT removed from inventory (failure case)
+        assert!(character.inventory.get(0).is_some() && character.inventory.get(0).unwrap().is_some());
+        
+        // Verify failure response packet was sent
+        let packetver = GlobalConfigService::instance().packetver();
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcAckItemcomposition::packet_id(packetver), 1)]));
+    }
+
+    #[test]
+    fn test_slot_card_card_not_in_inventory_should_send_failure_response() {
+        // Given
+        struct MockedInventoryRepository;
+
+        #[async_trait]
+        impl InventoryRepository for MockedInventoryRepository {
+            async fn character_slot_card(&self, _char_id: i32, _card_inventory_item: &InventoryItemModel, _equipment_inventory_item: &InventoryItemModel) -> Result<i32, Error> {
+                panic!("Repository should not be called when card doesn't exist");
+            }
+        }
+
+        let inventory_repository = Arc::new(MockedInventoryRepository);
+        let context = before_each_with_latch(inventory_repository, 1);
+        let mut character = create_character();
+        character.char_id = 123;
+        
+        // Add only equipment item, no card at the requested index
+        add_items_in_inventory(&mut character, "Sunglasses_", 1); // Equipment at index 0
+        
+        let slot_card_args = CharacterSlotCard {
+            char_id: 123,
+            card_index: 5, // No card at this index (only equipment at index 0)
+            equip_index: 0, // Equipment is at index 0
+        };
+
+        // When
+        context.inventory_service.slot_card(context.runtime(), &mut character, slot_card_args);
+
+        // Then
+        context.test_context.countdown_latch().wait_with_timeout(Duration::from_millis(200));
+        
+        // Verify failure response packet was sent
+        let packetver = GlobalConfigService::instance().packetver();
+        assert_sent_packet_in_current_packetver!(context, NotificationExpectation::of_char(character.char_id, vec![SentPacket::with_count(PacketZcAckItemcomposition::packet_id(packetver), 1)]));
     }
 
 }

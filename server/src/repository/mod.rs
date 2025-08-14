@@ -109,6 +109,7 @@ pub trait InventoryRepository {
     async fn character_inventory_delete(&self, _delete_items: DeleteItems) -> Result<PgQueryResult, Error> { todo!() }
     async fn character_inventory_fetch(&self, _char_id: i32) -> Result<Vec<InventoryItemModel>, Error> { todo!() }
     async fn character_inventory_wearable_item_update(&self, _items: Vec<InventoryItemModel>) -> Result<PgQueryResult, Error> { todo!() }
+    async fn character_slot_card(&self, _char_id: i32, _card_inventory_item: &InventoryItemModel, _equipment_inventory_item: &InventoryItemModel) -> Result<i32, Error> { todo!() }
 }
 
 #[async_trait]

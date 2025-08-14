@@ -135,6 +135,7 @@ impl PlayerInteractionScriptHandler {
                 char_id,
                 sell: true,
                 items: items_to_remove,
+                notify_client: true,
             }));
             return true;
         } else if native.name.eq("checkweight2") {

@@ -1,9 +1,9 @@
 use crate::packets::packets::Packet;
-use crate::server::model::events::game_event::{CharacterEquipItem, CharacterRemoveItem, CharacterRequestCardCompositionList, CharacterTakeoffEquipItem, CharacterUseItem, GameEvent};
+use crate::server::model::events::game_event::{CharacterEquipItem, CharacterRemoveItem, CharacterRequestCardCompositionList, CharacterSlotCard, CharacterTakeoffEquipItem, CharacterUseItem, GameEvent};
 use crate::server::model::request::Request;
 use crate::server::service::global_config_service::GlobalConfigService;
 use crate::server::Server;
-use packets::packets::{PacketCzItemThrow, PacketCzReqItemcompositionList, PacketCzReqTakeoffEquip, PacketCzReqWearEquip, PacketCzUseItem, PacketZcUseItemAck2};
+use packets::packets::{PacketCzItemThrow, PacketCzReqItemcomposition, PacketCzReqItemcompositionList, PacketCzReqTakeoffEquip, PacketCzReqWearEquip, PacketCzUseItem, PacketZcUseItemAck2};
 
 pub fn handle_player_use_item(server: &Server, context: Request) {
     let packet_cz_use_item = cast!(context.packet(), PacketCzUseItem);
@@ -55,5 +55,14 @@ pub fn handle_player_card_composition_list(server: &Server, context: Request) {
     server.add_to_next_tick(GameEvent::CharacterRequestCardCompositionList(CharacterEquipItem {
         char_id: context.session().char_id(),
         index: packet_cz_req_item_composition_list.card_index as usize,
+    }));
+}
+
+pub fn handle_player_slot_card(server: &Server, context: Request) {
+    let packet_cz_req_item_composition = cast!(context.packet(), PacketCzReqItemcomposition);
+    server.add_to_next_tick(GameEvent::CharacterSlotCard(CharacterSlotCard {
+        char_id: context.session().char_id(),
+        card_index: packet_cz_req_item_composition.card_index as usize,
+        equip_index: packet_cz_req_item_composition.equip_index as usize,
     }));
 }

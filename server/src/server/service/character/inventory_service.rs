@@ -1,12 +1,13 @@
 use crate::repository::model::item_model::{InventoryItemModel, ItemModel};
 use crate::repository::InventoryRepository;
+use crate::Server;
 use models::enums::class::{EquipClassFlag, JobName};
 use models::enums::item::{EquipmentLocation, ItemType};
 use models::enums::look::LookType;
 use models::enums::EnumWithMaskValueU64;
 use models::enums::EnumWithNumberValue;
 use models::item::Wearable;
-use packets::packets::{EquipmentitemExtrainfo301, NormalitemExtrainfo3, Packet, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcItemcompositionList, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSkillinfoList, PacketZcSpriteChange2, EQUIPSLOTINFO, SKILLINFO};
+use packets::packets::{EquipmentitemExtrainfo301, NormalitemExtrainfo3, Packet, PacketZcAckItemcomposition, PacketZcAttackRange, PacketZcEquipArrow, PacketZcEquipmentItemlist3, PacketZcItemFallEntry, PacketZcItemPickupAck3, PacketZcItemThrowAck, PacketZcItemcompositionList, PacketZcNormalItemlist3, PacketZcPcPurchaseResult, PacketZcReqTakeoffEquipAck2, PacketZcReqWearEquipAck2, PacketZcSkillinfoList, PacketZcSpriteChange2, EQUIPSLOTINFO, SKILLINFO};
 use rand::RngCore;
 use std::sync::mpsc::SyncSender;
 use std::sync::Arc;
@@ -14,7 +15,7 @@ use tokio::runtime::Runtime;
 
 use crate::server::model::events::client_notification::{AreaNotification, AreaNotificationRangeType, CharNotification, Notification};
 use crate::server::model::events::game_event::GameEvent::{CharacterUpdateWeight, CharacterUpdateZeny};
-use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterRemoveItem, CharacterRemoveItems, CharacterRequestCardCompositionList, CharacterZeny, GameEvent};
+use crate::server::model::events::game_event::{CharacterAddItems, CharacterEquipItem, CharacterRemoveItem, CharacterRemoveItems, CharacterRequestCardCompositionList, CharacterSlotCard, CharacterZeny, GameEvent};
 use crate::server::model::events::map_event::{CharacterDropItems, MapEvent};
 use crate::server::model::events::persistence_event::{InventoryItemUpdate, PersistenceEvent};
 use crate::server::model::map_instance::MapInstance;
@@ -36,7 +37,6 @@ pub struct InventoryService {
 }
 
 impl InventoryService {
-
     pub fn new(client_notification_sender: SyncSender<Notification>, persistence_event_sender: SyncSender<PersistenceEvent>, repository: Arc<dyn InventoryRepository + Sync>, configuration_service: &'static GlobalConfigService, task_queue: Arc<TasksQueue<GameEvent>>) -> Self {
         Self { client_notification_sender, persistence_event_sender, repository, configuration_service, server_task_queue: task_queue }
     }
@@ -92,16 +92,30 @@ impl InventoryService {
         }
     }
 
-    pub fn character_sell_items(&self,  runtime: &Runtime, character: &mut Character, remove_items: CharacterRemoveItems) {
+    pub fn character_sell_items(&self, runtime: &Runtime, character: &mut Character, remove_items: CharacterRemoveItems) {
         self.remove_item_from_inventory(runtime, remove_items, character).unwrap();
     }
 
-    pub fn character_drop_items(&self,  runtime: &Runtime, character: &mut Character, remove_items: CharacterRemoveItems, map_instance: &MapInstance) {
+    pub fn character_drop_items(&self, runtime: &Runtime, character: &mut Character, remove_items: CharacterRemoveItems, map_instance: &MapInstance) {
         if let Ok(inventory_items) = self.remove_item_from_inventory(runtime, remove_items, character) {
-            map_instance.add_to_next_tick(MapEvent::CharDropItems(CharacterDropItems{ owner_id: character.char_id, char_x: character.x, char_y: character.y, item_removal_info: inventory_items }));
+            map_instance.add_to_next_tick(MapEvent::CharDropItems(CharacterDropItems { owner_id: character.char_id, char_x: character.x, char_y: character.y, item_removal_info: inventory_items }));
         }
     }
 
+    pub fn remove_single_item_from_inventory(&self, runtime: &Runtime, item_index: usize, character: &mut Character, notify_client: bool) -> Result<(InventoryItemModel, CharacterRemoveItem), String> {
+        let result = self.remove_item_from_inventory(runtime, CharacterRemoveItems {
+            char_id: character.char_id,
+            sell: false,
+            items: vec![CharacterRemoveItem {
+                char_id: character.char_id,
+                index: item_index,
+                amount: 1,
+                price: 0,
+            }],
+            notify_client,
+        }, character);
+        result.map(|r| r[0].clone())
+    }
     pub fn remove_item_from_inventory(&self, runtime: &Runtime, remove_items: CharacterRemoveItems, character: &mut Character) -> Result<Vec<(InventoryItemModel, CharacterRemoveItem)>, String> {
         let mut items = Vec::with_capacity(remove_items.items.len());
         for remove_item in remove_items.items.iter() {
@@ -119,18 +133,21 @@ impl InventoryService {
             let mut packets = vec![];
             for remove_item in remove_items.items.iter() {
                 character.del_item_from_inventory(remove_item.index, remove_item.amount);
-                let mut packet_zc_item_throw_ack = PacketZcItemThrowAck::new(self.configuration_service.packetver());
-                packet_zc_item_throw_ack.set_index(remove_item.index as u16);
-                packet_zc_item_throw_ack.set_count(remove_item.amount);
-                packet_zc_item_throw_ack.fill_raw();
-                packets.push(packet_zc_item_throw_ack.raw);
+                if remove_items.notify_client {
+                    let mut packet_zc_item_throw_ack = PacketZcItemThrowAck::new(self.configuration_service.packetver());
+                    packet_zc_item_throw_ack.set_index(remove_item.index as u16);
+                    packet_zc_item_throw_ack.set_count(remove_item.amount);
+                    packet_zc_item_throw_ack.fill_raw();
+                    packets.push(packet_zc_item_throw_ack.raw);
+                }
             }
-            for (item, remove_item) in items.iter() {
-                let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::new(self.configuration_service.packetver());
-                packet_zc_item_fall_entry.set_itid(item.item_id as u16);
-                packet_zc_item_fall_entry.set_itaid(item.id as u32);
-                packet_zc_item_fall_entry.set_count(remove_item.amount);
-
+            if remove_items.notify_client {
+                for (item, remove_item) in items.iter() {
+                    let mut packet_zc_item_fall_entry = PacketZcItemFallEntry::new(self.configuration_service.packetver());
+                    packet_zc_item_fall_entry.set_itid(item.item_id as u16);
+                    packet_zc_item_fall_entry.set_itaid(item.id as u32);
+                    packet_zc_item_fall_entry.set_count(remove_item.amount);
+                }
             }
             self.server_task_queue.add_to_first_index(CharacterUpdateWeight(character.char_id));
             if remove_items.sell {
@@ -275,27 +292,23 @@ impl InventoryService {
         if item.location() & EquipmentLocation::HandRight.as_flag() > 0 {
             packet_zc_sprite_change.set_atype(LookType::Weapon.value() as u8);
             packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id()) as u16);
-        }
-        else if item.location() & EquipmentLocation::HandLeft.as_flag() > 0 {
+        } else if item.location() & EquipmentLocation::HandLeft.as_flag() > 0 {
             packet_zc_sprite_change.set_atype(LookType::Shield.value() as u8);
             packet_zc_sprite_change.set_value2(item_info.view.unwrap_or(item.item_id()) as u16);
-        }
-        else if item.location() & EquipmentLocation::HeadTop.as_flag() > 0 {
+        } else if item.location() & EquipmentLocation::HeadTop.as_flag() > 0 {
             packet_zc_sprite_change.set_atype(LookType::HeadTop.value() as u8);
             packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id()) as u16);
-        }
-        else if item.location() & EquipmentLocation::HeadMid.as_flag() > 0 {
+        } else if item.location() & EquipmentLocation::HeadMid.as_flag() > 0 {
             packet_zc_sprite_change.set_atype(LookType::HeadMid.value() as u8);
             packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id()) as u16);
-        }
-        else if item.location() & EquipmentLocation::HeadLow.as_flag() > 0 {
+        } else if item.location() & EquipmentLocation::HeadLow.as_flag() > 0 {
             packet_zc_sprite_change.set_atype(LookType::HeadBottom.value() as u8);
             packet_zc_sprite_change.set_value(item_info.view.unwrap_or(item.item_id()) as u16);
         }
         if is_takeoff {
             packet_zc_sprite_change.set_value(0_u16);
         }
-         if packet_zc_sprite_change.atype != 0 {
+        if packet_zc_sprite_change.atype != 0 {
             packet_zc_sprite_change.fill_raw();
             return Some(packet_zc_sprite_change.raw);
         }
@@ -364,7 +377,7 @@ impl InventoryService {
                             equipped_take_off_items.push(EquippedItem { item_id: inventory_item.id, location: inventory_item.equip as u64, index: item_index });
                             items_index_to_remove.push(item_index);
                         });
-                    items_index_to_remove.iter().for_each(|index| {character.takeoff_equip_item(*index);});
+                    items_index_to_remove.iter().for_each(|index| { character.takeoff_equip_item(*index); });
                     equipped_item = character.wear_equip_item(index, location as u64, item_to_equip_model);
                 }
                 let item_view = item_to_equip_model.view.unwrap_or(0);
@@ -449,7 +462,7 @@ impl InventoryService {
         let mut packet_zc_item_composition_list = PacketZcItemcompositionList::new(self.configuration_service.packetver());
 
         let mut slotable_items: Vec<u16> = vec![];
-        
+
         if let Some(card_item) = character.get_item_from_inventory(char_equip_item.index) {
             let card_info = self.configuration_service.get_item(card_item.item_id);
 
@@ -457,9 +470,11 @@ impl InventoryService {
                 for (index, inventory_item) in character.inventory.iter().enumerate() {
                     if let Some(item) = inventory_item {
                         let item_info = self.configuration_service.get_item(item.item_id);
-
-                        if item_info.item_type.is_equipment() && card_info.location & item_info.location != 0 {
-                            slotable_items.push(index as u16);
+                        if item.has_free_slot(item_info) {
+                            debug!("Item has free slot {:?}", item);
+                            if item_info.item_type.is_equipment() && card_info.location & item_info.location != 0 {
+                                slotable_items.push(index as u16);
+                            }
                         }
                     }
                 }
@@ -469,8 +484,88 @@ impl InventoryService {
         packet_zc_item_composition_list.set_packet_length((PacketZcItemcompositionList::base_len(self.configuration_service.packetver()) + (slotable_items.len() * 2)) as i16);
         packet_zc_item_composition_list.set_itidlist(slotable_items);
         packet_zc_item_composition_list.fill_raw();
-        
+
         self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_item_composition_list.raw)))
             .unwrap_or_else(|_| error!("Failed to send PacketZcItemcompositionList to client"));
+    }
+
+    pub fn slot_card(&self, runtime: &Runtime, character: &mut Character, slot_card_args: CharacterSlotCard) {
+        // Get card and equipment items from character inventory
+        let mut card_inventory_item = None;
+        let mut equipment_inventory_item = None;
+        if let Some(card) = character.inventory.get(slot_card_args.card_index) {
+            if let Some(card) = card {
+                card_inventory_item = Some(card.clone());
+            }
+        };
+        if card_inventory_item.is_none() {
+            error!("Card item not found at index {}", slot_card_args.card_index);
+            // Send negative ACK to client
+            let mut packet_zc_ack_item_composition = PacketZcAckItemcomposition::new(self.configuration_service.packetver());
+            packet_zc_ack_item_composition.set_result(1);
+            packet_zc_ack_item_composition.fill_raw();
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_ack_item_composition.raw)))
+                .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemcomposition to client"));
+            return;
+        }
+
+        if let Some(equipment) = character.inventory.get(slot_card_args.equip_index) {
+            if let Some(equipment) = equipment {
+                equipment_inventory_item = Some(equipment.clone());
+            }
+        }
+        if equipment_inventory_item.is_none() {
+            error!("Equipment item not found at index {}", slot_card_args.equip_index);
+            let mut packet_zc_ack_item_composition = PacketZcAckItemcomposition::new(self.configuration_service.packetver());
+            packet_zc_ack_item_composition.set_result(1);
+            packet_zc_ack_item_composition.fill_raw();
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_ack_item_composition.raw)))
+                .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemcomposition to client"));
+            return;
+        }
+
+        let equipment_inventory_item = equipment_inventory_item.unwrap();
+        let item_info = self.configuration_service.get_item(equipment_inventory_item.item_id);
+        if !equipment_inventory_item.has_free_slot(item_info) {
+            error!("Equipment item has no free slot {}", slot_card_args.equip_index);
+            let mut packet_zc_ack_item_composition = PacketZcAckItemcomposition::new(self.configuration_service.packetver());
+            packet_zc_ack_item_composition.set_result(1);
+            packet_zc_ack_item_composition.fill_raw();
+            self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_ack_item_composition.raw)))
+                .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemcomposition to client"));
+            return;
+        }
+
+        let card = card_inventory_item.unwrap();
+        let result = runtime.block_on(async {
+            self.repository.character_slot_card(
+                slot_card_args.char_id as i32,
+                &card,
+                &equipment_inventory_item,
+            ).await
+        });
+
+        let mut packet_zc_ack_item_composition = PacketZcAckItemcomposition::new(self.configuration_service.packetver());
+        packet_zc_ack_item_composition.set_card_index(slot_card_args.card_index as i16);
+        packet_zc_ack_item_composition.set_equip_index(slot_card_args.equip_index as i16);
+        match result {
+            Ok(slot_index) => {
+                self.remove_single_item_from_inventory(runtime, slot_card_args.card_index, character, false);
+                if let Some(equipment) = character.inventory.get_mut(slot_card_args.equip_index) {
+                    if let Some(equipment) = equipment {
+                        equipment.set_card_at(slot_index as usize, card.item_id as i16);
+                    }
+                }
+                packet_zc_ack_item_composition.set_result(0);
+            }
+            Err(err) => {
+                error!("failed to slotted card: {}", err);
+                packet_zc_ack_item_composition.set_result(1);
+            }
+        }
+
+        packet_zc_ack_item_composition.fill_raw();
+        self.client_notification_sender.send(Notification::Char(CharNotification::new(character.char_id, packet_zc_ack_item_composition.raw)))
+            .unwrap_or_else(|_| error!("Failed to send notification PacketZcAckItemcomposition to client"));
     }
 }

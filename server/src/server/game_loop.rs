@@ -185,7 +185,7 @@ impl Server {
                     GameEvent::CharacterDropItem(character_drop_item) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_drop_item.char_id).unwrap();
                         let map_instance = server_ref.state().get_map_instance(character.current_map_name(), character.current_map_instance()).unwrap();
-                        let character_remove_items = CharacterRemoveItems { char_id: character.char_id, sell: false, items: vec![character_drop_item] };
+                        let character_remove_items = CharacterRemoveItems { char_id: character.char_id, sell: false, items: vec![character_drop_item], notify_client: true };
                         server_ref.inventory_service().character_drop_items(server_ref.runtime.as_ref(), character, character_remove_items, map_instance.as_ref());
                     }
                     GameEvent::CharacterSellItems(character_remove_items) => {
@@ -241,6 +241,10 @@ impl Server {
                     GameEvent::CharacterRequestCardCompositionList(character_request_card_composition_list) => {
                         let character = server_state_mut.characters_mut().get_mut(&character_request_card_composition_list.char_id).unwrap();
                         server_ref.inventory_service().send_card_composition_list(character, character_request_card_composition_list);
+                    }
+                    GameEvent::CharacterSlotCard(character_slot_card) => {
+                        let character = server_state_mut.characters_mut().get_mut(&character_slot_card.char_id).unwrap();
+                        server_ref.inventory_service().slot_card(server_ref.runtime(), character, character_slot_card);
                     }
                 }
             }
@@ -394,4 +398,3 @@ impl Server {
         }
     }
 }
-

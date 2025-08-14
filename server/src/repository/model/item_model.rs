@@ -468,6 +468,26 @@ impl InventoryItemModel {
             name_english: self.name_english.to_string(),
         }
     }
+
+    pub fn has_free_slot(&self, item: &ItemModel) -> bool {
+        let slots = item.slots.unwrap_or(0_i16);
+        (slots == 1 && self.card0 == 0)
+        || (slots == 2 && (self.card0 == 0 || self.card1 == 0))
+        || (slots == 3 && (self.card0 == 0 || self.card1 == 0 || self.card2 == 0))
+        || (slots == 4 && (self.card0 == 0 || self.card1 == 0 || self.card2 == 0 || self.card3 == 0))
+    }
+
+    pub fn set_card_at(&mut self, index: usize, card_id: i16) {
+        if index == 0 {
+            self.card0 = card_id;
+        } else if index == 1 {
+            self.card1 = card_id;
+        } else if index == 2 {
+            self.card2 = card_id;
+        } else if index == 3 {
+            self.card3 = card_id;
+        }
+    }
 }
 
 impl<'r> Decode<'r, Postgres> for DBItemType {
