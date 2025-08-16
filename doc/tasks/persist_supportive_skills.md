@@ -33,3 +33,13 @@ CREATE TABLE ragnarok.sc_data (
 - val2: the second value of bonus if any
 - val3: the third value of bonus if any
 - val4: the fourth value of bonus if any
+
+# Phase 2
+
+Load data from sc_data table and restore temporary bonuses on character login.
+
+# TODO
+- Perform a `DELETE RETURNING` on sc_data for a given char_id, account_id to recover character bonuses
+- implement deserialization method from sc_data to BonusType, inspired by what was done in `serialize_to_sc_data`
+- Create temporary bonus from BonusType and tick retrieved from database
+- Set temporary bonus to character status on login

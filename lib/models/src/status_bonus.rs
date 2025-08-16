@@ -61,6 +61,15 @@ impl TemporaryStatusBonus {
             source: Some(StatusBonusSource::Skill(skill_id)),
         }
     }
+    pub fn with_duration_and_source(bonus: BonusType, flags: u64, tick: u128, duration: u32, source: Option<StatusBonusSource>) -> Self {
+        Self {
+            bonus,
+            flags,
+            expirency: BonusExpiry::Time(tick + duration as u128),
+            state: StatusBonusState::No,
+            source,
+        }
+    }
 
     pub fn with_passive_skill(bonus: BonusType, flags: u64, skill_id: u16) -> Self {
         Self {
@@ -195,6 +204,25 @@ pub enum StatusBonusSource {
     Skill(u16),
     PassiveSkill(u16),
     Item(u32)
+}
+
+impl StatusBonusSource {
+    pub fn serialize_to_sc_data(&self) -> (&'static str, i32) {
+        match self {
+            StatusBonusSource::Skill(v) => ("Skill", *v as i32),
+            StatusBonusSource::PassiveSkill(v) => ("PassiveSkill", *v as i32),
+            StatusBonusSource::Item(v) => ("Item", *v as i32),
+        }
+    }
+
+    pub fn deserialize_sc_data(source: &str, value: i32) -> Option<Self> {
+        match source {
+            "Skill" => Some(StatusBonusSource::Skill(value as u16)),
+            "PassiveSkill" => Some(StatusBonusSource::PassiveSkill(value as u16)),
+            "Item" => Some(StatusBonusSource::Item(value as u32)),
+            _ =>  None
+        }
+    }
 }
 
 

@@ -59,6 +59,7 @@ impl Server {
                     GameEvent::CharacterJoinGame(char_id) => {
                         let character = server_state_mut.characters_mut().get_mut(&char_id).unwrap();
                         server_ref.skill_tree_service().send_skill_tree(character);
+                        server_ref.character_service().load_temporary_bonuses_from_db(server_ref.runtime.as_ref(), character);
                     }
                     GameEvent::CharacterChangeMap(event) => {
                         let map_instance = server_ref.state().get_map_instance(&event.new_map_name, event.new_instance_id)

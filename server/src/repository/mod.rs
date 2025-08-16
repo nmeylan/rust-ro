@@ -101,6 +101,7 @@ pub trait CharacterRepository {
     async fn character_allocate_skill_point(&self, _char_id: i32,  _skill_id: i32, _increment: u8) -> Result<(), Error> { todo!() }
     async fn characters_update(&self, statuses: Vec<&Status>, _statuses: Vec<StatusSnapshot>, _char_ids: Vec<i32>, _x: Vec<i16>, _y: Vec<i16>, _maps: Vec<String>) -> Result<(), Error> { todo!() }
     async fn character_save_temporary_bonus(&self, _char_id: u32, _account_id: u32, _temporary_bonuses: &models::status_bonus::TemporaryStatusBonuses) -> Result<(), Error> { todo!() }
+    async fn character_load_temporary_bonus(&self, _char_id: u32, _account_id: u32) -> Result<models::status_bonus::TemporaryStatusBonuses, Error> { todo!() }
 }
 
 #[async_trait]

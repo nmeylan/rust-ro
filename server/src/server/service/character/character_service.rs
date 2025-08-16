@@ -287,6 +287,23 @@ impl CharacterService {
             .unwrap_or_else(|_| error!("Failed to send notification notify_weight to client"));
     }
 
+    pub fn load_temporary_bonuses_from_db(&self, runtime: &Runtime, character: &mut Character) {
+        let result = runtime.block_on(async {
+            self.repository.character_load_temporary_bonus(character.char_id, character.account_id).await
+        });
+        info!("load_temporary_bonuses_from_db");
+        match result {
+            Ok(loaded_bonuses) => {
+                for bonus in loaded_bonuses.iter() {
+                    character.status.temporary_bonuses.add(*bonus);
+                }
+            }
+            Err(e) => {
+                error!("Failed to load temporary bonuses for character {}: {:?}", character.char_id, e);
+            }
+        }
+    }
+
     fn weight_update_packets(&self, character: &Character) -> Vec<u8> {
         let mut packet_weight = PacketZcParChange::new(self.configuration_service.packetver());
         packet_weight.set_var_id(StatusTypes::Weight.value() as u16);
@@ -732,6 +749,7 @@ impl CharacterService {
     }
 
     pub fn reload_client_side_status(&self, character: &Character) {
+        info!("reload_client_side_status {}", character.char_id);
         let character_status = self.status_service.to_snapshot(&character.status);
         let mut packet_str = PacketZcStatusValues::new(self.configuration_service.packetver());
         packet_str.set_status_type(StatusTypes::Str.value() as u32);

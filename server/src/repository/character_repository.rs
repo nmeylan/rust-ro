@@ -5,7 +5,7 @@ use async_trait::async_trait;
 use models::enums::skill_enums::SkillEnum;
 use models::enums::EnumWithMaskValueU64;
 use models::status::{KnownSkill, Status, StatusSnapshot};
-use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonuses};
+use models::status_bonus::{StatusBonusFlag, StatusBonusSource, TemporaryStatusBonuses};
 use sqlx::{Error, Postgres, Row};
 
 #[async_trait]
@@ -271,7 +271,7 @@ impl CharacterRepository for PgRepository {
     }
 
     async fn character_save_temporary_bonus(&self, char_id: u32, account_id: u32, temporary_bonuses: &TemporaryStatusBonuses) -> Result<(), Error> {
-        sqlx::query("DELETE FROM ragnarok.sc_data WHERE char_id = $1")
+        sqlx::query("DELETE FROM ragnarok.status_bonus WHERE char_id = $1")
             .bind(char_id as i32)
             .execute(&self.pool)
             .await
@@ -289,54 +289,117 @@ impl CharacterRepository for PgRepository {
 
         let mut account_ids: Vec<i32> = Vec::new();
         let mut char_ids: Vec<i32> = Vec::new();
-        let mut types: Vec<i32> = Vec::new();
-        let mut ticks: Vec<i32> = Vec::new();
-        let mut val1s: Vec<i32> = Vec::new();
-        let mut val2s: Vec<i32> = Vec::new();
-        let mut val3s: Vec<i32> = Vec::new();
-        let mut val4s: Vec<i32> = Vec::new();
+        let mut remaining_ms: Vec<i32> = Vec::new();
+        let mut bonus_types: Vec<String> = Vec::new();
+        let mut flags: Vec<i32> = Vec::new();
+        let mut sources: Vec<Option<String>> = Vec::new();
+        let mut source_val1s: Vec<Option<i32>> = Vec::new();
+        let mut bonus_val1s: Vec<i32> = Vec::new();
+        let mut bonus_val2s: Vec<i32> = Vec::new();
 
         let now = get_tick();
         for bonus in persist_bonuses {
-            let (bonus_type, val1, val2, val3, val4) = bonus.bonus().serialize_to_sc_data();
-            let tick = match bonus.expirency() {
-                models::status_bonus::BonusExpiry::Time(until) => if *until > now { *until - now  } else { 0 },
+            let (bonus_type_id, val1, val2) = bonus.bonus().serialize_to_sc_data();
+            let remaining_duration = match bonus.expirency() {
+                models::status_bonus::BonusExpiry::Time(until) => if *until > now { *until - now } else { 0 },
                 models::status_bonus::BonusExpiry::Never => 0,
                 models::status_bonus::BonusExpiry::Counter(_) => 0,
             };
-            if tick == 0 {
+            if remaining_duration == 0 {
                 continue;
             }
 
+            let (source_text, source_val1) = if let Some(source) = bonus.source() {
+                let (source_type, source_value) = source.serialize_to_sc_data();
+                (Some(source_type.to_string()), Some(source_value))
+            } else {
+                (None, None)
+            };
+
             account_ids.push(account_id as i32);
             char_ids.push(char_id as i32);
-            types.push(bonus_type);
-            ticks.push(tick as i32);
-            val1s.push(val1);
-            val2s.push(val2);
-            val3s.push(val3);
-            val4s.push(val4);
+            remaining_ms.push(remaining_duration as i32);
+            bonus_types.push(format!("{}", bonus_type_id));
+            flags.push(bonus.flags() as i32);
+            sources.push(source_text);
+            source_val1s.push(source_val1);
+            bonus_val1s.push(val1);
+            bonus_val2s.push(val2);
         }
 
         let query = r#"
-        INSERT INTO ragnarok.sc_data (account_id, char_id, type, tick, val1, val2, val3, val4)
-        SELECT * FROM UNNEST($1::INTEGER[], $2::INTEGER[], $3::INTEGER[], $4::INTEGER[], $5::INTEGER[], $6::INTEGER[], $7::INTEGER[], $8::INTEGER[])
+        INSERT INTO ragnarok.status_bonus (account_id, char_id, remaining_ms, bonus_type, flag, source, source_val1, bonus_val1, bonus_val2)
+        SELECT * FROM UNNEST($1::INTEGER[], $2::INTEGER[], $3::INTEGER[], $4::TEXT[], $5::INTEGER[], $6::TEXT[], $7::INTEGER[], $8::INTEGER[], $9::INTEGER[])
         "#;
 
         sqlx::query(query)
             .bind(&account_ids)
             .bind(&char_ids)
-            .bind(&types)
-            .bind(&ticks)
-            .bind(&val1s)
-            .bind(&val2s)
-            .bind(&val3s)
-            .bind(&val4s)
+            .bind(&remaining_ms)
+            .bind(&bonus_types)
+            .bind(&flags)
+            .bind(&sources)
+            .bind(&source_val1s)
+            .bind(&bonus_val1s)
+            .bind(&bonus_val2s)
             .execute(&self.pool)
             .await
             .inspect_err(|e| {
                 error!("DB error: {:?}", e);
             })
             .map(|_| ())
+    }
+
+    async fn character_load_temporary_bonus(&self, char_id: u32, account_id: u32) -> Result<TemporaryStatusBonuses, Error> {
+        let query = r#"
+        DELETE FROM ragnarok.status_bonus 
+        WHERE char_id = $1 AND account_id = $2
+        RETURNING remaining_ms, bonus_type, flag, source, source_val1, bonus_val1, bonus_val2
+        "#;
+        
+        let rows = sqlx::query(query)
+            .bind(char_id as i32)
+            .bind(account_id as i32)
+            .fetch_all(&self.pool)
+            .await
+            .inspect_err(|e| {
+                error!("DB error: {:?}", e);
+            })?;
+
+        let now = get_tick();
+        let mut temporary_bonuses = TemporaryStatusBonuses::default();
+        
+        for row in rows {
+            let remaining_ms: i32 = row.get("remaining_ms");
+            let bonus_type_str: String = row.get("bonus_type");
+            let flag: i32 = row.get("flag");
+            let source_str: Option<String> = row.get("source");
+            let source_val1: Option<i32> = row.get("source_val1");
+            let bonus_val1: i32 = row.get("bonus_val1");
+            let bonus_val2: i32 = row.get("bonus_val2");
+
+            // Parse bonus type from string
+            let bonus_type_id: i32 = bonus_type_str.parse().unwrap_or(0);
+            
+            // Deserialize source
+            let source = if let (Some(source_type), Some(source_value)) = (source_str, source_val1) {
+                StatusBonusSource::deserialize_sc_data(source_type.as_str(), source_value)
+            } else {
+                None
+            };
+            
+            if let Some(bonus) = models::enums::bonus::BonusType::deserialize_from_sc_data(bonus_type_id, bonus_val1, bonus_val2) {
+                let temporary_bonus = models::status_bonus::TemporaryStatusBonus::with_duration_and_source(
+                    bonus,
+                    flag as u64,
+                    now,
+                    remaining_ms as u32,
+                    source
+                );
+                temporary_bonuses.add(temporary_bonus);
+            }
+        }
+        
+        Ok(temporary_bonuses)
     }
 }
