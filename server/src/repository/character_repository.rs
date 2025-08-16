@@ -1,8 +1,11 @@
 use crate::repository::model::char_model::{CharInsertModel, CharSelectModel, CharacterInfoNeoUnionWrapped};
 use crate::repository::{CharacterRepository, PgRepository};
+use crate::util::tick::get_tick;
 use async_trait::async_trait;
 use models::enums::skill_enums::SkillEnum;
+use models::enums::EnumWithMaskValueU64;
 use models::status::{KnownSkill, Status, StatusSnapshot};
+use models::status_bonus::{StatusBonusFlag, TemporaryStatusBonuses};
 use sqlx::{Error, Postgres, Row};
 
 #[async_trait]
@@ -265,5 +268,75 @@ impl CharacterRepository for PgRepository {
         sqlx::query_as::<_, CharSelectModel>("SELECT * from char limit 100")
             .fetch_all(&self.pool)
             .await
+    }
+
+    async fn character_save_temporary_bonus(&self, char_id: u32, account_id: u32, temporary_bonuses: &TemporaryStatusBonuses) -> Result<(), Error> {
+        sqlx::query("DELETE FROM ragnarok.sc_data WHERE char_id = $1")
+            .bind(char_id as i32)
+            .execute(&self.pool)
+            .await
+            .inspect_err(|e| {
+                error!("DB error: {:?}", e);
+            })?;
+
+        let persist_bonuses: Vec<_> = temporary_bonuses.iter()
+            .filter(|bonus| bonus.flags() & StatusBonusFlag::Persist.as_flag() > 0)
+            .collect();
+
+        if persist_bonuses.is_empty() {
+            return Ok(());
+        }
+
+        let mut account_ids: Vec<i32> = Vec::new();
+        let mut char_ids: Vec<i32> = Vec::new();
+        let mut types: Vec<i32> = Vec::new();
+        let mut ticks: Vec<i32> = Vec::new();
+        let mut val1s: Vec<i32> = Vec::new();
+        let mut val2s: Vec<i32> = Vec::new();
+        let mut val3s: Vec<i32> = Vec::new();
+        let mut val4s: Vec<i32> = Vec::new();
+
+        let now = get_tick();
+        for bonus in persist_bonuses {
+            let (bonus_type, val1, val2, val3, val4) = bonus.bonus().serialize_to_sc_data();
+            let tick = match bonus.expirency() {
+                models::status_bonus::BonusExpiry::Time(until) => if *until > now { *until - now  } else { 0 },
+                models::status_bonus::BonusExpiry::Never => 0,
+                models::status_bonus::BonusExpiry::Counter(_) => 0,
+            };
+            if tick == 0 {
+                continue;
+            }
+
+            account_ids.push(account_id as i32);
+            char_ids.push(char_id as i32);
+            types.push(bonus_type);
+            ticks.push(tick as i32);
+            val1s.push(val1);
+            val2s.push(val2);
+            val3s.push(val3);
+            val4s.push(val4);
+        }
+
+        let query = r#"
+        INSERT INTO ragnarok.sc_data (account_id, char_id, type, tick, val1, val2, val3, val4)
+        SELECT * FROM UNNEST($1::INTEGER[], $2::INTEGER[], $3::INTEGER[], $4::INTEGER[], $5::INTEGER[], $6::INTEGER[], $7::INTEGER[], $8::INTEGER[])
+        "#;
+
+        sqlx::query(query)
+            .bind(&account_ids)
+            .bind(&char_ids)
+            .bind(&types)
+            .bind(&ticks)
+            .bind(&val1s)
+            .bind(&val2s)
+            .bind(&val3s)
+            .bind(&val4s)
+            .execute(&self.pool)
+            .await
+            .inspect_err(|e| {
+                error!("DB error: {:?}", e);
+            })
+            .map(|_| ())
     }
 }

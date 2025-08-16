@@ -274,7 +274,12 @@ impl CharacterService {
             characters.iter().map(|c| c.x() as i16).collect(),
             characters.iter().map(|c| c.y() as i16).collect(),
             characters.iter().map(|c| c.map_instance_key.map_without_ext().chars().take(11).collect()).collect(),
-        ).await.unwrap()
+        ).await.unwrap();
+
+        for character in characters {
+            self.repository.character_save_temporary_bonus(character.char_id, character.account_id, &character.status.temporary_bonuses).await
+                .unwrap_or_else(|_| error!("Failed to save temporary bonuses for character {}", character.char_id));
+        }
     }
 
     pub fn notify_weight(&self, character: &Character) {
