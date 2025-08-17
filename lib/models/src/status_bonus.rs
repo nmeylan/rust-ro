@@ -1,11 +1,11 @@
+use crate::enums::bonus::BonusType;
+use crate::enums::skill_enums::SkillEnum;
+use crate::enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
+use accessor::GettersAll;
+use enum_macro::{WithMaskValueU64, WithStringValue};
 use std::fmt::{Display, Formatter};
 use std::slice::{Iter, IterMut};
 use std::time::{SystemTime, UNIX_EPOCH};
-use accessor::GettersAll;
-use enum_macro::{WithMaskValueU64, WithStringValue};
-use crate::enums::bonus::BonusType;
-use crate::enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
-use crate::enums::skill_enums::SkillEnum;
 
 #[derive(Default, Debug, Clone)]
 pub struct StatusBonuses(Vec<StatusBonus>);
@@ -34,7 +34,7 @@ pub struct StatusBonus {
     bonus: BonusType,
 }
 
-#[derive(GettersAll, Debug, Clone, Copy, Eq, PartialEq)]
+#[derive(GettersAll, Debug, Clone, Copy)]
 pub struct TemporaryStatusBonus {
     bonus: BonusType,
     flags: u64,
@@ -43,13 +43,15 @@ pub struct TemporaryStatusBonus {
     source: Option<StatusBonusSource>,
 }
 
-#[derive(GettersAll, Debug, Clone, Copy, Eq, PartialEq)]
-pub struct TemporaryStatusBonusPersistedModel {
-    bonus: BonusType,
-    expirency: BonusExpiry,
-    state: StatusBonusState,
-    source: Option<StatusBonusSource>,
+impl PartialEq for TemporaryStatusBonus {
+    fn eq(&self, other: &Self) -> bool {
+        match (self.source, other.source) {
+            (Some(source1), Some(source2)) => source1 == source2 && self.bonus == other.bonus,
+            _ => false,
+        }
+    }
 }
+
 
 impl TemporaryStatusBonus {
     pub fn with_duration(bonus: BonusType, flags: u64, tick: u128, duration: u32, skill_id: u16) -> Self {
@@ -79,10 +81,6 @@ impl TemporaryStatusBonus {
             state: StatusBonusState::No,
             source: Some(StatusBonusSource::PassiveSkill(skill_id))
         }
-    }
-
-    pub fn to_persisted_model(&self) {
-
     }
 
     pub fn has_icon(&self) -> bool {
@@ -157,9 +155,12 @@ impl Display for TemporaryStatusBonus {
 }
 
 #[derive(Default, Debug, Clone, PartialEq)]
-pub struct TemporaryStatusBonuses(pub Vec<TemporaryStatusBonus>);
+pub struct TemporaryStatusBonuses(Vec<TemporaryStatusBonus>);
 
 impl TemporaryStatusBonuses {
+    pub fn new(bonuses: Vec<TemporaryStatusBonus>) -> Self {
+        Self(bonuses)
+    }
     pub fn empty() -> Self {
         Self(vec![])
     }
@@ -169,9 +170,15 @@ impl TemporaryStatusBonuses {
     }
 
     pub fn merge(&mut self, other: TemporaryStatusBonuses) {
-        // TODO handle uniq
-        // TODO do not use extend in the future
-        self.0.extend(other.0);
+        for new_bonus in other.0 {
+            if let Some(existing_index) = self.0.iter().position(|existing| existing == &new_bonus) {
+                info!("Replace old bonus with {} new bonus: {}", self.0[existing_index], new_bonus);
+                self.0[existing_index] = new_bonus;
+            } else {
+                info!("Add new bonus: {}", new_bonus);
+                self.0.push(new_bonus);
+            }
+        }
     }
 
     pub fn to_vec(&self) ->  Vec<StatusBonus> {
@@ -188,6 +195,7 @@ impl TemporaryStatusBonuses {
         self.0.retain(f)
     }
 
+    /// This should be used only internally or when loading bonuses from database, otherwise we can stack bonuses which are not supposed to be stacked
     pub fn add(&mut self, temporary_bonus: TemporaryStatusBonus) {
         self.0.push(temporary_bonus)
     }
@@ -261,11 +269,265 @@ pub enum StatusBonusState {
 #[cfg(test)]
 mod tests {
     use crate::enums::bonus::BonusType;
-    use crate::status_bonus::StatusBonus;
+    use crate::enums::EnumWithMaskValueU64;
+    use crate::status_bonus::{StatusBonus, StatusBonusFlag, StatusBonusSource, TemporaryStatusBonus, TemporaryStatusBonuses};
 
     #[test]
     fn size_of_status_bonus() {
         let bonus = StatusBonus::new(BonusType::Str(10));
         println!("{}", std::mem::size_of_val(&bonus));
+    }
+
+    #[test]
+    fn test_merge_empty_collections() {
+        let mut bonuses1 = TemporaryStatusBonuses::empty();
+        let bonuses2 = TemporaryStatusBonuses::empty();
+        
+        bonuses1.merge(bonuses2);
+        
+        assert!(bonuses1.is_empty());
+    }
+
+    #[test]
+    fn test_merge_into_empty() {
+        let mut bonuses1 = TemporaryStatusBonuses::empty();
+        let mut bonuses2 = TemporaryStatusBonuses::empty();
+        
+        let bonus = TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Str(10),
+            StatusBonusFlag::Persist.as_flag(),
+            1000,
+            5000,
+            Some(StatusBonusSource::Skill(123))
+        );
+        bonuses2.add(bonus);
+        
+        bonuses1.merge(bonuses2);
+        
+        assert_eq!(bonuses1.0.len(), 1);
+        assert_eq!(*bonuses1.0[0].source(), Some(StatusBonusSource::Skill(123)));
+    }
+
+    #[test]
+    fn test_merge_from_empty() {
+        let mut bonuses1 = TemporaryStatusBonuses::empty();
+        let bonuses2 = TemporaryStatusBonuses::empty();
+        
+        let bonus = TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Agi(15),
+            StatusBonusFlag::Persist.as_flag(),
+            1000,
+            3000,
+            Some(StatusBonusSource::Item(456))
+        );
+        bonuses1.add(bonus);
+        
+        bonuses1.merge(bonuses2);
+        
+        assert_eq!(bonuses1.0.len(), 1);
+        assert_eq!(*bonuses1.0[0].source(), Some(StatusBonusSource::Item(456)));
+    }
+
+    #[test]
+    fn test_merge_no_duplicates() {
+        let mut bonuses1 = TemporaryStatusBonuses::empty();
+        let mut bonuses2 = TemporaryStatusBonuses::empty();
+        
+        // Add different bonuses to each collection
+        let bonus1 = TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Str(10),
+            StatusBonusFlag::Persist.as_flag(),
+            1000,
+            5000,
+            Some(StatusBonusSource::Skill(123))
+        );
+        let bonus2 = TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Agi(15),
+            StatusBonusFlag::Persist.as_flag(),
+            1000,
+            3000,
+            Some(StatusBonusSource::Item(456))
+        );
+        
+        bonuses1.add(bonus1);
+        bonuses2.add(bonus2);
+        
+        bonuses1.merge(bonuses2);
+        
+        assert_eq!(bonuses1.0.len(), 2);
+        assert_eq!(*bonuses1.0[0].source(), Some(StatusBonusSource::Skill(123)));
+        assert_eq!(*bonuses1.0[1].source(), Some(StatusBonusSource::Item(456)));
+    }
+
+    #[test]
+    fn test_merge_with_same_source_and_bonus_replacement() {
+        let mut bonuses1 = TemporaryStatusBonuses::empty();
+        let mut bonuses2 = TemporaryStatusBonuses::empty();
+        
+        // Create bonuses with same source and same bonus type but different values
+        let bonus1 = TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Str(10),
+            StatusBonusFlag::Persist.as_flag(),
+            1000,
+            5000,
+            Some(StatusBonusSource::Skill(123))
+        );
+        let bonus2 = TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Str(20), // Same bonus type, different value
+            StatusBonusFlag::Icon.as_flag(), // Different flags
+            2000,
+            8000,
+            Some(StatusBonusSource::Skill(123)) // Same source
+        );
+        
+        bonuses1.add(bonus1);
+        bonuses2.add(bonus2);
+        
+        bonuses1.merge(bonuses2);
+        
+        // Should have only 1 bonus (replacement occurred)
+        assert_eq!(bonuses1.0.len(), 1);
+        assert_eq!(*bonuses1.0[0].source(), Some(StatusBonusSource::Skill(123)));
+        // Verify the new values replaced the old ones
+        if let BonusType::Str(val) = bonuses1.0[0].bonus() {
+            assert_eq!(*val, 20); // Should be the new value
+        } else {
+            panic!("Expected Str bonus type");
+        }
+        assert_eq!(bonuses1.0[0].flags(), StatusBonusFlag::Icon.as_flag());
+    }
+
+    #[test]
+    fn test_merge_with_same_source_different_bonus_no_replacement() {
+        let mut bonuses1 = TemporaryStatusBonuses::empty();
+        let mut bonuses2 = TemporaryStatusBonuses::empty();
+        
+        // Create bonuses with same source but different bonus types
+        let bonus1 = TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Str(10),
+            StatusBonusFlag::Persist.as_flag(),
+            1000,
+            5000,
+            Some(StatusBonusSource::Skill(123))
+        );
+        let bonus2 = TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Agi(15), // Different bonus type
+            StatusBonusFlag::Icon.as_flag(),
+            2000,
+            8000,
+            Some(StatusBonusSource::Skill(123)) // Same source
+        );
+        
+        bonuses1.add(bonus1);
+        bonuses2.add(bonus2);
+        
+        bonuses1.merge(bonuses2);
+        
+        // Should have 2 bonuses (no replacement since bonus types are different)
+        assert_eq!(bonuses1.0.len(), 2);
+        assert_eq!(*bonuses1.0[0].source(), Some(StatusBonusSource::Skill(123)));
+        assert_eq!(*bonuses1.0[1].source(), Some(StatusBonusSource::Skill(123)));
+        // Verify both bonus types are present
+        if let BonusType::Str(val) = bonuses1.0[0].bonus() {
+            assert_eq!(*val, 10); // Original value
+        } else {
+            panic!("Expected Str bonus type");
+        }
+        if let BonusType::Agi(val) = bonuses1.0[1].bonus() {
+            assert_eq!(*val, 15); // New value
+        } else {
+            panic!("Expected Agi bonus type");
+        }
+    }
+
+    #[test]
+    fn test_merge_mixed_scenarios() {
+        let mut bonuses1 = TemporaryStatusBonuses::empty();
+        let mut bonuses2 = TemporaryStatusBonuses::empty();
+        
+        // bonuses1: [Skill(1)+Str, Item(2)+Agi, Skill(3)+Vit]
+        bonuses1.add(TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Str(10), StatusBonusFlag::Persist.as_flag(), 1000, 5000,
+            Some(StatusBonusSource::Skill(1))
+        ));
+        bonuses1.add(TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Agi(15), StatusBonusFlag::Persist.as_flag(), 1000, 3000,
+            Some(StatusBonusSource::Item(2))
+        ));
+        bonuses1.add(TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Vit(20), StatusBonusFlag::Persist.as_flag(), 1000, 7000,
+            Some(StatusBonusSource::Skill(3))
+        ));
+        
+        // bonuses2: [Skill(1)+Str, Item(4)+Dex] - one replacement (same source+bonus), one new
+        bonuses2.add(TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Str(25), StatusBonusFlag::Icon.as_flag(), 2000, 6000,
+            Some(StatusBonusSource::Skill(1)) // Should replace first bonus (same source and bonus type)
+        ));
+        bonuses2.add(TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Dex(30), StatusBonusFlag::Persist.as_flag(), 1000, 4000,
+            Some(StatusBonusSource::Item(4)) // Should be added as new
+        ));
+        
+        bonuses1.merge(bonuses2);
+        
+        // Should have 4 bonuses: [Skill(1)+Str-replaced, Item(2)+Agi, Skill(3)+Vit, Item(4)+Dex-new]
+        assert_eq!(bonuses1.0.len(), 4);
+        
+        // Check that Skill(1)+Str was replaced at position 0
+        assert_eq!(*bonuses1.0[0].source(), Some(StatusBonusSource::Skill(1)));
+        if let BonusType::Str(val) = bonuses1.0[0].bonus() {
+            assert_eq!(*val, 25); // Should be the new value
+        } else {
+            panic!("Expected Str bonus type");
+        }
+        assert_eq!(bonuses1.0[0].flags(), StatusBonusFlag::Icon.as_flag());
+        
+        // Check that Item(2)+Agi is still at position 1
+        assert_eq!(*bonuses1.0[1].source(), Some(StatusBonusSource::Item(2)));
+        if let BonusType::Agi(val) = bonuses1.0[1].bonus() {
+            assert_eq!(*val, 15);
+        } else {
+            panic!("Expected Agi bonus type");
+        }
+        
+        // Check that Skill(3)+Vit is still at position 2
+        assert_eq!(*bonuses1.0[2].source(), Some(StatusBonusSource::Skill(3)));
+        if let BonusType::Vit(val) = bonuses1.0[2].bonus() {
+            assert_eq!(*val, 20);
+        } else {
+            panic!("Expected Vit bonus type");
+        }
+        
+        // Check that Item(4)+Dex was added at position 3
+        assert_eq!(*bonuses1.0[3].source(), Some(StatusBonusSource::Item(4)));
+        if let BonusType::Dex(val) = bonuses1.0[3].bonus() {
+            assert_eq!(*val, 30);
+        } else {
+            panic!("Expected Dex bonus type");
+        }
+    }
+
+    #[test]
+    fn test_merge_with_none_sources() {
+        let mut bonuses1 = TemporaryStatusBonuses::empty();
+        let mut bonuses2 = TemporaryStatusBonuses::empty();
+        
+        // Create bonuses with no source
+        let bonus1 = TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Str(10), StatusBonusFlag::Persist.as_flag(), 1000, 5000, None
+        );
+        let bonus2 = TemporaryStatusBonus::with_duration_and_source(
+            BonusType::Agi(15), StatusBonusFlag::Persist.as_flag(), 1000, 3000, None
+        );
+        
+        bonuses1.add(bonus1);
+        bonuses2.add(bonus2);
+        
+        bonuses1.merge(bonuses2);
+
+        assert_eq!(bonuses1.0.len(), 2);
+        assert_eq!(*bonuses1.0[0].source(), None);
+        assert_eq!(*bonuses1.0[1].source(), None);
     }
 }

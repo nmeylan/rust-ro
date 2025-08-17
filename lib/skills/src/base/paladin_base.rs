@@ -456,43 +456,43 @@ impl SkillBase for BattleChant {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 55.0), 0, tick, 60000, 369),]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 60.0), 0, tick, 60000, 369),]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 65.0), 0, tick, 60000, 369),]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 70.0), 0, tick, 60000, 369),]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 75.0), 0, tick, 60000, 369),]);
         }
         if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 80.0), 0, tick, 60000, 369),]);
         }
         if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 85.0), 0, tick, 60000, 369),]);
         }
         if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 90.0), 0, tick, 60000, 369),]);
         }
         if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 95.0), 0, tick, 60000, 369),]);
         }
         if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(369, 100.0), 0, tick, 60000, 369),]);
         }
         TemporaryStatusBonuses::default()

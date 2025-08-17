@@ -1,3 +1,5 @@
+#[macro_use]
+extern crate tracing;
 
 pub mod item;
 pub mod position;

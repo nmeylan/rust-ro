@@ -98,43 +98,43 @@ impl SkillBase for Gank {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 7.0), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 8.5), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 10.0), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 11.5), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 13.0), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 14.5), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 16.0), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 17.5), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 19.0), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AutospellSkillIdChancePercentage(210, 20.5), StatusBonusFlag::Default.as_flag(), 210),]);
         }
         TemporaryStatusBonuses::default()
@@ -230,34 +230,34 @@ impl SkillBase for Mug {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 6 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 7 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 8 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 9 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 10 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -482,19 +482,19 @@ impl SkillBase for Stalk {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![]);
+            return TemporaryStatusBonuses::new(vec![]);
         }
         TemporaryStatusBonuses::default()
     }
@@ -634,53 +634,53 @@ impl OffensiveSkillBase for SightlessMind {
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 13 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 2 {
             if chance <= 16 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 3 {
             if chance <= 19 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 4 {
             if chance <= 22 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         if self.level == 5 {
             if chance <= 25 {
-                effects.push(StatusEffect::Blind);
+                effects.push(StatusEffect::Stun);
             }
         }
         let chance = _rng.u8(1..=100);
         if self.level == 1 {
             if chance <= 13 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 2 {
             if chance <= 16 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 3 {
             if chance <= 19 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 4 {
             if chance <= 22 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         if self.level == 5 {
             if chance <= 25 {
-                effects.push(StatusEffect::Stun);
+                effects.push(StatusEffect::Blind);
             }
         }
         effects

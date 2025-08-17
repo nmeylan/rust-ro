@@ -620,27 +620,27 @@ impl SkillBase for LongingforFreedom {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-40.0), 0, tick, 180000, 487),
                 TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-40), 0, tick, 180000, 487),]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-30.0), 0, tick, 180000, 487),
                 TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-30), 0, tick, 180000, 487),]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-20.0), 0, tick, 180000, 487),
                 TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-20), 0, tick, 180000, 487),]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(-10.0), 0, tick, 180000, 487),
                 TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(-10), 0, tick, 180000, 487),]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AspdPercentage(0.0), 0, tick, 180000, 487),
                 TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(0), 0, tick, 180000, 487),]);
         }

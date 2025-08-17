@@ -1,21 +1,19 @@
-use std::{fs};
+use configuration::configuration::{BonusPerLevel, JobSkillTree, SkillConfig, SkillsConfig};
+use convert_case::{Case, Casing};
+use lazy_static::lazy_static;
+use models::enums::bonus::BonusType;
+use models::enums::element::Element;
+use models::enums::skill::{SkillDamageFlags, SkillFlags, SkillTargetType, SkillType};
+use models::enums::weapon::WeaponType;
+use models::enums::{EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
+use models::status_bonus::StatusBonusFlag;
+use regex_lite::Regex;
+use serde::{Deserialize, Serialize};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
-use convert_case::{Case, Casing};
-use lazy_static::lazy_static;
-use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
-use std::slice::Iter;
-use regex_lite::Regex;
-use serde::{Deserialize, Serialize};
-use configuration::configuration::{BonusPerLevel, JobSkillTree, SkillConfig, SkillsConfig};
-use models::enums::{EnumWithMaskValueU16, EnumWithMaskValueU64, EnumWithNumberValue, EnumWithStringValue};
-use models::enums::bonus::BonusType;
-use models::enums::element::Element;
-use models::enums::skill::{SkillTargetType, SkillFlags, SkillType, SkillDamageFlags};
-use models::enums::weapon::WeaponType;
-use models::status::KnownSkill;
-use models::status_bonus::StatusBonusFlag;
+use std::fs;
 
 lazy_static! {
     pub static ref SHORT_CLASS_NAME: BTreeMap<&'static str, &'static str> = BTreeMap::from([
@@ -744,7 +742,7 @@ fn generate_for_each_bonus_level(job_skills_file: &mut File, skill_config: &Skil
     if bonuses.len() > 0 {
         for i in 1..=skill_config.max_level() {
             job_skills_file.write_all(format!("        if self.level == {} {{\n", i).as_bytes()).unwrap();
-            job_skills_file.write_all(b"            return TemporaryStatusBonuses(vec![").unwrap();
+            job_skills_file.write_all(b"            return TemporaryStatusBonuses::new(vec![").unwrap();
             for bonus in bonuses.iter() {
                 if let Some(level) = bonus.level {
                     if level == i as u8 {

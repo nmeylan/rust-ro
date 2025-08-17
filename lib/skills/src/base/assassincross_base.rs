@@ -98,23 +98,23 @@ impl SkillBase for AdvancedKatarMastery {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AtkPercentage(12), StatusBonusFlag::Default.as_flag(), 376),]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AtkPercentage(14), StatusBonusFlag::Default.as_flag(), 376),]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AtkPercentage(16), StatusBonusFlag::Default.as_flag(), 376),]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AtkPercentage(18), StatusBonusFlag::Default.as_flag(), 376),]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::AtkPercentage(20), StatusBonusFlag::Default.as_flag(), 376),]);
         }
         TemporaryStatusBonuses::default()
@@ -252,27 +252,27 @@ impl SkillBase for EnchantDeadlyPoison {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(100), 14, tick, 40000, 378),
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 3.0), 14, tick, 40000, 378),]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(-106), 14, tick, 45000, 378),
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 3.5), 14, tick, 45000, 378),]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(-56), 14, tick, 50000, 378),
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 4.0), 14, tick, 50000, 378),]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(-6), 14, tick, 55000, 378),
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 4.5), 14, tick, 55000, 378),]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(44), 14, tick, 60000, 378),
                 TemporaryStatusBonus::with_duration(BonusType::SkillIdSuccessPercentage(378, 5.0), 14, tick, 60000, 378),]);
         }

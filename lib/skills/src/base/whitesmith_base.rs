@@ -196,52 +196,52 @@ impl SkillBase for ShatteringStrike {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(0.7), 14, tick, 15000, 384),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(1), 14, tick, 15000, 384),]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(1.4), 14, tick, 20000, 384),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(2), 14, tick, 20000, 384),]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(2.1), 14, tick, 25000, 384),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(3), 14, tick, 25000, 384),]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(2.8), 14, tick, 30000, 384),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(4), 14, tick, 30000, 384),]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(3.5), 14, tick, 35000, 384),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(5), 14, tick, 35000, 384),]);
         }
         if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(4.2), 14, tick, 40000, 384),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(6), 14, tick, 40000, 384),]);
         }
         if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(4.9), 14, tick, 45000, 384),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(7), 14, tick, 45000, 384),]);
         }
         if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(5.6), 14, tick, 50000, 384),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(8), 14, tick, 50000, 384),]);
         }
         if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(6.3), 14, tick, 55000, 384),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(9), 14, tick, 55000, 384),]);
         }
         if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::BreakArmorPercentage(7.0), 14, tick, 60000, 384),
                 TemporaryStatusBonus::with_duration(BonusType::BreakWeaponPercentage(10), 14, tick, 60000, 384),]);
         }
@@ -351,7 +351,7 @@ impl SkillBase for CartBoost {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::SpeedPercentage(25), 14, tick, 60000, 387),]);
         }
         TemporaryStatusBonuses::default()
@@ -797,27 +797,27 @@ impl SkillBase for MaximumPowerThrust {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(20), 14, tick, 180000, 486),
                 TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 14, tick, 180000, 486),]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(40), 14, tick, 180000, 486),
                 TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 14, tick, 180000, 486),]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(60), 14, tick, 180000, 486),
                 TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 14, tick, 180000, 486),]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(80), 14, tick, 180000, 486),
                 TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 14, tick, 180000, 486),]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::AtkPercentage(100), 14, tick, 180000, 486),
                 TemporaryStatusBonus::with_duration(BonusType::BreakSelfWeaponPercentage(0.1), 14, tick, 180000, 486),]);
         }

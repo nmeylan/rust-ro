@@ -338,43 +338,43 @@ impl SkillBase for Pushcart {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-45), StatusBonusFlag::Default.as_flag(), 39),]);
         }
         if self.level == 2 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-40), StatusBonusFlag::Default.as_flag(), 39),]);
         }
         if self.level == 3 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-35), StatusBonusFlag::Default.as_flag(), 39),]);
         }
         if self.level == 4 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-30), StatusBonusFlag::Default.as_flag(), 39),]);
         }
         if self.level == 5 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-25), StatusBonusFlag::Default.as_flag(), 39),]);
         }
         if self.level == 6 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-20), StatusBonusFlag::Default.as_flag(), 39),]);
         }
         if self.level == 7 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-15), StatusBonusFlag::Default.as_flag(), 39),]);
         }
         if self.level == 8 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-10), StatusBonusFlag::Default.as_flag(), 39),]);
         }
         if self.level == 9 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(-5), StatusBonusFlag::Default.as_flag(), 39),]);
         }
         if self.level == 10 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_passive_skill(BonusType::SpeedPercentage(0), StatusBonusFlag::Default.as_flag(), 39),]);
         }
         TemporaryStatusBonuses::default()
@@ -1013,7 +1013,7 @@ impl SkillBase for CrazyUproar {
     #[inline(always)]
     fn _bonuses_to_self(&self, tick: u128) -> TemporaryStatusBonuses {
         if self.level == 1 {
-            return TemporaryStatusBonuses(vec![
+            return TemporaryStatusBonuses::new(vec![
                 TemporaryStatusBonus::with_duration(BonusType::Str(4), 14, tick, 300000, 155),]);
         }
         TemporaryStatusBonuses::default()
