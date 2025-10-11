@@ -1,0 +1,4 @@
+[toolchain]
+channel = "nightly-2025-09-25"
+# components for development
+components = ["rust-src", "rust-analyzer", "miri"]
